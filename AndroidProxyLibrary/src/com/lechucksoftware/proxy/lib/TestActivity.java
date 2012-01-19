@@ -110,38 +110,50 @@ public class TestActivity extends Activity
         
         try
         {
-            Class.forName("android.net.IConnectivityManager");
-            ConnectivityManager connMngr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            Field mService = connMngr.getClass().getDeclaredFields()[45];
-            mService.setAccessible(true);
-            Object mServiceObj = mService.get(connMngr);
-            Class IConnectivityManager = Class.forName("android.net.IConnectivityManager");
-            Method getProxyMethod = connMngr.getClass().getDeclaredFields()[45].getType().getMethod("getProxy");
-            Class ProxyPopertiesClass = getProxyMethod.getReturnType();
-            Constructor constructor = ProxyPopertiesClass.getConstructors()[1];
-            Object proxyProperties = constructor.newInstance("aa",8080,"aaa");            
-            Object o = getProxyMethod.invoke(IConnectivityManager.cast(mService), null);
+//            ConnectivityManager connMngr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+//            Field mService = connMngr.getClass().getDeclaredFields()[45];
+//            mService.setAccessible(true);
+//            Object mServiceObj = mService.get(connMngr);
+//            Class IConnectivityManager = Class.forName("android.net.IConnectivityManager");
+//            Method getProxyMethod = connMngr.getClass().getDeclaredFields()[45].getType().getMethod("getProxy");
+//            Class ProxyPopertiesClass = getProxyMethod.getReturnType();
+//            Constructor constructor = ProxyPopertiesClass.getConstructors()[1];
+//            Object proxyProperties = constructor.newInstance("aa",8080,"aaa");            
+//            Object o = getProxyMethod.invoke(mServiceObj, null);
             
             
             
             WifiConfiguration conf = new WifiConfiguration();
             
-            Field linkProperties = conf.getClass().getField("linkProperties");
-            displayFields(linkProperties.getType().getDeclaredFields());
+            Field linkPropertiesField = conf.getClass().getField("linkProperties");
+            Object linkProperties = linkPropertiesField.get(conf);
+            Field mHttpProxyField = linkProperties.getClass().getDeclaredFields()[2];
+            mHttpProxyField.setAccessible(true);
+            Object mHttpProxy = mHttpProxyField.get(linkProperties);
             
-            String host = new String();
+            if (mHttpProxy == null)
+            {
+            	Class ProxyPropertiesClass = mHttpProxyField.getType();
+            	Constructor constr = ProxyPropertiesClass.getConstructors()[1];
+            	Object ProxyProperties = constr.newInstance("111",0,"111");
+            	mHttpProxyField.set(linkProperties, ProxyProperties);
+            }
             
-            Field mHttpProxy = linkProperties.getType().getDeclaredFields()[2];
-            
-            Method getHostM = mHttpProxy.getType().getDeclaredMethods()[3];
-            Method getPortM = mHttpProxy.getType().getDeclaredMethods()[4];
-            
-            Field mHostF = linkProperties.getType().getDeclaredFields()[2].getType().getDeclaredFields()[2]; //mHost
-            mHostF.setAccessible(true);
-            host = (String) mHostF.get(host);
-            Field mPortF = linkProperties.getType().getDeclaredFields()[2].getType().getDeclaredFields()[4]; //mPort
-            
-            
+//            displayFields(linkProperties.getType().getDeclaredFields());
+//            
+//            String host = new String();
+//            
+//            Field mHttpProxy = linkProperties.getType().getDeclaredFields()[2];
+//            
+//            Method getHostM = mHttpProxy.getType().getDeclaredMethods()[3];
+//            Method getPortM = mHttpProxy.getType().getDeclaredMethods()[4];
+//            
+//            Field mHostF = linkProperties.getType().getDeclaredFields()[2].getType().getDeclaredFields()[2]; //mHost
+//            mHostF.setAccessible(true);
+//            host = (String) mHostF.get(host);
+//            Field mPortF = linkProperties.getType().getDeclaredFields()[2].getType().getDeclaredFields()[4]; //mPort
+//            
+//            
             
         
         
