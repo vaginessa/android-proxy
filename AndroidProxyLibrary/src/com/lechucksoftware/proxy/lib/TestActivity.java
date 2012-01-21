@@ -35,8 +35,13 @@ public class TestActivity extends Activity
 		switch (id) {
 		case DIALOG_ID_PROXY:
 
-			HttpHost currentProxy = ProxySettings
-					.getProxyConfiguration(getApplicationContext());
+			HttpHost currentProxy = ProxySettings.getProxyConfiguration(getApplicationContext());
+			String msg = null;
+			if (currentProxy != null)
+				msg = "Proxy: " + currentProxy.getHostName() + ":" + currentProxy.getPort();
+			else
+				msg = "Proxy not set";
+			
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 			builder.setTitle("Proxy Info:")
@@ -51,9 +56,7 @@ public class TestActivity extends Activity
 									finish();
 								}
 							})
-					.setMessage(
-							"Proxy: " + currentProxy.getHostName() + ":"
-									+ currentProxy.getPort());
+					.setMessage(msg);
 
 			AlertDialog alert = builder.create();
 			dialog = alert;
