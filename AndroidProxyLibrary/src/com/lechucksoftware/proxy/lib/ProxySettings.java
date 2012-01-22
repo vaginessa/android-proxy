@@ -2,6 +2,8 @@ package com.lechucksoftware.proxy.lib;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpHost;
 
@@ -18,27 +20,75 @@ public class ProxySettings
 {
 	public static final String TAG = "ProxySettings";
 	
-	public static HttpHost getProxyConfiguration(Context ctx)
+	public static HttpHost getProxyConfiguration(Context ctx, WifiConfiguration wifiConf)
 	{
     	if (Build.VERSION.SDK_INT >= 11) 
     	{
-    		return getProxySdk11(ctx);
+    		return getProxySdk11(ctx, wifiConf);
 		}
     	else
     	{
-    		return getProxy(ctx);
+    		return getProxy(ctx); // Same configuration for every AP :(
+    	}		
+	}
+	
+	public static List<HttpHost> getProxiesConfigurations(Context ctx)
+	{
+    	if (Build.VERSION.SDK_INT >= 11) 
+    	{
+    		return getProxiesSdk11(ctx);
+		}
+    	else
+    	{
+    		HttpHost proxy = getProxy(ctx);
+    		if (proxy != null)
+    		{
+    			List<HttpHost> proxyHosts =	new ArrayList<HttpHost>();
+    			proxyHosts.add(proxy);
+    			return proxyHosts;
+    		}
+    		else
+    			return null;
     	}
 	}
 	
-	private static HttpHost getProxySdk11(Context ctx)
+	private static HttpHost getProxy(Context ctx)
 	{
-		HttpHost proxy = null;
-		WifiConfiguration conf = new WifiConfiguration();
-        
+		HttpHost proxyHost = null;
+		
+		ContentResolver contentResolver = ctx.getContentResolver();
+		String proxyString = Settings.Secure.getString(contentResolver,Settings.Secure.HTTP_PROXY);
+		
+		if (proxyString != null && proxyString != "" && proxyString.contains(":"))
+		{
+			String [] proxyParts = proxyString.split(":");
+			if (proxyParts.length == 2)
+			{
+    			String proxyAddress = proxyParts[0];
+    			try
+    			{
+    				Integer proxyPort = Integer.parseInt(proxyParts[1]);
+    				proxyHost = new HttpHost(proxyAddress, proxyPort);
+    				Log.d(TAG, "ProxyHost created: " + proxyHost.toHostString());
+    			}
+    			catch (NumberFormatException e)
+    			{
+    				Log.d(TAG, "Port is not a number: " + proxyParts[1]);
+    			}
+			}
+		}
+		
+		return proxyHost;
+	}
+
+	private static HttpHost getProxySdk11(Context ctx, WifiConfiguration wifiConf)
+	{
+		HttpHost proxyHost = null;
+		      
         try
         {           
-            Field linkPropertiesField = conf.getClass().getField("linkProperties");
-            Object linkProperties = linkPropertiesField.get(conf);
+            Field linkPropertiesField = wifiConf.getClass().getField("linkProperties");
+            Object linkProperties = linkPropertiesField.get(wifiConf);
             Field mHttpProxyField = linkProperties.getClass().getDeclaredFields()[2];
             mHttpProxyField.setAccessible(true);
             Object mHttpProxy = mHttpProxyField.get(linkProperties);
@@ -69,45 +119,19 @@ public class ProxySettings
             	
             	Log.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
             	
-            	proxy = new HttpHost(mHost,mPort);
+            	proxyHost = new HttpHost(mHost,mPort);
             }
-            
-            return proxy;
         }
         catch (Exception e)
         {
         	e.printStackTrace();
         }
         
-        return proxy;
+        return proxyHost;
 	}
-	
-	private static HttpHost getProxy(Context ctx)
+
+	private static List<HttpHost> getProxiesSdk11(Context ctx)
 	{
-		HttpHost proxyHost = null;
-		
-		ContentResolver contentResolver = ctx.getContentResolver();
-		String proxyString = Settings.Secure.getString(contentResolver,Settings.Secure.HTTP_PROXY);
-		
-		if (proxyString != null && proxyString != "" && proxyString.contains(":"))
-		{
-			String [] proxyParts = proxyString.split(":");
-			if (proxyParts.length == 2)
-			{
-    			String proxyAddress = proxyParts[0];
-    			try
-    			{
-    				Integer proxyPort = Integer.parseInt(proxyParts[1]);
-    				proxyHost = new HttpHost(proxyAddress, proxyPort);
-    				Log.d(TAG, "ProxyHost created: " + proxyHost.toHostString());
-    			}
-    			catch (NumberFormatException e)
-    			{
-    				Log.d(TAG, "Port is not a number: " + proxyParts[1]);
-    			}
-			}
-		}
-		
-		return proxyHost;
+		return null;
 	}
 }

@@ -35,7 +35,7 @@ public class TestActivity extends Activity
 		switch (id) {
 		case DIALOG_ID_PROXY:
 
-			HttpHost currentProxy = ProxySettings.getProxyConfiguration(getApplicationContext());
+			HttpHost currentProxy = ProxySettings.getProxiesConfigurations(getApplicationContext()).get(0);
 			String msg = null;
 			if (currentProxy != null)
 				msg = "Proxy: " + currentProxy.getHostName() + ":" + currentProxy.getPort();
