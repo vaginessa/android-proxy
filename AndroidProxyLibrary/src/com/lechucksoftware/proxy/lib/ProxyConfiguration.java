@@ -22,6 +22,6 @@ public class ProxyConfiguration
 	@Override
 	public String toString()
 	{
-		return String.format("{0} {1} {3}",proxy.toHostString(), exclusionList, wifiConfiguration.toString() );
+		return String.format("Proxy: %s\nExclusion List: %s\nAP configuration: %s",proxy.toHostString(), exclusionList, wifiConfiguration.toString() );
 	}
 }

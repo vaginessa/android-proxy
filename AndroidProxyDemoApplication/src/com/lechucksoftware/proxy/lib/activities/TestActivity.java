@@ -5,6 +5,7 @@ package com.lechucksoftware.proxy.lib.activities;
 
 import org.apache.http.HttpHost;
 
+import com.lechucksoftware.proxy.lib.ProxyConfiguration;
 import com.lechucksoftware.proxy.lib.ProxySettings;
 
 import android.app.Activity;
@@ -35,10 +36,11 @@ public class TestActivity extends Activity
 		switch (id) {
 		case DIALOG_ID_PROXY:
 
-			HttpHost currentProxy = ProxySettings.getProxiesConfigurations(getApplicationContext()).get(0);
+			ProxyConfiguration currentProxy = ProxySettings.getCurrentProxyConfiguration(getApplicationContext());
+			
 			String msg = null;
 			if (currentProxy != null)
-				msg = "Proxy: " + currentProxy.getHostName() + ":" + currentProxy.getPort();
+				msg = "Proxy: " + currentProxy.toString();
 			else
 				msg = "Proxy not set";
 			

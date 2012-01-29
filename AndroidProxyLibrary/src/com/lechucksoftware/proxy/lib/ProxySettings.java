@@ -11,6 +11,7 @@ import org.apache.http.HttpHost;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
@@ -20,19 +21,27 @@ public class ProxySettings
 {
 	public static final String TAG = "ProxySettings";
 	
-	public static List<ProxyConfiguration> getProxiesConfigurations(Context ctx)
+	public static ProxyConfiguration getCurrentProxyConfiguration(Context ctx)
 	{
-		List<ProxyConfiguration> proxyHosts = new ArrayList<ProxyConfiguration>();
+		ProxyConfiguration proxy = null;
 		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
-		List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
-		ListIterator<WifiConfiguration> litr = configuredNetworks.listIterator();
 		
-		while(litr.hasNext()) 
+		if(wifiManager.isWifiEnabled())
 		{
-			proxyHosts.add(getProxyConfiguration(ctx,(WifiConfiguration)litr.next()));
-		} 
+			WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+			List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
+			
+			for (WifiConfiguration wifiConf : configuredNetworks)
+			{
+				if(wifiConf.networkId == connectionInfo.getNetworkId())
+				{
+					proxy = getProxy(ctx, wifiConf);
+					break;
+				}
+			}
+		}
 		
-		return proxyHosts;
+		return proxy;
 	}
 	
 	public static ProxyConfiguration getProxyConfiguration(Context ctx, WifiConfiguration wifiConf)
@@ -45,6 +54,20 @@ public class ProxySettings
     	{
     		return getProxy(ctx, wifiConf); // Same configuration for every AP :(
     	}		
+	}
+	
+	public static List<ProxyConfiguration> getProxiesConfigurations(Context ctx)
+	{
+		List<ProxyConfiguration> proxyHosts = new ArrayList<ProxyConfiguration>();
+		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+		List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
+		
+		for (WifiConfiguration wifiConf : configuredNetworks)
+		{
+			proxyHosts.add(getProxyConfiguration(ctx,wifiConf));
+		}
+				
+		return proxyHosts;
 	}
 	
 	private static ProxyConfiguration getProxy(Context ctx, WifiConfiguration wifiConf)
