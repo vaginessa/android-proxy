@@ -3,8 +3,6 @@
  */
 package com.lechucksoftware.proxy.lib.activities;
 
-import org.apache.http.HttpHost;
-
 import com.lechucksoftware.proxy.lib.ProxyConfiguration;
 import com.lechucksoftware.proxy.lib.ProxySettings;
 
