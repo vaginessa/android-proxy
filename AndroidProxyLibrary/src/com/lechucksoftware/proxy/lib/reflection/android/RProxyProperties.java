@@ -8,6 +8,7 @@ import java.net.InetSocketAddress;
  * A container class for the http proxy info 
  * @hide
  */
+
 public class RProxyProperties {
 
     private String mHost;

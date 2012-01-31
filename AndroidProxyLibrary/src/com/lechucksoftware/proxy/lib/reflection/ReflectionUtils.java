@@ -13,6 +13,26 @@ import android.util.Log;
 public class ReflectionUtils
 {
 	public static final String TAG = "ReflectionUtils";
+	
+	public static Field getField(Field [] fields, String fieldName) throws Exception
+	{
+		Field f = null;
+		
+		for (Field lf:fields)
+		{
+			String currentFieldName = lf.getName(); 
+			if(currentFieldName.equals(fieldName))
+			{
+				f = lf;
+				break;
+			}
+		}
+		
+		if (f == null)
+        	throw new Exception(new String(fieldName + " field not found!"));
+		
+		return f;
+	}
 
 	static void describeClassOrInterface(Class className, String name)
 	{

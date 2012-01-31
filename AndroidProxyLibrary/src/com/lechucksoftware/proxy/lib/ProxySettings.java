@@ -8,6 +8,8 @@ import java.util.ListIterator;
 
 import org.apache.http.HttpHost;
 
+import com.lechucksoftware.proxy.lib.reflection.ReflectionUtils;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
@@ -105,9 +107,13 @@ public class ProxySettings
 		      
         try
         {           
+        	Field proxySettingsField = wifiConf.getClass().getField("proxySettings");
+        	Object proxySettings = proxySettingsField.get(wifiConf);
+        	
+        	
             Field linkPropertiesField = wifiConf.getClass().getField("linkProperties");
             Object linkProperties = linkPropertiesField.get(wifiConf);
-            Field mHttpProxyField = linkProperties.getClass().getDeclaredFields()[2];
+            Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(),"mHttpProxy");
             mHttpProxyField.setAccessible(true);
             Object mHttpProxy = mHttpProxyField.get(linkProperties);
             
@@ -122,16 +128,16 @@ public class ProxySettings
             }
             
             if (mHttpProxy != null)
-            {
-            	Field mHostField = mHttpProxy.getClass().getDeclaredFields()[2];
+            {            	
+            	Field mHostField = ReflectionUtils.getField(mHttpProxy.getClass().getDeclaredFields(),"mHost");
             	mHostField.setAccessible(true);
             	String mHost = (String) mHostField.get(mHttpProxy);
             	
-            	Field mPortField = mHttpProxy.getClass().getDeclaredFields()[4];
+            	Field mPortField = ReflectionUtils.getField(mHttpProxy.getClass().getDeclaredFields(),"mPort");
             	mPortField.setAccessible(true);
             	Integer mPort = (Integer) mPortField.get(mHttpProxy);
             	
-            	Field mExclusionListField = mHttpProxy.getClass().getDeclaredFields()[1];
+            	Field mExclusionListField = ReflectionUtils.getField(mHttpProxy.getClass().getDeclaredFields(),"mExclusionList");
             	mExclusionListField.setAccessible(true);
             	String mExclusionList = (String) mExclusionListField.get(mHttpProxy);
             	
