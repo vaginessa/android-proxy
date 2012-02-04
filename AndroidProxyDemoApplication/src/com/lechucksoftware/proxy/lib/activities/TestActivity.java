@@ -42,9 +42,6 @@ public class TestActivity extends Activity
 		mListItem = (ArrayList) ProxySettings.getProxiesConfigurations(getApplicationContext());
 		listview.setAdapter(new ListAdapter(TestActivity.this, R.id.list_view,
 				mListItem));
-
-		// showDialog(DIALOG_ID_PROXY);
-
 	}
 
 	private class ListAdapter extends ArrayAdapter
@@ -70,10 +67,16 @@ public class TestActivity extends Activity
 
 				final ProxyConfiguration listItem = (ProxyConfiguration) mList.get(position); // --CloneChangeRequired
 				
-				if (listItem != null) {
-					// setting list_item views
-					((TextView) view.findViewById(R.id.tv_name))
-							.setText(listItem.wifiConfiguration.SSID);
+				if (listItem != null) 
+				{
+					((TextView) view.findViewById(R.id.tv_name)).setText(listItem.wifiConfiguration.SSID);
+					
+					if (listItem.proxy != null)
+					{
+						((TextView) view.findViewById(R.id.tv_description)).setText(listItem.proxy.toHostString());
+					}
+					else
+						((TextView) view.findViewById(R.id.tv_description)).setText("");
 				}
 				
 			} catch (Exception e) {
@@ -81,46 +84,5 @@ public class TestActivity extends Activity
 			}
 			return view;
 		}
-	}
-
-	protected Dialog onCreateDialog(int id)
-	{
-		Dialog dialog;
-		switch (id) {
-		case DIALOG_ID_PROXY:
-
-			ProxyConfiguration currentProxy = ProxySettings
-					.getCurrentProxyConfiguration(getApplicationContext());
-
-			String msg = null;
-			if (currentProxy != null)
-				msg = "Current Proxy: " + currentProxy.toString();
-			else
-				msg = "Proxy not set";
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-			builder.setTitle("Proxy Info:")
-					.setCancelable(false)
-					.setPositiveButton("OK",
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(
-										DialogInterface paramDialogInterface,
-										int paramInt)
-								{
-									finish();
-								}
-							}).setMessage(msg);
-
-			AlertDialog alert = builder.create();
-			dialog = alert;
-			break;
-
-		default:
-			dialog = null;
-		}
-
-		return dialog;
 	}
 }
