@@ -4,12 +4,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-
 import org.apache.http.HttpHost;
 
 import com.lechucksoftware.proxy.lib.reflection.ReflectionUtils;
-import com.lechucksoftware.proxy.lib.reflection.android.RProxyProperties;
 import com.lechucksoftware.proxy.lib.reflection.android.RProxySettings;
 
 import android.content.ContentResolver;
@@ -109,7 +106,10 @@ public class ProxySettings
             }
         }
 
-        return proxyHost;
+        if (proxyHost == null)
+        	return new ProxyConfiguration(null, null, wifiConf);
+        else
+        	return proxyHost;
     }
 
     public static ProxyConfiguration getProxySdk11(Context ctx, WifiConfiguration wifiConf)

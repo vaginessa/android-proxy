@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, AndroidProxyActivityActivity!</string>
     <string name="app_name">Android Proxy Activity</string>
+    <string name="wifi_conf_ap_placemark">Wi-Fi AP</string>
+    <string name="proxy_description">Proxy settings:</string>
+    <string name="proxy_description_not_set">NOT SET</string>
 
 </resources>
