@@ -4,13 +4,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.http.HttpHost;
 
-import com.lechucksoftware.proxy.lib.reflection.ReflectionUtils;
-import com.lechucksoftware.proxy.lib.reflection.android.RProxySettings;
+import org.apache.http.HttpHost;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -18,31 +18,90 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.lechucksoftware.proxy.lib.reflection.ReflectionUtils;
+import com.lechucksoftware.proxy.lib.reflection.android.RProxySettings;
+
+/**
+ * Main class that contains utilities for getting the proxy configuration of the 
+ * current or the all configured networks
+ * */
 public class ProxySettings
 {
     public static final String TAG = "ProxySettings";
 
-    public static ProxyConfiguration getCurrentProxyConfiguration(Context ctx)
+    /**
+     * Returns the current proxy configuration based on the current network 
+     * */
+    public static ProxyConfiguration getCurrentProxyConfiguration(Context ctx) throws Exception
     {
-        ProxyConfiguration proxy = null;
-        WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
-
-        if (wifiManager.isWifiEnabled())
+    	ProxyConfiguration proxy = null;
+    	
+    	if (Build.VERSION.SDK_INT >= 11)
         {
-            WifiInfo connectionInfo = wifiManager.getConnectionInfo();
-            List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
-
-            for (WifiConfiguration wifiConf : configuredNetworks)
+    		/**
+        	 * Android 3.1 and newer versions has a better proxy handling. 
+        	 * Starting from this version we can differentiate between proxy 
+        	 * for Mobile and proxy for Wi-Fi networks.
+        	 * */
+    		proxy = getCurrentWifiProxyConfiguration(ctx);
+        }
+    	else
+    	{
+    		/**
+    		 * Older Android versions doesn't handle properly the proxy 
+    		 * settings. One configuration is used for both Mobile and Wi-Fi
+    		 * networks. Must pay attention to this strange behaviour!
+    		 * */
+            ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
+            
+            switch(activeNetInfo.getType())
             {
-                if (wifiConf.networkId == connectionInfo.getNetworkId())
-                {
-                    proxy = getProxy(ctx, wifiConf);
-                    break;
-                }
+                case ConnectivityManager.TYPE_WIFI:
+                	proxy = getCurrentWifiProxyConfiguration(ctx);
+                	break;
+                case ConnectivityManager.TYPE_MOBILE:
+                	proxy = getCurrentMobileProxyConfiguration(ctx, activeNetInfo);
+                	break;
+                default:
+                	throw new Exception(activeNetInfo.getTypeName() + "(int: " + activeNetInfo.getType() + ") network type not supported!");
+            }
+    	}
+        
+        return proxy;
+    }
+    
+    private static ProxyConfiguration getCurrentWifiProxyConfiguration(Context ctx)
+    {
+    	ProxyConfiguration proxy = null;
+    	WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+        List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
+
+        for (WifiConfiguration wifiConf : configuredNetworks)
+        {
+            if (wifiConf.networkId == connectionInfo.getNetworkId())
+            {
+                proxy = getProxy(ctx, wifiConf);
+                break;
             }
         }
-
+        
         return proxy;
+    }
+    
+    private static ProxyConfiguration getCurrentMobileProxyConfiguration(Context ctx, NetworkInfo activeNetInfo)
+    {
+    	ProxyConfiguration proxy = null;
+		WifiConfiguration fakeWifi = new WifiConfiguration();
+		ProxyConfiguration mobileProxy = getProxy(ctx, fakeWifi);
+		mobileProxy.wifiConfiguration = null;
+		if (mobileProxy.isValid)
+		{
+			proxy = ProxyConfiguration.GetMobileProxyConfiguration(mobileProxy.proxy, mobileProxy.exclusionList, activeNetInfo);
+		}
+    	
+    	return proxy;
     }
 
     public static ProxyConfiguration getProxyConfiguration(Context ctx, WifiConfiguration wifiConf)
@@ -96,7 +155,7 @@ public class ProxySettings
                 try
                 {
                     Integer proxyPort = Integer.parseInt(proxyParts[1]);
-                    proxyHost = new ProxyConfiguration(new HttpHost(proxyAddress, proxyPort), "", wifiConf);
+                    proxyHost = ProxyConfiguration.GetWifiProxyConfiguration(new HttpHost(proxyAddress, proxyPort), "", wifiConf);
                     Log.d(TAG, "ProxyHost created: " + proxyHost.toString());
                 } 
                 catch (NumberFormatException e)
@@ -107,7 +166,7 @@ public class ProxySettings
         }
 
         if (proxyHost == null)
-        	return new ProxyConfiguration(null, null, wifiConf);
+        	return ProxyConfiguration.GetWifiProxyConfiguration(null, null, wifiConf);
         else
         	return proxyHost;
     }
@@ -125,7 +184,7 @@ public class ProxySettings
 
             if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
             {
-                proxyHost = new ProxyConfiguration(null, null, wifiConf);
+                proxyHost = ProxyConfiguration.GetWifiProxyConfiguration(null, null, wifiConf);
             } 
             else
             {
@@ -162,7 +221,7 @@ public class ProxySettings
 
                     Log.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-                    proxyHost = new ProxyConfiguration(new HttpHost(mHost, mPort), mExclusionList, wifiConf);
+                    proxyHost = ProxyConfiguration.GetWifiProxyConfiguration(new HttpHost(mHost, mPort), mExclusionList, wifiConf);
                 }
             }
         } 
