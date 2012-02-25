@@ -10,8 +10,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.conn.scheme.Scheme;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -31,21 +29,18 @@ public class ProxySettings
 {
     public static final String TAG = "ProxySettings";
     
-    public static ProxyConfiguration getCurrentHttpProxyConfiguration(Context ctx) throws Exception
-    {
-    	URI uri = new URI("http","wwww.google.it",null,null);
-    	return getCurrentProxyConfiguration(ctx, uri);
-    }
-     
     /**
-     * Returns the current proxy configuration based on the URI
+     * Returns the current proxy configuration based on the URI, this implementation
+     * is a wrapper of the Android's ProxySelector class. Just add some other
+     * informations that can be useful to the developer.
      * */
     public static ProxyConfiguration getCurrentProxyConfiguration(Context ctx, URI uri) throws Exception
     {
-    	ProxySelector myProxySelector = ProxySelector.getDefault();
+    	ProxySelector defaultProxySelector = ProxySelector.getDefault();
+
     	Proxy proxy = null;
     	
-    	List<Proxy> proxyList = myProxySelector.select(uri);
+    	List<Proxy> proxyList = defaultProxySelector.select(uri);
     	if(proxyList.size() > 0)
     	{
     		proxy = proxyList.get(0);
@@ -63,9 +58,28 @@ public class ProxySettings
     }
     
     /**
+     * Return the current proxy configuration for HTTP protocol
+     * */
+    public static ProxyConfiguration getCurrentHttpProxyConfiguration(Context ctx) throws Exception
+    {
+    	URI uri = new URI("http","wwww.google.it",null,null);
+    	return getCurrentProxyConfiguration(ctx, uri);
+    }
+    
+    /**
+     * Return the current proxy configuration for HTTPS protocol
+     * */
+    public static ProxyConfiguration getCurrentHttpsProxyConfiguration(Context ctx) throws Exception
+    {
+    	URI uri = new URI("https","wwww.google.it",null,null);
+    	return getCurrentProxyConfiguration(ctx, uri);
+    }
+     
+
+    /**
      * Set the current proxy configuration for a specific URI scheme
      * */
-    public static void setCurrentProxyConfiguration(ProxyConfiguration proxyConf, Scheme scheme)
+    public static void setCurrentProxyConfiguration(ProxyConfiguration proxyConf, String scheme)
     {
     	String exclusionList = null;
     	String host = null;
@@ -76,50 +90,49 @@ public class ProxySettings
             exclusionList = proxyConf.exclusionList;
             host = ((InetSocketAddress) proxyConf.proxyHost.address()).getHostName();
             port = String.valueOf(((InetSocketAddress) proxyConf.proxyHost.address()).getPort());
+            Log.d(TAG, "setHttpProxySystemProperty : " + host + ":" + port + " - "+ exclusionList);
     	}
     	
         if (exclusionList != null) exclusionList = exclusionList.replace(",", "|");
         
-        Log.d(TAG, "setHttpProxySystemProperty : " + host + ":" + port + " - "+ proxyConf.exclusionList);
+        
         
         if (host != null) 
         {
-            System.setProperty(scheme.toString()+".proxyHost", host);
+            System.setProperty(scheme+".proxyHost", host);
         } 
         else
         {
-        	System.clearProperty(scheme.toString()+".proxyHost");
+        	System.clearProperty(scheme+".proxyHost");
         }
         
         if (port != null) 
         {
-            System.setProperty(scheme.toString()+".proxyPort", port);
+            System.setProperty(scheme+".proxyPort", port);
         }
         else
         {
-        	System.clearProperty(scheme.toString()+".proxyPort");
+        	System.clearProperty(scheme+".proxyPort");
         }
         
         if (exclusionList != null) 
         {
-            System.setProperty(scheme.toString()+".nonProxyHosts", exclusionList);
+            System.setProperty(scheme+".nonProxyHosts", exclusionList);
         }
         else
         {
-        	System.clearProperty(scheme.toString()+".nonProxyHosts");
+        	System.clearProperty(scheme+".nonProxyHosts");
         }
     }
     
     public static void setCurrentProxyHttpConfiguration(ProxyConfiguration proxyConf)
     {
-    	setCurrentProxyConfiguration(proxyConf, new Scheme("http", null, 0));
-    	setCurrentProxyConfiguration(proxyConf, new Scheme("https", null, 0));
+    	setCurrentProxyConfiguration(proxyConf, "http");
     }
     
-    public static void clearCurrentProxyHttpConfiguration()
+    public static void setCurrentProxyHttpsConfiguration(ProxyConfiguration proxyConf)
     {
-    	setCurrentProxyConfiguration(null, new Scheme("http", null, 0));
-    	setCurrentProxyConfiguration(null, new Scheme("https", null, 0));
+    	setCurrentProxyConfiguration(proxyConf, "https");
     }
     
     public static ProxyConfiguration getProxyConfiguration(Context ctx, WifiConfiguration wifiConf)
