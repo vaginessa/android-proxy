@@ -7,11 +7,22 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.content.ComponentName;
+import android.content.Intent;
 import android.util.Log;
 
 public class ProxyUtils
 {
 	public static final String TAG = "ProxyUtils";
+	
+	public static Intent getGlobalProxyIntent()
+	{
+		Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.android.settings","com.android.settings.ProxySelector"));
+    	
+        return intent;
+	}
 	
 	public static boolean isSystemProxyReachable(HttpHost proxy)
 	{

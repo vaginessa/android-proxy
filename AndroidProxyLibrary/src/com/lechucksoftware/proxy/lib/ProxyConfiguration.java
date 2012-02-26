@@ -25,6 +25,22 @@ public class ProxyConfiguration
 	@Override
 	public String toString()
 	{
-		return String.format("Proxy: %s\nExclusion List: %s",proxyHost.toString(), exclusionList);
+		StringBuilder sb = new StringBuilder(); 
+		sb.append(String.format("Proxy: %s\nExclusion List: %s",proxyHost.toString(), exclusionList));
+		
+		if (networkInfo != null) sb.append(String.format("\nNetwork Info: %s", networkInfo));
+		if (wifiConfiguration != null) sb.append(String.format("\nNetwork Info: %s", wifiConfiguration));
+		
+		return sb.toString();
+	}
+	
+	public String toShortString()
+	{
+		return String.format("%s",proxyHost.address().toString());
+	}
+	
+	public int getNetworkType()
+	{
+		return networkInfo.getType();
 	}
 }

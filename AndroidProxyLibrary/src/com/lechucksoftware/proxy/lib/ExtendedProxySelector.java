@@ -1,18 +1,19 @@
 package com.lechucksoftware.proxy.lib;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.SocketAddress;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import android.util.Log;
 
 public class ExtendedProxySelector extends ProxySelector
 {
-
+	public static final String TAG = "ExtendedProxySelector";
+	
+	
 	// Keep a reference on the previous default
 	ProxySelector defsel = null;
 
@@ -33,10 +34,8 @@ public class ExtendedProxySelector extends ProxySelector
 			throw new IllegalArgumentException("URI can't be null.");
 		}
 
-		/*
-		 * Not HTTP or HTTPS (could be SOCKS or FTP) defer to the default
-		 * selector.
-		 */
+		Log.d(TAG, "Selecting right proxy for uri: " + uri.toString());
+		
 		if (defsel != null) 
 		{
 			return defsel.select(uri);
