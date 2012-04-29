@@ -1,15 +1,10 @@
 package com.lechucksoftware.proxy.lib;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.ProxySelector;
-import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.URI;
 import java.net.Proxy.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentResolver;
@@ -23,9 +18,6 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.lib.reflection.ReflectionUtils;
-import com.lechucksoftware.proxy.lib.reflection.android.RProxySettings;
-
 /**
  * Main class that contains utilities for getting the proxy configuration of the
  * current or the all configured networks
@@ -34,22 +26,24 @@ public class ProxySettings
 {
 	public static final String TAG = "ProxySettings";
 
+	/**
+	 * Main entry point to access the proxy settings
+	 * */
 	public static ProxyConfiguration getCurrentProxyConfiguration(Context ctx, URI uri) throws Exception
     {
 		ProxyConfiguration proxyConfig;
 		
-      	if (Build.VERSION.SDK_INT >= 11) 
+      	if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1 
     	{
       		proxyConfig = getProxySelectorConfiguration(ctx, uri);
 		}
     	else
     	{
     		proxyConfig = getGlobalProxy(ctx);
-    	}
-      	
+    	}	
       	
       	/**
-      	 * Add a direct connection if no proxyConfig received
+      	 * Set direct connection if no proxyConfig received
       	 * */
       	if (proxyConfig == null) 
 		{
@@ -57,7 +51,7 @@ public class ProxySettings
 		} 
       	
       	/**
-      	 * Add some connection informations
+      	 * Add connection informations
       	 * */
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
@@ -88,9 +82,9 @@ public class ProxySettings
     }
 
 	/**
-	 * Returns the current proxy configuration based on the URI, this
+	 * For API >= 12: Returns the current proxy configuration based on the URI, this
 	 * implementation is a wrapper of the Android's ProxySelector class. Just
-	 * add some other informations that can be useful to the developer.
+	 * add some other informations that can be useful to the developer. 
 	 * */
 	public static ProxyConfiguration getProxySelectorConfiguration(Context ctx, URI uri) throws Exception
 	{
@@ -140,175 +134,10 @@ public class ProxySettings
 		return getCurrentProxyConfiguration(ctx, uri);
 	}
 
-	public static ProxyConfiguration getProxyConfiguration(Context ctx, WifiConfiguration wifiConf)
-	{
-		if (Build.VERSION.SDK_INT >= 11)
-		{
-			return getProxySdk11(ctx, wifiConf);
-		}
-		else
-		{
-			// Same configuration for every AP
-			// :(
-			throw new UnsupportedOperationException("Proxy not defined for each AP");
-		}
-	}
-
-	public static List<ProxyConfiguration> getProxiesConfigurations(Context ctx)
-	{
-		List<ProxyConfiguration> proxyHosts = new ArrayList<ProxyConfiguration>();
-		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
-		List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
-
-		/**
-		 *  Just for testing on the Emulator 
-		 *  */
-		if (Build.PRODUCT.equals("sdk") && configuredNetworks.size() == 0)
-		{
-			WifiConfiguration fakeWifiConf = new WifiConfiguration();
-			fakeWifiConf.SSID = "Fake_SDK_WI-FI";
-			configuredNetworks.add(fakeWifiConf);
-		}
-
-		for (WifiConfiguration wifiConf : configuredNetworks)
-		{
-			proxyHosts.add(getProxyConfiguration(ctx, wifiConf));
-		}
-
-		return proxyHosts;
-	}
-
-	public static ProxyConfiguration getProxySdk11(Context ctx, WifiConfiguration wifiConf)
-	{
-		ProxyConfiguration proxyHost = null;
-
-		try
-		{
-			Field proxySettingsField = wifiConf.getClass().getField("proxySettings");
-			Object proxySettings = proxySettingsField.get(wifiConf);
-
-			int ordinal = ((Enum) proxySettings).ordinal();
-
-			if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
-			{
-				proxyHost = new ProxyConfiguration(null, null, null, wifiConf);
-			}
-			else
-			{
-
-				Field linkPropertiesField = wifiConf.getClass().getField("linkProperties");
-				Object linkProperties = linkPropertiesField.get(wifiConf);
-				Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
-				mHttpProxyField.setAccessible(true);
-				Object mHttpProxy = mHttpProxyField.get(linkProperties);
-
-				/* Just for testing on the Emulator */
-				if (Build.PRODUCT.equals("sdk") && mHttpProxy == null)
-				{
-					Class ProxyPropertiesClass = mHttpProxyField.getType();
-					Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-					Object ProxyProperties = constr.newInstance("10.11.12.13", 1983, "");
-					mHttpProxyField.set(linkProperties, ProxyProperties);
-					mHttpProxy = mHttpProxyField.get(linkProperties);
-				}
-
-				if (mHttpProxy != null)
-				{
-					Field mHostField = ReflectionUtils.getField(mHttpProxy.getClass().getDeclaredFields(), "mHost");
-					mHostField.setAccessible(true);
-					String mHost = (String) mHostField.get(mHttpProxy);
-
-					Field mPortField = ReflectionUtils.getField(mHttpProxy.getClass().getDeclaredFields(), "mPort");
-					mPortField.setAccessible(true);
-					Integer mPort = (Integer) mPortField.get(mHttpProxy);
-
-					Field mExclusionListField = ReflectionUtils.getField(mHttpProxy.getClass().getDeclaredFields(), "mExclusionList");
-					mExclusionListField.setAccessible(true);
-					String mExclusionList = (String) mExclusionListField.get(mHttpProxy);
-
-					Log.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
-
-					Proxy proxy = new Proxy(Proxy.Type.HTTP, new Socket(mHost, mPort).getRemoteSocketAddress());
-					proxyHost = new ProxyConfiguration(proxy, mExclusionList, null, wifiConf);
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return proxyHost;
-	}
-
+	
 	/**
-	 * Set the current proxy configuration for a specific URI scheme
+	 * For API < 12: Get global proxy configuration. 
 	 * */
-	public static void setCurrentProxyConfiguration(ProxyConfiguration proxyConf, String scheme)
-	{
-		String exclusionList = null;
-		String host = null;
-		String port = null;
-
-		if (proxyConf != null)
-		{
-			exclusionList = proxyConf.exclusionList;
-
-			SocketAddress address = proxyConf.proxyHost.address();
-			if (address instanceof InetSocketAddress)
-			{
-				InetSocketAddress isa = (InetSocketAddress) address;
-				// invoke methods on "isa". This is now safe - no risk of
-				// exceptions
-
-				host = isa.getAddress().toString();
-
-				port = String.valueOf(isa.getPort());
-				Log.d(TAG, "setHttpProxySystemProperty : " + host + ":" + port + " - " + exclusionList);
-			}
-
-		}
-
-		if (exclusionList != null) exclusionList = exclusionList.replace(",", "|");
-
-		if (host != null)
-		{
-			System.setProperty(scheme + ".proxyHost", host);
-		}
-		else
-		{
-			System.clearProperty(scheme + ".proxyHost");
-		}
-
-		if (port != null)
-		{
-			System.setProperty(scheme + ".proxyPort", port);
-		}
-		else
-		{
-			System.clearProperty(scheme + ".proxyPort");
-		}
-
-		if (exclusionList != null)
-		{
-			System.setProperty(scheme + ".nonProxyHosts", exclusionList);
-		}
-		else
-		{
-			System.clearProperty(scheme + ".nonProxyHosts");
-		}
-	}
-
-	public static void setCurrentProxyHttpConfiguration(ProxyConfiguration proxyConf)
-	{
-		setCurrentProxyConfiguration(proxyConf, "http");
-	}
-
-	public static void setCurrentProxyHttpsConfiguration(ProxyConfiguration proxyConf)
-	{
-		setCurrentProxyConfiguration(proxyConf, "https");
-	}
-
 	private static ProxyConfiguration getGlobalProxy(Context ctx)
 	{
 		ProxyConfiguration proxyConfig = null;
@@ -338,4 +167,45 @@ public class ProxySettings
 
 		return proxyConfig;
 	}
+
+	
+
+	
+//	private static ProxyConfiguration getProxyConfiguration(Context ctx, WifiConfiguration wifiConf)
+//	{
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1)
+//		{
+//			return getProxySdk12(ctx, wifiConf);
+//		}
+//		else
+//		{
+//			return getGlobalProxy(ctx);
+//		}
+//	}
+
+
+//	public static List<ProxyConfiguration> getProxiesConfigurations(Context ctx)
+//	{
+//		List<ProxyConfiguration> proxyHosts = new ArrayList<ProxyConfiguration>();
+//		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+//		List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
+//
+//		/**
+//		 *  Just for testing on the Emulator 
+//		 *  */
+//		if (Build.PRODUCT.equals("sdk") && configuredNetworks.size() == 0)
+//		{
+//			WifiConfiguration fakeWifiConf = new WifiConfiguration();
+//			fakeWifiConf.SSID = "Fake_SDK_WI-FI";
+//			configuredNetworks.add(fakeWifiConf);
+//		}
+//
+//		for (WifiConfiguration wifiConf : configuredNetworks)
+//		{
+//			proxyHosts.add(getProxyConfiguration(ctx, wifiConf));
+//		}
+//
+//		return proxyHosts;
+//	}
+
 }

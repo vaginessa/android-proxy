@@ -16,6 +16,9 @@ public class ProxyUtils
 {
 	public static final String TAG = "ProxyUtils";
 	
+	/**
+	 * For API < 12
+	 * */
 	public static Intent getGlobalProxyIntent()
 	{
 		Intent intent = new Intent();

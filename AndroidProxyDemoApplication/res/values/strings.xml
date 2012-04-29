@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Android Proxy Activity</string>
-    <string name="wifi_conf_ap_placemark">Wi-Fi AP</string>
-    <string name="proxy_description">Proxy settings:</string>
-    <string name="proxy_description_not_set">NOT SET</string>
+    <string name="app_name">APL Demo</string>
+    <string name="proxy_description">Enter an URI to get the corresponding Proxy Settings: </string>
+    <string name="get_settings_button">Refresh settings</string>
+    
+    <string name="device_version_title">Device API version:</string>
+    <string name="device_version_content">Unknown</string>
 
+    <string name="proxy_enabled_title">Is Proxy configured:</string>
+    <string name="proxy_enabled_content">false</string>
+    
+    <string name="proxy_host_title">Proxy Host:</string>
+    <string name="proxy_host_content">not set</string>
+    
+    <string name="proxy_port_title">Proxy Port:</string>
+    <string name="proxy_port_content">not set</string>
+    
+    <string name="apl_proxy_tostring_title">APL Proxy toString():</string>
+    <string name="apl_proxy_tostring_content">....\n....\n....</string>
+    
 </resources>

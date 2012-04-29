@@ -3,17 +3,10 @@
  */
 package com.lechucksoftware.proxy.lib.activities;
 
-import java.util.ArrayList;
-
+import java.net.URI;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.lib.ProxyConfiguration;
@@ -23,9 +16,22 @@ public class TestActivity extends Activity
 {
 	public static final String TAG = "TestActivity";
 	static final int DIALOG_ID_PROXY = 0;
-
-	private ListView listview;
-	private ArrayList<ProxyConfiguration> mListItem;
+	
+	String[] uriTypes = 
+		{
+    		"http://",
+    		"http://www.",
+    		"https://",
+    		"https://www.",
+    		"ftp://",
+		};
+	
+	AutoCompleteTextView uriInput;
+	TextView device_version;
+	TextView proxy_enabled;
+	TextView proxy_host;
+	TextView proxy_port;
+	TextView apl_tostring;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -33,54 +39,56 @@ public class TestActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-		listview = (ListView) findViewById(R.id.list_view);
-		mListItem = (ArrayList<ProxyConfiguration>) ProxySettings.getProxiesConfigurations(getApplicationContext());
-		listview.setAdapter(new ListAdapter(TestActivity.this, R.id.list_view,
-				mListItem));
+		
+		uriInput = (AutoCompleteTextView) findViewById(R.id.uri_input);
+		device_version = (TextView) findViewById(R.id.device_api_version_content);
+		proxy_enabled = (TextView) findViewById(R.id.proxy_enabled_content);
+		proxy_host = (TextView) findViewById(R.id.proxy_host_content);
+		proxy_port = (TextView) findViewById(R.id.proxy_port_content);
+		apl_tostring = (TextView) findViewById(R.id.apl_proxy_tostring_content);
+		
+		UpdateSettings();
 	}
-
-	private class ListAdapter extends ArrayAdapter<ProxyConfiguration>
-	{ 
-		private ArrayList<ProxyConfiguration> mList; // --CloneChangeRequired
-		private Context mContext;
-
-		public ListAdapter(Context context, int textViewResourceId,	ArrayList<ProxyConfiguration>  list) 
-		{ 
-			super(context, textViewResourceId, list);
-			this.mList = list;
-			this.mContext = context;
-		}
-
-		public View getView(int position, View convertView, ViewGroup parent)
+	
+	public void UpdateSettings()
+	{
+		String uriString = uriInput.getText().toString();
+		URI uri = URI.create(uriString);
+		ProxyConfiguration proxyConf = null;
+		
+		try
 		{
-			View view = convertView;
-			try 
-			{
-				if (view == null) 
-				{
-					LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					view = vi.inflate(R.layout.list_item, null); 
-				}
-
-				final ProxyConfiguration listItem = (ProxyConfiguration) mList.get(position);
-				
-				if (listItem != null) 
-				{
-					((TextView) view.findViewById(R.id.list_item_ap_name)).setText(listItem.wifiConfiguration.SSID);
-					
-					if (listItem.proxy != null)
-					{
-						((TextView) view.findViewById(R.id.list_item_ap_description)).setText(listItem.proxy.toHostString());
-					}
-				}
-				
-			} 
-			catch (Exception e) 
-			{
-				Log.i(TestActivity.ListAdapter.class.toString(), e.getMessage());
-			}
-			return view;
+			proxyConf = ProxySettings.getCurrentProxyConfiguration(getApplicationContext(), uri);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		if (proxyConf != null)
+		{
+			ShowSettings(proxyConf);
+		}
+	}
+	
+	public void ShowSettings(ProxyConfiguration proxyConf)
+	{
+		device_version.setText(String.valueOf(proxyConf.deviceVersion));
+		proxy_enabled.setText(String.valueOf(proxyConf.isProxyEnabled()));
+		apl_tostring.setText(proxyConf.toString());
+		
+		switch (proxyConf.getConnectionType())
+		{
+			case DIRECT:
+				proxy_host.setText(getApplicationContext().getResources().getString(R.id.proxy_host_content));
+				proxy_port.setText(getApplicationContext().getResources().getString(R.id.proxy_port_content));
+				break;
+			case HTTP:
+				proxy_host.setText(String.valueOf(proxyConf.getProxyHost()));
+				proxy_port.setText(String.valueOf(proxyConf.getProxyPort()));
+				break;
+			case SOCKS:
+				throw new UnsupportedOperationException("SOCKS not already supported");
 		}
 	}
 }
