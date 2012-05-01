@@ -143,5 +143,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/get_settings_button" />
+    
+    <Button
+        android:id="@+id/open_proxy_settings"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_proxy_settings" />
 
 </LinearLayout>

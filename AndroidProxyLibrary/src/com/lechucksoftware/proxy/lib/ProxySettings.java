@@ -47,7 +47,7 @@ public class ProxySettings
       	 * */
       	if (proxyConfig == null) 
 		{
-			proxyConfig = new ProxyConfiguration(Proxy.NO_PROXY,"",null,null);
+			proxyConfig = new ProxyConfiguration(Proxy.NO_PROXY,null,null);
 		} 
       	
       	/**
@@ -102,7 +102,7 @@ public class ProxySettings
 
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
-		ProxyConfiguration proxyConfig = new ProxyConfiguration(proxy, "", activeNetInfo, null);
+		ProxyConfiguration proxyConfig = new ProxyConfiguration(proxy, activeNetInfo, null);
 
 		return proxyConfig;
 	}
@@ -155,7 +155,7 @@ public class ProxySettings
 				{
 					Integer proxyPort = Integer.parseInt(proxyParts[1]);
 					Proxy p = new Proxy(Type.HTTP,new InetSocketAddress(proxyAddress,proxyPort));
-					proxyConfig = new ProxyConfiguration(p, "", null, null);
+					proxyConfig = new ProxyConfiguration(p, null, null);
 					Log.d(TAG, "ProxyHost created: " + proxyConfig.toString());
 				}
 				catch (NumberFormatException e)
@@ -167,45 +167,4 @@ public class ProxySettings
 
 		return proxyConfig;
 	}
-
-	
-
-	
-//	private static ProxyConfiguration getProxyConfiguration(Context ctx, WifiConfiguration wifiConf)
-//	{
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1)
-//		{
-//			return getProxySdk12(ctx, wifiConf);
-//		}
-//		else
-//		{
-//			return getGlobalProxy(ctx);
-//		}
-//	}
-
-
-//	public static List<ProxyConfiguration> getProxiesConfigurations(Context ctx)
-//	{
-//		List<ProxyConfiguration> proxyHosts = new ArrayList<ProxyConfiguration>();
-//		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
-//		List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
-//
-//		/**
-//		 *  Just for testing on the Emulator 
-//		 *  */
-//		if (Build.PRODUCT.equals("sdk") && configuredNetworks.size() == 0)
-//		{
-//			WifiConfiguration fakeWifiConf = new WifiConfiguration();
-//			fakeWifiConf.SSID = "Fake_SDK_WI-FI";
-//			configuredNetworks.add(fakeWifiConf);
-//		}
-//
-//		for (WifiConfiguration wifiConf : configuredNetworks)
-//		{
-//			proxyHosts.add(getProxyConfiguration(ctx, wifiConf));
-//		}
-//
-//		return proxyHosts;
-//	}
-
 }

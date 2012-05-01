@@ -10,19 +10,44 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 
 public class ProxyUtils
 {
 	public static final String TAG = "ProxyUtils";
 	
+
+	public static Intent getProxyIntent()
+	{
+		if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1 
+		{
+			return getAPProxyIntent();
+		}
+		else
+		{
+			return getGlobalProxyIntent();
+		}
+	}
+	
 	/**
 	 * For API < 12
 	 * */
-	public static Intent getGlobalProxyIntent()
+	private static Intent getGlobalProxyIntent()
 	{
 		Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.android.settings","com.android.settings.ProxySelector"));
+    	
+        return intent;
+	}
+	
+	/**
+	 * For API >= 12
+	 * */
+	private static Intent getAPProxyIntent()
+	{
+		Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
     	
         return intent;
 	}

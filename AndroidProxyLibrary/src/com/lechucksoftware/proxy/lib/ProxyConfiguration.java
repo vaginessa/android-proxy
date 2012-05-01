@@ -15,13 +15,11 @@ public class ProxyConfiguration
 	public WifiConfiguration wifiConfiguration;
 	public NetworkInfo networkInfo;
 	public Proxy proxyHost;
-	public String exclusionList;
 	public int deviceVersion;
 
-	public ProxyConfiguration(Proxy proxy, String exList, NetworkInfo netInfo, WifiConfiguration wifiConf)
+	public ProxyConfiguration(Proxy proxy, NetworkInfo netInfo, WifiConfiguration wifiConf)
 	{
 		proxyHost = proxy;
-		exclusionList = exList;
 		networkInfo = netInfo;
 		wifiConfiguration = wifiConf;
 		deviceVersion = Build.VERSION.SDK_INT;
@@ -32,12 +30,7 @@ public class ProxyConfiguration
 	{
 		StringBuilder sb = new StringBuilder(); 
 		sb.append(String.format("Proxy: %s\n",proxyHost.toString()));
-		
-		if(exclusionList != null && exclusionList != "")
-			sb.append(String.format("Exclusion List: %s\n",exclusionList));
-		else
-			sb.append("Exclusion List: EMPTY\n");
-		
+				
 		if (networkInfo != null) sb.append(String.format("Network Info: %s\n", networkInfo));
 		if (wifiConfiguration != null) sb.append(String.format("Wi-Fi Configuration Info: %s\n", wifiConfiguration));
 		

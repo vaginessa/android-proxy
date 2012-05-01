@@ -4,11 +4,12 @@
     <string name="app_name">APL Demo</string>
     <string name="proxy_description">Enter an URI to get the corresponding Proxy Settings: </string>
     <string name="get_settings_button">Refresh settings</string>
+    <string name="open_proxy_settings">Change proxy settings</string>
     
     <string name="device_version_title">Device API version:</string>
     <string name="device_version_content">Unknown</string>
 
-    <string name="proxy_enabled_title">Is Proxy configured:</string>
+    <string name="proxy_enabled_title">URI needs proxy:</string>
     <string name="proxy_enabled_content">false</string>
     
     <string name="proxy_host_title">Proxy Host:</string>
