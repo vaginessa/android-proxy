@@ -43,6 +43,7 @@ public class TestActivity extends Activity
 	Button get_settings;
 	Button edit_settings;
 	Button test_settings;
+	Button test_webview;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -70,6 +71,10 @@ public class TestActivity extends Activity
 		
 		test_settings = (Button) findViewById(R.id.test_proxy_settings);
 		test_settings.setOnClickListener(OnTestProxySettings);
+		
+		test_webview = (Button) findViewById(R.id.test_proxed_webview);
+		test_webview.setOnClickListener(OnTestWebView);
+		
 		
 		UpdateSettings();
 	}
@@ -103,6 +108,14 @@ public class TestActivity extends Activity
         }
     };
 	
+    private final OnClickListener OnTestWebView = new OnClickListener() {
+        
+        @Override
+        public void onClick(View v)
+        {
+            
+        }
+    };
 	
 	public void UpdateSettings()
 	{

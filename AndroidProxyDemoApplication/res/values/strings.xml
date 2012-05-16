@@ -5,7 +5,8 @@
     <string name="proxy_description">Enter an URI to get the corresponding Proxy Settings: </string>
     <string name="get_settings_button">Refresh</string>
     <string name="open_proxy_settings">Edit</string>
-    <string name="test_proxy_settings">Test</string>
+    <string name="test_proxy_settings">Test: Get URI</string>
+    <string name="test_proxed_webview">Test: Open URI on WebView</string>
 
     <string name="device_version_title">Device API version:</string>
     <string name="device_version_content">Unknown</string>
