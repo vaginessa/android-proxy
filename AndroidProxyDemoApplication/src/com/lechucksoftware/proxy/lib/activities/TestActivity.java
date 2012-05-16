@@ -42,6 +42,7 @@ public class TestActivity extends Activity
 	TextView apl_tostring;
 	Button get_settings;
 	Button edit_settings;
+	Button test_settings;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -67,6 +68,9 @@ public class TestActivity extends Activity
 		edit_settings = (Button) findViewById(R.id.open_proxy_settings);
 		edit_settings.setOnClickListener(OnEditProxySettings);
 		
+		test_settings = (Button) findViewById(R.id.test_proxy_settings);
+		test_settings.setOnClickListener(OnTestProxySettings);
+		
 		UpdateSettings();
 	}
 	
@@ -89,6 +93,15 @@ public class TestActivity extends Activity
 			UpdateSettings();
 		}
 	};
+	
+    private final OnClickListener OnTestProxySettings = new OnClickListener() {
+        
+        @Override
+        public void onClick(View v)
+        {
+            
+        }
+    };
 	
 	
 	public void UpdateSettings()

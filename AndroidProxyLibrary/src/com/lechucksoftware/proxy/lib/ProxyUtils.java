@@ -1,6 +1,16 @@
 package com.lechucksoftware.proxy.lib;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.URL;
+
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -16,94 +26,109 @@ import android.util.Log;
 
 public class ProxyUtils
 {
-	public static final String TAG = "ProxyUtils";
-	
+    public static final String TAG = "ProxyUtils";
 
-	public static Intent getProxyIntent()
-	{
-		if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1 
-		{
-			return getAPProxyIntent();
-		}
-		else
-		{
-			return getGlobalProxyIntent();
-		}
-	}
-	
-	/**
-	 * For API < 12
-	 * */
-	private static Intent getGlobalProxyIntent()
-	{
-		Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.android.settings","com.android.settings.ProxySelector"));
-    	
+    public static Intent getProxyIntent()
+    {
+        if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1
+        {
+            return getAPProxyIntent();
+        } else
+        {
+            return getGlobalProxyIntent();
+        }
+    }
+
+    /**
+     * For API < 12
+     * */
+    private static Intent getGlobalProxyIntent()
+    {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.android.settings",
+                "com.android.settings.ProxySelector"));
+
         return intent;
-	}
-	
-	/**
-	 * For API >= 12
-	 * */
-	private static Intent getAPProxyIntent()
-	{
-		Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-    	
+    }
+
+    /**
+     * For API >= 12
+     * */
+    private static Intent getAPProxyIntent()
+    {
+        Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+
         return intent;
-	}
-	
-	public static boolean isSystemProxyReachable(HttpHost proxy)
-	{
-		int exitValue;
-		Runtime runtime = Runtime.getRuntime();
-		Process proc;
+    }
 
-		try {
-			proc = runtime.exec("ping -c 1   " + proxy.getHostName());
-			proc.waitFor();
-			exitValue = proc.exitValue();
+    public static boolean isHostReachable(Proxy proxy)
+    {
+        int exitValue;
+        Runtime runtime = Runtime.getRuntime();
+        Process proc;
 
-			Log.d(TAG, "Ping exit value: " + exitValue);
+        try
+        {
+            proc = runtime.exec("ping -c 1   "
+                    + ((InetSocketAddress) proxy.address()).getHostName());
+            proc.waitFor();
+            exitValue = proc.exitValue();
 
-			if (exitValue == 0)
-				return true;
-			else
-				return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+            Log.d(TAG, "Ping exit value: " + exitValue);
 
-		return false;
-	}
+            if (exitValue == 0)
+                return true;
+            else
+                return false;
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
 
-	public static boolean isInternetReachable(HttpHost proxy)
-	{
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
-				proxy);
+        return false;
+    }
 
-		HttpGet request;
-		HttpResponse response;
+    public static boolean isWebReachable(Proxy proxy)
+    {
+        try
+        {
+            URL url = new URL("http://www.google.com/");
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
 
-		try {
-			request = new HttpGet("http://www.google.com");
-			response = httpclient.execute(request);
+            int response = httpURLConnection.getResponseCode();
+            if (response == HttpURLConnection.HTTP_OK)
+            {
+                // Response successful
+                InputStream inputStream = httpURLConnection.getInputStream();
 
-			Log.d(TAG, "Is internet reachable : "
-					+ response.getStatusLine().toString());
-			if (response != null
-					&& response.getStatusLine().getStatusCode() == 200) {
-				return true;
-			} else
-				return false;
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+                // Parse it line by line
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp;
+                while ((temp = bufferedReader.readLine()) != null)
+                {
+                    Log.d(TAG, temp);
+                }
+                
+                return true;
+            } 
+            else
+            {
+                Log.e(TAG, "INCORRECT RETURN CODE: " + response);
+                return false;
+            }
+        } 
+        catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        } 
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

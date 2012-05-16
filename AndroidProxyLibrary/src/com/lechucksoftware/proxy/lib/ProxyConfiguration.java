@@ -30,7 +30,9 @@ public class ProxyConfiguration
 	{
 		StringBuilder sb = new StringBuilder(); 
 		sb.append(String.format("Proxy: %s\n",proxyHost.toString()));
-				
+		sb.append(String.format("Is Proxy reachable: %B\n",isProxyReachable()));
+		sb.append(String.format("Is WEB reachable: %B\n",isWebReachable()));
+		
 		if (networkInfo != null) sb.append(String.format("Network Info: %s\n", networkInfo));
 		if (wifiConfiguration != null) sb.append(String.format("Wi-Fi Configuration Info: %s\n", wifiConfiguration));
 		
@@ -53,6 +55,19 @@ public class ProxyConfiguration
 			return true; // HTTP or SOCKS proxy
 		}
 	}
+	
+	public Boolean isProxyReachable()
+    {
+	    if (proxyHost != null && proxyHost.type() != Proxy.Type.DIRECT)
+	        return ProxyUtils.isHostReachable(proxyHost);
+	    else
+	        return false;
+    }
+	
+	public Boolean isWebReachable()
+    {
+        return ProxyUtils.isWebReachable(proxyHost);
+    }
 	
 	public String getProxyHost()
 	{
