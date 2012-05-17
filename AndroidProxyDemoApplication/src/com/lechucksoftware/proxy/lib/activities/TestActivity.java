@@ -104,6 +104,20 @@ public class TestActivity extends Activity
         @Override
         public void onClick(View v)
         {
+        	
+			try
+    		{	
+				String uriString = uriInput.getText().toString();
+        		URI uri = URI.create(uriString);
+        		ProxyConfiguration proxyConf;
+				proxyConf = ProxySettings.getCurrentProxyConfiguration(getApplicationContext(), uri);
+				String result = ProxyUtils.getURI(uri,proxyConf.proxyHost);
+			}
+			catch (Exception e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             
         }
     };

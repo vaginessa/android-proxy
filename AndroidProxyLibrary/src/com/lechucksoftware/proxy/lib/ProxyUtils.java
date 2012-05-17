@@ -9,14 +9,18 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpResponseFactory;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.io.HttpResponseWriter;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -91,11 +95,11 @@ public class ProxyUtils
         return false;
     }
 
-    public static boolean isWebReachable(Proxy proxy)
+    public static String getURI(URI uri, Proxy proxy)
     {
         try
         {
-            URL url = new URL("http://www.google.com/");
+        	URL url = uri.toURL();
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
 
             int response = httpURLConnection.getResponseCode();
@@ -107,17 +111,19 @@ public class ProxyUtils
                 // Parse it line by line
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String temp;
+                StringBuilder sb = new StringBuilder();
                 while ((temp = bufferedReader.readLine()) != null)
                 {
                     Log.d(TAG, temp);
+                    sb.append(temp);
                 }
                 
-                return true;
+                return sb.toString();
             } 
             else
             {
                 Log.e(TAG, "INCORRECT RETURN CODE: " + response);
-                return false;
+                return null;
             }
         } 
         catch (MalformedURLException e)
@@ -129,6 +135,23 @@ public class ProxyUtils
             e.printStackTrace();
         }
 
-        return false;
+        return null;
+    }
+    
+    public static boolean isWebReachable(Proxy proxy)
+    {     	
+    	try
+		{
+			String result = getURI(new URI("http://www.google.com/"), proxy);
+			if (result != null)
+				return true;			
+		}
+		catch (URISyntaxException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return false;
     }
 }
