@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -23,6 +25,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.io.HttpResponseWriter;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
@@ -64,6 +67,14 @@ public class ProxyUtils
 
         return intent;
     }
+    
+//    public static Intent getWebViewWithProxy(Context context, URI uri)
+//    {
+//    	Intent intent = new Intent(context, );
+//    	intent.putExtra("URI", uri);
+//    	
+//    	return intent;
+//    }
 
     public static boolean isHostReachable(Proxy proxy)
     {
@@ -154,4 +165,101 @@ public class ProxyUtils
     	
     	return false;
     }
+
+    public static void setSystemProxy(Context context, ProxyConfiguration proxyConf)
+	{
+		setProxy(context, proxyConf.getProxyHost(),proxyConf.getProxyPort());
+	}
+    
+    public static void resetProxy(Context ctx) throws Exception 
+    {
+        Object requestQueueObject = getRequestQueue(ctx);
+        if (requestQueueObject != null) 
+        {
+            setDeclaredField(requestQueueObject, "mProxyHost", null);
+        }
+    }
+
+    private static boolean setProxy(Context ctx, String host, int port) 
+    {
+        boolean ret = false;
+        try 
+        {
+            Object requestQueueObject = getRequestQueue(ctx);
+            if (requestQueueObject != null) 
+            {
+                //Create Proxy config object and set it into request Q
+                HttpHost httpHost = new HttpHost(host, port, "http");
+                setDeclaredField(requestQueueObject, "mProxyHost", httpHost);
+                //Log.d("Webkit Setted Proxy to: " + host + ":" + port);
+                ret = true;
+            }
+        } 
+        catch (Exception e) 
+        {
+        	Log.e("ProxySettings","Exception setting WebKit proxy settings: " + e.toString());
+        }
+        return ret;
+    }
+
+    @SuppressWarnings("rawtypes")
+	private static Object GetNetworkInstance(Context ctx) throws ClassNotFoundException
+    {
+        Class networkClass = Class.forName("android.webkit.Network");
+        return networkClass;
+    }
+    
+    private static Object getRequestQueue(Context ctx) throws Exception 
+    {
+        Object ret = null;
+        Object networkClass = GetNetworkInstance(ctx);
+        if (networkClass != null) 
+        {
+            Object networkObj = invokeMethod(networkClass, "getInstance", new Object[]{ctx}, Context.class);
+            if (networkObj != null) 
+            {
+                ret = getDeclaredField(networkObj, "mRequestQueue");
+            }
+        }
+        return ret;
+    }
+
+    private static Object getDeclaredField(Object obj, String name)
+            throws SecurityException, NoSuchFieldException,
+            IllegalArgumentException, IllegalAccessException 
+    {
+        Field f = obj.getClass().getDeclaredField(name);
+        f.setAccessible(true);
+        Object out = f.get(obj);
+        return out;
+    }
+
+    private static void setDeclaredField(Object obj, String name, Object value)
+            throws SecurityException, NoSuchFieldException,
+            IllegalArgumentException, IllegalAccessException 
+    {
+        Field f = obj.getClass().getDeclaredField(name);
+        f.setAccessible(true);
+        f.set(obj, value);
+    }
+
+    @SuppressWarnings("rawtypes")
+	private static Object invokeMethod(Object object, String methodName, Object[] params, Class... types) throws Exception 
+    {
+        Object out = null;
+        Class c = object instanceof Class ? (Class) object : object.getClass();
+        
+        if (types != null) 
+        {
+            Method method = c.getMethod(methodName, types);
+            out = method.invoke(object, params);
+        } 
+        else 
+        {
+            Method method = c.getMethod(methodName);
+            out = method.invoke(object);
+        }
+        return out;
+    }
+
 }

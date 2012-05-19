@@ -2,189 +2,227 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="5dp" >
 
-    <TextView
-        android:id="@+id/proxy_description_title"
+    <LinearLayout
+        android:id="@+id/wait"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="@string/proxy_description"
-        android:textStyle="bold" />
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <AutoCompleteTextView
-        android:id="@+id/uri_input"
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:gravity="center_vertical"
+            android:text="Loading..."
+            android:textColor="#808080"
+            android:textSize="23px"
+            android:textStyle="bold" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/contents"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="http://www.google.com" >
-    </AutoCompleteTextView>
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+         >
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
+        <TextView
+            android:id="@+id/proxy_description_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/proxy_description"
+            android:textStyle="bold" />
 
-        <LinearLayout
+        <AutoCompleteTextView
+            android:id="@+id/uri_input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:text="http://www.google.com" >
+        </AutoCompleteTextView>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/device_api_version_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/device_version_title"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/device_api_version_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/device_version_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/proxy_enabled"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/proxy_enabled_title"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/proxy_enabled_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/proxy_enabled_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/proxy_host_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/proxy_host_title"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/proxy_host_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/proxy_host_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/proxy_port_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/proxy_port_title"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/proxy_port_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/proxy_port_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/apl_proxy_tostring_title"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/apl_proxy_tostring_title"
-                    android:textStyle="bold" />
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/apl_proxy_tostring_content"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/device_api_version_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/device_version_title"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/device_api_version_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/device_version_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/apl_proxy_tostring_content" />
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/proxy_enabled"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/proxy_enabled_title"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/proxy_enabled_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/proxy_enabled_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/proxy_host_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/proxy_host_title"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/proxy_host_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/proxy_host_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/proxy_port_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/proxy_port_title"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/proxy_port_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/proxy_port_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/apl_proxy_tostring_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/apl_proxy_tostring_title"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/apl_proxy_tostring_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/apl_proxy_tostring_content" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="APL Actions:"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="APL Actions:"
+            android:textStyle="bold" />
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <TableRow
-            android:id="@+id/tableRow1"
+        <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/get_settings"
-                android:text="@string/get_settings_button"
-                android:layout_weight="1"
-                android:textSize="10dp" />
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/open_proxy_settings"
-                 android:text="@string/open_proxy_settings"
-                 android:layout_weight="1"
-                android:textSize="10dp" />
-        </TableRow>
+                <Button
+                    android:id="@+id/get_settings"
+                    android:layout_weight="1"
+                    android:text="@string/get_settings_button"
+                    android:textSize="10dp" />
 
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:shrinkColumns="*" >
+                <Button
+                    android:id="@+id/open_proxy_settings"
+                    android:layout_weight="1"
+                    android:text="@string/open_proxy_settings"
+                    android:textSize="10dp" />
+            </TableRow>
 
-            <Button
-                android:id="@+id/test_proxy_settings"
-                android:text="@string/test_proxy_settings"
-                android:layout_weight="1"
-                android:textSize="10dp" />
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:shrinkColumns="*" >
 
-            <Button
-                android:id="@+id/test_proxed_webview"
-                android:text="@string/test_proxed_webview"
-                android:layout_weight="1"
-                android:textSize="10dp" />
-        </TableRow>
-    </TableLayout>
+                <Button
+                    android:id="@+id/test_proxy_settings"
+                    android:layout_weight="1"
+                    android:text="@string/test_proxy_settings"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/test_proxed_webview"
+                    android:layout_weight="1"
+                    android:text="@string/test_proxed_webview"
+                    android:textSize="10dp" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
 
 </LinearLayout>

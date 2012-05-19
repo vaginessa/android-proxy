@@ -8,18 +8,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.lib.ProxyConfiguration;
 import com.lechucksoftware.proxy.lib.ProxySettings;
 import com.lechucksoftware.proxy.lib.ProxyUtils;
 
-public class TestActivity extends Activity
+public class MainFragmentActivity extends FragmentActivity
 {
 	public static final String TAG = "TestActivity";
 	static final int DIALOG_ID_PROXY = 0;
@@ -33,6 +37,10 @@ public class TestActivity extends Activity
     		"https://www.",
     		"ftp://",
 		};
+	
+	
+	ProgressBar progress;
+	LinearLayout contents;
 	
 	AutoCompleteTextView uriInput;
 	TextView device_version;
@@ -51,7 +59,10 @@ public class TestActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-			
+
+		progress = (ProgressBar) findViewById(R.id.progressBar);
+		contents = (LinearLayout) findViewById(R.id.contents);
+		
 		uriInput = (AutoCompleteTextView) findViewById(R.id.uri_input);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, uriTypes);
 		uriInput.setThreshold(1);
@@ -107,11 +118,19 @@ public class TestActivity extends Activity
         	
 			try
     		{	
+				EnterWait();
+				
 				String uriString = uriInput.getText().toString();
         		URI uri = URI.create(uriString);
         		ProxyConfiguration proxyConf;
 				proxyConf = ProxySettings.getCurrentProxyConfiguration(getApplicationContext(), uri);
 				String result = ProxyUtils.getURI(uri,proxyConf.proxyHost);
+		        
+				FragmentManager fm = getSupportFragmentManager();
+		        ResultDialogFragment resultDialog = new ResultDialogFragment(result.substring(0,500)+ " ... ");
+		        
+		        ExitWait();
+		        resultDialog.show(fm, "result_fragment_dialog");
 			}
 			catch (Exception e)
 			{
@@ -121,16 +140,33 @@ public class TestActivity extends Activity
             
         }
     };
-	
+    	
     private final OnClickListener OnTestWebView = new OnClickListener() {
         
         @Override
         public void onClick(View v)
         {
-            
+        	String uriString = uriInput.getText().toString();
+    		URI uri = URI.create(uriString);
+    		
+    		Intent webViewIntent = new Intent(getApplicationContext(),WebViewWithProxyActivity.class);
+    		webViewIntent.putExtra("URI", uri);
+    		startActivity(webViewIntent);
         }
     };
+    
+    public void EnterWait()
+    {
+    	progress.setVisibility(View.VISIBLE);
+    	contents.setVisibility(View.GONE);
+    }
 	
+    public void ExitWait()
+    {
+    	progress.setVisibility(View.GONE);
+    	contents.setVisibility(View.VISIBLE);
+    }
+    
 	public void UpdateSettings()
 	{
 		String uriString = uriInput.getText().toString();
