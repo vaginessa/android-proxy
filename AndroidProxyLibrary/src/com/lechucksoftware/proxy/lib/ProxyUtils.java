@@ -112,6 +112,9 @@ public class ProxyUtils
         {
         	URL url = uri.toURL();
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
+            
+            httpURLConnection.setReadTimeout(5000);
+            httpURLConnection.setConnectTimeout(5000); //set timeout to 5 seconds
 
             int response = httpURLConnection.getResponseCode();
             if (response == HttpURLConnection.HTTP_OK)
@@ -166,9 +169,19 @@ public class ProxyUtils
     	return false;
     }
 
-    public static void setSystemProxy(Context context, ProxyConfiguration proxyConf)
+    public static void setWebViewProxy(Context context)
 	{
-		setProxy(context, proxyConf.getProxyHost(),proxyConf.getProxyPort());
+    	ProxyConfiguration proxyConf;
+		try
+		{
+			proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
+			setProxy(context, proxyConf.getProxyHost(),proxyConf.getProxyPort());
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
     
     public static void resetProxy(Context ctx) throws Exception 
