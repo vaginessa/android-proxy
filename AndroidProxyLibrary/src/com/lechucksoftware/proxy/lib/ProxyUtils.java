@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.lib;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,14 +15,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpResponseFactory;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.io.HttpResponseWriter;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;

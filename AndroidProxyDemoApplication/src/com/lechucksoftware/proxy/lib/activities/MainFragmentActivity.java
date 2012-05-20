@@ -7,6 +7,7 @@ import java.net.URI;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -37,11 +38,10 @@ public class MainFragmentActivity extends FragmentActivity
     		"https://www.",
     		"ftp://",
 		};
-	
-	
+		
 	ProgressBar progress;
 	LinearLayout contents;
-	
+
 	AutoCompleteTextView uriInput;
 	TextView device_version;
 	TextView proxy_enabled;
@@ -85,9 +85,6 @@ public class MainFragmentActivity extends FragmentActivity
 		
 		test_webview = (Button) findViewById(R.id.test_proxed_webview);
 		test_webview.setOnClickListener(OnTestWebView);
-		
-		
-		UpdateSettings();
 	}
 	
 	private final OnClickListener OnGetSettingsClick = new OnClickListener() {
@@ -115,22 +112,11 @@ public class MainFragmentActivity extends FragmentActivity
         @Override
         public void onClick(View v)
         {
-        	
 			try
     		{	
 				EnterWait();
-				
-				String uriString = uriInput.getText().toString();
-        		URI uri = URI.create(uriString);
-        		ProxyConfiguration proxyConf;
-				proxyConf = ProxySettings.getCurrentProxyConfiguration(getApplicationContext(), uri);
-				String result = ProxyUtils.getURI(uri,proxyConf.proxyHost);
-		        
-				FragmentManager fm = getSupportFragmentManager();
-		        ResultDialogFragment resultDialog = new ResultDialogFragment(result.substring(0,500)+ " ... ");
-		        
-		        ExitWait();
-		        resultDialog.show(fm, "result_fragment_dialog");
+				TestProxySettingsTask task = new TestProxySettingsTask();
+				task.execute();  
 			}
 			catch (Exception e)
 			{
@@ -140,6 +126,42 @@ public class MainFragmentActivity extends FragmentActivity
             
         }
     };
+    
+    
+	private class TestProxySettingsTask extends AsyncTask<Void, Void, String> 
+	{
+		@Override
+		protected String doInBackground(Void... paramArrayOfParams) 
+		{
+			String result = null;
+			
+			try
+			{
+    			String uriString = uriInput.getText().toString();
+        		URI uri = URI.create(uriString);
+        		ProxyConfiguration proxyConf;
+
+				proxyConf = ProxySettings.getCurrentProxyConfiguration(getApplicationContext(), uri);
+				result = ProxyUtils.getURI(uri,proxyConf.proxyHost);
+			}
+			catch (Exception e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) 
+		{
+			FragmentManager fm = getSupportFragmentManager();
+	        ResultDialogFragment resultDialog = new ResultDialogFragment(result.substring(0,500)+ " ... ");
+	        resultDialog.show(fm, "result_fragment_dialog");
+	        ExitWait();
+		}
+	}
     	
     private final OnClickListener OnTestWebView = new OnClickListener() {
         
@@ -169,23 +191,49 @@ public class MainFragmentActivity extends FragmentActivity
     
 	public void UpdateSettings()
 	{
-		String uriString = uriInput.getText().toString();
-		URI uri = URI.create(uriString);
-		ProxyConfiguration proxyConf = null;
+		EnterWait();
 		
-		try
+		UpdateSettingsTask task = new UpdateSettingsTask();
+		task.execute();  
+	}
+	
+	private class UpdateSettingsTask extends AsyncTask<Void, Void, ProxyConfiguration> 
+	{
+		@Override
+		protected ProxyConfiguration doInBackground(Void... paramArrayOfParams) 
 		{
-			proxyConf = ProxySettings.getCurrentProxyConfiguration(getApplicationContext(), uri);
+			ProxyConfiguration proxyConf = null;
+			
+			try
+			{
+				String uriString = uriInput.getText().toString();
+				URI uri = URI.create(uriString);
+				
+				try
+				{
+					proxyConf = ProxySettings.getCurrentProxyConfiguration(getApplicationContext(), uri);
+					ShowSettings(proxyConf);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+			catch (Exception e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	        return proxyConf;
 		}
-		catch (Exception e)
+
+		@Override
+		protected void onPostExecute(ProxyConfiguration proxyConf) 
 		{
-			e.printStackTrace();
+	        ExitWait();
 		}
-		
-		if (proxyConf != null)
-		{
-			ShowSettings(proxyConf);
-		}
+
 	}
 	
 	public void ShowSettings(ProxyConfiguration proxyConf)
