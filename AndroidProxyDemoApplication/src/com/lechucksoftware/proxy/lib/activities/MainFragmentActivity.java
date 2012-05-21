@@ -157,7 +157,17 @@ public class MainFragmentActivity extends FragmentActivity
 		protected void onPostExecute(String result) 
 		{
 			FragmentManager fm = getSupportFragmentManager();
-	        ResultDialogFragment resultDialog = new ResultDialogFragment(result.substring(0,500)+ " ... ");
+			ResultDialogFragment resultDialog = null;
+			
+			if (result != null && result != "")
+			{
+			    resultDialog = new ResultDialogFragment(result.substring(0,500)+ " ... ");    
+			}
+			else
+			{
+			    resultDialog = new ResultDialogFragment("NOTHING RECEIVED");    
+			}
+			 
 	        resultDialog.show(fm, "result_fragment_dialog");
 	        ExitWait();
 		}
