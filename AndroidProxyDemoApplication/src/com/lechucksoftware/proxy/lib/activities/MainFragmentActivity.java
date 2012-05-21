@@ -39,7 +39,7 @@ public class MainFragmentActivity extends FragmentActivity
     		"ftp://",
 		};
 		
-	ProgressBar progress;
+	LinearLayout wait;
 	LinearLayout contents;
 
 	AutoCompleteTextView uriInput;
@@ -60,7 +60,8 @@ public class MainFragmentActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		progress = (ProgressBar) findViewById(R.id.progressBar);
+		
+		wait = (LinearLayout) findViewById(R.id.wait);
 		contents = (LinearLayout) findViewById(R.id.contents);
 		
 		uriInput = (AutoCompleteTextView) findViewById(R.id.uri_input);
@@ -189,13 +190,13 @@ public class MainFragmentActivity extends FragmentActivity
     
     public void EnterWait()
     {
-    	progress.setVisibility(View.VISIBLE);
+    	wait.setVisibility(View.VISIBLE);
     	contents.setVisibility(View.GONE);
     }
 	
     public void ExitWait()
     {
-    	progress.setVisibility(View.GONE);
+    	wait.setVisibility(View.GONE);
     	contents.setVisibility(View.VISIBLE);
     }
     
