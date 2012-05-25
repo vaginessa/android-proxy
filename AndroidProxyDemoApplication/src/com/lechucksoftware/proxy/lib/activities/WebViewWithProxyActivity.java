@@ -6,6 +6,7 @@ import java.net.URI;
 import com.lechucksoftware.proxy.lib.ProxyUtils;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.webkit.WebView;
 
@@ -18,7 +19,9 @@ public class WebViewWithProxyActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 	    setContentView(R.layout.webview);
-	    ProxyUtils.setWebViewProxy(getApplicationContext());
+	    
+	    if(Build.VERSION.SDK_INT < 12)
+	    	ProxyUtils.setWebViewProxy(getApplicationContext());	// Only for 1.x and 2.x devices
 	    
 	    Bundle extras = getIntent().getExtras();
 	    URI uri = (URI) extras.getSerializable("URI");

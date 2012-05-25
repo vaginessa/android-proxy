@@ -166,7 +166,8 @@ public class ProxyUtils
 		try
 		{
 			proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
-			setProxy(context, proxyConf.getProxyHost(),proxyConf.getProxyPort());
+			if (proxyConf.deviceVersion < 12)
+				setProxy(context, proxyConf.getProxyHost(),proxyConf.getProxyPort());
 		}
 		catch (Exception e)
 		{
