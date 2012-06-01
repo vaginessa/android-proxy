@@ -75,6 +75,11 @@ public class ProxyConfiguration
 		return proxyAddress.getHostName();
 	}
 	
+	public String getProxyIPHost()
+	{
+	    return ((InetSocketAddress) proxyHost.address()).getAddress().getHostAddress();
+	}
+	
 	public Integer getProxyPort()
 	{
 		InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
@@ -85,6 +90,12 @@ public class ProxyConfiguration
 	{
 		return String.format("%s",proxyHost.address().toString());
 	}
+
+	public String toShortIPString()
+    {
+        return String.format("%s:%d",getProxyIPHost(),getProxyPort());
+    }
+	
 	
 	public int getNetworkType()
 	{

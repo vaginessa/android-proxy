@@ -6,9 +6,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -75,8 +77,8 @@ public class ProxyUtils
 
         try
         {
-            proc = runtime.exec("ping -c 1   "
-                    + ((InetSocketAddress) proxy.address()).getHostName());
+            String cmdline = "ping -c 1   " + ((InetSocketAddress) proxy.address()).getAddress().getHostAddress();
+            proc = runtime.exec(cmdline);
             proc.waitFor();
             exitValue = proc.exitValue();
 
@@ -103,7 +105,7 @@ public class ProxyUtils
         {
         	URL url = uri.toURL();
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
-            
+                        
             httpURLConnection.setReadTimeout(5000);
             httpURLConnection.setConnectTimeout(5000); //set timeout to 5 seconds
 

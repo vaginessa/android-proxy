@@ -156,7 +156,7 @@ public class ProxySettings
 					Integer proxyPort = Integer.parseInt(proxyParts[1]);
 					Proxy p = new Proxy(Type.HTTP,new InetSocketAddress(proxyAddress,proxyPort));
 					proxyConfig = new ProxyConfiguration(p, null, null);
-					Log.d(TAG, "ProxyHost created: " + proxyConfig.toString());
+					//Log.d(TAG, "ProxyHost created: " + proxyConfig.toString());
 				}
 				catch (NumberFormatException e)
 				{
