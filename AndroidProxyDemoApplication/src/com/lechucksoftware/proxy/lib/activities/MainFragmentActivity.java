@@ -138,7 +138,7 @@ public class MainFragmentActivity extends FragmentActivity
 			
 			try
 			{
-    			String uriString = uriInput.getText().toString();
+    			String uriString = uriInput.getText().toString().trim();
         		URI uri = URI.create(uriString);
         		ProxyConfiguration proxyConf;
 
@@ -179,12 +179,19 @@ public class MainFragmentActivity extends FragmentActivity
         @Override
         public void onClick(View v)
         {
-        	String uriString = uriInput.getText().toString();
-    		URI uri = URI.create(uriString);
-    		
-    		Intent webViewIntent = new Intent(getApplicationContext(),WebViewWithProxyActivity.class);
-    		webViewIntent.putExtra("URI", uri);
-    		startActivity(webViewIntent);
+            try
+            {
+            	String uriString = uriInput.getText().toString().trim();
+        		URI uri = URI.create(uriString);
+                Intent webViewIntent = new Intent(getApplicationContext(),WebViewWithProxyActivity.class);
+                webViewIntent.putExtra("URI", uri);
+                startActivity(webViewIntent);
+            }
+            catch (Exception e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     };
     
