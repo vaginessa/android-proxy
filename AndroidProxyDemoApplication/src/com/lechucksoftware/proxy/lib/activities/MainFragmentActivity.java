@@ -90,7 +90,6 @@ public class MainFragmentActivity extends FragmentActivity
 	
 	private final OnClickListener OnGetSettingsClick = new OnClickListener() {
 		
-		@Override
 		public void onClick(View v)
 		{
 			UpdateSettings();
@@ -99,7 +98,6 @@ public class MainFragmentActivity extends FragmentActivity
 	
 	private final OnClickListener OnEditProxySettings = new OnClickListener() {
 		
-		@Override
 		public void onClick(View v)
 		{
 			Intent proxyIntent = ProxyUtils.getProxyIntent();
@@ -110,7 +108,6 @@ public class MainFragmentActivity extends FragmentActivity
 	
     private final OnClickListener OnTestProxySettings = new OnClickListener() {
         
-        @Override
         public void onClick(View v)
         {
 			try
@@ -176,7 +173,6 @@ public class MainFragmentActivity extends FragmentActivity
     	
     private final OnClickListener OnTestWebView = new OnClickListener() {
         
-        @Override
         public void onClick(View v)
         {
             try
