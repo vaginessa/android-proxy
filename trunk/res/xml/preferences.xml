@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- <PreferenceCategory -->
+    <!-- android:key="pref_key_proxy_settings" -->
+    <!-- android:title="@string/pref_key_proxy_settings_title" > -->
+    <Preference
+        android:enabled="true"
+        android:key="preference_proxy_host_port"
+        android:summary="@string/preference_proxy_host_port_summary_default"
+        android:title="@string/preference_proxy_host_port_title" />
+
+    <CheckBoxPreference
+        android:enabled="true"
+        android:key="preference_notification_enabled"
+        android:summary="@string/preferences_statusbar_notification_description_enabled"
+        android:title="@string/preferences_statusbar_notification_title" />
+    <!-- </PreferenceCategory> -->
+
+    <PreferenceCategory
+        android:key="pref_key_proxy_settings_advanced"
+        android:title="@string/pref_key_proxy_settings_advanced_title" >
+        <PreferenceScreen
+            android:key="pref_key_proxy_settings_advanced_prefscreen"
+            android:persistent="false"
+            android:summary="@string/pref_key_proxy_settings_advanced_prefscreen_description"
+            android:title="@string/pref_key_proxy_settings_advanced_prefscreen_title" >
+            <PreferenceCategory
+                android:key="pref_key_proxy_settings_test"
+                android:title="@string/preference_proxy_authentication_category_title" >
+                <Preference
+                    android:enabled="true"
+                    android:key="preference_test_proxy_configuration"
+                    android:summary="@string/preference_test_proxy_configuration_summary"
+                    android:title="@string/preference_test_proxy_configuration_title" />
+
+                <!-- <CheckBoxPreference -->
+                <!-- android:enabled="true" -->
+                <!-- android:defaultValue="false" -->
+                <!-- android:key="preference_test_proxy_reachability" -->
+                <!-- android:summary="@string/preference_test_proxy_reachability_summary_disabled" -->
+                <!-- android:title="@string/preference_test_proxy_reachability" /> -->
+
+
+                <!-- <CheckBoxPreference -->
+                <!-- android:enabled="true" -->
+                <!-- android:defaultValue="false" -->
+                <!-- android:key="preference_test_web_reachability" -->
+                <!-- android:summary="@string/preference_proxy_authentication_summary_disabled" -->
+                <!-- android:title="@string/preference_proxy_authentication_title" /> -->
+
+
+                <!-- <Preference -->
+                <!-- android:enabled="true" -->
+                <!-- android:key="preference_test_webview" -->
+                <!-- android:summary="@string/preference_test_webview_summary" -->
+                <!-- android:title="@string/preference_proxy_authentication_title" /> -->
+
+            </PreferenceCategory>
+            <PreferenceCategory
+                android:key="pref_key_proxy_settings_test"
+                android:title="@string/preference_proxy_authentication_category_title" >
+                <CheckBoxPreference
+                    android:enabled="true"
+                    android:key="preference_authentication_enabled"
+                    android:summary="@string/preference_proxy_authentication_summary_disabled"
+                    android:title="@string/preference_proxy_authentication_title" />
+
+                <EditTextPreference
+                    android:enabled="false"
+                    android:key="preference_authentication_user"
+                    android:summary="@string/preference_proxy_authentication_user_summary"
+                    android:title="@string/preference_proxy_authentication_user_title" />
+                <EditTextPreference
+                    android:enabled="false"
+                    android:inputType="textPassword"
+                    android:key="preference_authentication_password"
+                    android:summary="@string/preference_proxy_authentication_password_summary"
+                    android:title="@string/preference_proxy_authentication_password_title" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="preference_about_category"
+        android:title="@string/preference_about_title" >
+        <Preference
+            android:enabled="true"
+            android:key="preference_help_troubleshooting"
+            android:title="@string/preference_help_title" />
+        <Preference
+            android:enabled="true"
+            android:key="preference_about"
+            android:summary="@string/versionName"
+            android:title="@string/proxy_settings_about" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

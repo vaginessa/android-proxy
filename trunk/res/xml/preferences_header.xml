@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header android:fragment="it.lnc.gmn02.AutoVolumeV11$MainPrefsFragment"
+            android:icon="@drawable/ic_launcher"
+            android:title="@string/prefs_title_v11"
+            android:summary="@string/prefs_summary_v11" />
+    
+</preference-headers>
