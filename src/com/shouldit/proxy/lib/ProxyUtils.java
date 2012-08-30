@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.lib;
+package com.shouldit.proxy.lib;
 
 import java.io.BufferedReader;
 import java.io.IOException;

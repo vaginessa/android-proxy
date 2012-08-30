@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.lib.reflection;
+package com.shouldit.proxy.lib.reflection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

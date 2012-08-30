@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.lib;
+package com.shouldit.proxy.lib;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -6,7 +6,7 @@ import java.net.Proxy.Type;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
-import com.lechucksoftware.proxy.lib.Constants.ProxyStatus;
+import com.shouldit.proxy.lib.Constants.ProxyStatus;
 
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;

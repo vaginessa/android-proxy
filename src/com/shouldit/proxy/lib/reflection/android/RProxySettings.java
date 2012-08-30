@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.lib.reflection.android;
+package com.shouldit.proxy.lib.reflection.android;
 
 public enum RProxySettings {
     /* No proxy is to be used. Any existing proxy settings
