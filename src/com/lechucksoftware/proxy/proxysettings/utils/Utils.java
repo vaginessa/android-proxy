@@ -9,13 +9,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lechucksoftware.proxy.lib.Constants.ProxyStatus;
-import com.lechucksoftware.proxy.lib.ProxyConfiguration;
-import com.lechucksoftware.proxy.lib.reflection.ReflectionUtils;
-import com.lechucksoftware.proxy.lib.reflection.android.RProxySettings;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.Constants.ProxyStatus;
+import com.shouldit.proxy.lib.reflection.ReflectionUtils;
+import com.shouldit.proxy.lib.reflection.android.RProxySettings;
 
 import android.app.Notification;
 import android.app.NotificationManager;

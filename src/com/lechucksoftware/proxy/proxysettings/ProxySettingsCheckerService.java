@@ -2,11 +2,11 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import java.net.Proxy.Type;
 
-import com.lechucksoftware.proxy.lib.ProxyConfiguration;
-import com.lechucksoftware.proxy.lib.ProxySettings;
-import com.lechucksoftware.proxy.lib.Constants.ProxyStatus;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxySettings;
+import com.shouldit.proxy.lib.Constants.ProxyStatus;
 
 import android.app.IntentService;
 import android.content.Context;

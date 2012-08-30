@@ -1,9 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import com.lechucksoftware.proxy.lib.ProxyConfiguration;
-import com.lechucksoftware.proxy.lib.ProxySettings;
-import com.lechucksoftware.proxy.lib.ProxyUtils;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxySettings;
+import com.shouldit.proxy.lib.ProxyUtils;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
