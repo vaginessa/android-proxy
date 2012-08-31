@@ -6,13 +6,10 @@ import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
-import com.shouldit.proxy.lib.Constants.ProxyStatus;
-
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.SystemClock;
 import android.util.Log;
 
 public class ProxySettingsCheckerService extends IntentService 

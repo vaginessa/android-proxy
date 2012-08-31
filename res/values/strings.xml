@@ -51,6 +51,10 @@
     <string name="prefs_summary_v11">Preferences</string>
     <string name="pref_key_proxy_settings_title">Basic settings</string>
     <string name="pref_key_proxy_settings_test_title">Help and troubleshooting</string>
+    
+    <string name="preference_applications_feedback_title">Applications support</string>
+    <string name="preference_applications_feedback_summary">Submit a fedback on proxy support for third parties applications</string>
+    
     <string name="pref_key_proxy_settings_prefscreen_title">Test</string>
     <string name="pref_key_proxy_settings_prefscreen_description">Test proxy settings</string>
     
@@ -66,8 +70,8 @@
     
     <string name="pref_key_proxy_settings_advanced_title">Advanced</string>
     
- 	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Proxy Settings Assistant</string>
- 	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Check and fix your proxy settings</string>
+ 	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration Assistant</string>
+ 	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
      
      
             

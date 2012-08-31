@@ -41,13 +41,11 @@ public class ApplicationsFeedbacksActivity extends Activity
     private class ListAdapter extends ArrayAdapter<PInfo>
     { 
         private ArrayList<PInfo> mList; // --CloneChangeRequired
-        private Context mContext;
-
+        
         public ListAdapter(Context context, int textViewResourceId, ArrayList<PInfo>  list) 
         { 
             super(context, textViewResourceId, list);
             this.mList = list;
-            this.mContext = context;
         }
 
         public View getView(int position, View convertView, ViewGroup parent)

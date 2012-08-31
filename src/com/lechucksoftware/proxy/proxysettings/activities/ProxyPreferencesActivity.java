@@ -7,7 +7,6 @@ import com.shouldit.proxy.lib.ProxyUtils;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.Proxy;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -156,7 +155,6 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		return true;
 	}
 	
-    @SuppressWarnings("deprecation")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) 
     {
         if (requestCode == SELECT_PROXY_REQUEST) 

@@ -79,6 +79,13 @@
                     android:title="@string/preference_proxy_authentication_password_title" />
             </PreferenceCategory>
         </PreferenceScreen>
+
+        <Preference
+            android:enabled="true"
+            android:key="preference_applications_feedback"
+            android:summary="@string/preference_applications_feedback_summary"
+            android:title="@string/preference_applications_feedback_title" />
+        
     </PreferenceCategory>
     <PreferenceCategory
         android:key="preference_about_category"
