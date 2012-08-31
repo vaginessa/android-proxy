@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
+import com.lechucksoftware.proxy.proxysettings.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
@@ -30,6 +31,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
     static EditTextPreference userPref;
     static EditTextPreference passwordPref;
     static Preference proxyHostPortPref; 
+    static Preference appsFeedbackPref;
     
 	/** Called when the activity is first created. */
 	@SuppressWarnings("deprecation")
@@ -47,6 +49,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		userPref = (EditTextPreference) findPreference("preference_authentication_user");
 		passwordPref = (EditTextPreference) findPreference("preference_authentication_password");
 		proxyHostPortPref = findPreference("preference_proxy_host_port");
+		appsFeedbackPref = findPreference("preference_applications_feedback");
 		
 		RefreshPreferenceSettings();
 		RefreshProxySettings();
@@ -75,6 +78,16 @@ public class ProxyPreferencesActivity extends PreferenceActivity
             {
                 Intent proxyIntent = ProxyUtils.getProxyIntent();
                 startActivityForResult(proxyIntent,SELECT_PROXY_REQUEST);
+                return true;
+            }
+        });
+		
+		appsFeedbackPref.setOnPreferenceClickListener(new OnPreferenceClickListener() 
+		{
+		    public boolean onPreferenceClick(Preference preference) 
+            {
+                Intent feedbackIntent = new Intent(getApplicationContext(), ApplicationsFeedbacksActivity.class);
+                startActivity(feedbackIntent);
                 return true;
             }
         });
