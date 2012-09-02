@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="feedback_ignored_packages">
+        <item>android</item>
+        <item>android.tts</item>
+        <item>com.lechucksoftware.proxy.proxysettings</item>
+    </string-array>
+    
+</resources>

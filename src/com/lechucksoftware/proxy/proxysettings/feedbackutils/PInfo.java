@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.utils;
+package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;

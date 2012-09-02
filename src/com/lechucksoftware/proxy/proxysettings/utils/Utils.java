@@ -7,6 +7,7 @@ import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
@@ -184,45 +185,7 @@ public class Utils
 		manager.cancel(PROXY_NOTIFICATION_ID);
 	}
 
-	public static ArrayList<PInfo> getPackages(Context callerContext)
-	{
-		ArrayList<PInfo> apps = getInstalledApps(callerContext, false); /*
-																		 * false
-																		 * = no
-																		 * system
-																		 * packages
-																		 */
-		final int max = apps.size();
-
-		for (int i = 0; i < max; i++)
-		{
-			apps.get(i).prettyPrint();
-		}
-
-		return apps;
-	}
-
-	private static ArrayList<PInfo> getInstalledApps(Context callerContext, boolean getSysPackages)
-	{
-		ArrayList<PInfo> res = new ArrayList<PInfo>();
-		List<PackageInfo> packs = callerContext.getPackageManager().getInstalledPackages(0);
-		for (int i = 0; i < packs.size(); i++)
-		{
-			PackageInfo p = packs.get(i);
-			if ((!getSysPackages) && (p.versionName == null))
-			{
-				continue;
-			}
-			PInfo newInfo = new PInfo();
-			newInfo.appname = p.applicationInfo.loadLabel(callerContext.getPackageManager()).toString();
-			newInfo.pname = p.packageName;
-			newInfo.versionName = p.versionName;
-			newInfo.versionCode = p.versionCode;
-			newInfo.icon = p.applicationInfo.loadIcon(callerContext.getPackageManager());
-			res.add(newInfo);
-		}
-		return res;
-	}
+	
 
 	/**
 	 * Get proxy configuration for Wi-Fi access point. Valid for API >= 12

@@ -95,4 +95,8 @@
     
     <string name="preference_proxy_host_port_summary_exception">Invalid configuration</string>
     
+    
+    <string name="application_list_description">Please select the application that you want to support the proxy settings:</string>
+    <string name="application_list_loading_dialog_description">"Loading applications ..."</string>
+    
 </resources>
