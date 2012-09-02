@@ -103,6 +103,7 @@ public class ApplicationsFeedbacksActivity extends Activity
 					((ImageView) view.findViewById(R.id.list_item_app_icon)).setImageDrawable(listItem.icon);
 					((TextView) view.findViewById(R.id.list_item_app_name)).setText(listItem.appname);
 					((TextView) view.findViewById(R.id.list_item_app_description)).setText(listItem.pname);
+					((TextView) view.findViewById(R.id.list_item_app_version)).setText(listItem.versionName);
 				}
 
 			}
