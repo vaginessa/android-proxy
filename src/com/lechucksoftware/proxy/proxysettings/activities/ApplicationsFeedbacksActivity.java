@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -12,21 +13,26 @@ import com.shouldit.proxy.lib.ProxySettings;
 import com.shouldit.proxy.lib.ProxyUtils;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ApplicationsFeedbacksActivity extends Activity
+public class ApplicationsFeedbacksActivity extends FragmentActivity
 {
 	public static final String TAG = "ApplicationsFeedbacksActivity";
 	static final int DIALOG_ID_PROXY = 0;
@@ -68,10 +74,22 @@ public class ApplicationsFeedbacksActivity extends Activity
 		@Override
 		protected void onPostExecute(ArrayList<PInfo> result)
 		{
+			final FragmentManager fm = getSupportFragmentManager();
+			
 			if (this.dialog.isShowing())
 				this.dialog.dismiss();
 			
 			listview.setAdapter(new ListAdapter(ApplicationsFeedbacksActivity.this, R.id.list_view, result));
+			
+			listview.setOnItemClickListener(new OnItemClickListener()
+			{
+			    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			    {
+			    	
+			    	ApplicationFeedbacksConfirmDialog dialog = new ApplicationFeedbacksConfirmDialog();
+			    	dialog.show(fm,"blablabla");
+			    }
+			});
 		}
 	}
 
@@ -103,9 +121,7 @@ public class ApplicationsFeedbacksActivity extends Activity
 					((ImageView) view.findViewById(R.id.list_item_app_icon)).setImageDrawable(listItem.icon);
 					((TextView) view.findViewById(R.id.list_item_app_name)).setText(listItem.appname);
 					((TextView) view.findViewById(R.id.list_item_app_description)).setText(listItem.pname);
-					((TextView) view.findViewById(R.id.list_item_app_version)).setText(listItem.versionName);
 				}
-
 			}
 			catch (Exception e)
 			{

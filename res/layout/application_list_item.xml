@@ -19,48 +19,41 @@
             android:src="@drawable/ic_launcher" >
         </ImageView>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/list_item_app_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical" >
+            android:layout_marginRight="10dp"
+            android:text="APP NAME"
+            android:textAppearance="?android:attr/textAppearanceLarge" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/list_item_app_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="APP NAME"
-                android:textSize="20dp" >
-            </TextView>
+        <TextView
+            android:id="@+id/list_item_app_version_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:text="v"
+            android:textSize="12dp" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/list_item_app_description"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="APP DESC"            
-                android:textSize="12dp" >
-            </TextView>
-            
-            <TextView
-                android:id="@+id/list_item_app_version"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="V 1.0"
-                android:layout_marginBottom="20dp"
-                android:textSize="12dp" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/list_item_app_submit_status"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="Click to submit the application ..."
-                android:textSize="12dp"
-                android:textStyle="italic" >
-
-            </TextView>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/list_item_app_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="APP DESC asdfasdfasdf asdf asd fasdf asd fasdf"
+            android:textSize="12dp" >
+        </TextView>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/list_item_app_submit_status"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Submit ..."
+        android:textSize="12dp"
+        android:textStyle="italic" >
+    </TextView>
 
 </LinearLayout>

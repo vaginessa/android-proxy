@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -33,6 +34,13 @@ public class PackagesUtils
 	private static ArrayList<PInfo> getInstalledApps(Context callerContext, boolean getSysPackages)
 	{
 		ArrayList<PInfo> res = new ArrayList<PInfo>();
+
+		// Only get applications that can be launched.. 
+		
+//		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+//		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+//		final List pkgAppsList = callerContext.getPackageManager().queryIntentActivities(mainIntent, 0);
+		
 		List<PackageInfo> packs = callerContext.getPackageManager().getInstalledPackages(0);
 		for (int i = 0; i < packs.size(); i++)
 		{
