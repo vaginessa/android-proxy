@@ -36,7 +36,7 @@
         </activity>
         <activity android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11" >
         </activity>
-        <activity android:name="com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity" >
+        <activity android:name=".activities.ApplicationsFeedbacksActivity" >
         </activity>
 
         <!-- Added activity to handle application uninstall. See the link for more informations. -->

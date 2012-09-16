@@ -89,7 +89,7 @@ public class ProxySettingsCheckerService extends IntentService
 			if(proxyConfig.proxyHost.type() == Type.DIRECT)
 			{
 				// Do nothing
-				Log.d(TAG, "Proxy is DIRECT: " + proxyConfig.toShortString());
+				Log.d(TAG, "Proxy is DIRECT");
 				Utils.DisableProxyNotification(context);
 			}
 			else

@@ -98,5 +98,6 @@
     
     <string name="application_list_description">Please select the application that you want to support the proxy settings:</string>
     <string name="application_list_loading_dialog_description">"Loading applications ..."</string>
+    <string name="application_feedback_dialog_description">Proxy Setting will submit your suggestion to the Android Proxy Project\'s third parties applications DB</string>
     
 </resources>

@@ -13,7 +13,6 @@ import com.shouldit.proxy.lib.ProxySettings;
 import com.shouldit.proxy.lib.ProxyUtils;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -85,13 +84,27 @@ public class ApplicationsFeedbacksActivity extends FragmentActivity
 			{
 			    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			    {
-			    	
-			    	ApplicationFeedbacksConfirmDialog dialog = new ApplicationFeedbacksConfirmDialog();
-			    	dialog.show(fm,"blablabla");
+			    	showDialog();
 			    }
 			});
 		}
 	}
+	
+    void showDialog() 
+    {
+    	ApplicationFeedbacksConfirmDialog newFragment = ApplicationFeedbacksConfirmDialog.newInstance();
+        newFragment.show(getSupportFragmentManager(),"aaa");
+    }
+    
+    public void doPositiveClick() {
+        // Do stuff here.
+        Log.i("FragmentAlertDialog", "Positive click!");
+    }
+    
+    public void doNegativeClick() {
+        // Do stuff here.
+        Log.i("FragmentAlertDialog", "Negative click!");
+    }
 
 	private class ListAdapter extends ArrayAdapter<PInfo>
 	{
