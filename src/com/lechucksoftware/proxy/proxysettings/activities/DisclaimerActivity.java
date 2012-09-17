@@ -39,14 +39,14 @@ public class DisclaimerActivity extends Activity
         		
         		builder.setTitle(getResources().getText(R.string.disclaimer_title))
         		       .setCancelable(false)
-        		       .setNegativeButton(getResources().getText(R.string.disclaimer_cancel), new DialogInterface.OnClickListener() 
+        		       .setNegativeButton(getResources().getText(R.string.cancel), new DialogInterface.OnClickListener() 
         		       {
         					public void onClick(DialogInterface paramDialogInterface,int paramInt)
         					{
         						finish();
         					}
         		       })
-        			   .setPositiveButton(getResources().getText(R.string.disclaimer_accept), new DialogInterface.OnClickListener() 
+        			   .setPositiveButton(getResources().getText(R.string.accept), new DialogInterface.OnClickListener() 
         			   {
     						public void onClick(DialogInterface paramDialogInterface, int paramInt)
     						{

@@ -1,9 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
+import java.io.Serializable;
+
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-public class PInfo 
+public class PInfo implements Serializable 
 {
 	static String TAG = "PInfo";
 	

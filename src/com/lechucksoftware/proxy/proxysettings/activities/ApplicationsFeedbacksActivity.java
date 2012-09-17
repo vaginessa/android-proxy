@@ -1,21 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxySettings;
-import com.shouldit.proxy.lib.ProxyUtils;
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -66,7 +58,7 @@ public class ApplicationsFeedbacksActivity extends FragmentActivity
 		@Override
 		protected ArrayList<PInfo> doInBackground(Void... paramArrayOfParams)
 		{
-			mListItem = (ArrayList<PInfo>) PackagesUtils.getPackages(getApplicationContext());
+			mListItem = (ArrayList<PInfo>) PackagesUtils.getPackages(getApplicationContext());	
 			return mListItem;
 		}
 
@@ -84,16 +76,16 @@ public class ApplicationsFeedbacksActivity extends FragmentActivity
 			{
 			    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			    {
-			    	showDialog();
+			    	showDialog(mListItem.get(position));
 			    }
 			});
 		}
 	}
 	
-    void showDialog() 
+    void showDialog(PInfo pInfo) 
     {
-    	ApplicationFeedbacksConfirmDialog newFragment = ApplicationFeedbacksConfirmDialog.newInstance();
-        newFragment.show(getSupportFragmentManager(),"aaa");
+    	ApplicationFeedbacksConfirmDialog newFragment = ApplicationFeedbacksConfirmDialog.newInstance(pInfo);
+    	newFragment.show(getSupportFragmentManager(),TAG);
     }
     
     public void doPositiveClick() {

@@ -2,33 +2,38 @@ package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
 public class PackagesUtils
 {
+	private static ArrayList<PInfo> packages;
+	
 	public static ArrayList<PInfo> getPackages(Context callerContext)
 	{
-		ArrayList<PInfo> apps = getInstalledApps(callerContext, false); /*
-																		 * false
-																		 * = no
-																		 * system
-																		 * packages
-																		 */
-		final int max = apps.size();
-
-		for (int i = 0; i < max; i++)
+		if (packages == null)
 		{
-			apps.get(i).prettyPrint();
+			ArrayList<PInfo> apps = getInstalledApps(callerContext, false); /*
+																			 * false
+																			 * = no
+																			 * system
+																			 * packages
+																			 */
+//			final int max = apps.size();
+	
+//			for (int i = 0; i < max; i++)
+//			{
+//				apps.get(i).prettyPrint();
+//			}
+			
+			packages = apps;
 		}
-
-		return apps;
+			
+		return packages;
 	}
 
 	private static ArrayList<PInfo> getInstalledApps(Context callerContext, boolean getSysPackages)
