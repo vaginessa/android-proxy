@@ -51,6 +51,13 @@ public class ProxyConfiguration
 		return proxyHost.type();
 	}
 	
+	/**
+	 * Can take a long time to execute this task.
+	 * - Check if the proxy is enabled
+	 * - Check if the proxy address is valid
+	 * - Check if the proxy is reachable (using a PING)
+	 * - Check if is possible to retrieve an URI resource using the proxy 
+	 * */
 	public void acquireProxyStatus()
 	{
 		if (!isProxyEnabled())
