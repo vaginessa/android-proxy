@@ -33,6 +33,9 @@
             android:theme="@style/Invisible" >
         </activity>
         <activity android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity" >
+            <intent-filter>
+                <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"/>
+            </intent-filter>
         </activity>
         <activity android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11" >
         </activity>

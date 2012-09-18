@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
+import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -37,14 +38,14 @@ public class Utils
 	public static int PROXY_NOTIFICATION_ID = 1;
 	
 	
-	public static void SetProxyNotification(Context callerContext, ProxyConfiguration proxyConfig, ProxyCheckStatus status)
+	public static void SetProxyNotification(Context callerContext, ProxyCheckStatus status)
 	{
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(callerContext);
 		if (prefs.getBoolean("preference_notification_enabled", false))
 		{
 			
-			String notificationTitle = getNotificationTitle(callerContext, status, proxyConfig); 
-			String notificationDescription = getNotificationDescription(callerContext, status, proxyConfig); 
+			String notificationTitle = getNotificationTitle(callerContext, status); 
+			String notificationDescription = getNotificationDescription(callerContext, status); 
 			
 			// The PendingIntent will launch activity if the user selects this
 			// notification
@@ -57,7 +58,7 @@ public class Utils
 		}
 	}
 	
-	public static String getNotificationTitle(Context callerContext, ProxyCheckStatus checkStatus, ProxyConfiguration proxyConfiguration)
+	public static String getNotificationTitle(Context callerContext, ProxyCheckStatus checkStatus)
 	{
 		String description;
 		
@@ -65,7 +66,7 @@ public class Utils
 		{
 			case CHECKED:
 				{
-					ProxyStatus status = proxyConfiguration.getProxyStatus();
+					ProxyStatus status = Globals.getInstance().proxyConf.getProxyStatus();
 					
 					switch (status)
 					{
@@ -107,7 +108,7 @@ public class Utils
 		return description;
 	}
 	
-	public static String getNotificationDescription(Context callerContext, ProxyCheckStatus checkStatus, ProxyConfiguration proxyConfiguration)
+	public static String getNotificationDescription(Context callerContext, ProxyCheckStatus checkStatus)
 	{
 		String description;
 		
@@ -115,13 +116,13 @@ public class Utils
 		{
 			case CHECKED:
 				{
-					ProxyStatus status = proxyConfiguration.getProxyStatus();
+					ProxyStatus status = Globals.getInstance().proxyConf.getProxyStatus();
 					
 					switch (status)
 					{
 						case OK:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_description_enabled);
-							description = description + " " + proxyConfiguration.toShortString();
+							description = description + " " + Globals.getInstance().proxyConf.toShortString();
 							break;
 							
 						case PROXY_NOT_ENABLED:
@@ -186,6 +187,14 @@ public class Utils
 	}
 
 	
+	public static String proxyConfigToStatusString(Context callerContext)
+	{
+		String message = String.format("%s", Globals.getInstance().proxyConf.proxyHost.address().toString());
+		
+		message += " - " + getNotificationDescription(callerContext, ProxyCheckStatus.CHECKED);
+		
+		return message;
+	}
 
 	/**
 	 * Get proxy configuration for Wi-Fi access point. Valid for API >= 12

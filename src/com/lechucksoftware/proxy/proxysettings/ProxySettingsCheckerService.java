@@ -39,26 +39,19 @@ public class ProxySettingsCheckerService extends IntentService
 	public void CheckProxySettings(Context context) 
 	{
 		try
-        {
-			//StartedStatusBarNotification(getApplicationContext());
-			
-        	ProxyConfiguration proxyConfig = null;
-        	
+        {        	
         	try 
         	{
-        		proxyConfig = ProxySettings.getCurrentHttpProxyConfiguration(context);
+        		Globals.getInstance().proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
     		} 
         	catch (Exception e) 
         	{
     			e.printStackTrace();
     		}
         	
-        	proxyConfig.acquireProxyStatus();
+        	Globals.getInstance().proxyConf.acquireProxyStatus(); // Can take some time to execute this task!!
         	       	
-        	/**
-        	 * Enable status bar notification when the proxy is enabled        	
-        	 * */
-        	CompletedStatusBarNotification(context, proxyConfig);
+        	ToggleApplicationStatus(context);
         }
         catch (Exception e)
         {
@@ -72,21 +65,32 @@ public class ProxySettingsCheckerService extends IntentService
 	{
 		if (Build.VERSION.SDK_INT < 11)
 		{
-			Utils.SetProxyNotification(context, null, ProxyCheckStatus.CHECKING);
+			Utils.SetProxyNotification(context, ProxyCheckStatus.CHECKING);
 		}
 	}
 	
+	
+	public void ToggleApplicationStatus(Context context)
+	{
+    	/**
+    	 * Enable status bar notification when the proxy is enabled        	
+    	 * */
+		Intent intent = new Intent("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY");	
+		context.sendBroadcast(intent);
+		
+    	CompletedStatusBarNotification(context);
+	}
 	
 	/**
 	 * @param context
 	 * @param proxyConfig
 	 * @param status 
 	 */
-	public void CompletedStatusBarNotification(Context context, ProxyConfiguration proxyConfig) 
+	public void CompletedStatusBarNotification(Context context) 
 	{
 		if (Build.VERSION.SDK_INT < 11)
 		{
-			if(proxyConfig.proxyHost.type() == Type.DIRECT)
+			if(Globals.getInstance().proxyConf.proxyHost.type() == Type.DIRECT)
 			{
 				// Do nothing
 				Log.d(TAG, "Proxy is DIRECT");
@@ -95,8 +99,8 @@ public class ProxySettingsCheckerService extends IntentService
 			else
 			{
 				// Show notification when the proxy is set
-				Log.d(TAG, "Proxy enabled: " + proxyConfig.toShortString());
-				Utils.SetProxyNotification(context, proxyConfig, ProxyCheckStatus.CHECKED);
+				Log.d(TAG, "Proxy enabled: " + Globals.getInstance().proxyConf.toShortString());
+				Utils.SetProxyNotification(context, ProxyCheckStatus.CHECKED);
 			}
 		}
 	}

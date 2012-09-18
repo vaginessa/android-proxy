@@ -1,12 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import com.lechucksoftware.proxy.proxysettings.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
 import com.shouldit.proxy.lib.ProxyUtils;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Proxy;
 import android.os.Bundle;
@@ -19,30 +22,29 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class ProxyPreferencesActivity extends PreferenceActivity 
+public class ProxyPreferencesActivity extends PreferenceActivity
 {
 	public static String TAG = "ProxyPreferencesActivity";
     static final int SELECT_PROXY_REQUEST = 0;
     
     SharedPreferences sharedPref;
     
-    static CheckBoxPreference notificationEnabled;
-    static CheckBoxPreference authenticationEnabled;
-    static EditTextPreference userPref;
-    static EditTextPreference passwordPref;
-    static Preference proxyHostPortPref; 
+    CheckBoxPreference notificationEnabled;
+    CheckBoxPreference authenticationEnabled;
+    EditTextPreference userPref;
+    EditTextPreference passwordPref;
+    Preference proxyHostPortPref; 
 //    static Preference appsFeedbackPref;
     
-	/** Called when the activity is first created. */
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 
-		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		
 		addPreferencesFromResource(R.xml.preferences);
+		
+		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		notificationEnabled = (CheckBoxPreference) findPreference("preference_notification_enabled");
 		authenticationEnabled = (CheckBoxPreference) findPreference("preference_authentication_enabled");
@@ -51,9 +53,28 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		proxyHostPortPref = findPreference("preference_proxy_host_port");
 //		appsFeedbackPref = findPreference("preference_applications_feedback");
 		
-		RefreshPreferenceSettings();
-		RefreshProxySettings();
+		refreshPreferenceSettings();
+		setListenersToUI();
+		
+		refreshProxySettings();
+	}
+
+    private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver() 
+    { 
+        @Override 
+        public void onReceive(Context context, Intent intent) 
+        { 
+            String action = intent.getAction(); 
+            if (action.equals("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY")) 
+            { 
+            	Log.d(TAG, "Received broadcast for Updated proxy configuration");
+            	refreshProxySettings();
+            }         
+        } 
+    };
 	
+	public void setListenersToUI()
+	{
 		notificationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
         {
             public boolean onPreferenceChange(Preference preference, Object newValue)
@@ -172,11 +193,11 @@ public class ProxyPreferencesActivity extends PreferenceActivity
     {
         if (requestCode == SELECT_PROXY_REQUEST) 
         {
-            RefreshProxySettings();
+            refreshProxySettings();
         }
     }
     
-    private void RefreshPreferenceSettings()
+    private void refreshPreferenceSettings()
     {   	
     	checkNotificationPref(sharedPref.getBoolean("preference_notification_enabled", false));
     	checkAuthenticationPref(sharedPref.getBoolean("preference_authentication_enabled", false));
@@ -184,8 +205,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
     	checkPasswordPref(sharedPref.getString("preference_authentication_password", ""));
     }
     
-    
-    private void RefreshProxySettings()
+    private void refreshProxySettings()
     {
         Preference proxyHostPortPref = findPreference("preference_proxy_host_port");
         
@@ -194,10 +214,12 @@ public class ProxyPreferencesActivity extends PreferenceActivity
             ProxyConfiguration proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(getApplicationContext());
             if (proxyConf.isProxyEnabled())
             {
-                proxyHostPortPref.setSummary(proxyConf.toShortString());
+            	// Proxy enabled
+                proxyHostPortPref.setSummary(Utils.proxyConfigToStatusString(getApplicationContext()));
             }
             else
             {
+            	// Proxy not enabled
                 proxyHostPortPref.setSummary(getApplicationContext().getText(R.string.preference_proxy_host_port_summary_default));
             }
         }
@@ -208,7 +230,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
         }
     }
 	
-	private void OpenFeedbacks()
+	private void openFeedbacks()
 	{
         Intent test = new Intent(getApplicationContext(), ApplicationsFeedbacksActivity.class);
         startActivity(test);
@@ -219,17 +241,27 @@ public class ProxyPreferencesActivity extends PreferenceActivity
         super.onStart();
         Log.d(TAG, "Start");
     }
+    
     @Override
-    protected void onResume() {
+    protected void onResume() 
+    {
         super.onResume();
-        Log.d(TAG, "Resume");
+        
+        // Start register the status receiver
+        IntentFilter ifilt = new IntentFilter("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"); 
+        registerReceiver(changeStatusReceiver, ifilt);
+    
     }
+   
     @Override
     protected void onPause() 
     {
         super.onPause();        
-        Log.d(TAG, "Pause");
+        
+        // Stop the registerd status receiver
+        unregisterReceiver(changeStatusReceiver);
     }
+    
     @Override
     protected void onStop() {
     	Log.d(TAG, "Stop");
