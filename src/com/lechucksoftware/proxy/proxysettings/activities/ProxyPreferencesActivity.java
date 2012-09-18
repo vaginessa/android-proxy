@@ -31,7 +31,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
     static EditTextPreference userPref;
     static EditTextPreference passwordPref;
     static Preference proxyHostPortPref; 
-    static Preference appsFeedbackPref;
+//    static Preference appsFeedbackPref;
     
 	/** Called when the activity is first created. */
 	@SuppressWarnings("deprecation")
@@ -49,7 +49,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		userPref = (EditTextPreference) findPreference("preference_authentication_user");
 		passwordPref = (EditTextPreference) findPreference("preference_authentication_password");
 		proxyHostPortPref = findPreference("preference_proxy_host_port");
-		appsFeedbackPref = findPreference("preference_applications_feedback");
+//		appsFeedbackPref = findPreference("preference_applications_feedback");
 		
 		RefreshPreferenceSettings();
 		RefreshProxySettings();
@@ -82,15 +82,15 @@ public class ProxyPreferencesActivity extends PreferenceActivity
             }
         });
 		
-		appsFeedbackPref.setOnPreferenceClickListener(new OnPreferenceClickListener() 
-		{
-		    public boolean onPreferenceClick(Preference preference) 
-            {
-                Intent feedbackIntent = new Intent(getApplicationContext(), ApplicationsFeedbacksActivity.class);
-                startActivity(feedbackIntent);
-                return true;
-            }
-        });
+//		appsFeedbackPref.setOnPreferenceClickListener(new OnPreferenceClickListener() 
+//		{
+//		    public boolean onPreferenceClick(Preference preference) 
+//            {
+//                Intent feedbackIntent = new Intent(getApplicationContext(), ApplicationsFeedbacksActivity.class);
+//                startActivity(feedbackIntent);
+//                return true;
+//            }
+//        });
 		
 		userPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() 
 		{
