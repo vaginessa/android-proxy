@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings;
 
+import java.net.Proxy;
 import java.net.Proxy.Type;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
@@ -39,7 +40,10 @@ public class ProxySettingsCheckerService extends IntentService
 	public void CheckProxySettings(Context context) 
 	{
 		try
-        {        	
+        {   
+			Globals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKING;
+			ToggleApplicationStatus(context);
+			
         	try 
         	{
         		Globals.getInstance().proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
@@ -50,8 +54,6 @@ public class ProxySettingsCheckerService extends IntentService
     		}
         	
         	Globals.getInstance().proxyConf.acquireProxyStatus(); // Can take some time to execute this task!!
-        	       	
-        	ToggleApplicationStatus(context);
         }
         catch (Exception e)
         {
@@ -59,13 +61,18 @@ public class ProxySettingsCheckerService extends IntentService
         	Utils.DisableProxyNotification(context);
         	Log.d(TAG,"Exception caught: disable proxy notification");
         }
+		finally
+		{
+			Globals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKED;
+			ToggleApplicationStatus(context);
+		}
 	}
 
 	public void StartedStatusBarNotification(Context context)
 	{
 		if (Build.VERSION.SDK_INT < 11)
 		{
-			Utils.SetProxyNotification(context, ProxyCheckStatus.CHECKING);
+			Utils.SetProxyNotification(context);
 		}
 	}
 	
@@ -73,7 +80,7 @@ public class ProxySettingsCheckerService extends IntentService
 	public void ToggleApplicationStatus(Context context)
 	{
     	/**
-    	 * Enable status bar notification when the proxy is enabled        	
+    	 * Trigger status update        	
     	 * */
 		Intent intent = new Intent("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY");	
 		context.sendBroadcast(intent);
@@ -100,7 +107,7 @@ public class ProxySettingsCheckerService extends IntentService
 			{
 				// Show notification when the proxy is set
 				Log.d(TAG, "Proxy enabled: " + Globals.getInstance().proxyConf.toShortString());
-				Utils.SetProxyNotification(context, ProxyCheckStatus.CHECKED);
+				Utils.SetProxyNotification(context);
 			}
 		}
 	}

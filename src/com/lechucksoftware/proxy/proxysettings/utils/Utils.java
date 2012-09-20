@@ -6,10 +6,6 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -25,7 +21,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.net.wifi.WifiConfiguration;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -38,14 +33,14 @@ public class Utils
 	public static int PROXY_NOTIFICATION_ID = 1;
 	
 	
-	public static void SetProxyNotification(Context callerContext, ProxyCheckStatus status)
+	public static void SetProxyNotification(Context callerContext)
 	{
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(callerContext);
 		if (prefs.getBoolean("preference_notification_enabled", false))
 		{
 			
-			String notificationTitle = getNotificationTitle(callerContext, status); 
-			String notificationDescription = getNotificationDescription(callerContext, status); 
+			String notificationTitle = getNotificationTitle(callerContext); 
+			String notificationDescription = getNotificationDescription(callerContext); 
 			
 			// The PendingIntent will launch activity if the user selects this
 			// notification
@@ -58,11 +53,11 @@ public class Utils
 		}
 	}
 	
-	public static String getNotificationTitle(Context callerContext, ProxyCheckStatus checkStatus)
+	public static String getNotificationTitle(Context callerContext)
 	{
 		String description;
 		
-		switch(checkStatus)
+		switch(Globals.getInstance().proxyCheckStatus)
 		{
 			case CHECKED:
 				{
@@ -108,11 +103,11 @@ public class Utils
 		return description;
 	}
 	
-	public static String getNotificationDescription(Context callerContext, ProxyCheckStatus checkStatus)
+	public static String getNotificationDescription(Context callerContext)
 	{
 		String description;
 		
-		switch(checkStatus)
+		switch(Globals.getInstance().proxyCheckStatus)
 		{
 			case CHECKED:
 				{
@@ -189,9 +184,9 @@ public class Utils
 	
 	public static String proxyConfigToStatusString(Context callerContext)
 	{
-		String message = String.format("%s", Globals.getInstance().proxyConf.proxyHost.address().toString());
+		String message = String.format("%s", Globals.getInstance().proxyConf.toShortString());
 		
-		message += " - " + getNotificationDescription(callerContext, ProxyCheckStatus.CHECKED);
+		message += " - " + getNotificationTitle(callerContext);
 		
 		return message;
 	}

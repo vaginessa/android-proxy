@@ -7,7 +7,7 @@
     <Preference
         android:enabled="true"
         android:key="preference_proxy_host_port"
-        android:summary="@string/preference_proxy_host_port_summary_default"
+        android:summary="@string/statusbar_notification_description_checking"
         android:title="@string/preference_proxy_host_port_title" />
 
     <CheckBoxPreference

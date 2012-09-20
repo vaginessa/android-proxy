@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
+import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -211,8 +212,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
         
         try
         {
-            ProxyConfiguration proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(getApplicationContext());
-            if (proxyConf.isProxyEnabled())
+            if (Globals.getInstance().proxyConf.isProxyEnabled())
             {
             	// Proxy enabled
                 proxyHostPortPref.setSummary(Utils.proxyConfigToStatusString(getApplicationContext()));
