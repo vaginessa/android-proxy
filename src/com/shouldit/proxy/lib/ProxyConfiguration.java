@@ -11,6 +11,7 @@ import com.shouldit.proxy.lib.Constants.ProxyStatus;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.os.Build;
+import android.util.Log;
 import android.webkit.URLUtil;
 
 public class ProxyConfiguration
@@ -62,24 +63,28 @@ public class ProxyConfiguration
 	{
 		if (!isProxyEnabled())
 		{
+			Log.d(TAG, "Check if proxy is enabled");
 			status = ProxyStatus.PROXY_NOT_ENABLED;
 			return;
 		}
 		
 		if (!isProxyValidAddress())
 		{
+			Log.d(TAG, "Check if proxy is valid");
 			status = ProxyStatus.PROXY_INVALID_ADDRESS;
 			return;
 		}
 		
-		if (!isProxyReachable())
-		{
-			status = ProxyStatus.PROXY_NOT_REACHABLE;
-			return;
-		}
+//		if (!isProxyReachable())
+//		{
+//			Log.d(TAG, "Check if proxy is reachable");
+//			status = ProxyStatus.PROXY_NOT_REACHABLE;
+//			//return;
+//		}
 		
 		if (!isWebReachable())
 		{
+			Log.d(TAG, "Check if WEB is reachable");
 			status = ProxyStatus.WEB_NOT_REACHABLE;
 			return;
 		}
@@ -162,6 +167,7 @@ public class ProxyConfiguration
 	
 	public String toShortString()
 	{
+		
 		return String.format("%s",proxyHost.address().toString());
 	}
 

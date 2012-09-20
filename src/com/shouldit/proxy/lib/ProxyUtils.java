@@ -33,7 +33,8 @@ public class ProxyUtils
         if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1
         {
             return getAPProxyIntent();
-        } else
+        } 
+        else
         {
             return getGlobalProxyIntent();
         }
@@ -106,8 +107,8 @@ public class ProxyUtils
         	URL url = uri.toURL();
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
                         
-            httpURLConnection.setReadTimeout(5000);
-            httpURLConnection.setConnectTimeout(5000); //set timeout to 5 seconds
+            httpURLConnection.setReadTimeout(60000);
+            httpURLConnection.setConnectTimeout(60000); //set timeout to 60 seconds
 
             int response = httpURLConnection.getResponseCode();
             if (response == HttpURLConnection.HTTP_OK)
@@ -149,9 +150,12 @@ public class ProxyUtils
     {     	
     	try
 		{
-			String result = getURI(new URI("http://www.google.com/"), proxy);
+			String result = getURI(new URI("http://www.un.org/"), proxy);	// Used a website that should be available worldwide
 			if (result != null)
-				return true;			
+			{
+				Log.d(TAG,"Succesfully received URI");
+				return true;
+			}
 		}
 		catch (URISyntaxException e)
 		{
