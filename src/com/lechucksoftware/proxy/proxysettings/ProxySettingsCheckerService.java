@@ -1,11 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings;
 
-import java.net.Proxy;
 import java.net.Proxy.Type;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
 import android.app.IntentService;
 import android.content.Context;
@@ -53,7 +51,7 @@ public class ProxySettingsCheckerService extends IntentService
     			e.printStackTrace();
     		}
         	
-        	Globals.getInstance().proxyConf.acquireProxyStatus(); // Can take some time to execute this task!!
+        	Globals.getInstance().proxyConf.acquireProxyStatus(Globals.getInstance().timeout); // Can take some time to execute this task!!
         }
         catch (Exception e)
         {

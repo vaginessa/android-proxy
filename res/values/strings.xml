@@ -25,7 +25,7 @@
     <string name="proxysettingscalleractivity_dialog_OK">OK. Go to Wi-Fi Settings</string>
     
     <string name="statusbar_notification_title_enabled">Proxy Enabled</string>
-    <string name="statusbar_notification_title_checking">Proxy Configuration Changed</string>
+    <string name="statusbar_notification_title_checking">Checking proxy configuration &#8230;</string>
     <string name="statusbar_notification_title_not_enabled">Proxy Not Enabled</string>
     <string name="statusbar_notification_title_invalid_address">Invalid Proxy Host</string>
     <string name="statusbar_notification_title_not_reachable">Proxy Not Reachable</string>
@@ -34,7 +34,7 @@
     
     
     <string name="statusbar_notification_description_enabled">Proxy (Host:Port): </string>
-    <string name="statusbar_notification_description_checking">Checking proxy configuration &#8230;</string>
+    <string name="statusbar_notification_description_checking">Proxy Settings is validating your proxy configuration &#8230;</string>
 	<string name="statusbar_notification_description_not_enabled">Proxy is not enabled</string>
 	<string name="statusbar_notification_description_invalid_address">Please check your configuration &#8230;</string>
   	<string name="statusbar_notification_description_not_reachable">Please check your configuration &#8230;</string>

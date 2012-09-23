@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
@@ -212,16 +213,23 @@ public class ProxyPreferencesActivity extends PreferenceActivity
         
         try
         {
-            if (Globals.getInstance().proxyConf.isProxyEnabled())
-            {
-            	// Proxy enabled
-                proxyHostPortPref.setSummary(Utils.proxyConfigToStatusString(getApplicationContext()));
-            }
-            else
-            {
-            	// Proxy not enabled
-                proxyHostPortPref.setSummary(getApplicationContext().getText(R.string.preference_proxy_host_port_summary_default));
-            }
+        	if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+        	{
+        		proxyHostPortPref.setSummary(Utils.getNotificationTitle(getApplicationContext()));
+        	}
+        	else
+        	{
+	            if (Globals.getInstance().proxyConf.isProxyEnabled())
+	            {
+	            	// Proxy enabled
+	                proxyHostPortPref.setSummary(Utils.proxyConfigToStatusString(getApplicationContext()));
+	            }
+	            else
+	            {
+	            	// Proxy not enabled
+	                proxyHostPortPref.setSummary(getApplicationContext().getText(R.string.preference_proxy_host_port_summary_default));
+	            }
+        	}
         }
         catch(Exception e) 
         {

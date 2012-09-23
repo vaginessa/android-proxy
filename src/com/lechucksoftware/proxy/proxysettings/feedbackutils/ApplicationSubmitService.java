@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 import java.net.URI;
 import java.net.Proxy.Type;
 
+import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -46,7 +47,7 @@ public class ApplicationSubmitService extends IntentService
         {
 			ProxyConfiguration proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
     		URI uri = URI.create("");
-			String result = ProxyUtils.getURI(uri, proxyConf.proxyHost);	
+			String result = ProxyUtils.getURI(uri, proxyConf.proxyHost, Globals.getInstance().timeout);	
         }
         catch (Exception e)
         {

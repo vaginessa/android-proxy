@@ -4,7 +4,6 @@ import java.net.Proxy;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.Constants.ProxyStatus;
 
 public class Globals
 {
@@ -12,12 +11,13 @@ public class Globals
 
 	public ProxyConfiguration proxyConf;
 	public ProxyCheckStatus proxyCheckStatus;
+	public int timeout;
 
 	protected Globals()
 	{
 		proxyConf = new ProxyConfiguration(Proxy.NO_PROXY, null, null);
-		proxyConf.status = ProxyStatus.NOT_CHECKED;
-		proxyCheckStatus = ProxyCheckStatus.CHECKING;		
+		proxyCheckStatus = ProxyCheckStatus.CHECKING;
+		timeout = 60000; // Set default timeout value
 	}
 
 	public static synchronized Globals getInstance()
