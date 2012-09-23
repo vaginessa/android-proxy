@@ -12,9 +12,11 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.http.HttpHost;
 import android.content.ComponentName;
@@ -75,10 +77,23 @@ public class ProxyUtils
         int exitValue;
         Runtime runtime = Runtime.getRuntime();
         Process proc;
+        
+        String cmdline = null;
+        
+        try
+        {
+        	InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
+        	String proxyAddress = proxySocketAddress.getAddress().getHostAddress();
+        	cmdline = "ping -c 1   " + proxyAddress;
+        }
+        catch (Exception e)
+        {
+        	return false;
+        }
+        
 
         try
         {
-            String cmdline = "ping -c 1   " + ((InetSocketAddress) proxy.address()).getAddress().getHostAddress();
             proc = runtime.exec(cmdline);
             proc.waitFor();
             exitValue = proc.exitValue();
@@ -89,10 +104,12 @@ public class ProxyUtils
                 return true;
             else
                 return false;
-        } catch (IOException e)
+        } 
+        catch (IOException e)
         {
             e.printStackTrace();
-        } catch (InterruptedException e)
+        } 
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -100,15 +117,15 @@ public class ProxyUtils
         return false;
     }
 
-    public static String getURI(URI uri, Proxy proxy)
+    public static String getURI(URI uri, Proxy proxy, int timeout)
     {
         try
         {
         	URL url = uri.toURL();
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
                         
-            httpURLConnection.setReadTimeout(60000);
-            httpURLConnection.setConnectTimeout(60000); //set timeout to 60 seconds
+            httpURLConnection.setReadTimeout(timeout);
+            httpURLConnection.setConnectTimeout(timeout); //set timeout to 60 seconds
 
             int response = httpURLConnection.getResponseCode();
             if (response == HttpURLConnection.HTTP_OK)
@@ -138,6 +155,10 @@ public class ProxyUtils
         {
             e.printStackTrace();
         } 
+        catch (SocketTimeoutException e)
+        {
+        	e.printStackTrace();
+        }
         catch (IOException e)
         {
             e.printStackTrace();
@@ -146,11 +167,11 @@ public class ProxyUtils
         return null;
     }
     
-    public static boolean isWebReachable(Proxy proxy)
+    public static boolean isWebReachable(Proxy proxy, int timeout)
     {     	
     	try
 		{
-			String result = getURI(new URI("http://www.un.org/"), proxy);	// Used a website that should be available worldwide
+			String result = getURI(new URI("http://www.un.org/"), proxy, timeout);	// Used a website that should be available worldwide
 			if (result != null)
 			{
 				Log.d(TAG,"Succesfully received URI");

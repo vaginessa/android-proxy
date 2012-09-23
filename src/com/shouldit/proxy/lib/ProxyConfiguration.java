@@ -3,6 +3,7 @@ package com.shouldit.proxy.lib;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
+import java.util.EnumSet;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
@@ -18,7 +19,7 @@ public class ProxyConfiguration
 {	
 	public static final String TAG = "ProxyConfiguration";
 
-	public ProxyStatus status;
+	public EnumSet<ProxyStatus> status;
 	public WifiConfiguration wifiConfiguration;
 	public NetworkInfo networkInfo;
 	public Proxy proxyHost;
@@ -30,7 +31,7 @@ public class ProxyConfiguration
 		networkInfo = netInfo;
 		wifiConfiguration = wifiConf;
 		deviceVersion = Build.VERSION.SDK_INT;
-		status = ProxyStatus.NOT_CHECKED;
+		status = EnumSet.of(ProxyStatus.NOT_CHECKED);
 	}
 	
 	@Override
@@ -39,7 +40,7 @@ public class ProxyConfiguration
 		StringBuilder sb = new StringBuilder(); 
 		sb.append(String.format("Proxy: %s\n",proxyHost.toString()));
 		sb.append(String.format("Is Proxy reachable: %B\n",isProxyReachable()));
-		sb.append(String.format("Is WEB reachable: %B\n",isWebReachable()));
+		sb.append(String.format("Is WEB reachable: %B\n",isWebReachable(60000)));
 		
 		if (networkInfo != null) sb.append(String.format("Network Info: %s\n", networkInfo));
 		if (wifiConfiguration != null) sb.append(String.format("Wi-Fi Configuration Info: %s\n", wifiConfiguration));
@@ -59,42 +60,62 @@ public class ProxyConfiguration
 	 * - Check if the proxy is reachable (using a PING)
 	 * - Check if is possible to retrieve an URI resource using the proxy 
 	 * */
-	public void acquireProxyStatus()
+	public void acquireProxyStatus(int timeout)
 	{
+		status.clear();
+		
 		if (!isProxyEnabled())
 		{
 			Log.d(TAG, "Check if proxy is enabled");
-			status = ProxyStatus.PROXY_NOT_ENABLED;
+			status.add(ProxyStatus.PROXY_NOT_ENABLED);
 			return;
 		}
 		
 		if (!isProxyValidAddress())
 		{
 			Log.d(TAG, "Check if proxy is valid");
-			status = ProxyStatus.PROXY_INVALID_ADDRESS;
-			return;
+			status.add(ProxyStatus.PROXY_INVALID_ADDRESS);
 		}
 		
-//		if (!isProxyReachable())
-//		{
-//			Log.d(TAG, "Check if proxy is reachable");
-//			status = ProxyStatus.PROXY_NOT_REACHABLE;
-//			//return;
-//		}
+		if (!isProxyReachable())
+		{
+			Log.d(TAG, "Check if proxy is reachable");
+			status.add(ProxyStatus.PROXY_NOT_REACHABLE);
+		}
 		
-		if (!isWebReachable())
+		if (!isWebReachable(timeout))
 		{
 			Log.d(TAG, "Check if WEB is reachable");
-			status = ProxyStatus.WEB_NOT_REACHABLE;
-			return;
+			status.add(ProxyStatus.WEB_NOT_REACHABLE);
 		}
 		
-		status = ProxyStatus.OK;
 	}
 
 	public ProxyStatus getProxyStatus()
 	{
-		return status;
+		if (status.contains(ProxyStatus.PROXY_NOT_ENABLED))
+			return ProxyStatus.PROXY_NOT_ENABLED;
+		
+		
+		if (status.contains(ProxyStatus.WEB_NOT_REACHABLE))
+		{
+			if(status.contains(ProxyStatus.PROXY_NOT_REACHABLE))
+			{
+				if (status.contains(ProxyStatus.PROXY_INVALID_ADDRESS))
+				{
+					return ProxyStatus.PROXY_INVALID_ADDRESS;
+				}
+				else
+					return ProxyStatus.PROXY_NOT_REACHABLE;
+			}
+			else
+				return ProxyStatus.WEB_NOT_REACHABLE;
+		}
+		
+		if (status.isEmpty())
+			return ProxyStatus.OK;
+		else
+			return ProxyStatus.NOT_CHECKED;
 	}
 	
 	public Boolean isProxyEnabled()
@@ -125,6 +146,11 @@ public class ProxyConfiguration
 		{
 			return true;
 		}
+		
+		if (URLUtil.isValidUrl(proxyHost))
+		{
+			return true;
+		}
 
 		return false;
 	}
@@ -143,9 +169,9 @@ public class ProxyConfiguration
 	/**
 	 * Try to download a webpage using the current proxy configuration
 	 * */
-	public Boolean isWebReachable()
+	public Boolean isWebReachable(int timeout)
     {
-        return ProxyUtils.isWebReachable(proxyHost);
+        return ProxyUtils.isWebReachable(proxyHost,timeout);
     }
 	
 	public String getProxyHost()
