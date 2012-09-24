@@ -80,6 +80,7 @@ public class Utils
 						case PROXY_NOT_REACHABLE:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_reachable);
 							break;
+							
 						case WEB_NOT_REACHABLE:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_title_web_not_reachable);
 							break;
@@ -207,7 +208,7 @@ public class Utils
 
 			if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
 			{
-				proxyHost = new ProxyConfiguration(null, null, wifiConf);
+				proxyHost = new ProxyConfiguration(null, null, null, wifiConf);
 			}
 			else
 			{
@@ -245,7 +246,7 @@ public class Utils
 					Log.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
 					Proxy proxy = new Proxy(Proxy.Type.HTTP, new Socket(mHost, mPort).getRemoteSocketAddress());
-					proxyHost = new ProxyConfiguration(proxy, null, wifiConf);
+					proxyHost = new ProxyConfiguration(proxy, proxy.toString(), null, wifiConf);
 				}
 			}
 		}

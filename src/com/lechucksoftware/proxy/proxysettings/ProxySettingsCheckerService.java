@@ -42,15 +42,7 @@ public class ProxySettingsCheckerService extends IntentService
 			Globals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKING;
 			ToggleApplicationStatus(context);
 			
-        	try 
-        	{
-        		Globals.getInstance().proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
-    		} 
-        	catch (Exception e) 
-        	{
-    			e.printStackTrace();
-    		}
-        	
+        	Globals.getInstance().proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
         	Globals.getInstance().proxyConf.acquireProxyStatus(Globals.getInstance().timeout); // Can take some time to execute this task!!
         }
         catch (Exception e)
@@ -98,13 +90,13 @@ public class ProxySettingsCheckerService extends IntentService
 			if(Globals.getInstance().proxyConf.proxyHost.type() == Type.DIRECT)
 			{
 				// Do nothing
-				Log.d(TAG, "Proxy is DIRECT");
+//				Log.d(TAG, "Proxy is DIRECT");
 				Utils.DisableProxyNotification(context);
 			}
 			else
 			{
 				// Show notification when the proxy is set
-				Log.d(TAG, "Proxy enabled: " + Globals.getInstance().proxyConf.toShortString());
+//				Log.d(TAG, "Proxy enabled: " + Globals.getInstance().proxyConf.toShortString());
 				Utils.SetProxyNotification(context);
 			}
 		}

@@ -15,7 +15,7 @@ public class Globals
 
 	protected Globals()
 	{
-		proxyConf = new ProxyConfiguration(Proxy.NO_PROXY, null, null);
+		proxyConf = new ProxyConfiguration(Proxy.NO_PROXY, null, null, null);
 		proxyCheckStatus = ProxyCheckStatus.CHECKING;
 		timeout = 60000; // Set default timeout value
 	}
