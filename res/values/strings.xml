@@ -75,7 +75,8 @@
      
             
    	
-   	<string name="preference_proxy_authentication_category_title">Authentication configuration</string>
+   	<string name="preference_proxy_authentication_screen_title">Proxy Authentication</string>
+   	<string name="preference_proxy_authentication_screen_summary">Set proxy authentication</string>
     <string name="preference_proxy_authentication_title">Authentication</string>
     <string name="preference_proxy_authentication_summary_enabled">Proxy authentication enabled</string>
     <string name="preference_proxy_authentication_summary_disabled">Proxy authentication disabled</string>
