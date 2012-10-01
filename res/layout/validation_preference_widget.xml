@@ -10,7 +10,7 @@
         android:layout_height="fill_parent"
         android:contentDescription="Validation status icon"
         android:gravity="center_vertical|center_horizontal"
-        android:src="@drawable/ok" >
+        android:src="@drawable/waiting" >
     </ImageView>
 
 </LinearLayout>

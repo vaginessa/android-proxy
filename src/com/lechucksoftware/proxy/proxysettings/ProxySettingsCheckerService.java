@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings;
 import java.net.Proxy.Type;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxySettings;
 import android.app.IntentService;
@@ -48,7 +49,7 @@ public class ProxySettingsCheckerService extends IntentService
         catch (Exception e)
         {
         	e.printStackTrace();
-        	Utils.DisableProxyNotification(context);
+        	UIUtils.DisableProxyNotification(context);
         	Log.d(TAG,"Exception caught: disable proxy notification");
         }
 		finally
@@ -62,7 +63,7 @@ public class ProxySettingsCheckerService extends IntentService
 	{
 		if (Build.VERSION.SDK_INT < 11)
 		{
-			Utils.SetProxyNotification(context);
+			UIUtils.SetProxyNotification(context);
 		}
 	}
 	
@@ -91,13 +92,13 @@ public class ProxySettingsCheckerService extends IntentService
 			{
 				// Do nothing
 //				Log.d(TAG, "Proxy is DIRECT");
-				Utils.DisableProxyNotification(context);
+				UIUtils.DisableProxyNotification(context);
 			}
 			else
 			{
 				// Show notification when the proxy is set
 //				Log.d(TAG, "Proxy enabled: " + Globals.getInstance().proxyConf.toShortString());
-				Utils.SetProxyNotification(context);
+				UIUtils.SetProxyNotification(context);
 			}
 		}
 	}

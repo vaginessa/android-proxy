@@ -3,6 +3,8 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
+import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
@@ -36,6 +38,12 @@ public class ProxyPreferencesActivity extends PreferenceActivity
     EditTextPreference userPref;
     EditTextPreference passwordPref;
     Preference proxyHostPortPref; 
+    
+    ValidationPreference proxyEnabledPref;
+    ValidationPreference proxyAddressPref;
+    ValidationPreference proxyReachablePref;
+    ValidationPreference proxyWebReachablePref;
+    
 //    static Preference appsFeedbackPref;
     
 	@SuppressWarnings("deprecation")
@@ -53,6 +61,12 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		userPref = (EditTextPreference) findPreference("preference_authentication_user");
 		passwordPref = (EditTextPreference) findPreference("preference_authentication_password");
 		proxyHostPortPref = findPreference("preference_proxy_host_port");
+		
+		proxyEnabledPref = (ValidationPreference) findPreference("validation_proxy_enabled");
+		proxyAddressPref = (ValidationPreference) findPreference("validation_proxy_valid_address");
+		proxyReachablePref = (ValidationPreference) findPreference("validation_proxy_reachable");
+		proxyWebReachablePref = (ValidationPreference) findPreference("validation_web_reachable");
+		
 //		appsFeedbackPref = findPreference("preference_applications_feedback");
 		
 		refreshPreferenceSettings();
@@ -208,34 +222,8 @@ public class ProxyPreferencesActivity extends PreferenceActivity
     }
     
     private void refreshProxySettings()
-    {
-        Preference proxyHostPortPref = findPreference("preference_proxy_host_port");
-        
-        try
-        {
-        	if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
-        	{
-        		proxyHostPortPref.setSummary(Utils.getNotificationTitle(getApplicationContext()));
-        	}
-        	else
-        	{
-	            if (Globals.getInstance().proxyConf.isProxyEnabled())
-	            {
-	            	// Proxy enabled
-	                proxyHostPortPref.setSummary(Utils.proxyConfigToStatusString(getApplicationContext()));
-	            }
-	            else
-	            {
-	            	// Proxy not enabled
-	                proxyHostPortPref.setSummary(getApplicationContext().getText(R.string.preference_proxy_host_port_summary_default));
-	            }
-        	}
-        }
-        catch(Exception e) 
-        {
-            proxyHostPortPref.setSummary(getApplicationContext().getText(R.string.preference_proxy_host_port_summary_exception));
-            e.printStackTrace();
-        }
+    {   
+    	proxyHostPortPref.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
     }
 	
 	private void openFeedbacks()

@@ -71,9 +71,25 @@
     
  	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration Assistant</string>
  	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
+    
+    <string name="validation_proxy_category">Tests list</string>
+    <string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
+    
+    <string name="validation_proxy_enabled_title">Proxy Enabled</string>
+    <string name="validation_proxy_enabled_summary_ok">Proxy succesfully enabled</string>
+    <string name="validation_proxy_enabled_summary_nok">Proxy is not enabled</string>
      
-     
-            
+    <string name="validation_proxy_address_title">Address validation</string>
+    <string name="validation_proxy_address_summary_ok">Address correct</string>
+    <string name="validation_proxy_address_summary_nok">Address is not valid</string>
+    
+    <string name="validation_proxy_reachable_title">Ping proxy host</string>
+    <string name="validation_proxy_reachable_summary_ok">Address is reachable</string>
+    <string name="validation_proxy_reachable_summary_nok">Address is not reachable</string>
+    
+    <string name="validation_proxy_web_reachable_title">Web reachability</string>
+    <string name="validation_proxy_web_reachable_summary_ok">HTTP requests working</string>
+    <string name="validation_proxy_web_reachable_summary_nok">HTTP requests aren\'t working</string>    
    	
    	<string name="preference_proxy_authentication_screen_title">Proxy Authentication</string>
    	<string name="preference_proxy_authentication_screen_summary">Set proxy authentication</string>
