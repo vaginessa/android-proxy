@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
-import com.shouldit.proxy.lib.Constants.ProxyStatus;
+import com.shouldit.proxy.lib.Constants.ProxyStatusCodes;
 
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
@@ -21,7 +21,7 @@ public class ProxyConfiguration
 {
 	public static final String TAG = "ProxyConfiguration";
 
-	public EnumSet<ProxyStatus> status;
+	public ProxyStatus status;
 	public WifiConfiguration wifiConfiguration;
 	public NetworkInfo networkInfo;
 	public Proxy proxyHost;
@@ -35,7 +35,7 @@ public class ProxyConfiguration
 		networkInfo = netInfo;
 		wifiConfiguration = wifiConf;
 		deviceVersion = Build.VERSION.SDK_INT;
-		status = EnumSet.of(ProxyStatus.NOT_CHECKED);
+		status = new ProxyStatus();
 	}
 
 	@Override
@@ -73,69 +73,81 @@ public class ProxyConfiguration
 		if (!isProxyEnabled())
 		{
 			Log.d(TAG, "PROXY NOT ENABLED");
-			status.add(ProxyStatus.PROXY_NOT_ENABLED);
-			return;
+			status.add(ProxyStatusCodes.PROXY_ENABLING, false);
 		}
 		else
+		{
 			Log.d(TAG, "PROXY ENABLED");
+			status.add(ProxyStatusCodes.PROXY_ENABLING, true);
+		}
 
 		Log.d(TAG, "Checking if proxy is valid address ...");
 		if (!isProxyValidAddress())
 		{
 			Log.d(TAG, "PROXY NOT VALID ADDRESS");
-			status.add(ProxyStatus.PROXY_INVALID_ADDRESS);
+			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALIDITY, false);
 		}
 		else
+		{
 			Log.d(TAG, "PROXY VALID ADDRESS");
+			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALIDITY, true);
+		}
 
 		Log.d(TAG, "Checking if proxy is reachable ...");
 		if (!isProxyReachable())
 		{
 			Log.d(TAG, "PROXY NOT REACHABLE");
-			status.add(ProxyStatus.PROXY_NOT_REACHABLE);
+			status.add(ProxyStatusCodes.PROXY_REACHABILITY, false);
 		}
 		else
+		{
 			Log.d(TAG, "PROXY REACHABLE");
+			status.add(ProxyStatusCodes.PROXY_REACHABILITY, true);
+		}
 
 		Log.d(TAG, "Checking if web is reachable ...");
 		if (!isWebReachable(timeout))
 		{
 			Log.d(TAG, "WEB NOT REACHABLE");
-			status.add(ProxyStatus.WEB_NOT_REACHABLE);
+			status.add(ProxyStatusCodes.WEB_REACHABILITY, false);
 		}
 		else
+		{
 			Log.d(TAG, "WEB REACHABLE");
+			status.add(ProxyStatusCodes.WEB_REACHABILITY, true);
+		}
 
 	}
 
-	public ProxyStatus getProxyStatus()
+	public ProxyStatusCodes getCondensedProxyStatus()
 	{
-		if (status.contains(ProxyStatus.PROXY_NOT_ENABLED))
-			return ProxyStatus.PROXY_NOT_ENABLED;
+		if (status.getEnabled())
+			return ProxyStatusCodes.PROXY_ENABLING;
 
-		if (status.contains(ProxyStatus.WEB_NOT_REACHABLE))
+		if (status.getWeb_reachable())
 		{
-			if (status.contains(ProxyStatus.PROXY_NOT_REACHABLE))
+			if (status.getProxy_reachable())
 			{
-				if (status.contains(ProxyStatus.PROXY_INVALID_ADDRESS))
+				if (status.getValid_address())
 				{
-					return ProxyStatus.PROXY_INVALID_ADDRESS;
+					return ProxyStatusCodes.PROXY_ADDRESS_VALIDITY;
 				}
 				else
-					return ProxyStatus.PROXY_NOT_REACHABLE;
+					return ProxyStatusCodes.PROXY_REACHABILITY;
 			}
 			else
-				return ProxyStatus.WEB_NOT_REACHABLE;
+				return ProxyStatusCodes.WEB_REACHABILITY;
 		}
 		else
 		{
 			// If the WEB is reachable, the proxy is OK!
-			return ProxyStatus.OK;
+			return ProxyStatusCodes.CONFIGURATION_OK;
 		}
 	}
 
-	public Boolean isProxyEnabled()
+	private Boolean isProxyEnabled()
 	{
+
 		if (proxyHost.type() == Type.DIRECT)
 		{
 			return false;
@@ -148,34 +160,40 @@ public class ProxyConfiguration
 
 	private boolean isProxyValidAddress()
 	{
-		String proxyHost = getProxyHost();
-
-		if (InetAddressUtils.isIPv4Address(proxyHost) || InetAddressUtils.isIPv6Address(proxyHost) || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost) || InetAddressUtils.isIPv6StdAddress(proxyHost))
+		try
 		{
-			return true;
+			String proxyHost = getProxyHost();
+
+			if (InetAddressUtils.isIPv4Address(proxyHost) || InetAddressUtils.isIPv6Address(proxyHost) || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost) || InetAddressUtils.isIPv6StdAddress(proxyHost))
+			{
+				return true;
+			}
+
+			if (URLUtil.isNetworkUrl(proxyHost))
+			{
+				return true;
+			}
+
+			if (URLUtil.isValidUrl(proxyHost))
+			{
+				return true;
+			}
+
+			// Test REGEX for Hostname validation
+			// http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
+			//
+			String ValidHostnameRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
+			Pattern pattern = Pattern.compile(ValidHostnameRegex);
+			Matcher matcher = pattern.matcher(proxyHost);
+
+			if (matcher.find())
+			{
+				return true;
+			}
 		}
-
-		if (URLUtil.isNetworkUrl(proxyHost))
+		catch (Exception e)
 		{
-			return true;
-		}
-
-		if (URLUtil.isValidUrl(proxyHost))
-		{
-			return true;
-		}
-		
-		
-		// Test REGEX for Hostname validation
-		// http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
-		//
-		String ValidHostnameRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
-		Pattern pattern = Pattern.compile(ValidHostnameRegex);
-		Matcher matcher = pattern.matcher(proxyHost);
-
-		if (matcher.find())
-		{
-			return true;
+			e.printStackTrace();
 		}
 
 		return false;
@@ -184,7 +202,7 @@ public class ProxyConfiguration
 	/**
 	 * Try to PING the HOST specified in the current proxy configuration
 	 * */
-	public Boolean isProxyReachable()
+	private Boolean isProxyReachable()
 	{
 		if (proxyHost != null && proxyHost.type() != Proxy.Type.DIRECT)
 			return ProxyUtils.isHostReachable(proxyHost);
@@ -195,7 +213,14 @@ public class ProxyConfiguration
 	/**
 	 * Try to download a webpage using the current proxy configuration
 	 * */
-	public Boolean isWebReachable(int timeout)
+	public static int DEFAULT_TIMEOUT = 60000; // 60 seconds
+
+	private Boolean isWebReachable()
+	{
+		return isWebReachable(DEFAULT_TIMEOUT);
+	}
+
+	private Boolean isWebReachable(int timeout)
 	{
 		return ProxyUtils.isWebReachable(proxyHost, timeout);
 	}

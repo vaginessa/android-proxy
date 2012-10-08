@@ -2,14 +2,14 @@ package com.shouldit.proxy.lib;
 
 public class Constants
 {
-	public enum ProxyStatus
+	public enum ProxyStatusCodes
 	{
 		NOT_CHECKED,
-		PROBLEM_CHECKING,
-		PROXY_NOT_ENABLED,
-		PROXY_INVALID_ADDRESS,
-		PROXY_NOT_REACHABLE,
-		WEB_NOT_REACHABLE,
-		OK
+		FOUND_PROBLEM_CHECKING,
+		PROXY_ENABLING,
+		PROXY_ADDRESS_VALIDITY,
+		PROXY_REACHABILITY,
+		WEB_REACHABILITY,
+		CONFIGURATION_OK
 	}
 }
