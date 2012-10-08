@@ -13,7 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
-import com.shouldit.proxy.lib.Constants.ProxyStatus;
+import com.shouldit.proxy.lib.Constants.ProxyStatusCodes;
 
 public class UIUtils
 {
@@ -27,7 +27,7 @@ public class UIUtils
 		}
 		else
 		{
-			if (Globals.getInstance().proxyConf.isProxyEnabled())
+			if (Globals.getInstance().proxyConf.status.getEnabled())
 			{
 				return UIUtils.ProxyConfigToStatusString(ctx);
 			}
@@ -46,27 +46,27 @@ public class UIUtils
 		{
 			case CHECKED:
 				{
-					ProxyStatus status = Globals.getInstance().proxyConf.getProxyStatus();
+					ProxyStatusCodes status = Globals.getInstance().proxyConf.getCondensedProxyStatus();
 					
 					switch (status)
 					{
-						case OK:
+						case CONFIGURATION_OK:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_title_enabled);
 							break;
 							
-						case PROXY_NOT_ENABLED:
+						case PROXY_ENABLING:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_enabled);
 							break;
 						
-						case PROXY_INVALID_ADDRESS:
+						case PROXY_ADDRESS_VALIDITY:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_title_invalid_address);
 							break;
 							
-						case PROXY_NOT_REACHABLE:
+						case PROXY_REACHABILITY:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_reachable);
 							break;
 							
-						case WEB_NOT_REACHABLE:
+						case WEB_REACHABILITY:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_title_web_not_reachable);
 							break;
 							
@@ -97,27 +97,27 @@ public class UIUtils
 		{
 			case CHECKED:
 				{
-					ProxyStatus status = Globals.getInstance().proxyConf.getProxyStatus();
+					ProxyStatusCodes status = Globals.getInstance().proxyConf.getCondensedProxyStatus();
 					
 					switch (status)
 					{
-						case OK:
+						case CONFIGURATION_OK:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_description_enabled);
 							description = description + " " + Globals.getInstance().proxyConf.toShortString();
 							break;
 							
-						case PROXY_NOT_ENABLED:
+						case PROXY_ENABLING:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_description_not_enabled);
 							break;
 						
-						case PROXY_INVALID_ADDRESS:
+						case PROXY_ADDRESS_VALIDITY:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_description_invalid_address);
 							break;
 							
-						case PROXY_NOT_REACHABLE:
+						case PROXY_REACHABILITY:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_description_not_reachable);
 							break;
-						case WEB_NOT_REACHABLE:
+						case WEB_REACHABILITY:
 							description = callerContext.getResources().getString(R.string.statusbar_notification_description_web_not_reachable);
 							break;
 							

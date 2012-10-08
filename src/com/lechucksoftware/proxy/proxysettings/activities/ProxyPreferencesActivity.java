@@ -4,12 +4,12 @@ import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
+import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
 import com.shouldit.proxy.lib.ProxyUtils;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -107,8 +107,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
                 return checkAuthenticationPref(newValue);
             }
         });
-				
-		
+					
 		proxyHostPortPref.setOnPreferenceClickListener(new OnPreferenceClickListener() 
 		{
 		    public boolean onPreferenceClick(Preference preference) 
@@ -204,14 +203,6 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		passwordPref.setSummary(sb.toString());
 		return true;
 	}
-	
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) 
-    {
-        if (requestCode == SELECT_PROXY_REQUEST) 
-        {
-            refreshProxySettings();
-        }
-    }
     
     private void refreshPreferenceSettings()
     {   	
@@ -224,16 +215,62 @@ public class ProxyPreferencesActivity extends PreferenceActivity
     private void refreshProxySettings()
     {   
     	proxyHostPortPref.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
+    	
+    	if (Globals.getInstance().proxyConf.status.getEnabled())
+    	{
+    		proxyEnabledPref.SetStatus(ValidationStatus.Valid);
+    	}
+    	else
+    	{
+    		proxyEnabledPref.SetStatus(ValidationStatus.Error);
+    	}
+    	
+    	if (Globals.getInstance().proxyConf.status.getValid_address())
+    	{
+    		proxyAddressPref.SetStatus(ValidationStatus.Valid);
+    	}
+    	else
+    	{
+    		proxyAddressPref.SetStatus(ValidationStatus.Error);
+    	}
+    	
+    	if (Globals.getInstance().proxyConf.status.getProxy_reachable())
+    	{
+    		proxyReachablePref.SetStatus(ValidationStatus.Valid);
+    	}
+    	else
+    	{
+    		proxyReachablePref.SetStatus(ValidationStatus.Error);
+    	}
+    	
+    	if (Globals.getInstance().proxyConf.status.getWeb_reachable())
+    	{
+    		proxyWebReachablePref.SetStatus(ValidationStatus.Valid);
+    	}
+    	else
+    	{
+    		proxyWebReachablePref.SetStatus(ValidationStatus.Error);
+    	}
     }
 	
-	private void openFeedbacks()
-	{
-        Intent test = new Intent(getApplicationContext(), ApplicationsFeedbacksActivity.class);
-        startActivity(test);
-	}
+//	private void openFeedbacks()
+//	{
+//        Intent test = new Intent(getApplicationContext(), ApplicationsFeedbacksActivity.class);
+//        startActivity(test);
+//	}
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+    {
+        if (requestCode == SELECT_PROXY_REQUEST) 
+        {
+            refreshProxySettings();
+        }
+    }
     
     @Override
-    protected void onStart() {
+    protected void onStart() 
+    {
         super.onStart();
         Log.d(TAG, "Start");
     }
@@ -242,24 +279,20 @@ public class ProxyPreferencesActivity extends PreferenceActivity
     protected void onResume() 
     {
         super.onResume();
-        
-        // Start register the status receiver
         IntentFilter ifilt = new IntentFilter("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"); 
-        registerReceiver(changeStatusReceiver, ifilt);
-    
+        registerReceiver(changeStatusReceiver, ifilt); // Start register the status receiver
     }
    
     @Override
     protected void onPause() 
     {
         super.onPause();        
-        
-        // Stop the registerd status receiver
-        unregisterReceiver(changeStatusReceiver);
+        unregisterReceiver(changeStatusReceiver);	 // Stop the registerd status receiver
     }
     
     @Override
-    protected void onStop() {
+    protected void onStop() 
+    {
     	Log.d(TAG, "Stop");
         super.onStop();
     }

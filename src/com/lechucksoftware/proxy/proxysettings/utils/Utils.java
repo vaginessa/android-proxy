@@ -6,26 +6,15 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.Socket;
-import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
-import com.lechucksoftware.proxy.proxysettings.Globals;
-import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.Constants.ProxyStatus;
-import com.shouldit.proxy.lib.reflection.ReflectionUtils;
-import com.shouldit.proxy.lib.reflection.android.RProxySettings;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.wifi.WifiConfiguration;
 import android.os.Build;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.reflection.ReflectionUtils;
+import com.shouldit.proxy.lib.reflection.android.RProxySettings;
 
 public class Utils
 {
