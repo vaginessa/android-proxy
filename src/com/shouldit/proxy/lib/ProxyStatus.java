@@ -60,19 +60,19 @@ public class ProxyStatus
 	{
 		switch(statusCode)
 		{
-			case PROXY_ENABLING:
+			case PROXY_ENABLED:
 				enabled = value;
 				break;
 				
-			case PROXY_ADDRESS_VALIDITY:
+			case PROXY_ADDRESS_VALID:
 				valid_address = value;
 				break;
 				
-			case PROXY_REACHABILITY:
+			case PROXY_REACHABLE:
 				proxy_reachable = value;
 				break;
 				
-			case WEB_REACHABILITY:
+			case WEB_REACHABILE:
 				web_reachable = value;
 				break;
 		}

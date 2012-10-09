@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.apache.http.conn.util.InetAddressUtils;
 
 import com.shouldit.proxy.lib.Constants.ProxyStatusCodes;
+import com.shouldit.proxy.lib.Constants.ProxyStatusErrors;
 
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
@@ -73,75 +74,77 @@ public class ProxyConfiguration
 		if (!isProxyEnabled())
 		{
 			Log.d(TAG, "PROXY NOT ENABLED");
-			status.add(ProxyStatusCodes.PROXY_ENABLING, false);
+			status.add(ProxyStatusCodes.PROXY_ENABLED, false);
 		}
 		else
 		{
 			Log.d(TAG, "PROXY ENABLED");
-			status.add(ProxyStatusCodes.PROXY_ENABLING, true);
+			status.add(ProxyStatusCodes.PROXY_ENABLED, true);
 		}
 
 		Log.d(TAG, "Checking if proxy is valid address ...");
 		if (!isProxyValidAddress())
 		{
 			Log.d(TAG, "PROXY NOT VALID ADDRESS");
-			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALIDITY, false);
+			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, false);
 		}
 		else
 		{
 			Log.d(TAG, "PROXY VALID ADDRESS");
-			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALIDITY, true);
+			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, true);
 		}
 
 		Log.d(TAG, "Checking if proxy is reachable ...");
 		if (!isProxyReachable())
 		{
 			Log.d(TAG, "PROXY NOT REACHABLE");
-			status.add(ProxyStatusCodes.PROXY_REACHABILITY, false);
+			status.add(ProxyStatusCodes.PROXY_REACHABLE, false);
 		}
 		else
 		{
 			Log.d(TAG, "PROXY REACHABLE");
-			status.add(ProxyStatusCodes.PROXY_REACHABILITY, true);
+			status.add(ProxyStatusCodes.PROXY_REACHABLE, true);
 		}
 
 		Log.d(TAG, "Checking if web is reachable ...");
 		if (!isWebReachable(timeout))
 		{
 			Log.d(TAG, "WEB NOT REACHABLE");
-			status.add(ProxyStatusCodes.WEB_REACHABILITY, false);
+			status.add(ProxyStatusCodes.WEB_REACHABILE, false);
 		}
 		else
 		{
 			Log.d(TAG, "WEB REACHABLE");
-			status.add(ProxyStatusCodes.WEB_REACHABILITY, true);
+			status.add(ProxyStatusCodes.WEB_REACHABILE, true);
 		}
 
 	}
 
-	public ProxyStatusCodes getCondensedProxyStatus()
+	public ProxyStatusErrors getMostRelevantProxyStatusError()
 	{
-		if (status.getEnabled())
-			return ProxyStatusCodes.PROXY_ENABLING;
+		if (!status.getEnabled())
+			return ProxyStatusErrors.PROXY_NOT_ENABLED;
 
 		if (status.getWeb_reachable())
 		{
-			if (status.getProxy_reachable())
-			{
-				if (status.getValid_address())
-				{
-					return ProxyStatusCodes.PROXY_ADDRESS_VALIDITY;
-				}
-				else
-					return ProxyStatusCodes.PROXY_REACHABILITY;
-			}
-			else
-				return ProxyStatusCodes.WEB_REACHABILITY;
+			// If the WEB is reachable, the proxy is OK!
+			return ProxyStatusErrors.NO_ERRORS;
 		}
 		else
 		{
-			// If the WEB is reachable, the proxy is OK!
-			return ProxyStatusCodes.CONFIGURATION_OK;
+			if (status.getProxy_reachable())
+			{
+				return ProxyStatusErrors.WEB_NOT_REACHABLE;
+			}
+			else
+			{	
+				if (status.getValid_address())
+				{
+					return ProxyStatusErrors.PROXY_NOT_REACHABLE;
+				}
+				else
+					return ProxyStatusErrors.PROXY_ADDRESS_NOT_VALID;
+			}	
 		}
 	}
 
