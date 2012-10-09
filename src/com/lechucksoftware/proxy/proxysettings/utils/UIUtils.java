@@ -27,14 +27,14 @@ public class UIUtils
 		}
 		else
 		{
-			if (Globals.getInstance().proxyConf.status.getEnabled())
-			{
+//			if (Globals.getInstance().proxyConf.status.getEnabled())
+//			{
 				return UIUtils.ProxyConfigToStatusString(ctx);
-			}
-			else
-			{
-				return ctx.getText(R.string.preference_proxy_host_port_summary_default).toString();
-			}
+//			}
+//			else
+//			{
+//				return ctx.getText(R.string.preference_proxy_host_port_summary_default).toString();
+//			}
 		}
 	}
 	

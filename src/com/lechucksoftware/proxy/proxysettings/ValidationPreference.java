@@ -2,24 +2,29 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.preference.Preference;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageView;
 
 public class ValidationPreference extends Preference
 {
+	private ValidationStatus status;
+	private Drawable mIcon;
+	
 	public enum ValidationStatus
 	{
-		Checking,
-		Valid,
-		Error
+		Checking, Valid, Error
 	}
-	
-	
+
 	public ValidationPreference(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		
-		setWidgetLayoutResource(R.layout.validation_preference_widget_waiting);
+
+		status = ValidationStatus.Checking;
+		setWidgetLayoutResource(R.layout.validation_preference_widget);
+	    mIcon = getContext().getResources().getDrawable(R.drawable.waiting);
 	}
 
 	@Override
@@ -27,20 +32,41 @@ public class ValidationPreference extends Preference
 	{
 		return a.getInteger(index, 0);
 	}
-	
-	public void SetStatus(ValidationStatus status)
+
+	@Override
+	public void onBindView(View view)
 	{
-		if (status == ValidationStatus.Checking)
+		super.onBindView(view);
+		ImageView imageView = (ImageView) view.findViewById(R.id.validation_preference_imageview);
+		
+		if (imageView != null && mIcon != null)
 		{
-			setWidgetLayoutResource(R.layout.validation_preference_widget_waiting);
+			imageView.setImageDrawable(mIcon);
+		}
+	}
+
+    public Drawable getIcon() 
+    {
+        return mIcon;
+    }
+
+	public void SetStatus(ValidationStatus st)
+	{
+		status = st;
+		
+		if (st == ValidationStatus.Checking)
+		{
+			mIcon = getContext().getResources().getDrawable(R.drawable.waiting);
 		}
 		else if (status == ValidationStatus.Valid)
 		{
-			setWidgetLayoutResource(R.layout.validation_preference_widget_ok);
+			mIcon = getContext().getResources().getDrawable(R.drawable.ok);
 		}
 		else
 		{
-			setWidgetLayoutResource(R.layout.validation_preference_widget_nok);
-		}	
+			mIcon = getContext().getResources().getDrawable(R.drawable.problem);
+		}
+		
+		notifyChanged();
 	}
 }
