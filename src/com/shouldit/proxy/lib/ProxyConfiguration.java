@@ -247,11 +247,19 @@ public class ProxyConfiguration
 
 	public String toShortString()
 	{
-
+		if (proxyHost == Proxy.NO_PROXY)
+		{
+			return Proxy.NO_PROXY.toString();
+		}
+		
 		if (proxyDescription != null)
+		{
 			return proxyDescription;
+		}
 		else
+		{
 			return String.format("%s", proxyHost.address().toString());
+		}
 	}
 
 	public String toShortIPString()
