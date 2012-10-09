@@ -1,10 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.R.layout;
-import com.lechucksoftware.proxy.proxysettings.R.string;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,14 +7,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.lechucksoftware.proxy.proxysettings.Constants;
+import com.lechucksoftware.proxy.proxysettings.R;
 
 public class DisclaimerActivity extends Activity
 {
 	static final int DIALOG_ID_DISCLAIMER = 0;
+	public static final String TAG = "DisclaimerActivity";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) 
@@ -56,6 +55,7 @@ public class DisclaimerActivity extends Activity
     				            editor.commit();
     				            
     				            Intent i = new Intent(getApplicationContext(), ProxySettingsCallerActivity.class);
+    				            Log.d(TAG,"Starting ProxySettingsCallerActivity activity");
     				            startActivity(i);
     				            finish();
     						}

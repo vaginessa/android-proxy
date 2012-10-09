@@ -73,6 +73,7 @@ public class ProxySettingsCheckerService extends IntentService
     	/**
     	 * Trigger status update        	
     	 * */
+		Log.d(TAG, "Sending broadcast intent UPDATE_PROXY");
 		Intent intent = new Intent("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY");	
 		context.sendBroadcast(intent);
 		

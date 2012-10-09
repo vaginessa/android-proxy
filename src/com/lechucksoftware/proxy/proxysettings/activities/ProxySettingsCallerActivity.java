@@ -52,10 +52,12 @@ public class ProxySettingsCallerActivity extends Activity
             String mClass = ".ProxyPreferencesActivityV11";
             intent.setComponent(new ComponentName(mPackage,mPackage+mClass));
             intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, "com.lechucksoftware.proxy.proxysettings.activities.MainPrefsFragment");
+            Log.d(TAG, "Starting ProxyPreferencesActivityV11 activity");
             startActivity(intent);
         }
         else
         {
+        	Log.d(TAG, "Starting ProxyPreferencesActivity activity");
             startActivity(new Intent(this, ProxyPreferencesActivity.class ));
         }
 	}
@@ -163,6 +165,7 @@ public class ProxySettingsCallerActivity extends Activity
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
 				DontDisplayAgain();
+				Log.d(TAG, "Starting Market activity");
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
 				finish();
 			}

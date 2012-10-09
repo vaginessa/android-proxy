@@ -19,6 +19,7 @@ public class ProxySettingsMainActivity extends Activity
         
     	super.onCreate(savedInstanceState);
     	
+    	Log.d(TAG, "Calling broadcast intent PROXY_CHANGE_ACTION");
     	sendBroadcast(new Intent(Proxy.PROXY_CHANGE_ACTION));
     	
     	// Restore preferences
@@ -27,11 +28,13 @@ public class ProxySettingsMainActivity extends Activity
           
         if (acceptedDisclaimer)
         {
+        	Log.d(TAG, "Starting ProxySettingsCallerActivity activity");
             Intent i = new Intent(getApplicationContext(), ProxySettingsCallerActivity.class);
             startActivity(i);
         }
         else
         {
+        	Log.d(TAG, "Starting DisclaimerActivity activity");
         	Intent disclaimer = new Intent(getApplicationContext(),DisclaimerActivity.class);
             startActivity(disclaimer); 
         }

@@ -2,13 +2,9 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxySettings;
 import com.shouldit.proxy.lib.ProxyUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -95,6 +91,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
         {
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
+            	// FIX: call only the refresh of the notification!
             	sendBroadcast(new Intent(Proxy.PROXY_CHANGE_ACTION));
                 return checkNotificationPref(newValue);
             }
@@ -113,6 +110,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		    public boolean onPreferenceClick(Preference preference) 
             {
                 Intent proxyIntent = ProxyUtils.getProxyIntent();
+                Log.d(TAG, "Starting Android's ProxySelector Activity and waiting for result");
                 startActivityForResult(proxyIntent,SELECT_PROXY_REQUEST);
                 return true;
             }
@@ -153,7 +151,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		return true;
 	}
 	
-	public boolean checkNotificationPref (Object newValue) 
+	public boolean checkNotificationPref(Object newValue) 
 	{
 		Log.d(TAG, "checkNotificationPref : " + (Boolean) newValue);
 		
