@@ -115,6 +115,34 @@ public class ProxyUtils
 		return false;
 	}
 
+	public static int testHTTPConnection(URI uri, Proxy proxy, int timeout)
+	{
+		try
+		{
+			URL url = uri.toURL();
+			HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
+
+			httpURLConnection.setReadTimeout(timeout);
+			httpURLConnection.setConnectTimeout(timeout);
+
+			return httpURLConnection.getResponseCode();
+		}
+		catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (SocketTimeoutException e)
+		{
+			Log.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
 	public static String getURI(URI uri, Proxy proxy, int timeout)
 	{
 		try
@@ -123,8 +151,7 @@ public class ProxyUtils
 			HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
 
 			httpURLConnection.setReadTimeout(timeout);
-			httpURLConnection.setConnectTimeout(timeout); // set timeout to 60
-														  // seconds
+			httpURLConnection.setConnectTimeout(timeout);
 
 			int response = httpURLConnection.getResponseCode();
 			if (response == HttpURLConnection.HTTP_OK)
@@ -138,7 +165,7 @@ public class ProxyUtils
 				StringBuilder sb = new StringBuilder();
 				while ((temp = bufferedReader.readLine()) != null)
 				{
-					Log.d(TAG, temp);
+					// Log.d(TAG, temp);
 					sb.append(temp);
 				}
 
@@ -170,18 +197,21 @@ public class ProxyUtils
 	{
 		try
 		{
-			String result = getURI(new URI("http://www.un.org/"), proxy, timeout); // Used
-																				   // a
-																				   // website
-																				   // that
-																				   // should
-																				   // be
-																				   // available
-																				   // worldwide
-			if (result != null)
+			int result = testHTTPConnection(new URI("http://www.un.org/"), proxy, timeout);
+
+			switch (result)
 			{
-				Log.d(TAG, "Succesfully received URI");
-				return true;
+				case HttpURLConnection.HTTP_OK:
+				case HttpURLConnection.HTTP_CREATED:
+				case HttpURLConnection.HTTP_NO_CONTENT:
+				case HttpURLConnection.HTTP_NOT_AUTHORITATIVE:
+				case HttpURLConnection.HTTP_ACCEPTED:
+				case HttpURLConnection.HTTP_PARTIAL:
+				case HttpURLConnection.HTTP_RESET:
+					return true;
+					
+				default:
+					return false;
 			}
 		}
 		catch (URISyntaxException e)

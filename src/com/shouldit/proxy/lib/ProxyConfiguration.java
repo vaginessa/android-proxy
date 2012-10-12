@@ -166,33 +166,42 @@ public class ProxyConfiguration
 		try
 		{
 			String proxyHost = getProxyHost();
-
-			if (InetAddressUtils.isIPv4Address(proxyHost) || InetAddressUtils.isIPv6Address(proxyHost) || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost) || InetAddressUtils.isIPv6StdAddress(proxyHost))
+			
+			if (proxyHost != null)
 			{
-				return true;
-			}
 
-			if (URLUtil.isNetworkUrl(proxyHost))
+				if (InetAddressUtils.isIPv4Address(proxyHost) || InetAddressUtils.isIPv6Address(proxyHost) || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost) || InetAddressUtils.isIPv6StdAddress(proxyHost))
+				{
+					return true;
+				}
+	
+				if (URLUtil.isNetworkUrl(proxyHost))
+				{
+					return true;
+				}
+	
+				if (URLUtil.isValidUrl(proxyHost))
+				{
+					return true;
+				}
+	
+				// Test REGEX for Hostname validation
+				// http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
+				//
+				String ValidHostnameRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
+				Pattern pattern = Pattern.compile(ValidHostnameRegex);
+				Matcher matcher = pattern.matcher(proxyHost);
+	
+				if (matcher.find())
+				{
+					return true;
+				}
+			}
+			else
 			{
-				return true;
+				return false;
 			}
-
-			if (URLUtil.isValidUrl(proxyHost))
-			{
-				return true;
-			}
-
-			// Test REGEX for Hostname validation
-			// http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
-			//
-			String ValidHostnameRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
-			Pattern pattern = Pattern.compile(ValidHostnameRegex);
-			Matcher matcher = pattern.matcher(proxyHost);
-
-			if (matcher.find())
-			{
-				return true;
-			}
+		
 		}
 		catch (Exception e)
 		{
@@ -231,7 +240,10 @@ public class ProxyConfiguration
 	public String getProxyHost()
 	{
 		InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
-		return proxyAddress.getHostName();
+		if (proxyAddress != null)
+			return proxyAddress.getHostName();
+		else
+			return null;
 	}
 
 	public String getProxyIPHost()
