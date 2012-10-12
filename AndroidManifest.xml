@@ -65,6 +65,7 @@
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.intent.action.PROXY_CHANGE" />
+                <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_NOTIFICATION"/>
             </intent-filter>
         </receiver>
     </application>

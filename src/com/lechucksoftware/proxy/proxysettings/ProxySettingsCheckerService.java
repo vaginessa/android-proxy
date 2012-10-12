@@ -85,7 +85,7 @@ public class ProxySettingsCheckerService extends IntentService
 	 * @param proxyConfig
 	 * @param status 
 	 */
-	public void CompletedStatusBarNotification(Context context) 
+	public static void CompletedStatusBarNotification(Context context) 
 	{
 		if (Build.VERSION.SDK_INT < 11)
 		{

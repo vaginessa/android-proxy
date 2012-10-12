@@ -12,10 +12,22 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent) 
     {
-        Log.d(TAG,"Intent receiver called: " + intent.toString());
-        
-        Intent msgIntent = new Intent(context, ProxySettingsCheckerService.class);
-        context.startService(msgIntent);
+        Log.d(TAG,"Intent receiver called: " + intent.getAction().toString());
+
+        if (intent.getAction().toString().equals("com.lechucksoftware.proxy.proxysettings.UPDATE_NOTIFICATION"))
+        {
+        	ProxySettingsCheckerService.CompletedStatusBarNotification(context);
+        }
+        else if (intent.getAction().toString().equals("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY") ||
+        		 intent.getAction().toString().equals("android.intent.action.PROXY_CHANGE"))
+        {
+        	Intent msgIntent = new Intent(context, ProxySettingsCheckerService.class);
+            context.startService(msgIntent);	
+        }
+        else
+        {
+        	Log.e(TAG,"Intent not found");
+        }
     }
 }
 

@@ -76,7 +76,8 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		refreshProxySettings();
 	}
 
-	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
+	{
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
@@ -91,23 +92,28 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 	public void setListenersToUI()
 	{
-		notificationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+		notificationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				// FIX: call only the refresh of the notification!
-				sendBroadcast(new Intent(Proxy.PROXY_CHANGE_ACTION));
+				Log.d(TAG, "Sending broadcast intent UPDATE_NOTIFICATION");
+				Intent intent = new Intent("com.lechucksoftware.proxy.proxysettings.UPDATE_NOTIFICATION");
+				sendBroadcast(intent);
 				return checkNotificationPref(newValue);
 			}
 		});
 
-		authenticationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+		authenticationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				return checkAuthenticationPref(newValue);
 			}
 		});
 
-		proxyHostPortPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		proxyHostPortPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
+		{
 			public boolean onPreferenceClick(Preference preference)
 			{
 				Intent proxyIntent = ProxyUtils.getProxyIntent();
@@ -117,7 +123,8 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			}
 		});
 
-		proxyTestPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		proxyTestPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
+		{
 			public boolean onPreferenceClick(Preference preference)
 			{
 				proxyTestPref.setEnabled(false);
@@ -139,14 +146,16 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		// }
 		// });
 
-		userPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+		userPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				return checkUsernamePref(newValue);
 			}
 		});
 
-		passwordPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+		passwordPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
 
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
@@ -230,16 +239,16 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		{
 			// Checking
 			proxyTestPref.setEnabled(false);
-			
+
 			proxyEnabledPref.SetStatus(ValidationStatus.Checking);
 			proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
-			
+
 			proxyAddressPref.SetStatus(ValidationStatus.Checking);
 			proxyAddressPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
-			
+
 			proxyReachablePref.SetStatus(ValidationStatus.Checking);
 			proxyReachablePref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
-			
+
 			proxyWebReachablePref.SetStatus(ValidationStatus.Checking);
 			proxyWebReachablePref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
 		}
@@ -247,7 +256,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		{
 			// Checked
 			proxyTestPref.setEnabled(true);
-			
+
 			if (Globals.getInstance().proxyConf.status.getEnabled())
 			{
 				proxyEnabledPref.SetStatus(ValidationStatus.Valid);
@@ -323,7 +332,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		super.onResume();
 		IntentFilter ifilt = new IntentFilter("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY");
 		registerReceiver(changeStatusReceiver, ifilt); // Start register the
-														// status receiver
+													   // status receiver
 	}
 
 	@Override
@@ -331,7 +340,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	{
 		super.onPause();
 		unregisterReceiver(changeStatusReceiver); // Stop the registerd status
-													// receiver
+												  // receiver
 	}
 
 	@Override
