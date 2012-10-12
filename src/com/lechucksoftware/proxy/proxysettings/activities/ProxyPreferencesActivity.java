@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
@@ -36,6 +37,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	EditTextPreference passwordPref;
 	Preference proxyHostPortPref;
 	Preference proxyTestPref;
+	PreferenceScreen proxyAuthentication;
 
 	ValidationPreference proxyEnabledPref;
 	ValidationPreference proxyAddressPref;
@@ -55,11 +57,15 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
 		notificationEnabled = (CheckBoxPreference) findPreference("preference_notification_enabled");
+		
+		proxyAuthentication = (PreferenceScreen) findPreference("pref_key_proxy_settings_authentication_screen");
 		authenticationEnabled = (CheckBoxPreference) findPreference("preference_authentication_enabled");
 		userPref = (EditTextPreference) findPreference("preference_authentication_user");
 		passwordPref = (EditTextPreference) findPreference("preference_authentication_password");
+		
+		getPreferenceScreen().removePreference(proxyAuthentication); // Disable authentication for now
+		
 		proxyHostPortPref = findPreference("preference_proxy_host_port");
-
 		proxyEnabledPref = (ValidationPreference) findPreference("validation_proxy_enabled");
 		proxyAddressPref = (ValidationPreference) findPreference("validation_proxy_valid_address");
 		proxyReachablePref = (ValidationPreference) findPreference("validation_proxy_reachable");
