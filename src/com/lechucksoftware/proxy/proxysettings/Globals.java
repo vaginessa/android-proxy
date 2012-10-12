@@ -17,7 +17,7 @@ public class Globals
 	{
 		proxyConf = new ProxyConfiguration(Proxy.NO_PROXY, null, null, null);
 		proxyCheckStatus = ProxyCheckStatus.CHECKING;
-		timeout = 60000; // Set default timeout value
+		timeout = 10000; // Set default timeout value (10 seconds)
 	}
 
 	public static synchronized Globals getInstance()

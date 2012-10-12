@@ -120,7 +120,8 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		proxyTestPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			public boolean onPreferenceClick(Preference preference)
 			{
-				// FIX: call only the refresh of the notification!
+				proxyTestPref.setEnabled(false);
+				// TODO: Change summary status to request time
 				sendBroadcast(new Intent(Proxy.PROXY_CHANGE_ACTION));
 				return true;
 			}
@@ -227,6 +228,9 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
+			// Checking
+			proxyTestPref.setEnabled(false);
+			
 			proxyEnabledPref.SetStatus(ValidationStatus.Checking);
 			proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
 			
@@ -241,6 +245,9 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		}
 		else
 		{
+			// Checked
+			proxyTestPref.setEnabled(true);
+			
 			if (Globals.getInstance().proxyConf.status.getEnabled())
 			{
 				proxyEnabledPref.SetStatus(ValidationStatus.Valid);
