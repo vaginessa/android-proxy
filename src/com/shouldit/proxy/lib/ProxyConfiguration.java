@@ -73,31 +73,31 @@ public class ProxyConfiguration
 		Log.d(TAG, "Checking if proxy is enabled ...");
 		if (!isProxyEnabled())
 		{
-			Log.d(TAG, "PROXY NOT ENABLED");
+			Log.e(TAG, "PROXY NOT ENABLED");
 			status.add(ProxyStatusCodes.PROXY_ENABLED, false);
 		}
 		else
 		{
-			Log.d(TAG, "PROXY ENABLED");
+			Log.e(TAG, "PROXY ENABLED");
 			status.add(ProxyStatusCodes.PROXY_ENABLED, true);
 		}
 
 		Log.d(TAG, "Checking if proxy is valid address ...");
 		if (!isProxyValidAddress())
 		{
-			Log.d(TAG, "PROXY NOT VALID ADDRESS");
+			Log.e(TAG, "PROXY NOT VALID ADDRESS");
 			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, false);
 		}
 		else
 		{
-			Log.d(TAG, "PROXY VALID ADDRESS");
+			Log.e(TAG, "PROXY VALID ADDRESS");
 			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, true);
 		}
 
 		Log.d(TAG, "Checking if proxy is reachable ...");
 		if (!isProxyReachable())
 		{
-			Log.d(TAG, "PROXY NOT REACHABLE");
+			Log.e(TAG, "PROXY NOT REACHABLE");
 			status.add(ProxyStatusCodes.PROXY_REACHABLE, false);
 		}
 		else
@@ -109,7 +109,7 @@ public class ProxyConfiguration
 		Log.d(TAG, "Checking if web is reachable ...");
 		if (!isWebReachable(timeout))
 		{
-			Log.d(TAG, "WEB NOT REACHABLE");
+			Log.e(TAG, "WEB NOT REACHABLE");
 			status.add(ProxyStatusCodes.WEB_REACHABILE, false);
 		}
 		else

@@ -30,61 +30,64 @@ public class ProxySettings
 	 * Main entry point to access the proxy settings
 	 * */
 	public static ProxyConfiguration getCurrentProxyConfiguration(Context ctx, URI uri) throws Exception
-    {
+	{
 		ProxyConfiguration proxyConfig;
-		
-      	if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1 
-    	{
-      		proxyConfig = getProxySelectorConfiguration(ctx, uri);
-		}
-    	else
-    	{
-    		proxyConfig = getGlobalProxy(ctx);
-    	}	
-      	
-      	/**
-      	 * Set direct connection if no proxyConfig received
-      	 * */
-      	if (proxyConfig == null) 
+
+		if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1
 		{
-			proxyConfig = new ProxyConfiguration(Proxy.NO_PROXY,null,null,null);
-		} 
-      	
-      	/**
-      	 * Add connection informations
-      	 * */
+			proxyConfig = getProxySelectorConfiguration(ctx, uri);
+		}
+		else
+		{
+			proxyConfig = getGlobalProxy(ctx);
+		}
+
+		/**
+		 * Set direct connection if no proxyConfig received
+		 * */
+		if (proxyConfig == null)
+		{
+			proxyConfig = new ProxyConfiguration(Proxy.NO_PROXY, null, null, null);
+		}
+
+		/**
+		 * Add connection informations
+		 * */
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
 		proxyConfig.networkInfo = activeNetInfo;
-		
-		switch (activeNetInfo.getType())
+
+		if (activeNetInfo != null)
 		{
-			case ConnectivityManager.TYPE_WIFI:
-				WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
-				WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-				List<WifiConfiguration> wifiConfigurations = wifiManager.getConfiguredNetworks();
-				for(WifiConfiguration wc:wifiConfigurations)
-				{
-					if (wc.networkId == wifiInfo.getNetworkId())
+			switch (activeNetInfo.getType())
+			{
+				case ConnectivityManager.TYPE_WIFI:
+					WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+					WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+					List<WifiConfiguration> wifiConfigurations = wifiManager.getConfiguredNetworks();
+					for (WifiConfiguration wc : wifiConfigurations)
 					{
-						proxyConfig.wifiConfiguration = wc;
-						break;
+						if (wc.networkId == wifiInfo.getNetworkId())
+						{
+							proxyConfig.wifiConfiguration = wc;
+							break;
+						}
 					}
-				}
-				break;
-			case ConnectivityManager.TYPE_MOBILE:
-				break;
-			default:
-				throw new UnsupportedOperationException("Not yet implemented support for" + activeNetInfo.getTypeName() + " network type");
+					break;
+				case ConnectivityManager.TYPE_MOBILE:
+					break;
+				default:
+					throw new UnsupportedOperationException("Not yet implemented support for" + activeNetInfo.getTypeName() + " network type");
+			}
 		}
-		
+
 		return proxyConfig;
-    }
+	}
 
 	/**
-	 * For API >= 12: Returns the current proxy configuration based on the URI, this
-	 * implementation is a wrapper of the Android's ProxySelector class. Just
-	 * add some other informations that can be useful to the developer. 
+	 * For API >= 12: Returns the current proxy configuration based on the URI,
+	 * this implementation is a wrapper of the Android's ProxySelector class.
+	 * Just add some other informations that can be useful to the developer.
 	 * */
 	public static ProxyConfiguration getProxySelectorConfiguration(Context ctx, URI uri) throws Exception
 	{
@@ -98,7 +101,8 @@ public class ProxySettings
 			proxy = proxyList.get(0);
 			Log.d(TAG, "Current Proxy Configuration: " + proxy.toString());
 		}
-		else throw new Exception("Not found valid proxy configuration!");
+		else
+			throw new Exception("Not found valid proxy configuration!");
 
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
@@ -134,9 +138,8 @@ public class ProxySettings
 		return getCurrentProxyConfiguration(ctx, uri);
 	}
 
-	
 	/**
-	 * For API < 12: Get global proxy configuration. 
+	 * For API < 12: Get global proxy configuration.
 	 * */
 	private static ProxyConfiguration getGlobalProxy(Context ctx)
 	{
@@ -154,9 +157,10 @@ public class ProxySettings
 				try
 				{
 					Integer proxyPort = Integer.parseInt(proxyParts[1]);
-					Proxy p = new Proxy(Type.HTTP,new InetSocketAddress(proxyAddress,proxyPort));
+					Proxy p = new Proxy(Type.HTTP, new InetSocketAddress(proxyAddress, proxyPort));
 					proxyConfig = new ProxyConfiguration(p, proxyString, null, null);
-					//Log.d(TAG, "ProxyHost created: " + proxyConfig.toString());
+					// Log.d(TAG, "ProxyHost created: " +
+					// proxyConfig.toString());
 				}
 				catch (NumberFormatException e)
 				{
