@@ -1,130 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Proxy Settings</string>
-    <string name="accept">Accept</string>
-    <string name="submit">Submit</string>
-    <string name="cancel">Cancel</string>
-    <string name="versionName">1.4</string>
-    
-    <string name="disclaimer_description">    Please read carefully and accept only if you really know what you are doing!
-    \n
-    \nThis application provide a shortcut for calling the Activity for edit the System\'s Proxy Settings in Android. In the majority of the releases this Activity is already present but hidden to the user. 
-    \n
-    \nConfiguring the Proxy Settings doesn\'t mean that all your applications will automatically start to using those! If you want the Proxy Settings also in your favourite applications request this feature to their developers!
-    \n
-    \nPlease remember that uninstalling this application doesn\'t automatically restore the default values of the System Proxy Settings of your device.
-    \n
-    \nYou can find more details and leave feedbacks here: </string>
-    
-    <string name="disclaimer_pt2_text"> http://www.android-proxy.com</string>
-    <string name="disclaimer_title">Proxy Settings - Disclaimer</string>
+	<string name="app_name">Proxy Settings</string>
+	<string name="accept">Accept</string>
+	<string name="submit">Submit</string>
+	<string name="cancel">Cancel</string>
+	<string name="versionName">1.4</string>
 
-    <string name="proxysettingscalleractivity_dialog_title">Warning</string>
-    <string name="proxysettingscalleractivity_dialog_description">Starting from Android 3.x you should modify the setting only for the current Wi-Fi network.\n\nYou can do it opening with a long press the Wi-Fi network edit dialog, specifying the Proxy settings to Manual, and typing proxy\'s hostname and port.</string>
-    <string name="proxysettingscalleractivity_dialog_OK">OK. Go to Wi-Fi Settings</string>
-    
-    <string name="statusbar_notification_title_enabled">Proxy Enabled</string>
-    <string name="statusbar_notification_title_checking">Checking proxy configuration &#8230;</string>
-    <string name="statusbar_notification_title_not_enabled">Proxy Not Enabled</string>
-    <string name="statusbar_notification_title_invalid_address">Invalid Proxy Host</string>
-    <string name="statusbar_notification_title_not_reachable">Proxy Not Reachable</string>
-    <string name="statusbar_notification_title_web_not_reachable">WEB Not Reachable</string>    
-    
-    
-    
-    <string name="statusbar_notification_description_enabled">Proxy (Host:Port): </string>
-    <string name="statusbar_notification_description_checking">Proxy Settings is validating your proxy configuration &#8230;</string>
+	<string name="disclaimer_description">Please read carefully and accept only if you really
+		know what you are doing!
+		\n
+		\nThis application provide a shortcut for
+		calling the Activity for edit the
+		System\'s Proxy Settings in Android.
+		In the majority of the releases
+		this Activity is already present but
+		hidden to the user.
+		\n
+		\nConfiguring the Proxy Settings doesn\'t mean
+		that all your applications will
+		automatically start to using those! If
+		you want the Proxy Settings
+		also in your favourite applications request
+		this feature to their
+		developers!
+		\n
+		\nPlease remember that uninstalling
+		this application doesn\'t automatically
+		restore the default values of
+		the System Proxy Settings of your
+		device.
+		\n
+		\nYou can find more details
+		and leave feedbacks here:
+	</string>
+	<string name="disclaimer_pt2_text"> http://www.android-proxy.com</string>
+	<string name="disclaimer_title">Proxy Settings - Disclaimer</string>
+
+	<string name="help_text_what_title">What does <b>Proxy Settings do?</b></string>
+	<string name="help_text_what_description">This application provide a shortcut for calling a	system application hidden into Android Operative System, in order to edit the System\'s Proxy Settings.</string>
+
+	<string name="help_text_how_title">How does	<b>Proxy Settings do it?</b></string>
+	<string name="help_text_how_description">In the majority of the devices this application is already present but
+		hidden to the user. What
+		<b>Proxy Settings</b>
+		does is to simply call the
+		existing Android\'s system application, and
+		provides some tools to help you
+		checking the configuration.
+	</string>
+
+
+	<string name="help_text_conclusions_title">How does	<b>So, everything ok now?</b></string>
+	<string name="help_text_conclusions_description">Configuring the Proxy Settings doesn\'t mean that
+		all your applications will automatically start to using those! If you
+		want the
+		<b>Proxy Settings</b>
+		also in your favourite applications request this
+		feature to their developers! Please remember that uninstalling this
+		application doesn\'t automatically restore the default values of the
+		System Proxy Settings of your device. You can find more details and
+		leave feedbacks here:
+	</string>
+
+	<string name="proxysettingscalleractivity_dialog_title">Warning</string>
+	<string name="proxysettingscalleractivity_dialog_description">Starting from Android 3.x you should modify the
+		setting only for the current Wi-Fi network.\n\nYou can do it opening
+		with a long press the Wi-Fi network edit dialog, specifying the Proxy
+		settings to Manual, and typing proxy\'s hostname and port.
+	</string>
+	<string name="proxysettingscalleractivity_dialog_OK">OK. Go to Wi-Fi Settings</string>
+
+	<string name="statusbar_notification_title_enabled">Proxy Enabled</string>
+	<string name="statusbar_notification_title_checking">Checking proxy configuration &#8230;</string>
+	<string name="statusbar_notification_title_not_enabled">Proxy Not Enabled</string>
+	<string name="statusbar_notification_title_invalid_address">Invalid Proxy Host</string>
+	<string name="statusbar_notification_title_not_reachable">Proxy Not Reachable</string>
+	<string name="statusbar_notification_title_web_not_reachable">WEB Not Reachable</string>
+
+	<string name="statusbar_notification_description_enabled">Proxy (Host:Port): </string>
+	<string name="statusbar_notification_description_checking">Proxy Settings is validating your proxy configuration &#8230;</string>
 	<string name="statusbar_notification_description_not_enabled">Proxy is not enabled</string>
 	<string name="statusbar_notification_description_invalid_address">Please check your configuration &#8230;</string>
-  	<string name="statusbar_notification_description_not_reachable">Please check your configuration &#8230;</string>
-   	<string name="statusbar_notification_description_web_not_reachable"> Please check proxy configuration &#8230;</string>
+	<string name="statusbar_notification_description_not_reachable">Please check your configuration &#8230;</string>
+	<string name="statusbar_notification_description_web_not_reachable"> Please check proxy configuration &#8230;</string>
 
-    <string name="app_rater_dialog_title">Rate Proxy Settings</string>
-    <string name="app_rater_dialog_text">It\'s been a while since you are using Proxy Settings. If you enjoy using this app, please take a moment to rate it. Thanks for your support!</string>
-    <string name="app_rater_dialog_button_rate">Rate Proxy Settings</string>
-    <string name="app_rater_dialog_button_remind">Remind me later</string>
-    <string name="app_rater_dialog_button_nothanks">No, thanks</string>
-    
-    <string name="prefs_title_v11">Proxy settings</string>
-    <string name="prefs_summary_v11">Preferences</string>
-    <string name="pref_key_proxy_settings_title">Basic settings</string>
-    <string name="pref_key_proxy_settings_test_title">Help and troubleshooting</string>
-    
-    <string name="preference_applications_feedback_title">Applications Feedback</string>
-    <string name="preference_applications_feedback_summary">Submit a feedback regarding the proxy support on third party applications</string>
-    
-    <string name="pref_key_proxy_settings_prefscreen_title">Test</string>
-    <string name="pref_key_proxy_settings_prefscreen_description">Test proxy settings</string>
-    
-   
-    <string name="preferences_statusbar_notification_title">Notification</string>
-    <string name="preferences_statusbar_notification_description_enabled">Status bar notification enabled</string>
-    <string name="preferences_statusbar_notification_description_disabled">Status bar notification disabled</string>
-    <string name="preference_proxy_host_port_title">Proxy address (Host:Port)</string>
-    <string name="preference_proxy_host_port_summary_default">Not set</string>
-    
-    <string name="preference_test_proxy_configuration_title">Validate configuration</string>
-    <string name="preference_test_proxy_configuration_summary">Start proxy configuration tests</string>
-    <string name="preference_test_proxy_webview_title">Browse webpage</string>
-    <string name="preference_test_proxy_webview_summary">Open page on browser using the current configuration</string>
-    
-    <string name="pref_key_proxy_settings_advanced_title">Advanced</string>
-    
- 	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration Assistant</string>
- 	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
-    
-    <string name="validation_proxy_category">Tests list</string>
-    <string name="other_tests_proxy_category">Other proxy tests</string>
-    
-    
-    <string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
-    
-    <string name="validation_proxy_enabled_title">Proxy enabled</string>
-    <string name="validation_proxy_enabled_summary_ok">Proxy is enabled</string>
-    <string name="validation_proxy_enabled_summary_nok">Proxy is not enabled</string>
-     
-    <string name="validation_proxy_address_title">Proxy address</string>
-    <string name="validation_proxy_address_summary_ok">Proxy address is valid</string>
-    <string name="validation_proxy_address_summary_nok">Proxy address is not valid</string>
-    
-    <string name="validation_proxy_reachable_title">Ping proxy host</string>
-    <string name="validation_proxy_reachable_summary_ok">Proxy host is reachable</string>
-    <string name="validation_proxy_reachable_summary_nok">Proxy host is not reachable</string>
-    
-    <string name="validation_proxy_web_reachable_title">Web reachability</string>
-    <string name="validation_proxy_web_reachable_summary_ok">HTTP requests working</string>
-    <string name="validation_proxy_web_reachable_summary_nok">HTTP requests aren\'t working</string>    
-   	
-   	<string name="preference_proxy_authentication_screen_title">Proxy Authentication</string>
-   	<string name="preference_proxy_authentication_screen_summary">Set proxy authentication</string>
-    <string name="preference_proxy_authentication_title">Authentication</string>
-    <string name="preference_proxy_authentication_summary_enabled">Proxy authentication enabled</string>
-    <string name="preference_proxy_authentication_summary_disabled">Proxy authentication disabled</string>
-    <string name="preference_proxy_authentication_type_title">Authentication Type</string>
-    <string name="preference_proxy_authentication_type_summary">HTTP</string>
-    <string name="preference_proxy_authentication_user_title">Username</string>
-    <string name="preference_proxy_authentication_user_summary"></string>
-    <string name="preference_proxy_authentication_password_title">Password</string>
-    <string name="preference_proxy_authentication_password_summary"></string>
-    
-    <string name="preference_help_title">Help</string>
-    <string name="preference_help_summary">Android proxy settings explained</string>
-    <string name="preference_about_title">About</string>
-    <string name="proxy_settings_about">Application version</string>
-    
-    
-    <string name="preference_proxy_host_port_summary_exception">Invalid configuration</string>
-    
-    
-    <string name="application_list_description">Please select the application that doesn\'t support the proxy settings:</string>
-    <string name="application_list_loading_dialog_description">"Loading applications ..."</string>
-    
-    <string name="application_feedback_dialog_title">Submit your feedback!</string>
-    
-    <string name="application_feedback_dialog_description">Only the following informations will be sent in an anonymized way to our servers: </string>
-<!--     <string name="application_feedback_dialog_accept_description"></string> -->
-    <string name="application_feedback_dialog_icon">Selected application icon</string>
-    <string name="feedback_app_version_label">Version: </string> 
-    
+	<string name="app_rater_dialog_title">Rate Proxy Settings</string>
+	<string name="app_rater_dialog_text">It\'s been a while since you are using Proxy Settings. If you enjoy using this app, please take a moment to rate it. Thanks for your support!</string>
+	<string name="app_rater_dialog_button_rate">Rate Proxy Settings</string>
+	<string name="app_rater_dialog_button_remind">Remind me later</string>
+	<string name="app_rater_dialog_button_nothanks">No, thanks</string>
+
+	<string name="prefs_title_v11">Proxy settings</string>
+	<string name="prefs_summary_v11">Preferences</string>
+	<string name="pref_key_proxy_settings_title">Basic settings</string>
+	<string name="pref_key_proxy_settings_test_title">Help and troubleshooting</string>
+
+	<string name="preference_applications_feedback_title">Applications Feedback</string>
+	<string name="preference_applications_feedback_summary">Submit a feedback regarding the proxy support on third party applications</string>
+
+	<string name="pref_key_proxy_settings_prefscreen_title">Test</string>
+	<string name="pref_key_proxy_settings_prefscreen_description">Test proxy settings</string>
+
+
+	<string name="preferences_statusbar_notification_title">Notification</string>
+	<string name="preferences_statusbar_notification_description_enabled">Status bar notification enabled</string>
+	<string name="preferences_statusbar_notification_description_disabled">Status bar notification disabled</string>
+	<string name="preference_proxy_host_port_title">Proxy address (Host:Port)</string>
+	<string name="preference_proxy_host_port_summary_default">Not set</string>
+
+	<string name="preference_test_proxy_configuration_title">Validate configuration</string>
+	<string name="preference_test_proxy_configuration_summary">Start proxy configuration tests</string>
+	<string name="preference_test_proxy_webview_title">Browse webpage</string>
+	<string name="preference_test_proxy_webview_summary">Open page on browser using the current	configuration</string>
+
+	<string name="pref_key_proxy_settings_advanced_title">Advanced</string>
+
+	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration Assistant</string>
+	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
+	
+	<string name="validation_proxy_category">Tests list</string>
+	<string name="other_tests_proxy_category">Other proxy tests</string>
+	
+	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
+
+	<string name="validation_proxy_enabled_title">Proxy enabled</string>
+	<string name="validation_proxy_enabled_summary_ok">Proxy is enabled</string>
+	<string name="validation_proxy_enabled_summary_nok">Proxy is not enabled</string>
+
+	<string name="validation_proxy_address_title">Proxy address</string>
+	<string name="validation_proxy_address_summary_ok">Proxy address is valid</string>
+	<string name="validation_proxy_address_summary_nok">Proxy address is not valid</string>
+
+	<string name="validation_proxy_reachable_title">Ping proxy host</string>
+	<string name="validation_proxy_reachable_summary_ok">Proxy host is reachable</string>
+	<string name="validation_proxy_reachable_summary_nok">Proxy host is not reachable</string>
+
+	<string name="validation_proxy_web_reachable_title">Web reachability</string>
+	<string name="validation_proxy_web_reachable_summary_ok">HTTP requests working</string>
+	<string name="validation_proxy_web_reachable_summary_nok">HTTP requests aren\'t working</string>
+
+	<string name="preference_proxy_authentication_screen_title">Proxy Authentication</string>
+	<string name="preference_proxy_authentication_screen_summary">Set proxy authentication</string>
+	<string name="preference_proxy_authentication_title">Authentication</string>
+	<string name="preference_proxy_authentication_summary_enabled">Proxy authentication enabled</string>
+	<string name="preference_proxy_authentication_summary_disabled">Proxy authentication disabled</string>
+	<string name="preference_proxy_authentication_type_title">Authentication Type</string>
+	<string name="preference_proxy_authentication_type_summary">HTTP</string>
+	<string name="preference_proxy_authentication_user_title">Username</string>
+	<string name="preference_proxy_authentication_user_summary" />
+	<string name="preference_proxy_authentication_password_title">Password</string>
+	<string name="preference_proxy_authentication_password_summary" />
+
+	<string name="preference_help_title">Help</string>
+	<string name="preference_help_summary">Android proxy settings explained</string>
+	<string name="preference_about_title">About</string>
+	<string name="proxy_settings_about">Application version</string>
+
+	<string name="preference_proxy_host_port_summary_exception">Invalid configuration</string>
+
+	<string name="application_list_description">Please select the application that doesn\'t support the proxy settings:</string>
+	<string name="application_list_loading_dialog_description">"Loading applications ..."</string>
+
+	<string name="application_feedback_dialog_title">Submit your feedback!</string>
+
+	<string name="application_feedback_dialog_description">Only the following informations will be sent in an anonymized way to our servers:</string>
+	<!-- <string name="application_feedback_dialog_accept_description"></string> -->
+	<string name="application_feedback_dialog_icon">Selected application icon</string>
+	<string name="feedback_app_version_label">Version: </string>
+
 </resources>

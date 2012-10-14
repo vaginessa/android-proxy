@@ -4,5 +4,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    <TextView
+        android:id="@+id/help_text_what_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:text="@string/help_text_what_title" />
+    
+    <TextView
+        android:id="@+id/help_text_what_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help_text_what_description" />
+    
+    <TextView
+        android:id="@+id/help_text_how_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:text="@string/help_text_how_title" />
+    
+    <TextView
+        android:id="@+id/help_text_how_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help_text_how_description" />
+    
+        <TextView
+        android:id="@+id/help_text_conclusions_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:text="@string/help_text_conclusions_title" />
+    
+    <TextView
+        android:id="@+id/help_text_conclusions_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help_text_conclusions_description" />
 
 </LinearLayout>
