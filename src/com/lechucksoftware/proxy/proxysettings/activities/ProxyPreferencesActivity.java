@@ -43,6 +43,9 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	ValidationPreference proxyAddressPref;
 	ValidationPreference proxyReachablePref;
 	ValidationPreference proxyWebReachablePref;
+	
+	Preference helpPref;
+	Preference aboutPref;
 
 	// static Preference appsFeedbackPref;
 
@@ -56,6 +59,18 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
+		loadUIComponents();
+		setListenersToUI();
+
+		refreshUIComponents();
+	}
+
+	/**
+	 * 
+	 */
+	@SuppressWarnings("deprecation")
+	public void loadUIComponents()
+	{
 		notificationEnabled = (CheckBoxPreference) findPreference("preference_notification_enabled");
 		
 		proxyAuthentication = (PreferenceScreen) findPreference("pref_key_proxy_settings_authentication_screen");
@@ -72,14 +87,12 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		proxyWebReachablePref = (ValidationPreference) findPreference("validation_web_reachable");
 
 		proxyTestPref = findPreference("preference_test_proxy_configuration");
-
+		
+		helpPref = findPreference("preference_help");
+		aboutPref = findPreference("preference_about");
+		
 		// appsFeedbackPref =
 		// findPreference("preference_applications_feedback");
-
-		refreshPreferenceSettings();
-		setListenersToUI();
-
-		refreshProxySettings();
 	}
 
 	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
@@ -91,7 +104,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			if (action.equals("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"))
 			{
 				Log.d(TAG, "Received broadcast for Updated proxy configuration");
-				refreshProxySettings();
+				refreshUIComponents();
 			}
 		}
 	};
@@ -168,6 +181,24 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 				return checkPasswordPref(newValue);
 			}
 		});
+		
+		helpPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			public boolean onPreferenceClick(Preference preference)
+			{
+				startActivity(new Intent(getApplicationContext(), HelpFragmentActivity.class));
+				return true;
+			}
+		});
+		
+		aboutPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			public boolean onPreferenceClick(Preference preference)
+			{
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 	}
 
 	public boolean checkUsernamePref(Object newValue)
@@ -229,16 +260,13 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		return true;
 	}
 
-	private void refreshPreferenceSettings()
+	private void refreshUIComponents()
 	{
 		checkNotificationPref(sharedPref.getBoolean("preference_notification_enabled", false));
 		checkAuthenticationPref(sharedPref.getBoolean("preference_authentication_enabled", false));
 		checkUsernamePref(sharedPref.getString("preference_authentication_user", ""));
 		checkPasswordPref(sharedPref.getString("preference_authentication_password", ""));
-	}
-
-	private void refreshProxySettings()
-	{
+		
 		proxyHostPortPref.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
 
 		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
@@ -321,7 +349,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	{
 		if (requestCode == SELECT_PROXY_REQUEST)
 		{
-			refreshProxySettings();
+			refreshUIComponents();
 		}
 	}
 

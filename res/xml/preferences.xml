@@ -119,7 +119,7 @@
         android:title="@string/preference_about_title" >
         <Preference
             android:enabled="true"
-            android:key="preference_help_troubleshooting"
+            android:key="preference_help"
             android:title="@string/preference_help_title" />
         <Preference
             android:enabled="true"
