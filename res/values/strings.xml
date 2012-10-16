@@ -42,25 +42,19 @@
 
 	<string name="help_text_how_title">How does	<b>Proxy Settings</b> do it?</string>
 	<string name="help_text_how_description">In the majority of the devices this application is already present but
-		hidden to the user. What
-		<b>Proxy Settings</b>
-		does is to simply call the
-		existing Android\'s system application, and
-		provides some tools to help you
-		checking the configuration.
+		hidden to the user. What <b>Proxy Settings</b> does is to simply call the existing Android\'s system application, 
+		and provides some tools to help you checking the configuration.
 	</string>
 
 
 	<string name="help_text_conclusions_title">So, everything ok now?</string>
 	<string name="help_text_conclusions_description">Configuring the Proxy Settings doesn\'t mean that
 		all your applications will automatically start to using those! If you
-		want the
-		<b>Proxy Settings</b>
-		also in your favourite applications request this
-		feature to their developers! Please remember that uninstalling this
-		application doesn\'t automatically restore the default values of the
-		System Proxy Settings of your device. You can find more details and
-		leave feedbacks here:
+		want the <b>Proxy Settings</b> also in your favourite applications 
+		request this feature to their developers! Please remember that 
+		uninstalling this application doesn\'t automatically restore the default 
+		values of the System Proxy Settings of your device. You can find more 
+		details and leave feedbacks here:
 	</string>
 
 	<string name="proxysettingscalleractivity_dialog_title">Warning</string>

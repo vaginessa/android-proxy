@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ScrollView;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -20,10 +21,15 @@ public class DisclaimerActivity extends Activity
 	static final int DIALOG_ID_DISCLAIMER = 0;
 	public static final String TAG = "DisclaimerActivity";
 	
+	public static ScrollView scroller;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
     	super.onCreate(savedInstanceState);
+    	
+    	scroller = (ScrollView) findViewById(R.id.scroller);
+    	
     	showDialog(DIALOG_ID_DISCLAIMER);
     }
     
