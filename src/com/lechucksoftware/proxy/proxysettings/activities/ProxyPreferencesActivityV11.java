@@ -2,15 +2,12 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import java.util.List;
 
-import org.apache.http.Header;
-
-import com.lechucksoftware.proxy.proxysettings.R;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.R;
 
 public class ProxyPreferencesActivityV11 extends PreferenceActivity {
 

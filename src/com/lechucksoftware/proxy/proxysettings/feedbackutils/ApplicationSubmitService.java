@@ -1,20 +1,16 @@
 package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
 import java.net.URI;
-import java.net.Proxy.Type;
-
-import com.lechucksoftware.proxy.proxysettings.Globals;
-import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxySettings;
-import com.shouldit.proxy.lib.ProxyUtils;
 
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxySettings;
+import com.shouldit.proxy.lib.ProxyUtils;
 
 public class ApplicationSubmitService extends IntentService 
 {

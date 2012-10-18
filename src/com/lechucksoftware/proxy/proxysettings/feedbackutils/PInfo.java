@@ -7,6 +7,11 @@ import android.util.Log;
 
 public class PInfo implements Serializable 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8480854041634888786L;
+
 	static String TAG = "PInfo";
 	
     public String appname = "";

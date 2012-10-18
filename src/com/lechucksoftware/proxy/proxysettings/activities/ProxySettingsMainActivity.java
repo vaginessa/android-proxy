@@ -1,13 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import com.lechucksoftware.proxy.proxysettings.Constants;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Proxy;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.Constants;
 
 public class ProxySettingsMainActivity extends Activity 
 {

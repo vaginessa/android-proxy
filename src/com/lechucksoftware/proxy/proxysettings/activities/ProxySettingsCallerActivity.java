@@ -1,23 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.VersionWarningAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11.MainPrefsFragment;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 

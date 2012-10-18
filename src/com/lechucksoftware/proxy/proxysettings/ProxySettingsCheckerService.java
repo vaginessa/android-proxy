@@ -2,15 +2,15 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import java.net.Proxy.Type;
 
-import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.ProxySettings;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.shouldit.proxy.lib.ProxySettings;
 
 public class ProxySettingsCheckerService extends IntentService 
 {
