@@ -2,10 +2,12 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.VersionWarningAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11.MainPrefsFragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,21 +16,23 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.provider.Settings;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-public class ProxySettingsCallerActivity extends Activity
+public class ProxySettingsCallerActivity extends FragmentActivity
 {
-	public static String TAG				= "ProxySettingsCallerActivity";
+	public static String TAG = "ProxySettingsCallerActivity";
 
-//	static final int	 DIALOG_ID_WARNING  = 0;
-	static final int	 DIALOG_ID_APP_RATE = 1;
+	static final int DIALOG_ID_WARNING = 0;
+	static final int DIALOG_ID_APP_RATE = 1;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
+
 		Log.d(TAG, "SDK Version");
 		Log.d(TAG, "SDK Version: " + Build.VERSION.SDK_INT);
 
@@ -39,27 +43,23 @@ public class ProxySettingsCallerActivity extends Activity
 		else
 		{
 			GoToProxy();
-			finish();
 		}
 	}
 
 	public void GoToProxy()
-	{	
-	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) // 12 = Honeycomb 3.1
-        {
-            final Intent intent = new Intent();
-            String mPackage = "com.lechucksoftware.proxy.proxysettings.activities";
-            String mClass = ".ProxyPreferencesActivityV11";
-            intent.setComponent(new ComponentName(mPackage,mPackage+mClass));
-            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, "com.lechucksoftware.proxy.proxysettings.activities.MainPrefsFragment");
-            Log.d(TAG, "Starting ProxyPreferencesActivityV11 activity");
-            startActivity(intent);
-        }
-        else
-        {
-        	Log.d(TAG, "Starting ProxyPreferencesActivity activity");
-            startActivity(new Intent(this, ProxyPreferencesActivity.class ));
-        }
+	{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) // 12 =
+																		// Honeycomb
+																		// 3.1
+		{
+			VersionWarningAlertDialog newFragment = VersionWarningAlertDialog.newInstance();
+			newFragment.show(getSupportFragmentManager(), TAG);
+		}
+		else
+		{
+			Log.d(TAG, "Starting ProxyPreferencesActivity activity");
+			startActivity(new Intent(this, ProxyPreferencesActivity.class));
+		}
 	}
 
 	public void DontDisplayAgain()
@@ -78,18 +78,16 @@ public class ProxySettingsCallerActivity extends Activity
 	{
 		Dialog dialog;
 		switch (id)
-			{
-//				case DIALOG_ID_WARNING:
-//					dialog = getWarningDialog();
-//					break;
+		{
+			case DIALOG_ID_APP_RATE:
+				dialog = getRateDialog();
+				break;
 
-				case DIALOG_ID_APP_RATE:
-					dialog = getRateDialog();
-					break;
-
-				default:
-					dialog = null;
-			}
+			default:
+				dialog = null;
+				Log.e(TAG, "onCreateDialog - Dialog ID not found");
+				break;
+		}
 
 		return dialog;
 	}
@@ -130,33 +128,6 @@ public class ProxySettingsCallerActivity extends Activity
 		return false;
 	}
 
-//	public AlertDialog getWarningDialog()
-//	{
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//		builder.setTitle(getResources().getText(R.string.proxysettingscalleractivity_dialog_title));
-//		builder.setMessage(getResources().getText(R.string.proxysettingscalleractivity_dialog_description));
-//		builder.setCancelable(false);
-////		builder.setNegativeButton(getResources().getText(R.string.proxysettingscalleractivity_dialog_Continue), new DialogInterface.OnClickListener() {
-////			@Override
-////			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-////			{
-////				CallSystemProxyActivity();
-////				finish();
-////			}
-////		});
-//		builder.setPositiveButton(getResources().getText(R.string.proxysettingscalleractivity_dialog_OK), new DialogInterface.OnClickListener() {
-//			@Override
-//			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-//			{
-//				startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-//				finish();
-//			}
-//		});
-//
-//		AlertDialog alert = builder.create();
-//		return alert;
-//	}
 
 	public Dialog getRateDialog()
 	{
@@ -184,7 +155,7 @@ public class ProxySettingsCallerActivity extends Activity
 
 		AlertDialog alert = builder.create();
 		return alert;
-		
+
 	}
 
 }

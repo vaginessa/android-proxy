@@ -19,8 +19,8 @@ public class ProxySettingsMainActivity extends Activity
         
     	super.onCreate(savedInstanceState);
     	
-    	Log.d(TAG, "Calling broadcast intent PROXY_CHANGE_ACTION");
-    	sendBroadcast(new Intent(Proxy.PROXY_CHANGE_ACTION));
+    	Log.d(TAG, "Calling broadcast intent com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE");
+    	sendBroadcast(new Intent("com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE"));
     	
     	// Restore preferences
         SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
