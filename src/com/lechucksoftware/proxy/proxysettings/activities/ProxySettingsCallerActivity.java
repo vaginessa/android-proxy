@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.VersionWarningAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11.MainPrefsFragment;
 import android.app.Activity;
@@ -38,7 +39,8 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 
 		if (AppLaunched())
 		{
-			showDialog(DIALOG_ID_APP_RATE);
+			RateApplicationAlertDialog newFragment = RateApplicationAlertDialog.newInstance();
+			newFragment.show(getSupportFragmentManager(), TAG);
 		}
 		else
 		{
@@ -72,24 +74,6 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 			editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
 			editor.commit();
 		}
-	}
-
-	protected Dialog onCreateDialog(int id)
-	{
-		Dialog dialog;
-		switch (id)
-		{
-			case DIALOG_ID_APP_RATE:
-				dialog = getRateDialog();
-				break;
-
-			default:
-				dialog = null;
-				Log.e(TAG, "onCreateDialog - Dialog ID not found");
-				break;
-		}
-
-		return dialog;
 	}
 
 	public boolean AppLaunched()
@@ -127,35 +111,4 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 
 		return false;
 	}
-
-
-	public Dialog getRateDialog()
-	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getResources().getString(R.string.app_rater_dialog_title)).setMessage(getResources().getString(R.string.app_rater_dialog_text)).setCancelable(false).setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
-				DontDisplayAgain();
-				Log.d(TAG, "Starting Market activity");
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
-				finish();
-			}
-		}).setNeutralButton(getResources().getText(R.string.app_rater_dialog_button_remind), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
-				GoToProxy();
-			}
-		}).setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
-				DontDisplayAgain();
-				GoToProxy();
-			}
-		});
-
-		AlertDialog alert = builder.create();
-		return alert;
-
-	}
-
 }

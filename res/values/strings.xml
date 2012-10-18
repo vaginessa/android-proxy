@@ -79,7 +79,7 @@
 	<string name="statusbar_notification_description_not_reachable">Please check your configuration &#8230;</string>
 	<string name="statusbar_notification_description_web_not_reachable"> Please check proxy configuration &#8230;</string>
 
-	<string name="app_rater_dialog_title">Rate Proxy Settings</string>
+	<string name="app_rater_dialog_title">Rate Proxy Settings!</string>
 	<string name="app_rater_dialog_text">It\'s been a while since you are using Proxy Settings. If you enjoy using this app, please take a moment to rate it. Thanks for your support!</string>
 	<string name="app_rater_dialog_button_rate">Rate Proxy Settings</string>
 	<string name="app_rater_dialog_button_remind">Remind me later</string>
