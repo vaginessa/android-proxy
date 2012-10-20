@@ -5,6 +5,7 @@ import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
+import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyUtils;
 import android.content.BroadcastReceiver;

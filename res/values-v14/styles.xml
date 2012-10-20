@@ -12,8 +12,8 @@
         <!-- Any customizations for your app running on devices with Theme.Holo here -->
     </style>
 
-    <style name="MyAppTheme" parent="@android:style/Theme.Holo.Light">
-        <!-- Any customizations for your app running on 3.0+ devices here -->
+    <style name="MyAppTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <!-- Any customizations for your app running on 4.0+ devices here -->
     </style>
 
 </resources>

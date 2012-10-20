@@ -1,7 +1,8 @@
-package com.lechucksoftware.proxy.proxysettings.activities;
+package com.lechucksoftware.proxy.proxysettings.activities.help;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,5 +16,10 @@ public class HelpProblemDescriptionFragment extends Fragment
 	{
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.help_problem_description, container, false);
+	}
+
+	public static Fragment newInstance(Context _context)
+	{
+		return new HelpProblemDescriptionFragment();
 	}
 }
