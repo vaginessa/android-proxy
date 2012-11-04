@@ -24,7 +24,7 @@
         android:orientation="horizontal" >
         
         <Button
-            android:id="@+id/help_cancel_button"
+            android:id="@+id/help_previous_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

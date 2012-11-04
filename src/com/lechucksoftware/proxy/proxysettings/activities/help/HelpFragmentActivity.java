@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
@@ -17,6 +20,9 @@ public class HelpFragmentActivity extends FragmentActivity
 
 	private ViewPager _mViewPager;
 	private ViewPagerAdapter _adapter;
+	
+	private Button _nextButton;
+	private Button _previousButton;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -24,13 +30,33 @@ public class HelpFragmentActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);
+		
 
+		
 		setUpView();
 		setTab();
 	}
 
 	private void setUpView()
 	{
+		_previousButton = (Button)findViewById(R.id.help_previous_button);
+		_nextButton = (Button)findViewById(R.id.help_next_button);
+		_previousButton.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v)
+			{
+				_mViewPager.setCurrentItem(_mViewPager.getCurrentItem() - 1);	
+			}
+		});
+		
+		_nextButton.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v)
+			{
+				_mViewPager.setCurrentItem(_mViewPager.getCurrentItem() + 1);	
+			}
+		});
+		
 		_mViewPager = (ViewPager) findViewById(R.id.viewPager);
 		_adapter = new ViewPagerAdapter(getApplicationContext(), getSupportFragmentManager());
 		_mViewPager.setAdapter(_adapter);
