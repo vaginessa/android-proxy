@@ -12,18 +12,18 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/help_text_what_title"
+            android:id="@+id/help_text_0_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="@string/help_text_what_title"
+            android:text="@string/help_text_0_title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/help_text_what_description"
+            android:id="@+id/help_text_0_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/help_text_what_description" />
+            android:text="@string/help_text_0_description" />
         
         <ImageView
             android:layout_width="wrap_content"

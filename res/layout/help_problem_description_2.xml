@@ -11,18 +11,18 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/help_text_conclusions_title"
+                android:id="@+id/help_text_2_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="@string/help_text_conclusions_title"
+                android:text="@string/help_text_2_title"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/help_text_conclusions_description"
+                android:id="@+id/help_text_2_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/help_text_conclusions_description" />
+                android:text="@string/help_text_2_description" />
         </LinearLayout>
 
 </LinearLayout>

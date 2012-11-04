@@ -88,22 +88,13 @@ public class HelpFragmentActivity extends FragmentActivity
 			switch (position)
 			{
 				case 0:
-					f = HelpProblemDescriptionFragment.newInstance(_context);
+					f = HelpProblemDescriptionFragment0.newInstance(_context);
 					break;
 				case 1:
 					f = HelpProblemDescriptionFragment1.newInstance(_context);
 					break;
 				case 2:
 					f = HelpProblemDescriptionFragment2.newInstance(_context);
-					break;
-				case 3:
-					f = HelpBrowserFragment.newInstance(_context);
-					break;
-				case 4:
-					f = HelpOtherAppsFragment.newInstance(_context);
-					break;
-				case 5:
-					f = HelpAPLFragment.newInstance(_context);
 					break;
 			}
 			return f;
@@ -112,7 +103,7 @@ public class HelpFragmentActivity extends FragmentActivity
 		@Override
 		public int getCount()
 		{
-			return 6;
+			return 3;
 		}
 
 	}

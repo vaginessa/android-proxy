@@ -37,18 +37,20 @@
 	<string name="disclaimer_pt2_text">http://www.android-proxy.com</string>
 	<string name="disclaimer_title">Proxy Settings - Disclaimer</string>
 
-	<string name="help_text_what_title">What does <b>Proxy Settings</b> do?</string>
-	<string name="help_text_what_description">This application provide a shortcut for calling a	system application hidden into Android Operative System, in order to edit the System\'s Proxy Settings.</string>
+	<string name="help_text_0_title">What does <b>Proxy Settings</b> do?</string>
+	<string name="help_text_0_description"><b>Proxy Settings</b> provides a 
+shortcut for calling a system application (technically it\'s called an <i>Activity</i>) 
+hidden into Android Operative System, in order to edit the System\'s Proxy Settings.</string>
 
-	<string name="help_text_how_title">How does	<b>Proxy Settings</b> do it?</string>
-	<string name="help_text_how_description">In the majority of the devices this application is already present but
-		hidden to the user. What <b>Proxy Settings</b> does is to simply call the existing Android\'s system application, 
-		and provides some tools to help you checking the configuration.
+	<string name="help_text_1_title">How does	<b>Proxy Settings</b> do it?</string>
+	<string name="help_text_1_description">In the majority of the devices this 
+application (<i>Activity</i>) is already present but hidden to the user. What 
+<b>Proxy Settings</b> does is to simply call the existing Android\'s system 
+application, and provides some tools to help you checking the configuration.
 	</string>
 
-
-	<string name="help_text_conclusions_title">So, everything ok now?</string>
-	<string name="help_text_conclusions_description">Configuring the Proxy Settings doesn\'t mean that
+	<string name="help_text_2_title">So, everything ok now?</string>
+	<string name="help_text_2_description">Configuring the Proxy Settings doesn\'t mean that
 		all your applications will automatically start to using those! If you
 		want the <b>Proxy Settings</b> also in your favourite applications 
 		request this feature to their developers! Please remember that 
