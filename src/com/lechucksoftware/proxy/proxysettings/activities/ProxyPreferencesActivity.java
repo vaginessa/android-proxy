@@ -1,6 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
+import java.io.File;
+
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
+import com.lechucksoftware.proxy.proxysettings.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
@@ -8,13 +11,22 @@ import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationSt
 import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyUtils;
+
+import android.annotation.TargetApi;
+import android.app.DownloadManager;
+import android.app.DownloadManager.Request;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Proxy;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -45,8 +57,14 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	ValidationPreference proxyReachablePref;
 	ValidationPreference proxyWebReachablePref;
 	
+	Preference webBrowserUrlOpener;
+	Preference urlDownloader;
+	
 	Preference helpPref;
 	Preference aboutPref;
+	
+	// declare the dialog as a member field of your activity
+	ProgressDialog mProgressDialog;
 
 	// static Preference appsFeedbackPref;
 
@@ -89,8 +107,18 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 		proxyTestPref = findPreference("preference_test_proxy_configuration");
 		
+		webBrowserUrlOpener = findPreference("preference_test_proxy_webview");
+		urlDownloader = findPreference("preference_test_proxy_urlretriever");
+		
 		helpPref = findPreference("preference_help");
 		aboutPref = findPreference("preference_about");
+		
+		// instantiate it within the onCreate method
+		mProgressDialog = new ProgressDialog(ProxyPreferencesActivity.this);
+		mProgressDialog.setMessage("A message");
+		mProgressDialog.setIndeterminate(false);
+		mProgressDialog.setMax(100);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		
 		// appsFeedbackPref =
 		// findPreference("preference_applications_feedback");
@@ -109,6 +137,29 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			}
 		}
 	};
+	
+	private class DownloadReceiver extends ResultReceiver
+	{
+		public DownloadReceiver(Handler handler)
+		{
+			super(handler);
+		}
+
+		@Override
+		protected void onReceiveResult(int resultCode, Bundle resultData)
+		{
+			super.onReceiveResult(resultCode, resultData);
+			if (resultCode == DownloadService.UPDATE_PROGRESS)
+			{
+				int progress = resultData.getInt("progress");
+				mProgressDialog.setProgress(progress);
+				if (progress == 100)
+				{
+					mProgressDialog.dismiss();
+				}
+			}
+		}
+	}
 
 	public void setListenersToUI()
 	{
@@ -180,6 +231,40 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				return checkPasswordPref(newValue);
+			}
+		});
+		
+		webBrowserUrlOpener.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			public boolean onPreferenceClick(Preference preference)
+			{
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+		
+		
+		urlDownloader.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@TargetApi(9)
+			public boolean onPreferenceClick(Preference preference)
+			{
+				mProgressDialog.show();
+				Intent intent = new Intent(getApplicationContext(), DownloadService.class);
+				intent.putExtra("url", "http://stackoverflow.com/questions/8986376/how-to-download-xml-file-from-server-and-save-it-in-sd-card");
+				intent.putExtra("receiver", new DownloadReceiver(new Handler()));
+				startService(intent);
+				
+//				DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+//				Request request = new Request(
+//		                Uri.parse("http://stackoverflow.com/questions/8986376/how-to-download-xml-file-from-server-and-save-it-in-sd-card"));
+//				long enqueue;
+//		        enqueue = dm.enqueue(request);
+//				
+//		        File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		        
+//				new ProxyDownloadManager(getApplicationContext()).execute("http://stackoverflow.com/questions/8986376/how-to-download-xml-file-from-server-and-save-it-in-sd-card", "test.html");
+				return false;
 			}
 		});
 		
