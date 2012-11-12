@@ -1,6 +1,5 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.services;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,14 +7,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
-import android.annotation.TargetApi;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.ResultReceiver;
+import android.webkit.MimeTypeMap;
 
 public class DownloadService extends IntentService
 {
@@ -25,7 +22,71 @@ public class DownloadService extends IntentService
 	{
 		super("DownloadService");
 	}
+	
+	public static String GetRemoteResourceFileExtension(HttpURLConnection connection)
+	{
+		MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+		return mimeTypeMap.getExtensionFromMimeType(connection.getContentType().split(";")[0]);
+	}
+	
+	public static String GetRemoteResourceFileName(HttpURLConnection connection)
+	{
+		String raw = connection.getHeaderField("Content-Disposition");
+		// raw = "attachment; filename=abc.jpg"
+		if(raw != null && raw.indexOf("=") != -1) 
+		{
+		    String fileName = raw.split("=")[1];
+		    return fileName;
+		} 
+		else 
+		{
+			String fileName = null;
+			URL url = connection.getURL();
+			fileName = url.getFile();
+			if (fileName != null && fileName != "")
+			{
+				if (fileName.contains("/"))
+				{
+					// Get only last part of page
+					String [] splitted = fileName.split("/");
+					fileName = splitted[splitted.length - 1];
+				}
+				
+				if (!fileName.contains("."))
+				{
+					// Add extension to filename
+					fileName = fileName.concat("." + GetRemoteResourceFileExtension(connection));
+				}
+				
+				return fileName;
+			}
+			else
+			{
+				return url.toString() + "."  + GetRemoteResourceFileExtension(connection);
+			}
+		    // fall back to random generated file name?
+		}
+		
+		
+	}
 
+	public static String GetLocalFileName(HttpURLConnection connection)
+	{
+		String startfileName = "/mnt/sdcard/Download/" + GetRemoteResourceFileName(connection);
+		String fileName = startfileName;
+		
+		File file = new File(fileName);
+		int i = 1;
+		while (file.exists()) 
+		{
+			
+			fileName = startfileName.split("[.]")[0] + "(" + i++ +")." + GetRemoteResourceFileExtension(connection);
+			file = new File(fileName);
+		}
+		
+		return fileName;
+	}
+	
 //	@TargetApi(8)
 	@Override
 	protected void onHandleIntent(Intent intent)
@@ -49,11 +110,12 @@ public class DownloadService extends IntentService
 			
 			// this will be useful so that you can show a typical 0-100%
 			// progress bar
+
 			int fileLength = con.getContentLength();
 			String filetype = con.getContentType();
 
 			// download the file
-			OutputStream output = new FileOutputStream("/mnt/sdcard/Download/index.html");
+			OutputStream output = new FileOutputStream(GetLocalFileName(con));
 
 			byte data[] = new byte[1024];
 			long total = 0;

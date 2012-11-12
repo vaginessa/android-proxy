@@ -1,8 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.RateApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.VersionWarningAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.dialogs.VersionWarningAlertDialog;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;

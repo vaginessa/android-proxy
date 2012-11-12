@@ -76,12 +76,9 @@
             </intent-filter>
         </activity>
         
-        <service android:name="com.lechucksoftware.proxy.proxysettings.ProxySettingsCheckerService"/>
+        <service android:name=".services.ProxySettingsCheckerService"/>
+        <service android:name=".services.DownloadService"/>
         
-        <service android:name="com.lechucksoftware.proxy.proxysettings.DownloadService"/>
-        
-
-        <!-- Receiver that listen for Proxy Change broadcast intents -->
         <receiver android:name="com.lechucksoftware.proxy.proxysettings.ProxyChangeReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

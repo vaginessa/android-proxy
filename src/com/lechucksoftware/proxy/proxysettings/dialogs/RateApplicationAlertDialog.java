@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.R.string;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
 
 public class RateApplicationAlertDialog extends DialogFragment
@@ -19,7 +21,11 @@ public class RateApplicationAlertDialog extends DialogFragment
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(getResources().getString(R.string.app_rater_dialog_title)).setMessage(getResources().getString(R.string.app_rater_dialog_text)).setCancelable(false).setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener() {
+		builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
+		builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
+		builder.setCancelable(false);
+		builder.setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener() 
+		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
 				((ProxySettingsCallerActivity) getActivity()).DontDisplayAgain();
@@ -27,12 +33,18 @@ public class RateApplicationAlertDialog extends DialogFragment
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
 				getActivity().finish();
 			}
-		}).setNeutralButton(getResources().getText(R.string.app_rater_dialog_button_remind), new DialogInterface.OnClickListener() {
+		});
+
+		builder.setNeutralButton(getResources().getText(R.string.app_rater_dialog_button_remind), new DialogInterface.OnClickListener() 
+		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
 				((ProxySettingsCallerActivity) getActivity()).GoToProxy();
 			}
-		}).setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener() {
+		});
+
+		builder.setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener() 
+		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
 				((ProxySettingsCallerActivity) getActivity()).DontDisplayAgain();

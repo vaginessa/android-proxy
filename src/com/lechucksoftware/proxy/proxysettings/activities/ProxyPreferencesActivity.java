@@ -3,12 +3,13 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 import java.io.File;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
-import com.lechucksoftware.proxy.proxysettings.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
 import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
+import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyUtils;
 
@@ -249,7 +250,15 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			@TargetApi(9)
 			public boolean onPreferenceClick(Preference preference)
 			{
+				// TODO: Create a new activity to handle in a clean way the download of the file
+				
+				
 				mProgressDialog.show();
+				
+				
+//				DonwloaderUrlDialog newFragment = DonwloaderUrlDialog.newInstance();
+//				newFragment.show(getFragmentManager(), TAG);
+				
 				Intent intent = new Intent(getApplicationContext(), DownloadService.class);
 				intent.putExtra("url", "http://stackoverflow.com/questions/8986376/how-to-download-xml-file-from-server-and-save-it-in-sd-card");
 				intent.putExtra("receiver", new DownloadReceiver(new Handler()));

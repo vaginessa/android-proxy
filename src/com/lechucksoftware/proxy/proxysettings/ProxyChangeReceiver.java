@@ -1,5 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings;
 
+import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

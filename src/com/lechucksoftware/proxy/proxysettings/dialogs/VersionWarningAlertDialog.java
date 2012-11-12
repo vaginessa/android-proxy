@@ -1,4 +1,7 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.dialogs;
+
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.R.string;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
