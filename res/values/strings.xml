@@ -143,9 +143,10 @@ remote resource\n\n
 	<string name="preference_test_proxy_webview_summary">Open a specific WEB page</string>
 	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
 	<string name="preference_test_proxy_urlretriever_summary">Donwload a specific remote resource asking for its URL</string>
-
+	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
+	<string name="preference_test_proxy_urlretriever_dialog_title">Enter the URL to download:</string>
+	
 	<string name="pref_key_proxy_settings_advanced_title">Advanced</string>
-
 	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration Assistant</string>
 	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
 	

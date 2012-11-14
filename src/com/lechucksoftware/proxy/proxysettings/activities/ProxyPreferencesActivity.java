@@ -1,21 +1,18 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import java.io.File;
-
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
 import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
-import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialog;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyUtils;
 
 import android.annotation.TargetApi;
-import android.app.DownloadManager;
-import android.app.DownloadManager.Request;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,9 +20,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Proxy;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.CheckBoxPreference;
@@ -42,6 +37,9 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 {
 	public static String TAG = "ProxyPreferencesActivity";
 	static final int SELECT_PROXY_REQUEST = 0;
+	
+	
+	static final int URL_DOWNLOADER_DIALOG = 0;
 
 	SharedPreferences sharedPref;
 
@@ -65,11 +63,10 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	Preference aboutPref;
 	
 	// declare the dialog as a member field of your activity
-	ProgressDialog mProgressDialog;
+	public ProgressDialog mProgressDialog;
 
 	// static Preference appsFeedbackPref;
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -84,11 +81,23 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 		refreshUIComponents();
 	}
+	
+	@Override
+	@Deprecated
+	protected Dialog onCreateDialog(int id)
+	{
+		switch (id)
+		{
+			case URL_DOWNLOADER_DIALOG:
+				UrlDownloaderDialog.newInstance(this).show();
+				break;
+		}
+		return super.onCreateDialog(id);
+	}
 
 	/**
 	 * 
 	 */
-	@SuppressWarnings("deprecation")
 	public void loadUIComponents()
 	{
 		notificationEnabled = (CheckBoxPreference) findPreference("preference_notification_enabled");
@@ -139,29 +148,6 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		}
 	};
 	
-	private class DownloadReceiver extends ResultReceiver
-	{
-		public DownloadReceiver(Handler handler)
-		{
-			super(handler);
-		}
-
-		@Override
-		protected void onReceiveResult(int resultCode, Bundle resultData)
-		{
-			super.onReceiveResult(resultCode, resultData);
-			if (resultCode == DownloadService.UPDATE_PROGRESS)
-			{
-				int progress = resultData.getInt("progress");
-				mProgressDialog.setProgress(progress);
-				if (progress == 100)
-				{
-					mProgressDialog.dismiss();
-				}
-			}
-		}
-	}
-
 	public void setListenersToUI()
 	{
 		notificationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
@@ -251,18 +237,12 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			public boolean onPreferenceClick(Preference preference)
 			{
 				// TODO: Create a new activity to handle in a clean way the download of the file
-				
-				
-				mProgressDialog.show();
-				
+				showDialog(URL_DOWNLOADER_DIALOG);
 				
 //				DonwloaderUrlDialog newFragment = DonwloaderUrlDialog.newInstance();
 //				newFragment.show(getFragmentManager(), TAG);
 				
-				Intent intent = new Intent(getApplicationContext(), DownloadService.class);
-				intent.putExtra("url", "http://stackoverflow.com/questions/8986376/how-to-download-xml-file-from-server-and-save-it-in-sd-card");
-				intent.putExtra("receiver", new DownloadReceiver(new Handler()));
-				startService(intent);
+
 				
 //				DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 //				Request request = new Request(
