@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
 
 import com.lechucksoftware.proxy.proxysettings.DownloadReceiver;
@@ -40,6 +41,12 @@ public class UrlDownloaderDialog
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,android.R.layout.simple_dropdown_item_1line, uriTypes);
 		input.setThreshold(1);
 		input.setAdapter(adapter);
+		
+		TextView pathdescriptionView = (TextView) view.findViewById(R.id.url_downloader_dialog_path_description);
+		pathdescriptionView.setText(activity.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_file_path_description));
+		
+		TextView pathView = (TextView) view.findViewById(R.id.url_downloader_dialog_path);
+		pathView.setText("\"/mnt/sdcard/Download/\"");
 		
 		builder.setView(view);
 		

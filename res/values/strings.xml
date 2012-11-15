@@ -148,6 +148,8 @@ remote resource\n\n
 	<string name="preference_test_proxy_urlretriever_dialog_title">Enter the URL to download:</string>
 	<string name="preference_test_proxy_urlretriever_dialog_status">Downloading: </string>
 	<string name="preference_test_proxy_urlretriever_dialog_file_saved">download completed!</string>
+	<string name="preference_test_proxy_urlretriever_dialog_file_path_description">The provided URL will be downloaded and saved at the following path: </string>
+	
 	
 	<string name="pref_key_proxy_settings_advanced_title">Advanced</string>
 	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration Assistant</string>
