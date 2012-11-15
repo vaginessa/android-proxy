@@ -6,6 +6,7 @@ import android.os.ResultReceiver;
 
 import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class DownloadReceiver extends ResultReceiver
 {
@@ -23,11 +24,16 @@ public class DownloadReceiver extends ResultReceiver
 		super.onReceiveResult(resultCode, resultData);
 		if (resultCode == DownloadService.UPDATE_PROGRESS)
 		{
-			int progress = resultData.getInt("progress");
-			_activity.mProgressDialog.setProgress(progress);
-			if (progress == 100)
+			long downloaded = resultData.getLong("downloaded");
+
+			String message = (String) _activity.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_status);
+			message = message.concat(String.valueOf(downloaded) + " bytes");
+			_activity.mProgressDialog.setMessage(message);
+			
+			if (resultData.getBoolean("finish"))
 			{
 				_activity.mProgressDialog.dismiss();
+				UIUtils.NotifyCompletedDownload(_activity,resultData.getString("filename"));
 			}
 		}
 	}

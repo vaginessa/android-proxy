@@ -1,13 +1,17 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
+import java.io.File;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.Globals;
@@ -18,6 +22,7 @@ import com.shouldit.proxy.lib.Constants.ProxyStatusErrors;
 public class UIUtils
 {
 	public static int PROXY_NOTIFICATION_ID = 1;
+	public static int URL_DOWNLOADER_COMPLETED_ID = 2;
 	
 	public static String GetStatusSummary(Context ctx)
 	{
@@ -173,6 +178,36 @@ public class UIUtils
 		}
 	}
 	
+	public static void NotifyCompletedDownload(Context callerContext, String downloadedFilePath)
+	{
+//		Intent intent = new Intent();
+//		intent.setAction(android.content.Intent.ACTION_VIEW);
+		File downloadedFile = new File(downloadedFilePath);
+//	    intent.setData(Uri.fromFile(downloadedFile.getParentFile()));
+		 
+//		NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
+//		PendingIntent contentIntent = PendingIntent.getActivity(callerContext, 0, intent, 0);
+//
+//		NotificationCompat.Builder builder = new NotificationCompat.Builder(callerContext);
+//		builder.setContentIntent(contentIntent).
+//		setSmallIcon(R.drawable.ic_stat_proxy_notification).
+//		setTicker("Proxy Settings completed a download ...").
+//		setWhen(System.currentTimeMillis()).
+//		setContentTitle(downloadedFile.getName()).
+//		setContentText("Download completed ");
+//		
+//		Notification n;
+//		n = builder.getNotification();
+//
+//		manager.notify(URL_DOWNLOADER_COMPLETED_ID, n);
+		
+		CharSequence text = downloadedFile.getName() + " "  + callerContext.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_file_saved);
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(callerContext, text, duration);
+		toast.show();
+	}
+	
 	private static void EnableProxyNotification(Context callerContext, Intent intentToCall, String notificationTitle, String notificationDescription)
 	{
 		NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -192,6 +227,8 @@ public class UIUtils
 
 		manager.notify(PROXY_NOTIFICATION_ID, n);
 	}
+	
+	
 
 	public static void DisableProxyNotification(Context callerContext)
 	{

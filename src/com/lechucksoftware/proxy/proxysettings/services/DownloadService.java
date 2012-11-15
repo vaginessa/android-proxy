@@ -8,6 +8,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +20,9 @@ import android.webkit.MimeTypeMap;
 public class DownloadService extends IntentService
 {
 	public static final int UPDATE_PROGRESS = 8344;
-	public static String fileName;
+	public static String downloadFolder;
+	public static String urlToDownload; 
+	public static ResultReceiver receiver;
 
 	public DownloadService()
 	{
@@ -33,6 +38,8 @@ public class DownloadService extends IntentService
 	public static String GetRemoteResourceFileName(HttpURLConnection connection)
 	{
 		String raw = connection.getHeaderField("Content-Disposition");
+		String fileName;
+		
 		// raw = "attachment; filename=abc.jpg"
 		if (raw != null && raw.indexOf("=") != -1)
 		{
@@ -72,7 +79,8 @@ public class DownloadService extends IntentService
 			}
 			else
 			{
-				return url.toString() + "." + GetRemoteResourceFileExtension(connection);
+				return url.getHost().replace(".", "")
+									.replace("www", "") + "." + GetRemoteResourceFileExtension(connection);
 			}
 			// fall back to random generated file name?
 		}
@@ -81,8 +89,8 @@ public class DownloadService extends IntentService
 
 	public static String GetLocalFileName(HttpURLConnection connection)
 	{
-		String startfileName = "/mnt/sdcard/Download/" + GetRemoteResourceFileName(connection);
-		fileName = startfileName;
+		String startfileName =  downloadFolder + GetRemoteResourceFileName(connection);
+		String fileName = startfileName;
 
 		File file = new File(fileName);
 		int i = 1;
@@ -100,17 +108,19 @@ public class DownloadService extends IntentService
 	@Override
 	protected void onHandleIntent(Intent intent)
 	{
-		// File f =
-		// Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-		int fileLength = 0;
-		String urlToDownload = intent.getStringExtra("url");
-		ResultReceiver receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
+		long total = 0;
+		
+		String fileName = "";
+
+		urlToDownload = intent.getStringExtra("url");
+		receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
+		downloadFolder = intent.getStringExtra("downloadFolder");
 		try
 		{
 			HttpURLConnection con = null;
 			URL url = new URL(urlToDownload);
 
-			con = (HttpURLConnection) url.openConnection();
+			con = (HttpURLConnection) url.openConnection(Globals.getInstance().proxyConf.proxyHost);
 			con.setReadTimeout(10000);
 			con.setConnectTimeout(15000);
 			con.setRequestMethod("GET");
@@ -118,26 +128,23 @@ public class DownloadService extends IntentService
 			con.connect();
 			InputStream input = con.getInputStream();
 
-			// this will be useful so that you can show a typical 0-100%
-			// progress bar
-
-			fileLength = con.getContentLength();
 			String filetype = con.getContentType();
 
 			// download the file
-			OutputStream output = new FileOutputStream(GetLocalFileName(con));
+			fileName = GetLocalFileName(con);
+			OutputStream output = new FileOutputStream(fileName);
 
 			byte data[] = new byte[1024];
-			long total = 0;
+			
 			int count;
 			while ((count = input.read(data)) != -1)
 			{
 				total += count;
 				// publishing the progress....
 				Bundle resultData = new Bundle();
-				resultData.putInt("progress", (int) (total * 100 / fileLength));
-				resultData.putInt("total", fileLength);
+				resultData.putLong("downloaded", total);
 				resultData.putString("filename", fileName);
+				resultData.putBoolean("finish", false);
 				receiver.send(UPDATE_PROGRESS, resultData);
 				output.write(data, 0, count);
 			}
@@ -152,9 +159,9 @@ public class DownloadService extends IntentService
 		}
 
 		Bundle resultData = new Bundle();
-		resultData.putInt("progress", 100);
-		resultData.putInt("total", fileLength);
+		resultData.putLong("downloaded", total);
 		resultData.putString("filename", fileName);
+		resultData.putBoolean("finish", true);
 		receiver.send(UPDATE_PROGRESS, resultData);
 	}
 }
