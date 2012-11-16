@@ -36,7 +36,42 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 		{
 			GoToProxy();
 		}
+		
+		finish();
+		Log.d(TAG, "Finish onCreate");
 	}
+
+    public void onBackPressed() 
+    {
+    	Log.d(TAG, "Back Pressed");
+    	return;
+    }
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "Start");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "Resume");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "Pause");
+    }
+    @Override
+    protected void onStop() {
+    	Log.d(TAG, "Stop");
+        super.onStop();
+    }
+    @Override
+    protected void onDestroy() {
+    	Log.d(TAG, "Destroy");
+        super.onDestroy();
+    }
 
 	public void GoToProxy()
 	{
