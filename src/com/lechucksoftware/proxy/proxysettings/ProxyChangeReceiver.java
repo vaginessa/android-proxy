@@ -22,7 +22,8 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else if (intent.getAction().toString().equals("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY") ||
         		 intent.getAction().toString().equals("android.intent.action.PROXY_CHANGE") ||
-        		 intent.getAction().toString().equals("com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE"))
+        		 intent.getAction().toString().equals("com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE") ||
+        		 intent.getAction().toString().equals("android.net.conn.CONNECTIVITY_CHANGE"))
         {
         	Intent msgIntent = new Intent(context, ProxySettingsCheckerService.class);
             context.startService(msgIntent);	

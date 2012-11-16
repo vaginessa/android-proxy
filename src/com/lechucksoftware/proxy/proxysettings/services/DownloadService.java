@@ -120,7 +120,10 @@ public class DownloadService extends IntentService
 			HttpURLConnection con = null;
 			URL url = new URL(urlToDownload);
 
-			con = (HttpURLConnection) url.openConnection(Globals.getInstance().proxyConf.proxyHost);
+			System.setProperty("http.proxyHost", Globals.getInstance().proxyConf.getProxyIPHost());
+			System.setProperty("http.proxyPort", Globals.getInstance().proxyConf.getProxyPort().toString());
+			
+			con = (HttpURLConnection) url.openConnection();
 			con.setReadTimeout(10000);
 			con.setConnectTimeout(15000);
 			con.setRequestMethod("GET");
