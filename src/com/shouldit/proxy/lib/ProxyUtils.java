@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.Proxy.Type;
 import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -117,9 +118,12 @@ public class ProxyUtils
 		try
 		{
 			URL url = uri.toURL();
-			
-			System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
-			System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
+		
+			if (proxyConfiguration.getConnectionType()==Type.HTTP)
+			{
+				System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
+				System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
+			}
 			
 			HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
