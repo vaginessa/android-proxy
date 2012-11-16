@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.Proxy.Type;
 import java.net.URL;
 
 import com.lechucksoftware.proxy.proxysettings.Globals;
@@ -120,8 +121,11 @@ public class DownloadService extends IntentService
 			HttpURLConnection con = null;
 			URL url = new URL(urlToDownload);
 
-			System.setProperty("http.proxyHost", Globals.getInstance().proxyConf.getProxyIPHost());
-			System.setProperty("http.proxyPort", Globals.getInstance().proxyConf.getProxyPort().toString());
+			if (Globals.getInstance().proxyConf.getConnectionType()==Type.HTTP)
+			{
+				System.setProperty("http.proxyHost", Globals.getInstance().proxyConf.getProxyIPHost());
+				System.setProperty("http.proxyPort", Globals.getInstance().proxyConf.getProxyPort().toString());
+			}
 			
 			con = (HttpURLConnection) url.openConnection();
 			con.setReadTimeout(10000);

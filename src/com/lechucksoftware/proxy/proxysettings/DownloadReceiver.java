@@ -27,7 +27,7 @@ public class DownloadReceiver extends ResultReceiver
 			long downloaded = resultData.getLong("downloaded");
 
 			String message = (String) _activity.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_status);
-			message = message.concat(String.valueOf(downloaded) + " bytes");
+			message = message.concat(" " + String.valueOf(downloaded) + " bytes");
 			_activity.mProgressDialog.setMessage(message);
 			
 			if (resultData.getBoolean("finish"))

@@ -127,7 +127,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		mProgressDialog = new ProgressDialog(ProxyPreferencesActivity.this);
 		mProgressDialog.setMessage(getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_status));
 		mProgressDialog.setIndeterminate(true);
-		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		
 		// appsFeedbackPref =
 		// findPreference("preference_applications_feedback");

@@ -146,7 +146,7 @@ remote resource\n\n
 	<string name="preference_test_proxy_urlretriever_summary">Donwload a specific remote resource asking for its URL</string>
 	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
 	<string name="preference_test_proxy_urlretriever_dialog_title">Enter the URL to download:</string>
-	<string name="preference_test_proxy_urlretriever_dialog_status">Downloading: </string>
+	<string name="preference_test_proxy_urlretriever_dialog_status">Downloading </string>
 	<string name="preference_test_proxy_urlretriever_dialog_file_saved">download completed!</string>
 	<string name="preference_test_proxy_urlretriever_dialog_file_path_description">The provided URL will be downloaded and saved at the following path: </string>
 	
