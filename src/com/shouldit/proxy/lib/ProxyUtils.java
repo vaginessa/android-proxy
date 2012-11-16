@@ -6,19 +6,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.concurrent.TimeoutException;
-
 import org.apache.http.HttpHost;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -115,12 +112,16 @@ public class ProxyUtils
 		return false;
 	}
 
-	public static int testHTTPConnection(URI uri, Proxy proxy, int timeout)
+	public static int testHTTPConnection(URI uri, ProxyConfiguration proxyConfiguration, int timeout)
 	{
 		try
 		{
 			URL url = uri.toURL();
-			HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
+			
+			System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
+			System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
+			
+			HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
 			httpURLConnection.setReadTimeout(timeout);
 			httpURLConnection.setConnectTimeout(timeout);
@@ -193,11 +194,11 @@ public class ProxyUtils
 		return null;
 	}
 
-	public static boolean isWebReachable(Proxy proxy, int timeout)
+	public static boolean isWebReachable(ProxyConfiguration proxyConfiguration, int timeout)
 	{
 		try
 		{
-			int result = testHTTPConnection(new URI("http://www.un.org/"), proxy, timeout);
+			int result = testHTTPConnection(new URI("http://www.un.org/"), proxyConfiguration, timeout);
 
 			switch (result)
 			{

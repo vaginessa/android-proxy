@@ -234,7 +234,7 @@ public class ProxyConfiguration
 
 	private Boolean isWebReachable(int timeout)
 	{
-		return ProxyUtils.isWebReachable(proxyHost, timeout);
+		return ProxyUtils.isWebReachable(this, timeout);
 	}
 
 	public String getProxyHost()
