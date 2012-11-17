@@ -128,8 +128,8 @@ public class DownloadService extends IntentService
 			}
 			
 			con = (HttpURLConnection) url.openConnection();
-			con.setReadTimeout(10000);
-			con.setConnectTimeout(15000);
+			con.setReadTimeout(60000);
+			con.setConnectTimeout(60000);
 			con.setRequestMethod("GET");
 			con.setDoInput(true);
 			con.connect();

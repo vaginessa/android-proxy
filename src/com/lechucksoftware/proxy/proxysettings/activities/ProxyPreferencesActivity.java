@@ -6,6 +6,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
 import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
+import com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialog;
 import com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialog;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -40,6 +41,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	
 	
 	static final int URL_DOWNLOADER_DIALOG = 0;
+	static final int URL_BROWSER_DIALOG = 1;
 
 	SharedPreferences sharedPref;
 
@@ -90,6 +92,9 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		{
 			case URL_DOWNLOADER_DIALOG:
 				UrlDownloaderDialog.newInstance(this).show();
+				break;
+			case URL_BROWSER_DIALOG:
+				UrlBrowserDialog.newInstance(this).show();
 				break;
 		}
 		return super.onCreateDialog(id);
@@ -224,7 +229,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			
 			public boolean onPreferenceClick(Preference preference)
 			{
-				// TODO Auto-generated method stub
+				showDialog(URL_BROWSER_DIALOG);
 				return false;
 			}
 		});
@@ -235,7 +240,6 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			@TargetApi(9)
 			public boolean onPreferenceClick(Preference preference)
 			{
-				// TODO: Create a new activity to handle in a clean way the download of the file
 				showDialog(URL_DOWNLOADER_DIALOG);
 				
 //				DonwloaderUrlDialog newFragment = DonwloaderUrlDialog.newInstance();

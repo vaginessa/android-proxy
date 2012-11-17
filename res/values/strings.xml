@@ -6,6 +6,7 @@
 	<string name="submit">Submit</string>
 	<string name="cancel">Cancel</string>
 	<string name="download">Download</string>
+	<string name="open">Open</string>
 	<string name="versionName">1.4</string>
 
 	<string name="disclaimer_description">Please read carefully and accept only if you really
@@ -149,6 +150,8 @@ remote resource\n\n
 	<string name="preference_test_proxy_urlretriever_dialog_status">Downloading </string>
 	<string name="preference_test_proxy_urlretriever_dialog_file_saved">download completed!</string>
 	<string name="preference_test_proxy_urlretriever_dialog_file_path_description">The provided URL will be downloaded and saved at the following path: </string>
+	<string name="preference_test_proxy_urlbrowser_dialog_title">Insert an URL to open into a webview browser: </string>
+	
 	
 	
 	<string name="pref_key_proxy_settings_advanced_title">Advanced</string>
