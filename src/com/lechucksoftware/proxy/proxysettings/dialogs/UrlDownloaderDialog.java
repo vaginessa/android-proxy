@@ -1,9 +1,16 @@
 package com.lechucksoftware.proxy.proxysettings.dialogs;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.util.Rfc822Tokenizer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +23,14 @@ import android.widget.MultiAutoCompleteTextView.Tokenizer;
 
 import com.lechucksoftware.proxy.proxysettings.DownloadReceiver;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.UrlManager;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 
 public class UrlDownloaderDialog
-{
-    private static final String[] uriTypes = new String[] {
-    	"http://",
-		"http://www.",
-		"https://",
-		"https://www.",
-		"ftp://"
-    };
-		
+{    
+	public static SharedPreferences sharedPref;
+			
 	public static AlertDialog newInstance(final ProxyPreferencesActivity activity)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -38,7 +40,10 @@ public class UrlDownloaderDialog
 		
 		// Set an EditText view to get user input 
 		final AutoCompleteTextView input = (AutoCompleteTextView) view.findViewById(R.id.url_downloader_dialog_autocomplete_text);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,android.R.layout.simple_dropdown_item_1line, uriTypes);
+		
+		String [] urls = UrlManager.getUsedUrls(activity);
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,android.R.layout.simple_dropdown_item_1line, urls);
 		input.setThreshold(1);
 		input.setAdapter(adapter);
 		
@@ -56,6 +61,9 @@ public class UrlDownloaderDialog
 			{
 				activity.mProgressDialog.show();
 				String url = input.getText().toString();
+				
+				UrlManager.addUsedUrl(activity, url);
+				
 				Intent intent = new Intent(activity.getApplicationContext(), DownloadService.class);
 				intent.putExtra("url", url);
 				

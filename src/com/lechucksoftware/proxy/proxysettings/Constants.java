@@ -10,6 +10,8 @@ public class Constants
 	public static final String PREFERENCES_APPRATE_LAUNCH_COUNT = "LaunchCount";
 	public static final String PREFERENCES_APPRATE_DATE_FIRST_LAUNCH = "DateFirstLaunch";
 	
+	public static final String PREFERENCES_CACHED_URLS = "CachedUrls";
+	
 	public final static int   APPRATE_DAYS_UNTIL_PROMPT	 = 7;
 	public final static int   APPRATE_LAUNCHES_UNTIL_PROMPT = 10;
 	
@@ -17,5 +19,12 @@ public class Constants
 	{
 		CHECKING,
 		CHECKED
+	}
+	
+	public enum DonwloadStatus
+	{
+		DOWNLOADING,
+		STARTED,
+		ERROR
 	}
 }

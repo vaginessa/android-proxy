@@ -10,10 +10,9 @@ import java.net.Proxy.Type;
 import java.net.URL;
 
 import com.lechucksoftware.proxy.proxysettings.Globals;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.webkit.MimeTypeMap;
@@ -24,6 +23,7 @@ public class DownloadService extends IntentService
 	public static String downloadFolder;
 	public static String urlToDownload; 
 	public static ResultReceiver receiver;
+	public SharedPreferences sharedPref;
 
 	public DownloadService()
 	{
