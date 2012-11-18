@@ -20,6 +20,7 @@ import org.apache.http.HttpHost;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
@@ -228,14 +229,16 @@ public class ProxyUtils
 		return false;
 	}
 
-	public static void setWebViewProxy(Context context)
+	public static void setWebViewProxy(Context context, ProxyConfiguration proxyConf)
 	{
-		ProxyConfiguration proxyConf;
 		try
 		{
-			proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
-			if (proxyConf.deviceVersion < 12)
+			if (proxyConf != null && 
+				proxyConf.getConnectionType() == Type.HTTP && 
+				proxyConf.deviceVersion < 12)
+			{
 				setProxy(context, proxyConf.getProxyHost(), proxyConf.getProxyPort());
+			}
 		}
 		catch (Exception e)
 		{
