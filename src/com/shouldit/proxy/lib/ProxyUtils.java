@@ -237,7 +237,7 @@ public class ProxyUtils
 				proxyConf.getConnectionType() == Type.HTTP && 
 				proxyConf.deviceVersion < 12)
 			{
-				setProxy(context, proxyConf.getProxyHost(), proxyConf.getProxyPort());
+				setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
 			}
 		}
 		catch (Exception e)
