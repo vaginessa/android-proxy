@@ -12,18 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.UrlManager;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
 import com.lechucksoftware.proxy.proxysettings.activities.WebViewWithProxyActivity;
 
 public class UrlBrowserDialog
-{
-    private static final String[] uriTypes = new String[] {
-    	"http://",
-		"http://www.",
-		"https://",
-		"https://www.",
-    };
-		
+{	
 	public static AlertDialog newInstance(final ProxyPreferencesActivity activity)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -33,7 +27,10 @@ public class UrlBrowserDialog
 		
 		// Set an EditText view to get user input 
 		final AutoCompleteTextView input = (AutoCompleteTextView) view.findViewById(R.id.url_browser_dialog_autocomplete_text);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,android.R.layout.simple_dropdown_item_1line, uriTypes);
+		
+		String [] urls = UrlManager.getUsedUrls(activity);
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,android.R.layout.simple_dropdown_item_1line, urls);
 		input.setThreshold(1);
 		input.setAdapter(adapter);
 		
@@ -44,6 +41,9 @@ public class UrlBrowserDialog
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
             	String uriString = input.getText().toString().trim();
+            	
+				UrlManager.addUsedUrl(activity, uriString);
+				
         		URI uri = URI.create(uriString);
                 Intent webViewIntent = new Intent(activity.getApplicationContext(),WebViewWithProxyActivity.class);
                 webViewIntent.putExtra("URI", uri);

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class LocalWebViewClient extends WebViewClient
 {
@@ -35,5 +36,10 @@ public class LocalWebViewClient extends WebViewClient
     {
     	// TODO Auto-generated method stub
     	super.onPageFinished(view, url);
+    }
+    
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl)
+    {
+        Toast.makeText(view.getContext(), "Error: " + description, Toast.LENGTH_SHORT).show();
     }
 }
