@@ -1,5 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings;
 
+import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
+
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -7,10 +10,12 @@ import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 public class ValidationPreference extends Preference
 {
 	private ValidationStatus status;
+	private ProgressDialog progress;
 	private Drawable mIcon;
 	
 	public enum ValidationStatus
@@ -23,7 +28,7 @@ public class ValidationPreference extends Preference
 		super(context, attrs);
 
 		status = ValidationStatus.Checking;
-		setWidgetLayoutResource(R.layout.validation_preference_widget);
+		setWidgetLayoutResource(R.layout.validation_preference_widget);		
 	    mIcon = getContext().getResources().getDrawable(R.drawable.waiting);
 	}
 
@@ -56,14 +61,16 @@ public class ValidationPreference extends Preference
 		
 		if (st == ValidationStatus.Checking)
 		{
-			mIcon = getContext().getResources().getDrawable(R.drawable.waiting);
+			setWidgetLayoutResource(R.layout.validation_preference_widget_waiting);	
 		}
 		else if (status == ValidationStatus.Valid)
 		{
+			setWidgetLayoutResource(R.layout.validation_preference_widget);	
 			mIcon = getContext().getResources().getDrawable(R.drawable.ok);
 		}
 		else
 		{
+			setWidgetLayoutResource(R.layout.validation_preference_widget);	
 			mIcon = getContext().getResources().getDrawable(R.drawable.problem);
 		}
 		
