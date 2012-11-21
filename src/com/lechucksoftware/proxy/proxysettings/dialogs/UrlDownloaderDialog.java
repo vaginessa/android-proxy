@@ -1,5 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.dialogs;
 
+import java.net.URI;
+import java.net.URL;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,9 +11,11 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.DownloadReceiver;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -51,12 +56,23 @@ public class UrlDownloaderDialog
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
 				activity.mProgressDialog.show();
-				String url = input.getText().toString();
+				String urlstring = input.getText().toString();
+				URL url = null;
 				
-				UrlManager.addUsedUrl(activity, url);
+				try
+				{
+					String guessedUrl = URLUtil.guessUrl(urlstring);
+					url = URI.create(guessedUrl).toURL();
+				}
+				catch(Exception e)
+				{
+					Toast.makeText(activity, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+					return;
+				}
 				
+				UrlManager.addUsedUrl(activity, urlstring);
 				Intent intent = new Intent(activity.getApplicationContext(), DownloadService.class);
-				intent.putExtra("url", url);
+				intent.putExtra("URL", url);
 				
 				// Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 				intent.putExtra("downloadFolder", "/mnt/sdcard/Download/");

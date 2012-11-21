@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -58,9 +59,14 @@ public class UrlManager
 		}
 		else
 		{
-			cachedUrls = cachedUrls.concat("," + url);
-			keyValuesEditor.putString(Constants.PREFERENCES_CACHED_URLS, cachedUrls);
-			keyValuesEditor.commit();
+			List<String> urlsList = new ArrayList<String>(Arrays.asList(cachedUrls.split(",")));
+			
+			if (!urlsList.contains(url))
+			{
+				cachedUrls = cachedUrls.concat("," + url);
+				keyValuesEditor.putString(Constants.PREFERENCES_CACHED_URLS, cachedUrls);
+				keyValuesEditor.commit();	
+			}
 		}
 	}
 }

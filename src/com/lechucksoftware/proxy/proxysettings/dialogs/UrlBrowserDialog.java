@@ -1,6 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.dialogs;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,8 +10,10 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.UrlManager;
@@ -41,12 +45,23 @@ public class UrlBrowserDialog
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
             	String uriString = input.getText().toString().trim();
-            	
-				UrlManager.addUsedUrl(activity, uriString);
 				
-        		URI uri = URI.create(uriString);
+            	URL url = null;
+            	
+				try
+				{
+					String guessedUrl = URLUtil.guessUrl(uriString);
+					url = URI.create(guessedUrl).toURL();
+				}
+				catch(Exception e)
+				{
+					Toast.makeText(activity, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+				UrlManager.addUsedUrl(activity, uriString);
                 Intent webViewIntent = new Intent(activity.getApplicationContext(),WebViewWithProxyActivity.class);
-                webViewIntent.putExtra("URI", uri);
+                webViewIntent.putExtra("URL", url);
                 activity.startActivity(webViewIntent);
 			}
 		});

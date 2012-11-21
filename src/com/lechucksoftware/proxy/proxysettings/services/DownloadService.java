@@ -21,7 +21,7 @@ public class DownloadService extends IntentService
 {
 	public static final int UPDATE_PROGRESS = 8344;
 	public static String downloadFolder;
-	public static String urlToDownload; 
+	public static URL urlToDownload; 
 	public static ResultReceiver receiver;
 	public SharedPreferences sharedPref;
 
@@ -33,7 +33,12 @@ public class DownloadService extends IntentService
 	public static String GetRemoteResourceFileExtension(HttpURLConnection connection)
 	{
 		MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-		return mimeTypeMap.getExtensionFromMimeType(connection.getContentType().split(";")[0]);
+		String contentType = connection.getContentType();
+		
+		if (contentType != null && contentType.contains(";"))
+			return mimeTypeMap.getExtensionFromMimeType(contentType.split(";")[0]);
+		else
+			return "htm";
 	}
 
 	public static String GetRemoteResourceFileName(HttpURLConnection connection)
@@ -113,21 +118,26 @@ public class DownloadService extends IntentService
 		
 		String fileName = "";
 
-		urlToDownload = intent.getStringExtra("url");
-		receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
-		downloadFolder = intent.getStringExtra("downloadFolder");
+		Bundle extras = intent.getExtras();
+		urlToDownload = (URL) extras.getSerializable("URL");
+		receiver = (ResultReceiver) extras.getParcelable("receiver");
+		downloadFolder = extras.getString("downloadFolder");
 		try
 		{
 			HttpURLConnection con = null;
-			URL url = new URL(urlToDownload);
 
 			if (Globals.getInstance().proxyConf.getConnectionType()==Type.HTTP)
 			{
 				System.setProperty("http.proxyHost", Globals.getInstance().proxyConf.getProxyIPHost());
 				System.setProperty("http.proxyPort", Globals.getInstance().proxyConf.getProxyPort().toString());
 			}
+			else
+			{
+				System.setProperty("http.proxyHost", "");
+				System.setProperty("http.proxyPort", "");
+			}
 			
-			con = (HttpURLConnection) url.openConnection();
+			con = (HttpURLConnection) urlToDownload.openConnection();
 			con.setReadTimeout(60000);
 			con.setConnectTimeout(60000);
 			con.setRequestMethod("GET");
@@ -135,15 +145,14 @@ public class DownloadService extends IntentService
 			con.connect();
 			InputStream input = con.getInputStream();
 
-			String filetype = con.getContentType();
-
 			// download the file
 			fileName = GetLocalFileName(con);
 			OutputStream output = new FileOutputStream(fileName);
 
 			byte data[] = new byte[1024];
 			
-			int count;
+			int count = 0;
+			total = 0;
 			while ((count = input.read(data)) != -1)
 			{
 				total += count;
