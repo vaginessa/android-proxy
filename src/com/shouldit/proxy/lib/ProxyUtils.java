@@ -125,6 +125,11 @@ public class ProxyUtils
 				System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
 				System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
 			}
+			else
+			{
+				System.setProperty("http.proxyHost", "");
+				System.setProperty("http.proxyPort", "");
+			}
 			
 			HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
