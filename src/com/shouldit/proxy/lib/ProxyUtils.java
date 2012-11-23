@@ -244,6 +244,10 @@ public class ProxyUtils
 			{
 				setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
 			}
+			else
+			{
+				resetProxy(context);
+			}
 		}
 		catch (Exception e)
 		{
