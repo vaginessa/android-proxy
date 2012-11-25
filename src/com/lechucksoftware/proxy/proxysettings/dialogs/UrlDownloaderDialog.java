@@ -55,7 +55,7 @@ public class UrlDownloaderDialog
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				activity.mProgressDialog.show();
+				activity.showProgressDialog();
 				String urlstring = input.getText().toString();
 				URL url = null;
 				

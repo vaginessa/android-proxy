@@ -65,9 +65,28 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	Preference aboutPref;
 	
 	// declare the dialog as a member field of your activity
-	public ProgressDialog mProgressDialog;
+	private ProgressDialog mProgressDialog;
 
 	// static Preference appsFeedbackPref;
+	
+	public void showProgressDialog()
+	{
+		if (mProgressDialog != null)
+			mProgressDialog.show();
+	}
+	
+	public void dismissProgressDialog()
+	{
+		if (mProgressDialog != null && mProgressDialog.isShowing())
+			mProgressDialog.dismiss();
+	}
+	
+	public void setProgressDialogMessage(String message)
+	{
+		if (mProgressDialog != null)
+			mProgressDialog.setMessage(message);
+	}
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)

@@ -16,10 +16,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.webkit.MimeTypeMap;
+import android.webkit.URLUtil;
 
 public class DownloadService extends IntentService
 {
-	public static final int UPDATE_PROGRESS = 8344;
+	public static final int UPDATE_PROGRESS = 1;
+	public static final int UPDATE_EXCEPTION = 2;
+	
 	public static String downloadFolder;
 	public static URL urlToDownload; 
 	public static ResultReceiver receiver;
@@ -30,72 +33,31 @@ public class DownloadService extends IntentService
 		super("DownloadService");
 	}
 
-	public static String GetRemoteResourceFileExtension(HttpURLConnection connection)
-	{
-		MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-		String contentType = connection.getContentType();
-		
-		if (contentType != null && contentType.contains(";"))
-			return mimeTypeMap.getExtensionFromMimeType(contentType.split(";")[0]);
-		else
-			return "htm";
-	}
-
+//	public static String GetRemoteResourceFileExtension(HttpURLConnection connection)
+//	{
+//		MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+//		String contentType = connection.getContentType();
+//		
+//		if (contentType != null && contentType.contains(";"))
+//			return mimeTypeMap.getExtensionFromMimeType(contentType.split(";")[0]);
+//		else
+//			return "htm";
+//	}
+	
 	public static String GetRemoteResourceFileName(HttpURLConnection connection)
 	{
 		String raw = connection.getHeaderField("Content-Disposition");
-		String fileName;
-		
-		// raw = "attachment; filename=abc.jpg"
-		if (raw != null && raw.indexOf("=") != -1)
-		{
-			fileName = raw.split("=")[1];
-			return fileName;
-		}
-		else
-		{
-			fileName = null;
-			URL url = connection.getURL();
-			fileName = url.getFile();
-			if (fileName != null && fileName != "")
-			{
-				if (fileName.contains("/"))
-				{
-					if (fileName.split("/").length > 1)
-					{
-						// Get only last part of page
-						String[] splitted = fileName.split("/");
-						fileName = splitted[splitted.length - 1];
-					}
-					else
-					{
-						fileName = url.getHost().replace(".", "")
-												.replace("www", "");					
-					}
-				}
-				
-				if (!fileName.contains("."))
-				{
-
-					// Add extension to filename
-					fileName = fileName.concat("." + GetRemoteResourceFileExtension(connection));
-				}
-
-				return fileName;
-			}
-			else
-			{
-				return url.getHost().replace(".", "")
-									.replace("www", "") + "." + GetRemoteResourceFileExtension(connection);
-			}
-			// fall back to random generated file name?
-		}
-
+		String mimeType = connection.getContentType().split(";")[0];
+		String fileName = URLUtil.guessFileName(connection.getURL().toString(), raw, mimeType);
+		return fileName;
 	}
 
 	public static String GetLocalFileName(HttpURLConnection connection)
 	{
-		String startfileName =  downloadFolder + GetRemoteResourceFileName(connection);
+		String remoteFileName = GetRemoteResourceFileName(connection);
+		String startfileName = downloadFolder + remoteFileName;
+		String fileExtension = remoteFileName.split("\\.")[1];
+		
 		String fileName = startfileName;
 
 		File file = new File(fileName);
@@ -103,7 +65,7 @@ public class DownloadService extends IntentService
 		while (file.exists())
 		{
 
-			fileName = startfileName.split("[.]")[0] + "(" + i++ + ")." + GetRemoteResourceFileExtension(connection);
+			fileName = startfileName.split("[.]")[0] + "(" + i++ + ")." + fileExtension;
 			file = new File(fileName);
 		}
 
@@ -122,6 +84,7 @@ public class DownloadService extends IntentService
 		urlToDownload = (URL) extras.getSerializable("URL");
 		receiver = (ResultReceiver) extras.getParcelable("receiver");
 		downloadFolder = extras.getString("downloadFolder");
+		
 		try
 		{
 			HttpURLConnection con = null;
@@ -147,6 +110,7 @@ public class DownloadService extends IntentService
 
 			// download the file
 			fileName = GetLocalFileName(con);
+					
 			OutputStream output = new FileOutputStream(fileName);
 
 			byte data[] = new byte[1024];
@@ -169,9 +133,14 @@ public class DownloadService extends IntentService
 			output.close();
 			input.close();
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
+			
+			Bundle resultData = new Bundle();			
+			resultData.putSerializable("exception", e);
+			receiver.send(UPDATE_EXCEPTION, resultData);
+			return;
 		}
 
 		Bundle resultData = new Bundle();

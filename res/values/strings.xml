@@ -144,11 +144,12 @@ remote resource\n\n
 	<string name="preference_test_proxy_webview_title">WEB Page tester</string>
 	<string name="preference_test_proxy_webview_summary">Open a specific WEB page</string>
 	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
-	<string name="preference_test_proxy_urlretriever_summary">Donwload a specific remote resource asking for its URL</string>
+	<string name="preference_test_proxy_urlretriever_summary">Download a specific remote resource asking for its URL</string>
 	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
 	<string name="preference_test_proxy_urlretriever_dialog_title">Enter the URL to download:</string>
 	<string name="preference_test_proxy_urlretriever_dialog_status">Downloading </string>
 	<string name="preference_test_proxy_urlretriever_dialog_file_saved">download completed!</string>
+	<string name="preference_test_proxy_urlretriever_dialog_file_exception">Exception downloading file: </string>
 	<string name="preference_test_proxy_urlretriever_dialog_file_path_description">The provided URL will be downloaded and saved at the following path: </string>
 	<string name="preference_test_proxy_urlbrowser_dialog_title">Insert an URL to open into a webview browser: </string>
 	

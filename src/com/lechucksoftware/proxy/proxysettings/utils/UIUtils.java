@@ -208,6 +208,14 @@ public class UIUtils
 		toast.show();
 	}
 	
+	public static void NotifyExceptionOnDownload(Context callerContext, String exceptionDetail)
+	{
+		CharSequence text = callerContext.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_file_exception) + "\n\n" + exceptionDetail;
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(callerContext, text, duration);
+		toast.show();
+	}
+	
 	private static void EnableProxyNotification(Context callerContext, Intent intentToCall, String notificationTitle, String notificationDescription)
 	{
 		NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
