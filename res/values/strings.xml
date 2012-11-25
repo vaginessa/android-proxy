@@ -7,7 +7,7 @@
 	<string name="cancel">Cancel</string>
 	<string name="download">Download</string>
 	<string name="open">Open</string>
-	<string name="versionName">1.4</string>
+	<string name="versionName">1.5</string>
 
 	<string name="disclaimer_description">Please read carefully and accept only if you really
 		know what you are doing!
@@ -49,12 +49,11 @@ the user. What <b>Proxy Settings</b> does is to simply call the existing
 Android\'s system application. 
 	</string>
 
-
 	<string name="help_text_1_title">More details on <b>Proxy Settings</b></string>
-	<string name="help_text_1_description">
-\n\n<b>Please remember</b> that uninstalling this application doesn\'t automatically 
-restore the default values of the Proxy configuration of your device. You should
-explicitly clear the Proxy configuration before uninstalling <b>Proxy Settings</b>!
+	<string name="help_text_1_description">Please remember that <b>uninstalling 
+this application doesn\'t automatically restore the default values of the Proxy 
+configuration</b> of your device.\n\nYou should explicitly clear the Proxy configuration 
+before uninstalling <b>Proxy Settings</b>!
 An improper use of the application could result in a wrong working of the 
 network stack of your device! 
 	</string>
@@ -62,15 +61,13 @@ network stack of your device!
 	<string name="help_text_2_title">About the proxy support on <b>Android</b></string>
 	<string name="help_text_2_description">Unfortunately, configuring the Proxy 
 doesn\'t mean that all your applications will automatically start to using 
-those! If you want the <b>Proxy</b> support also in your favourite applications	
+those!
+
+\n\nIf you want the <b>Proxy</b> support also in your favourite applications	
 request this feature to their developers! 
-You can find more informations and leave feedbacks at the:
+You can find more informations and leave feedbacks here:
 	</string>
-	<string name="help_text_2_description_b">Unfortunately, configuring the Proxy 
-doesn\'t mean that all your applications will automatically start to using 
-those! If you want the <b>Proxy</b> support also in your favourite applications	
-request this feature to their developers! 
-You can find more informations and leave feedbacks at the:
+	<string name="help_text_2_description_b">http://www.android-proxy.com
 	</string>
 
 	<string name="help_text_3_title">The <b>Configuration Assistant</b></string>
