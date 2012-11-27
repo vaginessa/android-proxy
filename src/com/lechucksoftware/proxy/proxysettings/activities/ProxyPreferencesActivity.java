@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.CheckBoxPreference;
+import android.preference.DialogPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
@@ -50,6 +51,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	EditTextPreference userPref;
 	EditTextPreference passwordPref;
 	Preference proxyHostPortPref;
+	DialogPreference proxySelector;
 	Preference proxyTestPref;
 	PreferenceScreen proxyAuthentication;
 
@@ -134,6 +136,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		getPreferenceScreen().removePreference(proxyAuthentication); // Disable authentication for now
 		
 		proxyHostPortPref = findPreference("preference_proxy_host_port");
+		proxySelector = (DialogPreference) findPreference("preference_proxy_selector");
 		proxyEnabledPref = (ValidationPreference) findPreference("validation_proxy_enabled");
 		proxyAddressPref = (ValidationPreference) findPreference("validation_proxy_valid_address");
 		proxyReachablePref = (ValidationPreference) findPreference("validation_proxy_reachable");
@@ -260,21 +263,6 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			public boolean onPreferenceClick(Preference preference)
 			{
 				showDialog(URL_DOWNLOADER_DIALOG);
-				
-//				DonwloaderUrlDialog newFragment = DonwloaderUrlDialog.newInstance();
-//				newFragment.show(getFragmentManager(), TAG);
-				
-
-				
-//				DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-//				Request request = new Request(
-//		                Uri.parse("http://stackoverflow.com/questions/8986376/how-to-download-xml-file-from-server-and-save-it-in-sd-card"));
-//				long enqueue;
-//		        enqueue = dm.enqueue(request);
-//				
-//		        File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-		        
-//				new ProxyDownloadManager(getApplicationContext()).execute("http://stackoverflow.com/questions/8986376/how-to-download-xml-file-from-server-and-save-it-in-sd-card", "test.html");
 				return false;
 			}
 		});
@@ -365,6 +353,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		checkPasswordPref(sharedPref.getString("preference_authentication_password", ""));
 		
 		proxyHostPortPref.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
+		proxySelector.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
 
 		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
@@ -441,14 +430,14 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	// startActivity(test);
 	// }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		if (requestCode == SELECT_PROXY_REQUEST)
-		{
-			refreshUIComponents();
-		}
-	}
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+//	{
+//		if (requestCode == SELECT_PROXY_REQUEST)
+//		{
+//			refreshUIComponents();
+//		}
+//	}
 
 	@Override
 	protected void onStart()

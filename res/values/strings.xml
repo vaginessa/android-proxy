@@ -133,7 +133,7 @@ remote resource\n\n
 	<string name="preferences_statusbar_notification_title">Notification</string>
 	<string name="preferences_statusbar_notification_description_enabled">Status bar notification enabled</string>
 	<string name="preferences_statusbar_notification_description_disabled">Status bar notification disabled</string>
-	<string name="preference_proxy_host_port_title">Proxy address (Host:Port)</string>
+	<string name="preference_proxy_host_port_title">Proxy selector</string>
 	<string name="preference_proxy_host_port_summary_default">Not set</string>
 
 	<string name="preference_test_proxy_configuration_title">Validate configuration</string>

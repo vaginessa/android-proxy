@@ -6,6 +6,12 @@
         android:key="preference_proxy_host_port"
         android:summary="@string/statusbar_notification_description_checking"
         android:title="@string/preference_proxy_host_port_title" />
+    
+    <com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectorDialog
+        android:enabled="true"
+        android:key="preference_proxy_selector"
+        android:summary="@string/statusbar_notification_description_checking"
+        android:title="@string/preference_proxy_host_port_title" />
 
     <PreferenceScreen
         android:enabled="false"
