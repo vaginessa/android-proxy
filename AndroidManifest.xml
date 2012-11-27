@@ -5,38 +5,35 @@
     android:versionName="1.4" > <!-- Remember to update also the strings.xml values -->
 
     <uses-sdk
-        android:minSdkVersion="7"
         android:maxSdkVersion="10"
-        android:targetSdkVersion="10" />    
-    
-	<!-- 1.5 Cupcake                          3   0.1%  -->
-	<!-- 1.6 Donut                            4   0.4%  -->
-	<!-- 2.1 Eclair                           7   3.4%  -->
-	<!-- 2.2 Froyo                            8   12.9% -->
-	<!-- 2.3 - 2.3.2 Gingerbread              9   0.3%  -->
-	<!-- 2.3.3 - 2.3.7                       10  55.5%  -->
-	<!-- 3.1 Honeycomb                       12  0.4%   -->
-	<!-- 3.2                                 13  1.5%   -->
-	<!-- 4.0.3 - 4.0.4   Ice Cream Sandwich  15  23.7%  -->
-	<!-- 4.1 Jelly Bean                      16  1.8%   -->
+        android:minSdkVersion="7"
+        android:targetSdkVersion="10" />
+
+    <!-- 1.5 Cupcake                          3   0.1% -->
+    <!-- 1.6 Donut                            4   0.4% -->
+    <!-- 2.1 Eclair                           7   3.4% -->
+    <!-- 2.2 Froyo                            8   12.9% -->
+    <!-- 2.3 - 2.3.2 Gingerbread              9   0.3% -->
+    <!-- 2.3.3 - 2.3.7                       10  55.5% -->
+    <!-- 3.1 Honeycomb                       12  0.4% -->
+    <!-- 3.2                                 13  1.5% -->
+    <!-- 4.0.3 - 4.0.4   Ice Cream Sandwich  15  23.7% -->
+    <!-- 4.1 Jelly Bean                      16  1.8% -->
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:theme="@style/MyAppTheme"
-        android:label="@string/app_name">
-        
+        android:label="@string/app_name"
+        android:theme="@style/MyAppTheme" >
         <activity
             android:name=".activities.ProxySettingsMainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Invisible">
+            android:theme="@style/Invisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,22 +48,22 @@
             android:name="com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity"
             android:theme="@style/Invisible" >
         </activity>
-        
-        <activity android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity"
-            	  android:configChanges="orientation" >
+        <activity
+            android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity"
+            android:configChanges="orientation" >
             <intent-filter>
-                <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"/>
+                <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY" />
             </intent-filter>
         </activity>
         <activity android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11" >
         </activity>
         <activity android:name=".activities.ApplicationsFeedbacksActivity" >
         </activity>
-        
         <activity android:name=".activities.help.HelpFragmentActivity" >
         </activity>
-        
-        <activity android:name=".activities.WebViewWithProxyActivity" >
+        <activity
+            android:name=".activities.WebViewWithProxyActivity"
+            android:configChanges="orientation" >
         </activity>
 
         <!-- Added activity to handle application uninstall. See the link for more informations. -->
@@ -76,21 +73,22 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.DELETE" />
+
                 <category android:name="com.lechucksoftware.proxy.proxysettings" />
                 <!-- <category android:name="android.intent.category.DEFAULT" /> -->
                 <data android:scheme="package" />
             </intent-filter>
         </activity>
-        
-        <service android:name=".services.ProxySettingsCheckerService"/>
-        <service android:name=".services.DownloadService"/>
-        
+
+        <service android:name=".services.ProxySettingsCheckerService" />
+        <service android:name=".services.DownloadService" />
+
         <receiver android:name="com.lechucksoftware.proxy.proxysettings.ProxyChangeReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.intent.action.PROXY_CHANGE" />
                 <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE" />
-                <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_NOTIFICATION"/>
+                <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_NOTIFICATION" />
             </intent-filter>
         </receiver>
     </application>
