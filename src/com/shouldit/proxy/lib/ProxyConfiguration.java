@@ -1,5 +1,6 @@
 package com.shouldit.proxy.lib;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
@@ -241,14 +242,35 @@ public class ProxyConfiguration
 	{
 		InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
 		if (proxyAddress != null)
+		{
 			return proxyAddress.getHostName();
+		}
 		else
-			return null;
+		{
+			// return proxy description if it's not possible to resolve the proxy name
+			return this.proxyDescription;
+		}
 	}
 
 	public String getProxyIPHost()
 	{
-		return ((InetSocketAddress) proxyHost.address()).getAddress().getHostAddress();
+		InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
+		if (proxyAddress != null)
+		{
+			InetAddress address = proxyAddress.getAddress();
+			
+			if (address != null)
+			{
+				return address.getHostAddress();
+			}
+			else 
+			{
+				// return proxy description if it's not possible to resolve the proxy name
+				return this.proxyDescription;
+			}
+		}
+		else
+			return this.proxyDescription;
 	}
 
 	public Integer getProxyPort()
