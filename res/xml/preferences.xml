@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <Preference
-        android:enabled="true"
-        android:key="preference_proxy_host_port"
-        android:summary="@string/statusbar_notification_description_checking"
-        android:title="@string/preference_proxy_host_port_title" />
+<!--     <Preference -->
+<!--         android:enabled="true" -->
+<!--         android:key="preference_proxy_host_port" -->
+<!--         android:summary="@string/statusbar_notification_description_checking" -->
+<!--         android:title="@string/preference_proxy_host_port_title" /> -->
 
     <com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectorDialog
         android:enabled="true"
@@ -118,11 +118,11 @@
 
         </PreferenceScreen>
 
-        <Preference
-            android:enabled="true"
-            android:key="preference_test_proxy_urlretriever"
-            android:summary="@string/preference_test_proxy_urlretriever_summary"
-            android:title="@string/preference_test_proxy_urlretriever_title" />
+<!--         <Preference -->
+<!--             android:enabled="true" -->
+<!--             android:key="preference_test_proxy_urlretriever" -->
+<!--             android:summary="@string/preference_test_proxy_urlretriever_summary" -->
+<!--             android:title="@string/preference_test_proxy_urlretriever_title" /> -->
 
         <com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference
             android:enabled="true"

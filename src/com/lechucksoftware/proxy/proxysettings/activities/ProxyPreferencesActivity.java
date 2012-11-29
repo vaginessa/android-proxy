@@ -37,6 +37,8 @@ import android.util.Log;
 
 public class ProxyPreferencesActivity extends PreferenceActivity
 {
+	public static ProxyPreferencesActivity instance;
+	
 	public static String TAG = "ProxyPreferencesActivity";
 	static final int SELECT_PROXY_REQUEST = 0;
 	
@@ -50,7 +52,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	CheckBoxPreference authenticationEnabled;
 	EditTextPreference userPref;
 	EditTextPreference passwordPref;
-	Preference proxyHostPortPref;
+//	Preference proxyHostPortPref;
 	DialogPreference proxySelector;
 	Preference proxyTestPref;
 	PreferenceScreen proxyAuthentication;
@@ -61,7 +63,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	ValidationPreference proxyWebReachablePref;
 	
 	Preference webBrowserUrlOpener;
-	Preference urlDownloader;
+//	Preference urlDownloader;
 	
 	Preference helpPref;
 	Preference aboutPref;
@@ -95,6 +97,8 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	{
 		super.onCreate(savedInstanceState);
 
+		instance = this;
+		
 		addPreferencesFromResource(R.xml.preferences);
 
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -135,7 +139,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		
 		getPreferenceScreen().removePreference(proxyAuthentication); // Disable authentication for now
 		
-		proxyHostPortPref = findPreference("preference_proxy_host_port");
+//		proxyHostPortPref = findPreference("preference_proxy_host_port");
 		proxySelector = (DialogPreference) findPreference("preference_proxy_selector");
 		proxyEnabledPref = (ValidationPreference) findPreference("validation_proxy_enabled");
 		proxyAddressPref = (ValidationPreference) findPreference("validation_proxy_valid_address");
@@ -145,7 +149,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		proxyTestPref = findPreference("preference_test_proxy_configuration");
 		
 		webBrowserUrlOpener = findPreference("preference_test_proxy_webview");
-		urlDownloader = findPreference("preference_test_proxy_urlretriever");
+//		urlDownloader = findPreference("preference_test_proxy_urlretriever");
 		
 		helpPref = findPreference("preference_help");
 		aboutPref = findPreference("preference_about");
@@ -196,16 +200,16 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			}
 		});
 
-		proxyHostPortPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
-		{
-			public boolean onPreferenceClick(Preference preference)
-			{
-				Intent proxyIntent = ProxyUtils.getProxyIntent();
-				Log.d(TAG, "Starting Android's ProxySelector Activity and waiting for result");
-				startActivityForResult(proxyIntent, SELECT_PROXY_REQUEST);
-				return true;
-			}
-		});
+//		proxyHostPortPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
+//		{
+//			public boolean onPreferenceClick(Preference preference)
+//			{
+//				Intent proxyIntent = ProxyUtils.getProxyIntent();
+//				Log.d(TAG, "Starting Android's ProxySelector Activity and waiting for result");
+//				startActivityForResult(proxyIntent, SELECT_PROXY_REQUEST);
+//				return true;
+//			}
+//		});
 
 		proxyTestPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
 		{
@@ -257,15 +261,15 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		});
 		
 		
-		urlDownloader.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			@TargetApi(9)
-			public boolean onPreferenceClick(Preference preference)
-			{
-				showDialog(URL_DOWNLOADER_DIALOG);
-				return false;
-			}
-		});
+//		urlDownloader.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//			
+//			@TargetApi(9)
+//			public boolean onPreferenceClick(Preference preference)
+//			{
+//				showDialog(URL_DOWNLOADER_DIALOG);
+//				return false;
+//			}
+//		});
 		
 		helpPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			
@@ -352,7 +356,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		checkUsernamePref(sharedPref.getString("preference_authentication_user", ""));
 		checkPasswordPref(sharedPref.getString("preference_authentication_password", ""));
 		
-		proxyHostPortPref.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
+//		proxyHostPortPref.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
 		proxySelector.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
 
 		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
