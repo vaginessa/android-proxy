@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
+import com.lechucksoftware.proxy.proxysettings.Globals;
 
 public class ProxySettingsMainActivity extends Activity 
 {
@@ -14,9 +15,11 @@ public class ProxySettingsMainActivity extends Activity
 	
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        
+    public void onCreate(Bundle savedInstanceState) 
+    {    
     	super.onCreate(savedInstanceState);
+    	
+    	Globals.getInstance().addApplicationContext(getApplicationContext());
     	
     	Log.d(TAG, "Calling broadcast intent com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE");
     	sendBroadcast(new Intent("com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE"));

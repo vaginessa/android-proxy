@@ -53,6 +53,7 @@
             android:configChanges="orientation" >
             <intent-filter>
                 <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY" />
+                <action android:name="com.shouldit.proxy.lib.UPDATE_PROXY_STATUS" />
             </intent-filter>
         </activity>
         <activity android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11" >
@@ -69,16 +70,18 @@
         <!-- Added activity to handle application uninstall. See the link for more informations. -->
         <!-- http://apachejava.blogspot.it/2011/04/install-and-uninstall-android.html -->
 
-        <activity android:name=".UninstallerActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.DELETE" />
 
-                <category android:name="com.lechucksoftware.proxy.proxysettings" />
-                <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-                <data android:scheme="package" />
-            </intent-filter>
-        </activity>
+        <!-- <activity android:name=".UninstallerActivity" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.VIEW" /> -->
+        <!-- <action android:name="android.intent.action.DELETE" /> -->
+
+
+        <!-- <category android:name="com.lechucksoftware.proxy.proxysettings" /> -->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- <data android:scheme="package" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
 
         <service android:name=".services.ProxySettingsCheckerService" />
         <service android:name=".services.DownloadService" />

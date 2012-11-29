@@ -26,11 +26,13 @@ import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
 import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.shouldit.proxy.lib.Constants;
+import com.shouldit.proxy.lib.ProxyStatus;
 
 public class ProxyPreferencesActivity extends PreferenceActivity
 {
 	public static ProxyPreferencesActivity instance;
-	
+
 	public static String TAG = "ProxyPreferencesActivity";
 	static final int SELECT_PROXY_REQUEST = 0;
 
@@ -48,33 +50,32 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	ValidationPreference proxyAddressPref;
 	ValidationPreference proxyReachablePref;
 	ValidationPreference proxyWebReachablePref;
-	
+
 	Preference helpPref;
 	Preference aboutPref;
-	
+
 	// declare the dialog as a member field of your activity
 	private ProgressDialog mProgressDialog;
 
 	// static Preference appsFeedbackPref;
-	
+
 	public void showProgressDialog()
 	{
 		if (mProgressDialog != null)
 			mProgressDialog.show();
 	}
-	
+
 	public void dismissProgressDialog()
 	{
 		if (mProgressDialog != null && mProgressDialog.isShowing())
 			mProgressDialog.dismiss();
 	}
-	
+
 	public void setProgressDialogMessage(String message)
 	{
 		if (mProgressDialog != null)
 			mProgressDialog.setMessage(message);
 	}
-	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -82,7 +83,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		super.onCreate(savedInstanceState);
 
 		instance = this;
-		
+
 		addPreferencesFromResource(R.xml.preferences);
 
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -90,7 +91,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		loadUIComponents();
 		setListenersToUI();
 
-		refreshUIComponents();
+		refreshUIComponents(Globals.getInstance().proxyConf.status);
 	}
 
 	/**
@@ -99,14 +100,17 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	public void loadUIComponents()
 	{
 		notificationEnabled = (CheckBoxPreference) findPreference("preference_notification_enabled");
-		
+
 		proxyAuthentication = (PreferenceScreen) findPreference("pref_key_proxy_settings_authentication_screen");
 		authenticationEnabled = (CheckBoxPreference) findPreference("preference_authentication_enabled");
 		userPref = (EditTextPreference) findPreference("preference_authentication_user");
 		passwordPref = (EditTextPreference) findPreference("preference_authentication_password");
-		
-		getPreferenceScreen().removePreference(proxyAuthentication); // Disable authentication for now
-		
+
+		getPreferenceScreen().removePreference(proxyAuthentication); // Disable
+																		// authentication
+																		// for
+																		// now
+
 		proxySelector = (DialogPreference) findPreference("preference_proxy_selector");
 		proxyEnabledPref = (ValidationPreference) findPreference("validation_proxy_enabled");
 		proxyAddressPref = (ValidationPreference) findPreference("validation_proxy_valid_address");
@@ -114,38 +118,41 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		proxyWebReachablePref = (ValidationPreference) findPreference("validation_web_reachable");
 
 		proxyTestPref = findPreference("preference_test_proxy_configuration");
-		
+
 		helpPref = findPreference("preference_help");
 		aboutPref = findPreference("preference_about");
-		
+
 		// instantiate it within the onCreate method
 		mProgressDialog = new ProgressDialog(ProxyPreferencesActivity.this);
 		mProgressDialog.setMessage(getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_status));
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		
+
 		// appsFeedbackPref =
 		// findPreference("preference_applications_feedback");
 	}
 
-	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
-	{
+	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
 			String action = intent.getAction();
 			if (action.equals("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"))
 			{
-				Log.d(TAG, "Received broadcast for Updated proxy configuration");
-				refreshUIComponents();
+				Log.d(TAG, "Received broadcast for updated proxy configuration");
+				refreshUIComponents(Globals.getInstance().proxyConf.status);
+			}
+			else if (action.equals("com.shouldit.proxy.lib.UPDATE_PROXY_STATUS"))
+			{
+				Log.d(TAG, "Received broadcast for partial update to proxy configuration");
+				refreshUIComponents((ProxyStatus) intent.getSerializableExtra(Constants.ProxyStatus));
 			}
 		}
 	};
-	
+
 	public void setListenersToUI()
 	{
-		notificationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-		{
+		notificationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				// FIX: call only the refresh of the notification!
@@ -156,16 +163,14 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			}
 		});
 
-		authenticationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-		{
+		authenticationEnabled.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				return checkAuthenticationPref(newValue);
 			}
 		});
 
-		proxyTestPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
-		{
+		proxyTestPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			public boolean onPreferenceClick(Preference preference)
 			{
 				proxyTestPref.setEnabled(false);
@@ -187,34 +192,32 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		// }
 		// });
 
-		userPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-		{
+		userPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				return checkUsernamePref(newValue);
 			}
 		});
 
-		passwordPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-		{
+		passwordPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				return checkPasswordPref(newValue);
 			}
 		});
-		
+
 		helpPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
+
 			public boolean onPreferenceClick(Preference preference)
 			{
 				startActivity(new Intent(getApplicationContext(), HelpFragmentActivity.class));
 				return true;
 			}
 		});
-		
+
 		aboutPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
+
 			public boolean onPreferenceClick(Preference preference)
 			{
 				// TODO Auto-generated method stub
@@ -282,74 +285,94 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		return true;
 	}
 
-	private void refreshUIComponents()
+	private void refreshUIComponents(ProxyStatus status)
 	{
 		checkNotificationPref(sharedPref.getBoolean("preference_notification_enabled", false));
 		checkAuthenticationPref(sharedPref.getBoolean("preference_authentication_enabled", false));
 		checkUsernamePref(sharedPref.getString("preference_authentication_user", ""));
 		checkPasswordPref(sharedPref.getString("preference_authentication_password", ""));
-		
+
 		proxySelector.setSummary(UIUtils.GetStatusSummary(getApplicationContext()));
 
 		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
 			// Checking
 			proxyTestPref.setEnabled(false);
-
-			proxyEnabledPref.SetStatus(ValidationStatus.Checking);
-			proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
-
-			proxyAddressPref.SetStatus(ValidationStatus.Checking);
-			proxyAddressPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
-
-			proxyReachablePref.SetStatus(ValidationStatus.Checking);
-			proxyReachablePref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
-
-			proxyWebReachablePref.SetStatus(ValidationStatus.Checking);
-			proxyWebReachablePref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
 		}
 		else
 		{
 			// Checked
 			proxyTestPref.setEnabled(true);
+		}
 
-			if (Globals.getInstance().proxyConf.status.getEnabled())
+		if (status.getEnabled())
+		{
+			proxyEnabledPref.SetStatus(ValidationStatus.Valid);
+			proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_enabled_summary_ok));
+		}
+		else
+		{
+			if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 			{
-				proxyEnabledPref.SetStatus(ValidationStatus.Valid);
-				proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_enabled_summary_ok));
+				proxyEnabledPref.SetStatus(ValidationStatus.Checking);
+				proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
 			}
 			else
 			{
 				proxyEnabledPref.SetStatus(ValidationStatus.Error);
 				proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_enabled_summary_nok));
 			}
+		}
 
-			if (Globals.getInstance().proxyConf.status.getValid_address())
+		if (status.getValid_address())
+		{
+			proxyAddressPref.SetStatus(ValidationStatus.Valid);
+			proxyAddressPref.setSummary(getResources().getString(R.string.validation_proxy_address_summary_ok));
+		}
+		else
+		{
+			if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 			{
-				proxyAddressPref.SetStatus(ValidationStatus.Valid);
-				proxyAddressPref.setSummary(getResources().getString(R.string.validation_proxy_address_summary_ok));
+				proxyAddressPref.SetStatus(ValidationStatus.Checking);
+				proxyAddressPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
 			}
 			else
 			{
 				proxyAddressPref.SetStatus(ValidationStatus.Error);
 				proxyAddressPref.setSummary(getResources().getString(R.string.validation_proxy_address_summary_nok));
 			}
+		}
 
-			if (Globals.getInstance().proxyConf.status.getProxy_reachable())
+		if (status.getProxy_reachable())
+		{
+			proxyReachablePref.SetStatus(ValidationStatus.Valid);
+			proxyReachablePref.setSummary(getResources().getString(R.string.validation_proxy_reachable_summary_ok));
+		}
+		else
+		{
+			if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 			{
-				proxyReachablePref.SetStatus(ValidationStatus.Valid);
-				proxyReachablePref.setSummary(getResources().getString(R.string.validation_proxy_reachable_summary_ok));
+				proxyReachablePref.SetStatus(ValidationStatus.Checking);
+				proxyReachablePref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
 			}
 			else
 			{
 				proxyReachablePref.SetStatus(ValidationStatus.Error);
 				proxyReachablePref.setSummary(getResources().getString(R.string.validation_proxy_reachable_summary_nok));
 			}
+		}
 
-			if (Globals.getInstance().proxyConf.status.getWeb_reachable())
+		if (status.getWeb_reachable())
+		{
+			proxyWebReachablePref.SetStatus(ValidationStatus.Valid);
+			proxyWebReachablePref.setSummary(getResources().getString(R.string.validation_proxy_web_reachable_summary_ok));
+		}
+		else
+		{
+			if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 			{
-				proxyWebReachablePref.SetStatus(ValidationStatus.Valid);
-				proxyWebReachablePref.setSummary(getResources().getString(R.string.validation_proxy_web_reachable_summary_ok));
+				proxyWebReachablePref.SetStatus(ValidationStatus.Checking);
+				proxyWebReachablePref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
 			}
 			else
 			{
@@ -357,6 +380,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 				proxyWebReachablePref.setSummary(getResources().getString(R.string.validation_proxy_web_reachable_summary_nok));
 			}
 		}
+
 	}
 
 	// private void openFeedbacks()
@@ -366,14 +390,15 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	// startActivity(test);
 	// }
 
-//	@Override
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-//	{
-//		if (requestCode == SELECT_PROXY_REQUEST)
-//		{
-//			refreshUIComponents();
-//		}
-//	}
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent
+	// data)
+	// {
+	// if (requestCode == SELECT_PROXY_REQUEST)
+	// {
+	// refreshUIComponents();
+	// }
+	// }
 
 	@Override
 	protected void onStart()
@@ -387,8 +412,9 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	{
 		super.onResume();
 		IntentFilter ifilt = new IntentFilter("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY");
+		ifilt.addAction("com.shouldit.proxy.lib.UPDATE_PROXY_STATUS");
 		registerReceiver(changeStatusReceiver, ifilt); // Start register the
-													   // status receiver
+														// status receiver
 	}
 
 	@Override
@@ -396,7 +422,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	{
 		super.onPause();
 		unregisterReceiver(changeStatusReceiver); // Stop the registerd status
-												  // receiver
+													// receiver
 	}
 
 	@Override

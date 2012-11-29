@@ -36,7 +36,7 @@ public class Utils
 
 			if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
 			{
-				proxyHost = new ProxyConfiguration(null, null, null, wifiConf);
+				proxyHost = new ProxyConfiguration(ctx, null, null, null, wifiConf);
 			}
 			else
 			{
@@ -74,7 +74,7 @@ public class Utils
 					Log.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
 					Proxy proxy = new Proxy(Proxy.Type.HTTP, new Socket(mHost, mPort).getRemoteSocketAddress());
-					proxyHost = new ProxyConfiguration(proxy, proxy.toString(), null, wifiConf);
+					proxyHost = new ProxyConfiguration(ctx, proxy, proxy.toString(), null, wifiConf);
 				}
 			}
 		}

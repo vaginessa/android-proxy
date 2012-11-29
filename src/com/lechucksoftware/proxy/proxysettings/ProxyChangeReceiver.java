@@ -30,7 +30,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else
         {
-        	Log.e(TAG,"Intent not found");
+        	Log.e(TAG,"Intent not found!");
         }
     }
 }
