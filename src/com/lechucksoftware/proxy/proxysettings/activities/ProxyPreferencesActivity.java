@@ -6,8 +6,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
 import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
-import com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialog;
-import com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialog;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyUtils;
@@ -43,8 +41,8 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	static final int SELECT_PROXY_REQUEST = 0;
 	
 	
-	static final int URL_DOWNLOADER_DIALOG = 0;
-	static final int URL_BROWSER_DIALOG = 1;
+//	static final int URL_DOWNLOADER_DIALOG = 0;
+//	static final int URL_BROWSER_DIALOG = 1;
 
 	SharedPreferences sharedPref;
 
@@ -62,7 +60,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	ValidationPreference proxyReachablePref;
 	ValidationPreference proxyWebReachablePref;
 	
-	Preference webBrowserUrlOpener;
+//	Preference webBrowserUrlOpener;
 //	Preference urlDownloader;
 	
 	Preference helpPref;
@@ -109,21 +107,21 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 		refreshUIComponents();
 	}
 	
-	@Override
-	@Deprecated
-	protected Dialog onCreateDialog(int id)
-	{
-		switch (id)
-		{
-			case URL_DOWNLOADER_DIALOG:
-				UrlDownloaderDialog.newInstance(this).show();
-				break;
-			case URL_BROWSER_DIALOG:
-				UrlBrowserDialog.newInstance(this).show();
-				break;
-		}
-		return super.onCreateDialog(id);
-	}
+//	@Override
+//	@Deprecated
+//	protected Dialog onCreateDialog(int id)
+//	{
+//		switch (id)
+//		{
+//			case URL_DOWNLOADER_DIALOG:
+//				UrlDownloaderDialog.newInstance(this).show();
+//				break;
+//			case URL_BROWSER_DIALOG:
+//				UrlBrowserDialog.newInstance(this).show();
+//				break;
+//		}
+//		return super.onCreateDialog(id);
+//	}
 
 	/**
 	 * 
@@ -148,7 +146,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 		proxyTestPref = findPreference("preference_test_proxy_configuration");
 		
-		webBrowserUrlOpener = findPreference("preference_test_proxy_webview");
+//		webBrowserUrlOpener = findPreference("preference_test_proxy_webview");
 //		urlDownloader = findPreference("preference_test_proxy_urlretriever");
 		
 		helpPref = findPreference("preference_help");
@@ -251,14 +249,14 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			}
 		});
 		
-		webBrowserUrlOpener.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			public boolean onPreferenceClick(Preference preference)
-			{
-				showDialog(URL_BROWSER_DIALOG);
-				return false;
-			}
-		});
+//		webBrowserUrlOpener.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//			
+//			public boolean onPreferenceClick(Preference preference)
+//			{
+//				showDialog(URL_BROWSER_DIALOG);
+//				return false;
+//			}
+//		});
 		
 		
 //		urlDownloader.setOnPreferenceClickListener(new OnPreferenceClickListener() {

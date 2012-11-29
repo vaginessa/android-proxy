@@ -130,11 +130,17 @@
             android:summary="@string/preference_test_proxy_urlretriever_summary"
             android:title="@string/preference_test_proxy_urlretriever_title" />
 
-        <Preference
+        <com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialogPreference
             android:enabled="true"
-            android:key="preference_test_proxy_webview"
+            android:key="preference_browser_intowebview"
             android:summary="@string/preference_test_proxy_webview_summary"
             android:title="@string/preference_test_proxy_webview_title" />
+        
+<!--         <Preference -->
+<!--             android:enabled="true" -->
+<!--             android:key="preference_test_proxy_webview" -->
+<!--             android:summary="@string/preference_test_proxy_webview_summary" -->
+<!--             android:title="@string/preference_test_proxy_webview_title" /> -->
 
         <!-- <Preference -->
         <!-- android:enabled="true" -->
