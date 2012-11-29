@@ -2,6 +2,10 @@ package com.shouldit.proxy.lib;
 
 public class Constants
 {
+	public static String ProxyStatus = "ProxyStatus"; 
+	
+	
+	
 	public enum ProxyStatusCodes
 	{
 		NOT_CHECKED,

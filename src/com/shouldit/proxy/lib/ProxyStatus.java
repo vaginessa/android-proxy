@@ -1,9 +1,16 @@
 package com.shouldit.proxy.lib;
 
+import java.io.Serializable;
+
 import com.shouldit.proxy.lib.Constants.ProxyStatusCodes;
 
-public class ProxyStatus
+public class ProxyStatus implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2657093750716229587L;
+	
 	Boolean checking;
 	Boolean checked;
 	Boolean enabled;

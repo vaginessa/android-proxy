@@ -4,25 +4,27 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
-import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
-import com.shouldit.proxy.lib.Constants.ProxyStatusCodes;
-import com.shouldit.proxy.lib.Constants.ProxyStatusErrors;
-
+import android.content.Context;
+import android.content.Intent;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.os.Build;
 import android.util.Log;
 import android.webkit.URLUtil;
 
+import com.shouldit.proxy.lib.Constants.ProxyStatusCodes;
+import com.shouldit.proxy.lib.Constants.ProxyStatusErrors;
+
 public class ProxyConfiguration
 {
 	public static final String TAG = "ProxyConfiguration";
 
+	public Context context;
 	public ProxyStatus status;
 	public WifiConfiguration wifiConfiguration;
 	public NetworkInfo networkInfo;
@@ -30,8 +32,9 @@ public class ProxyConfiguration
 	public int deviceVersion;
 	public String proxyDescription;
 
-	public ProxyConfiguration(Proxy proxy, String description, NetworkInfo netInfo, WifiConfiguration wifiConf)
+	public ProxyConfiguration(Context ctx, Proxy proxy, String description, NetworkInfo netInfo, WifiConfiguration wifiConf)
 	{
+		context = ctx;
 		proxyHost = proxy;
 		proxyDescription = description;
 		networkInfo = netInfo;
@@ -82,6 +85,8 @@ public class ProxyConfiguration
 			Log.e(TAG, "PROXY ENABLED");
 			status.add(ProxyStatusCodes.PROXY_ENABLED, true);
 		}
+		
+		broadCastUpdatedStatus();
 
 		Log.d(TAG, "Checking if proxy is valid address ...");
 		if (!isProxyValidAddress())
@@ -94,6 +99,8 @@ public class ProxyConfiguration
 			Log.e(TAG, "PROXY VALID ADDRESS");
 			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, true);
 		}
+		
+		broadCastUpdatedStatus();
 
 		Log.d(TAG, "Checking if proxy is reachable ...");
 		if (!isProxyReachable())
@@ -106,6 +113,8 @@ public class ProxyConfiguration
 			Log.d(TAG, "PROXY REACHABLE");
 			status.add(ProxyStatusCodes.PROXY_REACHABLE, true);
 		}
+		
+		broadCastUpdatedStatus();
 
 		Log.d(TAG, "Checking if web is reachable ...");
 		if (!isWebReachable(timeout))
@@ -118,9 +127,20 @@ public class ProxyConfiguration
 			Log.d(TAG, "WEB REACHABLE");
 			status.add(ProxyStatusCodes.WEB_REACHABILE, true);
 		}
-
+		
+		broadCastUpdatedStatus();
 	}
 
+	
+	public void broadCastUpdatedStatus()
+	{
+		Log.d(TAG, "Sending broadcast intent: com.shouldit.proxy.lib.UPDATE_PROXY_STATUS");
+		Intent intent = new Intent("com.shouldit.proxy.lib.UPDATE_PROXY_STATUS");
+		intent.putExtra(Constants.ProxyStatus, status);
+		context.sendBroadcast(intent);
+	}
+	
+	
 	public ProxyStatusErrors getMostRelevantProxyStatusError()
 	{
 		if (!status.getEnabled())
