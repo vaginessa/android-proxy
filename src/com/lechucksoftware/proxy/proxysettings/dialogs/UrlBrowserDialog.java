@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.dialogs;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import android.app.AlertDialog;

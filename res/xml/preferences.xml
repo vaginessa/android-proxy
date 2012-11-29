@@ -6,7 +6,7 @@
         android:key="preference_proxy_host_port"
         android:summary="@string/statusbar_notification_description_checking"
         android:title="@string/preference_proxy_host_port_title" />
-    
+
     <com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectorDialog
         android:enabled="true"
         android:key="preference_proxy_selector"
@@ -46,13 +46,11 @@
     <PreferenceCategory
         android:key="pref_key_proxy_settings_advanced"
         android:title="@string/pref_key_proxy_settings_advanced_title" >
-        
         <PreferenceScreen
             android:key="pref_key_proxy_settings_advanced_prefscreen"
             android:persistent="false"
             android:summary="@string/pref_key_proxy_settings_advanced_prefscreen_description"
             android:title="@string/pref_key_proxy_settings_advanced_prefscreen_title" >
-            
             <Preference
                 android:enabled="true"
                 android:key="preference_test_proxy_configuration"
@@ -65,7 +63,7 @@
             <com.lechucksoftware.proxy.proxysettings.ValidationPreference
                 android:key="validation_proxy_enabled"
                 android:summary="@string/validation_proxy_summary_checking"
-                android:title="@string/validation_proxy_enabled_title"/>
+                android:title="@string/validation_proxy_enabled_title" />
             <com.lechucksoftware.proxy.proxysettings.ValidationPreference
                 android:key="validation_proxy_valid_address"
                 android:summary="@string/validation_proxy_summary_checking"
@@ -124,7 +122,14 @@
             android:enabled="true"
             android:key="preference_test_proxy_urlretriever"
             android:summary="@string/preference_test_proxy_urlretriever_summary"
-            android:title="@string/preference_test_proxy_urlretriever_title"/>
+            android:title="@string/preference_test_proxy_urlretriever_title" />
+
+        <com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference
+            android:enabled="true"
+            android:key="preference_url_downloader"
+            android:summary="@string/preference_test_proxy_urlretriever_summary"
+            android:title="@string/preference_test_proxy_urlretriever_title" />
+
         <Preference
             android:enabled="true"
             android:key="preference_test_proxy_webview"
