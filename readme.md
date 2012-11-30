@@ -10,3 +10,21 @@
 
 # Try
 All the basic functionalities of **APL** are shown on a **[DEMO](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.lib.activities)** application on the Play Store
+
+# How to use it
+* Getting started [here](https://github.com/shouldit/android-proxy-library/wiki/Getting-Started).
+* See how to [make an HTTP request](https://github.com/shouldit/android-proxy-library/wiki/Make-a-HTTP-Request) using the proxy.
+* See how to [open a WebView](https://github.com/shouldit/android-proxy-library/wiki/Using-WebView-with-Proxy) that support the proxy on 1.x and 2.x devices.
+
+# Source & Issues
+If you have isolated a problem or want a new feature to be included in the **Android Proxy Library (APL)**, please [submit an issue](https://github.com/shouldit/android-proxy-library/issues/new). Make sure to include all the relevant information when you submit the issue such as:
+
+* **Android Proxy Library (APL)** version
+* Android device used (or emulator) with OS version
+* One line of issue summary and a detailed description
+* Any workarounds if you have them.
+
+The more information you provide, the quicker the issue can be verified and prioritized. A test case (source code) that demonstrates the problem is greatly preferred.
+
+# Project's Blog
+All further informations regarding this project can be found at: [www.android-proxy.com](www.android-proxy.com)
