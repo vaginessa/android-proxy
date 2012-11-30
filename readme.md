@@ -6,3 +6,7 @@
   * 1.x and 2.x versions support only one global proxy for every Wi-Fi AP.
   * 3.x and greater versions support Wi-Fi AP-based proxy settings.
 * Proxy testing utilities (proxy reachability, web reachability)
+
+
+# Try
+All the basic functionalities of **APL** are shown on a **[DEMO](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.lib.activities)** application on the Play Store
