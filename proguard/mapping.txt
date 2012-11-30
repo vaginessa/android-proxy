@@ -1,0 +1,1151 @@
+android.support.v4.app.BackStackRecord -> android.support.v4.app.a:
+    android.support.v4.app.FragmentManagerImpl mManager -> a
+    android.support.v4.app.BackStackRecord$Op mHead -> b
+    android.support.v4.app.BackStackRecord$Op mTail -> c
+    int mNumOp -> d
+    int mEnterAnim -> e
+    int mExitAnim -> f
+    int mPopEnterAnim -> g
+    int mPopExitAnim -> h
+    int mTransition -> i
+    int mTransitionStyle -> j
+    boolean mAddToBackStack -> k
+    boolean mAllowAddToBackStack -> l
+    java.lang.String mName -> m
+    boolean mCommitted -> n
+    int mIndex -> o
+    int mBreadCrumbTitleRes -> p
+    java.lang.CharSequence mBreadCrumbTitleText -> q
+    int mBreadCrumbShortTitleRes -> r
+    java.lang.CharSequence mBreadCrumbShortTitleText -> s
+    void dump$ec96877(java.lang.String,java.io.PrintWriter) -> a
+    void addOp(android.support.v4.app.BackStackRecord$Op) -> a
+    android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String) -> a
+    android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
+    void doAddOp$39f1d44b(int,android.support.v4.app.Fragment,java.lang.String) -> b
+    android.support.v4.app.FragmentTransaction remove(android.support.v4.app.Fragment) -> a
+    android.support.v4.app.FragmentTransaction detach(android.support.v4.app.Fragment) -> b
+    android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment) -> c
+    void bumpBackStackNesting(int) -> a
+    int commit() -> a
+    int commitAllowingStateLoss() -> b
+    int commitInternal(boolean) -> b
+    void run() -> run
+    void popFromBackStack(boolean) -> a
+android.support.v4.app.BackStackRecord$Op -> android.support.v4.app.b:
+    android.support.v4.app.BackStackRecord$Op next -> a
+    android.support.v4.app.BackStackRecord$Op prev -> b
+    int cmd -> c
+    android.support.v4.app.Fragment fragment -> d
+    int enterAnim -> e
+    int exitAnim -> f
+    int popEnterAnim -> g
+    int popExitAnim -> h
+    java.util.ArrayList removed -> i
+android.support.v4.app.BackStackState -> android.support.v4.app.BackStackState:
+    int[] mOps -> a
+    int mTransition -> b
+    int mTransitionStyle -> c
+    java.lang.String mName -> d
+    int mIndex -> e
+    int mBreadCrumbTitleRes -> f
+    java.lang.CharSequence mBreadCrumbTitleText -> g
+    int mBreadCrumbShortTitleRes -> h
+    java.lang.CharSequence mBreadCrumbShortTitleText -> i
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    android.support.v4.app.BackStackRecord instantiate(android.support.v4.app.FragmentManagerImpl) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+android.support.v4.app.BackStackState$1 -> android.support.v4.app.c:
+    java.lang.Object[] newArray(int) -> newArray
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+android.support.v4.app.DialogFragment -> android.support.v4.app.d:
+    int mStyle -> a
+    int mTheme -> b
+    boolean mCancelable -> c
+    boolean mShowsDialog -> d
+    int mBackStackId -> e
+    android.app.Dialog mDialog -> f
+    boolean mDestroyed -> g
+    boolean mRemoved -> h
+    void show(android.support.v4.app.FragmentManager,java.lang.String) -> a
+    void onCreate(android.os.Bundle) -> a
+    android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> b
+    android.app.Dialog onCreateDialog$5709b310() -> a
+    void onCancel(android.content.DialogInterface) -> onCancel
+    void onDismiss(android.content.DialogInterface) -> onDismiss
+    void onActivityCreated(android.os.Bundle) -> c
+    void onStart() -> b
+    void onSaveInstanceState(android.os.Bundle) -> d
+    void onStop() -> c
+    void onDestroyView() -> d
+android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
+    java.util.HashMap sClassMap -> a
+    int mState -> i
+    android.view.View mAnimatingAway -> j
+    int mStateAfterAnimating -> k
+    android.os.Bundle mSavedFragmentState -> l
+    android.util.SparseArray mSavedViewState -> m
+    int mIndex -> n
+    java.lang.String mWho -> o
+    android.os.Bundle mArguments -> p
+    android.support.v4.app.Fragment mTarget -> q
+    int mTargetIndex -> r
+    int mTargetRequestCode -> s
+    boolean mAdded -> t
+    boolean mRemoving -> u
+    boolean mResumed -> v
+    boolean mFromLayout -> w
+    boolean mInLayout -> x
+    boolean mRestored -> y
+    int mBackStackNesting -> z
+    android.support.v4.app.FragmentManagerImpl mFragmentManager -> A
+    android.support.v4.app.FragmentActivity mActivity -> B
+    int mFragmentId -> C
+    int mContainerId -> D
+    java.lang.String mTag -> E
+    boolean mHidden -> F
+    boolean mDetached -> G
+    boolean mRetainInstance -> H
+    boolean mRetaining -> I
+    boolean mHasMenu -> J
+    boolean mMenuVisible -> K
+    boolean mCalled -> L
+    int mNextAnim -> M
+    android.view.ViewGroup mContainer -> N
+    android.view.View mView -> O
+    android.view.View mInnerView -> P
+    boolean mDeferStart -> Q
+    boolean mUserVisibleHint -> R
+    android.support.v4.app.LoaderManagerImpl mLoaderManager -> S
+    boolean mLoadersStarted -> T
+    boolean mCheckedForLoaderManager -> U
+    android.support.v4.app.Fragment instantiate(android.content.Context,java.lang.String) -> a
+    android.support.v4.app.Fragment instantiate(android.content.Context,java.lang.String,android.os.Bundle) -> a
+    void restoreViewState() -> e
+    void setIndex(int) -> a
+    boolean isInBackStack() -> f
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    java.lang.String toString() -> toString
+    void setArguments(android.os.Bundle) -> e
+    android.os.Bundle getArguments() -> g
+    android.support.v4.app.FragmentActivity getActivity() -> h
+    android.content.res.Resources getResources() -> i
+    void onHiddenChanged$1385ff() -> j
+    void setMenuVisibility(boolean) -> a
+    void setUserVisibleHint(boolean) -> b
+    void startActivity(android.content.Intent) -> a
+    void onActivityResult$6eb84b52() -> k
+    android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> b
+    void onInflate$423a76cd() -> l
+    void onAttach$63a22f9() -> m
+    android.view.animation.Animation onCreateAnimation$24236ca7() -> n
+    void onCreate(android.os.Bundle) -> a
+    android.view.View onCreateView$469ccb8a(android.view.LayoutInflater,android.view.ViewGroup) -> a
+    void onViewCreated$65f1d89() -> o
+    android.view.View getView() -> p
+    void onActivityCreated(android.os.Bundle) -> c
+    void onStart() -> b
+    void onResume() -> q
+    void onSaveInstanceState(android.os.Bundle) -> d
+    void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
+    void onPause() -> r
+    void onStop() -> c
+    void onLowMemory() -> onLowMemory
+    void onDestroyView() -> d
+    void onDestroy() -> s
+    void initState() -> t
+    void onDetach() -> u
+    void onCreateOptionsMenu$761f6f96() -> v
+    void onPrepareOptionsMenu$1eec55bd() -> w
+    void onDestroyOptionsMenu() -> x
+    boolean onOptionsItemSelected$1b88ab4c() -> y
+    void onOptionsMenuClosed$1eec55bd() -> z
+    void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
+    boolean onContextItemSelected$1b88ab4c() -> A
+    void dump$ec96877$79f041d6(java.lang.String,java.io.PrintWriter) -> a
+    void performStart() -> B
+    void performStop() -> C
+    void performReallyStop() -> D
+    void performDestroyView() -> E
+android.support.v4.app.Fragment$InstantiationException -> android.support.v4.app.e:
+android.support.v4.app.Fragment$SavedState -> android.support.v4.app.Fragment$SavedState:
+    android.os.Bundle mState -> a
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+android.support.v4.app.Fragment$SavedState$1 -> android.support.v4.app.f:
+    java.lang.Object[] newArray(int) -> newArray
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+android.support.v4.app.FragmentActivity -> android.support.v4.app.FragmentActivity:
+    android.os.Handler mHandler -> a
+    android.support.v4.app.FragmentManagerImpl mFragments -> b
+    boolean mCreated -> c
+    boolean mResumed -> d
+    boolean mStopped -> e
+    boolean mReallyStopped -> f
+    boolean mRetaining -> g
+    boolean mOptionsMenuInvalidated -> h
+    boolean mCheckedForLoaderManager -> i
+    boolean mLoadersStarted -> j
+    android.support.v4.app.HCSparseArray mAllLoaderManagers -> k
+    android.support.v4.app.LoaderManagerImpl mLoaderManager -> l
+    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    void onBackPressed() -> onBackPressed
+    void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
+    void onCreate(android.os.Bundle) -> onCreate
+    boolean onCreatePanelMenu(int,android.view.Menu) -> onCreatePanelMenu
+    android.view.View onCreateView(java.lang.String,android.content.Context,android.util.AttributeSet) -> onCreateView
+    void onDestroy() -> onDestroy
+    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    void onLowMemory() -> onLowMemory
+    boolean onMenuItemSelected(int,android.view.MenuItem) -> onMenuItemSelected
+    void onPanelClosed(int,android.view.Menu) -> onPanelClosed
+    void onPause() -> onPause
+    void onResume() -> onResume
+    void onPostResume() -> onPostResume
+    boolean onPreparePanel(int,android.view.View,android.view.Menu) -> onPreparePanel
+    java.lang.Object onRetainNonConfigurationInstance() -> onRetainNonConfigurationInstance
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onStart() -> onStart
+    void onStop() -> onStop
+    void supportInvalidateOptionsMenu() -> a
+    void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> dump
+    void doReallyStop(boolean) -> a
+    void onAttachFragment$65850823() -> b
+    android.support.v4.app.FragmentManager getSupportFragmentManager() -> c
+    void startActivityForResult(android.content.Intent,int) -> startActivityForResult
+    void startActivityFromFragment$68747257(android.content.Intent) -> a
+    void invalidateSupportFragmentIndex(int) -> a
+    android.support.v4.app.LoaderManagerImpl getLoaderManager$3d2266e4(int) -> b
+android.support.v4.app.FragmentActivity$1 -> android.support.v4.app.g:
+    android.support.v4.app.FragmentActivity this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+android.support.v4.app.FragmentActivity$FragmentTag -> android.support.v4.app.h:
+    int[] Fragment -> a
+android.support.v4.app.FragmentActivity$NonConfigurationInstances -> android.support.v4.app.i:
+    java.lang.Object activity -> a
+    java.lang.Object custom -> b
+    java.util.HashMap children -> c
+    java.util.ArrayList fragments -> d
+    android.support.v4.app.HCSparseArray loaders -> e
+android.support.v4.app.FragmentManager -> android.support.v4.app.j:
+    android.support.v4.app.FragmentTransaction beginTransaction() -> a
+    boolean executePendingTransactions() -> b
+    android.support.v4.app.Fragment findFragmentByTag(java.lang.String) -> a
+    void popBackStack$255f295(int) -> a
+android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.k:
+    boolean DEBUG -> a
+    boolean HONEYCOMB -> b
+    java.util.ArrayList mPendingActions -> c
+    java.lang.Runnable[] mTmpActions -> d
+    boolean mExecutingActions -> e
+    java.util.ArrayList mActive -> f
+    java.util.ArrayList mAdded -> g
+    java.util.ArrayList mAvailIndices -> h
+    java.util.ArrayList mBackStack -> i
+    java.util.ArrayList mCreatedMenus -> j
+    java.util.ArrayList mBackStackIndices -> k
+    java.util.ArrayList mAvailBackStackIndices -> l
+    java.util.ArrayList mBackStackChangeListeners -> m
+    int mCurState -> n
+    android.support.v4.app.FragmentActivity mActivity -> o
+    boolean mNeedMenuInvalidate -> p
+    boolean mStateSaved -> q
+    boolean mDestroyed -> r
+    java.lang.String mNoTransactionsBecause -> s
+    boolean mHavePendingDeferredStart -> t
+    android.os.Bundle mStateBundle -> u
+    android.util.SparseArray mStateArray -> v
+    java.lang.Runnable mExecCommit -> w
+    android.view.animation.Interpolator DECELERATE_QUINT -> x
+    android.view.animation.Interpolator DECELERATE_CUBIC -> y
+    android.view.animation.Interpolator ACCELERATE_QUINT -> z
+    android.view.animation.Interpolator ACCELERATE_CUBIC -> A
+    android.support.v4.app.FragmentTransaction beginTransaction() -> a
+    boolean executePendingTransactions() -> b
+    boolean popBackStackImmediate() -> c
+    void popBackStack$255f295(int) -> a
+    java.lang.String toString() -> toString
+    void dump$ec96877(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter) -> a
+    android.view.animation.Animation makeOpenCloseAnimation$376f30fd(float,float,float,float) -> a
+    android.view.animation.Animation makeFadeAnimation$424ea1bd(float,float) -> a
+    android.view.animation.Animation loadAnimation(android.support.v4.app.Fragment,int,boolean,int) -> a
+    void performPendingDeferredStart(android.support.v4.app.Fragment) -> a
+    void moveToState(android.support.v4.app.Fragment,int,int,int) -> a
+    void moveToState(android.support.v4.app.Fragment) -> b
+    void moveToState$2563266(int) -> e
+    void moveToState(int,int,int,boolean) -> a
+    void startPendingDeferredFragments() -> v
+    void addFragment(android.support.v4.app.Fragment,boolean) -> a
+    void removeFragment(android.support.v4.app.Fragment,int,int) -> a
+    void hideFragment(android.support.v4.app.Fragment,int,int) -> b
+    void showFragment(android.support.v4.app.Fragment,int,int) -> c
+    void detachFragment(android.support.v4.app.Fragment,int,int) -> d
+    void attachFragment(android.support.v4.app.Fragment,int,int) -> e
+    android.support.v4.app.Fragment findFragmentById(int) -> b
+    android.support.v4.app.Fragment findFragmentByTag(java.lang.String) -> a
+    void checkStateLoss() -> w
+    void enqueueAction(java.lang.Runnable,boolean) -> a
+    int allocBackStackIndex(android.support.v4.app.BackStackRecord) -> a
+    void setBackStackIndex(int,android.support.v4.app.BackStackRecord) -> a
+    void freeBackStackIndex(int) -> c
+    boolean execPendingActions() -> d
+    void reportBackStackChanged() -> x
+    void addBackStackState(android.support.v4.app.BackStackRecord) -> b
+    boolean popBackStackState$68507953$44bd8ea3(int,int) -> a
+    java.util.ArrayList retainNonConfig() -> e
+    void saveFragmentViewState(android.support.v4.app.Fragment) -> c
+    android.os.Parcelable saveAllState() -> f
+    void restoreAllState(android.os.Parcelable,java.util.ArrayList) -> a
+    void attachActivity(android.support.v4.app.FragmentActivity) -> a
+    void noteStateNotSaved() -> g
+    void dispatchCreate() -> h
+    void dispatchActivityCreated() -> i
+    void dispatchStart() -> j
+    void dispatchResume() -> k
+    void dispatchPause() -> l
+    void dispatchStop() -> m
+    void dispatchReallyStop() -> n
+    void dispatchDestroy() -> o
+    void dispatchConfigurationChanged(android.content.res.Configuration) -> a
+    void dispatchLowMemory() -> p
+    boolean dispatchCreateOptionsMenu$761f6f92() -> q
+    boolean dispatchPrepareOptionsMenu$1eec55b9() -> r
+    boolean dispatchOptionsItemSelected$1b88ab4c() -> s
+    boolean dispatchContextItemSelected$1b88ab4c() -> t
+    void dispatchOptionsMenuClosed$1eec55bd() -> u
+    int reverseTransit(int) -> d
+android.support.v4.app.FragmentManagerImpl$1 -> android.support.v4.app.l:
+    android.support.v4.app.FragmentManagerImpl this$0 -> a
+    void run() -> run
+android.support.v4.app.FragmentManagerImpl$4 -> android.support.v4.app.m:
+    int val$id -> a
+    int val$flags -> b
+    android.support.v4.app.FragmentManagerImpl this$0 -> c
+    void run() -> run
+android.support.v4.app.FragmentManagerImpl$5 -> android.support.v4.app.n:
+    android.support.v4.app.Fragment val$fragment -> a
+    android.support.v4.app.FragmentManagerImpl this$0 -> b
+    void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
+    void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
+    void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
+android.support.v4.app.FragmentManagerState -> android.support.v4.app.FragmentManagerState:
+    android.support.v4.app.FragmentState[] mActive -> a
+    int[] mAdded -> b
+    android.support.v4.app.BackStackState[] mBackStack -> c
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+android.support.v4.app.FragmentManagerState$1 -> android.support.v4.app.o:
+    java.lang.Object[] newArray(int) -> newArray
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+android.support.v4.app.FragmentPagerAdapter -> android.support.v4.app.p:
+    android.support.v4.app.FragmentManager mFragmentManager -> a
+    android.support.v4.app.FragmentTransaction mCurTransaction -> b
+    android.support.v4.app.Fragment mCurrentPrimaryItem -> c
+    android.support.v4.app.Fragment getItem(int) -> a
+    java.lang.Object instantiateItem(android.view.ViewGroup,int) -> a
+    void destroyItem$30510aeb(java.lang.Object) -> a
+    void setPrimaryItem$30510aeb(java.lang.Object) -> b
+    void finishUpdate$52bc874c() -> a
+    boolean isViewFromObject(android.view.View,java.lang.Object) -> a
+    java.lang.String makeFragmentName(int,int) -> a
+android.support.v4.app.FragmentState -> android.support.v4.app.FragmentState:
+    java.lang.String mClassName -> a
+    int mIndex -> b
+    boolean mFromLayout -> c
+    int mFragmentId -> d
+    int mContainerId -> e
+    java.lang.String mTag -> f
+    boolean mRetainInstance -> g
+    boolean mDetached -> h
+    android.os.Bundle mArguments -> i
+    android.os.Bundle mSavedFragmentState -> j
+    android.support.v4.app.Fragment mInstance -> k
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    android.support.v4.app.Fragment instantiate(android.support.v4.app.FragmentActivity) -> a
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+android.support.v4.app.FragmentState$1 -> android.support.v4.app.q:
+    java.lang.Object[] newArray(int) -> newArray
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+android.support.v4.app.FragmentTransaction -> android.support.v4.app.r:
+    android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String) -> a
+    android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
+    android.support.v4.app.FragmentTransaction remove(android.support.v4.app.Fragment) -> a
+    android.support.v4.app.FragmentTransaction detach(android.support.v4.app.Fragment) -> b
+    android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment) -> c
+    int commit() -> a
+    int commitAllowingStateLoss() -> b
+android.support.v4.app.HCSparseArray -> android.support.v4.app.s:
+    java.lang.Object DELETED -> a
+    boolean mGarbage -> b
+    int[] mKeys -> c
+    java.lang.Object[] mValues -> d
+    int mSize -> e
+    java.lang.Object get(int) -> a
+    void remove(int) -> b
+    void removeAt(int) -> c
+    void gc() -> c
+    int size() -> a
+    int keyAt(int) -> d
+    java.lang.Object valueAt(int) -> e
+    void clear() -> b
+    int binarySearch$76412d8d(int[],int,int) -> a
+android.support.v4.app.LoaderManager -> android.support.v4.app.t:
+    boolean hasRunningLoaders() -> a
+android.support.v4.app.LoaderManager$LoaderCallbacks -> android.support.v4.app.u:
+    android.support.v4.content.Loader onCreateLoader$e57f803() -> a
+android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.v:
+    boolean DEBUG -> a
+    android.support.v4.app.HCSparseArray mLoaders -> b
+    android.support.v4.app.HCSparseArray mInactiveLoaders -> c
+    android.support.v4.app.FragmentActivity mActivity -> d
+    boolean mStarted -> e
+    boolean mRetaining -> f
+    void updateActivity(android.support.v4.app.FragmentActivity) -> a
+    void doStart() -> b
+    void doStop() -> c
+    void doRetain() -> d
+    void finishRetain() -> e
+    void doReportNextStart() -> f
+    void doReportStart() -> g
+    void doDestroy() -> h
+    java.lang.String toString() -> toString
+    void dump$ec96877$79f041d6(java.lang.String,java.io.PrintWriter) -> a
+    boolean hasRunningLoaders() -> a
+android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.w:
+    int mId -> a
+    android.os.Bundle mArgs -> b
+    android.support.v4.app.LoaderManager$LoaderCallbacks mCallbacks -> c
+    android.support.v4.content.Loader mLoader -> d
+    boolean mHaveData -> e
+    boolean mDeliveredData -> f
+    java.lang.Object mData -> g
+    boolean mStarted -> h
+    boolean mRetaining -> i
+    boolean mRetainingStarted -> j
+    boolean mReportNextStart -> k
+    boolean mDestroyed -> l
+    boolean mListenerRegistered -> m
+    android.support.v4.app.LoaderManagerImpl$LoaderInfo mPendingLoader -> n
+    android.support.v4.app.LoaderManagerImpl this$0 -> o
+    void stop() -> a
+    void destroy() -> b
+    void callOnLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
+    java.lang.String toString() -> toString
+    void dump$ec96877$79f041d6(java.lang.String,java.io.PrintWriter) -> a
+android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.x:
+    android.view.ViewGroup wrap(android.view.View) -> a
+    void dispatchSaveInstanceState(android.util.SparseArray) -> dispatchSaveInstanceState
+    void dispatchRestoreInstanceState(android.util.SparseArray) -> dispatchRestoreInstanceState
+android.support.v4.app.NotificationCompat -> android.support.v4.app.y:
+    android.support.v4.app.NotificationCompat$NotificationCompatImpl IMPL -> a
+    android.support.v4.app.NotificationCompat$NotificationCompatImpl access$000() -> a
+android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.z:
+    android.content.Context mContext -> a
+    java.lang.CharSequence mContentTitle -> b
+    java.lang.CharSequence mContentText -> c
+    android.app.PendingIntent mContentIntent -> d
+    android.app.PendingIntent mFullScreenIntent -> e
+    android.widget.RemoteViews mTickerView -> f
+    android.graphics.Bitmap mLargeIcon -> g
+    java.lang.CharSequence mContentInfo -> h
+    int mNumber -> i
+    android.app.Notification mNotification -> j
+    android.support.v4.app.NotificationCompat$Builder setWhen(long) -> a
+    android.support.v4.app.NotificationCompat$Builder setSmallIcon$19d6eefc() -> a
+    android.support.v4.app.NotificationCompat$Builder setContentTitle(java.lang.CharSequence) -> a
+    android.support.v4.app.NotificationCompat$Builder setContentText(java.lang.CharSequence) -> b
+    android.support.v4.app.NotificationCompat$Builder setContentIntent(android.app.PendingIntent) -> a
+    android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence) -> c
+    android.app.Notification getNotification() -> b
+android.support.v4.app.NotificationCompat$NotificationCompatImpl -> android.support.v4.app.aa:
+    android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> a
+android.support.v4.app.NotificationCompat$NotificationCompatImplBase -> android.support.v4.app.ab:
+    android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> a
+android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb -> android.support.v4.app.ac:
+    android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> a
+android.support.v4.app.SuperNotCalledException -> android.support.v4.app.ad:
+android.support.v4.content.Loader -> android.support.v4.a.a:
+    int mId -> a
+    android.support.v4.content.Loader$OnLoadCompleteListener mListener -> b
+    boolean mStarted -> c
+    boolean mAbandoned -> d
+    boolean mReset -> e
+    boolean mContentChanged -> f
+    void registerListener(int,android.support.v4.content.Loader$OnLoadCompleteListener) -> a
+    void unregisterListener(android.support.v4.content.Loader$OnLoadCompleteListener) -> a
+    void startLoading() -> a
+    void stopLoading() -> b
+    void reset() -> c
+    java.lang.String toString() -> toString
+    void dump$ec96877(java.lang.String,java.io.PrintWriter) -> a
+android.support.v4.content.Loader$OnLoadCompleteListener -> android.support.v4.a.b:
+android.support.v4.os.ParcelableCompat -> android.support.v4.b.a:
+    android.os.Parcelable$Creator newCreator(android.support.v4.os.ParcelableCompatCreatorCallbacks) -> a
+android.support.v4.os.ParcelableCompat$CompatCreator -> android.support.v4.b.b:
+    android.support.v4.os.ParcelableCompatCreatorCallbacks mCallbacks -> a
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+android.support.v4.os.ParcelableCompatCreatorCallbacks -> android.support.v4.b.c:
+    java.lang.Object createFromParcel(android.os.Parcel,java.lang.ClassLoader) -> a
+    java.lang.Object[] newArray(int) -> a
+android.support.v4.os.ParcelableCompatCreatorHoneycombMR2 -> android.support.v4.b.d:
+    android.support.v4.os.ParcelableCompatCreatorCallbacks mCallbacks -> a
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object createFromParcel(android.os.Parcel,java.lang.ClassLoader) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+android.support.v4.util.DebugUtils -> android.support.v4.c.a:
+    void buildShortClassTag(java.lang.Object,java.lang.StringBuilder) -> a
+android.support.v4.util.LogWriter -> android.support.v4.c.b:
+    java.lang.String mTag -> a
+    java.lang.StringBuilder mBuilder -> b
+    void close() -> close
+    void flush() -> flush
+    void write(char[],int,int) -> write
+    void flushBuilder() -> a
+android.support.v4.view.KeyEventCompat -> android.support.v4.view.a:
+    android.support.v4.view.KeyEventCompat$KeyEventVersionImpl IMPL -> a
+    boolean hasModifiers$79c6ddc0(android.view.KeyEvent) -> a
+    boolean hasNoModifiers(android.view.KeyEvent) -> b
+android.support.v4.view.KeyEventCompat$BaseKeyEventVersionImpl -> android.support.v4.view.b:
+    int metaStateFilterDirectionalModifiers$2e71581f(int,int,int,int) -> a
+    int normalizeMetaState(int) -> c
+    boolean metaStateHasModifiers$255f299(int) -> a
+    boolean metaStateHasNoModifiers(int) -> b
+android.support.v4.view.KeyEventCompat$HoneycombKeyEventVersionImpl -> android.support.v4.view.c:
+    boolean metaStateHasModifiers$255f299(int) -> a
+    boolean metaStateHasNoModifiers(int) -> b
+android.support.v4.view.KeyEventCompat$KeyEventVersionImpl -> android.support.v4.view.d:
+    boolean metaStateHasModifiers$255f299(int) -> a
+    boolean metaStateHasNoModifiers(int) -> b
+android.support.v4.view.MotionEventCompat -> android.support.v4.view.e:
+    android.support.v4.view.MotionEventCompat$MotionEventVersionImpl IMPL -> a
+    int getActionIndex(android.view.MotionEvent) -> a
+    int findPointerIndex(android.view.MotionEvent,int) -> a
+    int getPointerId(android.view.MotionEvent,int) -> b
+    float getX(android.view.MotionEvent,int) -> c
+    float getY(android.view.MotionEvent,int) -> d
+android.support.v4.view.MotionEventCompat$BaseMotionEventVersionImpl -> android.support.v4.view.f:
+    int findPointerIndex(android.view.MotionEvent,int) -> a
+    int getPointerId(android.view.MotionEvent,int) -> b
+    float getX(android.view.MotionEvent,int) -> c
+    float getY(android.view.MotionEvent,int) -> d
+android.support.v4.view.MotionEventCompat$EclairMotionEventVersionImpl -> android.support.v4.view.g:
+    int findPointerIndex(android.view.MotionEvent,int) -> a
+    int getPointerId(android.view.MotionEvent,int) -> b
+    float getX(android.view.MotionEvent,int) -> c
+    float getY(android.view.MotionEvent,int) -> d
+android.support.v4.view.MotionEventCompat$MotionEventVersionImpl -> android.support.v4.view.h:
+    int findPointerIndex(android.view.MotionEvent,int) -> a
+    int getPointerId(android.view.MotionEvent,int) -> b
+    float getX(android.view.MotionEvent,int) -> c
+    float getY(android.view.MotionEvent,int) -> d
+android.support.v4.view.PagerAdapter -> android.support.v4.view.i:
+    android.database.DataSetObservable mObservable -> a
+    java.lang.Object instantiateItem(android.view.ViewGroup,int) -> a
+    void destroyItem$30510aeb(java.lang.Object) -> a
+    void setPrimaryItem$30510aeb(java.lang.Object) -> b
+    void finishUpdate$52bc874c() -> a
+    boolean isViewFromObject(android.view.View,java.lang.Object) -> a
+    void registerDataSetObserver(android.database.DataSetObserver) -> a
+    void unregisterDataSetObserver(android.database.DataSetObserver) -> b
+android.support.v4.view.PagerTitleStrip -> android.support.v4.view.PagerTitleStrip:
+    android.support.v4.view.ViewPager mPager -> a
+    android.widget.TextView mPrevText -> b
+    android.widget.TextView mCurrText -> c
+    android.widget.TextView mNextText -> d
+    int mLastKnownCurrentPage -> e
+    float mLastKnownPositionOffset -> f
+    int mScaledTextSpacing -> g
+    boolean mUpdatingText -> h
+    boolean mUpdatingPositions -> i
+    android.support.v4.view.PagerTitleStrip$PageListener mPageListener -> j
+    int[] ATTRS -> k
+    void onAttachedToWindow() -> onAttachedToWindow
+    void onDetachedFromWindow() -> onDetachedFromWindow
+    void updateText$7a69ae8(int) -> a
+    void requestLayout() -> requestLayout
+    void updateAdapter(android.support.v4.view.PagerAdapter,android.support.v4.view.PagerAdapter) -> a
+    void updateTextPositions(int,float) -> a
+    void onMeasure(int,int) -> onMeasure
+    void onLayout(boolean,int,int,int,int) -> onLayout
+android.support.v4.view.PagerTitleStrip$PageListener -> android.support.v4.view.j:
+    int mScrollState -> b
+    android.support.v4.view.PagerTitleStrip this$0 -> a
+    void onPageScrolled$486775f1(int,float) -> a
+    void onPageSelected$13462e() -> a
+    void onPageScrollStateChanged(int) -> a
+    void onAdapterChanged(android.support.v4.view.PagerAdapter,android.support.v4.view.PagerAdapter) -> a
+    void onChanged() -> onChanged
+android.support.v4.view.VelocityTrackerCompat -> android.support.v4.view.k:
+    android.support.v4.view.VelocityTrackerCompat$VelocityTrackerVersionImpl IMPL -> a
+    float getXVelocity(android.view.VelocityTracker,int) -> a
+android.support.v4.view.VelocityTrackerCompat$BaseVelocityTrackerVersionImpl -> android.support.v4.view.l:
+    float getXVelocity(android.view.VelocityTracker,int) -> a
+android.support.v4.view.VelocityTrackerCompat$HoneycombVelocityTrackerVersionImpl -> android.support.v4.view.m:
+    float getXVelocity(android.view.VelocityTracker,int) -> a
+android.support.v4.view.VelocityTrackerCompat$VelocityTrackerVersionImpl -> android.support.v4.view.n:
+    float getXVelocity(android.view.VelocityTracker,int) -> a
+android.support.v4.view.ViewCompat -> android.support.v4.view.o:
+    android.support.v4.view.ViewCompat$ViewCompatImpl IMPL -> a
+    boolean canScrollHorizontally(android.view.View,int) -> a
+    int getOverScrollMode(android.view.View) -> a
+android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view.p:
+    boolean canScrollHorizontally(android.view.View,int) -> a
+    int getOverScrollMode(android.view.View) -> a
+android.support.v4.view.ViewCompat$GBViewCompatImpl -> android.support.v4.view.q:
+    int getOverScrollMode(android.view.View) -> a
+android.support.v4.view.ViewCompat$ICSViewCompatImpl -> android.support.v4.view.r:
+    boolean canScrollHorizontally(android.view.View,int) -> a
+android.support.v4.view.ViewCompat$ViewCompatImpl -> android.support.v4.view.s:
+    boolean canScrollHorizontally(android.view.View,int) -> a
+    int getOverScrollMode(android.view.View) -> a
+android.support.v4.view.ViewConfigurationCompat -> android.support.v4.view.t:
+    android.support.v4.view.ViewConfigurationCompat$ViewConfigurationVersionImpl IMPL -> a
+    int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
+android.support.v4.view.ViewConfigurationCompat$BaseViewConfigurationVersionImpl -> android.support.v4.view.u:
+    int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
+android.support.v4.view.ViewConfigurationCompat$FroyoViewConfigurationVersionImpl -> android.support.v4.view.v:
+    int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
+android.support.v4.view.ViewConfigurationCompat$ViewConfigurationVersionImpl -> android.support.v4.view.w:
+    int getScaledPagingTouchSlop(android.view.ViewConfiguration) -> a
+android.support.v4.view.ViewPager -> android.support.v4.view.ViewPager:
+    int[] LAYOUT_ATTRS -> a
+    java.util.Comparator COMPARATOR -> b
+    android.view.animation.Interpolator sInterpolator -> c
+    java.util.ArrayList mItems -> d
+    android.support.v4.view.PagerAdapter mAdapter -> e
+    int mCurItem -> f
+    int mRestoredCurItem -> g
+    android.os.Parcelable mRestoredAdapterState -> h
+    java.lang.ClassLoader mRestoredClassLoader -> i
+    android.widget.Scroller mScroller -> j
+    android.support.v4.view.ViewPager$PagerObserver mObserver -> k
+    int mPageMargin -> l
+    android.graphics.drawable.Drawable mMarginDrawable -> m
+    int mTopPageBounds -> n
+    int mBottomPageBounds -> o
+    int mChildWidthMeasureSpec -> p
+    int mChildHeightMeasureSpec -> q
+    boolean mInLayout -> r
+    boolean mScrollingCacheEnabled -> s
+    boolean mPopulatePending -> t
+    boolean mScrolling -> u
+    int mOffscreenPageLimit -> v
+    boolean mIsBeingDragged -> w
+    boolean mIsUnableToDrag -> x
+    int mTouchSlop -> y
+    float mInitialMotionX -> z
+    float mLastMotionX -> A
+    float mLastMotionY -> B
+    int mActivePointerId -> C
+    android.view.VelocityTracker mVelocityTracker -> D
+    int mMinimumVelocity -> E
+    int mMaximumVelocity -> F
+    int mFlingDistance -> G
+    boolean mFakeDragging -> H
+    android.support.v4.widget.EdgeEffectCompat mLeftEdge -> I
+    android.support.v4.widget.EdgeEffectCompat mRightEdge -> J
+    boolean mFirstLayout -> K
+    boolean mCalledSuper -> L
+    int mDecorChildCount -> M
+    android.support.v4.view.ViewPager$OnPageChangeListener mOnPageChangeListener -> N
+    android.support.v4.view.ViewPager$OnPageChangeListener mInternalPageChangeListener -> O
+    android.support.v4.view.ViewPager$OnAdapterChangeListener mAdapterChangeListener -> P
+    int mScrollState -> Q
+    void initViewPager() -> e
+    void setScrollState(int) -> b
+    void setAdapter(android.support.v4.view.PagerAdapter) -> a
+    android.support.v4.view.PagerAdapter getAdapter() -> a
+    void setOnAdapterChangeListener(android.support.v4.view.ViewPager$OnAdapterChangeListener) -> a
+    void setCurrentItem(int) -> a
+    void setCurrentItem$2563266(int) -> c
+    int getCurrentItem() -> b
+    void setCurrentItemInternal(int,boolean,boolean) -> a
+    void setCurrentItemInternal(int,boolean,boolean,int) -> a
+    void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener) -> a
+    android.support.v4.view.ViewPager$OnPageChangeListener setInternalPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener) -> b
+    boolean verifyDrawable(android.graphics.drawable.Drawable) -> verifyDrawable
+    void drawableStateChanged() -> drawableStateChanged
+    void addNewItem(int,int) -> a
+    void dataSetChanged() -> c
+    void populate() -> f
+    android.os.Parcelable onSaveInstanceState() -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
+    void addView(android.view.View,int,android.view.ViewGroup$LayoutParams) -> addView
+    android.support.v4.view.ViewPager$ItemInfo infoForChild(android.view.View) -> a
+    void onAttachedToWindow() -> onAttachedToWindow
+    void onMeasure(int,int) -> onMeasure
+    void onSizeChanged(int,int,int,int) -> onSizeChanged
+    void onLayout(boolean,int,int,int,int) -> onLayout
+    void computeScroll() -> computeScroll
+    void pageScrolled(int) -> d
+    void completeScroll() -> g
+    boolean onInterceptTouchEvent(android.view.MotionEvent) -> onInterceptTouchEvent
+    boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
+    void draw(android.graphics.Canvas) -> draw
+    void onDraw(android.graphics.Canvas) -> onDraw
+    void onSecondaryPointerUp(android.view.MotionEvent) -> a
+    void endDrag() -> h
+    void setScrollingCacheEnabled(boolean) -> a
+    boolean canScroll(android.view.View,boolean,int,int,int) -> a
+    boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    boolean arrowScroll(int) -> e
+    boolean pageLeft() -> i
+    void addFocusables(java.util.ArrayList,int,int) -> addFocusables
+    void addTouchables(java.util.ArrayList) -> addTouchables
+    boolean onRequestFocusInDescendants(int,android.graphics.Rect) -> onRequestFocusInDescendants
+    boolean dispatchPopulateAccessibilityEvent(android.view.accessibility.AccessibilityEvent) -> dispatchPopulateAccessibilityEvent
+    android.view.ViewGroup$LayoutParams generateDefaultLayoutParams() -> generateDefaultLayoutParams
+    android.view.ViewGroup$LayoutParams generateLayoutParams(android.view.ViewGroup$LayoutParams) -> generateLayoutParams
+    boolean checkLayoutParams(android.view.ViewGroup$LayoutParams) -> checkLayoutParams
+    android.view.ViewGroup$LayoutParams generateLayoutParams(android.util.AttributeSet) -> generateLayoutParams
+    int[] access$100() -> d
+android.support.v4.view.ViewPager$1 -> android.support.v4.view.x:
+    int compare(java.lang.Object,java.lang.Object) -> compare
+android.support.v4.view.ViewPager$2 -> android.support.v4.view.y:
+    float getInterpolation(float) -> getInterpolation
+android.support.v4.view.ViewPager$Decor -> android.support.v4.view.z:
+android.support.v4.view.ViewPager$ItemInfo -> android.support.v4.view.aa:
+    java.lang.Object object -> a
+    int position -> b
+    boolean scrolling -> c
+android.support.v4.view.ViewPager$LayoutParams -> android.support.v4.view.ViewPager$LayoutParams:
+    boolean isDecor -> a
+    int gravity -> b
+android.support.v4.view.ViewPager$OnAdapterChangeListener -> android.support.v4.view.ab:
+    void onAdapterChanged(android.support.v4.view.PagerAdapter,android.support.v4.view.PagerAdapter) -> a
+android.support.v4.view.ViewPager$OnPageChangeListener -> android.support.v4.view.ac:
+    void onPageScrolled$486775f1(int,float) -> a
+    void onPageSelected$13462e() -> a
+    void onPageScrollStateChanged(int) -> a
+android.support.v4.view.ViewPager$PagerObserver -> android.support.v4.view.ad:
+    android.support.v4.view.ViewPager this$0 -> a
+    void onChanged() -> onChanged
+    void onInvalidated() -> onInvalidated
+android.support.v4.view.ViewPager$SavedState -> android.support.v4.view.ViewPager$SavedState:
+    int position -> a
+    android.os.Parcelable adapterState -> b
+    java.lang.ClassLoader loader -> c
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+    java.lang.String toString() -> toString
+android.support.v4.view.ViewPager$SavedState$1 -> android.support.v4.view.ae:
+    java.lang.Object[] newArray(int) -> a
+    java.lang.Object createFromParcel(android.os.Parcel,java.lang.ClassLoader) -> a
+android.support.v4.widget.EdgeEffectCompat -> android.support.v4.d.a:
+    java.lang.Object mEdgeEffect -> a
+    android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl IMPL -> b
+    void setSize(int,int) -> a
+    boolean isFinished() -> a
+    void finish() -> b
+    boolean onPull(float) -> a
+    boolean onRelease() -> c
+    boolean draw(android.graphics.Canvas) -> a
+android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> android.support.v4.d.b:
+    java.lang.Object newEdgeEffect(android.content.Context) -> a
+    void setSize(java.lang.Object,int,int) -> a
+    boolean isFinished(java.lang.Object) -> a
+    void finish(java.lang.Object) -> b
+    boolean onPull(java.lang.Object,float) -> a
+    boolean onRelease(java.lang.Object) -> c
+    boolean draw(java.lang.Object,android.graphics.Canvas) -> a
+android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> android.support.v4.d.c:
+    java.lang.Object newEdgeEffect(android.content.Context) -> a
+    void setSize(java.lang.Object,int,int) -> a
+    boolean isFinished(java.lang.Object) -> a
+    void finish(java.lang.Object) -> b
+    boolean onPull(java.lang.Object,float) -> a
+    boolean onRelease(java.lang.Object) -> c
+    boolean draw(java.lang.Object,android.graphics.Canvas) -> a
+android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> android.support.v4.d.d:
+    java.lang.Object newEdgeEffect(android.content.Context) -> a
+    void setSize(java.lang.Object,int,int) -> a
+    boolean isFinished(java.lang.Object) -> a
+    void finish(java.lang.Object) -> b
+    boolean onPull(java.lang.Object,float) -> a
+    boolean onRelease(java.lang.Object) -> c
+    boolean draw(java.lang.Object,android.graphics.Canvas) -> a
+com.lechucksoftware.proxy.proxysettings.Constants -> com.lechucksoftware.proxy.proxysettings.a:
+com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus -> com.lechucksoftware.proxy.proxysettings.b:
+    com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus CHECKING -> a
+    com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus CHECKED -> b
+    com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus[] ENUM$VALUES -> c
+    com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus[] values() -> values
+    com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus valueOf(java.lang.String) -> valueOf
+com.lechucksoftware.proxy.proxysettings.DownloadReceiver -> com.lechucksoftware.proxy.proxysettings.DownloadReceiver:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity _activity -> a
+    void onReceiveResult(int,android.os.Bundle) -> onReceiveResult
+com.lechucksoftware.proxy.proxysettings.Globals -> com.lechucksoftware.proxy.proxysettings.c:
+    com.lechucksoftware.proxy.proxysettings.Globals mInstance -> e
+    com.shouldit.proxy.lib.ProxyConfiguration proxyConf -> a
+    com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus proxyCheckStatus -> b
+    int timeout -> c
+    android.content.Context context -> d
+    void addApplicationContext(android.content.Context) -> a
+    com.lechucksoftware.proxy.proxysettings.Globals getInstance() -> a
+com.lechucksoftware.proxy.proxysettings.LocalWebViewClient -> com.lechucksoftware.proxy.proxysettings.d:
+    java.lang.String TAG -> a
+    boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String) -> shouldOverrideUrlLoading
+    void onPageStarted(android.webkit.WebView,java.lang.String,android.graphics.Bitmap) -> onPageStarted
+    void onLoadResource(android.webkit.WebView,java.lang.String) -> onLoadResource
+    void onPageFinished(android.webkit.WebView,java.lang.String) -> onPageFinished
+    void onReceivedError(android.webkit.WebView,int,java.lang.String,java.lang.String) -> onReceivedError
+com.lechucksoftware.proxy.proxysettings.ProxyChangeReceiver -> com.lechucksoftware.proxy.proxysettings.ProxyChangeReceiver:
+    java.lang.String TAG -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.lechucksoftware.proxy.proxysettings.UninstallerActivity -> com.lechucksoftware.proxy.proxysettings.UninstallerActivity:
+    void onCreate(android.os.Bundle) -> onCreate
+com.lechucksoftware.proxy.proxysettings.UrlManager -> com.lechucksoftware.proxy.proxysettings.e:
+    java.lang.String[] getUsedUrls(android.content.Context) -> a
+    void addUsedUrl(android.content.Context,java.lang.String) -> a
+com.lechucksoftware.proxy.proxysettings.ValidationPreference -> com.lechucksoftware.proxy.proxysettings.ValidationPreference:
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus status -> a
+    android.graphics.drawable.Drawable mIcon -> b
+    java.lang.Object onGetDefaultValue(android.content.res.TypedArray,int) -> onGetDefaultValue
+    void onBindView(android.view.View) -> onBindView
+    android.graphics.drawable.Drawable getIcon() -> getIcon
+    void SetStatus(com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus) -> a
+com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus -> com.lechucksoftware.proxy.proxysettings.f:
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus Checking -> a
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus Valid -> b
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus Error -> c
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus[] ENUM$VALUES -> d
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus[] values() -> values
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus valueOf(java.lang.String) -> valueOf
+com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity -> com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity:
+    android.widget.ListView listview -> m
+    java.util.ArrayList mListItem -> n
+    void onCreate(android.os.Bundle) -> onCreate
+    void showDialog(com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo) -> a
+    void doPositiveClick() -> d
+    void doNegativeClick() -> e
+    void access$0(com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity,java.util.ArrayList) -> a
+    java.util.ArrayList access$1(com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity) -> a
+    android.widget.ListView access$2(com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity) -> b
+com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity$ListAdapter -> com.lechucksoftware.proxy.proxysettings.activities.a:
+    java.util.ArrayList mList -> b
+    com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity this$0 -> a
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity$LoadInstalledPackagesTask -> com.lechucksoftware.proxy.proxysettings.activities.b:
+    android.app.ProgressDialog dialog -> b
+    com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity this$0 -> a
+    void onPreExecute() -> onPreExecute
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity access$3(com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity$LoadInstalledPackagesTask) -> a
+com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity$LoadInstalledPackagesTask$1 -> com.lechucksoftware.proxy.proxysettings.activities.c:
+    com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity$LoadInstalledPackagesTask this$1 -> a
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity -> com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity:
+    android.widget.ScrollView scroller -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    android.app.Dialog onCreateDialog(int) -> onCreateDialog
+com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity$1 -> com.lechucksoftware.proxy.proxysettings.activities.d:
+    com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity$2 -> com.lechucksoftware.proxy.proxysettings.activities.e:
+    com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity -> com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity instance -> a
+    java.lang.String TAG -> b
+    android.content.SharedPreferences sharedPref -> c
+    android.preference.CheckBoxPreference notificationEnabled -> d
+    android.preference.CheckBoxPreference authenticationEnabled -> e
+    android.preference.EditTextPreference userPref -> f
+    android.preference.EditTextPreference passwordPref -> g
+    android.preference.DialogPreference proxySelector -> h
+    android.preference.Preference proxyTestPref -> i
+    android.preference.PreferenceScreen proxyAuthentication -> j
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference proxyEnabledPref -> k
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference proxyAddressPref -> l
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference proxyReachablePref -> m
+    com.lechucksoftware.proxy.proxysettings.ValidationPreference proxyWebReachablePref -> n
+    android.preference.Preference helpPref -> o
+    android.preference.Preference aboutPref -> p
+    android.app.ProgressDialog mProgressDialog -> q
+    android.content.BroadcastReceiver changeStatusReceiver -> r
+    void showProgressDialog() -> a
+    void dismissProgressDialog() -> b
+    void setProgressDialogMessage(java.lang.String) -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    boolean checkUsernamePref(java.lang.Object) -> a
+    boolean checkNotificationPref(java.lang.Object) -> b
+    boolean checkAuthenticationPref(java.lang.Object) -> c
+    boolean checkPasswordPref(java.lang.Object) -> d
+    void refreshUIComponents(com.shouldit.proxy.lib.ProxyStatus) -> a
+    void onStart() -> onStart
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onStop() -> onStop
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onDestroy() -> onDestroy
+    void access$0(com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity,com.shouldit.proxy.lib.ProxyStatus) -> a
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity$1 -> com.lechucksoftware.proxy.proxysettings.activities.f:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity$2 -> com.lechucksoftware.proxy.proxysettings.activities.g:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity this$0 -> a
+    boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity$3 -> com.lechucksoftware.proxy.proxysettings.activities.h:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity this$0 -> a
+    boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity$4 -> com.lechucksoftware.proxy.proxysettings.activities.i:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity this$0 -> a
+    boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity$5 -> com.lechucksoftware.proxy.proxysettings.activities.j:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity this$0 -> a
+    boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity$6 -> com.lechucksoftware.proxy.proxysettings.activities.k:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity this$0 -> a
+    boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity$7 -> com.lechucksoftware.proxy.proxysettings.activities.l:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity this$0 -> a
+    boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity$8 -> com.lechucksoftware.proxy.proxysettings.activities.m:
+    com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity this$0 -> a
+    boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
+com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity -> com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity:
+    java.lang.String TAG -> m
+    void onCreate(android.os.Bundle) -> onCreate
+    void onBackPressed() -> onBackPressed
+    void onStart() -> onStart
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onStop() -> onStop
+    void onDestroy() -> onDestroy
+    void GoToProxy() -> d
+    void DontDisplayAgain() -> e
+com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity -> com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity:
+    java.lang.String TAG -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    void onBackPressed() -> onBackPressed
+    void onStart() -> onStart
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onStop() -> onStop
+    void onDestroy() -> onDestroy
+com.lechucksoftware.proxy.proxysettings.activities.WebViewWithProxyActivity -> com.lechucksoftware.proxy.proxysettings.activities.WebViewWithProxyActivity:
+    android.webkit.WebView mWebView -> m
+    java.lang.String TAG -> n
+    void onCreate(android.os.Bundle) -> onCreate
+    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    void onStart() -> onStart
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onStop() -> onStop
+    void onDestroy() -> onDestroy
+com.lechucksoftware.proxy.proxysettings.activities.WebViewWithProxyActivity$1 -> com.lechucksoftware.proxy.proxysettings.activities.n:
+    com.lechucksoftware.proxy.proxysettings.activities.WebViewWithProxyActivity this$0 -> a
+    android.app.Activity val$activity -> b
+    void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity -> com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity:
+    android.support.v4.view.ViewPager _mViewPager -> m
+    com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity$ViewPagerAdapter _adapter -> n
+    android.widget.Button _nextButton -> o
+    android.widget.Button _previousButton -> p
+    void onCreate(android.os.Bundle) -> onCreate
+    android.support.v4.view.ViewPager access$0(com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity) -> a
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity$1 -> com.lechucksoftware.proxy.proxysettings.activities.help.a:
+    com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity$2 -> com.lechucksoftware.proxy.proxysettings.activities.help.b:
+    com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity$3 -> com.lechucksoftware.proxy.proxysettings.activities.help.c:
+    com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity this$0 -> a
+    void onPageSelected$13462e() -> a
+    void onPageScrolled$486775f1(int,float) -> a
+    void onPageScrollStateChanged(int) -> a
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity$ViewPagerAdapter -> com.lechucksoftware.proxy.proxysettings.activities.help.d:
+    android.content.Context _context -> b
+    com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity this$0 -> a
+    android.support.v4.app.Fragment getItem(int) -> a
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpProblemDescriptionFragment0 -> com.lechucksoftware.proxy.proxysettings.activities.help.e:
+    android.view.View onCreateView$469ccb8a(android.view.LayoutInflater,android.view.ViewGroup) -> a
+    android.support.v4.app.Fragment newInstance$4eef4b55() -> a
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpProblemDescriptionFragment1 -> com.lechucksoftware.proxy.proxysettings.activities.help.f:
+    android.view.View onCreateView$469ccb8a(android.view.LayoutInflater,android.view.ViewGroup) -> a
+    android.support.v4.app.Fragment newInstance$4eef4b55() -> a
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpProblemDescriptionFragment2 -> com.lechucksoftware.proxy.proxysettings.activities.help.g:
+    android.view.View onCreateView$469ccb8a(android.view.LayoutInflater,android.view.ViewGroup) -> a
+    android.support.v4.app.Fragment newInstance$4eef4b55() -> a
+com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectorDialog -> com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectorDialog:
+    void onClick() -> onClick
+com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog -> com.lechucksoftware.proxy.proxysettings.dialogs.a:
+    java.lang.String TAG -> V
+    android.app.Dialog onCreateDialog$5709b310() -> a
+    com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog newInstance() -> F
+com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog$1 -> com.lechucksoftware.proxy.proxysettings.dialogs.b:
+    com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog$2 -> com.lechucksoftware.proxy.proxysettings.dialogs.c:
+    com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog$3 -> com.lechucksoftware.proxy.proxysettings.dialogs.d:
+    com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialogPreference -> com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialogPreference:
+    android.widget.AutoCompleteTextView input -> a
+    android.view.View onCreateDialogView() -> onCreateDialogView
+    void onPrepareDialogBuilder(android.app.AlertDialog$Builder) -> onPrepareDialogBuilder
+com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialogPreference$1 -> com.lechucksoftware.proxy.proxysettings.dialogs.e:
+    com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialogPreference this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference -> com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference:
+    android.widget.AutoCompleteTextView input -> a
+    android.view.View onCreateDialogView() -> onCreateDialogView
+    void onPrepareDialogBuilder(android.app.AlertDialog$Builder) -> onPrepareDialogBuilder
+com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference$1 -> com.lechucksoftware.proxy.proxysettings.dialogs.f:
+    com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.dialogs.VersionWarningAlertDialog -> com.lechucksoftware.proxy.proxysettings.dialogs.g:
+    android.app.Dialog onCreateDialog$5709b310() -> a
+    com.lechucksoftware.proxy.proxysettings.dialogs.VersionWarningAlertDialog newInstance() -> F
+com.lechucksoftware.proxy.proxysettings.dialogs.VersionWarningAlertDialog$1 -> com.lechucksoftware.proxy.proxysettings.dialogs.h:
+    com.lechucksoftware.proxy.proxysettings.dialogs.VersionWarningAlertDialog this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog -> com.lechucksoftware.proxy.proxysettings.feedbackutils.a:
+    com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog newInstance(com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo) -> a
+    android.app.Dialog onCreateDialog$5709b310() -> a
+com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog$1 -> com.lechucksoftware.proxy.proxysettings.feedbackutils.b:
+    com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog$2 -> com.lechucksoftware.proxy.proxysettings.feedbackutils.c:
+    com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationSubmitService -> com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationSubmitService:
+    java.lang.String TAG -> a
+    void onHandleIntent(android.content.Intent) -> onHandleIntent
+    void onDestroy() -> onDestroy
+com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo -> com.lechucksoftware.proxy.proxysettings.feedbackutils.d:
+    java.lang.String TAG -> a
+    java.lang.String appname -> b
+    java.lang.String pname -> c
+    java.lang.String versionName -> d
+    int versionCode -> e
+    android.graphics.drawable.Drawable icon -> f
+com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesComparator -> com.lechucksoftware.proxy.proxysettings.feedbackutils.e:
+    int compare(java.lang.Object,java.lang.Object) -> compare
+com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesUtils -> com.lechucksoftware.proxy.proxysettings.feedbackutils.f:
+    java.util.ArrayList packages -> a
+    java.util.ArrayList getPackages(android.content.Context) -> a
+    boolean isDisabledPackage(android.content.Context,java.lang.String) -> a
+com.lechucksoftware.proxy.proxysettings.services.DownloadService -> com.lechucksoftware.proxy.proxysettings.services.DownloadService:
+    java.lang.String downloadFolder -> a
+    java.net.URL urlToDownload -> b
+    android.os.ResultReceiver receiver -> c
+    void onHandleIntent(android.content.Intent) -> onHandleIntent
+com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService -> com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService:
+    java.lang.String TAG -> a
+    void onHandleIntent(android.content.Intent) -> onHandleIntent
+    void onDestroy() -> onDestroy
+    void ToggleApplicationStatus(android.content.Context) -> b
+    void CompletedStatusBarNotification(android.content.Context) -> a
+com.lechucksoftware.proxy.proxysettings.utils.UIUtils -> com.lechucksoftware.proxy.proxysettings.a.a:
+    int PROXY_NOTIFICATION_ID -> a
+    int URL_DOWNLOADER_COMPLETED_ID -> b
+    int[] $SWITCH_TABLE$com$shouldit$proxy$lib$Constants$ProxyStatusErrors -> c
+    int[] $SWITCH_TABLE$com$lechucksoftware$proxy$proxysettings$Constants$ProxyCheckStatus -> d
+    java.lang.String GetStatusSummary(android.content.Context) -> a
+    java.lang.String GetStatusTitle(android.content.Context) -> d
+    void SetProxyNotification(android.content.Context) -> b
+    void NotifyCompletedDownload(android.content.Context,java.lang.String) -> a
+    void NotifyExceptionOnDownload(android.content.Context,java.lang.String) -> b
+    void DisableProxyNotification(android.content.Context) -> c
+    int[] $SWITCH_TABLE$com$shouldit$proxy$lib$Constants$ProxyStatusErrors() -> a
+    int[] $SWITCH_TABLE$com$lechucksoftware$proxy$proxysettings$Constants$ProxyCheckStatus() -> b
+com.shouldit.proxy.lib.Constants -> com.a.a.a.a:
+    java.lang.String ProxyStatus -> a
+com.shouldit.proxy.lib.Constants$ProxyStatusCodes -> com.a.a.a.b:
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes NOT_CHECKED -> a
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes FOUND_PROBLEM_CHECKING -> b
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes PROXY_ENABLED -> c
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes PROXY_ADDRESS_VALID -> d
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes PROXY_REACHABLE -> e
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes WEB_REACHABILE -> f
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes CONFIGURATION_OK -> g
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes[] ENUM$VALUES -> h
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes[] values() -> values
+    com.shouldit.proxy.lib.Constants$ProxyStatusCodes valueOf(java.lang.String) -> valueOf
+com.shouldit.proxy.lib.Constants$ProxyStatusErrors -> com.a.a.a.c:
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors PROXY_NOT_ENABLED -> a
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors PROXY_NOT_REACHABLE -> b
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors PROXY_ADDRESS_NOT_VALID -> c
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors WEB_NOT_REACHABLE -> d
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors NO_ERRORS -> e
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors[] ENUM$VALUES -> f
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors[] values() -> values
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors valueOf(java.lang.String) -> valueOf
+com.shouldit.proxy.lib.Constants$ProxyStatusProperties -> com.a.a.a.d:
+    com.shouldit.proxy.lib.Constants$ProxyStatusProperties PROXY_ENABLED -> a
+    com.shouldit.proxy.lib.Constants$ProxyStatusProperties PROXY_VALID_ADDRESS -> b
+    com.shouldit.proxy.lib.Constants$ProxyStatusProperties PROXY_REACHABLE -> c
+    com.shouldit.proxy.lib.Constants$ProxyStatusProperties WEB_REACHABLE -> d
+    com.shouldit.proxy.lib.Constants$ProxyStatusProperties[] ENUM$VALUES -> e
+    com.shouldit.proxy.lib.Constants$ProxyStatusProperties[] values() -> values
+    com.shouldit.proxy.lib.Constants$ProxyStatusProperties valueOf(java.lang.String) -> valueOf
+com.shouldit.proxy.lib.Constants$StatusValues -> com.a.a.a.e:
+    com.shouldit.proxy.lib.Constants$StatusValues NOT_CHECKED -> a
+    com.shouldit.proxy.lib.Constants$StatusValues CHECKING -> b
+    com.shouldit.proxy.lib.Constants$StatusValues CHECKED -> c
+    com.shouldit.proxy.lib.Constants$StatusValues[] ENUM$VALUES -> d
+    com.shouldit.proxy.lib.Constants$StatusValues[] values() -> values
+    com.shouldit.proxy.lib.Constants$StatusValues valueOf(java.lang.String) -> valueOf
+com.shouldit.proxy.lib.ProxyConfiguration -> com.a.a.a.f:
+    android.content.Context context -> a
+    com.shouldit.proxy.lib.ProxyStatus status -> b
+    android.net.wifi.WifiConfiguration wifiConfiguration -> c
+    android.net.NetworkInfo networkInfo -> d
+    java.net.Proxy proxyHost -> e
+    int deviceVersion -> f
+    java.lang.String proxyDescription -> g
+    int DEFAULT_TIMEOUT -> h
+    java.lang.String toString() -> toString
+    java.net.Proxy$Type getConnectionType() -> a
+    void acquireProxyStatus(int) -> a
+    void broadCastUpdatedStatus() -> f
+    com.shouldit.proxy.lib.Constants$ProxyStatusErrors getMostRelevantProxyStatusError() -> b
+    boolean isProxyValidAddress() -> g
+    java.lang.Boolean isProxyReachable() -> h
+    java.lang.Boolean isWebReachable(int) -> b
+    java.lang.String getProxyIPHost() -> c
+    java.lang.Integer getProxyPort() -> d
+    java.lang.String toShortString() -> e
+com.shouldit.proxy.lib.ProxySettings -> com.a.a.a.g:
+    com.shouldit.proxy.lib.ProxyConfiguration getCurrentProxyConfiguration(android.content.Context,java.net.URI) -> a
+    com.shouldit.proxy.lib.ProxyConfiguration getCurrentHttpProxyConfiguration(android.content.Context) -> a
+    com.shouldit.proxy.lib.ProxyConfiguration getGlobalProxy(android.content.Context) -> b
+com.shouldit.proxy.lib.ProxyStatus -> com.a.a.a.h:
+    com.shouldit.proxy.lib.ProxyStatusProperty enabled -> a
+    com.shouldit.proxy.lib.ProxyStatusProperty valid_address -> b
+    com.shouldit.proxy.lib.ProxyStatusProperty proxy_reachable -> c
+    com.shouldit.proxy.lib.ProxyStatusProperty web_reachable -> d
+    int[] $SWITCH_TABLE$com$shouldit$proxy$lib$Constants$ProxyStatusCodes -> e
+    com.shouldit.proxy.lib.ProxyStatusProperty getEnabled() -> a
+    com.shouldit.proxy.lib.ProxyStatusProperty getValid_address() -> b
+    com.shouldit.proxy.lib.ProxyStatusProperty getProxy_reachable() -> c
+    com.shouldit.proxy.lib.ProxyStatusProperty getWeb_reachable() -> d
+    void clear() -> e
+    void startchecking() -> f
+    void add(com.shouldit.proxy.lib.Constants$ProxyStatusCodes,com.shouldit.proxy.lib.Constants$StatusValues,java.lang.Boolean) -> a
+    int[] $SWITCH_TABLE$com$shouldit$proxy$lib$Constants$ProxyStatusCodes() -> g
+com.shouldit.proxy.lib.ProxyStatusProperty -> com.a.a.a.i:
+    com.shouldit.proxy.lib.Constants$ProxyStatusProperties propertyName -> a
+    com.shouldit.proxy.lib.Constants$StatusValues status -> b
+    java.lang.Boolean result -> c
+com.shouldit.proxy.lib.ProxyUtils -> com.a.a.a.j:
+    android.content.Intent getProxyIntent() -> a
+    boolean isHostReachable(java.net.Proxy) -> a
+    int testHTTPConnection(java.net.URI,com.shouldit.proxy.lib.ProxyConfiguration,int) -> a
+    java.lang.String getURI(java.net.URI,java.net.Proxy,int) -> a
+    boolean isWebReachable(com.shouldit.proxy.lib.ProxyConfiguration,int) -> a
+    void setWebViewProxy(android.content.Context,com.shouldit.proxy.lib.ProxyConfiguration) -> a
+    boolean setProxy(android.content.Context,java.lang.String,int) -> a
+    java.lang.Object getRequestQueue(android.content.Context) -> a
+    void setDeclaredField(java.lang.Object,java.lang.String,java.lang.Object) -> a

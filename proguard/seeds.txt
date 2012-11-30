@@ -1,0 +1,68 @@
+android.support.v4.app.BackStackState
+android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.Fragment$SavedState
+android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentActivity
+android.support.v4.app.FragmentActivity: FragmentActivity()
+android.support.v4.app.FragmentManagerState
+android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentState
+android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
+android.support.v4.view.PagerTitleStrip
+android.support.v4.view.PagerTitleStrip: PagerTitleStrip(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager
+android.support.v4.view.ViewPager: ViewPager(android.content.Context)
+android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager$LayoutParams
+android.support.v4.view.ViewPager$LayoutParams: ViewPager$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager$SavedState
+android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+com.lechucksoftware.proxy.proxysettings.Constants$DonwloadStatus: com.lechucksoftware.proxy.proxysettings.Constants$DonwloadStatus[] values()
+com.lechucksoftware.proxy.proxysettings.Constants$DonwloadStatus: com.lechucksoftware.proxy.proxysettings.Constants$DonwloadStatus valueOf(java.lang.String)
+com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus: com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus[] values()
+com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus: com.lechucksoftware.proxy.proxysettings.Constants$ProxyCheckStatus valueOf(java.lang.String)
+com.lechucksoftware.proxy.proxysettings.DownloadReceiver
+com.lechucksoftware.proxy.proxysettings.ProxyChangeReceiver
+com.lechucksoftware.proxy.proxysettings.ProxyChangeReceiver: ProxyChangeReceiver()
+com.lechucksoftware.proxy.proxysettings.UninstallerActivity
+com.lechucksoftware.proxy.proxysettings.ValidationPreference
+com.lechucksoftware.proxy.proxysettings.ValidationPreference: ValidationPreference(android.content.Context,android.util.AttributeSet)
+com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus: com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus[] values()
+com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus: com.lechucksoftware.proxy.proxysettings.ValidationPreference$ValidationStatus valueOf(java.lang.String)
+com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity
+com.lechucksoftware.proxy.proxysettings.activities.ApplicationsFeedbacksActivity: ApplicationsFeedbacksActivity()
+com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity
+com.lechucksoftware.proxy.proxysettings.activities.DisclaimerActivity: DisclaimerActivity()
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity
+com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity: ProxyPreferencesActivity()
+com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity
+com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity: ProxySettingsCallerActivity()
+com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity
+com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity: ProxySettingsMainActivity()
+com.lechucksoftware.proxy.proxysettings.activities.WebViewWithProxyActivity
+com.lechucksoftware.proxy.proxysettings.activities.WebViewWithProxyActivity: WebViewWithProxyActivity()
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity
+com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity: HelpFragmentActivity()
+com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectorDialog
+com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectorDialog: ProxySelectorDialog(android.content.Context,android.util.AttributeSet)
+com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialogPreference
+com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialogPreference: UrlBrowserDialogPreference(android.content.Context,android.util.AttributeSet)
+com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference
+com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference: UrlDownloaderDialogPreference(android.content.Context,android.util.AttributeSet)
+com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationSubmitService
+com.lechucksoftware.proxy.proxysettings.services.DownloadService
+com.lechucksoftware.proxy.proxysettings.services.DownloadService: DownloadService()
+com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService
+com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService: ProxySettingsCheckerService()
+com.shouldit.proxy.lib.Constants$ProxyStatusCodes: com.shouldit.proxy.lib.Constants$ProxyStatusCodes[] values()
+com.shouldit.proxy.lib.Constants$ProxyStatusCodes: com.shouldit.proxy.lib.Constants$ProxyStatusCodes valueOf(java.lang.String)
+com.shouldit.proxy.lib.Constants$ProxyStatusErrors: com.shouldit.proxy.lib.Constants$ProxyStatusErrors[] values()
+com.shouldit.proxy.lib.Constants$ProxyStatusErrors: com.shouldit.proxy.lib.Constants$ProxyStatusErrors valueOf(java.lang.String)
+com.shouldit.proxy.lib.Constants$ProxyStatusProperties: com.shouldit.proxy.lib.Constants$ProxyStatusProperties[] values()
+com.shouldit.proxy.lib.Constants$ProxyStatusProperties: com.shouldit.proxy.lib.Constants$ProxyStatusProperties valueOf(java.lang.String)
+com.shouldit.proxy.lib.Constants$StatusValues: com.shouldit.proxy.lib.Constants$StatusValues[] values()
+com.shouldit.proxy.lib.Constants$StatusValues: com.shouldit.proxy.lib.Constants$StatusValues valueOf(java.lang.String)
+com.shouldit.proxy.lib.reflection.android.RProxySettings: com.shouldit.proxy.lib.reflection.android.RProxySettings[] values()
+com.shouldit.proxy.lib.reflection.android.RProxySettings: com.shouldit.proxy.lib.reflection.android.RProxySettings valueOf(java.lang.String)
