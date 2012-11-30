@@ -3,6 +3,8 @@ package com.shouldit.proxy.lib;
 import java.io.Serializable;
 
 import com.shouldit.proxy.lib.Constants.ProxyStatusCodes;
+import com.shouldit.proxy.lib.Constants.ProxyStatusProperties;
+import com.shouldit.proxy.lib.Constants.StatusValues;
 
 public class ProxyStatus implements Serializable
 {
@@ -10,40 +12,28 @@ public class ProxyStatus implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -2657093750716229587L;
+		
+	ProxyStatusProperty enabled;
+	ProxyStatusProperty valid_address;
+	ProxyStatusProperty proxy_reachable;
+	ProxyStatusProperty web_reachable;
 	
-	Boolean checking;
-	Boolean checked;
-	Boolean enabled;
-	Boolean valid_address;
-	Boolean proxy_reachable;
-	Boolean web_reachable;
-	
-	public Boolean getChecking()
-	{
-		return checking;
-	}
-
-	public Boolean getChecked()
-	{
-		return checked;
-	}
-
-	public Boolean getEnabled()
+	public ProxyStatusProperty getEnabled()
 	{
 		return enabled;
 	}
 
-	public Boolean getValid_address()
+	public ProxyStatusProperty getValid_address()
 	{
 		return valid_address;
 	}
 
-	public Boolean getProxy_reachable()
+	public ProxyStatusProperty getProxy_reachable()
 	{
 		return proxy_reachable;
 	}
 
-	public Boolean getWeb_reachable()
+	public ProxyStatusProperty getWeb_reachable()
 	{
 		return web_reachable;
 	}
@@ -55,32 +45,42 @@ public class ProxyStatus implements Serializable
 
 	public void clear()
 	{
-		checking = false;
-		checked = false;
-		enabled = false;
-		valid_address = false;
-		proxy_reachable = false;
-		web_reachable = false;
+		enabled = new ProxyStatusProperty(ProxyStatusProperties.PROXY_ENABLED);
+		valid_address = new ProxyStatusProperty(ProxyStatusProperties.PROXY_VALID_ADDRESS);
+		proxy_reachable = new ProxyStatusProperty(ProxyStatusProperties.PROXY_REACHABLE);
+		web_reachable = new ProxyStatusProperty(ProxyStatusProperties.WEB_REACHABLE);
 	}
 	
-	public void add(ProxyStatusCodes statusCode, Boolean value)
+	public void startchecking()
+	{
+		enabled.status = StatusValues.CHECKING;
+		valid_address.status = StatusValues.CHECKING;
+		proxy_reachable.status = StatusValues.CHECKING;
+		web_reachable.status = StatusValues.CHECKING;
+	}
+	
+	public void add(ProxyStatusCodes statusCode, StatusValues status, Boolean value)
 	{
 		switch(statusCode)
 		{
 			case PROXY_ENABLED:
-				enabled = value;
+				enabled.status = status;
+				enabled.result = value;
 				break;
 				
 			case PROXY_ADDRESS_VALID:
-				valid_address = value;
+				valid_address.status = status;
+				valid_address.result = value;
 				break;
 				
 			case PROXY_REACHABLE:
-				proxy_reachable = value;
+				proxy_reachable.status = status;
+				proxy_reachable.result = value;
 				break;
 				
 			case WEB_REACHABILE:
-				web_reachable = value;
+				web_reachable.status = status;
+				web_reachable.result = value;
 				break;
 		}
 	}

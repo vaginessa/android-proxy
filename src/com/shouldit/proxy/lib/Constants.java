@@ -4,8 +4,6 @@ public class Constants
 {
 	public static String ProxyStatus = "ProxyStatus"; 
 	
-	
-	
 	public enum ProxyStatusCodes
 	{
 		NOT_CHECKED,
@@ -17,7 +15,6 @@ public class Constants
 		CONFIGURATION_OK
 	}
 	
-	
 	public enum ProxyStatusErrors
 	{
 		PROXY_NOT_ENABLED,
@@ -25,5 +22,20 @@ public class Constants
 		PROXY_ADDRESS_NOT_VALID,
 		WEB_NOT_REACHABLE,
 		NO_ERRORS
+	}
+	
+	public enum ProxyStatusProperties
+	{
+		PROXY_ENABLED,
+		PROXY_VALID_ADDRESS,
+		PROXY_REACHABLE,
+		WEB_REACHABLE
+	}
+	
+	public enum StatusValues
+	{
+		NOT_CHECKED,
+		CHECKING,
+		CHECKED
 	}
 }
