@@ -27,6 +27,7 @@ import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationSt
 import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.Constants;
+import com.shouldit.proxy.lib.Constants.StatusValues;
 import com.shouldit.proxy.lib.ProxyStatus;
 
 public class ProxyPreferencesActivity extends PreferenceActivity
@@ -305,14 +306,14 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			proxyTestPref.setEnabled(true);
 		}
 
-		if (status.getEnabled())
+		if (status.getEnabled().result)
 		{
 			proxyEnabledPref.SetStatus(ValidationStatus.Valid);
 			proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_enabled_summary_ok));
 		}
 		else
 		{
-			if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+			if (status.getEnabled().status == StatusValues.CHECKING)
 			{
 				proxyEnabledPref.SetStatus(ValidationStatus.Checking);
 				proxyEnabledPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
@@ -324,14 +325,14 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			}
 		}
 
-		if (status.getValid_address())
+		if (status.getValid_address().result)
 		{
 			proxyAddressPref.SetStatus(ValidationStatus.Valid);
 			proxyAddressPref.setSummary(getResources().getString(R.string.validation_proxy_address_summary_ok));
 		}
 		else
 		{
-			if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+			if (status.getValid_address().status == StatusValues.CHECKING)
 			{
 				proxyAddressPref.SetStatus(ValidationStatus.Checking);
 				proxyAddressPref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
@@ -343,14 +344,14 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			}
 		}
 
-		if (status.getProxy_reachable())
+		if (status.getProxy_reachable().result)
 		{
 			proxyReachablePref.SetStatus(ValidationStatus.Valid);
 			proxyReachablePref.setSummary(getResources().getString(R.string.validation_proxy_reachable_summary_ok));
 		}
 		else
 		{
-			if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+			if (status.getProxy_reachable().status == StatusValues.CHECKING)
 			{
 				proxyReachablePref.SetStatus(ValidationStatus.Checking);
 				proxyReachablePref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));
@@ -362,14 +363,14 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			}
 		}
 
-		if (status.getWeb_reachable())
+		if (status.getWeb_reachable().result)
 		{
 			proxyWebReachablePref.SetStatus(ValidationStatus.Valid);
 			proxyWebReachablePref.setSummary(getResources().getString(R.string.validation_proxy_web_reachable_summary_ok));
 		}
 		else
 		{
-			if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+			if (status.getWeb_reachable().status == StatusValues.CHECKING)
 			{
 				proxyWebReachablePref.SetStatus(ValidationStatus.Checking);
 				proxyWebReachablePref.setSummary(getResources().getString(R.string.validation_proxy_summary_checking));

@@ -41,6 +41,7 @@ public class ProxySettingsCheckerService extends IntentService
 	{
 		try
         {   
+			Globals.getInstance().addApplicationContext(context);
 			Globals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKING;
 			ToggleApplicationStatus(context);
 			

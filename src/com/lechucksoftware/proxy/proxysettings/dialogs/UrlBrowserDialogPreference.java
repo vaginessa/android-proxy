@@ -27,7 +27,7 @@ public class UrlBrowserDialogPreference extends DialogPreference
 	{
 		super(context, attrs);
 		setPersistent(false);
-		setDialogLayoutResource(R.layout.url_downloader_dialog);
+		setDialogLayoutResource(R.layout.url_browser_dialog);
 		setDialogTitle(context.getResources().getString(R.string.preference_test_proxy_urlbrowser_dialog_title));
 	}
 
@@ -50,9 +50,9 @@ public class UrlBrowserDialogPreference extends DialogPreference
 	protected void onPrepareDialogBuilder(Builder builder)
 	{		
 		super.onPrepareDialogBuilder(builder);
-		builder.setTitle(getContext().getResources().getString(R.string.preference_test_proxy_urlretriever_dialog_title));
+		builder.setTitle(getContext().getResources().getString(R.string.preference_test_proxy_urlbrowser_dialog_title));
 		
-		builder.setPositiveButton(getContext().getResources().getText(R.string.download), new DialogInterface.OnClickListener() 
+		builder.setPositiveButton(getContext().getResources().getText(R.string.open), new DialogInterface.OnClickListener() 
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
