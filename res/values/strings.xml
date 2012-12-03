@@ -51,8 +51,8 @@
 	<string name="help_text_2_description">When Google engineers released the 
 		first versions of Android, they probably decided to hide the Proxy 
 		configuration settings because lack of support into both the OS and 
-		developers API. <b>Proxy Settings</b> let you change these settings, but we 
-		suggest the users to do it very cautiously!  
+		developers API. <b>Proxy Settings</b> let you change these settings, but 
+		we suggest the users to do it very cautiously!  
 	</string>
 	<string name="help_text_2_description_b"><b>Please remember</b> that 
 	    uninstalling this application doesn\'t automatically restore the default 
@@ -65,19 +65,23 @@
 	<string name="help_text_3_title">About the proxy support on <b>Android</b></string>
 	<string name="help_text_3_description">Unfortunately, configuring the Proxy 
 		doesn\'t mean that all your applications will automatically start to 
-		using those!
-		
-		\n\nIf you want the <b>Proxy</b> support also in your favourite 
-		applications request this feature to their developers! 
-		You can find more informations and leave feedbacks here:
+		using those! You can find more informations and leave your 
+		feedbacks/comments on the <b>Android Proxy Project</b> official website:
 	</string>
 	<string name="help_text_3_description_b">http://www.android-proxy.com
 	</string>
-
-	<string name="help_text_4_title">The <b>Configuration Assistant</b></string>
-	<string name="help_text_4_description">You will find in the <b>Configuration 
-		Assistant</b> section some tools to check the proxy configuration:
-		\n\n&#8226; A <b>Configuration validator</b>: it provides some status 
+	<string name="help_text_3_description_c">This project offer also an open
+		source module called <b>Android Proxy Library (APL)</b> that offer to 
+		the	developers an easy way to access and use the proxy settings in 
+		every Android application. If you want the <b>Proxy</b> support also in 
+		your favourite applications, request this feature to their developers! 
+	</string>
+	
+	<string name="help_text_4_title"><b>Proxy Settings</b> tools</string>
+	<string name="help_text_4_description"><b>Proxy Settings</b> provides an
+		useful section, called <b>Configuration	checker</b> section some tools 
+		to check the proxy configuration:
+		\n\n&#8226; A <b>Configuration checker</b>: it provides some status 
 		indicators to help you understand the issues you may find setting the 
 		proxy on your phone
 		\n\n&#8226; A <b>URL downloader</b>: it gives you the possibility to 
@@ -85,17 +89,16 @@
 		\n\n&#8226; A <b>WEB Page tester</b>: it open a browser page on the 
 		selected URL  
 	</string>
-	
-	<string name="help_text_5_title">The <b>Configuration Assistant</b></string>
-	<string name="help_text_5_description">You will find in the <b>Configuration 
-        Assistant</b> section some tools to check the proxy configuration:
-        \n\n&#8226; A <b>Configuration validator</b>: it provides some status 
-        indicators to help you understand the issues you may find setting the 
-        proxy on your phone
-        \n\n&#8226; A <b>URL downloader</b>: it gives you the possibility to 
-        download a specific remote resource
-        \n\n&#8226; A <b>WEB Page tester</b>: it opens a browser page on the 
-        selected URL  
+
+	<string name="help_text_5_title">The <b>Configuration checker</b></string>
+	<string name="help_text_5_description"><b>Proxy Settings</b> provides an
+		useful section, called <b>Configuration	checker</b> section in order to 
+		check the proxy configuration with some status indicators to help you 
+		understand the issues you may find setting the proxy on your phone:
+		\n\n&#8226; Proxy enabled: 
+		\n\n&#8226; Proxy address: 
+		\n\n&#8226; Ping proxy host:
+		\n\n&#8226; Web reachability:
 	</string>
 
 	<string name="proxysettingscalleractivity_dialog_title">Warning</string>
@@ -162,7 +165,7 @@
 	
 	
 	<string name="pref_key_proxy_settings_advanced_title">Advanced</string>
-	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration Assistant</string>
+	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration checker</string>
 	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
 	
 	<string name="validation_proxy_category">Tests list</string>
