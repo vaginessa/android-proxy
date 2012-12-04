@@ -125,6 +125,12 @@ public class HelpFragmentActivity extends FragmentActivity
 				case 3:
 					f = HelpProblemDescriptionFragment3.newInstance(_context);
 					break;
+				case 4:
+					f = HelpProblemDescriptionFragment4.newInstance(_context);
+					break;
+				case 5:
+					f = HelpProblemDescriptionFragment5.newInstance(_context);
+					break;
 			}
 			return f;
 		}
@@ -132,7 +138,7 @@ public class HelpFragmentActivity extends FragmentActivity
 		@Override
 		public int getCount()
 		{
-			return 4;
+			return 6;
 		}
 
 	}

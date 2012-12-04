@@ -82,25 +82,27 @@
 	<string name="help_text_4_description"><b>Proxy Settings</b> provides an
 		useful section, called <b>Configuration	checker</b> section some tools 
 		to check the proxy configuration:
-		\n\n&#8226; A <b>Configuration checker</b>: it provides some status 
-		indicators to help you understand the issues you may find setting the 
-		proxy on your phone
-		\n\n&#8226; A <b>URL downloader</b>: it gives you the possibility to 
-		download a specific	remote resource
-		\n\n&#8226; A <b>WEB Page tester</b>: it open a browser page on the 
-		selected URL  
 	</string>
+	<string name="help_text_4_description_b">\n\n&#8226; A <b>Configuration 
+	    checker</b>: it provides some status indicators to help you understand 
+	    the issues you may find setting the proxy on your phone
+        \n\n&#8226; A <b>URL downloader</b>: it gives you the possibility to 
+        download a specific remote resource
+        \n\n&#8226; A <b>WEB Page tester</b>: it opens a WEB browser page on the 
+        selected URL  
+    </string>
 
 	<string name="help_text_5_title">The <b>Configuration checker</b></string>
 	<string name="help_text_5_description"><b>Proxy Settings</b> provides an
 		useful section, called <b>Configuration	checker</b> section in order to 
 		check the proxy configuration with some status indicators to help you 
 		understand the issues you may find setting the proxy on your phone:
-		\n\n&#8226; Proxy enabled: 
-		\n\n&#8226; Proxy address: 
-		\n\n&#8226; Ping proxy host:
-		\n\n&#8226; Web reachability:
 	</string>
+    <string name="help_text_5_description_b">\n\n&#8226; Proxy enabled: 
+        \n\n&#8226; Proxy address: 
+        \n\n&#8226; Ping proxy host:
+        \n\n&#8226; Web reachability:
+    </string>
 
 	<string name="proxysettingscalleractivity_dialog_title">Warning</string>
 	<string name="proxysettingscalleractivity_dialog_description">Starting from 
@@ -165,7 +167,7 @@
 	
 	
 	
-	<string name="pref_key_proxy_settings_advanced_title">Advanced</string>
+	<string name="pref_key_proxy_settings_advanced_title">Advanced tools</string>
 	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration checker</string>
 	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
 	

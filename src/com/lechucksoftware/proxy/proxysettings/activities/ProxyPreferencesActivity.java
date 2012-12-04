@@ -289,7 +289,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	private void refreshUIComponents(ProxyStatus status)
 	{
 		checkNotificationPref(sharedPref.getBoolean("preference_notification_enabled", false));
-		checkAuthenticationPref(sharedPref.getBoolean("preference_authentication_enabled", false));
+		checkAuthenticationPref(sharedPref.getBoolean("preference_authentication_enabled", true));
 		checkUsernamePref(sharedPref.getString("preference_authentication_user", ""));
 		checkPasswordPref(sharedPref.getString("preference_authentication_password", ""));
 
