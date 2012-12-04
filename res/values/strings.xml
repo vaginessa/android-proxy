@@ -32,15 +32,15 @@
 
 	<string name="help_text_0_title">What does <b>Proxy Settings</b> offer?</string>
 	<string name="help_text_0_description"><b>Proxy Settings</b> is an utility
-		application that provides a set of tools to ease the access to the user 
-		to the proxy settings into your Android device.
+		application that provides a set of tools to ease the access and the 
+		modification of the proxy configuration into your Android device.
 	</string>
 
 	<string name="help_text_1_title">More details on <b>Proxy Settings</b></string>
 	<string name="help_text_1_description"><b>Proxy Settings</b> provides a 
 		shortcut for calling a system application (technically it\'s an 
 		<i>Activity</i>) hidden into Android OS, in order to edit the System\'s 
-		Proxy Settings.
+		Proxy configuration.
 		\n\nIn the majority of the devices the proxy selector application 
 		(<i>Activity</i>) is already present but hidden to the user. What 
 		<b>Proxy Settings</b> does is to simply call the existing Android\'s 
@@ -63,18 +63,19 @@
 	</string>
 	
 	<string name="help_text_3_title">About the proxy support on <b>Android</b></string>
-	<string name="help_text_3_description">Unfortunately, configuring the Proxy 
-		doesn\'t mean that all your applications will automatically start to 
-		using those! You can find more informations and leave your 
-		feedbacks/comments on the <b>Android Proxy Project</b> official website:
+	<string name="help_text_3_description">Configuring the Proxy doesn\'t mean 
+	    that all your applications will automatically start to 
+		using these settings! You can find a detailed explanation of the problem
+		and leave your feedbacks/comments on the <b>Android Proxy Project</b> 
+		official website:
 	</string>
-	<string name="help_text_3_description_b">http://www.android-proxy.com
+	<string name="help_text_3_description_link">http://www.android-proxy.com
 	</string>
-	<string name="help_text_3_description_c">This project offer also an open
-		source module called <b>Android Proxy Library (APL)</b> that offer to 
+	<string name="help_text_3_description_c">The project offers also an open
+		source module called <b>Android Proxy Library (APL)</b> that provides to 
 		the	developers an easy way to access and use the proxy settings in 
-		every Android application. If you want the <b>Proxy</b> support also in 
-		your favourite applications, request this feature to their developers! 
+		every Android application, so if you want the <b>Proxy</b> support in 
+		your favourite applications, start request it to their developers! 
 	</string>
 	
 	<string name="help_text_4_title"><b>Proxy Settings</b> tools</string>
