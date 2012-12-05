@@ -98,10 +98,14 @@
 		check the proxy configuration with some status indicators to help you 
 		understand the issues you may find setting the proxy on your phone:
 	</string>
-    <string name="help_text_5_description_b">\n\n&#8226; Proxy enabled: 
-        \n\n&#8226; Proxy address: 
-        \n\n&#8226; Ping proxy host:
-        \n\n&#8226; Web reachability:
+    <string name="help_text_5_description_b">\n\n&#8226; <b>Proxy enabled</b>: Tests if
+        the proxy configuration contains a configuration. 
+        \n\n&#8226; <b>Proxy address</b>: Tests if the address of the proxy inserted
+        into the proxy selector is a valid IP address. 
+        \n\n&#8226; <b>Ping proxy host</b>: Tests if the address of the proxy inserted
+        into the proxy selector can be reached with a ICMP PING.
+        \n\n&#8226; <b>Web reachability</b>: Tests if it\'s possible to retrieve an 
+        HTTP  resource with the current proxy configuration.
     </string>
 
 	<string name="proxysettingscalleractivity_dialog_title">Warning</string>
@@ -216,7 +220,7 @@
 
 	<string name="application_feedback_dialog_title">Submit your feedback!</string>
 
-	<string name="application_feedback_dialog_description">Only the following informations will be sent in an anonymized way to our servers:</string>
+	<string name="application_feedback_dialog_description">Only the following information will be sent in an anonymized way to our servers:</string>
 	<!-- <string name="application_feedback_dialog_accept_description"></string> -->
 	<string name="application_feedback_dialog_icon">Selected application icon</string>
 	<string name="feedback_app_version_label">Version: </string>
