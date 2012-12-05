@@ -51,7 +51,7 @@ public class ProxySettings
 		}
 
 		/**
-		 * Add connection informations
+		 * Add connection details
 		 * */
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
@@ -87,7 +87,7 @@ public class ProxySettings
 	/**
 	 * For API >= 12: Returns the current proxy configuration based on the URI,
 	 * this implementation is a wrapper of the Android's ProxySelector class.
-	 * Just add some other informations that can be useful to the developer.
+	 * Just add some other details that can be useful to the developer.
 	 * */
 	public static ProxyConfiguration getProxySelectorConfiguration(Context ctx, URI uri) throws Exception
 	{
