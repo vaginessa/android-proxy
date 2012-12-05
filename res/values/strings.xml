@@ -9,11 +9,11 @@
 	<string name="open">Open</string>
 	<string name="next">Next</string>
 	<string name="previous">Previous</string>
+	<string name="disclaimer">Disclaimer</string>
 	
 	<string name="versionName">1.5</string>
 
-	<string name="disclaimer_description">Please read carefully and accept only 
-	    if you really know what you are doing!
+	<string name="disclaimer_description">
 		
 		\n\nThis application provide a shortcut for	calling the Activity for 
 		edit the System\'s Proxy Settings in Android. In the majority of the 
@@ -30,8 +30,13 @@
 		
 		\n\nYou can find more details and leave feedbacks here:
 	</string>
-	<string name="disclaimer_pt2_text">http://www.android-proxy.com</string>
-	<string name="disclaimer_title">Proxy Settings - Disclaimer</string>
+	<string name="disclaimer_intro_text">Congratulations and thank you for 
+	    downloading <b>Proxy Settings</b>!
+	    
+	    \n\nPlease read carefully the following
+	    disclaimer and accept only if you really know what you are doing!
+	</string>
+	
 
 	<string name="help_text_0_title">What does <b>Proxy Settings</b> offer?</string>
 	<string name="help_text_0_description"><b>Proxy Settings</b> is an utility

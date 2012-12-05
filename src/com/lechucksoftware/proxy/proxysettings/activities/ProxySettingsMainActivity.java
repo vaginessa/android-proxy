@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.lechucksoftware.proxy.proxysettings.activities.help.DisclaimerFragmentActivity;
 
 public class ProxySettingsMainActivity extends Activity 
 {
@@ -37,7 +38,7 @@ public class ProxySettingsMainActivity extends Activity
         else
         {
         	Log.d(TAG, "Starting DisclaimerActivity activity");
-        	Intent disclaimer = new Intent(getApplicationContext(),DisclaimerActivity.class);
+        	Intent disclaimer = new Intent(getApplicationContext(),DisclaimerFragmentActivity.class);
             startActivity(disclaimer); 
         }
     	
