@@ -9,35 +9,34 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:id="@+id/viewPager" />
-
-<!--          <fragment -->
-<!--         android:id="@+id/list" -->
-<!--         android:name="com.lechucksoftware.proxy.proxysettings.activities.HelpProblemDescriptionFragment" -->
+     
+     <com.viewpagerindicator.LinePageIndicator
+        android:id="@+id/indicator"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent" />
+  
+<!--     <LinearLayout -->
 <!--         android:layout_width="fill_parent" -->
 <!--         android:layout_height="wrap_content" -->
-<!--          /> -->
-    
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal" >
+<!--         android:layout_weight="0" -->
+<!--         android:orientation="horizontal" > -->
         
-        <Button
-            android:id="@+id/help_previous_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="cancel"  />
+<!--         <Button -->
+<!--             android:id="@+id/help_previous_button" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_weight="1" -->
+<!--             android:text="@string/cancel"  /> -->
 
-        <Button
-            android:id="@+id/help_next_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="next"  />
+<!--         <Button -->
+<!--             android:id="@+id/help_next_button" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_weight="1" -->
+<!--             android:text="@string/next"  /> -->
         
-    </LinearLayout>
+<!--     </LinearLayout> -->
     
 
 </LinearLayout>

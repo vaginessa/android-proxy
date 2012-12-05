@@ -13,6 +13,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.viewpagerindicator.LinePageIndicator;
+import com.viewpagerindicator.PageIndicator;
 
 public class HelpFragmentActivity extends FragmentActivity
 {
@@ -21,8 +23,7 @@ public class HelpFragmentActivity extends FragmentActivity
 	private ViewPager _mViewPager;
 	private ViewPagerAdapter _adapter;
 	
-	private Button _nextButton;
-	private Button _previousButton;
+	private PageIndicator _pageIndicator;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -31,69 +32,18 @@ public class HelpFragmentActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);
 		
-
-		
 		setUpView();
-		setTab();
 	}
 
 	private void setUpView()
 	{
-		_previousButton = (Button)findViewById(R.id.help_previous_button);
-		_nextButton = (Button)findViewById(R.id.help_next_button);
-		_previousButton.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v)
-			{
-				_mViewPager.setCurrentItem(_mViewPager.getCurrentItem() - 1);	
-			}
-		});
-		
-		_nextButton.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v)
-			{
-				_mViewPager.setCurrentItem(_mViewPager.getCurrentItem() + 1);	
-			}
-		});
-		
 		_mViewPager = (ViewPager) findViewById(R.id.viewPager);
 		_adapter = new ViewPagerAdapter(getApplicationContext(), getSupportFragmentManager());
 		_mViewPager.setAdapter(_adapter);
 		_mViewPager.setCurrentItem(0);
-	}
-
-	private void setTab()
-	{
-		_mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
-			public void onPageSelected(int position)
-			{
-				// switch(position){
-				// case 0:
-				// findViewById(R.id.first_tab).setVisibility(View.VISIBLE);
-				// findViewById(R.id.second_tab).setVisibility(View.INVISIBLE);
-				// break;
-				//
-				// case 1:
-				// findViewById(R.id.first_tab).setVisibility(View.INVISIBLE);
-				// findViewById(R.id.second_tab).setVisibility(View.VISIBLE);
-				// break;
-				// }
-			}
-
-			public void onPageScrolled(int arg0, float arg1, int arg2)
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			public void onPageScrollStateChanged(int arg0)
-			{
-				// TODO Auto-generated method stub
-
-			}
-		});
+		
+		_pageIndicator = (LinePageIndicator)findViewById(R.id.indicator);
+		_pageIndicator.setViewPager(_mViewPager);
 	}
 
 	public class ViewPagerAdapter extends FragmentPagerAdapter
