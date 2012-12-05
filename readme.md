@@ -28,5 +28,5 @@ The more information you provide, the quicker the issue can be verified and prio
 
 # Project's resources
 
-* All further informations regarding this project can be found at: [www.android-proxy.com](www.android-proxy.com)
+* All further information regarding this project can be found at: [www.android-proxy.com](www.android-proxy.com)
 * If you have questions, write feedbacks, or just if you want to discuss regarding the Android's proxy issue topic, here you can find the official discussion group: [https://groups.google.com/d/forum/android-proxy-project](https://groups.google.com/d/forum/android-proxy-project)
