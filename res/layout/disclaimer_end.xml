@@ -9,30 +9,25 @@
         android:id="@+id/disclaimer_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-                android:layout_marginBottom="10dip"
+        android:layout_marginBottom="10dip"
         android:layout_marginTop="10dip"
+        android:layout_weight="0"
         android:text="@string/disclaimer_end_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <!-- <ScrollView -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_marginTop="10dip" -->
-    <!-- android:layout_marginBottom="10dip" -->
-    <!-- android:layout_weight="100" -->
-    <!-- android:fillViewport="true" > -->
-
-    <TextView
-        android:id="@+id/disclaimer_license"
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:text="@string/disclaimer_license"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:fillViewport="true" >
 
-    <!-- </ScrollView> -->
+        <TextView
+            android:id="@+id/disclaimer_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disclaimer_license"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </ScrollView>
 
     <CheckBox
         android:id="@+id/disclaimer_accept_check"
