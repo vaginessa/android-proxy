@@ -15,6 +15,7 @@ import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.viewpagerindicator.LinePageIndicator;
 import com.viewpagerindicator.PageIndicator;
+import com.viewpagerindicator.TitlePageIndicator;
 
 public class HelpFragmentActivity extends FragmentActivity
 {
@@ -43,7 +44,7 @@ public class HelpFragmentActivity extends FragmentActivity
 		_mViewPager.setAdapter(_adapter);
 		_mViewPager.setCurrentItem(0);
 		
-		_pageIndicator = (LinePageIndicator)findViewById(R.id.indicator);
+		_pageIndicator = (TitlePageIndicator)findViewById(R.id.indicator);
 		_pageIndicator.setViewPager(_mViewPager);
 	}
 	
@@ -73,6 +74,34 @@ public class HelpFragmentActivity extends FragmentActivity
 		}
 		return f;
 	}
+	
+	public CharSequence getFragmentTitle(int position)
+	{
+		CharSequence title = null;
+		switch (position)
+		{
+			case 0:
+				title = getApplicationContext().getResources().getString(R.string.help_text_0_title);
+				break;
+			case 1:
+				title = getApplicationContext().getResources().getString(R.string.help_text_1_title);
+				break;
+			case 2:
+				title = getApplicationContext().getResources().getString(R.string.help_text_2_title);
+				break;
+			case 3:
+				title = getApplicationContext().getResources().getString(R.string.help_text_3_title);
+				break;
+			case 4:
+				title = getApplicationContext().getResources().getString(R.string.help_text_4_title);
+				break;
+			case 5:
+				title = getApplicationContext().getResources().getString(R.string.help_text_0_title);
+				break;
+		}
+		return title;
+	}
+
 
 	public class ViewPagerAdapter extends FragmentPagerAdapter
 	{
@@ -95,6 +124,12 @@ public class HelpFragmentActivity extends FragmentActivity
 		public int getCount()
 		{
 			return _fc;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position)
+		{
+			return getFragmentTitle(position);
 		}
 	}
 

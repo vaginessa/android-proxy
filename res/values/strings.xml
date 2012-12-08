@@ -12,39 +12,24 @@
 	<string name="disclaimer">Disclaimer</string>
 
 	<string name="versionName">1.5</string>
-
-	<string name="disclaimer_description">
-
-		\n\nThis application provide a shortcut for	calling the Activity for
-		edit the System\'s Proxy Settings in Android. In the majority of the
-		releases this Activity is already present but hidden to the user.
-
-		\n\nConfiguring the Proxy Settings doesn\'t mean that all your
-		applications will automatically start to using those! If you want the
-		Proxy Settings also in your favourite applications request this feature
-		to their developers!
-
-		\n\nPlease remember that uninstalling this application doesn\'t
-		automatically restore the default values of the System Proxy Settings of
-		your device.
-
-		\n\nYou can find more details and leave feedbacks here:
-	</string>
+	
+	<string name="disclaimer_intro_title">Introduction</string>
 	<string name="disclaimer_intro_text">Congratulations and thank you for
-	    downloading <b>Proxy Settings</b>!
-
-	    \n\nPlease read carefully the following
-	    disclaimer and accept only if you really know what you are doing!
+	    downloading <b>Proxy Settings</b>! Please read carefully the following
+	    introduction to the application and the Android proxy issue.
 	</string>
-
-
-	<string name="help_text_0_title">What does <b>Proxy Settings</b> offer?</string>
+	
+	<string name="help_text_0_title">What</string>
+	<string name="help_text_0_subtitle">What does <b>Proxy Settings</b> offer?
+	</string>
 	<string name="help_text_0_description"><b>Proxy Settings</b> is an utility
 		application that provides a set of tools to ease the access and the
 		modification of the proxy configuration into your Android device.
 	</string>
 
-	<string name="help_text_1_title">More details on <b>Proxy Settings</b></string>
+	<string name="help_text_1_title">Details</string>
+	<string name="help_text_1_subtitle">More information on <b>Proxy Settings</b>
+	</string>
 	<string name="help_text_1_description"><b>Proxy Settings</b> provides a
 		shortcut for calling a system application (technically it\'s an
 		<i>Activity</i>) hidden into Android OS, in order to edit the System\'s
@@ -55,7 +40,9 @@
 		system application.
 	</string>
 
-	<string name="help_text_2_title">Use <b>Proxy Settings</b> with caution!</string>
+	<string name="help_text_2_title">Warning</string>
+	<string name="help_text_2_subtitle">Use <b>Proxy Settings</b> with caution!
+	</string>
 	<string name="help_text_2_description">When Google engineers released the
 		first versions of Android, they probably decided to hide the Proxy
 		configuration settings because lack of support into both the OS and
@@ -70,7 +57,9 @@
 	    the network stack of your device!
 	</string>
 
-	<string name="help_text_3_title">About the proxy support on <b>Android</b></string>
+	<string name="help_text_3_title">Support</string>
+	<string name="help_text_3_subtitle">About the proxy support on <b>Android</b>
+	</string>
 	<string name="help_text_3_description">Configuring the Proxy doesn\'t mean
 	    that all your applications will automatically start to
 		using these settings! You can find a detailed explanation of the problem
@@ -86,7 +75,8 @@
 		your favourite applications, start request it to their developers!
 	</string>
 
-	<string name="help_text_4_title"><b>Proxy Settings</b> tools</string>
+	<string name="help_text_4_title">Tools</string>
+	<string name="help_text_4_subtitle"><b>Proxy Settings</b> tools</string>
 	<string name="help_text_4_description"><b>Proxy Settings</b> provides an
 		useful section, called <b>Configuration	checker</b> section some tools
 		to check the proxy configuration:
@@ -100,7 +90,8 @@
         selected URL
     </string>
 
-	<string name="help_text_5_title">The <b>Configuration checker</b></string>
+	<string name="help_text_5_title">Check</string>
+	<string name="help_text_5_subtitle">The <b>Configuration checker</b></string>
 	<string name="help_text_5_description"><b>Proxy Settings</b> provides an
 		useful section, called <b>Configuration	checker</b> section in order to
 		check the proxy configuration with some status indicators to help you
@@ -115,6 +106,116 @@
         \n\n&#8226; <b>Web reachability</b>: Tests if it\'s possible to retrieve an
         HTTP  resource with the current proxy configuration.
     </string>
+    
+    <string name="disclaimer_end_title">Disclaimer</string>
+	<string name="disclaimer_end_text"><b>END-USER LICENSE AGREEMENT FOR 
+		\'PROXY SETTINGS\'</b>
+	</string>
+	<string name="disclaimer_accept">I read and accept the terms and conditions</string>
+	<string name="disclaimer_license">IMPORTANT PLEASE READ THE TERMS AND 
+		CONDITIONS OF THIS LICENSE AGREEMENT CAREFULLY BEFORE USING	THIS 
+		PROGRAM:
+		
+		\n\nSHOULDIT\'s End-User License Agreement 
+		("EULA") is a legal agreement between you (either an individual or a 
+		single entity) and SHOULDIT. 
+		For the SHOULDIT software product(s) identified above which 
+		may include associated software components, media, printed materials, 
+		and "online" or electronic documentation ("SOFTWARE PRODUCT"). By 
+		installing, copying, or otherwise using the SOFTWARE PRODUCT, you agree 
+		to be bound by the terms of this EULA. 
+		This license agreement represents the entire agreement concerning the 
+		program between you and SHOULDIT, (referred to as 
+		"licenser"), and it supersedes any prior proposal, representation, or 
+		understanding between the parties. If you do not agree to the terms of 
+		this EULA, do not install or use the SOFTWARE PRODUCT.
+
+		\n\nThe SOFTWARE PRODUCT is protected by copyright laws and 
+		international copyright treaties, as well as other intellectual 
+		property laws and treaties.
+
+		\n\n1. GRANT OF LICENSE. 
+		The SOFTWARE PRODUCT is licensed as follows: 
+		(a) Installation and Use.
+		SHOULDIT grants you the right to install and use copies of 
+		the SOFTWARE PRODUCT on your Android device.
+
+		\n\n2. DESCRIPTION OF OTHER RIGHTS AND LIMITATIONS.
+		(a) Maintenance of Copyright Notices.
+		You must not remove or alter any copyright notices on any and all 
+		copies of the SOFTWARE PRODUCT.
+
+		\n\n(b) Distribution.
+		You may not distribute registered copies of the SOFTWARE PRODUCT to 
+		third parties. Evaluation versions available for download from 
+		SHOULDIT\'s websites may be freely distributed.
+		
+		\n\n(c) Prohibition on Reverse Engineering, Decompilation, and Disassembly.
+		You may not reverse engineer, decompile, or disassemble the SOFTWARE 
+		PRODUCT, except and only to the extent that such activity is expressly 
+		permitted by applicable law notwithstanding this limitation. 
+		
+		\n\n(d) Rental.
+		You may not rent, lease, or lend the SOFTWARE PRODUCT.
+		
+		\n\n(e) Support Services.
+		SHOULDIT may provide you with support services related to 
+		the SOFTWARE PRODUCT ("Support Services"). Any supplemental software 
+		code provided to you as part of the Support Services shall be considered 
+		part of the SOFTWARE PRODUCT and subject to the terms and conditions 
+		of this EULA. 
+		
+		\n\n(f) Compliance with Applicable Laws.
+		You must comply with all applicable laws regarding use of the 
+		SOFTWARE PRODUCT.
+
+		\n\n3. TERMINATION 
+		Without prejudice to any other rights, SHOULDIT may 
+		terminate this EULA if you fail to comply with the terms and conditions 
+		of this EULA. In such event, you must destroy all copies of the 
+		SOFTWARE PRODUCT in your possession.
+
+		\n\n4. COPYRIGHT
+		All title, including but not limited to copyrights, in and to the 
+		SOFTWARE PRODUCT and any copies thereof are owned by 
+		SHOULDIT or its suppliers. All title and intellectual 
+		property rights in and to the content which may be accessed through 
+		use of the SOFTWARE PRODUCT is the property of the respective content 
+		owner and may be protected by applicable copyright or other intellectual 
+		property laws and treaties. This EULA grants you no rights to use such 
+		content. All rights not expressly granted are reserved by SHOULDIT.
+
+		\n\n5. NO WARRANTIES
+		SHOULDIT expressly disclaims any warranty for the 
+		SOFTWARE PRODUCT. The SOFTWARE PRODUCT is provided \'As Is\' without 
+		any express or implied warranty of any kind, including but not limited 
+		to any warranties of merchantability, noninfringement, or fitness of a 
+		particular purpose. SHOULDIT does not warrant or assume 
+		responsibility for the accuracy or completeness of any information, 
+		text, graphics, links or other items contained within 
+		the SOFTWARE PRODUCT. SHOULDIT makes no warranties 
+		respecting any harm that may be caused by the transmission of a 
+		computer virus, worm, time bomb, logic bomb, or other such computer 
+		program. SHOULDIT further expressly disclaims any 
+		warranty or representation to Authorized Users or to any third party.
+
+		\n\n6. LIMITATION OF LIABILITY
+		In no event shall SHOULDIT be liable for any damages 
+		(including, without limitation, lost profits, business interruption, 
+		or lost information) rising out of \'Authorized Users\' use of or 
+		inability to use the SOFTWARE PRODUCT, even if SHOULDIT 
+		has been advised of the possibility of such damages. In no event 
+		will SHOULDIT be liable for loss of data or for indirect, 
+		special, incidental, consequential (including lost profit), or other 
+		damages based in contract, tort or otherwise. SHOULDIT 
+		shall have no liability with respect to the content of the SOFTWARE 
+		PRODUCT or any part thereof, including but not limited to errors or 
+		omissions contained therein, libel, infringements of rights of 
+		publicity, privacy, trademark rights, business interruption, personal 
+		injury, loss of privacy, moral rights or the disclosure of confidential 
+		information.
+	</string>
+	
 
 	<string name="proxysettingscalleractivity_dialog_title">Warning</string>
 	<string name="proxysettingscalleractivity_dialog_description">Starting from

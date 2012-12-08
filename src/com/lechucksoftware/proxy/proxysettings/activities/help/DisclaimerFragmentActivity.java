@@ -19,6 +19,40 @@ public class DisclaimerFragmentActivity extends HelpFragmentActivity
 		
 		super.setUpView(FRAGMENTS_COUNT);
 	}
+	
+	@Override
+	public CharSequence getFragmentTitle(int position)
+	{
+		CharSequence title = null;
+		switch (position)
+		{
+			case 0:
+				title = getApplicationContext().getResources().getString(R.string.disclaimer_intro_title);
+				break;
+			case 1:
+				title = getApplicationContext().getResources().getString(R.string.help_text_0_title);
+				break;
+			case 2:
+				title = getApplicationContext().getResources().getString(R.string.help_text_1_title);
+				break;
+			case 3:
+				title = getApplicationContext().getResources().getString(R.string.help_text_2_title);
+				break;
+			case 4:
+				title = getApplicationContext().getResources().getString(R.string.help_text_3_title);
+				break;
+			case 5:
+				title = getApplicationContext().getResources().getString(R.string.help_text_4_title);
+				break;
+			case 6:
+				title = getApplicationContext().getResources().getString(R.string.help_text_5_title);
+				break;
+			case 7:
+				title = getApplicationContext().getResources().getString(R.string.disclaimer_end_title);
+				break;
+		}
+		return title;
+	}
 
 	@Override
 	public Fragment getHelpFragment(int position)

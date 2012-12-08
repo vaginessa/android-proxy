@@ -3,40 +3,17 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    
-     <android.support.v4.view.ViewPager
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:id="@+id/viewPager" />
-     
-     <com.viewpagerindicator.LinePageIndicator
-        android:id="@+id/indicator"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent" />
-  
-<!--     <LinearLayout -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="0" -->
-<!--         android:orientation="horizontal" > -->
-        
-<!--         <Button -->
-<!--             android:id="@+id/help_previous_button" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_weight="1" -->
-<!--             android:text="@string/cancel"  /> -->
 
-<!--         <Button -->
-<!--             android:id="@+id/help_next_button" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_weight="1" -->
-<!--             android:text="@string/next"  /> -->
-        
-<!--     </LinearLayout> -->
-    
+    <com.viewpagerindicator.TitlePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
 </LinearLayout>
