@@ -16,7 +16,7 @@
 	<string name="disclaimer_intro_title">Introduction</string>
 	<string name="disclaimer_intro_text">Congratulations and thank you for
 	    downloading <b>Proxy Settings</b>! Please read carefully the following
-	    introduction to the application and the Android proxy issue.
+	    introduction to the application and the Android\'s proxy issue.
 	</string>
 	
 	<string name="help_text_0_title">What</string>
@@ -31,28 +31,28 @@
 	<string name="help_text_1_subtitle">More information on <b>Proxy Settings</b>
 	</string>
 	<string name="help_text_1_description"><b>Proxy Settings</b> provides a
-		shortcut for calling a system application (technically it\'s an
-		<i>Activity</i>) hidden into Android OS, in order to edit the System\'s
-		Proxy configuration.
-		\n\nIn the majority of the devices the proxy selector application
-		(<i>Activity</i>) is already present but hidden to the user. What
-		<b>Proxy Settings</b> does is to simply call the existing Android\'s
-		system application.
+		shortcut for calling a system application called <i>ProxySelector</i> 
+		(technically it\'s an <i>Activity</i>) hidden into Android, in order 
+		to edit the system\'s proxy configuration of your device.
+		\n\nIn the majority of the Android ROMs the <i>ProxySelector</i> 
+		application	(<i>Activity</i>) is already present but hidden to the user. 
+		What <b>Proxy Settings</b> does is to simply call this existing system 
+		application.
 	</string>
 
 	<string name="help_text_2_title">Warning</string>
 	<string name="help_text_2_subtitle">Use <b>Proxy Settings</b> with caution!
 	</string>
 	<string name="help_text_2_description">When Google engineers released the
-		first versions of Android, they probably decided to hide the Proxy
-		configuration settings because lack of support into both the OS and
-		developers API. <b>Proxy Settings</b> let you change these settings, but
-		we suggest the users to do it very cautiously!
+		first versions of Android, they probably decided to hide the 
+		<i>ProxySelector Activity</i> because of the lack of support into both 
+		the	OS and developers API. <b>Proxy Settings</b> let you change these 
+		settings, but we suggest the users to do it very cautiously!
 	</string>
 	<string name="help_text_2_description_b"><b>Please remember</b> that
 	    uninstalling this application doesn\'t automatically restore the default
-	    values of the Proxy configuration of your device. You should explicitly
-	    clear the Proxy configuration before uninstalling <b>Proxy Settings</b>!
+	    values of the proxy configuration of your device. You should explicitly
+	    clear the proxy configuration before uninstalling <b>Proxy Settings</b>!
 	    An improper use of the application could result in a wrong working of
 	    the network stack of your device!
 	</string>
@@ -60,11 +60,12 @@
 	<string name="help_text_3_title">Support</string>
 	<string name="help_text_3_subtitle">About the proxy support on <b>Android</b>
 	</string>
-	<string name="help_text_3_description">Configuring the Proxy doesn\'t mean
+	<string name="help_text_3_description">Configuring the proxy doesn\'t mean
 	    that all your applications will automatically start to
-		using these settings! You can find a detailed explanation of the problem
-		and leave your feedbacks/comments on the <b>Android Proxy Project</b>
-		official website:
+		using these settings! This is due to a not easy understandable API for 
+		developers. If you are interested in a deeper analysis of this issue,
+		you can find a detailed explanation of the problem and leave your 
+		feedbacks/comments on the <b>Android Proxy Project</b> official website:
 	</string>
 	<string name="help_text_3_description_link">http://www.android-proxy.com
 	</string>
@@ -77,34 +78,36 @@
 
 	<string name="help_text_4_title">Tools</string>
 	<string name="help_text_4_subtitle"><b>Proxy Settings</b> tools</string>
-	<string name="help_text_4_description"><b>Proxy Settings</b> provides an
-		useful section, called <b>Configuration	checker</b> section some tools
-		to check the proxy configuration:
+	<string name="help_text_4_description"><b>Proxy Settings</b> offers to the
+		users some tools to check the proxy configuration and to do some basic
+		actions using this configuration:
 	</string>
 	<string name="help_text_4_description_b">\n\n&#8226; A <b>Configuration
-	    checker</b>: it provides some status indicators to help you understand
-	    the issues you may find setting the proxy on your phone
+	    checker</b>: it provides useful status indicators related to the proxy 
+	    configurationon of your device
         \n\n&#8226; A <b>URL downloader</b>: it gives you the possibility to
         download a specific remote resource
-        \n\n&#8226; A <b>WEB Page tester</b>: it opens a WEB browser page on the
-        selected URL
+        \n\n&#8226; A <b>WEB Page tester</b>: it opens a WEB browser page with 
+        full proxy support on a selected URL
     </string>
 
 	<string name="help_text_5_title">Check</string>
 	<string name="help_text_5_subtitle">The <b>Configuration checker</b></string>
 	<string name="help_text_5_description"><b>Proxy Settings</b> provides an
-		useful section, called <b>Configuration	checker</b> section in order to
-		check the proxy configuration with some status indicators to help you
-		understand the issues you may find setting the proxy on your phone:
+		useful section, called <b>Configuration	checker</b> that let you
+		check the proxy configuration with useful status indicators, helping 
+		understand the issues you may find setting the proxy on your Android
+		device:
 	</string>
-    <string name="help_text_5_description_b">\n\n&#8226; <b>Proxy enabled</b>: Tests if
-        the proxy configuration contains a configuration.
-        \n\n&#8226; <b>Proxy address</b>: Tests if the address of the proxy inserted
-        into the proxy selector is a valid IP address.
-        \n\n&#8226; <b>Ping proxy host</b>: Tests if the address of the proxy inserted
-        into the proxy selector can be reached with a ICMP PING.
-        \n\n&#8226; <b>Web reachability</b>: Tests if it\'s possible to retrieve an
-        HTTP  resource with the current proxy configuration.
+    <string name="help_text_5_description_b">\n\n&#8226; <b>Proxy enabled</b>: 
+    	Tests if the proxy configuration you entered using the 
+    	<i>ProxySelector</i> contains a non empty value.
+        \n\n&#8226; <b>Proxy address</b>: Tests if the address of the proxy 
+        inserted into the <i>ProxySelector</i> is a valid address.
+        \n\n&#8226; <b>Ping proxy host</b>: Tests if the address of the proxy 
+        inserted into the <i>ProxySelector</i> can be reached with a ICMP PING.
+        \n\n&#8226; <b>Web reachability</b>: Tests if it\'s possible to retrieve 
+        an HTTP  resource with the current proxy configuration.
     </string>
     
     <string name="disclaimer_end_title">Disclaimer</string>
@@ -112,12 +115,13 @@
 		\'PROXY SETTINGS\'</b>
 	</string>
 	<string name="disclaimer_accept">I read and accept the terms and conditions</string>
+	
 	<string name="disclaimer_license">IMPORTANT PLEASE READ THE TERMS AND 
 		CONDITIONS OF THIS LICENSE AGREEMENT CAREFULLY BEFORE USING	THIS 
 		PROGRAM:
 		
 		\n\nSHOULDIT\'s End-User License Agreement 
-		("EULA") is a legal agreement between you (either an individual or a 
+		\n("EULA") is a legal agreement between you (either an individual or a 
 		single entity) and SHOULDIT. 
 		For the SHOULDIT software product(s) identified above which 
 		may include associated software components, media, printed materials, 
@@ -135,48 +139,48 @@
 		property laws and treaties.
 
 		\n\n1. GRANT OF LICENSE. 
-		The SOFTWARE PRODUCT is licensed as follows: 
-		(a) Installation and Use.
+		\nThe SOFTWARE PRODUCT is licensed as follows: 
+		\n(a) Installation and Use.
 		SHOULDIT grants you the right to install and use copies of 
 		the SOFTWARE PRODUCT on your Android device.
 
 		\n\n2. DESCRIPTION OF OTHER RIGHTS AND LIMITATIONS.
-		(a) Maintenance of Copyright Notices.
+		\n(a) Maintenance of Copyright Notices.
 		You must not remove or alter any copyright notices on any and all 
 		copies of the SOFTWARE PRODUCT.
 
 		\n\n(b) Distribution.
-		You may not distribute registered copies of the SOFTWARE PRODUCT to 
+		\nYou may not distribute registered copies of the SOFTWARE PRODUCT to 
 		third parties. Evaluation versions available for download from 
 		SHOULDIT\'s websites may be freely distributed.
 		
 		\n\n(c) Prohibition on Reverse Engineering, Decompilation, and Disassembly.
-		You may not reverse engineer, decompile, or disassemble the SOFTWARE 
+		\nYou may not reverse engineer, decompile, or disassemble the SOFTWARE 
 		PRODUCT, except and only to the extent that such activity is expressly 
 		permitted by applicable law notwithstanding this limitation. 
 		
 		\n\n(d) Rental.
-		You may not rent, lease, or lend the SOFTWARE PRODUCT.
+		\nYou may not rent, lease, or lend the SOFTWARE PRODUCT.
 		
 		\n\n(e) Support Services.
-		SHOULDIT may provide you with support services related to 
+		\nSHOULDIT may provide you with support services related to 
 		the SOFTWARE PRODUCT ("Support Services"). Any supplemental software 
 		code provided to you as part of the Support Services shall be considered 
 		part of the SOFTWARE PRODUCT and subject to the terms and conditions 
 		of this EULA. 
 		
 		\n\n(f) Compliance with Applicable Laws.
-		You must comply with all applicable laws regarding use of the 
+		\nYou must comply with all applicable laws regarding use of the 
 		SOFTWARE PRODUCT.
 
 		\n\n3. TERMINATION 
-		Without prejudice to any other rights, SHOULDIT may 
+		\nWithout prejudice to any other rights, SHOULDIT may 
 		terminate this EULA if you fail to comply with the terms and conditions 
 		of this EULA. In such event, you must destroy all copies of the 
 		SOFTWARE PRODUCT in your possession.
 
 		\n\n4. COPYRIGHT
-		All title, including but not limited to copyrights, in and to the 
+		\nAll title, including but not limited to copyrights, in and to the 
 		SOFTWARE PRODUCT and any copies thereof are owned by 
 		SHOULDIT or its suppliers. All title and intellectual 
 		property rights in and to the content which may be accessed through 
@@ -186,7 +190,7 @@
 		content. All rights not expressly granted are reserved by SHOULDIT.
 
 		\n\n5. NO WARRANTIES
-		SHOULDIT expressly disclaims any warranty for the 
+		\nSHOULDIT expressly disclaims any warranty for the 
 		SOFTWARE PRODUCT. The SOFTWARE PRODUCT is provided \'As Is\' without 
 		any express or implied warranty of any kind, including but not limited 
 		to any warranties of merchantability, noninfringement, or fitness of a 
@@ -200,7 +204,7 @@
 		warranty or representation to Authorized Users or to any third party.
 
 		\n\n6. LIMITATION OF LIABILITY
-		In no event shall SHOULDIT be liable for any damages 
+		\nIn no event shall SHOULDIT be liable for any damages 
 		(including, without limitation, lost profits, business interruption, 
 		or lost information) rising out of \'Authorized Users\' use of or 
 		inability to use the SOFTWARE PRODUCT, even if SHOULDIT 
@@ -266,10 +270,10 @@
 
 	<string name="preference_test_proxy_configuration_title">Validate configuration</string>
 	<string name="preference_test_proxy_configuration_summary">Start proxy configuration tests</string>
-	<string name="preference_test_proxy_webview_title">WEB Page tester</string>
-	<string name="preference_test_proxy_webview_summary">Open a specific WEB page</string>
+	<string name="preference_test_proxy_webview_title">URL browser</string>
+	<string name="preference_test_proxy_webview_summary">Browse a WEB page with full proxy support</string>
 	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
-	<string name="preference_test_proxy_urlretriever_summary">Download a specific remote resource asking for its URL</string>
+	<string name="preference_test_proxy_urlretriever_summary">Download a specific remote resource with full proxy support</string>
 	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
 	<string name="preference_test_proxy_urlretriever_dialog_title">Enter the URL to download:</string>
 	<string name="preference_test_proxy_urlretriever_dialog_status">Downloading </string>

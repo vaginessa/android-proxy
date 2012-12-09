@@ -4,6 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.fragments.DisclaimerEndFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.DisclaimerIntroFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment0;
+import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment1;
+import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment2;
+import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment3;
+import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment4;
+import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment5;
 
 public class DisclaimerFragmentActivity extends HelpFragmentActivity
 {

@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.activities.help;
+package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
