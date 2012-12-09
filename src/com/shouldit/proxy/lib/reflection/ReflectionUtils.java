@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.shouldit.proxy.lib.LogWrapper;
+
 import android.util.Log;
 
 public class ReflectionUtils
@@ -42,11 +44,11 @@ public class ReflectionUtils
 
 		if (className.isInterface()) 
 		{
-			Log.d(TAG, "Interface: " + name);
+			LogWrapper.d(TAG, "Interface: " + name);
 		} 
 		else 
 		{
-			Log.d(TAG, "Class: " + name);
+			LogWrapper.d(TAG, "Class: " + name);
 			displayInterfaces(className.getInterfaces());
 			displayConstructors(className.getDeclaredConstructors());
 		}
@@ -54,16 +56,16 @@ public class ReflectionUtils
 
 	static void displayModifiers(int m)
 	{
-		Log.d(TAG, "Modifiers: " + Modifier.toString(m));
+		LogWrapper.d(TAG, "Modifiers: " + Modifier.toString(m));
 	}
 
 	static void displayInterfaces(Class[] interfaces)
 	{
 		if (interfaces.length > 0) 
 		{
-			Log.d(TAG, "Interfaces: ");
+			LogWrapper.d(TAG, "Interfaces: ");
 			for (int i = 0; i < interfaces.length; ++i)
-				Log.d("", interfaces[i].getName());
+				LogWrapper.d("", interfaces[i].getName());
 		}
 	}
 
@@ -71,9 +73,9 @@ public class ReflectionUtils
 	{
 		if (fields.length > 0) 
 		{
-			Log.d(TAG, "Fields: ");
+			LogWrapper.d(TAG, "Fields: ");
 			for (int i = 0; i < fields.length; ++i)
-				Log.d(TAG, fields[i].toString());
+				LogWrapper.d(TAG, fields[i].toString());
 		}
 	}
 
@@ -81,9 +83,9 @@ public class ReflectionUtils
 	{
 		if (constructors.length > 0) 
 		{
-			Log.d(TAG, "Constructors: ");
+			LogWrapper.d(TAG, "Constructors: ");
 			for (int i = 0; i < constructors.length; ++i)
-				Log.d(TAG, constructors[i].toString());
+				LogWrapper.d(TAG, constructors[i].toString());
 		}
 	}
 
@@ -91,9 +93,9 @@ public class ReflectionUtils
 	{
 		if (methods.length > 0) 
 		{
-			Log.d(TAG, "Methods: ");
+			LogWrapper.d(TAG, "Methods: ");
 			for (int i = 0; i < methods.length; ++i)
-				Log.d(TAG, methods[i].toString());
+				LogWrapper.d(TAG, methods[i].toString());
 		}
 	}
 

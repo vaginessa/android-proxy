@@ -99,7 +99,7 @@ public class ProxySettings
 		if (proxyList.size() > 0)
 		{
 			proxy = proxyList.get(0);
-			Log.d(TAG, "Current Proxy Configuration: " + proxy.toString());
+			LogWrapper.d(TAG, "Current Proxy Configuration: " + proxy.toString());
 		}
 		else
 			throw new Exception("Not found valid proxy configuration!");
@@ -159,12 +159,12 @@ public class ProxySettings
 					Integer proxyPort = Integer.parseInt(proxyParts[1]);
 					Proxy p = new Proxy(Type.HTTP, new InetSocketAddress(proxyAddress, proxyPort));
 					proxyConfig = new ProxyConfiguration(ctx, p, proxyString, null, null);
-					// Log.d(TAG, "ProxyHost created: " +
+					// LogWrapper.d(TAG, "ProxyHost created: " +
 					// proxyConfig.toString());
 				}
 				catch (NumberFormatException e)
 				{
-					Log.d(TAG, "Port is not a number: " + proxyParts[1]);
+					LogWrapper.d(TAG, "Port is not a number: " + proxyParts[1]);
 				}
 			}
 		}

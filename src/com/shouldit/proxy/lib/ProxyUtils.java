@@ -95,7 +95,7 @@ public class ProxyUtils
 			proc.waitFor();
 			exitValue = proc.exitValue();
 
-			Log.d(TAG, "Ping exit value: " + exitValue);
+			LogWrapper.d(TAG, "Ping exit value: " + exitValue);
 
 			if (exitValue == 0)
 				return true;
@@ -144,7 +144,7 @@ public class ProxyUtils
 		}
 		catch (SocketTimeoutException e)
 		{
-			Log.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
+			LogWrapper.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
 		}
 		catch (IOException e)
 		{
@@ -176,7 +176,7 @@ public class ProxyUtils
 				StringBuilder sb = new StringBuilder();
 				while ((temp = bufferedReader.readLine()) != null)
 				{
-					// Log.d(TAG, temp);
+					// LogWrapper.d(TAG, temp);
 					sb.append(temp);
 				}
 
@@ -184,7 +184,7 @@ public class ProxyUtils
 			}
 			else
 			{
-				Log.e(TAG, "INCORRECT RETURN CODE: " + response);
+				LogWrapper.e(TAG, "INCORRECT RETURN CODE: " + response);
 				return null;
 			}
 		}
@@ -194,7 +194,7 @@ public class ProxyUtils
 		}
 		catch (SocketTimeoutException e)
 		{
-			Log.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
+			LogWrapper.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
 		}
 		catch (IOException e)
 		{
@@ -276,13 +276,13 @@ public class ProxyUtils
 				// Create Proxy config object and set it into request Q
 				HttpHost httpHost = new HttpHost(host, port, "http");
 				setDeclaredField(requestQueueObject, "mProxyHost", httpHost);
-				// Log.d("Webkit Setted Proxy to: " + host + ":" + port);
+				// LogWrapper.d("Webkit Setted Proxy to: " + host + ":" + port);
 				ret = true;
 			}
 		}
 		catch (Exception e)
 		{
-			Log.e("ProxySettings", "Exception setting WebKit proxy settings: " + e.toString());
+			LogWrapper.e("ProxySettings", "Exception setting WebKit proxy settings: " + e.toString());
 		}
 		return ret;
 	}

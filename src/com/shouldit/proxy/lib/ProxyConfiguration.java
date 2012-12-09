@@ -77,57 +77,57 @@ public class ProxyConfiguration
 		status.startchecking();
 		broadCastUpdatedStatus();
 		
-		Log.d(TAG, "Checking if proxy is enabled ...");
+		LogWrapper.d(TAG, "Checking if proxy is enabled ...");
 		if (!isProxyEnabled())
 		{
-			Log.e(TAG, "PROXY NOT ENABLED");
+			LogWrapper.e(TAG, "PROXY NOT ENABLED");
 			status.add(ProxyStatusCodes.PROXY_ENABLED, StatusValues.CHECKED ,false);
 		}
 		else
 		{
-			Log.e(TAG, "PROXY ENABLED");
+			LogWrapper.e(TAG, "PROXY ENABLED");
 			status.add(ProxyStatusCodes.PROXY_ENABLED, StatusValues.CHECKED ,true);
 		}
 		
 		broadCastUpdatedStatus();
 
-		Log.d(TAG, "Checking if proxy is valid address ...");
+		LogWrapper.d(TAG, "Checking if proxy is valid address ...");
 		if (!isProxyValidAddress())
 		{
-			Log.e(TAG, "PROXY NOT VALID ADDRESS");
+			LogWrapper.e(TAG, "PROXY NOT VALID ADDRESS");
 			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID,StatusValues.CHECKED , false);
 		}
 		else
 		{
-			Log.e(TAG, "PROXY VALID ADDRESS");
+			LogWrapper.e(TAG, "PROXY VALID ADDRESS");
 			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, StatusValues.CHECKED ,true);
 		}
 		
 		broadCastUpdatedStatus();
 
-		Log.d(TAG, "Checking if proxy is reachable ...");
+		LogWrapper.d(TAG, "Checking if proxy is reachable ...");
 		if (!isProxyReachable())
 		{
-			Log.e(TAG, "PROXY NOT REACHABLE");
+			LogWrapper.e(TAG, "PROXY NOT REACHABLE");
 			status.add(ProxyStatusCodes.PROXY_REACHABLE, StatusValues.CHECKED ,false);
 		}
 		else
 		{
-			Log.d(TAG, "PROXY REACHABLE");
+			LogWrapper.d(TAG, "PROXY REACHABLE");
 			status.add(ProxyStatusCodes.PROXY_REACHABLE,StatusValues.CHECKED , true);
 		}
 		
 		broadCastUpdatedStatus();
 
-		Log.d(TAG, "Checking if web is reachable ...");
+		LogWrapper.d(TAG, "Checking if web is reachable ...");
 		if (!isWebReachable(timeout))
 		{
-			Log.e(TAG, "WEB NOT REACHABLE");
+			LogWrapper.e(TAG, "WEB NOT REACHABLE");
 			status.add(ProxyStatusCodes.WEB_REACHABILE, StatusValues.CHECKED ,false);
 		}
 		else
 		{
-			Log.d(TAG, "WEB REACHABLE");
+			LogWrapper.d(TAG, "WEB REACHABLE");
 			status.add(ProxyStatusCodes.WEB_REACHABILE, StatusValues.CHECKED ,true);
 		}
 		
@@ -137,7 +137,7 @@ public class ProxyConfiguration
 	
 	private void broadCastUpdatedStatus()
 	{
-		Log.d(TAG, "Sending broadcast intent: com.shouldit.proxy.lib.UPDATE_PROXY_STATUS");
+		LogWrapper.d(TAG, "Sending broadcast intent: com.shouldit.proxy.lib.UPDATE_PROXY_STATUS");
 		Intent intent = new Intent("com.shouldit.proxy.lib.UPDATE_PROXY_STATUS");
 		intent.putExtra(Constants.ProxyStatus, status);
 		context.sendBroadcast(intent);
