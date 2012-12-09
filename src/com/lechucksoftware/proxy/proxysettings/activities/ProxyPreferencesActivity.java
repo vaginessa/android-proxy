@@ -25,6 +25,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.ValidationPreference.ValidationStatus;
 import com.lechucksoftware.proxy.proxysettings.activities.help.HelpFragmentActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.Constants;
 import com.shouldit.proxy.lib.Constants.StatusValues;
@@ -140,12 +141,12 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			String action = intent.getAction();
 			if (action.equals("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"))
 			{
-				Log.d(TAG, "Received broadcast for updated proxy configuration");
+				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration");
 				refreshUIComponents(Globals.getInstance().proxyConf.status);
 			}
 			else if (action.equals("com.shouldit.proxy.lib.UPDATE_PROXY_STATUS"))
 			{
-				Log.d(TAG, "Received broadcast for partial update to proxy configuration");
+				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration");
 				refreshUIComponents((ProxyStatus) intent.getSerializableExtra(Constants.ProxyStatus));
 			}
 		}
@@ -157,7 +158,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				// FIX: call only the refresh of the notification!
-				Log.d(TAG, "Sending broadcast intent UPDATE_NOTIFICATION");
+				LogWrapper.d(TAG, "Sending broadcast intent UPDATE_NOTIFICATION");
 				Intent intent = new Intent("com.lechucksoftware.proxy.proxysettings.UPDATE_NOTIFICATION");
 				sendBroadcast(intent);
 				return checkNotificationPref(newValue);
@@ -229,7 +230,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 	public boolean checkUsernamePref(Object newValue)
 	{
-		Log.d(TAG, "checkUsernamePref : " + (String) newValue);
+		LogWrapper.d(TAG, "checkUsernamePref : " + (String) newValue);
 
 		userPref.setSummary((String) newValue);
 		return true;
@@ -237,7 +238,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 	public boolean checkNotificationPref(Object newValue)
 	{
-		Log.d(TAG, "checkNotificationPref : " + (Boolean) newValue);
+		LogWrapper.d(TAG, "checkNotificationPref : " + (Boolean) newValue);
 
 		if ((Boolean) newValue)
 		{
@@ -255,7 +256,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 	public boolean checkAuthenticationPref(Object newValue)
 	{
-		Log.d(TAG, "checkAuthenticationPref : " + (Boolean) newValue);
+		LogWrapper.d(TAG, "checkAuthenticationPref : " + (Boolean) newValue);
 
 		if ((Boolean) newValue)
 		{
@@ -275,7 +276,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 
 	public boolean checkPasswordPref(Object newValue)
 	{
-		Log.d(TAG, "checkPasswordPref : " + (String) newValue);
+		LogWrapper.d(TAG, "checkPasswordPref : " + (String) newValue);
 
 		String pwd = newValue.toString();
 		StringBuilder sb = new StringBuilder();
@@ -408,7 +409,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	protected void onStart()
 	{
 		super.onStart();
-		Log.d(TAG, "Start");
+		LogWrapper.d(TAG, "Start");
 	}
 
 	@Override
@@ -432,7 +433,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	@Override
 	protected void onStop()
 	{
-		Log.d(TAG, "Stop");
+		LogWrapper.d(TAG, "Stop");
 		super.onStop();
 	}
 

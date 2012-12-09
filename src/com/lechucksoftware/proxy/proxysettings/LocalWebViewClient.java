@@ -1,5 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings;
 
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.webkit.WebView;
@@ -28,7 +30,7 @@ public class LocalWebViewClient extends WebViewClient
 	public void onLoadResource(WebView view, String url)
 	{
 		super.onLoadResource(view, url);
-		Log.d(TAG, "onLoadResource: " + (url.length() > 50 ? url.substring(0, 50) : url));
+		LogWrapper.d(TAG, "onLoadResource: " + (url.length() > 50 ? url.substring(0, 50) : url));
 	}
 
 	@Override

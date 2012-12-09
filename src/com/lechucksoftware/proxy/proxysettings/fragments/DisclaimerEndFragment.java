@@ -19,6 +19,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 public class DisclaimerEndFragment extends Fragment
 {
@@ -58,7 +59,7 @@ public class DisclaimerEndFragment extends Fragment
 				editor.commit();
 
 				Intent i = new Intent(getActivity().getApplicationContext(), ProxySettingsCallerActivity.class);
-				Log.d(TAG, "Starting ProxySettingsCallerActivity activity");
+				LogWrapper.d(TAG, "Starting ProxySettingsCallerActivity activity");
 				startActivity(i);
 				getActivity().finish();
 			}

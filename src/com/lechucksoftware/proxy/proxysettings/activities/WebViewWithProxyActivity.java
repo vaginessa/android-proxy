@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.LocalWebViewClient;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.ProxyUtils;
 
 public class WebViewWithProxyActivity extends FragmentActivity
@@ -56,7 +57,7 @@ public class WebViewWithProxyActivity extends FragmentActivity
 				// Activities and WebViews measure progress with different
 				// scales. The progress meter will automatically disappear when we reach 100%
 				int activityProgress = progress * 100;
-				Log.d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
+				LogWrapper.d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
 				activity.setProgress(activityProgress);
 
 
@@ -98,34 +99,34 @@ public class WebViewWithProxyActivity extends FragmentActivity
 
 		setProgressBarVisibility(true);
 
-		Log.d(TAG, "Start");
+		LogWrapper.d(TAG, "Start");
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		Log.d(TAG, "Resume");
+		LogWrapper.d(TAG, "Resume");
 	}
 
 	@Override
 	protected void onPause()
 	{
 		super.onPause();
-		Log.d(TAG, "Pause");
+		LogWrapper.d(TAG, "Pause");
 	}
 
 	@Override
 	protected void onStop()
 	{
-		Log.d(TAG, "Stop");
+		LogWrapper.d(TAG, "Stop");
 		super.onStop();
 	}
 
 	@Override
 	protected void onDestroy()
 	{
-		Log.d(TAG, "Destroy");
+		LogWrapper.d(TAG, "Destroy");
 		super.onDestroy();
 	}
 }

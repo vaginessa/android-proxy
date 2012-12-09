@@ -8,6 +8,7 @@ import android.preference.PreferenceFragment;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 public class ProxyPreferencesActivityV11 extends PreferenceActivity {
 
@@ -38,7 +39,7 @@ public class ProxyPreferencesActivityV11 extends PreferenceActivity {
             super.onCreate(savedInstanceState);
 
             // Can retrieve arguments from preference XML.
-            Log.i("args", "Arguments: " + getArguments());
+            LogWrapper.i("args", "Arguments: " + getArguments());
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);

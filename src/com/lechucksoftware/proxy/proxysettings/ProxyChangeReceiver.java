@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings;
 
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,7 +15,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent) 
     {
-        Log.d(TAG,"Intent receiver called: " + intent.getAction().toString());
+        LogWrapper.d(TAG,"Intent receiver called: " + intent.getAction().toString());
 
         if (intent.getAction().toString().equals("com.lechucksoftware.proxy.proxysettings.UPDATE_NOTIFICATION"))
         {
@@ -30,7 +31,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else
         {
-        	Log.e(TAG,"Intent not found!");
+        	LogWrapper.e(TAG,"Intent not found!");
         }
     }
 }

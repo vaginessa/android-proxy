@@ -71,7 +71,7 @@ public class Utils
 					mExclusionListField.setAccessible(true);
 					String mExclusionList = (String) mExclusionListField.get(mHttpProxy);
 
-					Log.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
+					LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
 					Proxy proxy = new Proxy(Proxy.Type.HTTP, new Socket(mHost, mPort).getRemoteSocketAddress());
 					proxyHost = new ProxyConfiguration(ctx, proxy, proxy.toString(), null, wifiConf);

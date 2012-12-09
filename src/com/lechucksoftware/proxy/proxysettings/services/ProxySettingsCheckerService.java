@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxySettings;
 
@@ -31,7 +32,7 @@ public class ProxySettingsCheckerService extends IntentService
     @Override
     public void onDestroy() 
     {
-    	Log.d(TAG, "ProxySettingsCheckerService destroying");
+    	LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
     };
     
 	/**
@@ -52,7 +53,7 @@ public class ProxySettingsCheckerService extends IntentService
         {
         	e.printStackTrace();
         	UIUtils.DisableProxyNotification(context);
-        	Log.d(TAG,"Exception caught: disable proxy notification");
+        	LogWrapper.d(TAG,"Exception caught: disable proxy notification");
         }
 		finally
 		{
@@ -75,7 +76,7 @@ public class ProxySettingsCheckerService extends IntentService
     	/**
     	 * Trigger status update        	
     	 * */
-		Log.d(TAG, "Sending broadcast intent UPDATE_PROXY");
+		LogWrapper.d(TAG, "Sending broadcast intent UPDATE_PROXY");
 		Intent intent = new Intent("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY");	
 		context.sendBroadcast(intent);
 		
@@ -94,13 +95,13 @@ public class ProxySettingsCheckerService extends IntentService
 			if(Globals.getInstance().proxyConf.proxyHost.type() == Type.DIRECT)
 			{
 				// Do nothing
-//				Log.d(TAG, "Proxy is DIRECT");
+//				LogWrapper.d(TAG, "Proxy is DIRECT");
 				UIUtils.DisableProxyNotification(context);
 			}
 			else
 			{
 				// Show notification when the proxy is set
-//				Log.d(TAG, "Proxy enabled: " + Globals.getInstance().proxyConf.toShortString());
+//				LogWrapper.d(TAG, "Proxy enabled: " + Globals.getInstance().proxyConf.toShortString());
 				UIUtils.SetProxyNotification(context);
 			}
 		}

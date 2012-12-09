@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.dialogs.VersionWarningAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,8 +25,8 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		Log.d(TAG, "SDK Version");
-		Log.d(TAG, "SDK Version: " + Build.VERSION.SDK_INT);
+		LogWrapper.d(TAG, "SDK Version");
+		LogWrapper.d(TAG, "SDK Version: " + Build.VERSION.SDK_INT);
 
 		if (AppLaunched())
 		{
@@ -38,38 +39,38 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 		}
 		
 		finish();
-		Log.d(TAG, "Finish onCreate");
+		LogWrapper.d(TAG, "Finish onCreate");
 	}
 
     public void onBackPressed() 
     {
-    	Log.d(TAG, "Back Pressed");
+    	LogWrapper.d(TAG, "Back Pressed");
     	return;
     }
     
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "Start");
+        LogWrapper.d(TAG, "Start");
     }
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "Resume");
+        LogWrapper.d(TAG, "Resume");
     }
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "Pause");
+        LogWrapper.d(TAG, "Pause");
     }
     @Override
     protected void onStop() {
-    	Log.d(TAG, "Stop");
+    	LogWrapper.d(TAG, "Stop");
         super.onStop();
     }
     @Override
     protected void onDestroy() {
-    	Log.d(TAG, "Destroy");
+    	LogWrapper.d(TAG, "Destroy");
         super.onDestroy();
     }
 
@@ -84,7 +85,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 		}
 		else
 		{
-			Log.d(TAG, "Starting ProxyPreferencesActivity activity");
+			LogWrapper.d(TAG, "Starting ProxyPreferencesActivity activity");
 			startActivity(new Intent(this, ProxyPreferencesActivity.class));
 		}
 	}

@@ -6,6 +6,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -90,12 +92,12 @@ public class ApplicationsFeedbacksActivity extends FragmentActivity
     
     public void doPositiveClick() {
         // Do stuff here.
-        Log.i("FragmentAlertDialog", "Positive click!");
+        LogWrapper.i("FragmentAlertDialog", "Positive click!");
     }
     
     public void doNegativeClick() {
         // Do stuff here.
-        Log.i("FragmentAlertDialog", "Negative click!");
+        LogWrapper.i("FragmentAlertDialog", "Negative click!");
     }
 
 	private class ListAdapter extends ArrayAdapter<PInfo>
@@ -130,7 +132,7 @@ public class ApplicationsFeedbacksActivity extends FragmentActivity
 			}
 			catch (Exception e)
 			{
-				Log.i(TAG, e.getMessage());
+				LogWrapper.i(TAG, e.getMessage());
 			}
 			return view;
 		}

@@ -2,6 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
 import java.io.Serializable;
 
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -22,6 +24,6 @@ public class PInfo implements Serializable
     
     void prettyPrint() 
     {
-        Log.v(TAG,appname + "\t" + pname + "\t" + versionName + "\t" + versionCode);
+        LogWrapper.v(TAG,appname + "\t" + pname + "\t" + versionName + "\t" + versionCode);
     }
 }
