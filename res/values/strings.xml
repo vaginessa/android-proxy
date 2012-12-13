@@ -34,10 +34,9 @@
 		shortcut for calling a system application called <i>ProxySelector</i> 
 		(technically it\'s an <i>Activity</i>) hidden into Android, in order 
 		to edit the system\'s proxy configuration of your device.
-		\n\nIn the majority of the Android ROMs the <i>ProxySelector</i> 
-		application	(<i>Activity</i>) is already present but hidden to the user. 
-		What <b>Proxy Settings</b> does is to simply call this existing system 
-		application.
+		\n\nIn the majority of the Android ROMs the <i>ProxySelector 
+		Activity</i> is already present but hidden to the user:	what <b>Proxy 
+		Settings</b> does is to simply call this existing system utility.
 	</string>
 
 	<string name="help_text_2_title">Warning</string>
@@ -72,23 +71,24 @@
 	<string name="help_text_3_description_c">The project offers also an open
 		source module called <b>Android Proxy Library (APL)</b> that provides to
 		the	developers an easy way to access and use the proxy settings in
-		every Android application, so if you want the <b>Proxy</b> support in
-		your favourite applications, start request it to their developers!
+		every Android application. So, if you want the <b>Proxy</b> support in
+		your favourite applications, start request this feature to their 
+		developers!
 	</string>
 
 	<string name="help_text_4_title">Tools</string>
 	<string name="help_text_4_subtitle"><b>Proxy Settings</b> tools</string>
 	<string name="help_text_4_description"><b>Proxy Settings</b> offers to the
-		users some tools to check the proxy configuration and to do some basic
-		actions using this configuration:
+		users a set of tools to check and troubleshoot the selected proxy 
+		configuration:
 	</string>
 	<string name="help_text_4_description_b">\n\n&#8226; A <b>Configuration
 	    checker</b>: it provides useful status indicators related to the proxy 
-	    configurationon of your device
+	    configurationon of your Android device.
         \n\n&#8226; A <b>URL downloader</b>: it gives you the possibility to
-        download a specific remote resource
+        download a specific remote resource.
         \n\n&#8226; A <b>URL browser</b>: it opens a WEB browser page with 
-        full proxy support on a selected URL
+        full proxy support on a selected URL.
     </string>
 
 	<string name="help_text_5_title">Check</string>
@@ -100,14 +100,13 @@
 		device:
 	</string>
     <string name="help_text_5_description_b">\n\n&#8226; <b>Proxy enabled</b>: 
-    	Tests if the proxy configuration you entered using the 
-    	<i>ProxySelector</i> contains a non empty value.
-        \n\n&#8226; <b>Proxy address</b>: Tests if the address of the proxy 
-        inserted into the <i>ProxySelector</i> is a valid address.
-        \n\n&#8226; <b>Ping proxy host</b>: Tests if the address of the proxy 
-        inserted into the <i>ProxySelector</i> can be reached with a ICMP PING.
+    	Tests if the selected proxy configuration contains a non empty value.
+        \n\n&#8226; <b>Proxy address</b>: Tests if the address of the selected
+        proxy is a valid address.
+        \n\n&#8226; <b>Ping proxy host</b>: Tests if the address of the selected
+        proxy can be reached with a ICMP PING.
         \n\n&#8226; <b>Web reachability</b>: Tests if it\'s possible to retrieve 
-        an HTTP  resource with the current proxy configuration.
+        an HTTP resource with the current proxy configuration.
     </string>
     
     <string name="disclaimer_end_title">Disclaimer</string>
