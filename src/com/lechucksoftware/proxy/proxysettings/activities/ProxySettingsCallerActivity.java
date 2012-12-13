@@ -38,7 +38,6 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 			GoToProxy();
 		}
 		
-		finish();
 		LogWrapper.d(TAG, "Finish onCreate");
 	}
 
@@ -87,6 +86,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 		{
 			LogWrapper.d(TAG, "Starting ProxyPreferencesActivity activity");
 			startActivity(new Intent(this, ProxyPreferencesActivity.class));
+			finish();
 		}
 	}
 
