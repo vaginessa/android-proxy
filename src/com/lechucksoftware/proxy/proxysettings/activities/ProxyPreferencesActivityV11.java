@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.proxy.lib.ProxySettings;
 
 public class ProxyPreferencesActivityV11 extends PreferenceActivity
 {
@@ -74,7 +75,7 @@ public class ProxyPreferencesActivityV11 extends PreferenceActivity
 
             // Can retrieve arguments from preference XML.
             LogWrapper.i("args", "Arguments: " + getArguments());
-
+            
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.main_preferences);
         }
