@@ -4,8 +4,8 @@ import android.util.Log;
 
 public class LogWrapper
 {
-	private static int mLogLevel = Integer.MAX_VALUE; 
-//	private static int mLogLevel = Log.VERBOSE;
+//	private static int mLogLevel = Integer.MAX_VALUE; 
+	private static int mLogLevel = Log.VERBOSE;
 	
 	public static void d(String tag, String msg)
 	{

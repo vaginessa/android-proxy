@@ -4,15 +4,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 
-import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
+import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class DownloadReceiver extends ResultReceiver
 {
-	ProxyPreferencesActivity _activity;
+	ProxyPreferencesActivityV11 _activity;
 	
-	public DownloadReceiver(Handler handler, ProxyPreferencesActivity activity)
+	public DownloadReceiver(Handler handler, ProxyPreferencesActivityV11 activity)
 	{
 		super(handler);
 		_activity = activity;

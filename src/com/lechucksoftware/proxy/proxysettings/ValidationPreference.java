@@ -1,7 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings;
 
-import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,7 +8,6 @@ import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 public class ValidationPreference extends Preference
 {

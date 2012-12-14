@@ -1,16 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.dialogs.VersionWarningAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.Constants;
+import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 public class ProxySettingsCallerActivity extends FragmentActivity
 {
@@ -75,19 +73,9 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 
 	public void GoToProxy()
 	{
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) // 12 =
-																		// Honeycomb
-																		// 3.1
-		{
-			VersionWarningAlertDialog newFragment = VersionWarningAlertDialog.newInstance();
-			newFragment.show(getSupportFragmentManager(), TAG);
-		}
-		else
-		{
-			LogWrapper.d(TAG, "Starting ProxyPreferencesActivity activity");
-			startActivity(new Intent(this, ProxyPreferencesActivity.class));
-			finish();
-		}
+		LogWrapper.d(TAG, "Starting ProxyPreferencesActivity activity");
+		startActivity(new Intent(this, ProxyPreferencesActivityV11.class));
+		finish();
 	}
 
 	public void DontDisplayAgain()

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+        android:enabled="true"
+        android:key="preference_help"
+        android:title="@string/preference_help_title" />
+    <Preference
+        android:enabled="true"
+        android:key="preference_about"
+        android:summary="@string/versionName"
+        android:title="@string/proxy_settings_about" />
+
+</PreferenceScreen>

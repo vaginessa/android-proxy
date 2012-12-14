@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lechucksoftware.proxy.proxysettings"
-    android:versionCode="5"
-    android:versionName="1.5" > <!-- Remember to update also the strings.xml values -->
+    android:versionCode="6"
+    android:versionName="2.0" > <!-- Remember to update also the strings.xml values -->
 
     <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="10" />
+        android:minSdkVersion="12"
+        android:targetSdkVersion="17" />
 
     <!-- 1.5 Cupcake                          3   0.1% -->
     <!-- 1.6 Donut                            4   0.4% -->

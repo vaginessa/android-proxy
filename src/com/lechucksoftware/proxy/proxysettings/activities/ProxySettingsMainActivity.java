@@ -32,7 +32,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
 		boolean acceptedDisclaimer = settings.getBoolean(Constants.PREFERENCES_ACCEPTED_DISCLAIMER, false);
 
-		if (acceptedDisclaimer || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1)) // Disable disclaimer for API 12 = Honeycomb 3.1
+		if (acceptedDisclaimer) // Disable disclaimer for API 12 = Honeycomb 3.1
 		{
 			LogWrapper.d(TAG, "Starting ProxySettingsCallerActivity activity");
 			Intent i = new Intent(getApplicationContext(), ProxySettingsCallerActivity.class);
