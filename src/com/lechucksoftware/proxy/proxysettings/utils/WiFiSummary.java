@@ -1,9 +1,12 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.utils;
+
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.R.array;
 
 import android.content.Context;
 import android.net.NetworkInfo.DetailedState;
 
-public class Summary
+public class WiFiSummary
 {
 	public static String get(Context context, String ssid, DetailedState state)
 	{

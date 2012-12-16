@@ -15,8 +15,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.lechucksoftware.proxy.proxysettings.Globals;
-import com.lechucksoftware.proxy.proxysettings.LocalWebViewClient;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.ProxyUtils;
 

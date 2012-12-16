@@ -16,8 +16,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.UrlManager;
 import com.lechucksoftware.proxy.proxysettings.activities.WebViewWithProxyActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.UrlManager;
 
 public class UrlBrowserDialogPreference extends DialogPreference
 {

@@ -1,18 +1,20 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.receivers;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 
-import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11;
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.R.string;
+import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class DownloadReceiver extends ResultReceiver
 {
-	ProxyPreferencesActivityV11 _activity;
+	ProxyPreferencesActivity _activity;
 	
-	public DownloadReceiver(Handler handler, ProxyPreferencesActivityV11 activity)
+	public DownloadReceiver(Handler handler, ProxyPreferencesActivity activity)
 	{
 		super(handler);
 		_activity = activity;

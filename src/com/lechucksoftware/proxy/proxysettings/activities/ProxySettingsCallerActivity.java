@@ -76,7 +76,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 	{
 		LogWrapper.d(TAG, "Starting ProxyPreferencesActivity activity");
 		
-		final Intent intent = new Intent(this, ProxyPreferencesActivityV11.class);
+		final Intent intent = new Intent(this, ProxyPreferencesActivity.class);
 		intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, "com.lechucksoftware.proxy.proxysettings.fragments.APListPrefsFragment");
 		
 		startActivity(intent);

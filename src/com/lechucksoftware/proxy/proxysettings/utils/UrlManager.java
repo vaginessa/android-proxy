@@ -1,8 +1,10 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.lechucksoftware.proxy.proxysettings.Constants;
 
 import android.content.Context;
 import android.content.SharedPreferences;

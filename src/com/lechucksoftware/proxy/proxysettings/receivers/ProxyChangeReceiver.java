@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.receivers;
 
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;

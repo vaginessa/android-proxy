@@ -1,4 +1,9 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.preferences;
+
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.R.drawable;
+import com.lechucksoftware.proxy.proxysettings.R.id;
+import com.lechucksoftware.proxy.proxysettings.R.layout;
 
 import android.app.ProgressDialog;
 import android.content.Context;

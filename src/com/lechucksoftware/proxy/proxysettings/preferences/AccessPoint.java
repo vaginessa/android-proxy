@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.lechucksoftware.proxy.proxysettings.preferences;
 
 import android.content.Context;
@@ -30,7 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.Summary;
+import com.lechucksoftware.proxy.proxysettings.utils.WiFiSummary;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
 public class AccessPoint extends Preference
@@ -168,39 +152,39 @@ public class AccessPoint extends Preference
 		refresh();
 	}
 
-	public AccessPoint(Context context, Bundle savedState)
-	{
-		super(context);
-		setWidgetLayoutResource(R.layout.pref_widget_wifi_signal);
+//	public AccessPoint(Context context, Bundle savedState)
+//	{
+//		super(context);
+//		setWidgetLayoutResource(R.layout.pref_widget_wifi_signal);
+//
+//		mPConfig = savedState.getParcelable(KEY_CONFIG);
+//		if (mPConfig != null)
+//		{
+//			loadConfig(mPConfig);
+//		}
+//		mScanResult = (ScanResult) savedState.getParcelable(KEY_SCANRESULT);
+//		if (mScanResult != null)
+//		{
+//			loadResult(mScanResult);
+//		}
+//		mInfo = (WifiInfo) savedState.getParcelable(KEY_WIFIINFO);
+//		if (savedState.containsKey(KEY_DETAILEDSTATE))
+//		{
+//			mState = DetailedState.valueOf(savedState.getString(KEY_DETAILEDSTATE));
+//		}
+//		update(mInfo, mState);
+//	}
 
-		mPConfig = savedState.getParcelable(KEY_CONFIG);
-		if (mPConfig != null)
-		{
-			loadConfig(mPConfig);
-		}
-		mScanResult = (ScanResult) savedState.getParcelable(KEY_SCANRESULT);
-		if (mScanResult != null)
-		{
-			loadResult(mScanResult);
-		}
-		mInfo = (WifiInfo) savedState.getParcelable(KEY_WIFIINFO);
-		if (savedState.containsKey(KEY_DETAILEDSTATE))
-		{
-			mState = DetailedState.valueOf(savedState.getString(KEY_DETAILEDSTATE));
-		}
-		update(mInfo, mState);
-	}
-
-	public void saveWifiState(Bundle savedState)
-	{
-		savedState.putParcelable(KEY_CONFIG, mPConfig);
-		savedState.putParcelable(KEY_SCANRESULT, mScanResult);
-		savedState.putParcelable(KEY_WIFIINFO, mInfo);
-		if (mState != null)
-		{
-			savedState.putString(KEY_DETAILEDSTATE, mState.toString());
-		}
-	}
+//	public void saveWifiState(Bundle savedState)
+//	{
+//		savedState.putParcelable(KEY_CONFIG, mPConfig);
+//		savedState.putParcelable(KEY_SCANRESULT, mScanResult);
+//		savedState.putParcelable(KEY_WIFIINFO, mInfo);
+//		if (mState != null)
+//		{
+//			savedState.putString(KEY_DETAILEDSTATE, mState.toString());
+//		}
+//	}
 
 	private void loadConfig(ProxyConfiguration pconfig)
 	{
@@ -370,7 +354,7 @@ public class AccessPoint extends Preference
 		Context context = getContext();
 		if (mState != null)
 		{ // This is the active connection
-			setSummary(Summary.get(context, mState));
+			setSummary(WiFiSummary.get(context, mState));
 		}
 		else if (mRssi == Integer.MAX_VALUE)
 		{ // Wifi out of range
@@ -393,10 +377,12 @@ public class AccessPoint extends Preference
 //			}
 		}
 		else
-		{ // In range, not disabled.
+		{ 
+			// In range, not disabled.
 			StringBuilder summary = new StringBuilder();
 			if (mPConfig != null && mPConfig.wifiConfiguration != null)
-			{ // Is saved network
+			{ 
+				// Is saved network
 				summary.append(context.getString(R.string.wifi_remembered));
 			}
 

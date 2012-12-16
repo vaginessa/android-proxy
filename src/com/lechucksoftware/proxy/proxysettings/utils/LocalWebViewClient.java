@@ -1,6 +1,5 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.utils;
 
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 import android.graphics.Bitmap;
 import android.util.Log;
