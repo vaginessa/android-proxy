@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.v4.app.FragmentActivity;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
@@ -74,7 +75,12 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 	public void GoToProxy()
 	{
 		LogWrapper.d(TAG, "Starting ProxyPreferencesActivity activity");
-		startActivity(new Intent(this, ProxyPreferencesActivityV11.class));
+		
+		final Intent intent = new Intent(this, ProxyPreferencesActivityV11.class);
+		intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, "com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11$MainPrefsFragment");
+		
+		startActivity(intent);
+		
 		finish();
 	}
 

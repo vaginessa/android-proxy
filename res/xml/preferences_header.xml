@@ -3,14 +3,7 @@
 
     <header
         android:fragment="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11$MainPrefsFragment"
-        android:title="@string/pref_main_title" />
+        android:title="@string/pref_main_title"
+        android:icon="@drawable/ic_launcher"  />
     
-    <header
-        android:fragment="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11$ToolsFragment"
-        android:title="@string/pref_tools_title" />
-    
-    <header
-        android:fragment="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11$AboutFragment"
-        android:title="@string/pref_about_title" />
-
 </preference-headers>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:settings="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings">
+    <item settings:state_encrypted="true" android:drawable="@drawable/wifi_signal_lock" />
+    <item settings:state_encrypted="false" android:drawable="@drawable/wifi_signal_open" />
+</selector>
+
