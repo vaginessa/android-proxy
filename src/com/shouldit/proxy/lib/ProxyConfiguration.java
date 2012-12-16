@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.webkit.URLUtil;
 

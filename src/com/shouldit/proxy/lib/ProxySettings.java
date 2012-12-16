@@ -148,7 +148,8 @@ public class ProxySettings
 	/**
 	 * For API < 12: Get global proxy configuration.
 	 * */
-	private static ProxyConfiguration getGlobalProxy(Context ctx)
+	@Deprecated
+	public static ProxyConfiguration getGlobalProxy(Context ctx)
 	{
 		ProxyConfiguration proxyConfig = null;
 
@@ -182,6 +183,7 @@ public class ProxySettings
 	/**
 	 * Get proxy configuration for Wi-Fi access point. Valid for API >= 12
 	 * */
+	@Deprecated
 	@TargetApi(12)
 	public static ProxyConfiguration getProxySdk12(Context ctx, WifiConfiguration wifiConf)
 	{
@@ -233,7 +235,7 @@ public class ProxySettings
 
 					LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-					Proxy proxy = new Proxy(Proxy.Type.HTTP, new Socket(mHost, mPort).getRemoteSocketAddress());
+					Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mHost, mPort));
 					proxyHost = new ProxyConfiguration(ctx, proxy, proxy.toString(), null, wifiConf);
 				}
 			}
@@ -246,6 +248,8 @@ public class ProxySettings
 		return proxyHost;
 	}
 
+	@Deprecated
+	@TargetApi(12)
 	public static List<ProxyConfiguration> getProxiesConfigurations(Context ctx)
 	{
 		List<ProxyConfiguration> proxyHosts = new ArrayList<ProxyConfiguration>();
@@ -254,6 +258,7 @@ public class ProxySettings
 
 		/**
 		 * Just for testing on the Emulator
+		 * 
 		 * */
 		if (Build.PRODUCT.equals("sdk") && configuredNetworks.size() == 0)
 		{
@@ -264,7 +269,8 @@ public class ProxySettings
 
 		for (WifiConfiguration wifiConf : configuredNetworks)
 		{
-			proxyHosts.add(getProxySdk12(ctx, wifiConf));
+			ProxyConfiguration conf = getProxySdk12(ctx, wifiConf);
+			proxyHosts.add(conf);
 		}
 
 		return proxyHosts;
