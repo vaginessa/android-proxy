@@ -2,7 +2,7 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <header
-        android:fragment="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivityV11$MainPrefsFragment"
+        android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.APListPrefsFragment"
         android:title="@string/pref_main_title"
         android:icon="@drawable/ic_launcher"  />
     

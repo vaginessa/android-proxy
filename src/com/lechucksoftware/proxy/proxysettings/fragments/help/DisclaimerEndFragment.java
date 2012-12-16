@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.fragments;
+package com.lechucksoftware.proxy.proxysettings.fragments.help;
 
 import android.content.Context;
 import android.content.Intent;

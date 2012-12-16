@@ -13,12 +13,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment0;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment1;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment2;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment3;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment4;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpProblemDescriptionFragment5;
+import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment0;
+import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment1;
+import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment2;
+import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment3;
+import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment4;
+import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment5;
 import com.viewpagerindicator.LinePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
