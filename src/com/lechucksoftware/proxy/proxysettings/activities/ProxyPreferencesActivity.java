@@ -5,6 +5,8 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
@@ -47,4 +49,12 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	{
 		loadHeadersFromResource(R.xml.preferences_header, target);
 	}
+	
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu)
+//	{
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.proxy_prefs_activity, menu);
+//		return true;
+//	}
 }
