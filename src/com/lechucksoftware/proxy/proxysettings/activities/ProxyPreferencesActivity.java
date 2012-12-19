@@ -28,6 +28,8 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.APListPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.preferences.AccessPoint;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxySettings;
 
 public class ProxyPreferencesActivity extends PreferenceActivity implements OnNavigationListener
 {
@@ -68,42 +70,44 @@ public class ProxyPreferencesActivity extends PreferenceActivity implements OnNa
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		actionBar.setTitle( "" );
+		actionBar.setTitle("");
+		
+		SpinnerAdapter mSpinnerAdapter = new AccessPointListAdapter();
+		
+		actionBar.setListNavigationCallbacks(mSpinnerAdapter, this);
+		
 
-//		SpinnerAdapter mSpinnerAdapter = new AccessPointListAdapter();
-//		actionBar.setListNavigationCallbacks(mSpinnerAdapter, this);
-
-		final List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("title", "Item 1");
-//		map.put("fragment", Fragment.instantiate(this, APListPrefsFragment.class.getName()));
-		data.add(map);
-		map = new HashMap<String, Object>();
-		map.put("title", "Item 2");
-//		map.put("fragment", Fragment.instantiate(this, APListPrefsFragment.class.getName()));
-		data.add(map);
-		SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_spinner_dropdown_item, new String[] { "title" }, new int[] { android.R.id.text1 });
-
-		actionBar.setListNavigationCallbacks(adapter,     new OnNavigationListener()
-	    {
-	        public boolean onNavigationItemSelected( 
-	            int itemPosition,
-	            long itemId )
-	        {
-	            Map<String, Object> map = 
-	                data.get( itemPosition );
-	            Object o = map.get( "fragment" );
-	            if( o instanceof Fragment ) 
-	            {
-//	                FragmentTransaction tx = 
-//	                    getFragmentManager().beginTransaction();
-//	                tx.replace( android.R.id.content, 
-//	                    (Fragment )o );
-//	                tx.commit();
-	            }
-	            return true;
-	        }
-	    });
+//		final List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+//		
+//		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getApplicationContext());
+//		
+//		for (ProxyConfiguration conf : confs)
+//		{
+//			Map<String, Object> map = new HashMap<String, Object>();
+//			map.put("title", conf.wifiConfiguration.SSID);
+//			map.put("pconf", conf);
+//			data.add(map);
+//		}	
+//		
+//		SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_spinner_dropdown_item, new String[] { "title" }, new int[] { android.R.id.text1 });
+//
+//		actionBar.setListNavigationCallbacks(adapter, new OnNavigationListener()
+//		{
+//			public boolean onNavigationItemSelected(int itemPosition, long itemId)
+//			{
+//				Map<String, Object> map = data.get(itemPosition);
+//				Object o = map.get("fragment");
+//				if (o instanceof Fragment)
+//				{
+//					// FragmentTransaction tx =
+//					// getFragmentManager().beginTransaction();
+//					// tx.replace( android.R.id.content,
+//					// (Fragment )o );
+//					// tx.commit();
+//				}
+//				return true;
+//			}
+//		});
 	}
 
 	@Override
@@ -114,7 +118,6 @@ public class ProxyPreferencesActivity extends PreferenceActivity implements OnNa
 
 	private class AccessPointListAdapter extends BaseAdapter implements SpinnerAdapter
 	{
-
 		public int getCount()
 		{
 			return 3;
@@ -134,6 +137,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity implements OnNa
 		{
 			TextView text = new TextView(getApplicationContext());
 			text.setText(getItem(position).toString());
+
 			return text;
 		}
 	}
