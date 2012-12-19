@@ -71,75 +71,44 @@ public class ProxyPreferencesActivity extends PreferenceActivity implements OnNa
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		actionBar.setTitle("");
+	
+		final List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		
-		SpinnerAdapter mSpinnerAdapter = new AccessPointListAdapter();
+		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getApplicationContext());
 		
-		actionBar.setListNavigationCallbacks(mSpinnerAdapter, this);
+		for (ProxyConfiguration conf : confs)
+		{
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("title", conf.wifiConfiguration.SSID.replaceAll("\"", ""));
+			map.put("pconf", conf);
+			data.add(map);
+		}	
 		
+		SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_spinner_dropdown_item, new String[] { "title" }, new int[] { android.R.id.text1 });
 
-//		final List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-//		
-//		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getApplicationContext());
-//		
-//		for (ProxyConfiguration conf : confs)
-//		{
-//			Map<String, Object> map = new HashMap<String, Object>();
-//			map.put("title", conf.wifiConfiguration.SSID);
-//			map.put("pconf", conf);
-//			data.add(map);
-//		}	
-//		
-//		SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_spinner_dropdown_item, new String[] { "title" }, new int[] { android.R.id.text1 });
-//
-//		actionBar.setListNavigationCallbacks(adapter, new OnNavigationListener()
-//		{
-//			public boolean onNavigationItemSelected(int itemPosition, long itemId)
-//			{
-//				Map<String, Object> map = data.get(itemPosition);
-//				Object o = map.get("fragment");
-//				if (o instanceof Fragment)
-//				{
-//					// FragmentTransaction tx =
-//					// getFragmentManager().beginTransaction();
-//					// tx.replace( android.R.id.content,
-//					// (Fragment )o );
-//					// tx.commit();
-//				}
-//				return true;
-//			}
-//		});
+		actionBar.setListNavigationCallbacks(adapter, new OnNavigationListener()
+		{
+			public boolean onNavigationItemSelected(int itemPosition, long itemId)
+			{
+				Map<String, Object> map = data.get(itemPosition);
+				Object o = map.get("pconf");
+				if (o instanceof ProxyConfiguration)
+				{
+					// FragmentTransaction tx =
+					// getFragmentManager().beginTransaction();
+					// tx.replace( android.R.id.content,
+					// (Fragment )o );
+					// tx.commit();
+				}
+				return true;
+			}
+		});
 	}
 
 	@Override
 	public void onBuildHeaders(List<Header> target)
 	{
 		loadHeadersFromResource(R.xml.preferences_header, target);
-	}
-
-	private class AccessPointListAdapter extends BaseAdapter implements SpinnerAdapter
-	{
-		public int getCount()
-		{
-			return 3;
-		}
-
-		public Object getItem(int position)
-		{
-			return "item" + position;
-		}
-
-		public long getItemId(int position)
-		{
-			return position;
-		}
-
-		public View getView(int position, View view, ViewGroup parent)
-		{
-			TextView text = new TextView(getApplicationContext());
-			text.setText(getItem(position).toString());
-
-			return text;
-		}
 	}
 
 	public boolean onNavigationItemSelected(int itemPosition, long itemId)
