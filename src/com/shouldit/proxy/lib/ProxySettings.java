@@ -165,7 +165,7 @@ public class ProxySettings
 				try
 				{
 					Integer proxyPort = Integer.parseInt(proxyParts[1]);
-					Proxy p = new Proxy(Type.HTTP, new InetSocketAddress(proxyAddress, proxyPort));
+					Proxy p = new Proxy(Type.HTTP, InetSocketAddress.createUnresolved(proxyAddress, proxyPort));
 					proxyConfig = new ProxyConfiguration(ctx, p, proxyString, null, null);
 					// LogWrapper.d(TAG, "ProxyHost created: " +
 					// proxyConfig.toString());
@@ -201,23 +201,12 @@ public class ProxySettings
 				proxyHost = new ProxyConfiguration(ctx, null, null, null, wifiConf);
 			}
 			else
-			{
-
+			{				
 				Field linkPropertiesField = wifiConf.getClass().getField("linkProperties");
 				Object linkProperties = linkPropertiesField.get(wifiConf);
 				Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
 				mHttpProxyField.setAccessible(true);
 				Object mHttpProxy = mHttpProxyField.get(linkProperties);
-
-				/* Just for testing on the Emulator */
-				if (Build.PRODUCT.equals("sdk") && mHttpProxy == null)
-				{
-					Class ProxyPropertiesClass = mHttpProxyField.getType();
-					Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-					Object ProxyProperties = constr.newInstance("10.11.12.13", 1983, "");
-					mHttpProxyField.set(linkProperties, ProxyProperties);
-					mHttpProxy = mHttpProxyField.get(linkProperties);
-				}
 
 				if (mHttpProxy != null)
 				{
@@ -235,14 +224,15 @@ public class ProxySettings
 
 					LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-					Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mHost, mPort));
+					InetSocketAddress sa = InetSocketAddress.createUnresolved(mHost, mPort);
+					Proxy proxy = new Proxy(Proxy.Type.HTTP, sa);
 					proxyHost = new ProxyConfiguration(ctx, proxy, proxy.toString(), null, wifiConf);
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			LogWrapper.e(TAG, e.getMessage());
 		}
 
 		return proxyHost;
@@ -256,21 +246,13 @@ public class ProxySettings
 		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
 		List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
 
-		/**
-		 * Just for testing on the Emulator
-		 * 
-		 * */
-		if (Build.PRODUCT.equals("sdk") && configuredNetworks.size() == 0)
+		if (configuredNetworks != null)
 		{
-			WifiConfiguration fakeWifiConf = new WifiConfiguration();
-			fakeWifiConf.SSID = "Fake_SDK_WI-FI";
-			configuredNetworks.add(fakeWifiConf);
-		}
-
-		for (WifiConfiguration wifiConf : configuredNetworks)
-		{
-			ProxyConfiguration conf = getProxySdk12(ctx, wifiConf);
-			proxyHosts.add(conf);
+			for (WifiConfiguration wifiConf : configuredNetworks)
+			{
+				ProxyConfiguration conf = getProxySdk12(ctx, wifiConf);
+				proxyHosts.add(conf);
+			}
 		}
 
 		return proxyHosts;
