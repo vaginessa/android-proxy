@@ -67,42 +67,9 @@ public class ProxyPreferencesActivity extends PreferenceActivity implements OnNa
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-
-		ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		actionBar.setTitle("");
-	
-		final List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-		
-		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getApplicationContext());
-		
-		for (ProxyConfiguration conf : confs)
-		{
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("title", conf.wifiConfiguration.SSID.replaceAll("\"", ""));
-			map.put("pconf", conf);
-			data.add(map);
-		}	
-		
-		SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_spinner_dropdown_item, new String[] { "title" }, new int[] { android.R.id.text1 });
-
-		actionBar.setListNavigationCallbacks(adapter, new OnNavigationListener()
-		{
-			public boolean onNavigationItemSelected(int itemPosition, long itemId)
-			{
-				Map<String, Object> map = data.get(itemPosition);
-				Object o = map.get("pconf");
-				if (o instanceof ProxyConfiguration)
-				{
-					// FragmentTransaction tx =
-					// getFragmentManager().beginTransaction();
-					// tx.replace( android.R.id.content,
-					// (Fragment )o );
-					// tx.commit();
-				}
-				return true;
-			}
-		});
+//		ActionBar actionBar = getActionBar();
+//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//		actionBar.setTitle("");
 	}
 
 	@Override

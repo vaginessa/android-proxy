@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.dialogs;
+package com.lechucksoftware.proxy.proxysettings.preferences;
 
 import java.net.URI;
 import java.net.URL;
