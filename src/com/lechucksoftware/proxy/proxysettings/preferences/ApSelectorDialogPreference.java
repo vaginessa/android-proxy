@@ -50,13 +50,14 @@ public class ApSelectorDialogPreference extends DialogPreference
 		{
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		    {
-//		    	showDialog(mListItem.get(position));
+		    	//TODO: Save selected AP into preferences and dismiss the dialog
+		    	ApSelectorDialogPreference.this.getDialog().dismiss();
 		    }
 		});
 		
 		return root;
-	}
-	
+	}	
+
 	private class ListAdapter extends ArrayAdapter<ProxyConfiguration>
 	{
 		private ArrayList<ProxyConfiguration> mList; // --CloneChangeRequired

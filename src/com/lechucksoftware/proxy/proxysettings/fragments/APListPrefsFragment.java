@@ -233,7 +233,6 @@ public class APListPrefsFragment extends PreferenceFragment
 		{
 			for (ProxyConfiguration config : confs)
 			{
-
 				AccessPoint accessPoint = new AccessPoint(getActivity(), config);
 				accessPoint.update(mLastInfo, mLastState);
 				accessPoints.add(accessPoint);

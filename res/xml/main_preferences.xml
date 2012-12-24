@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- Add here selected AP -->
-
-<ListPreference 
-    android:key="pref_ap_selector"
-    android:summary="select AP"
-    android:title="select the AP to configure" />
-
     <com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference
             android:enabled="true"
-            android:key="preference_url_downloader"
-            android:summary="@string/preference_test_proxy_urlretriever_summary"
-            android:title="@string/preference_test_proxy_urlretriever_title" />
+            android:key="pref_ap_selector_dialog"
+            android:summary="Selected AP"
+            android:title="AP" />
 
     <PreferenceScreen
         android:enabled="false"
