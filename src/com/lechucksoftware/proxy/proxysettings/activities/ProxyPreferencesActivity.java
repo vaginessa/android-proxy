@@ -1,35 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.fragments.APListPrefsFragment;
-import com.lechucksoftware.proxy.proxysettings.preferences.AccessPoint;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxySettings;
 
 public class ProxyPreferencesActivity extends PreferenceActivity implements OnNavigationListener
 {
@@ -70,6 +49,8 @@ public class ProxyPreferencesActivity extends PreferenceActivity implements OnNa
 //		ActionBar actionBar = getActionBar();
 //		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 //		actionBar.setTitle("");
+		
+		
 	}
 
 	@Override

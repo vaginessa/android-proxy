@@ -17,7 +17,7 @@ import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
-import com.shouldit.proxy.lib.Constants.ProxyStatusErrors;
+import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 
 public class UIUtils
 {

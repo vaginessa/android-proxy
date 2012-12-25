@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.Globals;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -75,8 +76,8 @@ public class ProxySettingsCheckerService extends IntentService
     	/**
     	 * Trigger status update        	
     	 * */
-		LogWrapper.d(TAG, "Sending broadcast intent UPDATE_PROXY");
-		Intent intent = new Intent("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY");	
+		LogWrapper.d(TAG, "Sending broadcast intent " + Constants.PROXY_CONFIGURATION_UPDATED);
+		Intent intent = new Intent(Constants.PROXY_CONFIGURATION_UPDATED);	
 		context.sendBroadcast(intent);
 		
     	CompletedStatusBarNotification(context);

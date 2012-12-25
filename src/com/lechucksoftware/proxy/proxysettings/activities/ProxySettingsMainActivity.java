@@ -1,12 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.Globals;
@@ -25,8 +22,8 @@ public class ProxySettingsMainActivity extends FragmentActivity
 
 		Globals.getInstance().addApplicationContext(getApplicationContext());
 
-		LogWrapper.d(TAG, "Calling broadcast intent com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE");
-		sendBroadcast(new Intent("com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE"));
+		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_CONFIGURATION_CHANGED);
+		sendBroadcast(new Intent(Constants.PROXY_CONFIGURATION_CHANGED));
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);

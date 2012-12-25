@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
@@ -7,6 +8,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.view.View;
+import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference;
@@ -14,6 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPrefe
 public class MainAPPrefsFragment extends PreferenceFragment
 {
 	private WifiManager mWifiManager;
+    private TextView mEmptyView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -29,6 +32,9 @@ public class MainAPPrefsFragment extends PreferenceFragment
 	{
 		super.onViewCreated(view, savedInstanceState);
 		ApSelectorDialogPreference appref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
+		
+        mEmptyView = (TextView) getView().findViewById(android.R.id.empty);
+        ((ListActivity) getActivity()).getListView().setEmptyView(mEmptyView);
 		
 		if (mWifiManager.isWifiEnabled())
 		{

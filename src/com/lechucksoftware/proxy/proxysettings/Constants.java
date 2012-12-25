@@ -15,6 +15,12 @@ public class Constants
 	public final static int   APPRATE_DAYS_UNTIL_PROMPT	 = 7;
 	public final static int   APPRATE_LAUNCHES_UNTIL_PROMPT = 10;
 	
+	
+	public static final String PROXY_CONFIGURATION_CHANGED = "com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE";
+	public static final String PROXY_CONFIGURATION_UPDATED = "com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY";
+	
+	
+	
 	public enum ProxyCheckStatus
 	{
 		CHECKING,
