@@ -1,7 +1,13 @@
 package com.shouldit.proxy.lib;
 
-public class Constants
+public class APLConstants
 {
+	/**
+	 * Broadcasted intent when updates on the proxy status are available    
+	 * */
+	public static String APL_UPDATED_PROXY_STATUS_CHECK = "com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE";
+	
+	
 	public static String ProxyStatus = "ProxyStatus"; 
 	
 	public enum ProxyStatusCodes

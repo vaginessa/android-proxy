@@ -19,9 +19,9 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.webkit.URLUtil;
 
-import com.shouldit.proxy.lib.Constants.ProxyStatusCodes;
-import com.shouldit.proxy.lib.Constants.ProxyStatusErrors;
-import com.shouldit.proxy.lib.Constants.StatusValues;
+import com.shouldit.proxy.lib.APLConstants.ProxyStatusCodes;
+import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
+import com.shouldit.proxy.lib.APLConstants.StatusValues;
 
 public class ProxyConfiguration
 {
@@ -139,9 +139,9 @@ public class ProxyConfiguration
 	
 	private void broadCastUpdatedStatus()
 	{
-		LogWrapper.d(TAG, "Sending broadcast intent: com.shouldit.proxy.lib.UPDATE_PROXY_STATUS");
-		Intent intent = new Intent("com.shouldit.proxy.lib.UPDATE_PROXY_STATUS");
-		intent.putExtra(Constants.ProxyStatus, status);
+		LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+		Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+		intent.putExtra(APLConstants.ProxyStatus, status);
 		context.sendBroadcast(intent);
 	}
 	
