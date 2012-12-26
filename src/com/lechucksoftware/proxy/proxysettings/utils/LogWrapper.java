@@ -30,7 +30,7 @@ public class LogWrapper
 	public static void i(String tag, String msg)
 	{
 		if (mLogLevel <= Log.INFO)
-			Log.e(tag, msg);
+			Log.i(tag, msg);
 	}
 	
 	public static void log(String tag, String msg, int logLevel)
