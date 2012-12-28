@@ -1,14 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.webkit.WebChromeClient;

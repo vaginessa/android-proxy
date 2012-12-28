@@ -22,14 +22,14 @@ public class ProxySettingsMainActivity extends FragmentActivity
 
 		Globals.getInstance().addApplicationContext(getApplicationContext());
 
-		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_CONFIGURATION_CHANGED);
-		sendBroadcast(new Intent(Constants.PROXY_CONFIGURATION_CHANGED));
+		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
+		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
 		boolean acceptedDisclaimer = settings.getBoolean(Constants.PREFERENCES_ACCEPTED_DISCLAIMER, false);
 
-		if (acceptedDisclaimer) // Disable disclaimer for API 12 = Honeycomb 3.1
+		if (acceptedDisclaimer)
 		{
 			LogWrapper.d(TAG, "Starting ProxySettingsCallerActivity activity");
 			Intent i = new Intent(getApplicationContext(), ProxySettingsCallerActivity.class);

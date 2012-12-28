@@ -1,11 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
-import java.net.Proxy.Type;
-
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.net.ConnectivityManager;
+import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
@@ -16,7 +15,8 @@ import com.shouldit.proxy.lib.ProxySettings;
 
 public class ProxySettingsCheckerService extends IntentService 
 {
-	public static String TAG = "ProxySettingsCheckerServices";
+	public static final String CALLER_INTENT = "CallerIntent";
+	public static String TAG = "ProxySettingsCheckerService";
 	
     public ProxySettingsCheckerService() 
     {
@@ -26,19 +26,41 @@ public class ProxySettingsCheckerService extends IntentService
     @Override
     protected void onHandleIntent(Intent intent) 
     {
-        CheckProxySettings(getApplicationContext());
+    	Intent callerIntent = (Intent) intent.getExtras().get(CALLER_INTENT);
+    	
+    	if (callerIntent != null)
+    	{
+    		LogWrapper.logIntent(TAG, callerIntent, Log.INFO);
+    		
+    		if (
+    			callerIntent.getAction().equals(Constants.PROXY_SETTINGS_STARTED) ||
+    			callerIntent.getAction().equals(Constants.PROXY_CONFIGURATION_UPDATED) ||
+    			callerIntent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)	
+    			)
+    		{
+    			CheckProxySettings(getApplicationContext(), callerIntent);
+    		}
+    		else
+    		{
+    			// TODO: ????
+    		}
+    	}
+    	else
+    	{
+    		// TODO: ????
+    	}
     }
     
     @Override
     public void onDestroy() 
     {
-    	LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
+    	//LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
     };
     
 	/**
 	 * @param context
 	 */
-	public void CheckProxySettings(Context context) 
+	public void CheckProxySettings(Context context, Intent intent) 
 	{
 		try
         {   
@@ -46,8 +68,12 @@ public class ProxySettingsCheckerService extends IntentService
 			Globals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKING;
 			ToggleApplicationStatus(context);
 			
+			// Get information regarding current proxy configuration
         	Globals.getInstance().proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
         	Globals.getInstance().proxyConf.acquireProxyStatus(Globals.getInstance().timeout); // Can take some time to execute this task!!
+        	
+        	// Get information regarding other configured AP
+        	ProxySettings.getProxiesConfigurations(getApplicationContext());
         }
         catch (Exception e)
         {
@@ -61,49 +87,16 @@ public class ProxySettingsCheckerService extends IntentService
 			ToggleApplicationStatus(context);
 		}
 	}
-
-	public void StartedStatusBarNotification(Context context)
-	{
-		if (Build.VERSION.SDK_INT < 11)
-		{
-			UIUtils.SetProxyNotification(context);
-		}
-	}
-	
 	
 	public void ToggleApplicationStatus(Context context)
 	{
     	/**
-    	 * Trigger status update        	
+    	 * Call the update of the UI     	
     	 * */
-		LogWrapper.d(TAG, "Sending broadcast intent " + Constants.PROXY_CONFIGURATION_UPDATED);
-		Intent intent = new Intent(Constants.PROXY_CONFIGURATION_UPDATED);	
+		LogWrapper.d(TAG, "Sending broadcast intent " + Constants.PROXY_UPDATE_NOTIFICATION);
+		Intent intent = new Intent(Constants.PROXY_UPDATE_NOTIFICATION);	
 		context.sendBroadcast(intent);
 		
-    	CompletedStatusBarNotification(context);
-	}
-	
-	/**
-	 * @param context
-	 * @param proxyConfig
-	 * @param status 
-	 */
-	public static void CompletedStatusBarNotification(Context context) 
-	{
-		if (Build.VERSION.SDK_INT < 11)
-		{
-			if(Globals.getInstance().proxyConf.proxyHost.type() == Type.DIRECT)
-			{
-				// Do nothing
-//				LogWrapper.d(TAG, "Proxy is DIRECT");
-				UIUtils.DisableProxyNotification(context);
-			}
-			else
-			{
-				// Show notification when the proxy is set
-//				LogWrapper.d(TAG, "Proxy enabled: " + Globals.getInstance().proxyConf.toShortString());
-				UIUtils.SetProxyNotification(context);
-			}
-		}
+    	UIUtils.UpdateStatusBarNotification(context);
 	}
 }

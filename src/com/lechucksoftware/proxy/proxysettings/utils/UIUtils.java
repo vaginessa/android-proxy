@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import java.io.File;
+import java.net.Proxy.Type;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -23,7 +24,7 @@ public class UIUtils
 {
 	public static int PROXY_NOTIFICATION_ID = 1;
 	public static int URL_DOWNLOADER_COMPLETED_ID = 2;
-	
+
 	public static String GetStatusSummary(Context ctx)
 	{
 		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
@@ -32,129 +33,153 @@ public class UIUtils
 		}
 		else
 		{
-//			if (Globals.getInstance().proxyConf.status.getEnabled())
-//			{
-				return UIUtils.ProxyConfigToStatusString(ctx);
-//			}
-//			else
-//			{
-//				return ctx.getText(R.string.preference_proxy_host_port_summary_default).toString();
-//			}
+			// if (Globals.getInstance().proxyConf.status.getEnabled())
+			// {
+			return UIUtils.ProxyConfigToStatusString(ctx);
+			// }
+			// else
+			// {
+			// return
+			// ctx.getText(R.string.preference_proxy_host_port_summary_default).toString();
+			// }
 		}
 	}
-	
+
 	public static String GetStatusTitle(Context callerContext)
 	{
 		String description;
-		
-		switch(Globals.getInstance().proxyCheckStatus)
+
+		switch (Globals.getInstance().proxyCheckStatus)
 		{
 			case CHECKED:
+			{
+				ProxyStatusErrors status = Globals.getInstance().proxyConf.getMostRelevantProxyStatusError();
+
+				switch (status)
 				{
-					ProxyStatusErrors status = Globals.getInstance().proxyConf.getMostRelevantProxyStatusError();
-					
-					switch (status)
-					{
-						case NO_ERRORS:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_title_enabled);
-							break;
-							
-						case PROXY_NOT_ENABLED:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_enabled);
-							break;
-						
-						case PROXY_ADDRESS_NOT_VALID:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_title_invalid_address);
-							break;
-							
-						case PROXY_NOT_REACHABLE:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_reachable);
-							break;
-							
-						case WEB_NOT_REACHABLE:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_title_web_not_reachable);
-							break;
-							
-						default:
-							description = "";
-					}
-					
-				}	
+					case NO_ERRORS:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_title_enabled);
+						break;
+
+					case PROXY_NOT_ENABLED:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_enabled);
+						break;
+
+					case PROXY_ADDRESS_NOT_VALID:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_title_invalid_address);
+						break;
+
+					case PROXY_NOT_REACHABLE:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_reachable);
+						break;
+
+					case WEB_NOT_REACHABLE:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_title_web_not_reachable);
+						break;
+
+					default:
+						description = "";
+				}
+
+			}
 				break;
-			
+
 			case CHECKING:
 				description = callerContext.getResources().getString(R.string.statusbar_notification_title_checking);
 				break;
-				
+
 			default:
 				description = "";
 				break;
 		}
-		
+
 		return description;
 	}
-	
+
 	public static String GetStatusDescription(Context callerContext)
 	{
 		String description;
-		
-		switch(Globals.getInstance().proxyCheckStatus)
+
+		switch (Globals.getInstance().proxyCheckStatus)
 		{
 			case CHECKED:
+			{
+				ProxyStatusErrors status = Globals.getInstance().proxyConf.getMostRelevantProxyStatusError();
+
+				switch (status)
 				{
-					ProxyStatusErrors status = Globals.getInstance().proxyConf.getMostRelevantProxyStatusError();
-					
-					switch (status)
-					{
-						case NO_ERRORS:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_description_enabled);
-							description = description + " " + Globals.getInstance().proxyConf.toShortString();
-							break;
-							
-						case PROXY_NOT_ENABLED:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_description_not_enabled);
-							break;
-						
-						case PROXY_ADDRESS_NOT_VALID:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_description_invalid_address);
-							break;
-							
-						case PROXY_NOT_REACHABLE:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_description_not_reachable);
-							break;
-						case WEB_NOT_REACHABLE:
-							description = callerContext.getResources().getString(R.string.statusbar_notification_description_web_not_reachable);
-							break;
-							
-						default:
-							description = "";
-					}
-					
-				}	
+					case NO_ERRORS:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_description_enabled);
+						description = description + " " + Globals.getInstance().proxyConf.toShortString();
+						break;
+
+					case PROXY_NOT_ENABLED:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_description_not_enabled);
+						break;
+
+					case PROXY_ADDRESS_NOT_VALID:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_description_invalid_address);
+						break;
+
+					case PROXY_NOT_REACHABLE:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_description_not_reachable);
+						break;
+					case WEB_NOT_REACHABLE:
+						description = callerContext.getResources().getString(R.string.statusbar_notification_description_web_not_reachable);
+						break;
+
+					default:
+						description = "";
+				}
+
+			}
 				break;
-			
+
 			case CHECKING:
 				description = callerContext.getResources().getString(R.string.statusbar_notification_description_checking);
 				break;
-				
+
 			default:
 				description = "";
 				break;
 		}
-		
+
 		return description;
 	}
-	
+
 	public static String ProxyConfigToStatusString(Context callerContext)
 	{
 		String message = String.format("%s", Globals.getInstance().proxyConf.toShortString());
-		
+
 		message += " - " + GetStatusTitle(callerContext);
-		
+
 		return message;
 	}
-	
-	
+
+	/**
+	 * @param context
+	 * @param proxyConfig
+	 * @param status
+	 */
+	public static void UpdateStatusBarNotification(Context context)
+	{
+		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
+		{
+			if (Globals.getInstance().proxyConf.proxyHost.type() == Type.DIRECT)
+			{
+				DisableProxyNotification(context);
+			}
+			else
+			{
+				SetProxyNotification(context);
+			}
+		}
+		else
+		{
+			
+		}
+	}
+
 	/**
 	 * Notification related methods
 	 * */
@@ -163,10 +188,10 @@ public class UIUtils
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(callerContext);
 		if (prefs.getBoolean("preference_notification_enabled", false))
 		{
-			
-			String notificationTitle = GetStatusTitle(callerContext); 
-			String notificationDescription = GetStatusDescription(callerContext); 
-			
+
+			String notificationTitle = GetStatusTitle(callerContext);
+			String notificationDescription = GetStatusDescription(callerContext);
+
 			// The PendingIntent will launch activity if the user selects this
 			// notification
 			Intent preferencesIntent = new Intent(callerContext, ProxySettingsMainActivity.class);
@@ -177,37 +202,40 @@ public class UIUtils
 			DisableProxyNotification(callerContext);
 		}
 	}
-	
+
 	public static void NotifyCompletedDownload(Context callerContext, String downloadedFilePath)
 	{
-//		Intent intent = new Intent();
-//		intent.setAction(android.content.Intent.ACTION_VIEW);
+		// Intent intent = new Intent();
+		// intent.setAction(android.content.Intent.ACTION_VIEW);
 		File downloadedFile = new File(downloadedFilePath);
-//	    intent.setData(Uri.fromFile(downloadedFile.getParentFile()));
-		 
-//		NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
-//		PendingIntent contentIntent = PendingIntent.getActivity(callerContext, 0, intent, 0);
-//
-//		NotificationCompat.Builder builder = new NotificationCompat.Builder(callerContext);
-//		builder.setContentIntent(contentIntent).
-//		setSmallIcon(R.drawable.ic_stat_proxy_notification).
-//		setTicker("Proxy Settings completed a download ...").
-//		setWhen(System.currentTimeMillis()).
-//		setContentTitle(downloadedFile.getName()).
-//		setContentText("Download completed ");
-//		
-//		Notification n;
-//		n = builder.getNotification();
-//
-//		manager.notify(URL_DOWNLOADER_COMPLETED_ID, n);
-		
-		CharSequence text = downloadedFile.getName() + " "  + callerContext.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_file_saved);
+		// intent.setData(Uri.fromFile(downloadedFile.getParentFile()));
+
+		// NotificationManager manager = (NotificationManager)
+		// callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
+		// PendingIntent contentIntent =
+		// PendingIntent.getActivity(callerContext, 0, intent, 0);
+		//
+		// NotificationCompat.Builder builder = new
+		// NotificationCompat.Builder(callerContext);
+		// builder.setContentIntent(contentIntent).
+		// setSmallIcon(R.drawable.ic_stat_proxy_notification).
+		// setTicker("Proxy Settings completed a download ...").
+		// setWhen(System.currentTimeMillis()).
+		// setContentTitle(downloadedFile.getName()).
+		// setContentText("Download completed ");
+		//
+		// Notification n;
+		// n = builder.getNotification();
+		//
+		// manager.notify(URL_DOWNLOADER_COMPLETED_ID, n);
+
+		CharSequence text = downloadedFile.getName() + " " + callerContext.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_file_saved);
 		int duration = Toast.LENGTH_SHORT;
 
 		Toast toast = Toast.makeText(callerContext, text, duration);
 		toast.show();
 	}
-	
+
 	public static void NotifyExceptionOnDownload(Context callerContext, String exceptionDetail)
 	{
 		CharSequence text = callerContext.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_file_exception) + "\n\n" + exceptionDetail;
@@ -215,28 +243,21 @@ public class UIUtils
 		Toast toast = Toast.makeText(callerContext, text, duration);
 		toast.show();
 	}
-	
+
 	private static void EnableProxyNotification(Context callerContext, Intent intentToCall, String notificationTitle, String notificationDescription)
 	{
 		NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
 		PendingIntent contentIntent = PendingIntent.getActivity(callerContext, 0, intentToCall, 0);
-		
+
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(callerContext);
-		builder.setContentIntent(contentIntent).
-		setSmallIcon(R.drawable.ic_stat_proxy_notification).
-		setTicker(notificationTitle).
-		setWhen(System.currentTimeMillis()).
-		setContentTitle(notificationTitle).
-		setContentText(notificationDescription);
-		
+		builder.setContentIntent(contentIntent).setSmallIcon(R.drawable.ic_stat_proxy_notification).setTicker(notificationTitle).setWhen(System.currentTimeMillis()).setContentTitle(notificationTitle).setContentText(notificationDescription);
+
 		Notification n;
 		n = builder.getNotification();
 		n.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
 
 		manager.notify(PROXY_NOTIFICATION_ID, n);
 	}
-	
-	
 
 	public static void DisableProxyNotification(Context callerContext)
 	{
