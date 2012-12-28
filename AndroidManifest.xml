@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lechucksoftware.proxy.proxysettings"
-    android:versionCode="6"
+    android:versionCode="1200200"
     android:versionName="2.0" > <!-- Remember to update also the strings.xml values -->
+
+	<!-- suggested scheme for your version codes, using the first two digits for 
+	the API Level, the second and third digits for the minimum and maximum 
+	screen size (1 - 4 indicating each of the four sizes) or to denote the 
+	texture formats and the last three digits for the app version. -->
 
     <uses-sdk
         android:minSdkVersion="13"
@@ -93,10 +98,12 @@
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.intent.action.PROXY_CHANGE" />
-                <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_CHANGE" />
-                <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_NOTIFICATION" />
-                
+                <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_STARTED" />
+                <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_CONFIGURATION_UPDATED" />
+                <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_UPDATE_NOTIFICATION" />
                 <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.net.wifi.SCAN_RESULTS" />
+                
 <!--                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" /> -->
 <!--                 <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" /> -->
 <!--                 <action android:name="android.net.wifi.supplicant.STATE_CHANGE" /> -->
