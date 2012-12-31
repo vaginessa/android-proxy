@@ -5,6 +5,8 @@ import java.util.List;
 import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
@@ -35,13 +37,20 @@ public class ProxySettingsCheckerService extends IntentService
     	if (callerIntent != null)
     	{
     		LogWrapper.logIntent(TAG, callerIntent, Log.INFO);
+    		String callerAction = callerIntent.getAction(); 
     		
     		if (
-    			callerIntent.getAction().equals(Constants.PROXY_SETTINGS_STARTED) ||
-    			callerIntent.getAction().equals(Constants.PROXY_CONFIGURATION_UPDATED) ||
-    			callerIntent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)	
+    			callerAction.equals(Constants.PROXY_SETTINGS_STARTED) 
+    			|| callerAction.equals(Constants.PROXY_CONFIGURATION_UPDATED) 
+    			|| callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION) 
+    			//|| callerAction.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
+    			|| callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+    			|| callerAction.equals(WifiManager.RSSI_CHANGED_ACTION)
     			)
     		{
+    			if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)) 
+    				ApplicationGlobals.getWifiManager().startScan();
+    				
     			CheckProxySettings(callerIntent);
     		}
     		else
@@ -73,9 +82,19 @@ public class ProxySettingsCheckerService extends IntentService
 			
         	// Get information regarding other configured AP
         	List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getApplicationContext());
+        	List<ScanResult> scanResults = ApplicationGlobals.getWifiManager().getScanResults();
+        	
         	for (ProxyConfiguration conf : confs)
         	{
         		ApplicationGlobals.addConfiguration(Utils.cleanUpSSID(conf.getSSID()), conf);
+        	}
+        	
+        	if (scanResults != null)
+        	{
+        		for (ScanResult res : scanResults)
+        		{
+        			
+        		}
         	}
         	
         	ApplicationGlobals.getCurrentConfiguration().acquireProxyStatus(ApplicationGlobals.getInstance().timeout);

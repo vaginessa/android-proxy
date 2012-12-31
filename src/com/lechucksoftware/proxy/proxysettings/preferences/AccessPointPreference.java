@@ -7,17 +7,15 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiConfiguration.KeyMgmt;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
 import android.preference.Preference;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.utils.WiFiSummary;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
-public class AccessPoint extends Preference
+public class AccessPointPreference extends Preference
 {
 	static final String TAG = "Settings.AccessPoint";
 
@@ -144,7 +142,7 @@ public class AccessPoint extends Preference
 		}
 	}
 
-	public AccessPoint(Context context, ProxyConfiguration config)
+	public AccessPointPreference(Context context, ProxyConfiguration config)
 	{
 		super(context);
 		setWidgetLayoutResource(R.layout.pref_widget_wifi_signal);
@@ -229,11 +227,11 @@ public class AccessPoint extends Preference
 	@Override
 	public int compareTo(Preference preference)
 	{
-		if (!(preference instanceof AccessPoint))
+		if (!(preference instanceof AccessPointPreference))
 		{
 			return 1;
 		}
-		AccessPoint other = (AccessPoint) preference;
+		AccessPointPreference other = (AccessPointPreference) preference;
 		// Active one goes first.
 		if (mInfo != other.mInfo)
 		{
@@ -286,7 +284,7 @@ public class AccessPoint extends Preference
 	public void update(WifiInfo info, DetailedState state)
 	{
 		boolean reorder = false;
-		if (info != null && networkId != AccessPoint.INVALID_NETWORK_ID && networkId == info.getNetworkId())
+		if (info != null && networkId != AccessPointPreference.INVALID_NETWORK_ID && networkId == info.getNetworkId())
 		{
 			reorder = (mInfo == null);
 			mRssi = info.getRssi();
@@ -354,7 +352,7 @@ public class AccessPoint extends Preference
 		Context context = getContext();
 		if (mState != null)
 		{ // This is the active connection
-			setSummary(WiFiSummary.get(context, mState));
+			setSummary(com.shouldit.proxy.lib.WiFiSummary.get(context, mState));
 		}
 		else if (mRssi == Integer.MAX_VALUE)
 		{ // Wifi out of range

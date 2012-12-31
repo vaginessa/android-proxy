@@ -1,6 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.app.Application;
@@ -21,6 +23,11 @@ public class ApplicationGlobals extends Application
 	public ProxyCheckStatus proxyCheckStatus;
 	public int timeout;
 	private WifiManager mWifiManager;
+
+	public static WifiManager getWifiManager()
+	{
+		return mInstance.mWifiManager;
+	}
 
 	@Override
 	public void onCreate()
@@ -64,5 +71,10 @@ public class ApplicationGlobals extends Application
     	}
     	
 		return conf; //TODO: do something if conf is empty configuration
+	}
+	
+	public static List<ProxyConfiguration> getConfigurationsList()
+	{
+		return new ArrayList<ProxyConfiguration>(mInstance.configurations.values());
 	}
 }

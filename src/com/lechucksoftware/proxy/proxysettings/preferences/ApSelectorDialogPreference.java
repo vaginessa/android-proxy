@@ -16,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.UrlManager;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
 
@@ -42,10 +44,8 @@ public class ApSelectorDialogPreference extends DialogPreference
 		View root  = super.onCreateDialogView();
 		
 		listview = (ListView) root.findViewById(R.id.ap_selector_listview);
-		
-		ArrayList<ProxyConfiguration> confs = (ArrayList<ProxyConfiguration>) ProxySettings.getProxiesConfigurations(getContext());
-		
-		listview.setAdapter(new ListAdapter(ApSelectorDialogPreference.this.getContext(), R.id.list_view, confs));
+				
+		listview.setAdapter(new ListAdapter(ApSelectorDialogPreference.this.getContext(), R.id.list_view, (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList()));
 		listview.setOnItemClickListener(new OnItemClickListener()
 		{
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -84,8 +84,8 @@ public class ApSelectorDialogPreference extends DialogPreference
 				if (listItem != null)
 				{
 //					((ImageView) view.findViewById(R.id.list_item_ap_icon)).setImageDrawable(listItem.);
-					((TextView) view.findViewById(R.id.list_item_ap_name)).setText(listItem.wifiConfiguration.SSID);
-					((TextView) view.findViewById(R.id.list_item_ap_description)).setText(listItem.wifiConfiguration.toString());
+					((TextView) view.findViewById(R.id.list_item_ap_name)).setText(Utils.cleanUpSSID(listItem.getSSID()));
+					((TextView) view.findViewById(R.id.list_item_ap_description)).setText(listItem.toShortString());
 				}
 			}
 			catch (Exception e)

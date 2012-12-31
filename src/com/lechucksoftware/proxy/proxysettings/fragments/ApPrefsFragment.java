@@ -31,7 +31,6 @@ public abstract class ApPrefsFragment extends PreferenceFragment
 	private TextView mEmptyView;
 	private IntentFilter mFilter;
 	private BroadcastReceiver mReceiver;
-	private WifiManager mWifiManager;
 	private DetailedState mLastState;
 	private WifiInfo mLastInfo;
 	private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
@@ -66,7 +65,6 @@ public abstract class ApPrefsFragment extends PreferenceFragment
 		super.onResume();
 	
 		getActivity().registerReceiver(mReceiver, mFilter);
-		mWifiManager.startScan();
 		updateAccessPoints();
 	}
 
@@ -147,7 +145,6 @@ public abstract class ApPrefsFragment extends PreferenceFragment
 	{
 		super.onCreate(savedInstanceState);
 	
-		mWifiManager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
 		// Can retrieve arguments from preference XML.
 		LogWrapper.i("args", "Arguments: " + getArguments());
 	
