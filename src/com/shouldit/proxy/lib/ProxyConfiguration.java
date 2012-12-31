@@ -178,7 +178,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	private Boolean isProxyEnabled()
 	{
-
 		if (proxyHost.type() == Type.DIRECT)
 		{
 			return false;
