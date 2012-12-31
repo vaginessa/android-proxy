@@ -33,7 +33,7 @@ public class WebViewWithProxyActivity extends FragmentActivity
 		setContentView(R.layout.webview);
 
 		if (Build.VERSION.SDK_INT < 12)
-			ProxyUtils.setWebViewProxy(getApplicationContext(), ApplicationGlobals.getInstance().proxyConf); // Only
+			ProxyUtils.setWebViewProxy(getApplicationContext(), ApplicationGlobals.getCurrentConfiguration()); // Only
 																								  // for
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.getSettings().setJavaScriptEnabled(true);

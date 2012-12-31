@@ -54,7 +54,7 @@ public class UIUtils
 		{
 			case CHECKED:
 			{
-				ProxyStatusErrors status = ApplicationGlobals.getInstance().proxyConf.getMostRelevantProxyStatusError();
+				ProxyStatusErrors status = ApplicationGlobals.getCurrentConfiguration().getMostRelevantProxyStatusError();
 
 				switch (status)
 				{
@@ -105,13 +105,13 @@ public class UIUtils
 		{
 			case CHECKED:
 			{
-				ProxyStatusErrors status = ApplicationGlobals.getInstance().proxyConf.getMostRelevantProxyStatusError();
+				ProxyStatusErrors status = ApplicationGlobals.getCurrentConfiguration().getMostRelevantProxyStatusError();
 
 				switch (status)
 				{
 					case NO_ERRORS:
 						description = callerContext.getResources().getString(R.string.statusbar_notification_description_enabled);
-						description = description + " " + ApplicationGlobals.getInstance().proxyConf.toShortString();
+						description = description + " " + ApplicationGlobals.getCurrentConfiguration().toShortString();
 						break;
 
 					case PROXY_NOT_ENABLED:
@@ -150,7 +150,7 @@ public class UIUtils
 
 	public static String ProxyConfigToStatusString(Context callerContext)
 	{
-		String message = String.format("%s", ApplicationGlobals.getInstance().proxyConf.toShortString());
+		String message = String.format("%s", ApplicationGlobals.getCurrentConfiguration().toShortString());
 
 		message += " - " + GetStatusTitle(callerContext);
 
@@ -166,7 +166,7 @@ public class UIUtils
 	{
 		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
 		{
-			if (ApplicationGlobals.getInstance().proxyConf.proxyHost.type() == Type.DIRECT)
+			if (ApplicationGlobals.getCurrentConfiguration().proxyHost.type() == Type.DIRECT)
 			{
 				DisableProxyNotification(context);
 			}

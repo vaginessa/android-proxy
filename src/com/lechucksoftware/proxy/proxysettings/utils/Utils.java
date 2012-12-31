@@ -1,20 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
-import java.net.Proxy;
-import java.net.Socket;
-
-import android.content.Context;
-import android.net.wifi.WifiConfiguration;
-import android.os.Build;
-import android.util.Log;
-
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.reflection.ReflectionUtils;
-import com.shouldit.proxy.lib.reflection.android.RProxySettings;
 
 public class Utils
 {
@@ -28,5 +15,28 @@ public class Utils
 				return new PasswordAuthentication(user, password.toCharArray());
 			}
 		});
+	}
+	
+	public static String cleanUpSSID(String SSID)
+	{
+		if (SSID.startsWith("\""))
+			return removeDoubleQuotes(SSID);
+		else
+			return SSID;
+	}
+	
+	public static String removeDoubleQuotes(String string)
+	{
+		int length = string.length();
+		if ((length > 1) && (string.charAt(0) == '"') && (string.charAt(length - 1) == '"'))
+		{
+			return string.substring(1, length - 1);
+		}
+		return string;
+	}
+
+	public static String convertToQuotedString(String string)
+	{
+		return "\"" + string + "\"";
 	}
 }
