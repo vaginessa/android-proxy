@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.Proxy.Type;
 import java.net.URL;
 
-import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -89,10 +89,10 @@ public class DownloadService extends IntentService
 		{
 			HttpURLConnection con = null;
 
-			if (Globals.getInstance().proxyConf.getConnectionType()==Type.HTTP)
+			if (ApplicationGlobals.getInstance().proxyConf.getConnectionType()==Type.HTTP)
 			{
-				System.setProperty("http.proxyHost", Globals.getInstance().proxyConf.getProxyIPHost());
-				System.setProperty("http.proxyPort", Globals.getInstance().proxyConf.getProxyPort().toString());
+				System.setProperty("http.proxyHost", ApplicationGlobals.getInstance().proxyConf.getProxyIPHost());
+				System.setProperty("http.proxyPort", ApplicationGlobals.getInstance().proxyConf.getProxyPort().toString());
 			}
 			else
 			{

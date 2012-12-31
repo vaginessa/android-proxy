@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
@@ -44,7 +44,7 @@ public class ApplicationSubmitService extends IntentService
         {
 			ProxyConfiguration proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
     		URI uri = URI.create("");
-			String result = ProxyUtils.getURI(uri, proxyConf.proxyHost, Globals.getInstance().timeout);	
+			String result = ProxyUtils.getURI(uri, proxyConf.proxyHost, ApplicationGlobals.getInstance().timeout);	
         }
         catch (Exception e)
         {

@@ -15,7 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
-import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
@@ -27,7 +27,8 @@ public class UIUtils
 
 	public static String GetStatusSummary(Context ctx)
 	{
-		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+		
+		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
 			return UIUtils.GetStatusTitle(ctx);
 		}
@@ -49,11 +50,11 @@ public class UIUtils
 	{
 		String description;
 
-		switch (Globals.getInstance().proxyCheckStatus)
+		switch (ApplicationGlobals.getInstance().proxyCheckStatus)
 		{
 			case CHECKED:
 			{
-				ProxyStatusErrors status = Globals.getInstance().proxyConf.getMostRelevantProxyStatusError();
+				ProxyStatusErrors status = ApplicationGlobals.getInstance().proxyConf.getMostRelevantProxyStatusError();
 
 				switch (status)
 				{
@@ -100,17 +101,17 @@ public class UIUtils
 	{
 		String description;
 
-		switch (Globals.getInstance().proxyCheckStatus)
+		switch (ApplicationGlobals.getInstance().proxyCheckStatus)
 		{
 			case CHECKED:
 			{
-				ProxyStatusErrors status = Globals.getInstance().proxyConf.getMostRelevantProxyStatusError();
+				ProxyStatusErrors status = ApplicationGlobals.getInstance().proxyConf.getMostRelevantProxyStatusError();
 
 				switch (status)
 				{
 					case NO_ERRORS:
 						description = callerContext.getResources().getString(R.string.statusbar_notification_description_enabled);
-						description = description + " " + Globals.getInstance().proxyConf.toShortString();
+						description = description + " " + ApplicationGlobals.getInstance().proxyConf.toShortString();
 						break;
 
 					case PROXY_NOT_ENABLED:
@@ -149,7 +150,7 @@ public class UIUtils
 
 	public static String ProxyConfigToStatusString(Context callerContext)
 	{
-		String message = String.format("%s", Globals.getInstance().proxyConf.toShortString());
+		String message = String.format("%s", ApplicationGlobals.getInstance().proxyConf.toShortString());
 
 		message += " - " + GetStatusTitle(callerContext);
 
@@ -163,9 +164,9 @@ public class UIUtils
 	 */
 	public static void UpdateStatusBarNotification(Context context)
 	{
-		if (Globals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
+		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
 		{
-			if (Globals.getInstance().proxyConf.proxyHost.type() == Type.DIRECT)
+			if (ApplicationGlobals.getInstance().proxyConf.proxyHost.type() == Type.DIRECT)
 			{
 				DisableProxyNotification(context);
 			}

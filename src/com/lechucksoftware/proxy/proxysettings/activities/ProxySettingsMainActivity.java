@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.activities.help.DisclaimerFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
@@ -19,8 +19,6 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-
-		Globals.getInstance().addApplicationContext(getApplicationContext());
 
 		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
 		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));

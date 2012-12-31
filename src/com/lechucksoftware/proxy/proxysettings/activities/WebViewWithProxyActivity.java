@@ -11,7 +11,7 @@ import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -33,7 +33,7 @@ public class WebViewWithProxyActivity extends FragmentActivity
 		setContentView(R.layout.webview);
 
 		if (Build.VERSION.SDK_INT < 12)
-			ProxyUtils.setWebViewProxy(getApplicationContext(), Globals.getInstance().proxyConf); // Only
+			ProxyUtils.setWebViewProxy(getApplicationContext(), ApplicationGlobals.getInstance().proxyConf); // Only
 																								  // for
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.getSettings().setJavaScriptEnabled(true);

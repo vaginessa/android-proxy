@@ -1,5 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import java.util.List;
+
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +10,10 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
-import com.lechucksoftware.proxy.proxysettings.Globals;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
 
 public class ProxySettingsCheckerService extends IntentService 
@@ -64,16 +67,15 @@ public class ProxySettingsCheckerService extends IntentService
 	{
 		try
         {   
-			Globals.getInstance().addApplicationContext(context);
-			Globals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKING;
+			ApplicationGlobals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKING;
 			ToggleApplicationStatus(context);
 			
 			// Get information regarding current proxy configuration
-        	Globals.getInstance().proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
-        	Globals.getInstance().proxyConf.acquireProxyStatus(Globals.getInstance().timeout); // Can take some time to execute this task!!
+        	ApplicationGlobals.getInstance().proxyConf = ProxySettings.getCurrentHttpProxyConfiguration(context);
+        	ApplicationGlobals.getInstance().proxyConf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout); // Can take some time to execute this task!!
         	
         	// Get information regarding other configured AP
-        	ProxySettings.getProxiesConfigurations(getApplicationContext());
+        	List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getApplicationContext());
         }
         catch (Exception e)
         {
@@ -83,7 +85,7 @@ public class ProxySettingsCheckerService extends IntentService
         }
 		finally
 		{
-			Globals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKED;
+			ApplicationGlobals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKED;
 			ToggleApplicationStatus(context);
 		}
 	}
