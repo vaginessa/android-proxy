@@ -9,6 +9,7 @@ import java.net.ProxySelector;
 import java.net.Socket;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.annotation.TargetApi;
@@ -198,7 +199,7 @@ public class ProxySettings
 
 			if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
 			{
-				proxyHost = new ProxyConfiguration(ctx, null, null, null, wifiConf);
+				proxyHost = new ProxyConfiguration(ctx, Proxy.NO_PROXY, null, null, wifiConf);
 			}
 			else
 			{				
@@ -254,6 +255,8 @@ public class ProxySettings
 				proxyHosts.add(conf);
 			}
 		}
+		
+		Collections.sort(proxyHosts);
 
 		return proxyHosts;
 	}

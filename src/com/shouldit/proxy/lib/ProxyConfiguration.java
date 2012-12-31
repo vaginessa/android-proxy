@@ -23,7 +23,7 @@ import com.shouldit.proxy.lib.APLConstants.ProxyStatusCodes;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 import com.shouldit.proxy.lib.APLConstants.StatusValues;
 
-public class ProxyConfiguration
+public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 {
 	public static final String TAG = "ProxyConfiguration";
 
@@ -45,6 +45,8 @@ public class ProxyConfiguration
 		deviceVersion = Build.VERSION.SDK_INT;
 		status = new ProxyStatus();
 	}
+	
+	
 
 	@Override
 	public String toString()
@@ -329,5 +331,40 @@ public class ProxyConfiguration
 	public int getNetworkType()
 	{
 		return networkInfo.getType();
+	}
+
+	@Override
+	public int compareTo(ProxyConfiguration another)
+	{
+		if (this.wifiConfiguration.status == WifiConfiguration.Status.CURRENT)
+			return -1;
+		if (another.wifiConfiguration.status == WifiConfiguration.Status.CURRENT)
+			return +1;
+		
+		if (this.wifiConfiguration.status == WifiConfiguration.Status.ENABLED)
+		{
+			if (another.wifiConfiguration.status == WifiConfiguration.Status.ENABLED)
+			{
+				return this.wifiConfiguration.SSID.compareTo(another.wifiConfiguration.SSID);
+			}
+			else
+				return -1;
+		}
+		else if (another.wifiConfiguration.status == WifiConfiguration.Status.ENABLED)
+		{
+				return +1;
+		}
+		
+		return this.wifiConfiguration.SSID.compareTo(another.wifiConfiguration.SSID);
+	}
+
+	public String getSSID()
+	{
+		if (wifiConfiguration != null)
+		{
+			return wifiConfiguration.SSID;
+		}
+		else
+			return null;
 	}
 }
