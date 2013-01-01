@@ -77,7 +77,7 @@ public class ProxySettings
 					{
 						if (wc.networkId == wifiInfo.getNetworkId())
 						{
-							proxyConfig.wifiConfiguration = wc;
+							proxyConfig.ap = new AccessPoint(wc);
 							break;
 						}
 					}

@@ -29,7 +29,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public Context context;
 	public ProxyStatus status;
-	public WifiConfiguration wifiConfiguration;
+	public AccessPoint ap;
+	//public WifiConfiguration wifiConfiguration; Added into AP info
 	public NetworkInfo networkInfo;
 	public Proxy proxyHost;
 	public int deviceVersion;
@@ -41,13 +42,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxyHost = proxy;
 		proxyDescription = description;
 		networkInfo = netInfo;
-		wifiConfiguration = wifiConf;
+		ap = new AccessPoint(wifiConf);
 		deviceVersion = Build.VERSION.SDK_INT;
 		status = new ProxyStatus();
 	}
 	
-	
-
 	@Override
 	public String toString()
 	{
@@ -58,8 +57,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 		if (networkInfo != null)
 			sb.append(String.format("Network Info: %s\n", networkInfo));
-		if (wifiConfiguration != null)
-			sb.append(String.format("Wi-Fi Configuration Info: %s\n", wifiConfiguration));
+		if (ap.getConfig() != null)
+			sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.getConfig()));
 
 		return sb.toString();
 	}
@@ -335,33 +334,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	@Override
 	public int compareTo(ProxyConfiguration another)
 	{
-		if (this.wifiConfiguration.status == WifiConfiguration.Status.CURRENT)
-			return -1;
-		if (another.wifiConfiguration.status == WifiConfiguration.Status.CURRENT)
-			return +1;
-		
-		if (this.wifiConfiguration.status == WifiConfiguration.Status.ENABLED)
-		{
-			if (another.wifiConfiguration.status == WifiConfiguration.Status.ENABLED)
-			{
-				return this.wifiConfiguration.SSID.compareTo(another.wifiConfiguration.SSID);
-			}
-			else
-				return -1;
-		}
-		else if (another.wifiConfiguration.status == WifiConfiguration.Status.ENABLED)
-		{
-				return +1;
-		}
-		
-		return this.wifiConfiguration.SSID.compareTo(another.wifiConfiguration.SSID);
+		return ap.compareTo(another.ap);
 	}
 
 	public String getSSID()
 	{
-		if (wifiConfiguration != null)
+		if (ap.getConfig().SSID != null)
 		{
-			return wifiConfiguration.SSID;
+			return ap.getConfig().SSID;
 		}
 		else
 			return null;

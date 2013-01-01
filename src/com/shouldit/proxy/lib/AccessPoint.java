@@ -48,16 +48,14 @@ public class AccessPoint implements Comparable<AccessPoint>
 
 	PskType pskType = PskType.UNKNOWN;
 
-	private ProxyConfiguration mPConfig;
+	private WifiConfiguration mWifiConfig;
 	/* package */ScanResult mScanResult;
 
 	private int mRssi;
 	private WifiInfo mInfo;
 	private DetailedState mState;
 
-	private Context mContext;
-
-	static int getSecurity(WifiConfiguration config)
+	public static int getSecurity(WifiConfiguration config)
 	{
 		if (config.allowedKeyManagement.get(KeyMgmt.WPA_PSK))
 		{
@@ -70,7 +68,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 		return (config.wepKeys[0] != null) ? SECURITY_WEP : SECURITY_NONE;
 	}
 
-	private static int getSecurity(ScanResult result)
+	public static int getSecurity(ScanResult result)
 	{
 		if (result.capabilities.contains("WEP"))
 		{
@@ -114,7 +112,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 		}
 	}
 
-	private static PskType getPskType(ScanResult result)
+	public static PskType getPskType(ScanResult result)
 	{
 		boolean wpa = result.capabilities.contains("WPA-PSK");
 		boolean wpa2 = result.capabilities.contains("WPA2-PSK");
@@ -137,33 +135,33 @@ public class AccessPoint implements Comparable<AccessPoint>
 		}
 	}
 
-	public AccessPoint(ProxyConfiguration config)
+	public AccessPoint(WifiConfiguration config)
 	{
 		loadConfig(config);
 	}
 
-	private void loadConfig(ProxyConfiguration pconfig)
+	private void loadConfig(WifiConfiguration config)
 	{
-		ssid = (pconfig.wifiConfiguration.SSID == null ? "" : removeDoubleQuotes(pconfig.wifiConfiguration.SSID));
-		bssid = pconfig.wifiConfiguration.BSSID;
-		security = getSecurity(pconfig.wifiConfiguration);
-		networkId = pconfig.wifiConfiguration.networkId;
+		ssid = (config.SSID == null ? "" : removeDoubleQuotes(config.SSID));
+		bssid = config.BSSID;
+		security = getSecurity(config);
+		networkId = config.networkId;
 		mRssi = Integer.MAX_VALUE;
-		mPConfig = pconfig;
+		mWifiConfig = config;
 	}
 
-	private void loadResult(ScanResult result)
-	{
-		ssid = result.SSID;
-		bssid = result.BSSID;
-		security = getSecurity(result);
-		wpsAvailable = security != SECURITY_EAP && result.capabilities.contains("WPS");
-		if (security == SECURITY_PSK)
-			pskType = getPskType(result);
-		networkId = -1;
-		mRssi = result.level;
-		mScanResult = result;
-	}
+//	private void loadResult(ScanResult result)
+//	{
+//		ssid = result.SSID;
+//		bssid = result.BSSID;
+//		security = getSecurity(result);
+//		wpsAvailable = security != SECURITY_EAP && result.capabilities.contains("WPS");
+//		if (security == SECURITY_PSK)
+//			pskType = getPskType(result);
+//		networkId = -1;
+//		mRssi = result.level;
+//		mScanResult = result;
+//	}
 
 	@Override
 	public int compareTo(AccessPoint ap)
@@ -241,9 +239,9 @@ public class AccessPoint implements Comparable<AccessPoint>
 		return WifiManager.calculateSignalLevel(mRssi, 4);
 	}
 
-	ProxyConfiguration getConfig()
+	WifiConfiguration getConfig()
 	{
-		return mPConfig;
+		return mWifiConfig;
 	}
 
 	WifiInfo getInfo()
