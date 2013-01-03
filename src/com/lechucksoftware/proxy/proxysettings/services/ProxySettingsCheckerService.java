@@ -98,6 +98,7 @@ public class ProxySettingsCheckerService extends IntentService
         	}
         	
         	ApplicationGlobals.getCurrentConfiguration().acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
+        	ToggleApplicationStatus();
         }
         catch (Exception e)
         {
@@ -108,7 +109,6 @@ public class ProxySettingsCheckerService extends IntentService
 		finally
 		{
 			ApplicationGlobals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKED;
-			ToggleApplicationStatus();
 		}
 	}
 	

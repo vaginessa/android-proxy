@@ -9,7 +9,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Proxy;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,15 +34,22 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         		 
         		 intent.getAction().equals(Proxy.PROXY_CHANGE_ACTION) 			 		||
         		 //intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)		||	// Connection type change (switch between 3G/WiFi)
-        		 intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)	||  // Scan restults available information
-        		 intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)	)  	// Changed wifi state
+        		 intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))	  		// Scan restults available information
+
         {
         	//LogWrapper.logIntent(TAG, intent, Log.DEBUG);        	
         	
-        	//Call the ProxySettingsCheckerService for update the network status
-        	Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
-        	serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
-        	context.startService(serviceIntent);	
+        	callProxySettingsChecker(context, intent);	
+        }
+        else if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION))  			// Changed wifi state
+        {
+        	LogWrapper.logIntent(TAG, intent, Log.WARN);
+        	NetworkInfo info = (NetworkInfo) intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
+        	
+        	if (info != null && info.get == SupplicantState.COMPLETED)
+        	{
+        		callProxySettingsChecker(context, intent);
+        	}
         }
         else
         {
@@ -47,5 +57,13 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         	LogWrapper.e(TAG,"Intent not found into handled list!");
         }
     }
+
+	private void callProxySettingsChecker(Context context, Intent intent)
+	{
+		//Call the ProxySettingsCheckerService for update the network status
+		Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
+		serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
+		context.startService(serviceIntent);
+	}
 }
 
