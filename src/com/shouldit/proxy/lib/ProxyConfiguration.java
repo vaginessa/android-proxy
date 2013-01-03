@@ -42,7 +42,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxyHost = proxy;
 		proxyDescription = description;
 		networkInfo = netInfo;
-		ap = new AccessPoint(wifiConf);
+		
+		if (wifiConf != null)
+			ap = new AccessPoint(wifiConf);
+		
 		deviceVersion = Build.VERSION.SDK_INT;
 		status = new ProxyStatus();
 	}
