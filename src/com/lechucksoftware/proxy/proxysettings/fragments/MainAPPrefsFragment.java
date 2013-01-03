@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -28,11 +29,14 @@ public class MainAPPrefsFragment extends PreferenceFragment
 		super.onViewCreated(view, savedInstanceState);
 		ApSelectorDialogPreference appref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
 
-		ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
-		if (conf != null)
+		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
 		{
-			appref.setTitle(Utils.cleanUpSSID(conf.getSSID()));
-			appref.setSummary(conf.toShortString());
+    		ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
+    		if (ApplicationGlobals.getWifiManager().isWifiEnabled())
+    		{
+    			appref.setTitle(Utils.cleanUpSSID(conf.getSSID()));
+    			appref.setSummary(conf.toShortString());
+    		}
 		}
 //        mEmptyView = (TextView) getView().findViewById(android.R.id.empty);
 //        ((ListActivity) getActivity()).getListView().setEmptyView(mEmptyView);

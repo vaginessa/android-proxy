@@ -49,7 +49,7 @@ public class ProxySettingsCheckerService extends IntentService
     			)
     		{
     			if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)) 
-    				ApplicationGlobals.getWifiManager().startScan();
+    				ApplicationGlobals.startWifiScan();
     				
     			CheckProxySettings(callerIntent);
     		}

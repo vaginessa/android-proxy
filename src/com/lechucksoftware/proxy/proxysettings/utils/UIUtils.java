@@ -19,6 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 
 public class UIUtils
 {
@@ -27,7 +28,6 @@ public class UIUtils
 
 	public static String GetStatusSummary(Context ctx)
 	{
-		
 		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
 			return UIUtils.GetStatusTitle(ctx);
@@ -166,7 +166,9 @@ public class UIUtils
 	{
 		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
 		{
-			if (ApplicationGlobals.getCurrentConfiguration().proxyHost.type() == Type.DIRECT)
+			ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
+			
+			if (conf.proxyHost.type() == Type.DIRECT)
 			{
 				DisableProxyNotification(context);
 			}

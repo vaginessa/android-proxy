@@ -60,8 +60,7 @@
         
         <activity
             android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity"
-            android:configChanges="orientation"
-            uiOptions="splitActionBarWhenNarrow" >
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY" />
                 <action android:name="com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE" />
@@ -100,7 +99,7 @@
 
         <receiver android:name="com.lechucksoftware.proxy.proxysettings.receivers.ProxyChangeReceiver" >
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+<!--                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
                 <action android:name="android.intent.action.PROXY_CHANGE" />
                 <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_STARTED" />
                 <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_CONFIGURATION_UPDATED" />
