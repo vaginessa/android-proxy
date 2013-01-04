@@ -6,8 +6,20 @@ import android.util.Log;
 
 public class LogWrapper
 {
+	/**
+	 *  ANDROID LOG LEVELS
+	 * 
+	 * 	VERBOSE	Constant Value: 2 (0x00000002)
+	 *	DEBUG	Constant Value: 3 (0x00000003)
+	 *	INFO	Constant Value: 4 (0x00000004)
+	 *	WARN	Constant Value: 5 (0x00000005)
+	 *	ERROR	Constant Value: 6 (0x00000006)
+	 *	ASSERT	Constant Value: 7 (0x00000007)
+	 * 
+	 * */
+	
 //	private static int mLogLevel = Integer.MAX_VALUE; 
-	private static int mLogLevel = Log.VERBOSE;
+	private static int mLogLevel = Log.DEBUG;
 	
 	public static void d(String tag, String msg)
 	{
