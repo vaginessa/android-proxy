@@ -11,12 +11,10 @@ import org.apache.http.conn.util.InetAddressUtils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 import android.webkit.URLUtil;
 
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusCodes;
@@ -30,8 +28,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public Context context;
 	public ProxyStatus status;
 	public AccessPoint ap;
-	//public WifiConfiguration wifiConfiguration; Added into AP info
-	public NetworkInfo networkInfo;
+	public NetworkInfo currentNetworkInfo;
+	public Boolean isNetworkAvailable;
 	public Proxy proxyHost;
 	public int deviceVersion;
 	public String proxyDescription;
@@ -41,7 +39,16 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		context = ctx;
 		proxyHost = proxy;
 		proxyDescription = description;
-		networkInfo = netInfo;
+		currentNetworkInfo = netInfo;
+		
+		if (currentNetworkInfo == null)
+		{
+			isNetworkAvailable = false;
+		}
+		else
+		{
+			isNetworkAvailable = true;
+		}
 		
 		if (wifiConf != null)
 			ap = new AccessPoint(wifiConf);
@@ -55,18 +62,22 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format("Proxy: %s\n", proxyHost.toString()));
+		sb.append(String.format("Is Proxy address valid: %B\n" , isProxyValidAddress()));
 		sb.append(String.format("Is Proxy reachable: %B\n", isProxyReachable()));
 		sb.append(String.format("Is WEB reachable: %B\n", isWebReachable(60000)));
 
-		if (networkInfo != null)
-			sb.append(String.format("Network Info: %s\n", networkInfo));
-		if (ap.getConfig() != null)
-			sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.getConfig()));
+		if (currentNetworkInfo != null)
+		{
+			sb.append(String.format("Network Info: %s\n", currentNetworkInfo));
+		}
+		
+		if (ap != null && ap.getConfig() != null)
+			sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.getConfig().SSID.toString()));
 
 		return sb.toString();
 	}
 
-	public Proxy.Type getConnectionType()
+	public Proxy.Type getProxyType()
 	{
 		return proxyHost.type();
 	}
@@ -140,7 +151,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		broadCastUpdatedStatus();
 	}
 
-	
 	private void broadCastUpdatedStatus()
 	{
 		LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
@@ -148,7 +158,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		intent.putExtra(APLConstants.ProxyStatus, status);
 		context.sendBroadcast(intent);
 	}
-	
 	
 	public ProxyStatusErrors getMostRelevantProxyStatusError()
 	{
@@ -180,6 +189,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	private Boolean isProxyEnabled()
 	{
+		if (Build.VERSION.SDK_INT >= 12) 
+		{
+			// On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
+			// Proxy is disabled by default on Mobile connection
+			if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
+				return false;
+		}
+
 		if (proxyHost.type() == Type.DIRECT)
 		{
 			return false;
@@ -331,13 +348,50 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public int getNetworkType()
 	{
-		return networkInfo.getType();
+		return currentNetworkInfo.getType();
 	}
 
 	@Override
 	public int compareTo(ProxyConfiguration another)
 	{
-		return ap.compareTo(another.ap);
+		int result;
+		
+		if (!isNetworkAvailable)
+		{
+			return 0; // Cannot compare if network is not available
+		}
+		
+		if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+		{
+			if(another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+			{	
+				result = ap.compareTo(another.ap);
+				if (result == 0)
+				{
+					if (proxyHost != another.proxyHost)
+					{
+						result = proxyHost.toString().compareTo(another.proxyHost.toString());
+					}
+				}
+			}
+			else
+			{
+				result = -1; 
+			}
+		}
+		else
+		{
+			if(another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+			{
+				result = +1;
+			}
+			else
+			{
+				result = 0;  // Both are mobile or no connection 
+			}
+		}
+		
+		return result;
 	}
 
 	public String getSSID()

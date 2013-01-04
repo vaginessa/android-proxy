@@ -63,7 +63,7 @@ public class ProxySettings
 		 * */
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
-		proxyConfig.networkInfo = activeNetInfo;
+		proxyConfig.currentNetworkInfo = activeNetInfo;
 
 		if (activeNetInfo != null)
 		{
@@ -114,6 +114,8 @@ public class ProxySettings
 
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
+		
+		
 		ProxyConfiguration proxyConfig = new ProxyConfiguration(ctx, proxy, proxy.toString(), activeNetInfo, null);
 
 		return proxyConfig;
@@ -190,6 +192,9 @@ public class ProxySettings
 	{
 		ProxyConfiguration proxyHost = null;
 
+		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
+		
 		try
 		{
 			Field proxySettingsField = wifiConf.getClass().getField("proxySettings");
@@ -199,7 +204,7 @@ public class ProxySettings
 
 			if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
 			{
-				proxyHost = new ProxyConfiguration(ctx, Proxy.NO_PROXY, null, null, wifiConf);
+				proxyHost = new ProxyConfiguration(ctx, Proxy.NO_PROXY, "", activeNetInfo, wifiConf);
 			}
 			else
 			{				
@@ -223,11 +228,12 @@ public class ProxySettings
 					mExclusionListField.setAccessible(true);
 					String mExclusionList = (String) mExclusionListField.get(mHttpProxy);
 
-					LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
+					//LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
 					InetSocketAddress sa = InetSocketAddress.createUnresolved(mHost, mPort);
 					Proxy proxy = new Proxy(Proxy.Type.HTTP, sa);
-					proxyHost = new ProxyConfiguration(ctx, proxy, proxy.toString(), null, wifiConf);
+
+					proxyHost = new ProxyConfiguration(ctx, proxy, proxy.toString(), activeNetInfo, wifiConf);
 				}
 			}
 		}
@@ -246,7 +252,7 @@ public class ProxySettings
 		List<ProxyConfiguration> proxyHosts = new ArrayList<ProxyConfiguration>();
 		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
 		List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
-
+		
 		if (configuredNetworks != null)
 		{
 			for (WifiConfiguration wifiConf : configuredNetworks)

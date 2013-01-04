@@ -11,10 +11,13 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.Proxy.Type;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.UnknownHostException;
+
 import org.apache.http.HttpHost;
 
 import android.content.ComponentName;
@@ -120,7 +123,7 @@ public class ProxyUtils
 		{
 			URL url = uri.toURL();
 		
-			if (proxyConfiguration.getConnectionType()==Type.HTTP)
+			if (proxyConfiguration.getProxyType()==Type.HTTP)
 			{
 				System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
 				System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
@@ -142,11 +145,23 @@ public class ProxyUtils
 		{
 			e.printStackTrace();
 		}
+		catch (UnknownHostException e)
+		{
+			e.printStackTrace();
+		}
 		catch (SocketTimeoutException e)
 		{
 			LogWrapper.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
 		}
+		catch (SocketException e)
+		{
+			e.printStackTrace();
+		}
 		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -239,7 +254,7 @@ public class ProxyUtils
 		try
 		{
 			if (proxyConf != null && 
-				proxyConf.getConnectionType() == Type.HTTP && 
+				proxyConf.getProxyType() == Type.HTTP && 
 				proxyConf.deviceVersion < 12)
 			{
 				setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
