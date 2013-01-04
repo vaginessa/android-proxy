@@ -45,6 +45,12 @@ public class LogWrapper
 			Log.i(tag, msg);
 	}
 	
+	public static void a(String tag, String msg)
+	{
+		if (mLogLevel <= Log.ASSERT)
+			Log.println(Log.ASSERT, tag, msg);
+	}
+	
 	public static void log(String tag, String msg, int logLevel)
 	{
 		switch(logLevel)
@@ -61,23 +67,34 @@ public class LogWrapper
 			case Log.INFO:
 				i(tag,msg);
 				break;
+			case Log.ASSERT:
+				a(tag,msg);
+				break;
 		}
 	}
 	
 	public static void logIntent(String tag, Intent intent, int logLevel)
 	{
+		logIntent(tag,intent,logLevel, false);
+	}
+	
+	public static void logIntent(String tag, Intent intent, int logLevel, boolean logExtras)
+	{
 		log(tag, intent.toString(), logLevel);
     	if (intent.getAction() != null) log(tag, intent.getAction(), logLevel);
     	if (intent.getDataString() != null) log(tag, intent.getDataString(), logLevel);
     	
-    	Bundle extras = intent.getExtras();
-    	if (extras != null)	
+    	if (logExtras)
     	{
-        	for(String key: extras.keySet())
-        	{
-        		String extra = String.valueOf(extras.get(key));
-        		log(tag, "Key: " + key + " ---- " + extra, logLevel);
-        	}
+	    	Bundle extras = intent.getExtras();
+	    	if (extras != null)	
+	    	{
+	        	for(String key: extras.keySet())
+	        	{
+	        		String extra = String.valueOf(extras.get(key));
+	        		log(tag, "Key: " + key + " ---- " + extra, logLevel);
+	        	}
+	    	}
     	}
 	}
 }

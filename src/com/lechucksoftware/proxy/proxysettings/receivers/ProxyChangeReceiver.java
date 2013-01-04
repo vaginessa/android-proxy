@@ -23,33 +23,21 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     
     @Override
     public void onReceive(Context context, Intent intent) 
-    {
-        if (intent.getAction().toString().equals(Constants.PROXY_UPDATE_NOTIFICATION))
+    {    	
+        if (intent.getAction().toString().equals(Constants.PROXY_UPDATE_NOTIFICATION))			// INTERNAL: Called for update the Proxy Settings notification
         {
-        	LogWrapper.logIntent(TAG, intent, Log.DEBUG); 
+        	//LogWrapper.logIntent(TAG, intent, Log.DEBUG);
         	UIUtils.UpdateStatusBarNotification(context);
         }
-        else if (intent.getAction().equals(Constants.PROXY_CONFIGURATION_UPDATED) 		||	// Called when a proxy configuration is changed
-        		 intent.getAction().equals(Constants.PROXY_SETTINGS_STARTED) 			|| 	// Called when Proxy Settings is started
-        		 
-        		 intent.getAction().equals(Proxy.PROXY_CHANGE_ACTION) 			 		||
-        		 //intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)		||	// Connection type change (switch between 3G/WiFi)
-        		 intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))	  		// Scan restults available information
-
+        else if (intent.getAction().equals(Constants.PROXY_CONFIGURATION_UPDATED) 				// INTERNAL: Called when a proxy configuration is changed
+        		 ||	intent.getAction().equals(Constants.PROXY_SETTINGS_STARTED) 			 	// INTERNAL: Called when Proxy Settings is started
+//        		 ||	intent.getAction().equals(Proxy.PROXY_CHANGE_ACTION) 			 			// Called when a Proxy Configuration is changed
+        		 ||	intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)			// Connection type change (switch between 3G/WiFi)
+        		 || intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))		// Scan restults available information
+//        		 || intent.getAction().equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) // Changed wifi supplicant connection state (connected/disconnected)
         {
-        	//LogWrapper.logIntent(TAG, intent, Log.DEBUG);        	
-        	
+        	//LogWrapper.logIntent(TAG, intent, Log.DEBUG);
         	callProxySettingsChecker(context, intent);	
-        }
-        else if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION))  			// Changed wifi state
-        {
-        	LogWrapper.logIntent(TAG, intent, Log.WARN);
-        	NetworkInfo info = (NetworkInfo) intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
-        	
-        	if (info != null && info.get == SupplicantState.COMPLETED)
-        	{
-        		callProxySettingsChecker(context, intent);
-        	}
         }
         else
         {

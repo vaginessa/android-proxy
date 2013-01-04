@@ -20,9 +20,6 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
-		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
-
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
 		boolean acceptedDisclaimer = settings.getBoolean(Constants.PREFERENCES_ACCEPTED_DISCLAIMER, false);

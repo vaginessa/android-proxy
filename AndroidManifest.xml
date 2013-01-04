@@ -99,17 +99,14 @@
 
         <receiver android:name="com.lechucksoftware.proxy.proxysettings.receivers.ProxyChangeReceiver" >
             <intent-filter>
-<!--                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                
                 <action android:name="android.intent.action.PROXY_CHANGE" />
                 <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_STARTED" />
                 <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_CONFIGURATION_UPDATED" />
                 <action android:name="com.lechucksoftware.proxy.proxysettings.PROXY_UPDATE_NOTIFICATION" />
-                <action android:name="android.net.wifi.STATE_CHANGE" />
+
                 <action android:name="android.net.wifi.SCAN_RESULTS" />
-                
-<!--                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" /> -->
-<!--                 <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" /> -->
-<!--                 <action android:name="android.net.wifi.supplicant.STATE_CHANGE" /> -->
             </intent-filter>
         </receiver>
     </application>

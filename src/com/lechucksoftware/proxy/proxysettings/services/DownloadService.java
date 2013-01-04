@@ -89,7 +89,7 @@ public class DownloadService extends IntentService
 		{
 			HttpURLConnection con = null;
 
-			if (ApplicationGlobals.getCurrentConfiguration().getConnectionType()==Type.HTTP)
+			if (ApplicationGlobals.getCurrentConfiguration().getProxyType()==Type.HTTP)
 			{
 				System.setProperty("http.proxyHost", ApplicationGlobals.getCurrentConfiguration().getProxyIPHost());
 				System.setProperty("http.proxyPort", ApplicationGlobals.getCurrentConfiguration().getProxyPort().toString());

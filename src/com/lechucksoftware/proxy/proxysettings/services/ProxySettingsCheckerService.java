@@ -1,11 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
-import java.util.List;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.wifi.ScanResult;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
@@ -14,9 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxySettings;
 
 public class ProxySettingsCheckerService extends IntentService 
 {
@@ -36,22 +32,41 @@ public class ProxySettingsCheckerService extends IntentService
     	
     	if (callerIntent != null)
     	{
-    		LogWrapper.logIntent(TAG, callerIntent, Log.INFO);
     		String callerAction = callerIntent.getAction(); 
     		
-    		if (
-    			callerAction.equals(Constants.PROXY_SETTINGS_STARTED) 
-    			|| callerAction.equals(Constants.PROXY_CONFIGURATION_UPDATED) 
-    			|| callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION) 
-    			//|| callerAction.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
-    			|| callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-    			|| callerAction.equals(WifiManager.RSSI_CHANGED_ACTION)
-    			)
+    		if (   callerAction.equals(Constants.PROXY_SETTINGS_STARTED) 
+    			|| callerAction.equals(Constants.PROXY_CONFIGURATION_UPDATED)
+    			|| callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)		)
     		{
-    			if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)) 
-    				ApplicationGlobals.startWifiScan();
-    				
-    			CheckProxySettings(callerIntent);
+    			LogWrapper.logIntent(TAG, callerIntent, Log.WARN);
+    			
+    			NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
+        		
+    			if (ni != null && ni.isConnected())
+    			{
+    				CheckProxySettings(callerIntent);
+    			}
+    		}
+    		else if (callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION))
+    		{
+    			Boolean noConnectivity = callerIntent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+    			if(noConnectivity)
+    				return;
+    			
+    			NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
+    		
+    			if (ni != null && ni.isConnected())
+    			{
+    				if (ni.getType() == callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, -1))
+    				{
+    					LogWrapper.logIntent(TAG, callerIntent, Log.ERROR, true);
+    					CheckProxySettings(callerIntent);
+    				}
+    				else
+    					LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG, true);
+    			}
+    			else
+    				LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG, true);
     		}
     		else
     		{
@@ -67,37 +82,38 @@ public class ProxySettingsCheckerService extends IntentService
     @Override
     public void onDestroy() 
     {
-    	//LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
+    	LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
     };
     
 	/**
 	 * @param context
 	 */
-	public void CheckProxySettings(Intent intent) 
+	public void CheckProxySettings(Intent callerIntent) 
 	{
 		try
         {   
+			ProxyConfiguration oldconf = null;
+			
 			ApplicationGlobals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKING;
+			
+			if (!callerIntent.getAction().equals(Constants.PROXY_SETTINGS_STARTED))
+			{
+				oldconf = ApplicationGlobals.getCurrentConfiguration();
+			}
+			
 			ToggleApplicationStatus();
 			
-        	// Get information regarding other configured AP
-        	List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getApplicationContext());
-        	List<ScanResult> scanResults = ApplicationGlobals.getWifiManager().getScanResults();
+			ApplicationGlobals.updateProxyConfigurationList();
+			
+        	ProxyConfiguration newconf = ApplicationGlobals.getCurrentConfiguration();
         	
-        	for (ProxyConfiguration conf : confs)
+        	if (oldconf == null || oldconf.compareTo(newconf) != 0)  	// Only at first start of ProxySettings or if it's different from previous configuration
         	{
-        		ApplicationGlobals.addConfiguration(Utils.cleanUpSSID(conf.getSSID()), conf);
+        		newconf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout);	 
         	}
         	
-        	if (scanResults != null)
-        	{
-        		for (ScanResult res : scanResults)
-        		{
-        			
-        		}
-        	}
-        	
-        	ApplicationGlobals.getCurrentConfiguration().acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
+        	LogWrapper.logIntent(TAG, callerIntent, Log.ERROR);
+        	LogWrapper.i(TAG, newconf.toString());
         	ToggleApplicationStatus();
         }
         catch (Exception e)
