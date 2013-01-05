@@ -358,6 +358,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		
 		if (!isNetworkAvailable)
 		{
+			LogWrapper.e(TAG, "Cannot compare ProxyConfigurations, network in not available!");
 			return 0; // Cannot compare if network is not available
 		}
 		
