@@ -119,51 +119,67 @@ public class ProxyUtils
 
 	public static int testHTTPConnection(URI uri, ProxyConfiguration proxyConfiguration, int timeout)
 	{
-		try
+		int step = 0;
+		while (step < 5)
 		{
-			URL url = uri.toURL();
-		
-			if (proxyConfiguration.getProxyType()==Type.HTTP)
+			try
 			{
-				System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
-				System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
+				URL url = uri.toURL();
+
+				if (proxyConfiguration.getProxyType() == Type.HTTP)
+				{
+					System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
+					System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
+				}
+				else
+				{
+					System.setProperty("http.proxyHost", "");
+					System.setProperty("http.proxyPort", "");
+				}
+
+				HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+				httpURLConnection.setReadTimeout(timeout);
+				httpURLConnection.setConnectTimeout(timeout);
+
+				return httpURLConnection.getResponseCode();
 			}
-			else
+			catch (MalformedURLException e)
 			{
-				System.setProperty("http.proxyHost", "");
-				System.setProperty("http.proxyPort", "");
+				e.printStackTrace();
+			}
+			catch (UnknownHostException e)
+			{
+				e.printStackTrace();
+			}
+			catch (SocketTimeoutException e)
+			{
+				LogWrapper.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
+			}
+			catch (SocketException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
 			}
 			
-			HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-			httpURLConnection.setReadTimeout(timeout);
-			httpURLConnection.setConnectTimeout(timeout);
-
-			return httpURLConnection.getResponseCode();
-		}
-		catch (MalformedURLException e)
-		{
-			e.printStackTrace();
-		}
-		catch (UnknownHostException e)
-		{
-			e.printStackTrace();
-		}
-		catch (SocketTimeoutException e)
-		{
-			LogWrapper.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
-		}
-		catch (SocketException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+			step++;
+			
+			try
+			{
+				Thread.sleep(500);
+			}
+			catch (InterruptedException e)
+			{
+				LogWrapper.e(TAG, "Exception during waiting for next try of testHTTPConnection: " + e.toString());
+				return -1;
+			}
 		}
 
 		return -1;
@@ -235,7 +251,7 @@ public class ProxyUtils
 				case HttpURLConnection.HTTP_PARTIAL:
 				case HttpURLConnection.HTTP_RESET:
 					return true;
-					
+
 				default:
 					return false;
 			}
@@ -253,9 +269,7 @@ public class ProxyUtils
 	{
 		try
 		{
-			if (proxyConf != null && 
-				proxyConf.getProxyType() == Type.HTTP && 
-				proxyConf.deviceVersion < 12)
+			if (proxyConf != null && proxyConf.getProxyType() == Type.HTTP && proxyConf.deviceVersion < 12)
 			{
 				setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
 			}
