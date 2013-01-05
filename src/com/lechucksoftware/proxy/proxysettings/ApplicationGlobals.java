@@ -32,6 +32,7 @@ public class ApplicationGlobals extends Application
 	public int timeout;
 	private WifiManager mWifiManager;
 	private ConnectivityManager mConnManager;
+	private ProxyConfiguration currentConfiguration;
 
 	private static final String TAG = "ApplicationGlobals";
 
@@ -123,7 +124,13 @@ public class ApplicationGlobals extends Application
 			conf = new ProxyConfiguration(mInstance.getApplicationContext(), Proxy.NO_PROXY, null, activeNetInfo, null);
 		}
 
+		mInstance.currentConfiguration = conf;
 		return conf;
+	}
+
+	public static ProxyConfiguration getCachedConfiguration()
+	{
+		return mInstance.currentConfiguration;
 	}
 
 	public static List<ProxyConfiguration> getConfigurationsList()
