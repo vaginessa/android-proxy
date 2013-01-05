@@ -102,7 +102,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		}
 		else
 		{
-			LogWrapper.e(TAG, "PROXY ENABLED");
+			LogWrapper.i(TAG, "PROXY ENABLED");
 			status.add(ProxyStatusCodes.PROXY_ENABLED, StatusValues.CHECKED ,true);
 		}
 		
@@ -116,7 +116,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		}
 		else
 		{
-			LogWrapper.e(TAG, "PROXY VALID ADDRESS");
+			LogWrapper.i(TAG, "PROXY VALID ADDRESS");
 			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, StatusValues.CHECKED ,true);
 		}
 		
@@ -130,7 +130,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		}
 		else
 		{
-			LogWrapper.d(TAG, "PROXY REACHABLE");
+			LogWrapper.i(TAG, "PROXY REACHABLE");
 			status.add(ProxyStatusCodes.PROXY_REACHABLE,StatusValues.CHECKED , true);
 		}
 		
@@ -144,7 +144,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		}
 		else
 		{
-			LogWrapper.d(TAG, "WEB REACHABLE");
+			LogWrapper.i(TAG, "WEB REACHABLE");
 			status.add(ProxyStatusCodes.WEB_REACHABILE, StatusValues.CHECKED ,true);
 		}
 		

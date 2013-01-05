@@ -146,27 +146,23 @@ public class ProxyUtils
 			}
 			catch (MalformedURLException e)
 			{
-				e.printStackTrace();
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() MalformedURLException : " + e.toString() );
 			}
 			catch (UnknownHostException e)
 			{
-				e.printStackTrace();
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() UnknownHostException : " + e.toString() );
 			}
 			catch (SocketTimeoutException e)
 			{
-				LogWrapper.e(TAG, "ProxyUtils.getURI() timed out after: " + timeout + " msec");
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() timed out after: " + timeout + " msec");
 			}
 			catch (SocketException e)
 			{
-				e.printStackTrace();
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() SocketException : " + e.toString() );
 			}
 			catch (IOException e)
 			{
-				e.printStackTrace();
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() IOException : " + e.toString() );
 			}
 			
 			step++;
