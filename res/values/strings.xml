@@ -262,10 +262,14 @@
 	<string name="pref_key_proxy_settings_prefscreen_title">Test</string>
 	<string name="pref_key_proxy_settings_prefscreen_description">Test proxy settings</string>
 
-
 	<string name="preferences_statusbar_notification_title">Notification</string>
 	<string name="preferences_statusbar_notification_description_enabled">Status bar notification enabled</string>
 	<string name="preferences_statusbar_notification_description_disabled">Status bar notification disabled</string>
+	
+	<string name="preferences_statusbar_notification_persistance_title">Notification persistance</string>
+	<string name="preferences_statusbar_notification_persistance_description_enabled">Status bar notification cannot be cleared</string>
+	<string name="preferences_statusbar_notification_persistance_description_disabled">Status bar notification can be cleared</string>
+
 	<string name="preference_proxy_host_port_title">Proxy selector</string>
 	<string name="preference_proxy_host_port_summary_default">Not set</string>
 

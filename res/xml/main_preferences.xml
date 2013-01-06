@@ -38,14 +38,22 @@
         android:summary="@string/preferences_statusbar_notification_description_enabled"
         android:title="@string/preferences_statusbar_notification_title" />
 
+    <CheckBoxPreference
+        android:enabled="true"
+        android:key="preference_notification_always_visible"
+        android:summary="@string/preferences_statusbar_notification_persistance_description_enabled"
+        android:title="@string/preferences_statusbar_notification_persistance_title" />
+    
     <PreferenceCategory
         android:key="pref_key_proxy_settings_advanced"
         android:title="@string/pref_key_proxy_settings_advanced_title" >
+        
         <PreferenceScreen
             android:key="pref_key_proxy_settings_advanced_prefscreen"
             android:persistent="false"
             android:summary="@string/pref_key_proxy_settings_advanced_prefscreen_description"
             android:title="@string/pref_key_proxy_settings_advanced_prefscreen_title" >
+            
             <Preference
                 android:enabled="true"
                 android:key="preference_test_proxy_configuration"

@@ -2,26 +2,27 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import java.util.List;
 
-import android.app.ActionBar.OnNavigationListener;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.widget.SpinnerAdapter;
 
+import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.proxy.lib.APLConstants;
 
-public class ProxyPreferencesActivity extends PreferenceActivity implements OnNavigationListener
+public class ProxyPreferencesActivity extends PreferenceActivity
 {
+	public static final String TAG = "ProxyPreferencesActivity";
+
 	public static ProxyPreferencesActivity instance;
 
 	// declare the dialog as a member field of your activity
 	private ProgressDialog mProgressDialog;
-
-	private SpinnerAdapter mSpinnerAdapter;
-
-	private OnNavigationListener mNavigationCallback;
-
-	// static Preference appsFeedbackPref;
 
 	public void showProgressDialog()
 	{
@@ -41,16 +42,10 @@ public class ProxyPreferencesActivity extends PreferenceActivity implements OnNa
 			mProgressDialog.setMessage(message);
 	}
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-//		ActionBar actionBar = getActionBar();
-//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//		actionBar.setTitle("");
-		
-		
 	}
 
 	@Override
@@ -58,18 +53,4 @@ public class ProxyPreferencesActivity extends PreferenceActivity implements OnNa
 	{
 		loadHeadersFromResource(R.xml.preferences_header, target);
 	}
-
-	public boolean onNavigationItemSelected(int itemPosition, long itemId)
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu)
-	// {
-	// MenuInflater inflater = getMenuInflater();
-	// inflater.inflate(R.menu.proxy_prefs_activity, menu);
-	// return true;
-	// }
 }

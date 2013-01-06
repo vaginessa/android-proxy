@@ -84,18 +84,22 @@ public class ApplicationGlobals extends Application
 	{
 		// Get information regarding other configured AP
 		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(mInstance);
-		List<ScanResult> scanResults = ApplicationGlobals.getWifiManager().getScanResults();
+		List<ScanResult> scanResults = getWifiManager().getScanResults();
 		
 		for (ProxyConfiguration conf : confs)
 		{
-			ApplicationGlobals.addConfiguration(Utils.cleanUpSSID(conf.getSSID()), conf);
+			addConfiguration(Utils.cleanUpSSID(conf.getSSID()), conf);
 		}
 		
 		if (scanResults != null)
 		{
 			for (ScanResult res : scanResults)
 			{
-				
+				String currSSID = Utils.cleanUpSSID(res.SSID);
+				if (mInstance.configurations.containsKey(currSSID))
+				{
+					mInstance.configurations.get(currSSID).ap.update(res);
+				}
 			}
 		}
 	}
