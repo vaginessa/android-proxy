@@ -76,7 +76,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	{
 		ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
 		
-		getPreferenceScreen().removePreference(authPrefScreen);
+		//getPreferenceScreen().removePreference(authPrefScreen);
 		
 		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
 		{
