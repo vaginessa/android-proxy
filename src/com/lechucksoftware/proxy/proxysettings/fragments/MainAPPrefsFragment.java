@@ -9,6 +9,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.view.View;
@@ -29,8 +30,8 @@ import com.shouldit.proxy.lib.ProxyStatus;
 public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
 	public static final String TAG = "MainAPPrefsFragment";
-//    private TextView mEmptyView;
-    private ApSelectorDialogPreference apSelectorPref;
+	// private TextView mEmptyView;
+	private ApSelectorDialogPreference apSelectorPref;
 	private PreferenceScreen authPrefScreen;
 	private CheckBoxPreference notificationPref;
 	private CheckBoxPreference notificationAlwaysPref;
@@ -38,6 +39,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	private Preference proxyTester;
 	private Preference helpPref;
 	private Preference aboutPref;
+	private CheckBoxPreference proxyEnablePref;
+	private PreferenceCategory apCategoryPref;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -45,7 +48,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.main_preferences);
 	}
-	
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState)
 	{
@@ -54,49 +57,66 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		getUIComponents();
 		refreshUIComponents();
 	}
-	
+
 	private void getUIComponents()
 	{
+		
+		apCategoryPref = (PreferenceCategory) findPreference("pref_ap_category");
 		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
+		
+		proxyEnablePref = (CheckBoxPreference) findPreference("pref_proxy_enabled");
+		
+		
 		authPrefScreen = (PreferenceScreen) findPreference("pref_key_proxy_settings_authentication_screen");
 		notificationPref = (CheckBoxPreference) findPreference("preference_notification_enabled");
 		notificationAlwaysPref = (CheckBoxPreference) findPreference("preference_notification_always_visible");
-		
+
 		proxyTester = (Preference) findPreference("preference_test_proxy_configuration");
 		proxyEnabledValidPref = (ValidationPreference) findPreference("validation_proxy_enabled");
 		proxyEnabledValidPref = (ValidationPreference) findPreference("validation_proxy_valid_address");
 		proxyEnabledValidPref = (ValidationPreference) findPreference("validation_proxy_reachable");
 		proxyEnabledValidPref = (ValidationPreference) findPreference("validation_web_reachable");
-		
+
 		helpPref = (Preference) findPreference("preference_help");
 		aboutPref = (Preference) findPreference("preference_about");
 	}
-	
+
 	private void refreshUIComponents()
 	{
 		ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
-		
-		//getPreferenceScreen().removePreference(authPrefScreen);
-		
-		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
+
+		if (ApplicationGlobals.getWifiManager().isWifiEnabled())
 		{
-    		if (ApplicationGlobals.getWifiManager().isWifiEnabled())
-    		{
-    			apSelectorPref.setTitle(Utils.cleanUpSSID(conf.getSSID()));
-    			apSelectorPref.setSummary(conf.toShortString());
-    		}
-    		else
-    		{
-    			// TODO : show dialog to ena	
-    		}
+			// getPreferenceScreen().removePreference(authPrefScreen);
+
+//			if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
+//			{
+				apSelectorPref.setTitle(Utils.cleanUpSSID(conf.getSSID()));
+				apSelectorPref.setSummary(conf.toShortString());
+				
+				
+				if (proxyEnablePref.isChecked())
+				{
+					
+				}
+				else
+				{
+					apCategoryPref.removePreference(proxyEnablePref);
+				}
+//			}
 		}
+		else
+		{
+			getPreferenceScreen().removeAll();
+		}
+
 	}
-	
+
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
 	{
-		LogWrapper.d(TAG, "Changed preference: " + key);	
+		LogWrapper.d(TAG, "Changed preference: " + key);
 	}
-	
+
 	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -115,7 +135,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 			}
 		}
 	};
-	
+
 	@Override
 	public void onResume()
 	{
@@ -125,7 +145,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		IntentFilter ifilt = new IntentFilter();
 		ifilt.addAction(Constants.PROXY_UPDATE_NOTIFICATION);
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-		getActivity().registerReceiver(changeStatusReceiver, ifilt); 
+		getActivity().registerReceiver(changeStatusReceiver, ifilt);
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
 
@@ -133,9 +153,9 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	public void onPause()
 	{
 		super.onPause();
-		
+
 		// Stop the registered status receivers
-		getActivity().unregisterReceiver(changeStatusReceiver); 
+		getActivity().unregisterReceiver(changeStatusReceiver);
 		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 	}
 }
