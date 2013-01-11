@@ -12,11 +12,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
-import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -28,7 +26,6 @@ public class ApplicationGlobals extends Application
 
 	private Map<String, ProxyConfiguration> configurations;
 
-	public ProxyCheckStatus proxyCheckStatus;
 	public int timeout;
 	private WifiManager mWifiManager;
 	private ConnectivityManager mConnManager;
@@ -51,7 +48,6 @@ public class ApplicationGlobals extends Application
 	{
 		super.onCreate();
 
-		proxyCheckStatus = ProxyCheckStatus.CHECKING;
 		timeout = 10000; // Set default timeout value (10 seconds)
 		mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		mConnManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -60,6 +56,11 @@ public class ApplicationGlobals extends Application
 
 		mInstance = this;
 		
+		if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
+		{
+			// Enable WiFi if it's not enabled
+			ApplicationGlobals.getWifiManager().setWifiEnabled(true);
+		}
 		
 		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
 		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
@@ -134,6 +135,10 @@ public class ApplicationGlobals extends Application
 
 	public static ProxyConfiguration getCachedConfiguration()
 	{
+		if (mInstance.currentConfiguration == null)
+		{
+			return getCurrentConfiguration();
+		}
 		return mInstance.currentConfiguration;
 	}
 

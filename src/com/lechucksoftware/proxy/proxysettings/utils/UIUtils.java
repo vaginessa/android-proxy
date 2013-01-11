@@ -14,10 +14,10 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
+import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -28,29 +28,29 @@ public class UIUtils
 
 	public static String GetStatusSummary(Context ctx)
 	{
-		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+//		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
 			return UIUtils.GetStatusTitle(ctx);
 		}
-		else
-		{
+//		else
+//		{
 			// if (Globals.getInstance().proxyConf.status.getEnabled())
 			// {
-			return UIUtils.ProxyConfigToStatusString(ctx);
+//			return UIUtils.ProxyConfigToStatusString(ctx);
 			// }
 			// else
 			// {
 			// return
 			// ctx.getText(R.string.preference_proxy_host_port_summary_default).toString();
 			// }
-		}
+//		}
 	}
 
 	public static String GetStatusTitle(Context callerContext)
 	{
 		String description;
 
-		switch (ApplicationGlobals.getInstance().proxyCheckStatus)
+		switch (ApplicationGlobals.getCachedConfiguration().getCheckingStatus())
 		{
 			case CHECKED:
 			{
@@ -101,7 +101,7 @@ public class UIUtils
 	{
 		String description;
 
-		switch (ApplicationGlobals.getInstance().proxyCheckStatus)
+		switch (ApplicationGlobals.getCachedConfiguration().getCheckingStatus())
 		{
 			case CHECKED:
 			{
@@ -164,7 +164,7 @@ public class UIUtils
 	 */
 	public static void UpdateStatusBarNotification(Context context)
 	{
-		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
+		if (ApplicationGlobals.getCachedConfiguration().getCheckingStatus() == CheckStatusValues.CHECKED)
 		{
 			ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
 			

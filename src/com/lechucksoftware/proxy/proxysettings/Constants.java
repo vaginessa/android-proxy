@@ -23,15 +23,6 @@ public class Constants
 	public static final String PROXY_CONFIGURATION_UPDATED = "com.lechucksoftware.proxy.proxysettings.PROXY_CONFIGURATION_UPDATED";
 	public static final String PROXY_UPDATE_NOTIFICATION = "com.lechucksoftware.proxy.proxysettings.PROXY_UPDATE_NOTIFICATION";
 	
-	
-	
-	
-	public enum ProxyCheckStatus
-	{
-		CHECKING,
-		CHECKED
-	}
-	
 	public enum DonwloadStatus
 	{
 		DOWNLOADING,

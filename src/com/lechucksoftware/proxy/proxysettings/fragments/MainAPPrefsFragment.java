@@ -13,19 +13,17 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.view.View;
-import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.APLConstants;
+import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxyStatus;
 
 public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
@@ -89,8 +87,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		{
 			// getPreferenceScreen().removePreference(authPrefScreen);
 
-//			if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKED)
-//			{
+			if (ApplicationGlobals.getCachedConfiguration().getCheckingStatus() == CheckStatusValues.CHECKED)
+			{
 				apSelectorPref.setTitle(Utils.cleanUpSSID(conf.getSSID()));
 				apSelectorPref.setSummary(conf.toShortString());
 				
@@ -103,7 +101,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 				{
 					apCategoryPref.removePreference(proxyEnablePref);
 				}
-//			}
+			}
 		}
 		else
 		{

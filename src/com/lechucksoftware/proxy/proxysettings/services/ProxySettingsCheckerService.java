@@ -9,7 +9,6 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.Constants.ProxyCheckStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -43,7 +42,9 @@ public class ProxySettingsCheckerService extends IntentService
 			{
 				Boolean noConnectivity = callerIntent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 				if (noConnectivity)
+				{
 					return;
+				}
 
 				int intentNetworkType = callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, -1);
 				NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
@@ -58,6 +59,10 @@ public class ProxySettingsCheckerService extends IntentService
 						// true);
 						CheckProxySettings(callerIntent);
 					}
+				}
+				else
+				{
+					
 				}
 				// else
 				// LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG, false);
@@ -87,7 +92,6 @@ public class ProxySettingsCheckerService extends IntentService
 	{
 		try
 		{
-			ApplicationGlobals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKING;
 			ProxyConfiguration oldconf = null;
 
 			if (!callerIntent.getAction().equals(Constants.PROXY_SETTINGS_STARTED))
@@ -116,10 +120,6 @@ public class ProxySettingsCheckerService extends IntentService
 			e.printStackTrace();
 			UIUtils.DisableProxyNotification(getApplicationContext());
 			LogWrapper.d(TAG, "Exception caught: disable proxy notification");
-		}
-		finally
-		{
-			ApplicationGlobals.getInstance().proxyCheckStatus = ProxyCheckStatus.CHECKED;
 		}
 	}
 
