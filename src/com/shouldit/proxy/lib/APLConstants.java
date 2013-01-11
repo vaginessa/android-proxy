@@ -36,7 +36,7 @@ public class APLConstants
 		WEB_REACHABLE
 	}
 	
-	public enum StatusValues
+	public enum CheckStatusValues
 	{
 		NOT_CHECKED,
 		CHECKING,

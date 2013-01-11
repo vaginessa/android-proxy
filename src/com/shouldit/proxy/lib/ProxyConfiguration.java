@@ -19,7 +19,7 @@ import android.webkit.URLUtil;
 
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusCodes;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
-import com.shouldit.proxy.lib.APLConstants.StatusValues;
+import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 
 public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 {
@@ -77,6 +77,28 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		return sb.toString();
 	}
 
+	public String toShortString()
+	{
+		if (proxyHost == Proxy.NO_PROXY)
+		{
+			return Proxy.NO_PROXY.toString();
+		}
+		
+		if (proxyDescription != null)
+		{
+			return proxyDescription;
+		}
+		else
+		{
+			return String.format("%s", proxyHost.address().toString());
+		}
+	}
+
+	public String toShortIPString()
+	{
+		return String.format("%s:%d", getProxyIPHost(), getProxyPort());
+	}
+	
 	public Proxy.Type getProxyType()
 	{
 		return proxyHost.type();
@@ -98,12 +120,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		if (!isProxyEnabled())
 		{
 			LogWrapper.e(TAG, "PROXY NOT ENABLED");
-			status.add(ProxyStatusCodes.PROXY_ENABLED, StatusValues.CHECKED ,false);
+			status.add(ProxyStatusCodes.PROXY_ENABLED, CheckStatusValues.CHECKED ,false);
 		}
 		else
 		{
 			LogWrapper.i(TAG, "PROXY ENABLED");
-			status.add(ProxyStatusCodes.PROXY_ENABLED, StatusValues.CHECKED ,true);
+			status.add(ProxyStatusCodes.PROXY_ENABLED, CheckStatusValues.CHECKED ,true);
 		}
 		
 		broadCastUpdatedStatus();
@@ -112,12 +134,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		if (!isProxyValidAddress())
 		{
 			LogWrapper.e(TAG, "PROXY NOT VALID ADDRESS");
-			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID,StatusValues.CHECKED , false);
+			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID,CheckStatusValues.CHECKED , false);
 		}
 		else
 		{
 			LogWrapper.i(TAG, "PROXY VALID ADDRESS");
-			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, StatusValues.CHECKED ,true);
+			status.add(ProxyStatusCodes.PROXY_ADDRESS_VALID, CheckStatusValues.CHECKED ,true);
 		}
 		
 		broadCastUpdatedStatus();
@@ -126,12 +148,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		if (!isProxyReachable())
 		{
 			LogWrapper.e(TAG, "PROXY NOT REACHABLE");
-			status.add(ProxyStatusCodes.PROXY_REACHABLE, StatusValues.CHECKED ,false);
+			status.add(ProxyStatusCodes.PROXY_REACHABLE, CheckStatusValues.CHECKED ,false);
 		}
 		else
 		{
 			LogWrapper.i(TAG, "PROXY REACHABLE");
-			status.add(ProxyStatusCodes.PROXY_REACHABLE,StatusValues.CHECKED , true);
+			status.add(ProxyStatusCodes.PROXY_REACHABLE,CheckStatusValues.CHECKED , true);
 		}
 		
 		broadCastUpdatedStatus();
@@ -140,12 +162,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		if (!isWebReachable(timeout))
 		{
 			LogWrapper.e(TAG, "WEB NOT REACHABLE");
-			status.add(ProxyStatusCodes.WEB_REACHABILE, StatusValues.CHECKED ,false);
+			status.add(ProxyStatusCodes.WEB_REACHABILE, CheckStatusValues.CHECKED ,false);
 		}
 		else
 		{
 			LogWrapper.i(TAG, "WEB REACHABLE");
-			status.add(ProxyStatusCodes.WEB_REACHABILE, StatusValues.CHECKED ,true);
+			status.add(ProxyStatusCodes.WEB_REACHABILE, CheckStatusValues.CHECKED ,true);
 		}
 		
 		broadCastUpdatedStatus();
@@ -324,26 +346,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		return proxyAddress.getPort();
 	}
 
-	public String toShortString()
+	public CheckStatusValues getCheckingStatus()
 	{
-		if (proxyHost == Proxy.NO_PROXY)
-		{
-			return Proxy.NO_PROXY.toString();
-		}
-		
-		if (proxyDescription != null)
-		{
-			return proxyDescription;
-		}
-		else
-		{
-			return String.format("%s", proxyHost.address().toString());
-		}
-	}
-
-	public String toShortIPString()
-	{
-		return String.format("%s:%d", getProxyIPHost(), getProxyPort());
+		return status.getCheckingStatus();
 	}
 
 	public int getNetworkType()
