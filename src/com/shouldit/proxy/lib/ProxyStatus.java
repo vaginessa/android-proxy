@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.shouldit.proxy.lib.APLConstants.ProxyStatusCodes;
-import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
+import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 
 public class ProxyStatus implements Serializable
 {
@@ -78,7 +77,7 @@ public class ProxyStatus implements Serializable
 		}
 	}
 	
-	public void add(ProxyStatusCodes statusCode, CheckStatusValues status, Boolean value)
+	public void add(ProxyStatusProperties statusCode, CheckStatusValues status, Boolean value)
 	{
 		properties.get(statusCode).status = status;
 		properties.get(statusCode).result = value;

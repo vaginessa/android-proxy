@@ -8,16 +8,16 @@ public class APLConstants
 	public static final String APL_UPDATED_PROXY_STATUS_CHECK = "com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE";
 	public static final String ProxyStatus = "ProxyStatus"; 
 	
-	public enum ProxyStatusCodes
-	{
-		NOT_CHECKED,
-		FOUND_PROBLEM_CHECKING,
-		PROXY_ENABLED,
-		PROXY_ADDRESS_VALID,
-		PROXY_REACHABLE,
-		WEB_REACHABILE,
-		CONFIGURATION_OK
-	}
+//	public enum ProxyStatusCodes
+//	{
+//		NOT_CHECKED,
+//		FOUND_PROBLEM_CHECKING,
+//		PROXY_ENABLED,
+//		PROXY_ADDRESS_VALID,
+//		PROXY_REACHABLE,
+//		WEB_REACHABILE,
+//		CONFIGURATION_OK
+//	}
 	
 	public enum ProxyStatusErrors
 	{
