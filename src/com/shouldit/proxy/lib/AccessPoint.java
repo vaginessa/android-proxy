@@ -53,7 +53,6 @@ public class AccessPoint implements Comparable<AccessPoint>
 
 	public int mRssi;
 	private WifiInfo mInfo;
-	private DetailedState mState;
 	
 	public static int getSecurity(WifiConfiguration config)
 	{
@@ -150,19 +149,6 @@ public class AccessPoint implements Comparable<AccessPoint>
 		mWifiConfig = config;
 	}
 
-//	private void loadResult(ScanResult result)
-//	{
-//		ssid = result.SSID;
-//		bssid = result.BSSID;
-//		security = getSecurity(result);
-//		wpsAvailable = security != SECURITY_EAP && result.capabilities.contains("WPS");
-//		if (security == SECURITY_PSK)
-//			pskType = getPskType(result);
-//		networkId = -1;
-//		mRssi = result.level;
-//		mScanResult = result;
-//	}
-
 	@Override
 	public int compareTo(AccessPoint ap)
 	{
@@ -215,21 +201,6 @@ public class AccessPoint implements Comparable<AccessPoint>
 		return false;
 	}
 
-	public void update(WifiInfo info, DetailedState state)
-	{
-		if (info != null && networkId != AccessPoint.INVALID_NETWORK_ID && networkId == info.getNetworkId())
-		{
-			mRssi = info.getRssi();
-			mInfo = info;
-			mState = state;
-		}
-		else if (mInfo != null)
-		{
-			mInfo = null;
-			mState = null;
-		}
-	}
-
 	public int getLevel()
 	{
 		if (mRssi == Integer.MAX_VALUE)
@@ -247,11 +218,6 @@ public class AccessPoint implements Comparable<AccessPoint>
 	WifiInfo getInfo()
 	{
 		return mInfo;
-	}
-
-	DetailedState getState()
-	{
-		return mState;
 	}
 
 	static String removeDoubleQuotes(String string)

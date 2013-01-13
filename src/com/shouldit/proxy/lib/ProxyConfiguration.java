@@ -13,7 +13,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.NetworkInfo.DetailedState;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.webkit.URLUtil;
 
@@ -62,6 +65,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format("Proxy: %s\n", proxyHost.toString()));
+		sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
 		sb.append(String.format("Is Proxy address valid: %B\n" , isProxyValidAddress()));
 		sb.append(String.format("Is Proxy reachable: %B\n", isProxyReachable()));
 		sb.append(String.format("Is WEB reachable: %B\n", isWebReachable(60000)));
@@ -76,6 +80,15 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 		return sb.toString();
 	}
+	
+	public Boolean isCurrentNetwork()
+	{
+		if (this.getSSID().equals(currentNetworkInfo.getExtraInfo()))
+			return true;
+		else
+			return false;
+	}
+	
 
 	public String toShortString()
 	{
@@ -402,7 +415,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	
 	public String getAPDescription(Context ctx)
 	{
-		return getSSID() + " - " + ap.getSecurityString(ctx, false) + "[" + ap.getState() + "]";
+		StringBuilder sb = new StringBuilder();
+		sb.append(ap.getSecurityString(ctx, false));
+		return sb.toString();
 	}
 
 	public String getSSID()
