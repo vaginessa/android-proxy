@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.NetworkInfo.DetailedState;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -87,8 +88,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	private void refreshAP()
 	{
 		if (selectedConfiguration != null)
-		{
-			apSelectorPref.setSummary(selectedConfiguration.getAPDescription(getActivity()));
+		{			
+			apSelectorPref.setSummary(Utils.cleanUpSSID(selectedConfiguration.getSSID())  + " - " + selectedConfiguration.getAPDescription(getActivity()));
 		}
 	}
 
