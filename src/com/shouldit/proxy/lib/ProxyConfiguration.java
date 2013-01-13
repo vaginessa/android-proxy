@@ -29,7 +29,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public ProxyStatus status;
 	public AccessPoint ap;
 	public NetworkInfo currentNetworkInfo;
-	public Boolean isNetworkAvailable;
+//	public Boolean isNetworkAvailable;
 	public Proxy proxyHost;
 	public int deviceVersion;
 	public String proxyDescription;
@@ -41,14 +41,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxyDescription = description;
 		currentNetworkInfo = netInfo;
 		
-		if (currentNetworkInfo == null)
-		{
-			isNetworkAvailable = false;
-		}
-		else
-		{
-			isNetworkAvailable = true;
-		}
+//		if (currentNetworkInfo == null)
+//		{
+//			isNetworkAvailable = false;
+//		}
+//		else
+//		{
+//			isNetworkAvailable = true;
+//		}
 		
 		if (wifiConf != null)
 			ap = new AccessPoint(wifiConf);
@@ -361,11 +361,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		int result;
 		
-		if (!isNetworkAvailable)
-		{
-			LogWrapper.e(TAG, "Cannot compare ProxyConfigurations, network in not available!");
-			return 0; // Cannot compare if network is not available
-		}
+//		if (!isNetworkAvailable)
+//		{
+//			LogWrapper.e(TAG, "Cannot compare ProxyConfigurations, network in not available!");
+//			return 0; // Cannot compare if network is not available
+//		}
 		
 		if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
 		{
@@ -399,6 +399,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		
 		return result;
 	}
+	
+	public String getAPDescription(Context ctx)
+	{
+		return getSSID() + " - " + ap.getSecurityString(ctx, false) + "[" + ap.getState() + "]";
+	}
 
 	public String getSSID()
 	{
@@ -408,5 +413,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		}
 		else
 			return null;
+	}
+
+	public boolean isValidConfiguration()
+	{
+		if (ap != null)
+			return true;
+		else
+			return false;
 	}
 }

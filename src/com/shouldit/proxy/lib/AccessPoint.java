@@ -24,16 +24,16 @@ public class AccessPoint implements Comparable<AccessPoint>
 	private static final String KEY_SCANRESULT = "key_scanresult";
 	private static final String KEY_CONFIG = "key_config";
 
-	private static final int[] STATE_SECURED = { R.attr.state_encrypted };
-	private static final int[] STATE_NONE = {};
+	public static final int[] STATE_SECURED = { R.attr.state_encrypted };
+	public static final int[] STATE_NONE = {};
 
 	/**
 	 * These values are matched in string arrays -- changes must be kept in sync
 	 */
-	static final int SECURITY_NONE = 0;
-	static final int SECURITY_WEP = 1;
-	static final int SECURITY_PSK = 2;
-	static final int SECURITY_EAP = 3;
+	public static final int SECURITY_NONE = 0;
+	public static final int SECURITY_WEP = 1;
+	public static final int SECURITY_PSK = 2;
+	public static final int SECURITY_EAP = 3;
 
 	enum PskType
 	{
@@ -51,10 +51,10 @@ public class AccessPoint implements Comparable<AccessPoint>
 	private WifiConfiguration mWifiConfig;
 	/* package */ScanResult mScanResult;
 
-	private int mRssi;
+	public int mRssi;
 	private WifiInfo mInfo;
 	private DetailedState mState;
-
+	
 	public static int getSecurity(WifiConfiguration config)
 	{
 		if (config.allowedKeyManagement.get(KeyMgmt.WPA_PSK))
@@ -230,7 +230,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 		}
 	}
 
-	int getLevel()
+	public int getLevel()
 	{
 		if (mRssi == Integer.MAX_VALUE)
 		{
