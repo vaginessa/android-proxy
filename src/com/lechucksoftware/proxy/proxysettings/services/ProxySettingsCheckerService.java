@@ -132,6 +132,6 @@ public class ProxySettingsCheckerService extends IntentService
 		Intent intent = new Intent(Constants.PROXY_UPDATE_NOTIFICATION);
 		getApplicationContext().sendBroadcast(intent);
 
-		UIUtils.UpdateStatusBarNotification(getApplicationContext());
+		UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getCachedConfiguration(), getApplicationContext());
 	}
 }

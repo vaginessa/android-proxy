@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.preferences;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.preference.DialogPreference;
@@ -18,8 +19,10 @@ import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.UrlManager;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.shouldit.proxy.lib.AccessPoint;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
 
@@ -44,13 +47,17 @@ public class ApSelectorDialogPreference extends DialogPreference
 		View root  = super.onCreateDialogView();
 		
 		listview = (ListView) root.findViewById(R.id.ap_selector_listview);
+		
+		
+		final ArrayList<ProxyConfiguration> confsList = (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList();
+		Collections.sort(confsList);
 				
-		listview.setAdapter(new ListAdapter(ApSelectorDialogPreference.this.getContext(), R.id.list_view, (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList()));
+		listview.setAdapter(new ListAdapter(ApSelectorDialogPreference.this.getContext(), R.id.list_view, confsList));
 		listview.setOnItemClickListener(new OnItemClickListener()
 		{
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-		    {
-		    	//TODO: Save selected AP into preferences and dismiss the dialog
+		    {		    	
+		    	MainAPPrefsFragment.instance.selectAP(confsList.get(position));
 		    	ApSelectorDialogPreference.this.getDialog().dismiss();
 		    }
 		});
@@ -82,8 +89,21 @@ public class ApSelectorDialogPreference extends DialogPreference
 				final ProxyConfiguration listItem = (ProxyConfiguration) mList.get(position);
 
 				if (listItem != null)
-				{
-//					((ImageView) view.findViewById(R.id.list_item_ap_icon)).setImageDrawable(listItem.);
+				{					
+			        ImageView signal = (ImageView) view.findViewById(R.id.list_item_ap_icon);
+			        
+			        if (listItem.ap.mRssi == Integer.MAX_VALUE) 
+			        {
+			            signal.setImageDrawable(null);
+			        } 
+			        else 
+			        {
+			            signal.setImageLevel(listItem.ap.getLevel());
+			            signal.setImageResource(R.drawable.wifi_signal);
+			            signal.setImageState((listItem.ap.security != AccessPoint.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
+			        }
+					
+					
 					((TextView) view.findViewById(R.id.list_item_ap_name)).setText(Utils.cleanUpSSID(listItem.getSSID()));
 					((TextView) view.findViewById(R.id.list_item_ap_description)).setText(listItem.toShortString());
 				}

@@ -9,6 +9,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -25,6 +26,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
@@ -32,6 +34,8 @@ import com.shouldit.proxy.lib.ProxyConfiguration;
 
 public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
+	public static MainAPPrefsFragment instance;
+	
 	public static final String TAG = "MainAPPrefsFragment";
 	// private TextView mEmptyView;
 	private ApSelectorDialogPreference apSelectorPref;
@@ -42,15 +46,17 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	private Preference proxyTester;
 	private Preference helpPref;
 	private Preference aboutPref;
-	private CheckBoxPreference proxyEnablePref;
+	private SwitchPreference proxyEnablePref;
 	private PreferenceCategory apCategoryPref;
-	private CheckBoxPreference wifiEnabledPref;
+	private SwitchPreference wifiEnabledPref;
+	private ProxyConfiguration selectedConfiguration;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.main_preferences);
+		instance = this;
 	}
 
 	@Override
@@ -60,18 +66,42 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 		getUIComponents();
 		refreshUIComponents();
+		selectAP(ApplicationGlobals.getCachedConfiguration());
+	}
+
+	public void selectAP(ProxyConfiguration conf)
+	{
+//		if (selectedConfiguration == null)
+//		{
+//			if (ApplicationGlobals.getWifiManager().isWifiEnabled())
+//			{
+				if (conf.isValidConfiguration())
+				{
+					selectedConfiguration = conf;
+					refreshAP();
+				}
+//			}
+//		}
+	}
+
+	private void refreshAP()
+	{
+		if (selectedConfiguration != null)
+		{
+			apSelectorPref.setSummary(selectedConfiguration.getAPDescription(getActivity()));
+		}
 	}
 
 	private void getUIComponents()
 	{
-		wifiEnabledPref = (CheckBoxPreference) findPreference("pref_wifi_enabled");
-		wifiEnabledPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
-		{	
-			public boolean onPreferenceClick(Preference preference)
+		wifiEnabledPref = (SwitchPreference) findPreference("pref_wifi_enabled");
+		wifiEnabledPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
+			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
-				boolean isChecked = ((CheckBoxPreference) preference).isChecked();
+				boolean isChecked = ((SwitchPreference) preference).isChecked();
 				ApplicationGlobals.getWifiManager().setWifiEnabled(isChecked);
-				
+
 				if (isChecked == false)
 				{
 					// Immediately disable when Wi-Fi is set to OFF
@@ -81,13 +111,12 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 				return true;
 			}
 		});
-		
+
 		apCategoryPref = (PreferenceCategory) findPreference("pref_ap_category");
 		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
-		
-		proxyEnablePref = (CheckBoxPreference) findPreference("pref_proxy_enabled");
-		
-		
+
+		proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
+
 		authPrefScreen = (PreferenceScreen) findPreference("pref_key_proxy_settings_authentication_screen");
 		notificationPref = (CheckBoxPreference) findPreference("preference_notification_enabled");
 		notificationAlwaysPref = (CheckBoxPreference) findPreference("preference_notification_always_visible");
@@ -109,52 +138,53 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		apSelectorPref.setEnabled(wifiEnabled);
 		proxyEnablePref.setEnabled(wifiEnabled);
 		
-//		ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
-//
-//		getPreferenceScreen().removeAll();
-//		
-//		View v = getView();
-//		
-//		TextView valueTV = new TextView(getActivity());
-//	    valueTV.setText("Please Enable Wi-Fi");
-//	    valueTV.setId(5);
-//	    valueTV.setLayoutParams(new LayoutParams(
-//	            LayoutParams.FILL_PARENT,
-//	            LayoutParams.FILL_PARENT));
-//
-//		((LinearLayout) v).addView(valueTV);
-		
-//		if (ApplicationGlobals.getWifiManager().isWifiEnabled())
-//		{
-//			// getPreferenceScreen().removePreference(authPrefScreen);
-//
-//			if (ApplicationGlobals.getCachedConfiguration().getCheckingStatus() == CheckStatusValues.CHECKED)
-//			{
-//				apSelectorPref.setTitle(Utils.cleanUpSSID(conf.getSSID()));
-//				apSelectorPref.setSummary(conf.toShortString());
-//				
-//				
-//				if (proxyEnablePref.isChecked())
-//				{
-//					
-//				}
-//				else
-//				{
-//					apCategoryPref.removePreference(proxyEnablePref);
-//				}
-//			}
-//		}
-//		else
-//		{
-//
-//		}
+		refreshAP();
+		//		ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
+		//
+		//		getPreferenceScreen().removeAll();
+		//		
+		//		View v = getView();
+		//		
+		//		TextView valueTV = new TextView(getActivity());
+		//	    valueTV.setText("Please Enable Wi-Fi");
+		//	    valueTV.setId(5);
+		//	    valueTV.setLayoutParams(new LayoutParams(
+		//	            LayoutParams.FILL_PARENT,
+		//	            LayoutParams.FILL_PARENT));
+		//
+		//		((LinearLayout) v).addView(valueTV);
+
+		//		if (ApplicationGlobals.getWifiManager().isWifiEnabled())
+		//		{
+		//			// getPreferenceScreen().removePreference(authPrefScreen);
+		//
+		//			if (ApplicationGlobals.getCachedConfiguration().getCheckingStatus() == CheckStatusValues.CHECKED)
+		//			{
+		//				apSelectorPref.setTitle(Utils.cleanUpSSID(conf.getSSID()));
+		//				apSelectorPref.setSummary(conf.toShortString());
+		//				
+		//				
+		//				if (proxyEnablePref.isChecked())
+		//				{
+		//					
+		//				}
+		//				else
+		//				{
+		//					apCategoryPref.removePreference(proxyEnablePref);
+		//				}
+		//			}
+		//		}
+		//		else
+		//		{
+		//
+		//		}
 
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
 	{
 		LogWrapper.d(TAG, "Changed preference: " + key);
-		
+
 		if (key == "pref_wifi_enabled")
 		{
 			ApplicationGlobals.getWifiManager().setWifiEnabled(wifiEnabledPref.isChecked());

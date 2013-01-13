@@ -26,11 +26,11 @@ public class UIUtils
 	public static int PROXY_NOTIFICATION_ID = 1;
 	public static int URL_DOWNLOADER_COMPLETED_ID = 2;
 
-	public static String GetStatusSummary(Context ctx)
+	public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)
 	{
 //		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
-			return UIUtils.GetStatusTitle(ctx);
+			return UIUtils.GetStatusTitle(conf, ctx);
 		}
 //		else
 //		{
@@ -46,15 +46,15 @@ public class UIUtils
 //		}
 	}
 
-	public static String GetStatusTitle(Context callerContext)
+	public static String GetStatusTitle(ProxyConfiguration conf, Context callerContext)
 	{
 		String description;
 
-		switch (ApplicationGlobals.getCachedConfiguration().getCheckingStatus())
+		switch (conf.getCheckingStatus())
 		{
 			case CHECKED:
 			{
-				ProxyStatusErrors status = ApplicationGlobals.getCurrentConfiguration().getMostRelevantProxyStatusError();
+				ProxyStatusErrors status = conf.getMostRelevantProxyStatusError();
 
 				switch (status)
 				{
@@ -97,21 +97,21 @@ public class UIUtils
 		return description;
 	}
 
-	public static String GetStatusDescription(Context callerContext)
+	public static String GetStatusDescription(ProxyConfiguration conf, Context callerContext)
 	{
 		String description;
 
-		switch (ApplicationGlobals.getCachedConfiguration().getCheckingStatus())
+		switch (conf.getCheckingStatus())
 		{
 			case CHECKED:
 			{
-				ProxyStatusErrors status = ApplicationGlobals.getCurrentConfiguration().getMostRelevantProxyStatusError();
+				ProxyStatusErrors status = conf.getMostRelevantProxyStatusError();
 
 				switch (status)
 				{
 					case NO_ERRORS:
 						description = callerContext.getResources().getString(R.string.statusbar_notification_description_enabled);
-						description = description + " " + ApplicationGlobals.getCurrentConfiguration().toShortString();
+						description = description + " " + conf.toShortString();
 						break;
 
 					case PROXY_NOT_ENABLED:
@@ -148,11 +148,11 @@ public class UIUtils
 		return description;
 	}
 
-	public static String ProxyConfigToStatusString(Context callerContext)
+	public static String ProxyConfigToStatusString(ProxyConfiguration conf, Context callerContext)
 	{
-		String message = String.format("%s", ApplicationGlobals.getCurrentConfiguration().toShortString());
+		String message = String.format("%s", conf.toShortString());
 
-		message += " - " + GetStatusTitle(callerContext);
+		message += " - " + GetStatusTitle(conf, callerContext);
 
 		return message;
 	}
@@ -162,19 +162,17 @@ public class UIUtils
 	 * @param proxyConfig
 	 * @param status
 	 */
-	public static void UpdateStatusBarNotification(Context context)
+	public static void UpdateStatusBarNotification(ProxyConfiguration conf, Context context)
 	{
-		if (ApplicationGlobals.getCachedConfiguration().getCheckingStatus() == CheckStatusValues.CHECKED)
-		{
-			ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
-			
+		if (conf.getCheckingStatus() == CheckStatusValues.CHECKED)
+		{	
 			if (conf.proxyHost.type() == Type.DIRECT)
 			{
 				DisableProxyNotification(context);
 			}
 			else
 			{
-				SetProxyNotification(context);
+				SetProxyNotification(conf, context);
 			}
 		}
 		else
@@ -186,14 +184,14 @@ public class UIUtils
 	/**
 	 * Notification related methods
 	 * */
-	public static void SetProxyNotification(Context callerContext)
+	public static void SetProxyNotification(ProxyConfiguration conf, Context callerContext)
 	{
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(callerContext);
 		if (prefs.getBoolean("preference_notification_enabled", false))
 		{
 
-			String notificationTitle = GetStatusTitle(callerContext);
-			String notificationDescription = GetStatusDescription(callerContext);
+			String notificationTitle = GetStatusTitle(conf, callerContext);
+			String notificationDescription = GetStatusDescription(conf, callerContext);
 
 			// The PendingIntent will launch activity if the user selects this
 			// notification

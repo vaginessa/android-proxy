@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.receivers;
 
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -27,7 +28,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         if (intent.getAction().toString().equals(Constants.PROXY_UPDATE_NOTIFICATION))			// INTERNAL: Called for update the Proxy Settings notification
         {
         	//LogWrapper.logIntent(TAG, intent, Log.DEBUG);
-        	UIUtils.UpdateStatusBarNotification(context);
+        	UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getCachedConfiguration(),context);
         }
         else if (intent.getAction().equals(Constants.PROXY_CONFIGURATION_UPDATED) 				// INTERNAL: Called when a proxy configuration is changed
         		 ||	intent.getAction().equals(Constants.PROXY_SETTINGS_STARTED) 			 	// INTERNAL: Called when Proxy Settings is started
