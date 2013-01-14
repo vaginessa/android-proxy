@@ -1,5 +1,7 @@
 package com.shouldit.proxy.lib;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -9,6 +11,7 @@ import java.util.regex.Pattern;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -23,6 +26,8 @@ import android.webkit.URLUtil;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
+import com.shouldit.proxy.lib.reflection.ReflectionUtils;
+import com.shouldit.proxy.lib.reflection.android.RProxySettings;
 
 public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 {
@@ -32,41 +37,97 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public ProxyStatus status;
 	public AccessPoint ap;
 	public NetworkInfo currentNetworkInfo;
-//	public Boolean isNetworkAvailable;
 	public Proxy proxyHost;
+	private RProxySettings proxyToggle;
 	public int deviceVersion;
 	public String proxyDescription;
 
 	public ProxyConfiguration(Context ctx, Proxy proxy, String description, NetworkInfo netInfo, WifiConfiguration wifiConf)
 	{
 		context = ctx;
+		
+		if (proxy == null || proxy == Proxy.NO_PROXY)
+			proxyToggle = RProxySettings.NONE;
+		else
+			proxyToggle = RProxySettings.STATIC;
+		
 		proxyHost = proxy;
 		proxyDescription = description;
 		currentNetworkInfo = netInfo;
-		
-//		if (currentNetworkInfo == null)
-//		{
-//			isNetworkAvailable = false;
-//		}
-//		else
-//		{
-//			isNetworkAvailable = true;
-//		}
-		
+
 		if (wifiConf != null)
 			ap = new AccessPoint(wifiConf);
-		
+
 		deviceVersion = Build.VERSION.SDK_INT;
 		status = new ProxyStatus();
 	}
-	
+
+	@Deprecated
+	@TargetApi(12)
+	public void writeConfigurationToDevice()
+	{
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+		try
+		{
+			if (proxyToggle == RProxySettings.NONE || proxyToggle == RProxySettings.UNASSIGNED)
+			{
+				Field proxySettingsField = ap.wifiConfig.getClass().getField("proxySettings");
+				proxySettingsField.set(ap.wifiConfig,(Object) proxySettingsField.getType().getEnumConstants()[0]);
+				Object proxySettings = proxySettingsField.get(ap.wifiConfig);
+				int ordinal = ((Enum) proxySettings).ordinal();
+				if (ordinal != RProxySettings.NONE.ordinal())
+					throw new Exception("Cannot set proxySettings");
+				
+				Field linkPropertiesField = ap.wifiConfig.getClass().getField("linkProperties");
+				Object linkProperties = linkPropertiesField.get(ap.wifiConfig);
+				Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
+				mHttpProxyField.setAccessible(true);
+				
+				mHttpProxyField.set(linkProperties, null);
+				Object mHttpProxy = mHttpProxyField.get(linkProperties);
+				mHttpProxy = mHttpProxyField.get(linkProperties);
+			}
+			else if (proxyToggle == RProxySettings.STATIC)
+			{
+
+			}
+		}
+		catch (IllegalArgumentException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (SecurityException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (NoSuchFieldException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	@Override
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format("Proxy: %s\n", proxyHost.toString()));
 		sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
-		sb.append(String.format("Is Proxy address valid: %B\n" , isProxyValidAddress()));
+		sb.append(String.format("Is Proxy address valid: %B\n", isProxyValidAddress()));
 		sb.append(String.format("Is Proxy reachable: %B\n", isProxyReachable()));
 		sb.append(String.format("Is WEB reachable: %B\n", isWebReachable(60000)));
 
@@ -74,13 +135,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		{
 			sb.append(String.format("Network Info: %s\n", currentNetworkInfo));
 		}
-		
+
 		if (ap != null && ap.getConfig() != null)
 			sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.getConfig().SSID.toString()));
 
 		return sb.toString();
 	}
-	
+
 	public Boolean isCurrentNetwork()
 	{
 		if (this.getSSID().equals(currentNetworkInfo.getExtraInfo()))
@@ -88,7 +149,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		else
 			return false;
 	}
-	
 
 	public String toShortString()
 	{
@@ -96,7 +156,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		{
 			return Proxy.NO_PROXY.toString();
 		}
-		
+
 		if (proxyDescription != null)
 		{
 			return proxyDescription;
@@ -111,7 +171,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		return String.format("%s:%d", getProxyIPHost(), getProxyPort());
 	}
-	
+
 	public Proxy.Type getProxyType()
 	{
 		return proxyHost.type();
@@ -128,61 +188,61 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		status.clear();
 		status.startchecking();
 		broadCastUpdatedStatus();
-		
+
 		LogWrapper.d(TAG, "Checking if proxy is enabled ...");
 		if (!isProxyEnabled())
 		{
 			LogWrapper.e(TAG, "PROXY NOT ENABLED");
-			status.add(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED ,false);
+			status.add(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false);
 		}
 		else
 		{
 			LogWrapper.i(TAG, "PROXY ENABLED");
-			status.add(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED ,true);
+			status.add(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true);
 		}
-		
+
 		broadCastUpdatedStatus();
 
 		LogWrapper.d(TAG, "Checking if proxy is valid address ...");
 		if (!isProxyValidAddress())
 		{
 			LogWrapper.e(TAG, "PROXY NOT VALID ADDRESS");
-			status.add(ProxyStatusProperties.PROXY_VALID_ADDRESS,CheckStatusValues.CHECKED , false);
+			status.add(ProxyStatusProperties.PROXY_VALID_ADDRESS, CheckStatusValues.CHECKED, false);
 		}
 		else
 		{
 			LogWrapper.i(TAG, "PROXY VALID ADDRESS");
-			status.add(ProxyStatusProperties.PROXY_VALID_ADDRESS, CheckStatusValues.CHECKED ,true);
+			status.add(ProxyStatusProperties.PROXY_VALID_ADDRESS, CheckStatusValues.CHECKED, true);
 		}
-		
+
 		broadCastUpdatedStatus();
 
 		LogWrapper.d(TAG, "Checking if proxy is reachable ...");
 		if (!isProxyReachable())
 		{
 			LogWrapper.e(TAG, "PROXY NOT REACHABLE");
-			status.add(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED ,false);
+			status.add(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false);
 		}
 		else
 		{
 			LogWrapper.i(TAG, "PROXY REACHABLE");
-			status.add(ProxyStatusProperties.PROXY_REACHABLE,CheckStatusValues.CHECKED , true);
+			status.add(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, true);
 		}
-		
+
 		broadCastUpdatedStatus();
 
 		LogWrapper.d(TAG, "Checking if web is reachable ...");
 		if (!isWebReachable(timeout))
 		{
 			LogWrapper.e(TAG, "WEB NOT REACHABLE");
-			status.add(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED ,false);
+			status.add(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, false);
 		}
 		else
 		{
 			LogWrapper.i(TAG, "WEB REACHABLE");
-			status.add(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED ,true);
+			status.add(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, true);
 		}
-		
+
 		broadCastUpdatedStatus();
 	}
 
@@ -193,7 +253,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		intent.putExtra(APLConstants.ProxyStatus, status);
 		context.sendBroadcast(intent);
 	}
-	
+
 	public ProxyStatusErrors getMostRelevantProxyStatusError()
 	{
 		if (!status.getEnabled().result)
@@ -211,20 +271,20 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				return ProxyStatusErrors.WEB_NOT_REACHABLE;
 			}
 			else
-			{	
+			{
 				if (status.getValid_address().result)
 				{
 					return ProxyStatusErrors.PROXY_NOT_REACHABLE;
 				}
 				else
 					return ProxyStatusErrors.PROXY_ADDRESS_NOT_VALID;
-			}	
+			}
 		}
 	}
 
 	private Boolean isProxyEnabled()
 	{
-		if (Build.VERSION.SDK_INT >= 12) 
+		if (Build.VERSION.SDK_INT >= 12)
 		{
 			// On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
 			// Proxy is disabled by default on Mobile connection
@@ -247,7 +307,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		try
 		{
 			String proxyHost = getProxyHost();
-			
+
 			if (proxyHost != null)
 			{
 
@@ -255,24 +315,24 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				{
 					return true;
 				}
-	
+
 				if (URLUtil.isNetworkUrl(proxyHost))
 				{
 					return true;
 				}
-	
+
 				if (URLUtil.isValidUrl(proxyHost))
 				{
 					return true;
 				}
-	
+
 				// Test REGEX for Hostname validation
 				// http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
 				//
 				String ValidHostnameRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
 				Pattern pattern = Pattern.compile(ValidHostnameRegex);
 				Matcher matcher = pattern.matcher(proxyHost);
-	
+
 				if (matcher.find())
 				{
 					return true;
@@ -282,7 +342,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			{
 				return false;
 			}
-		
+
 		}
 		catch (Exception e)
 		{
@@ -338,12 +398,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		if (proxyAddress != null)
 		{
 			InetAddress address = proxyAddress.getAddress();
-			
+
 			if (address != null)
 			{
 				return address.getHostAddress();
 			}
-			else 
+			else
 			{
 				// return proxy description if it's not possible to resolve the proxy name
 				return this.proxyDescription;
@@ -373,17 +433,17 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public int compareTo(ProxyConfiguration another)
 	{
 		int result;
-		
-//		if (!isNetworkAvailable)
-//		{
-//			LogWrapper.e(TAG, "Cannot compare ProxyConfigurations, network in not available!");
-//			return 0; // Cannot compare if network is not available
-//		}
-		
+
+		//		if (!isNetworkAvailable)
+		//		{
+		//			LogWrapper.e(TAG, "Cannot compare ProxyConfigurations, network in not available!");
+		//			return 0; // Cannot compare if network is not available
+		//		}
+
 		if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
 		{
-			if(another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-			{	
+			if (another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+			{
 				result = ap.compareTo(another.ap);
 				if (result == 0)
 				{
@@ -395,24 +455,24 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			}
 			else
 			{
-				result = -1; 
+				result = -1;
 			}
 		}
 		else
 		{
-			if(another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+			if (another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
 			{
 				result = +1;
 			}
 			else
 			{
-				result = 0;  // Both are mobile or no connection 
+				result = 0; // Both are mobile or no connection 
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	public String getAPDescription(Context ctx)
 	{
 		StringBuilder sb = new StringBuilder();

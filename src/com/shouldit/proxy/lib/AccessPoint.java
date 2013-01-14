@@ -48,7 +48,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 
 	PskType pskType = PskType.UNKNOWN;
 
-	private WifiConfiguration mWifiConfig;
+	public WifiConfiguration wifiConfig;
 	/* package */ScanResult mScanResult;
 
 	public int mRssi;
@@ -146,7 +146,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 		security = getSecurity(config);
 		networkId = config.networkId;
 		mRssi = Integer.MAX_VALUE;
-		mWifiConfig = config;
+		wifiConfig = config;
 	}
 
 	@Override
@@ -212,7 +212,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 
 	WifiConfiguration getConfig()
 	{
-		return mWifiConfig;
+		return wifiConfig;
 	}
 
 	WifiInfo getInfo()
