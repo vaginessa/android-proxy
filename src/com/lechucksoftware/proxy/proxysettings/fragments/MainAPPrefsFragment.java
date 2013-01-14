@@ -6,20 +6,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.net.NetworkInfo.DetailedState;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
@@ -27,10 +22,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.APLConstants;
-import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
 public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
@@ -117,6 +110,16 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
 
 		proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
+		proxyEnablePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
+			
+			public boolean onPreferenceChange(Preference preference, Object newValue)
+			{
+				boolean isChecked = ((SwitchPreference) preference).isChecked();
+				selectedConfiguration.writeConfigurationToDevice();
+				return true;
+			}
+		});
 
 		authPrefScreen = (PreferenceScreen) findPreference("pref_key_proxy_settings_authentication_screen");
 		notificationPref = (CheckBoxPreference) findPreference("preference_notification_enabled");
