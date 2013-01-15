@@ -1,5 +1,6 @@
 package com.shouldit.proxy.lib;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -35,6 +36,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public AccessPoint ap;
 	public NetworkInfo currentNetworkInfo;
 	private Proxy proxyHost;
+	public String proxyDescription;
+	public String proxyExclusionList;
 	
 	public Proxy getProxyHost()
 	{
@@ -43,15 +46,15 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	private RProxySettings proxyToggle;
 	public int deviceVersion;
-	public String proxyDescription;
 
-	public ProxyConfiguration(Context ctx, RProxySettings proxyEnabled, Proxy proxy, String description, NetworkInfo netInfo, WifiConfiguration wifiConf)
+	public ProxyConfiguration(Context ctx, RProxySettings proxyEnabled, Proxy proxy, String description, String exclusionList, NetworkInfo netInfo, WifiConfiguration wifiConf)
 	{
 		context = ctx;
 				
 		proxyToggle = proxyEnabled;
 		proxyHost = proxy;
 		proxyDescription = description;
+		proxyExclusionList = exclusionList;
 		currentNetworkInfo = netInfo;
 
 		if (wifiConf != null)
@@ -61,8 +64,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		status = new ProxyStatus();
 	}
 
-	
-	
 	@Deprecated
 	@TargetApi(12)
 	public void writeConfigurationToDevice()
@@ -71,28 +72,34 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 		try
 		{
+			Field proxySettingsField = ap.wifiConfig.getClass().getField("proxySettings");
+			proxySettingsField.set(ap.wifiConfig,(Object) proxySettingsField.getType().getEnumConstants()[proxyToggle.ordinal()]);
+			Object proxySettings = proxySettingsField.get(ap.wifiConfig);
+			int ordinal = ((Enum) proxySettings).ordinal();
+			if (ordinal != proxyToggle.ordinal())
+				throw new Exception("Cannot set proxySettings variable");
+			
+			Field linkPropertiesField = ap.wifiConfig.getClass().getField("linkProperties");
+			Object linkProperties = linkPropertiesField.get(ap.wifiConfig);
+			Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
+			mHttpProxyField.setAccessible(true);
+
+			
 			if (proxyToggle == RProxySettings.NONE || proxyToggle == RProxySettings.UNASSIGNED)
-			{
-				Field proxySettingsField = ap.wifiConfig.getClass().getField("proxySettings");
-				proxySettingsField.set(ap.wifiConfig,(Object) proxySettingsField.getType().getEnumConstants()[0]);
-				Object proxySettings = proxySettingsField.get(ap.wifiConfig);
-				int ordinal = ((Enum) proxySettings).ordinal();
-				if (ordinal != RProxySettings.NONE.ordinal())
-					throw new Exception("Cannot set proxySettings");
-				
-				Field linkPropertiesField = ap.wifiConfig.getClass().getField("linkProperties");
-				Object linkProperties = linkPropertiesField.get(ap.wifiConfig);
-				Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
-				mHttpProxyField.setAccessible(true);
-				
+			{				
 				mHttpProxyField.set(linkProperties, null);
-				Object mHttpProxy = mHttpProxyField.get(linkProperties);
-				mHttpProxy = mHttpProxyField.get(linkProperties);
 			}
 			else if (proxyToggle == RProxySettings.STATIC)
-			{
-
+			{							
+				Class ProxyPropertiesClass = mHttpProxyField.getType();
+				Constructor constr = ProxyPropertiesClass.getConstructors()[1];
+				
+				Object ProxyProperties = constr.newInstance(getProxyHostString(), getProxyPort() , proxyExclusionList);
+				mHttpProxyField.set(linkProperties, ProxyProperties);
 			}
+			
+			Object mHttpProxy = mHttpProxyField.get(linkProperties);
+			mHttpProxy = mHttpProxyField.get(linkProperties);
 		}
 		catch (IllegalArgumentException e)
 		{

@@ -55,7 +55,7 @@ public class ProxySettings
 		 * */
 		if (proxyConfig == null)
 		{
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, null, null, null);
+			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, null, null, null, null);
 		}
 
 		/**
@@ -117,9 +117,9 @@ public class ProxySettings
 		
 		ProxyConfiguration proxyConfig = null;
 		if (proxy != Proxy.NO_PROXY)
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), activeNetInfo, null);
+			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), null, activeNetInfo, null);
 		else
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, proxy, proxy.toString(), activeNetInfo, null);
+			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, proxy, proxy.toString(), null, activeNetInfo, null);
 
 		return proxyConfig;
 	}
@@ -172,7 +172,7 @@ public class ProxySettings
 				{
 					Integer proxyPort = Integer.parseInt(proxyParts[1]);
 					Proxy p = new Proxy(Type.HTTP, InetSocketAddress.createUnresolved(proxyAddress, proxyPort));
-					proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, p, proxyString, null, null);
+					proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, p, proxyString, null, null, null);
 					// LogWrapper.d(TAG, "ProxyHost created: " +
 					// proxyConfig.toString());
 				}
@@ -207,7 +207,7 @@ public class ProxySettings
 
 			if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
 			{
-				proxyHost = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, "", activeNetInfo, wifiConf);
+				proxyHost = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, "", "", activeNetInfo, wifiConf);
 			}
 			else
 			{				
@@ -236,7 +236,7 @@ public class ProxySettings
 					InetSocketAddress sa = InetSocketAddress.createUnresolved(mHost, mPort);
 					Proxy proxy = new Proxy(Proxy.Type.HTTP, sa);
 
-					proxyHost = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), activeNetInfo, wifiConf);
+					proxyHost = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), mExclusionList, activeNetInfo, wifiConf);
 				}
 			}
 		}
