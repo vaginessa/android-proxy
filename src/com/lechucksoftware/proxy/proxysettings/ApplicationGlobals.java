@@ -19,6 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
+import com.shouldit.proxy.lib.reflection.android.RProxySettings;
 
 public class ApplicationGlobals extends Application
 {
@@ -126,7 +127,7 @@ public class ApplicationGlobals extends Application
 		if (conf == null)
 		{
 			NetworkInfo activeNetInfo = mInstance.mConnManager.getActiveNetworkInfo();
-			conf = new ProxyConfiguration(mInstance.getApplicationContext(), Proxy.NO_PROXY, null, activeNetInfo, null);
+			conf = new ProxyConfiguration(mInstance.getApplicationContext(), RProxySettings.NONE, Proxy.NO_PROXY, null, activeNetInfo, null);
 		}
 
 		mInstance.currentConfiguration = conf;
