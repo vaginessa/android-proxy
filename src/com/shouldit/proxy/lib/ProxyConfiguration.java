@@ -1,6 +1,5 @@
 package com.shouldit.proxy.lib;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -16,15 +15,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.NetworkInfo.DetailedState;
 import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.webkit.URLUtil;
 
-import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
+import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.RProxySettings;
@@ -37,7 +34,26 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public ProxyStatus status;
 	public AccessPoint ap;
 	public NetworkInfo currentNetworkInfo;
-	public Proxy proxyHost;
+	private Proxy proxyHost;
+	
+	/**
+	 * @param proxyHost the proxyHost to set
+	 */
+	public void setProxyHost(Proxy proxyHost)
+	{
+		this.proxyHost = proxyHost;
+		
+		if (this.proxyHost == null || this.proxyHost == Proxy.NO_PROXY)
+			proxyToggle = RProxySettings.NONE;
+		else
+			proxyToggle = RProxySettings.STATIC;
+	}
+	
+	public Proxy getProxyHost()
+	{
+		return proxyHost;
+	}
+
 	private RProxySettings proxyToggle;
 	public int deviceVersion;
 	public String proxyDescription;
@@ -45,13 +61,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public ProxyConfiguration(Context ctx, Proxy proxy, String description, NetworkInfo netInfo, WifiConfiguration wifiConf)
 	{
 		context = ctx;
-		
-		if (proxy == null || proxy == Proxy.NO_PROXY)
-			proxyToggle = RProxySettings.NONE;
-		else
-			proxyToggle = RProxySettings.STATIC;
-		
-		proxyHost = proxy;
+				
+		setProxyHost(proxy);
 		proxyDescription = description;
 		currentNetworkInfo = netInfo;
 
@@ -62,6 +73,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		status = new ProxyStatus();
 	}
 
+	
+	
 	@Deprecated
 	@TargetApi(12)
 	public void writeConfigurationToDevice()
@@ -308,7 +321,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		try
 		{
-			String proxyHost = getProxyHost();
+			String proxyHost = getProxyHostString();
 
 			if (proxyHost != null)
 			{
@@ -380,7 +393,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		return ProxyUtils.isWebReachable(this, timeout);
 	}
 
-	public String getProxyHost()
+	public String getProxyHostString()
 	{
 		InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
 		if (proxyAddress != null)
