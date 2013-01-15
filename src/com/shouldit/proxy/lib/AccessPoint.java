@@ -210,11 +210,6 @@ public class AccessPoint implements Comparable<AccessPoint>
 		return WifiManager.calculateSignalLevel(mRssi, 4);
 	}
 
-	WifiConfiguration getConfig()
-	{
-		return wifiConfig;
-	}
-
 	WifiInfo getInfo()
 	{
 		return mInfo;

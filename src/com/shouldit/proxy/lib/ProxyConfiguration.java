@@ -136,15 +136,17 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			sb.append(String.format("Network Info: %s\n", currentNetworkInfo));
 		}
 
-		if (ap != null && ap.getConfig() != null)
-			sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.getConfig().SSID.toString()));
+		if (ap != null && ap.wifiConfig != null)
+			sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.wifiConfig.SSID.toString()));
 
 		return sb.toString();
 	}
 
 	public Boolean isCurrentNetwork()
 	{
-		if (this.getSSID().equals(currentNetworkInfo.getExtraInfo()))
+		if (currentNetworkInfo != null && 
+				this.getSSID() != null && 
+				this.getSSID().equals(currentNetworkInfo.getExtraInfo()))
 			return true;
 		else
 			return false;
@@ -482,9 +484,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public String getSSID()
 	{
-		if (ap.getConfig().SSID != null)
+		if (ap != null && ap.wifiConfig != null && ap.wifiConfig.SSID != null)
 		{
-			return ap.getConfig().SSID;
+			return ap.wifiConfig.SSID;
 		}
 		else
 			return null;
