@@ -36,19 +36,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public NetworkInfo currentNetworkInfo;
 	private Proxy proxyHost;
 	
-	/**
-	 * @param proxyHost the proxyHost to set
-	 */
-	public void setProxyHost(Proxy proxyHost)
-	{
-		this.proxyHost = proxyHost;
-		
-		if (this.proxyHost == null || this.proxyHost == Proxy.NO_PROXY)
-			proxyToggle = RProxySettings.NONE;
-		else
-			proxyToggle = RProxySettings.STATIC;
-	}
-	
 	public Proxy getProxyHost()
 	{
 		return proxyHost;
@@ -58,11 +45,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public int deviceVersion;
 	public String proxyDescription;
 
-	public ProxyConfiguration(Context ctx, Proxy proxy, String description, NetworkInfo netInfo, WifiConfiguration wifiConf)
+	public ProxyConfiguration(Context ctx, RProxySettings proxyEnabled, Proxy proxy, String description, NetworkInfo netInfo, WifiConfiguration wifiConf)
 	{
 		context = ctx;
 				
-		setProxyHost(proxy);
+		proxyToggle = proxyEnabled;
+		proxyHost = proxy;
 		proxyDescription = description;
 		currentNetworkInfo = netInfo;
 
