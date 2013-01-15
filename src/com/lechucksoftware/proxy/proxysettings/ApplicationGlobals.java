@@ -56,11 +56,11 @@ public class ApplicationGlobals extends Application
 
 		mInstance = this;
 		
-		if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
-		{
-			// Enable WiFi if it's not enabled
-			ApplicationGlobals.getWifiManager().setWifiEnabled(true);
-		}
+//		if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
+//		{
+//			// Enable WiFi if it's not enabled
+//			ApplicationGlobals.getWifiManager().setWifiEnabled(true);
+//		}
 		
 		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
 		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));

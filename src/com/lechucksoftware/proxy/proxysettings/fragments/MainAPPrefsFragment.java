@@ -112,7 +112,6 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
 		proxyEnablePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
 		{
-			
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				boolean isChecked = ((SwitchPreference) preference).isChecked();
