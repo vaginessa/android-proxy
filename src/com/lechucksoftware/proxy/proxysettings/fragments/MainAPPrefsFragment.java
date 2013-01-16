@@ -25,11 +25,12 @@ import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.reflection.android.RProxySettings;
 
 public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
 	public static MainAPPrefsFragment instance;
-	
+
 	public static final String TAG = "MainAPPrefsFragment";
 	// private TextView mEmptyView;
 	private ApSelectorDialogPreference apSelectorPref;
@@ -65,24 +66,33 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 	public void selectAP(ProxyConfiguration conf)
 	{
-//		if (selectedConfiguration == null)
-//		{
-//			if (ApplicationGlobals.getWifiManager().isWifiEnabled())
-//			{
-				if (conf.isValidConfiguration())
-				{
-					selectedConfiguration = conf;
-					refreshAP();
-				}
-//			}
-//		}
+		//		if (selectedConfiguration == null)
+		//		{
+		//			if (ApplicationGlobals.getWifiManager().isWifiEnabled())
+		//			{
+		if (conf.isValidConfiguration())
+		{
+			selectedConfiguration = conf;
+			refreshAP();
+		}
+		//			}
+		//		}
 	}
 
 	private void refreshAP()
 	{
 		if (selectedConfiguration != null)
-		{			
-			apSelectorPref.setSummary(Utils.cleanUpSSID(selectedConfiguration.getSSID())  + " - " + selectedConfiguration.getAPDescription(getActivity()));
+		{
+			apSelectorPref.setSummary(Utils.cleanUpSSID(selectedConfiguration.getSSID()) + " - " + selectedConfiguration.getAPDescription(getActivity()));
+
+			if (selectedConfiguration.proxyToggle == RProxySettings.NONE || selectedConfiguration.proxyToggle == RProxySettings.UNASSIGNED)
+			{
+				proxyEnablePref.setChecked(false);
+			}
+			else
+			{
+				proxyEnablePref.setChecked(true);
+			}
 		}
 	}
 
@@ -93,7 +103,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		{
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
-				boolean isChecked = ((SwitchPreference) preference).isChecked();
+				Boolean isChecked = (Boolean) newValue;
 				ApplicationGlobals.getWifiManager().setWifiEnabled(isChecked);
 
 				if (isChecked == false)
@@ -102,6 +112,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 					apSelectorPref.setEnabled(isChecked);
 					proxyEnablePref.setEnabled(isChecked);
 				}
+
 				return true;
 			}
 		});
@@ -114,7 +125,17 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		{
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
-				boolean isChecked = ((SwitchPreference) preference).isChecked();
+				Boolean isChecked = (Boolean) newValue;
+
+				if (isChecked)
+				{
+					selectedConfiguration.proxyToggle = RProxySettings.STATIC;
+				}
+				else
+				{
+					selectedConfiguration.proxyToggle = RProxySettings.NONE;
+				}
+
 				selectedConfiguration.writeConfigurationToDevice();
 				return true;
 			}
@@ -140,8 +161,9 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		wifiEnabledPref.setChecked(wifiEnabled);
 		apSelectorPref.setEnabled(wifiEnabled);
 		proxyEnablePref.setEnabled(wifiEnabled);
-		
+
 		refreshAP();
+
 		//		ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
 		//
 		//		getPreferenceScreen().removeAll();
