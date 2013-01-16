@@ -1,12 +1,10 @@
 package com.shouldit.proxy.lib;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 import java.net.ProxySelector;
-import java.net.Socket;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,7 +53,7 @@ public class ProxySettings
 		 * */
 		if (proxyConfig == null)
 		{
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, null, null, null, null);
+			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, null, null, null);
 		}
 
 		/**
@@ -113,13 +111,12 @@ public class ProxySettings
 			throw new Exception("Not found valid proxy configuration!");
 
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
 		
 		ProxyConfiguration proxyConfig = null;
 		if (proxy != Proxy.NO_PROXY)
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), null, activeNetInfo, null);
+			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), null, null);
 		else
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, proxy, proxy.toString(), null, activeNetInfo, null);
+			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, proxy, proxy.toString(), null, null);
 
 		return proxyConfig;
 	}
@@ -172,7 +169,7 @@ public class ProxySettings
 				{
 					Integer proxyPort = Integer.parseInt(proxyParts[1]);
 					Proxy p = new Proxy(Type.HTTP, InetSocketAddress.createUnresolved(proxyAddress, proxyPort));
-					proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, p, proxyString, null, null, null);
+					proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, p, proxyString, null, null);
 					// LogWrapper.d(TAG, "ProxyHost created: " +
 					// proxyConfig.toString());
 				}
@@ -196,7 +193,6 @@ public class ProxySettings
 		ProxyConfiguration proxyHost = null;
 
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
 		
 		try
 		{
@@ -207,7 +203,7 @@ public class ProxySettings
 
 			if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
 			{
-				proxyHost = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, "", "", activeNetInfo, wifiConf);
+				proxyHost = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, "", "", wifiConf);
 			}
 			else
 			{				
@@ -236,7 +232,7 @@ public class ProxySettings
 					InetSocketAddress sa = InetSocketAddress.createUnresolved(mHost, mPort);
 					Proxy proxy = new Proxy(Proxy.Type.HTTP, sa);
 
-					proxyHost = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), mExclusionList, activeNetInfo, wifiConf);
+					proxyHost = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), mExclusionList, wifiConf);
 				}
 			}
 		}

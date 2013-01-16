@@ -46,8 +46,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	private RProxySettings proxyToggle;
 	public int deviceVersion;
+	private ConnectivityManager connManager;
+	
 
-	public ProxyConfiguration(Context ctx, RProxySettings proxyEnabled, Proxy proxy, String description, String exclusionList, NetworkInfo netInfo, WifiConfiguration wifiConf)
+	public ProxyConfiguration(Context ctx, RProxySettings proxyEnabled, Proxy proxy, String description, String exclusionList, WifiConfiguration wifiConf)
 	{
 		context = ctx;
 				
@@ -55,7 +57,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxyHost = proxy;
 		proxyDescription = description;
 		proxyExclusionList = exclusionList;
-		currentNetworkInfo = netInfo;
+
+		connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+		currentNetworkInfo = connManager.getActiveNetworkInfo();
 
 		if (wifiConf != null)
 			ap = new AccessPoint(wifiConf);
@@ -442,44 +446,41 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	@Override
 	public int compareTo(ProxyConfiguration another)
 	{
-		int result;
+		int result = 0;
 
-		//		if (!isNetworkAvailable)
-		//		{
-		//			LogWrapper.e(TAG, "Cannot compare ProxyConfigurations, network in not available!");
-		//			return 0; // Cannot compare if network is not available
-		//		}
-
-		if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+		if (currentNetworkInfo != null && another.currentNetworkInfo != null)
 		{
-			if (another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+			if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
 			{
-				result = ap.compareTo(another.ap);
-				if (result == 0)
+				if (another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
 				{
-					if (proxyHost != another.proxyHost)
+					result = ap.compareTo(another.ap);
+					if (result == 0)
 					{
-						result = proxyHost.toString().compareTo(another.proxyHost.toString());
+						if (proxyHost != another.proxyHost)
+						{
+							result = proxyHost.toString().compareTo(another.proxyHost.toString());
+						}
 					}
+				}
+				else
+				{
+					result = -1;
 				}
 			}
 			else
 			{
-				result = -1;
+				if (another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+				{
+					result = +1;
+				}
+				else
+				{
+					result = 0; // Both are mobile or no connection 
+				}
 			}
 		}
-		else
-		{
-			if (another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-			{
-				result = +1;
-			}
-			else
-			{
-				result = 0; // Both are mobile or no connection 
-			}
-		}
-
+		
 		return result;
 	}
 
