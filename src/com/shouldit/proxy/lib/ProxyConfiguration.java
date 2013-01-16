@@ -38,21 +38,20 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	private Proxy proxyHost;
 	public String proxyDescription;
 	public String proxyExclusionList;
-	
+
 	public Proxy getProxyHost()
 	{
 		return proxyHost;
 	}
 
-	private RProxySettings proxyToggle;
+	public RProxySettings proxyToggle;
 	public int deviceVersion;
 	private ConnectivityManager connManager;
-	
 
 	public ProxyConfiguration(Context ctx, RProxySettings proxyEnabled, Proxy proxy, String description, String exclusionList, WifiConfiguration wifiConf)
 	{
 		context = ctx;
-				
+
 		proxyToggle = proxyEnabled;
 		proxyHost = proxy;
 		proxyDescription = description;
@@ -68,75 +67,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		status = new ProxyStatus();
 	}
 
-	@Deprecated
-	@TargetApi(12)
-	public void writeConfigurationToDevice()
-	{
-		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-
-		try
-		{
-			Field proxySettingsField = ap.wifiConfig.getClass().getField("proxySettings");
-			proxySettingsField.set(ap.wifiConfig,(Object) proxySettingsField.getType().getEnumConstants()[proxyToggle.ordinal()]);
-			Object proxySettings = proxySettingsField.get(ap.wifiConfig);
-			int ordinal = ((Enum) proxySettings).ordinal();
-			if (ordinal != proxyToggle.ordinal())
-				throw new Exception("Cannot set proxySettings variable");
-			
-			Field linkPropertiesField = ap.wifiConfig.getClass().getField("linkProperties");
-			Object linkProperties = linkPropertiesField.get(ap.wifiConfig);
-			Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
-			mHttpProxyField.setAccessible(true);
-
-			
-			if (proxyToggle == RProxySettings.NONE || proxyToggle == RProxySettings.UNASSIGNED)
-			{				
-				mHttpProxyField.set(linkProperties, null);
-			}
-			else if (proxyToggle == RProxySettings.STATIC)
-			{							
-				Class ProxyPropertiesClass = mHttpProxyField.getType();
-				Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-				
-				Object ProxyProperties = constr.newInstance(getProxyHostString(), getProxyPort() , proxyExclusionList);
-				mHttpProxyField.set(linkProperties, ProxyProperties);
-			}
-			
-			Object mHttpProxy = mHttpProxyField.get(linkProperties);
-			mHttpProxy = mHttpProxyField.get(linkProperties);
-		}
-		catch (IllegalArgumentException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (SecurityException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (NoSuchFieldException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
 	@Override
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("Proxy toggle: %s\n", proxyToggle.toString()));
 		sb.append(String.format("Proxy: %s\n", proxyHost.toString()));
 		sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
 		sb.append(String.format("Is Proxy address valid: %B\n", isProxyValidAddress()));
@@ -156,9 +91,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public Boolean isCurrentNetwork()
 	{
-		if (currentNetworkInfo != null && 
-				this.getSSID() != null && 
-				this.getSSID().equals(currentNetworkInfo.getExtraInfo()))
+		if (currentNetworkInfo != null && this.getSSID() != null && this.getSSID().equals(currentNetworkInfo.getExtraInfo()))
 			return true;
 		else
 			return false;
@@ -429,8 +362,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public Integer getProxyPort()
 	{
-		InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
-		return proxyAddress.getPort();
+		if (proxyHost == Proxy.NO_PROXY)
+			return null; // Proxy not set -> Port NULL
+		else
+		{
+			InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
+			return proxyAddress.getPort();
+		}
 	}
 
 	public CheckStatusValues getCheckingStatus()
@@ -480,7 +418,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				}
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -508,4 +446,74 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		else
 			return false;
 	}
+
+	@Deprecated
+	@TargetApi(12)
+	public void writeConfigurationToDevice()
+	{
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+		try
+		{
+			Field proxySettingsField = ap.wifiConfig.getClass().getField("proxySettings");
+			proxySettingsField.set(ap.wifiConfig, (Object) proxySettingsField.getType().getEnumConstants()[proxyToggle.ordinal()]);
+			Object proxySettings = proxySettingsField.get(ap.wifiConfig);
+			int ordinal = ((Enum) proxySettings).ordinal();
+			if (ordinal != proxyToggle.ordinal())
+				throw new Exception("Cannot set proxySettings variable");
+
+			Field linkPropertiesField = ap.wifiConfig.getClass().getField("linkProperties");
+			Object linkProperties = linkPropertiesField.get(ap.wifiConfig);
+			Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
+			mHttpProxyField.setAccessible(true);
+
+			if (proxyToggle == RProxySettings.NONE || 
+				proxyToggle == RProxySettings.UNASSIGNED ||
+				proxyHost == Proxy.NO_PROXY)
+			{
+				mHttpProxyField.set(linkProperties, null);
+			}
+			else if (proxyToggle == RProxySettings.STATIC)
+			{
+				Class ProxyPropertiesClass = mHttpProxyField.getType();
+				Constructor constr = ProxyPropertiesClass.getConstructors()[1];
+				 
+				Object ProxyProperties = constr.newInstance(getProxyHostString(), getProxyPort(), proxyExclusionList);
+				mHttpProxyField.set(linkProperties, ProxyProperties);
+			}
+
+			Object mHttpProxy = mHttpProxyField.get(linkProperties);
+			mHttpProxy = mHttpProxyField.get(linkProperties);
+		
+			int result = wifiManager.updateNetwork(ap.wifiConfig);
+			if (result == -1)
+				throw new Exception("Can't update network configuration");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (SecurityException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (NoSuchFieldException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }
