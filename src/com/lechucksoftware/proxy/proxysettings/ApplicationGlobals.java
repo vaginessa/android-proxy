@@ -126,8 +126,7 @@ public class ApplicationGlobals extends Application
 			
 		if (conf == null)
 		{
-			NetworkInfo activeNetInfo = mInstance.mConnManager.getActiveNetworkInfo();
-			conf = new ProxyConfiguration(mInstance.getApplicationContext(), RProxySettings.NONE, Proxy.NO_PROXY, null, null, activeNetInfo, null);
+			conf = new ProxyConfiguration(mInstance.getApplicationContext(), RProxySettings.NONE, Proxy.NO_PROXY, null, null, null);
 		}
 
 		mInstance.currentConfiguration = conf;
