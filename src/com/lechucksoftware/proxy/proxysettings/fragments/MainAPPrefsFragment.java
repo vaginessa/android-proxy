@@ -83,6 +83,9 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	{
 		if (selectedConfiguration != null)
 		{
+			apSelectorPref.setEnabled(true);
+			proxyEnablePref.setEnabled(true);
+			
 			apSelectorPref.setSummary(Utils.cleanUpSSID(selectedConfiguration.getSSID()) + " - " + selectedConfiguration.getAPDescription(getActivity()));
 
 			if (selectedConfiguration.proxyToggle == RProxySettings.NONE || selectedConfiguration.proxyToggle == RProxySettings.UNASSIGNED)
@@ -159,9 +162,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	{
 		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
 		wifiEnabledPref.setChecked(wifiEnabled);
-		apSelectorPref.setEnabled(wifiEnabled);
-		proxyEnablePref.setEnabled(wifiEnabled);
-
+		
 		refreshAP();
 
 		//		ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
