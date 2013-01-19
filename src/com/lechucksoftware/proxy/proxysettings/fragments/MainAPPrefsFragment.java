@@ -98,7 +98,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		{
 			apSelectorPref.setSummary(Utils.cleanUpSSID(selectedConfiguration.getSSID()) + " - " + selectedConfiguration.getAPDescription(getActivity()));
 
-			if (selectedConfiguration.proxyToggle == ProxySetting.NONE || selectedConfiguration.proxyToggle == ProxySetting.UNASSIGNED)
+			if (selectedConfiguration.proxySetting == ProxySetting.NONE || selectedConfiguration.proxySetting == ProxySetting.UNASSIGNED)
 			{
 				proxyEnablePref.setChecked(false);
 			}
@@ -155,11 +155,11 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 				if (isChecked)
 				{
-					selectedConfiguration.proxyToggle = ProxySetting.STATIC;
+					selectedConfiguration.proxySetting = ProxySetting.STATIC;
 				}
 				else
 				{
-					selectedConfiguration.proxyToggle = ProxySetting.NONE;
+					selectedConfiguration.proxySetting = ProxySetting.NONE;
 				}
 
 				selectedConfiguration.writeConfigurationToDevice();
