@@ -2,10 +2,8 @@ package com.shouldit.proxy.lib;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-import java.net.Proxy.Type;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,12 +33,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public ProxyStatus status;
 	public AccessPoint ap;
 	public NetworkInfo currentNetworkInfo;
-//	private Proxy proxy;
-//	public String proxyDescription;
-	public String proxyExclusionList;
-	
+
+	public ProxySetting proxySetting;
 	private String proxyHost;
 	private Integer proxyPort;
+	public String proxyExclusionList;
+	
+	public int deviceVersion;
+	private ConnectivityManager connManager;
 
 	public Proxy getProxy()
 	{
@@ -60,19 +60,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxyPort = port;
 	}
 
-	public ProxySetting proxyToggle;
-	public int deviceVersion;
-	private ConnectivityManager connManager;
-
-
-
-	public ProxyConfiguration(Context ctx, ProxySetting proxyEnabled, String proxyHost, Integer proxyPort, String exclusionList, WifiConfiguration wifiConf)
+	public ProxyConfiguration(Context ctx, ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
 	{
 		context = ctx;
 
-		proxyToggle = proxyEnabled;
-//		proxyHost = ;
-//		proxyDescription = description;
+		proxySetting = proxyEnabled;
+  		proxyHost = host;
+  		proxyPort = port;
 		proxyExclusionList = exclusionList;
 
 		connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -89,7 +83,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("Proxy toggle: %s\n", proxyToggle.toString()));
+		sb.append(String.format("Proxy toggle: %s\n", proxySetting.toString()));
 		sb.append(String.format("Proxy: %s\n", toShortString()));
 		sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
 		sb.append(String.format("Is Proxy address valid: %B\n", isProxyValidAddress()));
@@ -117,18 +111,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public String toShortString()
 	{
-		if (proxyToggle == ProxySetting.NONE ||
-			proxyToggle == ProxySetting.UNASSIGNED)
+		if (proxySetting == ProxySetting.NONE ||
+				proxySetting == ProxySetting.UNASSIGNED)
 		{
 			return Proxy.NO_PROXY.toString();
 		}
 
 		return String.format("%s:%d", proxyHost,proxyPort);	
-	}
-
-	public String toShortIPString()
-	{
-		return String.format("%s:%d", getProxyIPHost(), getProxyPort());
 	}
 
 	public Proxy.Type getProxyType()
@@ -251,7 +240,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				return false;
 		}
 
-		if (proxyToggle == ProxySetting.UNASSIGNED || proxyToggle == ProxySetting.NONE)
+		if (proxySetting == ProxySetting.UNASSIGNED || proxySetting == ProxySetting.NONE)
 		{
 			return false;
 		}
@@ -442,10 +431,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		try
 		{
 			Field proxySettingsField = ap.wifiConfig.getClass().getField("proxySettings");
-			proxySettingsField.set(ap.wifiConfig, (Object) proxySettingsField.getType().getEnumConstants()[proxyToggle.ordinal()]);
+			proxySettingsField.set(ap.wifiConfig, (Object) proxySettingsField.getType().getEnumConstants()[proxySetting.ordinal()]);
 			Object proxySettings = proxySettingsField.get(ap.wifiConfig);
 			int ordinal = ((Enum) proxySettings).ordinal();
-			if (ordinal != proxyToggle.ordinal())
+			if (ordinal != proxySetting.ordinal())
 				throw new Exception("Cannot set proxySettings variable");
 
 			Field linkPropertiesField = ap.wifiConfig.getClass().getField("linkProperties");
@@ -453,8 +442,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
 			mHttpProxyField.setAccessible(true);
 
-			if (proxyToggle == ProxySetting.NONE || 
-				proxyToggle == ProxySetting.UNASSIGNED)
+			if (proxySetting == ProxySetting.NONE || 
+					proxySetting == ProxySetting.UNASSIGNED)
 			{
 				mHttpProxyField.set(linkProperties, null);
 //				Class ProxyPropertiesClass = mHttpProxyField.getType();
@@ -462,7 +451,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 //				Object ProxyProperties = constr.newInstance("", 0, "");
 //				mHttpProxyField.set(linkProperties, ProxyProperties);
 			}
-			else if (proxyToggle == ProxySetting.STATIC)
+			else if (proxySetting == ProxySetting.STATIC)
 			{
 				Class ProxyPropertiesClass = mHttpProxyField.getType();
 				Constructor constr = ProxyPropertiesClass.getConstructors()[1];
