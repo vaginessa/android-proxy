@@ -22,7 +22,7 @@ import android.os.Build;
 import android.provider.Settings;
 
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
-import com.shouldit.proxy.lib.reflection.android.RProxySettings;
+import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Main class that contains utilities for getting the proxy configuration of the
@@ -53,7 +53,7 @@ public class ProxySettings
 		 * */
 		if (proxyConfig == null)
 		{
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, null, null, null);
+			proxyConfig = new ProxyConfiguration(ctx, ProxySetting.NONE, null, null, null, null);
 		}
 
 		/**
@@ -114,9 +114,14 @@ public class ProxySettings
 		
 		ProxyConfiguration proxyConfig = null;
 		if (proxy != Proxy.NO_PROXY)
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), null, null);
+		{
+			proxyConfig = new ProxyConfiguration(ctx, ProxySetting.STATIC, null, null, null, null);
+		}
 		else
-			proxyConfig = new ProxyConfiguration(ctx, RProxySettings.NONE, proxy, proxy.toString(), null, null);
+		{
+			InetSocketAddress proxyAddress = (InetSocketAddress) proxy.address();
+			proxyConfig = new ProxyConfiguration(ctx, ProxySetting.NONE, proxyAddress.getHostName(), proxyAddress.getPort(), null, null);
+		}
 
 		return proxyConfig;
 	}
@@ -168,10 +173,7 @@ public class ProxySettings
 				try
 				{
 					Integer proxyPort = Integer.parseInt(proxyParts[1]);
-					Proxy p = new Proxy(Type.HTTP, InetSocketAddress.createUnresolved(proxyAddress, proxyPort));
-					proxyConfig = new ProxyConfiguration(ctx, RProxySettings.STATIC, p, proxyString, null, null);
-					// LogWrapper.d(TAG, "ProxyHost created: " +
-					// proxyConfig.toString());
+					proxyConfig = new ProxyConfiguration(ctx, ProxySetting.STATIC, proxyAddress, proxyPort, null, null);
 				}
 				catch (NumberFormatException e)
 				{
@@ -201,9 +203,9 @@ public class ProxySettings
 
 			int ordinal = ((Enum) proxySettings).ordinal();
 
-			if (ordinal == RProxySettings.NONE.ordinal() || ordinal == RProxySettings.UNASSIGNED.ordinal())
+			if (ordinal == ProxySetting.NONE.ordinal() || ordinal == ProxySetting.UNASSIGNED.ordinal())
 			{
-				proxyHost = new ProxyConfiguration(ctx, RProxySettings.NONE, Proxy.NO_PROXY, "", "", wifiConf);
+				proxyHost = new ProxyConfiguration(ctx, ProxySetting.NONE, null, null, "", wifiConf);
 			}
 			else
 			{				
@@ -229,10 +231,7 @@ public class ProxySettings
 
 					//LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-					InetSocketAddress sa = InetSocketAddress.createUnresolved(mHost, mPort);
-					Proxy proxy = new Proxy(Proxy.Type.HTTP, sa);
-
-					proxyHost = new ProxyConfiguration(ctx, RProxySettings.STATIC, proxy, proxy.toString(), mExclusionList, wifiConf);
+					proxyHost = new ProxyConfiguration(ctx, ProxySetting.STATIC, mHost, mPort, mExclusionList, wifiConf);
 				}
 			}
 		}

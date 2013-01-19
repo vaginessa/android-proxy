@@ -1,6 +1,6 @@
 package com.shouldit.proxy.lib.reflection.android;
 
-public enum RProxySettings {
+public enum ProxySetting {
     /* No proxy is to be used. Any existing proxy settings
      * should be cleared. */
     NONE,

@@ -25,7 +25,7 @@ import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
-import com.shouldit.proxy.lib.reflection.android.RProxySettings;
+import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 {
@@ -35,26 +35,44 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public ProxyStatus status;
 	public AccessPoint ap;
 	public NetworkInfo currentNetworkInfo;
-	private Proxy proxyHost;
-	public String proxyDescription;
+//	private Proxy proxy;
+//	public String proxyDescription;
 	public String proxyExclusionList;
+	
+	private String proxyHost;
+	private Integer proxyPort;
 
-	public Proxy getProxyHost()
+	public Proxy getProxy()
 	{
-		return proxyHost;
+		if (isProxyEnabled())
+			return new Proxy(Proxy.Type.HTTP, InetSocketAddress.createUnresolved(proxyHost, proxyPort));
+		else 
+			return Proxy.NO_PROXY;
+	}
+	
+	public void setProxyHost(String host)
+	{
+		proxyHost = host;
+	}
+	
+	public void setProxyPort(int port)
+	{
+		proxyPort = port;
 	}
 
-	public RProxySettings proxyToggle;
+	public ProxySetting proxyToggle;
 	public int deviceVersion;
 	private ConnectivityManager connManager;
 
-	public ProxyConfiguration(Context ctx, RProxySettings proxyEnabled, Proxy proxy, String description, String exclusionList, WifiConfiguration wifiConf)
+
+
+	public ProxyConfiguration(Context ctx, ProxySetting proxyEnabled, String proxyHost, Integer proxyPort, String exclusionList, WifiConfiguration wifiConf)
 	{
 		context = ctx;
 
 		proxyToggle = proxyEnabled;
-		proxyHost = proxy;
-		proxyDescription = description;
+//		proxyHost = ;
+//		proxyDescription = description;
 		proxyExclusionList = exclusionList;
 
 		connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -72,7 +90,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format("Proxy toggle: %s\n", proxyToggle.toString()));
-		sb.append(String.format("Proxy: %s\n", proxyHost.toString()));
+		sb.append(String.format("Proxy: %s\n", toShortString()));
 		sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
 		sb.append(String.format("Is Proxy address valid: %B\n", isProxyValidAddress()));
 		sb.append(String.format("Is Proxy reachable: %B\n", isProxyReachable()));
@@ -99,19 +117,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public String toShortString()
 	{
-		if (proxyHost == Proxy.NO_PROXY)
+		if (proxyToggle == ProxySetting.NONE ||
+			proxyToggle == ProxySetting.UNASSIGNED)
 		{
 			return Proxy.NO_PROXY.toString();
 		}
 
-		if (proxyDescription != null)
-		{
-			return proxyDescription;
-		}
-		else
-		{
-			return String.format("%s", proxyHost.address().toString());
-		}
+		return String.format("%s:%d", proxyHost,proxyPort);	
 	}
 
 	public String toShortIPString()
@@ -121,7 +133,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public Proxy.Type getProxyType()
 	{
-		return proxyHost.type();
+		return getProxy().type();
 	}
 
 	/**
@@ -239,7 +251,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				return false;
 		}
 
-		if (proxyHost.type() == Type.DIRECT)
+		if (proxyToggle == ProxySetting.UNASSIGNED || proxyToggle == ProxySetting.NONE)
 		{
 			return false;
 		}
@@ -304,8 +316,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	 * */
 	private Boolean isProxyReachable()
 	{
-		if (proxyHost != null && proxyHost.type() != Proxy.Type.DIRECT)
-			return ProxyUtils.isHostReachable(proxyHost);
+		if (getProxy() != null && getProxyType() != Proxy.Type.DIRECT)
+			return ProxyUtils.isHostReachable(getProxy());
 		else
 			return false;
 	}
@@ -327,48 +339,22 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public String getProxyHostString()
 	{
-		InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
-		if (proxyAddress != null)
-		{
-			return proxyAddress.getHostName();
-		}
-		else
-		{
-			// return proxy description if it's not possible to resolve the proxy name
-			return this.proxyDescription;
-		}
+		return proxyHost;
 	}
 
 	public String getProxyIPHost()
 	{
-		InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
-		if (proxyAddress != null)
-		{
-			InetAddress address = proxyAddress.getAddress();
-
-			if (address != null)
-			{
-				return address.getHostAddress();
-			}
-			else
-			{
-				// return proxy description if it's not possible to resolve the proxy name
-				return this.proxyDescription;
-			}
-		}
-		else
-			return this.proxyDescription;
+		return proxyHost;
+	}
+	
+	public String getProxyHost()
+	{
+		return proxyHost;
 	}
 
 	public Integer getProxyPort()
 	{
-		if (proxyHost == Proxy.NO_PROXY)
-			return null; // Proxy not set -> Port NULL
-		else
-		{
-			InetSocketAddress proxyAddress = (InetSocketAddress) proxyHost.address();
-			return proxyAddress.getPort();
-		}
+		return proxyPort;
 	}
 
 	public CheckStatusValues getCheckingStatus()
@@ -395,9 +381,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 					result = ap.compareTo(another.ap);
 					if (result == 0)
 					{
-						if (proxyHost != another.proxyHost)
+						if (getProxy() != another.getProxy())
 						{
-							result = proxyHost.toString().compareTo(another.proxyHost.toString());
+							result = getProxy().toString().compareTo(another.getProxy().toString());
 						}
 					}
 				}
@@ -467,18 +453,24 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
 			mHttpProxyField.setAccessible(true);
 
-			if (proxyToggle == RProxySettings.NONE || 
-				proxyToggle == RProxySettings.UNASSIGNED ||
-				proxyHost == Proxy.NO_PROXY)
+			if (proxyToggle == ProxySetting.NONE || 
+				proxyToggle == ProxySetting.UNASSIGNED)
 			{
 				mHttpProxyField.set(linkProperties, null);
+//				Class ProxyPropertiesClass = mHttpProxyField.getType();
+//				Constructor constr = ProxyPropertiesClass.getConstructors()[1];
+//				Object ProxyProperties = constr.newInstance("", 0, "");
+//				mHttpProxyField.set(linkProperties, ProxyProperties);
 			}
-			else if (proxyToggle == RProxySettings.STATIC)
+			else if (proxyToggle == ProxySetting.STATIC)
 			{
 				Class ProxyPropertiesClass = mHttpProxyField.getType();
 				Constructor constr = ProxyPropertiesClass.getConstructors()[1];
 				 
-				Object ProxyProperties = constr.newInstance(getProxyHostString(), getProxyPort(), proxyExclusionList);
+				Integer port = getProxyPort();
+				if (port == null) port = 0;
+				
+				Object ProxyProperties = constr.newInstance(getProxyHostString(), port, proxyExclusionList);
 				mHttpProxyField.set(linkProperties, ProxyProperties);
 			}
 
@@ -488,6 +480,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			int result = wifiManager.updateNetwork(ap.wifiConfig);
 			if (result == -1)
 				throw new Exception("Can't update network configuration");
+			
+			LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+			Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+			context.sendBroadcast(intent);
 		}
 		catch (IllegalArgumentException e)
 		{
