@@ -5,6 +5,7 @@ import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.shouldit.proxy.lib.APLConstants;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,6 +32,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         	UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getCachedConfiguration(),context);
         }
         else if (intent.getAction().equals(Constants.PROXY_CONFIGURATION_UPDATED) 				// INTERNAL: Called when a proxy configuration is changed
+        		 || intent.getAction().equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)	 	// INTERNAL: Called when a proxy configuration is written by APL  
         		 ||	intent.getAction().equals(Constants.PROXY_SETTINGS_STARTED) 			 	// INTERNAL: Called when Proxy Settings is started
 //        		 ||	intent.getAction().equals(Proxy.PROXY_CHANGE_ACTION) 			 			// Called when a Proxy Configuration is changed
         		 ||	intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)			// Connection type change (switch between 3G/WiFi)

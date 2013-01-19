@@ -19,7 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
-import com.shouldit.proxy.lib.reflection.android.RProxySettings;
+import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class ApplicationGlobals extends Application
 {
@@ -126,7 +126,7 @@ public class ApplicationGlobals extends Application
 			
 		if (conf == null)
 		{
-			conf = new ProxyConfiguration(mInstance.getApplicationContext(), RProxySettings.NONE, Proxy.NO_PROXY, null, null, null);
+			conf = new ProxyConfiguration(mInstance.getApplicationContext(), ProxySetting.NONE, null, null, null, null);
 		}
 
 		mInstance.currentConfiguration = conf;

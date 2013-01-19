@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -24,7 +25,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
 		boolean acceptedDisclaimer = settings.getBoolean(Constants.PREFERENCES_ACCEPTED_DISCLAIMER, false);
 
-		if (acceptedDisclaimer)
+		if (acceptedDisclaimer || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1)) // Disable disclaimer for API 12 = Honeycomb 3.1
 		{
 			LogWrapper.d(TAG, "Starting ProxySettingsCallerActivity activity");
 			Intent i = new Intent(getApplicationContext(), ProxySettingsCallerActivity.class);
