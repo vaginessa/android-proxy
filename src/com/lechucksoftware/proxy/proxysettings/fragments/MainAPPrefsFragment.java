@@ -279,7 +279,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		public void onReceive(Context context, Intent intent)
 		{
 			String action = intent.getAction();
-			if (action.equals("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"))
+			if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
 			{
 				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration");
 				refreshUIComponents();
@@ -299,7 +299,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 		// Start register the status receivers
 		IntentFilter ifilt = new IntentFilter();
-		ifilt.addAction(Constants.PROXY_UPDATE_NOTIFICATION);
+		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 		getActivity().registerReceiver(changeStatusReceiver, ifilt);
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);

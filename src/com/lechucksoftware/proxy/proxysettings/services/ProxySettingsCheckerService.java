@@ -34,10 +34,9 @@ public class ProxySettingsCheckerService extends IntentService
 			String callerAction = callerIntent.getAction();
 			LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG);
 
-			if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED) 
-					|| callerAction.equals(Constants.PROXY_CONFIGURATION_UPDATED) 
-					|| callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-					|| callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
+			if (   callerAction.equals(Constants.PROXY_SETTINGS_STARTED) 
+				|| callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+				|| callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
 			{
 				// LogWrapper.logIntent(TAG, callerIntent, Log.WARN);
 				CheckProxySettings(callerIntent);
@@ -103,7 +102,8 @@ public class ProxySettingsCheckerService extends IntentService
 				oldconf = ApplicationGlobals.getCachedConfiguration();
 			}
 
-			ToggleApplicationStatus();
+			CallRefreshApplicationStatus();
+			
 			ApplicationGlobals.updateProxyConfigurationList();
 			ProxyConfiguration newconf = ApplicationGlobals.getCurrentConfiguration();
 
@@ -117,7 +117,7 @@ public class ProxySettingsCheckerService extends IntentService
 				}
 			}
 
-			ToggleApplicationStatus();
+			CallRefreshApplicationStatus();
 		}
 		catch (Exception e)
 		{
@@ -127,13 +127,13 @@ public class ProxySettingsCheckerService extends IntentService
 		}
 	}
 
-	public void ToggleApplicationStatus()
+	public void CallRefreshApplicationStatus()
 	{
 		/**
 		 * Call the update of the UI
 		 * */
-		LogWrapper.d(TAG, "Sending broadcast intent " + Constants.PROXY_UPDATE_NOTIFICATION);
-		Intent intent = new Intent(Constants.PROXY_UPDATE_NOTIFICATION);
+		LogWrapper.d(TAG, "Sending broadcast intent " + Constants.PROXY_REFRESH_UI);
+		Intent intent = new Intent(Constants.PROXY_REFRESH_UI);
 		getApplicationContext().sendBroadcast(intent);
 
 		UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getCachedConfiguration(), getApplicationContext());
