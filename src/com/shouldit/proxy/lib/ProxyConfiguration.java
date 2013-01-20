@@ -232,6 +232,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	private Boolean isProxyEnabled()
 	{
+		Boolean result = false;
+		
 		if (Build.VERSION.SDK_INT >= 12)
 		{
 			// On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
@@ -242,12 +244,21 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 		if (proxySetting == ProxySetting.UNASSIGNED || proxySetting == ProxySetting.NONE)
 		{
-			return false;
+			result = false;
 		}
 		else
 		{
-			return true; // HTTP or SOCKS proxy
+			if (proxyHost != null && proxyPort != null)
+			{
+				result = true; // HTTP or SOCKS proxy
+			}
+			else
+			{
+				result = false;
+			}
 		}
+		
+		return result;
 	}
 
 	private boolean isProxyValidAddress()
@@ -445,11 +456,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			if (proxySetting == ProxySetting.NONE || 
 					proxySetting == ProxySetting.UNASSIGNED)
 			{
-				mHttpProxyField.set(linkProperties, null);
-//				Class ProxyPropertiesClass = mHttpProxyField.getType();
-//				Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-//				Object ProxyProperties = constr.newInstance("", 0, "");
-//				mHttpProxyField.set(linkProperties, ProxyProperties);
+//				mHttpProxyField.set(linkProperties, null);
+
 			}
 			else if (proxySetting == ProxySetting.STATIC)
 			{
