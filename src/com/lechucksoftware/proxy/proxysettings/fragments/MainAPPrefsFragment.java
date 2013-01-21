@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceCategory;
@@ -25,7 +26,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.reflection.android.RProxySettings;
+import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
@@ -45,6 +46,18 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	private PreferenceCategory apCategoryPref;
 	private SwitchPreference wifiEnabledPref;
 	private ProxyConfiguration selectedConfiguration;
+
+	private ValidationPreference proxyValidAddressPref;
+
+	private ValidationPreference proxyWebReachablePref;
+
+	private ValidationPreference proxyReachablePref;
+
+	private EditTextPreference proxyHostPref;
+
+	private EditTextPreference proxyPortPref;
+
+	private EditTextPreference proxyBypassPref;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -88,7 +101,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 			
 			apSelectorPref.setSummary(Utils.cleanUpSSID(selectedConfiguration.getSSID()) + " - " + selectedConfiguration.getAPDescription(getActivity()));
 
-			if (selectedConfiguration.proxyToggle == RProxySettings.NONE || selectedConfiguration.proxyToggle == RProxySettings.UNASSIGNED)
+			if (selectedConfiguration.proxySetting == ProxySetting.NONE || selectedConfiguration.proxySetting == ProxySetting.UNASSIGNED)
 			{
 				proxyEnablePref.setChecked(false);
 			}
@@ -96,6 +109,19 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 			{
 				proxyEnablePref.setChecked(true);
 			}
+			
+			String proxyHost = selectedConfiguration.getProxyHost();
+			if (proxyHost == null) proxyHost = "";
+			proxyHostPref.setSummary(proxyHost);
+			
+			Integer proxyPort = selectedConfiguration.getProxyPort();
+			String proxyPortString;
+			if (proxyPort == null) 
+				proxyPortString = "";
+			else
+				proxyPortString = proxyPort.toString();
+			
+			proxyPortPref.setSummary(proxyPortString);
 		}
 	}
 
@@ -132,17 +158,49 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 				if (isChecked)
 				{
-					selectedConfiguration.proxyToggle = RProxySettings.STATIC;
+					selectedConfiguration.proxySetting = ProxySetting.STATIC;
 				}
 				else
 				{
-					selectedConfiguration.proxyToggle = RProxySettings.NONE;
+					selectedConfiguration.proxySetting = ProxySetting.NONE;
 				}
 
 				selectedConfiguration.writeConfigurationToDevice();
 				return true;
 			}
 		});
+		
+		proxyHostPref = (EditTextPreference) findPreference("pref_proxy_host");
+		proxyHostPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
+			
+			public boolean onPreferenceChange(Preference preference, Object newValue)
+			{
+				String proxyHost = (String) newValue;
+
+				selectedConfiguration.setProxyHost(proxyHost);
+				selectedConfiguration.writeConfigurationToDevice();
+				
+				return true;
+			}
+		});
+		
+		proxyPortPref = (EditTextPreference) findPreference("pref_proxy_port");
+		proxyPortPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
+			public boolean onPreferenceChange(Preference preference, Object newValue)
+			{
+				String portString = (String) newValue;
+				int proxyPort = (int) Integer.parseInt(portString);
+
+				selectedConfiguration.setProxyPort(proxyPort);
+				selectedConfiguration.writeConfigurationToDevice();
+				
+				return true;
+			}
+		});
+		
+		proxyBypassPref = (EditTextPreference) findPreference("pref_proxy_bypass");
 
 		authPrefScreen = (PreferenceScreen) findPreference("pref_key_proxy_settings_authentication_screen");
 		notificationPref = (CheckBoxPreference) findPreference("preference_notification_enabled");
@@ -150,9 +208,9 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 		proxyTester = (Preference) findPreference("preference_test_proxy_configuration");
 		proxyEnabledValidPref = (ValidationPreference) findPreference("validation_proxy_enabled");
-		proxyEnabledValidPref = (ValidationPreference) findPreference("validation_proxy_valid_address");
-		proxyEnabledValidPref = (ValidationPreference) findPreference("validation_proxy_reachable");
-		proxyEnabledValidPref = (ValidationPreference) findPreference("validation_web_reachable");
+		proxyValidAddressPref = (ValidationPreference) findPreference("validation_proxy_valid_address");
+		proxyReachablePref = (ValidationPreference) findPreference("validation_proxy_reachable");
+		proxyWebReachablePref = (ValidationPreference) findPreference("validation_web_reachable");
 
 		helpPref = (Preference) findPreference("preference_help");
 		aboutPref = (Preference) findPreference("preference_about");
@@ -209,12 +267,11 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
 	{
+		// Only persistant preferences
 		LogWrapper.d(TAG, "Changed preference: " + key);
-
-		if (key == "pref_wifi_enabled")
-		{
-			ApplicationGlobals.getWifiManager().setWifiEnabled(wifiEnabledPref.isChecked());
-		}
+		
+//		if (key == "pref name bla bla")
+//		{}
 	}
 
 	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
@@ -223,12 +280,12 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		public void onReceive(Context context, Intent intent)
 		{
 			String action = intent.getAction();
-			if (action.equals("com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY"))
+			if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
 			{
 				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration");
 				refreshUIComponents();
 			}
-			else if (action.equals("com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE"))
+			else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
 			{
 				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration");
 				refreshUIComponents();
@@ -243,7 +300,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 		// Start register the status receivers
 		IntentFilter ifilt = new IntentFilter();
-		ifilt.addAction(Constants.PROXY_UPDATE_NOTIFICATION);
+		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 		getActivity().registerReceiver(changeStatusReceiver, ifilt);
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);

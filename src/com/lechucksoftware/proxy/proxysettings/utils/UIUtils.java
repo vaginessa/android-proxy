@@ -166,7 +166,7 @@ public class UIUtils
 	{
 		if (conf.getCheckingStatus() == CheckStatusValues.CHECKED)
 		{	
-			if (conf.getProxyHost().type() == Type.DIRECT)
+			if (conf.getProxy().type() == Type.DIRECT)
 			{
 				DisableProxyNotification(context);
 			}
