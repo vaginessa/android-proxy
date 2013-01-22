@@ -9,20 +9,20 @@ import java.net.InetSocketAddress;
  * @hide
  */
 
-public class RProxyProperties {
+public class ProxyProperties {
 
     private String mHost;
     private int mPort;
     private String mExclusionList;
     private String[] mParsedExclusionList;
 
-    public RProxyProperties(String host, int port, String exclList) {
+    public ProxyProperties(String host, int port, String exclList) {
         mHost = host;
         mPort = port;
         setExclusionList(exclList);
     }
 
-    private RProxyProperties(String host, int port, String exclList, String[] parsedExclList) {
+    private ProxyProperties(String host, int port, String exclList, String[] parsedExclList) {
         mHost = host;
         mPort = port;
         mExclusionList = exclList;
@@ -30,7 +30,7 @@ public class RProxyProperties {
     }
 
     // copy constructor instead of clone
-    public RProxyProperties(RProxyProperties source) {
+    public ProxyProperties(ProxyProperties source) {
         if (source != null) {
             mHost = source.getHost();
             mPort = source.getPort();
@@ -125,8 +125,8 @@ public class RProxyProperties {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof RProxyProperties)) return false;
-        RProxyProperties p = (RProxyProperties)o;
+        if (!(o instanceof ProxyProperties)) return false;
+        ProxyProperties p = (ProxyProperties)o;
         if (mExclusionList != null && !mExclusionList.equals(p.getExclusionList())) return false;
         if (mHost != null && p.getHost() != null && mHost.equals(p.getHost()) == false) {
             return false;

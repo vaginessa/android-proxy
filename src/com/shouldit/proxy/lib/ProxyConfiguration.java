@@ -456,19 +456,25 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			if (proxySetting == ProxySetting.NONE || 
 					proxySetting == ProxySetting.UNASSIGNED)
 			{
-//				mHttpProxyField.set(linkProperties, null);
-
+				mHttpProxyField.set(linkProperties, null);
 			}
 			else if (proxySetting == ProxySetting.STATIC)
 			{
 				Class ProxyPropertiesClass = mHttpProxyField.getType();
-				Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-				 
-				Integer port = getProxyPort();
-				if (port == null) port = 0;
 				
-				Object ProxyProperties = constr.newInstance(getProxyHostString(), port, proxyExclusionList);
-				mHttpProxyField.set(linkProperties, ProxyProperties);
+				Integer port = getProxyPort();
+				if (port == null)
+				{
+					Constructor constr = ProxyPropertiesClass.getConstructors()[0];
+					Object ProxyProperties = constr.newInstance((Object) null);
+					mHttpProxyField.set(linkProperties, ProxyProperties);
+				}
+				else
+				{
+					Constructor constr = ProxyPropertiesClass.getConstructors()[1];
+					Object ProxyProperties = constr.newInstance(getProxyHostString(), port, proxyExclusionList);
+					mHttpProxyField.set(linkProperties, ProxyProperties);
+				}
 			}
 
 			Object mHttpProxy = mHttpProxyField.get(linkProperties);
