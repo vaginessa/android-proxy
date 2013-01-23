@@ -38,7 +38,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	private String proxyHost;
 	private Integer proxyPort;
 	public String proxyExclusionList;
-	
+
 	public int deviceVersion;
 	private ConnectivityManager connManager;
 
@@ -46,15 +46,15 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		if (proxySetting == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
 			return new Proxy(Proxy.Type.HTTP, InetSocketAddress.createUnresolved(proxyHost, proxyPort));
-		else 
+		else
 			return Proxy.NO_PROXY;
 	}
-	
+
 	public void setProxyHost(String host)
 	{
 		proxyHost = host;
 	}
-	
+
 	public void setProxyPort(int port)
 	{
 		proxyPort = port;
@@ -65,8 +65,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		context = ctx;
 
 		proxySetting = proxyEnabled;
-  		proxyHost = host;
-  		proxyPort = port;
+		proxyHost = host;
+		proxyPort = port;
 		proxyExclusionList = exclusionList;
 
 		connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -111,13 +111,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public String toShortString()
 	{
-		if (proxySetting == ProxySetting.NONE ||
-				proxySetting == ProxySetting.UNASSIGNED)
+		if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
 		{
 			return Proxy.NO_PROXY.toString();
 		}
 
-		return String.format("%s:%d", proxyHost,proxyPort);	
+		return String.format("%s:%d", proxyHost, proxyPort);
 	}
 
 	public Proxy.Type getProxyType()
@@ -233,7 +232,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	private Boolean isProxyEnabled()
 	{
 		Boolean result = false;
-		
+
 		if (Build.VERSION.SDK_INT >= 12)
 		{
 			// On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
@@ -257,7 +256,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				result = false;
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -346,7 +345,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		return proxyHost;
 	}
-	
+
 	public String getProxyHost()
 	{
 		return proxyHost;
@@ -380,34 +379,54 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				{
 					result = ap.compareTo(another.ap);
 				}
-				
+
 				if (result == 0)
 				{
-					if (getProxy() != another.getProxy())
+					if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
 					{
-						result = getProxy().toString().compareTo(another.getProxy().toString());
+						if (another.proxySetting == ProxySetting.NONE || another.proxySetting == ProxySetting.UNASSIGNED)
+						{
+							// Both DIRECT connection
+							result = 0;
+						}
+						else
+						{
+							result = -1;
+						}
 					}
+					else
+					{
+						if (getProxy() != another.getProxy())
+						{
+							String proxystring = getProxy().toString();
+							String anotherstring = another.getProxy().toString();
+							result = proxystring.compareTo(anotherstring);
+						}
+						else
+							result = 0;
+					}
+
 				}
-				
-//				// Same network types
-//				if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-//				{
-//					// TYPE_WIFI
-//					
-//					result = ap.compareTo(another.ap);
-//					if (result == 0)
-//					{
-//						if (getProxy() != another.getProxy())
-//						{
-//							result = getProxy().toString().compareTo(another.getProxy().toString());
-//						}
-//					}
-//				}
-//				else
-//				{
-//					// TYPE_MOBILE or No connection
-//					result = 0;
-//				}
+
+				//				// Same network types
+				//				if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+				//				{
+				//					// TYPE_WIFI
+				//					
+				//					result = ap.compareTo(another.ap);
+				//					if (result == 0)
+				//					{
+				//						if (getProxy() != another.getProxy())
+				//						{
+				//							result = getProxy().toString().compareTo(another.getProxy().toString());
+				//						}
+				//					}
+				//				}
+				//				else
+				//				{
+				//					// TYPE_MOBILE or No connection
+				//					result = 0;
+				//				}
 			}
 			else
 			{
@@ -472,8 +491,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
 			mHttpProxyField.setAccessible(true);
 
-			if (proxySetting == ProxySetting.NONE || 
-					proxySetting == ProxySetting.UNASSIGNED)
+			if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
 			{
 				mHttpProxyField.set(linkProperties, null);
 			}
@@ -481,7 +499,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			{
 				Class ProxyPropertiesClass = mHttpProxyField.getType();
 				Integer port = getProxyPort();
-				
+
 				if (port == null)
 				{
 					Constructor constr = ProxyPropertiesClass.getConstructors()[0];
@@ -498,11 +516,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 			Object mHttpProxy = mHttpProxyField.get(linkProperties);
 			mHttpProxy = mHttpProxyField.get(linkProperties);
-		
+
 			int result = wifiManager.updateNetwork(ap.wifiConfig);
 			if (result == -1)
 				throw new Exception("Can't update network configuration");
-			
+
 			LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 			Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 			context.sendBroadcast(intent);
