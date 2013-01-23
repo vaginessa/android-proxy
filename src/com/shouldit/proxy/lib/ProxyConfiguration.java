@@ -44,7 +44,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public Proxy getProxy()
 	{
-		if (isProxyEnabled())
+		if (proxySetting == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
 			return new Proxy(Proxy.Type.HTTP, InetSocketAddress.createUnresolved(proxyHost, proxyPort));
 		else 
 			return Proxy.NO_PROXY;
@@ -374,33 +374,52 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 		if (currentNetworkInfo != null && another.currentNetworkInfo != null)
 		{
-			if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+			if (currentNetworkInfo.getType() == another.currentNetworkInfo.getType())
 			{
-				if (another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+				if (ap != null && another.ap != null)
 				{
 					result = ap.compareTo(another.ap);
-					if (result == 0)
+				}
+				
+				if (result == 0)
+				{
+					if (getProxy() != another.getProxy())
 					{
-						if (getProxy() != another.getProxy())
-						{
-							result = getProxy().toString().compareTo(another.getProxy().toString());
-						}
+						result = getProxy().toString().compareTo(another.getProxy().toString());
 					}
 				}
-				else
-				{
-					result = -1;
-				}
+				
+//				// Same network types
+//				if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+//				{
+//					// TYPE_WIFI
+//					
+//					result = ap.compareTo(another.ap);
+//					if (result == 0)
+//					{
+//						if (getProxy() != another.getProxy())
+//						{
+//							result = getProxy().toString().compareTo(another.getProxy().toString());
+//						}
+//					}
+//				}
+//				else
+//				{
+//					// TYPE_MOBILE or No connection
+//					result = 0;
+//				}
 			}
 			else
 			{
-				if (another.currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+				// Different network types
+				if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
 				{
-					result = +1;
+					// Give priority to TYPE_WIFI
+					result = -1;
 				}
 				else
 				{
-					result = 0; // Both are mobile or no connection 
+					result = +1;
 				}
 			}
 		}
@@ -461,8 +480,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			else if (proxySetting == ProxySetting.STATIC)
 			{
 				Class ProxyPropertiesClass = mHttpProxyField.getType();
-				
 				Integer port = getProxyPort();
+				
 				if (port == null)
 				{
 					Constructor constr = ProxyPropertiesClass.getConstructors()[0];
