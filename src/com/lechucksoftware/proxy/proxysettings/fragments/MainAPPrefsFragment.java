@@ -15,6 +15,9 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
@@ -103,25 +106,74 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 			if (selectedConfiguration.proxySetting == ProxySetting.NONE || selectedConfiguration.proxySetting == ProxySetting.UNASSIGNED)
 			{
 				proxyEnablePref.setChecked(false);
+				removeProxyPreferences();
 			}
 			else
 			{
 				proxyEnablePref.setChecked(true);
+				addProxyPreferences();
 			}
 			
 			String proxyHost = selectedConfiguration.getProxyHost();
-			if (proxyHost == null) proxyHost = "";
-			proxyHostPref.setSummary(proxyHost);
+			proxyHostPref.setText(proxyHost);
+			if (proxyHost == null) 
+			{
+				proxyHostPref.setSummary(getText(R.string.not_set));
+			}
+			else
+			{
+				proxyHostPref.setSummary(proxyHost);
+			}
 			
 			Integer proxyPort = selectedConfiguration.getProxyPort();
 			String proxyPortString;
-			if (proxyPort == null) 
-				proxyPortString = "";
+			if (proxyPort == null || proxyPort == 0) 
+			{
+				proxyPortString = getText(R.string.not_set).toString();
+				proxyPortPref.setText(null);
+			}
 			else
+			{
 				proxyPortString = proxyPort.toString();
+				proxyPortPref.setText(proxyPortString);
+			}
+			
+			String bypassList = selectedConfiguration.proxyExclusionList;
+			if (bypassList == null || bypassList.equals(""))
+			{
+				proxyBypassPref.setSummary(getText(R.string.not_set));
+			}
+			else
+			{
+				proxyBypassPref.setSummary(bypassList);
+			}
 			
 			proxyPortPref.setSummary(proxyPortString);
 		}
+		else
+		{
+			removeProxyPreferences();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public void addProxyPreferences()
+	{
+		getPreferenceScreen().addPreference(proxyHostPref);
+		getPreferenceScreen().addPreference(proxyPortPref);
+		getPreferenceScreen().addPreference(proxyBypassPref);
+	}
+
+	/**
+	 * 
+	 */
+	public void removeProxyPreferences()
+	{
+		getPreferenceScreen().removePreference(proxyHostPref);
+		getPreferenceScreen().removePreference(proxyPortPref);
+		getPreferenceScreen().removePreference(proxyBypassPref);
 	}
 
 	private void getUIComponents()
@@ -200,8 +252,19 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		});
 		
 		proxyBypassPref = (EditTextPreference) findPreference("pref_proxy_bypass");
+		proxyBypassPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+		{
+			
+			public boolean onPreferenceChange(Preference preference, Object newValue)
+			{
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 
-		authPrefScreen = (PreferenceScreen) findPreference("pref_key_proxy_settings_authentication_screen");
+		authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
+		getPreferenceScreen().removePreference(authPrefScreen);
+		
 		notificationPref = (CheckBoxPreference) findPreference("preference_notification_enabled");
 		notificationAlwaysPref = (CheckBoxPreference) findPreference("preference_notification_always_visible");
 
@@ -220,6 +283,16 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
 		wifiEnabledPref.setChecked(wifiEnabled);
 		apSelectorPref.setEnabled(wifiEnabled);
+		
+		if (wifiEnabled)
+		{
+
+		}
+		else
+		{
+
+		}	
+		
 		
 		refreshAP();
 

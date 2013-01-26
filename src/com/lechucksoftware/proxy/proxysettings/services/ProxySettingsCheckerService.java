@@ -100,7 +100,7 @@ public class ProxySettingsCheckerService extends IntentService
 			if (!callerIntent.getAction().equals(Constants.PROXY_SETTINGS_STARTED))
 			{
 				oldconf = ApplicationGlobals.getCachedConfiguration();
-			}
+			}	
 
 			CallRefreshApplicationStatus();
 			

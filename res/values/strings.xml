@@ -10,6 +10,7 @@
 	<string name="next">Next</string>
 	<string name="previous">Previous</string>
 	<string name="disclaimer">Disclaimer</string>
+	<string name="not_set">NOT SET</string>
 	
 	<string name="pref_main_title">Proxy configuration</string>
 	<string name="pref_tools_title">Tools</string>
@@ -289,7 +290,7 @@
 
 
 
-	<string name="pref_key_proxy_settings_advanced_title">Advanced tools</string>
+	<string name="pref_key_proxy_settings_advanced_title">Application options</string>
 	<string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration checker</string>
 	<string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
 
@@ -326,7 +327,10 @@
 	<string name="preference_proxy_authentication_password_title">Password</string>
 	<string name="preference_proxy_authentication_password_summary" />
 
-	<string name="preference_help_title">Help</string>
+	<string name="preference_help_screen_title">Help</string>
+	<string name="preference_help_screen_summary">Proxy settings support</string>
+
+	<string name="preference_help_title">Documentation</string>
 	<string name="preference_help_summary">Android proxy settings explained</string>
 	<string name="preference_about_title">About</string>
 	<string name="proxy_settings_about">Application version</string>
