@@ -37,7 +37,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public ProxySetting proxySetting;
 	private String proxyHost;
 	private Integer proxyPort;
-	public String proxyExclusionList;
+	private String stringProxyExclusionList;
+	private String[] parsedProxyExclusionList;
 
 	public int deviceVersion;
 	private ConnectivityManager connManager;
@@ -60,6 +61,33 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxyPort = port;
 	}
 
+	public void setProxyExclusionList(String exList)
+	{
+		parseExclusionList(exList);
+	}
+
+	private void parseExclusionList(String exclusionList)
+	{
+		stringProxyExclusionList = exclusionList;
+		if (stringProxyExclusionList == null)
+		{
+			parsedProxyExclusionList = new String[0];
+		}
+		else
+		{
+			String splitExclusionList[] = exclusionList.toLowerCase().split(",");
+			parsedProxyExclusionList = new String[splitExclusionList.length * 2];
+			for (int i = 0; i < splitExclusionList.length; i++)
+			{
+				String s = splitExclusionList[i].trim();
+				if (s.startsWith("."))
+					s = s.substring(1);
+				parsedProxyExclusionList[i * 2] = s;
+				parsedProxyExclusionList[(i * 2) + 1] = "." + s;
+			}
+		}
+	}
+
 	public ProxyConfiguration(Context ctx, ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
 	{
 		context = ctx;
@@ -67,7 +95,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxySetting = proxyEnabled;
 		proxyHost = host;
 		proxyPort = port;
-		proxyExclusionList = exclusionList;
+		setProxyExclusionList(exclusionList);
 
 		connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		currentNetworkInfo = connManager.getActiveNetworkInfo();
@@ -355,6 +383,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		return proxyPort;
 	}
+	
+	public String getProxyExclusionList()
+	{
+		return stringProxyExclusionList;
+	}
 
 	public CheckStatusValues getCheckingStatus()
 	{
@@ -509,7 +542,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				else
 				{
 					Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-					Object ProxyProperties = constr.newInstance(getProxyHostString(), port, proxyExclusionList);
+					Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
 					mHttpProxyField.set(linkProperties, ProxyProperties);
 				}
 			}
