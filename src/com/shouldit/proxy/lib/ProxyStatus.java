@@ -1,8 +1,11 @@
 package com.shouldit.proxy.lib;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
@@ -14,7 +17,7 @@ public class ProxyStatus implements Serializable
 	 */
 	private static final long serialVersionUID = -2657093750716229587L;
 	
-	Map<ProxyStatusProperties,ProxyStatusProperty> properties;
+	SortedMap<ProxyStatusProperties,ProxyStatusProperty> properties;
 	
 	
 	public CheckStatusValues getCheckingStatus()
@@ -39,9 +42,14 @@ public class ProxyStatus implements Serializable
 		return properties.get(ProxyStatusProperties.PROXY_ENABLED);
 	}
 
-	public ProxyStatusProperty getValid_address()
+	public ProxyStatusProperty getValid_hostname()
 	{
-		return properties.get(ProxyStatusProperties.PROXY_VALID_ADDRESS);
+		return properties.get(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
+	}
+	
+	public ProxyStatusProperty getValid_port()
+	{
+		return properties.get(ProxyStatusProperties.PROXY_VALID_PORT);
 	}
 
 	public ProxyStatusProperty getProxy_reachable()
@@ -61,10 +69,11 @@ public class ProxyStatus implements Serializable
 
 	public void clear()
 	{
-		properties = new HashMap<ProxyStatusProperties, ProxyStatusProperty>();
+		properties = new TreeMap<ProxyStatusProperties, ProxyStatusProperty>(new ProxyStatusPropertiesComparator());
 		
 		properties.put(ProxyStatusProperties.PROXY_ENABLED, new ProxyStatusProperty(ProxyStatusProperties.PROXY_ENABLED));
-		properties.put(ProxyStatusProperties.PROXY_VALID_ADDRESS, new ProxyStatusProperty(ProxyStatusProperties.PROXY_VALID_ADDRESS));
+		properties.put(ProxyStatusProperties.PROXY_VALID_HOSTNAME, new ProxyStatusProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME));
+		properties.put(ProxyStatusProperties.PROXY_VALID_PORT, new ProxyStatusProperty(ProxyStatusProperties.PROXY_VALID_PORT));
 		properties.put(ProxyStatusProperties.PROXY_REACHABLE, new ProxyStatusProperty(ProxyStatusProperties.PROXY_REACHABLE));
 		properties.put(ProxyStatusProperties.WEB_REACHABLE, new ProxyStatusProperty(ProxyStatusProperties.WEB_REACHABLE));
 	}
@@ -81,6 +90,32 @@ public class ProxyStatus implements Serializable
 	{
 		properties.get(statusCode).status = status;
 		properties.get(statusCode).result = value;
+	}
+	
+	public ProxyStatusProperty getMostRelevantErrorProxyStatusProperty()
+	{
+		for (ProxyStatusProperty prop : properties.values())
+		{
+			if (prop.result == false)
+			{
+				return prop;
+			}
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		for (ProxyStatusProperty prop : properties.values())
+		{
+			sb.append(prop.status + " - " + prop.propertyName + ": " + prop.result + "\n");
+		}
+		
+		return sb.toString();
 	}
 	
 

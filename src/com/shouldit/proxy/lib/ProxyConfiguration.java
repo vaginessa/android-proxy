@@ -20,7 +20,6 @@ import android.os.Build;
 import android.webkit.URLUtil;
 
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
-import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -37,7 +36,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public ProxySetting proxySetting;
 	private String proxyHost;
 	private Integer proxyPort;
-	public String proxyExclusionList;
+	private String stringProxyExclusionList;
+	private String[] parsedProxyExclusionList;
 
 	public int deviceVersion;
 	private ConnectivityManager connManager;
@@ -60,6 +60,33 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxyPort = port;
 	}
 
+	public void setProxyExclusionList(String exList)
+	{
+		parseExclusionList(exList);
+	}
+
+	private void parseExclusionList(String exclusionList)
+	{
+		stringProxyExclusionList = exclusionList;
+		if (stringProxyExclusionList == null)
+		{
+			parsedProxyExclusionList = new String[0];
+		}
+		else
+		{
+			String splitExclusionList[] = exclusionList.toLowerCase().split(",");
+			parsedProxyExclusionList = new String[splitExclusionList.length * 2];
+			for (int i = 0; i < splitExclusionList.length; i++)
+			{
+				String s = splitExclusionList[i].trim();
+				if (s.startsWith("."))
+					s = s.substring(1);
+				parsedProxyExclusionList[i * 2] = s;
+				parsedProxyExclusionList[(i * 2) + 1] = "." + s;
+			}
+		}
+	}
+
 	public ProxyConfiguration(Context ctx, ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
 	{
 		context = ctx;
@@ -67,7 +94,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		proxySetting = proxyEnabled;
 		proxyHost = host;
 		proxyPort = port;
-		proxyExclusionList = exclusionList;
+		setProxyExclusionList(exclusionList);
 
 		connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		currentNetworkInfo = connManager.getActiveNetworkInfo();
@@ -83,10 +110,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("Proxy toggle: %s\n", proxySetting.toString()));
+		sb.append(String.format("Proxy setting: %s\n", proxySetting.toString()));
+		sb.append(String.format("Is proxy enabled: %B\n" , isProxyEnabled()));
 		sb.append(String.format("Proxy: %s\n", toShortString()));
 		sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
-		sb.append(String.format("Is Proxy address valid: %B\n", isProxyValidAddress()));
+		sb.append(String.format("Is Proxy hostname valid: %B\n", isProxyValidHostname()));
+		sb.append(String.format("Is Proxy port valid: %B\n", isProxyValidPort()));
 		sb.append(String.format("Is Proxy reachable: %B\n", isProxyReachable()));
 		sb.append(String.format("Is WEB reachable: %B\n", isWebReachable(60000)));
 
@@ -150,16 +179,30 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 		broadCastUpdatedStatus();
 
-		LogWrapper.d(TAG, "Checking if proxy is valid address ...");
-		if (!isProxyValidAddress())
+		LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
+		if (!isProxyValidHostname())
 		{
-			LogWrapper.e(TAG, "PROXY NOT VALID ADDRESS");
-			status.add(ProxyStatusProperties.PROXY_VALID_ADDRESS, CheckStatusValues.CHECKED, false);
+			LogWrapper.e(TAG, "PROXY NOT VALID HOSTNAME");
+			status.add(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false);
 		}
 		else
 		{
-			LogWrapper.i(TAG, "PROXY VALID ADDRESS");
-			status.add(ProxyStatusProperties.PROXY_VALID_ADDRESS, CheckStatusValues.CHECKED, true);
+			LogWrapper.i(TAG, "PROXY VALID HOSTNAME");
+			status.add(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
+		}
+
+		broadCastUpdatedStatus();
+		
+		LogWrapper.d(TAG, "Checking if proxy is valid port ...");
+		if (!isProxyValidPort())
+		{
+			LogWrapper.e(TAG, "PROXY NOT VALID PORT");
+			status.add(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false);
+		}
+		else
+		{
+			LogWrapper.i(TAG, "PROXY VALID PORT");
+			status.add(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true);
 		}
 
 		broadCastUpdatedStatus();
@@ -201,34 +244,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		context.sendBroadcast(intent);
 	}
 
-	public ProxyStatusErrors getMostRelevantProxyStatusError()
-	{
-		if (!status.getEnabled().result)
-			return ProxyStatusErrors.PROXY_NOT_ENABLED;
-
-		if (status.getWeb_reachable().result)
-		{
-			// If the WEB is reachable, the proxy is OK!
-			return ProxyStatusErrors.NO_ERRORS;
-		}
-		else
-		{
-			if (status.getProxy_reachable().result)
-			{
-				return ProxyStatusErrors.WEB_NOT_REACHABLE;
-			}
-			else
-			{
-				if (status.getValid_address().result)
-				{
-					return ProxyStatusErrors.PROXY_NOT_REACHABLE;
-				}
-				else
-					return ProxyStatusErrors.PROXY_ADDRESS_NOT_VALID;
-			}
-		}
-	}
-
 	private Boolean isProxyEnabled()
 	{
 		Boolean result = false;
@@ -260,28 +275,29 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		return result;
 	}
 
-	private boolean isProxyValidAddress()
+	private boolean isProxyValidHostname()
 	{
+		Boolean result = false;
+		
 		try
 		{
 			String proxyHost = getProxyHostString();
 
-			if (proxyHost != null)
+			if (proxyHost != null && proxyHost.length() > 0)
 			{
-
 				if (InetAddressUtils.isIPv4Address(proxyHost) || InetAddressUtils.isIPv6Address(proxyHost) || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost) || InetAddressUtils.isIPv6StdAddress(proxyHost))
 				{
-					return true;
+					result = true;
 				}
 
 				if (URLUtil.isNetworkUrl(proxyHost))
 				{
-					return true;
+					result = true;
 				}
 
 				if (URLUtil.isValidUrl(proxyHost))
 				{
-					return true;
+					result = true;
 				}
 
 				// Test REGEX for Hostname validation
@@ -293,23 +309,24 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 				if (matcher.find())
 				{
-					return true;
+					result = true;
 				}
 			}
-			else
-			{
-				return false;
-			}
-
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			result = false;
 		}
 
-		return false;
+		return result;
 	}
-
+	
+	private boolean isProxyValidPort()
+	{
+		return (proxyPort != null) && (proxyPort > 0);
+	}
+	
 	/**
 	 * Try to PING the HOST specified in the current proxy configuration
 	 * */
@@ -354,6 +371,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public Integer getProxyPort()
 	{
 		return proxyPort;
+	}
+	
+	public String getProxyExclusionList()
+	{
+		return stringProxyExclusionList;
 	}
 
 	public CheckStatusValues getCheckingStatus()
@@ -509,7 +531,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				else
 				{
 					Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-					Object ProxyProperties = constr.newInstance(getProxyHostString(), port, proxyExclusionList);
+					Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
 					mHttpProxyField.set(linkProperties, ProxyProperties);
 				}
 			}
