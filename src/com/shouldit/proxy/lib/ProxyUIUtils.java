@@ -45,8 +45,8 @@ public class ProxyUIUtils
 				}
 				else
 					description = callerContext.getResources().getString(R.string.status_title_enabled);
-			}
-				break;
+			}	
+			break;
 
 			case CHECKING:
 				description = callerContext.getResources().getString(R.string.status_title_checking);
@@ -81,7 +81,7 @@ public class ProxyUIUtils
 						case PROXY_VALID_HOSTNAME:
 							description = callerContext.getResources().getString(R.string.status_description_invalid_host);
 							break;
-							
+
 						case PROXY_VALID_PORT:
 							description = callerContext.getResources().getString(R.string.status_description_invalid_port);
 							break;
@@ -105,7 +105,7 @@ public class ProxyUIUtils
 				}
 
 			}
-				break;
+			break;
 
 			case CHECKING:
 				description = callerContext.getResources().getString(R.string.status_description_checking);

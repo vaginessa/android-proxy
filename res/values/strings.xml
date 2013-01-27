@@ -9,6 +9,7 @@
    	<string name="status_title_enabled">Proxy Enabled</string>
 	<string name="status_title_checking">Checking proxy configuration &#8230;</string>
 	<string name="status_title_not_enabled">Proxy Not Enabled</string>
+
 	<string name="status_title_invalid_host">Invalid Proxy Host</string>
 	<string name="status_title_invalid_port">Invalid Proxy Port</string>
 	<string name="status_title_not_reachable">Proxy Not Reachable</string>
@@ -19,6 +20,7 @@
 	<string name="status_description_not_enabled">Proxy is not enabled</string>
 	<string name="status_description_invalid_host">Please check your configuration &#8230;</string>
 	<string name="status_description_invalid_port">Please check your configuration &#8230;</string>
+
 	<string name="status_description_not_reachable">Please check your configuration &#8230;</string>
 	<string name="status_description_web_not_reachable"> Please check proxy configuration &#8230;</string>
    	
