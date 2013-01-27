@@ -9,17 +9,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
-import com.shouldit.proxy.lib.APLConstants.ProxyStatusErrors;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxyUIUtils;
 
 public class UIUtils
 {
@@ -30,7 +28,7 @@ public class UIUtils
 	{
 //		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
-			return UIUtils.GetStatusTitle(conf, ctx);
+			return ProxyUIUtils.GetStatusTitle(conf, ctx);
 		}
 //		else
 //		{
@@ -44,117 +42,6 @@ public class UIUtils
 			// ctx.getText(R.string.preference_proxy_host_port_summary_default).toString();
 			// }
 //		}
-	}
-
-	public static String GetStatusTitle(ProxyConfiguration conf, Context callerContext)
-	{
-		String description;
-
-		switch (conf.getCheckingStatus())
-		{
-			case CHECKED:
-			{
-				ProxyStatusErrors status = conf.getMostRelevantProxyStatusError();
-
-				switch (status)
-				{
-					case NO_ERRORS:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_title_enabled);
-						break;
-
-					case PROXY_NOT_ENABLED:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_enabled);
-						break;
-
-					case PROXY_ADDRESS_NOT_VALID:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_title_invalid_address);
-						break;
-
-					case PROXY_NOT_REACHABLE:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_title_not_reachable);
-						break;
-
-					case WEB_NOT_REACHABLE:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_title_web_not_reachable);
-						break;
-
-					default:
-						description = "";
-				}
-
-			}
-				break;
-
-			case CHECKING:
-				description = callerContext.getResources().getString(R.string.statusbar_notification_title_checking);
-				break;
-
-			default:
-				description = "";
-				break;
-		}
-
-		return description;
-	}
-
-	public static String GetStatusDescription(ProxyConfiguration conf, Context callerContext)
-	{
-		String description;
-
-		switch (conf.getCheckingStatus())
-		{
-			case CHECKED:
-			{
-				ProxyStatusErrors status = conf.getMostRelevantProxyStatusError();
-
-				switch (status)
-				{
-					case NO_ERRORS:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_description_enabled);
-						description = description + " " + conf.toShortString();
-						break;
-
-					case PROXY_NOT_ENABLED:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_description_not_enabled);
-						break;
-
-					case PROXY_ADDRESS_NOT_VALID:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_description_invalid_address);
-						break;
-
-					case PROXY_NOT_REACHABLE:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_description_not_reachable);
-						break;
-					case WEB_NOT_REACHABLE:
-						description = callerContext.getResources().getString(R.string.statusbar_notification_description_web_not_reachable);
-						break;
-
-					default:
-						description = "";
-				}
-
-			}
-				break;
-
-			case CHECKING:
-				description = callerContext.getResources().getString(R.string.statusbar_notification_description_checking);
-				break;
-
-			default:
-				description = "";
-				break;
-		}
-
-		return description;
-	}
-
-	public static String ProxyConfigToStatusString(ProxyConfiguration conf, Context callerContext)
-	{
-		String message = String.format("%s", conf.toShortString());
-
-		message += " - " + GetStatusTitle(conf, callerContext);
-
-		return message;
 	}
 
 	/**
@@ -190,8 +77,8 @@ public class UIUtils
 		if (prefs.getBoolean("preference_notification_enabled", false))
 		{
 
-			String notificationTitle = GetStatusTitle(conf, callerContext);
-			String notificationDescription = GetStatusDescription(conf, callerContext);
+			String notificationTitle = ProxyUIUtils.GetStatusTitle(conf, callerContext);
+			String notificationDescription = ProxyUIUtils.GetStatusDescription(conf, callerContext);
 
 			// The PendingIntent will launch activity if the user selects this
 			// notification

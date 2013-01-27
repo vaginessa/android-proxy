@@ -5,10 +5,7 @@
         android:defaultValue="false"
         android:key="pref_wifi_enabled"
         android:persistent="false"
-        android:title="Wi-Fi"
-        />
-            <!-- android:summary="Turn on-off Wi-Fi" --> 
-    
+        android:title="Wi-Fi" />
 
     <com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference
         android:enabled="false"
@@ -29,19 +26,24 @@
         android:dependency="pref_proxy_enabled"
         android:key="pref_proxy_host"
         android:persistent="false"
-        android:title="Proxy host" />
-    <EditTextPreference
-        android:dependency="pref_proxy_enabled"
-        android:key="pref_proxy_port"
-        android:numeric="integer"
-        android:persistent="false"
-        android:title="Proxy port" />
+        android:title="@string/proxy_hostname_label"
+        android:dialogMessage="@string/proxy_hostname_hint" />
     
     <EditTextPreference
         android:dependency="pref_proxy_enabled"
+        android:dialogMessage="@string/proxy_port_hint"
+        android:dialogTitle="@string/proxy_port_label"
+        android:key="pref_proxy_port"
+        android:numeric="integer"
+        android:persistent="false"
+        android:title="@string/proxy_port_label" />
+    <EditTextPreference
+        android:dependency="pref_proxy_enabled"
+        android:dialogMessage="@string/proxy_exclusionlist_hint"
+        android:dialogTitle="@string/proxy_exclusionlist_label"
         android:key="pref_proxy_bypass"
         android:persistent="false"
-        android:title="Bypass list" />
+        android:title="@string/proxy_exclusionlist_title" />
 
     <PreferenceScreen
         android:dependency="pref_proxy_enabled"
@@ -73,21 +75,19 @@
     <PreferenceCategory
         android:key="pref_key_proxy_settings_advanced"
         android:title="@string/pref_key_proxy_settings_advanced_title" >
-        
         <CheckBoxPreference
+            android:defaultValue="true"
             android:enabled="true"
             android:key="preference_notification_enabled"
             android:summary="@string/preferences_statusbar_notification_description_enabled"
-            android:title="@string/preferences_statusbar_notification_title"
-            android:defaultValue="true" />
-        
+            android:title="@string/preferences_statusbar_notification_title" />
         <CheckBoxPreference
+            android:defaultValue="true"
             android:dependency="preference_notification_enabled"
             android:enabled="true"
             android:key="preference_notification_always_visible"
             android:summary="@string/preferences_statusbar_notification_persistance_description_enabled"
-            android:title="@string/preferences_statusbar_notification_persistance_title"
-            android:defaultValue="true" />
+            android:title="@string/preferences_statusbar_notification_persistance_title" />
 
         <PreferenceScreen
             android:key="pref_key_proxy_settings_advanced_prefscreen"
@@ -118,7 +118,8 @@
                 android:title="@string/validation_proxy_web_reachable_title" />
         </PreferenceScreen>
 
-<!--         <com.lechucksoftware.proxy.proxysettings.preferences.UrlDownloaderDialogPreference
+        <!--
+             <com.lechucksoftware.proxy.proxysettings.preferences.UrlDownloaderDialogPreference
             android:enabled="true"
             android:key="preference_url_downloader"
             android:summary="@string/preference_test_proxy_urlretriever_summary"
@@ -128,7 +129,9 @@
             android:enabled="true"
             android:key="preference_browser_intowebview"
             android:summary="@string/preference_test_proxy_webview_summary"
-            android:title="@string/preference_test_proxy_webview_title" /> -->
+            android:title="@string/preference_test_proxy_webview_title" />
+        -->
+
 
         <!-- <Preference -->
         <!-- android:enabled="true" -->
@@ -137,10 +140,11 @@
         <!-- android:title="@string/preference_applications_feedback_title" /> -->
 
     </PreferenceCategory>
+
     <PreferenceScreen
         android:key="preference_about_category"
-        android:title="@string/preference_help_screen_title"
-        android:summary="@string/preference_help_screen_summary" >
+        android:summary="@string/preference_help_screen_summary"
+        android:title="@string/preference_help_screen_title" >
         <Preference
             android:enabled="true"
             android:key="preference_help"
@@ -150,6 +154,6 @@
             android:key="preference_about"
             android:summary="@string/versionName"
             android:title="@string/preference_about_title" />
-     </PreferenceScreen>
+    </PreferenceScreen>
 
 </PreferenceScreen>

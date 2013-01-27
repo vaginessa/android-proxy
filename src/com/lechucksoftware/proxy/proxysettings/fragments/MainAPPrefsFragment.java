@@ -15,13 +15,9 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
@@ -138,7 +134,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 				proxyPortPref.setText(proxyPortString);
 			}
 			
-			String bypassList = selectedConfiguration.proxyExclusionList;
+			String bypassList = selectedConfiguration.getProxyExclusionList();
 			if (bypassList == null || bypassList.equals(""))
 			{
 				proxyBypassPref.setSummary(getText(R.string.not_set));
@@ -257,8 +253,12 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 			
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
-				// TODO Auto-generated method stub
-				return false;
+				String proxyExclusionList = (String) newValue;
+
+				selectedConfiguration.setProxyExclusionList(proxyExclusionList);
+				selectedConfiguration.writeConfigurationToDevice();
+				
+				return true;
 			}
 		});
 
