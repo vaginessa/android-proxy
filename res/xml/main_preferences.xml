@@ -24,11 +24,10 @@
 
     <EditTextPreference
         android:dependency="pref_proxy_enabled"
+        android:dialogMessage="@string/proxy_hostname_hint"
         android:key="pref_proxy_host"
         android:persistent="false"
-        android:title="@string/proxy_hostname_label"
-        android:dialogMessage="@string/proxy_hostname_hint" />
-    
+        android:title="@string/proxy_hostname_label" />
     <EditTextPreference
         android:dependency="pref_proxy_enabled"
         android:dialogMessage="@string/proxy_port_hint"
@@ -71,54 +70,36 @@
             android:summary="@string/preference_proxy_authentication_password_summary"
             android:title="@string/preference_proxy_authentication_password_title" />
     </PreferenceScreen>
-
-    <PreferenceCategory
-        android:key="pref_key_proxy_settings_advanced"
-        android:title="@string/pref_key_proxy_settings_advanced_title" >
-        <CheckBoxPreference
-            android:defaultValue="true"
+    <PreferenceScreen
+        android:key="pref_key_proxy_settings_advanced_prefscreen"
+        android:persistent="false"
+        android:summary="@string/pref_key_proxy_settings_advanced_prefscreen_description"
+        android:title="@string/pref_key_proxy_settings_advanced_prefscreen_title" >
+        <Preference
             android:enabled="true"
-            android:key="preference_notification_enabled"
-            android:summary="@string/preferences_statusbar_notification_description_enabled"
-            android:title="@string/preferences_statusbar_notification_title" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:dependency="preference_notification_enabled"
-            android:enabled="true"
-            android:key="preference_notification_always_visible"
-            android:summary="@string/preferences_statusbar_notification_persistance_description_enabled"
-            android:title="@string/preferences_statusbar_notification_persistance_title" />
+            android:key="preference_test_proxy_configuration"
+            android:summary="@string/preference_test_proxy_configuration_summary"
+            android:title="@string/preference_test_proxy_configuration_title" />
 
-        <PreferenceScreen
-            android:key="pref_key_proxy_settings_advanced_prefscreen"
-            android:persistent="false"
-            android:summary="@string/pref_key_proxy_settings_advanced_prefscreen_description"
-            android:title="@string/pref_key_proxy_settings_advanced_prefscreen_title" >
-            <Preference
-                android:enabled="true"
-                android:key="preference_test_proxy_configuration"
-                android:summary="@string/preference_test_proxy_configuration_summary"
-                android:title="@string/preference_test_proxy_configuration_title" />
+        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+            android:key="validation_proxy_enabled"
+            android:summary="@string/validation_proxy_summary_checking"
+            android:title="@string/validation_proxy_enabled_title" />
+        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+            android:key="validation_proxy_valid_address"
+            android:summary="@string/validation_proxy_summary_checking"
+            android:title="@string/validation_proxy_address_title" />
+        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+            android:key="validation_proxy_reachable"
+            android:summary="@string/validation_proxy_summary_checking"
+            android:title="@string/validation_proxy_reachable_title" />
+        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+            android:key="validation_web_reachable"
+            android:summary="@string/validation_proxy_summary_checking"
+            android:title="@string/validation_proxy_web_reachable_title" />
+    </PreferenceScreen>
 
-            <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-                android:key="validation_proxy_enabled"
-                android:summary="@string/validation_proxy_summary_checking"
-                android:title="@string/validation_proxy_enabled_title" />
-            <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-                android:key="validation_proxy_valid_address"
-                android:summary="@string/validation_proxy_summary_checking"
-                android:title="@string/validation_proxy_address_title" />
-            <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-                android:key="validation_proxy_reachable"
-                android:summary="@string/validation_proxy_summary_checking"
-                android:title="@string/validation_proxy_reachable_title" />
-            <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-                android:key="validation_web_reachable"
-                android:summary="@string/validation_proxy_summary_checking"
-                android:title="@string/validation_proxy_web_reachable_title" />
-        </PreferenceScreen>
-
-        <!--
+    <!--
              <com.lechucksoftware.proxy.proxysettings.preferences.UrlDownloaderDialogPreference
             android:enabled="true"
             android:key="preference_url_downloader"
@@ -130,30 +111,13 @@
             android:key="preference_browser_intowebview"
             android:summary="@string/preference_test_proxy_webview_summary"
             android:title="@string/preference_test_proxy_webview_title" />
-        -->
+    -->
 
 
-        <!-- <Preference -->
-        <!-- android:enabled="true" -->
-        <!-- android:key="preference_applications_feedback" -->
-        <!-- android:summary="@string/preference_applications_feedback_summary" -->
-        <!-- android:title="@string/preference_applications_feedback_title" /> -->
-
-    </PreferenceCategory>
-
-    <PreferenceScreen
-        android:key="preference_about_category"
-        android:summary="@string/preference_help_screen_summary"
-        android:title="@string/preference_help_screen_title" >
-        <Preference
-            android:enabled="true"
-            android:key="preference_help"
-            android:title="@string/preference_help_title" />
-        <Preference
-            android:enabled="true"
-            android:key="preference_about"
-            android:summary="@string/versionName"
-            android:title="@string/preference_about_title" />
-    </PreferenceScreen>
+    <!-- <Preference -->
+    <!-- android:enabled="true" -->
+    <!-- android:key="preference_applications_feedback" -->
+    <!-- android:summary="@string/preference_applications_feedback_summary" -->
+    <!-- android:title="@string/preference_applications_feedback_title" /> -->
 
 </PreferenceScreen>

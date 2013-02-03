@@ -2,18 +2,15 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-import com.shouldit.proxy.lib.APLConstants;
 
 public class ProxyPreferencesActivity extends PreferenceActivity
 {
@@ -46,6 +43,31 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.proxy_prefs_activity, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+	    switch (item.getItemId()) 
+	    {
+	        case android.R.id.home:
+	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment",null);
+	            return true;
+	        default:
+	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.SettingsPrefsFragment",null);
+	            return true;
+	    }
 	}
 
 	@Override
