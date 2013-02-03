@@ -238,7 +238,16 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 			public boolean onPreferenceChange(Preference preference, Object newValue)
 			{
 				String portString = (String) newValue;
-				int proxyPort = (int) Integer.parseInt(portString);
+				int proxyPort;
+				
+				try
+				{
+					proxyPort = (int) Integer.parseInt(portString);
+				}
+				catch (NumberFormatException ex)
+				{
+					proxyPort = 0; // Equivalent to NOT SET
+				}
 
 				selectedConfiguration.setProxyPort(proxyPort);
 				selectedConfiguration.writeConfigurationToDevice();
