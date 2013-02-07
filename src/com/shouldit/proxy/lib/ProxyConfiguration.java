@@ -240,7 +240,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 		Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-		intent.putExtra(APLConstants.ProxyStatus, status);
+		//intent.putExtra(APLConstants.ProxyStatus, status);
 		context.sendBroadcast(intent);
 	}
 
