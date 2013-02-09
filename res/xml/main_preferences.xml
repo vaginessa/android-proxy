@@ -70,34 +70,6 @@
             android:summary="@string/preference_proxy_authentication_password_summary"
             android:title="@string/preference_proxy_authentication_password_title" />
     </PreferenceScreen>
-    <PreferenceScreen
-        android:key="pref_key_proxy_settings_advanced_prefscreen"
-        android:persistent="false"
-        android:summary="@string/pref_key_proxy_settings_advanced_prefscreen_description"
-        android:title="@string/pref_key_proxy_settings_advanced_prefscreen_title" >
-        <Preference
-            android:enabled="true"
-            android:key="preference_test_proxy_configuration"
-            android:summary="@string/preference_test_proxy_configuration_summary"
-            android:title="@string/preference_test_proxy_configuration_title" />
-
-        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-            android:key="validation_proxy_enabled"
-            android:summary="@string/validation_proxy_summary_checking"
-            android:title="@string/validation_proxy_enabled_title" />
-        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-            android:key="validation_proxy_valid_address"
-            android:summary="@string/validation_proxy_summary_checking"
-            android:title="@string/validation_proxy_address_title" />
-        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-            android:key="validation_proxy_reachable"
-            android:summary="@string/validation_proxy_summary_checking"
-            android:title="@string/validation_proxy_reachable_title" />
-        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-            android:key="validation_web_reachable"
-            android:summary="@string/validation_proxy_summary_checking"
-            android:title="@string/validation_proxy_web_reachable_title" />
-    </PreferenceScreen>
 
     <!--
              <com.lechucksoftware.proxy.proxysettings.preferences.UrlDownloaderDialogPreference

@@ -12,6 +12,25 @@
 	<string name="disclaimer">Disclaimer</string>
 	<string name="help">Help</string>
 	<string name="settings">Settings</string>
+	<string name="proxy_checker">Proxy checker</string>
+	
+	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
+
+	<string name="validation_proxy_enabled_title">Proxy enabled</string>
+	<string name="validation_proxy_enabled_summary_ok">Proxy is enabled</string>
+	<string name="validation_proxy_enabled_summary_nok">Proxy is not enabled</string>
+
+	<string name="validation_proxy_address_title">Proxy address</string>
+	<string name="validation_proxy_address_summary_ok">Proxy address is valid</string>
+	<string name="validation_proxy_address_summary_nok">Proxy address is not valid</string>
+
+	<string name="validation_proxy_reachable_title">Ping proxy host</string>
+	<string name="validation_proxy_reachable_summary_ok">Proxy host is reachable</string>
+	<string name="validation_proxy_reachable_summary_nok">Proxy host is not reachable</string>
+
+	<string name="validation_proxy_web_reachable_title">Web reachability</string>
+	<string name="validation_proxy_web_reachable_summary_ok">HTTP requests working</string>
+	<string name="validation_proxy_web_reachable_summary_nok">HTTP requests aren\'t working</string>
 
 	<string name="pref_main_title">Proxy configuration</string>
 	<string name="pref_tools_title">Tools</string>
@@ -173,23 +192,7 @@
 	<string name="validation_proxy_category">Tests list</string>
 	<string name="other_tests_proxy_category">Other proxy tests</string>
 
-	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
 
-	<string name="validation_proxy_enabled_title">Proxy enabled</string>
-	<string name="validation_proxy_enabled_summary_ok">Proxy is enabled</string>
-	<string name="validation_proxy_enabled_summary_nok">Proxy is not enabled</string>
-
-	<string name="validation_proxy_address_title">Proxy address</string>
-	<string name="validation_proxy_address_summary_ok">Proxy address is valid</string>
-	<string name="validation_proxy_address_summary_nok">Proxy address is not valid</string>
-
-	<string name="validation_proxy_reachable_title">Ping proxy host</string>
-	<string name="validation_proxy_reachable_summary_ok">Proxy host is reachable</string>
-	<string name="validation_proxy_reachable_summary_nok">Proxy host is not reachable</string>
-
-	<string name="validation_proxy_web_reachable_title">Web reachability</string>
-	<string name="validation_proxy_web_reachable_summary_ok">HTTP requests working</string>
-	<string name="validation_proxy_web_reachable_summary_nok">HTTP requests aren\'t working</string>
 
 	<string name="preference_proxy_authentication_screen_title">Proxy Authentication</string>
 	<string name="preference_proxy_authentication_screen_summary">Set proxy authentication</string>

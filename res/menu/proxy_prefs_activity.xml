@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <item android:id="@+id/menu_proxy_status"
+          android:icon="@drawable/ic_action_valid"
+          android:title="@string/proxy_checker"
+          android:showAsAction="ifRoom|withText">
+        <menu>
+            <item android:id="@+id/menu_proxy_enabled"
+                  android:icon="@drawable/ic_action_valid"
+                  android:title="@string/validation_proxy_enabled_title" />
+            <item android:id="@+id/menu_proxy_address"
+                  android:icon="@drawable/ic_action_valid"
+                  android:title="@string/validation_proxy_address_title" />
+            <item android:id="@+id/menu_proxy_host"
+                  android:icon="@drawable/ic_action_valid"
+                  android:title="@string/validation_proxy_reachable_title" />
+            <item android:id="@+id/menu_proxy_web_reach"
+                  android:icon="@drawable/ic_action_valid"
+                  android:title="@string/validation_proxy_web_reachable_title" />
+        </menu>
+    </item>
+    
+    
     <item
         android:id="@+id/menu_settings"
         android:title="@string/settings"/>
-    
+
     <item
         android:id="@+id/menu_about"
         android:title="@string/about"/>
     
-    <item
-        android:id="@+id/menu_save"
-        android:icon="@drawable/ic_action_valid"
-        android:showAsAction="ifRoom"
-        android:title="@string/wifi_access_points"/>
-
 </menu>

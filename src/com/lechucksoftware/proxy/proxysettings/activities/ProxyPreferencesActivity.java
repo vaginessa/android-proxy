@@ -58,12 +58,24 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
-	{
+	{	
 	    switch (item.getItemId()) 
 	    {
 	        case android.R.id.home:
 	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment",null);
 	            return true;
+	        case R.id.menu_proxy_status:
+	        	return true;
+	        case R.id.menu_proxy_enabled:
+	        case R.id.menu_proxy_host:
+	        case R.id.menu_proxy_address:
+	        case R.id.menu_proxy_web_reach:
+	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.ProxyCheckerPrefsFragment", null);
+	        	return true;
+	        	
+	        case R.id.menu_about:
+	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.AboutPrefsFragment",null);
+	        	return true;
 	        default:
 	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.SettingsPrefsFragment",null);
 	            return true;
