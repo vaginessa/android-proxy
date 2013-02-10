@@ -62,7 +62,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	    switch (item.getItemId()) 
 	    {
 	        case android.R.id.home:
-	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment",null);
+	        	
 	            return true;
 	        case R.id.menu_proxy_status:
 	        	return true;
@@ -74,11 +74,16 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	        	return true;
 	        	
 	        case R.id.menu_about:
-	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.AboutPrefsFragment",null);
+	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment",null);
 	        	return true;
-	        default:
-	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.SettingsPrefsFragment",null);
+	        case R.id.menu_advanced:
+	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment",null);
 	            return true;
+	            
+	        default:
+	        	// Not handled -> Return to HOME
+	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment",null);
+	        	return true;
 	    }
 	}
 

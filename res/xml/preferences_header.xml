@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <header
-        android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment"
-        android:icon="@drawable/ic_launcher"
-        android:title="@string/pref_main_title" />
-    
-    <header
-        android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.SettingsPrefsFragment"
-        android:icon="@drawable/ic_launcher"
-        android:title="@string/pref_main_title" />
+	<header
+		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment"
+		android:icon="@drawable/ic_action_shuffle"
+		android:title="@string/pref_main_title" />
+
+	<header
+		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.ProxyChegkerPrefsFragment"
+		android:icon="@drawable/ic_action_valid"
+		android:title="@string/proxy_checker" />
+
+	<header
+		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment"
+		android:icon="@drawable/ic_action_settings"
+		android:title="@string/advanced" />
+
+	<header
+		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment"
+		android:icon="@drawable/ic_action_ic_help"
+		android:title="@string/help" />
+
 
 </preference-headers>

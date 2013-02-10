@@ -7,13 +7,13 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-public class SettingsPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
+public class AdvancedPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.settings_preferences);
+		addPreferencesFromResource(R.xml.advanced_preferences);
 	}
 	
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)

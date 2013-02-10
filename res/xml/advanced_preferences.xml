@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.lechucksoftware.proxy.proxysettings.fragments.UrlDownloaderDialogPreference
+        android:enabled="true"
+        android:key="preference_url_downloader"
+        android:summary="@string/preference_test_proxy_urlretriever_summary"
+        android:title="@string/preference_test_proxy_urlretriever_title" />
+
+    <com.lechucksoftware.proxy.proxysettings.fragments.UrlBrowserDialogPreference
+        android:enabled="true"
+        android:key="preference_browser_intowebview"
+        android:summary="@string/preference_test_proxy_webview_summary"
+        android:title="@string/preference_test_proxy_webview_title" />
+    
+    <PreferenceCategory >
+
+	<CheckBoxPreference
+		android:defaultValue="true"
+		android:enabled="true"
+		android:key="preference_notification_enabled"
+		android:summaryOn="@string/preferences_statusbar_notification_description_enabled"
+		android:summaryOff="@string/preferences_statusbar_notification_description_disabled"
+		android:title="@string/preferences_statusbar_notification_title" />
+	
+	<CheckBoxPreference
+		android:defaultValue="true"
+		android:dependency="preference_notification_enabled"
+		android:enabled="true"
+		android:key="preference_notification_always_visible"
+		android:summaryOn="@string/preferences_statusbar_notification_persistance_description_enabled"
+		android:summaryOff="@string/preferences_statusbar_notification_persistance_description_disabled"
+		android:title="@string/preferences_statusbar_notification_persistance_title" />
+	
+	</PreferenceCategory>
+
+</PreferenceScreen>

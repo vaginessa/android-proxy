@@ -32,13 +32,13 @@
 
     </PreferenceScreen>
 
-    <com.lechucksoftware.proxy.proxysettings.dialogs.UrlDownloaderDialogPreference
+    <com.lechucksoftware.proxy.proxysettings.fragments.UrlDownloaderDialogPreference
         android:enabled="true"
         android:key="preference_url_downloader"
         android:summary="@string/preference_test_proxy_urlretriever_summary"
         android:title="@string/preference_test_proxy_urlretriever_title" />
 
-    <com.lechucksoftware.proxy.proxysettings.dialogs.UrlBrowserDialogPreference
+    <com.lechucksoftware.proxy.proxysettings.fragments.UrlBrowserDialogPreference
         android:enabled="true"
         android:key="preference_browser_intowebview"
         android:summary="@string/preference_test_proxy_webview_summary"

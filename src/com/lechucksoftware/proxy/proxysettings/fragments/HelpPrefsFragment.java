@@ -7,7 +7,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-public class AboutPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
+public class HelpPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
 	@Override
 	public void onCreate(Bundle savedInstanceState)
