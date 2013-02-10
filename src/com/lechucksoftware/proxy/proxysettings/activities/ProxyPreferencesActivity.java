@@ -4,8 +4,10 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,17 +46,16 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		ActionBar actionBar = getActionBar();
-	    actionBar.setDisplayHomeAsUpEnabled(true);
+		
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.proxy_prefs_activity, menu);
-	    return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) 
+//	{
+//	    MenuInflater inflater = getMenuInflater();
+//	    inflater.inflate(R.menu.proxy_prefs_activity, menu);
+//	    return true;
+//	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
@@ -62,8 +63,11 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	    switch (item.getItemId()) 
 	    {
 	        case android.R.id.home:
-	        	
+	            Intent settingsIntent = new Intent(this, ProxyPreferencesActivity.class);
+	            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	            startActivity(settingsIntent);
 	            return true;
+	            
 	        case R.id.menu_proxy_status:
 	        	return true;
 	        case R.id.menu_proxy_enabled:
@@ -81,9 +85,7 @@ public class ProxyPreferencesActivity extends PreferenceActivity
 	            return true;
 	            
 	        default:
-	        	// Not handled -> Return to HOME
-	        	switchToHeader("com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment",null);
-	        	return true;
+	            return super.onOptionsItemSelected(item);
 	    }
 	}
 

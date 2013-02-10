@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,8 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
@@ -64,6 +67,15 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.main_preferences);
 		instance = this;
+		
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
+	public void onCreateOptionsMenu (Menu menu, MenuInflater inflater)
+	{
+	    inflater.inflate(R.menu.proxy_prefs_activity, menu);
 	}
 
 	@Override

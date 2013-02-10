@@ -13,7 +13,7 @@ public class HelpPrefsFragment extends PreferenceFragment implements OnSharedPre
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.about_preferences);
+		addPreferencesFromResource(R.xml.help_preferences);
 	}
 	
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)

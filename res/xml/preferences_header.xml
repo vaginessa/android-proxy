@@ -7,7 +7,7 @@
 		android:title="@string/pref_main_title" />
 
 	<header
-		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.ProxyChegkerPrefsFragment"
+		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.ProxyCheckerPrefsFragment"
 		android:icon="@drawable/ic_action_valid"
 		android:title="@string/proxy_checker" />
 
