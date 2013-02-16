@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.wifi.WifiInfo;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -60,6 +61,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	private EditTextPreference proxyPortPref;
 
 	private EditTextPreference proxyBypassPref;
+
+	private Preference wifiApPref;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -192,13 +195,15 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 				if (isChecked == false)
 				{
 					// Immediately disable when Wi-Fi is set to OFF
-					apSelectorPref.setEnabled(isChecked);
-					proxyEnablePref.setEnabled(isChecked);
+//					apSelectorPref.setEnabled(isChecked);
+//					proxyEnablePref.setEnabled(isChecked);
 				}
 
 				return true;
 			}
 		});
+		
+		wifiApPref = (Preference) findPreference("pref_wifi_ap");
 
 		apCategoryPref = (PreferenceCategory) findPreference("pref_ap_category");
 		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
@@ -297,12 +302,25 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	public void refreshUIComponents()
 	{
 		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
+		
 		wifiEnabledPref.setChecked(wifiEnabled);
+		wifiApPref.setEnabled(wifiEnabled);
 		apSelectorPref.setEnabled(wifiEnabled);
+//		proxyEnablePref
 		
 		if (wifiEnabled)
 		{
-
+			WifiInfo wi = ApplicationGlobals.getWifiManager().getConnectionInfo();
+			ProxyConfiguration conf = ApplicationGlobals.getConfiguration(wi.getSSID());
+			if (conf != null)
+			{
+				wifiApPref.setTitle(conf.getSSID());
+				wifiApPref.setSummary(conf.getAPDescription(getActivity()));
+			}
+			else
+			{
+				
+			}
 		}
 		else
 		{

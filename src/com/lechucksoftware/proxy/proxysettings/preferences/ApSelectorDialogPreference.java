@@ -87,6 +87,7 @@ public class ApSelectorDialogPreference extends DialogPreference
 				}
 
 				final ProxyConfiguration listItem = (ProxyConfiguration) mList.get(position);
+				
 
 				if (listItem != null)
 				{					

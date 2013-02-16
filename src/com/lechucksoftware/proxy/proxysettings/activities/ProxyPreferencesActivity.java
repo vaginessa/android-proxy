@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
@@ -73,6 +75,15 @@ public class ProxyPreferencesActivity extends Activity
 		inflater.inflate(R.menu.proxy_prefs_activity, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		MenuItem mi = menu.findItem(R.id.menu_proxy_status);
+		mi.setIcon(R.drawable.ic_action_notvalid);
+		
+		return true;
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
@@ -113,19 +124,25 @@ public class ProxyPreferencesActivity extends Activity
 			if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
 			{
 				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration");
-				refreshFragments();
+				refreshUI();
 			}
 			else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
 			{
 				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration");
-				refreshFragments();
+				refreshUI();
 			}
 		}
 	};
 	
-	private void refreshFragments()
+	private void refreshUI()
 	{
+		refreshActionBar();
 		mainFragment.refreshUIComponents();
+	}
+	
+	private void refreshActionBar()
+	{
+		this.invalidateOptionsMenu();
 	}
 	
 	@Override

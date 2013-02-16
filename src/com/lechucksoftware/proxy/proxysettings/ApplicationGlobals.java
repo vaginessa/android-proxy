@@ -144,6 +144,17 @@ public class ApplicationGlobals extends Application
 	{
 		return new ArrayList<ProxyConfiguration>(mInstance.configurations.values());
 	}
+	
+	public static ProxyConfiguration getConfiguration(String SSID)
+	{
+		String cleanSSID = Utils.cleanUpSSID(SSID);
+		
+		if (mInstance.configurations.containsKey(cleanSSID))
+		{
+			return mInstance.configurations.get(cleanSSID);
+		}
+		else return null;
+	}
 
 	public static void startWifiScan()
 	{
