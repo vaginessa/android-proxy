@@ -1,11 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +21,14 @@ public class ProxyPreferencesActivity extends Activity
 
 	// declare the dialog as a member field of your activity
 	private ProgressDialog mProgressDialog;
+	
+	private MainAPPrefsFragment mainFragment;
+	private HelpPrefsFragment helpFragment;
+
+	private ProxyCheckerPrefsFragment checkFragment;
+
+	private AdvancedPrefsFragment advFragment;
+	
 
 	public void showProgressDialog()
 	{
@@ -47,8 +52,14 @@ public class ProxyPreferencesActivity extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState); 
+		
+		mainFragment = new MainAPPrefsFragment();
+		checkFragment = new ProxyCheckerPrefsFragment();
+		advFragment = new AdvancedPrefsFragment();
+		helpFragment = new HelpPrefsFragment();
+		
 	    
-		getFragmentManager().beginTransaction().replace(android.R.id.content, new MainAPPrefsFragment()).commit();
+		getFragmentManager().beginTransaction().replace(android.R.id.content, mainFragment).commit();
 	}
 
 	@Override
@@ -65,7 +76,7 @@ public class ProxyPreferencesActivity extends Activity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				getFragmentManager().beginTransaction().replace(android.R.id.content, new MainAPPrefsFragment()).commit();
+				getFragmentManager().beginTransaction().replace(android.R.id.content, mainFragment).commit();
 				return true;
 
 			case R.id.menu_proxy_status:
@@ -74,14 +85,14 @@ public class ProxyPreferencesActivity extends Activity
 			case R.id.menu_proxy_host:
 			case R.id.menu_proxy_address:
 			case R.id.menu_proxy_web_reach:
-				getFragmentManager().beginTransaction().replace(android.R.id.content, new ProxyCheckerPrefsFragment()).commit();
+				getFragmentManager().beginTransaction().replace(android.R.id.content, checkFragment).commit();
 				return true;
 
 			case R.id.menu_about:
-				getFragmentManager().beginTransaction().replace(android.R.id.content, new HelpPrefsFragment()).commit();
+				getFragmentManager().beginTransaction().replace(android.R.id.content, helpFragment).commit();
 				return true;
 			case R.id.menu_advanced:
-				getFragmentManager().beginTransaction().replace(android.R.id.content, new AdvancedPrefsFragment()).commit();
+				getFragmentManager().beginTransaction().replace(android.R.id.content, advFragment).commit();
 				return true;
 
 			default:
