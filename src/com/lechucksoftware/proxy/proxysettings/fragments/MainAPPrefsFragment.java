@@ -68,15 +68,10 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		addPreferencesFromResource(R.xml.main_preferences);
 		instance = this;
 		
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-		setHasOptionsMenu(true);
+		ActionBar actionBar = getActivity().getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(false);
 	}
 	
-	@Override
-	public void onCreateOptionsMenu (Menu menu, MenuInflater inflater)
-	{
-	    inflater.inflate(R.menu.proxy_prefs_activity, menu);
-	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState)

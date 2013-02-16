@@ -4,22 +4,26 @@
 	<header
 		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment"
 		android:icon="@drawable/ic_action_shuffle"
-		android:title="@string/pref_main_title" />
+		android:title="@string/pref_main_title"
+		android:summary="Set the curren" />
 
 	<header
 		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.ProxyCheckerPrefsFragment"
 		android:icon="@drawable/ic_action_valid"
-		android:title="@string/proxy_checker" />
+		android:title="@string/proxy_checker"
+		android:summary="testaetase"  />
 
 	<header
 		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment"
 		android:icon="@drawable/ic_action_settings"
-		android:title="@string/advanced" />
+		android:title="@string/advanced"
+		android:summary="testaetase"  />
 
 	<header
 		android:fragment="com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment"
 		android:icon="@drawable/ic_action_ic_help"
-		android:title="@string/help" />
+		android:title="@string/help"
+		android:summary="testaetase"  />
 
 
 </preference-headers>
