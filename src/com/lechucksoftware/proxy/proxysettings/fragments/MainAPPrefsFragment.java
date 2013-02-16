@@ -294,7 +294,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		aboutPref = (Preference) findPreference("preference_about");
 	}
 
-	private void refreshUIComponents()
+	public void refreshUIComponents()
 	{
 		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
 		wifiEnabledPref.setChecked(wifiEnabled);
@@ -363,35 +363,12 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 //		{}
 	}
 
-	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
-	{
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			String action = intent.getAction();
-			if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
-			{
-				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration");
-				refreshUIComponents();
-			}
-			else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
-			{
-				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration");
-				refreshUIComponents();
-			}
-		}
-	};
+
 
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-
-		// Start register the status receivers
-		IntentFilter ifilt = new IntentFilter();
-		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-		getActivity().registerReceiver(changeStatusReceiver, ifilt);
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
 
@@ -399,9 +376,6 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	public void onPause()
 	{
 		super.onPause();
-
-		// Stop the registered status receivers
-		getActivity().unregisterReceiver(changeStatusReceiver);
 		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 	}
 }

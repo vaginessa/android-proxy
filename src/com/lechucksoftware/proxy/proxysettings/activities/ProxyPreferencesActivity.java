@@ -2,6 +2,10 @@ package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +16,8 @@ import com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyCheckerPrefsFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.proxy.lib.APLConstants;
 
 public class ProxyPreferencesActivity extends Activity
 {
@@ -24,9 +30,7 @@ public class ProxyPreferencesActivity extends Activity
 	
 	private MainAPPrefsFragment mainFragment;
 	private HelpPrefsFragment helpFragment;
-
 	private ProxyCheckerPrefsFragment checkFragment;
-
 	private AdvancedPrefsFragment advFragment;
 	
 
@@ -99,10 +103,49 @@ public class ProxyPreferencesActivity extends Activity
 				return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			String action = intent.getAction();
+			if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
+			{
+				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration");
+				refreshFragments();
+			}
+			else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
+			{
+				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration");
+				refreshFragments();
+			}
+		}
+	};
+	
+	private void refreshFragments()
+	{
+		mainFragment.refreshUIComponents();
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
 
-	//	@Override
-	//	public void onBuildHeaders(List<Header> target)
-	//	{
-	//		loadHeadersFromResource(R.xml.preferences_header, target);
-	//	}
+		// Start register the status receivers
+		IntentFilter ifilt = new IntentFilter();
+		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+		registerReceiver(changeStatusReceiver, ifilt);
+	}
+
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+
+		// Stop the registered status receivers
+		unregisterReceiver(changeStatusReceiver);
+	}
 }
