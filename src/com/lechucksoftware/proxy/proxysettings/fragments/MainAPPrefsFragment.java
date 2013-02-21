@@ -122,7 +122,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 			
 			String proxyHost = selectedConfiguration.getProxyHost();
 			proxyHostPref.setText(proxyHost);
-			if (proxyHost == null) 
+			if (proxyHost == null || proxyHost.length() == 0) 
 			{
 				proxyHostPref.setSummary(getText(R.string.not_set));
 			}
