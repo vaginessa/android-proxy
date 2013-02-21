@@ -86,10 +86,10 @@ public class ProxyStatus implements Serializable
 		}
 	}
 	
-	public void add(ProxyStatusProperties statusCode, CheckStatusValues status, Boolean value)
+	public void add(ProxyStatusItem item)
 	{
-		properties.get(statusCode).status = status;
-		properties.get(statusCode).result = value;
+		properties.get(item.statusCode).status = item.status;
+		properties.get(item.statusCode).result = item.value;
 	}
 	
 	public ProxyStatusProperty getMostRelevantErrorProxyStatusProperty()

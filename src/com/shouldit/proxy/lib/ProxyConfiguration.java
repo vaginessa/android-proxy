@@ -111,13 +111,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format("Proxy setting: %s\n", proxySetting.toString()));
-		sb.append(String.format("Is proxy enabled: %B\n" , isProxyEnabled()));
 		sb.append(String.format("Proxy: %s\n", toShortString()));
 		sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
-		sb.append(String.format("Is Proxy hostname valid: %B\n", isProxyValidHostname()));
-		sb.append(String.format("Is Proxy port valid: %B\n", isProxyValidPort()));
-		sb.append(String.format("Is Proxy reachable: %B\n", isProxyReachable()));
-		sb.append(String.format("Is WEB reachable: %B\n", isWebReachable(60000)));
+		sb.append(String.format("Proxy status checker results:\n"));
+		sb.append(String.format("%s\n" , isProxyEnabled()));
+		sb.append(String.format("%s\n", isProxyValidHostname()));
+		sb.append(String.format("%s\n", isProxyValidPort()));
+		sb.append(String.format("%s\n", isProxyReachable()));
+		sb.append(String.format("%s\n", isWebReachable(60000)));
 
 		if (currentNetworkInfo != null)
 		{
@@ -166,74 +167,24 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		broadCastUpdatedStatus();
 
 		LogWrapper.d(TAG, "Checking if proxy is enabled ...");
-		if (!isProxyEnabled())
-		{
-			LogWrapper.e(TAG, "PROXY NOT ENABLED");
-			status.add(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false);
-		}
-		else
-		{
-			LogWrapper.i(TAG, "PROXY ENABLED");
-			status.add(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true);
-		}
-
+		status.add(isProxyEnabled());
 		broadCastUpdatedStatus();
 
 		LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
-		if (!isProxyValidHostname())
-		{
-			LogWrapper.e(TAG, "PROXY NOT VALID HOSTNAME");
-			status.add(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false);
-		}
-		else
-		{
-			LogWrapper.i(TAG, "PROXY VALID HOSTNAME");
-			status.add(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
-		}
-
+		status.add(isProxyValidHostname());
 		broadCastUpdatedStatus();
 		
 		LogWrapper.d(TAG, "Checking if proxy is valid port ...");
-		if (!isProxyValidPort())
-		{
-			LogWrapper.e(TAG, "PROXY NOT VALID PORT");
-			status.add(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false);
-		}
-		else
-		{
-			LogWrapper.i(TAG, "PROXY VALID PORT");
-			status.add(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true);
-		}
-
+		status.add(isProxyValidPort());
 		broadCastUpdatedStatus();
 
 		LogWrapper.d(TAG, "Checking if proxy is reachable ...");
-		if (!isProxyReachable())
-		{
-			LogWrapper.e(TAG, "PROXY NOT REACHABLE");
-			status.add(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false);
-		}
-		else
-		{
-			LogWrapper.i(TAG, "PROXY REACHABLE");
-			status.add(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, true);
-		}
-
+		status.add(isProxyReachable());
 		broadCastUpdatedStatus();
-
+		
 		LogWrapper.d(TAG, "Checking if web is reachable ...");
-		if (!isWebReachable(timeout))
-		{
-			LogWrapper.e(TAG, "WEB NOT REACHABLE");
-			status.add(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, false);
-		}
-		else
-		{
-			LogWrapper.i(TAG, "WEB REACHABLE");
-			status.add(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, true);
-		}
-
-		broadCastUpdatedStatus();
+		status.add(isWebReachable(timeout));
+		broadCastUpdatedStatus();		
 	}
 
 	private void broadCastUpdatedStatus()
@@ -244,41 +195,42 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		context.sendBroadcast(intent);
 	}
 
-	private Boolean isProxyEnabled()
+	private ProxyStatusItem isProxyEnabled()
 	{
-		Boolean result = false;
+		ProxyStatusItem result;
 
 		if (Build.VERSION.SDK_INT >= 12)
 		{
 			// On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
 			// Proxy is disabled by default on Mobile connection
 			if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
-				return false;
+			{
+				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false);
+			}
 		}
 
 		if (proxySetting == ProxySetting.UNASSIGNED || proxySetting == ProxySetting.NONE)
 		{
-			result = false;
+			result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false);
 		}
 		else
 		{
-			if (proxyHost != null && proxyPort != null)
-			{
-				result = true; // HTTP or SOCKS proxy
-			}
-			else
-			{
-				result = false;
-			}
+//			if (proxyHost != null && proxyPort != null)
+//			{
+				// HTTP or SOCKS proxy
+				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true);
+//			}
+//			else
+//			{
+//				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false);
+//			}
 		}
 
 		return result;
 	}
 
-	private boolean isProxyValidHostname()
-	{
-		Boolean result = false;
-		
+	private ProxyStatusItem isProxyValidHostname()
+	{		
 		try
 		{
 			String proxyHost = getProxyHostString();
@@ -287,17 +239,17 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			{
 				if (InetAddressUtils.isIPv4Address(proxyHost) || InetAddressUtils.isIPv6Address(proxyHost) || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost) || InetAddressUtils.isIPv6StdAddress(proxyHost))
 				{
-					result = true;
+					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
 				}
 
 				if (URLUtil.isNetworkUrl(proxyHost))
 				{
-					result = true;
+					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
 				}
 
 				if (URLUtil.isValidUrl(proxyHost))
 				{
-					result = true;
+					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
 				}
 
 				// Test REGEX for Hostname validation
@@ -309,33 +261,41 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 				if (matcher.find())
 				{
-					result = true;
+					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
 				}
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			result = false;
 		}
 
-		return result;
+		return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false);
+
 	}
 	
-	private boolean isProxyValidPort()
+	private ProxyStatusItem isProxyValidPort()
 	{
-		return (proxyPort != null) && (proxyPort > 0);
+		if ((proxyPort != null) && (proxyPort > 0))
+		{
+			return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true);
+		}
+		else
+		{
+			return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false);
+		}	
+			
 	}
 	
 	/**
 	 * Try to PING the HOST specified in the current proxy configuration
 	 * */
-	private Boolean isProxyReachable()
+	private ProxyStatusItem isProxyReachable()
 	{
 		if (getProxy() != null && getProxyType() != Proxy.Type.DIRECT)
-			return ProxyUtils.isHostReachable(getProxy());
+			return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, ProxyUtils.isHostReachable(getProxy()));
 		else
-			return false;
+			return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false);
 	}
 
 	/**
@@ -343,14 +303,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	 * */
 	public static int DEFAULT_TIMEOUT = 60000; // 60 seconds
 
-	private Boolean isWebReachable()
+	private ProxyStatusItem isWebReachable()
 	{
 		return isWebReachable(DEFAULT_TIMEOUT);
 	}
 
-	private Boolean isWebReachable(int timeout)
+	private ProxyStatusItem isWebReachable(int timeout)
 	{
-		return ProxyUtils.isWebReachable(this, timeout);
+		return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, ProxyUtils.isWebReachable(this, timeout));
 	}
 
 	public String getProxyHostString()
