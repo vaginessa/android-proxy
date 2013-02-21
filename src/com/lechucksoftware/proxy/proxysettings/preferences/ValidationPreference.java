@@ -22,14 +22,14 @@ public class ValidationPreference extends Preference
 	
 	public enum ValidationStatus
 	{
-		Checking, Valid, Error
+		CHECKING, VALID, ERROR
 	}
 
 	public ValidationPreference(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 
-		status = ValidationStatus.Checking;
+		status = ValidationStatus.CHECKING;
 		setWidgetLayoutResource(R.layout.validation_preference_widget);		
 	    mIcon = getContext().getResources().getDrawable(R.drawable.waiting);
 	}
@@ -61,11 +61,11 @@ public class ValidationPreference extends Preference
 	{
 		status = st;
 		
-		if (st == ValidationStatus.Checking)
+		if (st == ValidationStatus.CHECKING)
 		{
 			setWidgetLayoutResource(R.layout.validation_preference_widget_waiting);	
 		}
-		else if (status == ValidationStatus.Valid)
+		else if (status == ValidationStatus.VALID)
 		{
 			setWidgetLayoutResource(R.layout.validation_preference_widget);	
 			mIcon = getContext().getResources().getDrawable(R.drawable.ok);

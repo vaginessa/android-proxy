@@ -9,10 +9,13 @@
             <item android:id="@+id/menu_proxy_enabled"
                   android:icon="@drawable/ic_action_valid"
                   android:title="@string/validation_proxy_enabled_title" />
-            <item android:id="@+id/menu_proxy_address"
-                  android:icon="@drawable/ic_action_valid"
-                  android:title="@string/validation_proxy_address_title" />
             <item android:id="@+id/menu_proxy_host"
+                  android:icon="@drawable/ic_action_valid"
+                  android:title="@string/validation_proxy_host_title" />
+            <item android:id="@+id/menu_proxy_port"
+                  android:icon="@drawable/ic_action_valid"
+                  android:title="@string/validation_proxy_port_title" />
+            <item android:id="@+id/menu_proxy_reachable"
                   android:icon="@drawable/ic_action_valid"
                   android:title="@string/validation_proxy_reachable_title" />
             <item android:id="@+id/menu_proxy_web_reach"

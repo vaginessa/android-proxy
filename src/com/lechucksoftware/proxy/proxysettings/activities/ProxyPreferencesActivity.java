@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -12,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
@@ -98,7 +96,8 @@ public class ProxyPreferencesActivity extends Activity
 				return true;
 			case R.id.menu_proxy_enabled:
 			case R.id.menu_proxy_host:
-			case R.id.menu_proxy_address:
+			case R.id.menu_proxy_port:
+			case R.id.menu_proxy_reachable:	
 			case R.id.menu_proxy_web_reach:
 				getFragmentManager().beginTransaction().replace(android.R.id.content, checkFragment).commit();
 				return true;
@@ -138,6 +137,7 @@ public class ProxyPreferencesActivity extends Activity
 	{
 		refreshActionBar();
 		mainFragment.refreshUIComponents();
+		checkFragment.refreshUIComponents();
 	}
 	
 	private void refreshActionBar()

@@ -12,9 +12,13 @@
         android:summary="@string/validation_proxy_summary_checking"
         android:title="@string/validation_proxy_enabled_title" />
     <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-        android:key="validation_proxy_valid_address"
+        android:key="validation_proxy_valid_host"
         android:summary="@string/validation_proxy_summary_checking"
-        android:title="@string/validation_proxy_address_title" />
+        android:title="@string/validation_proxy_host_title" />
+    <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+        android:key="validation_proxy_valid_port"
+        android:summary="@string/validation_proxy_summary_checking"
+        android:title="@string/validation_proxy_port_title" />
     <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
         android:key="validation_proxy_reachable"
         android:summary="@string/validation_proxy_summary_checking"

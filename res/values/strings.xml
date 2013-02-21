@@ -23,9 +23,13 @@
 	<string name="validation_proxy_enabled_summary_ok">Proxy is enabled</string>
 	<string name="validation_proxy_enabled_summary_nok">Proxy is not enabled</string>
 
-	<string name="validation_proxy_address_title">Proxy address</string>
-	<string name="validation_proxy_address_summary_ok">Proxy address is valid</string>
-	<string name="validation_proxy_address_summary_nok">Proxy address is not valid</string>
+	<string name="validation_proxy_host_title">Proxy address</string>
+	<string name="validation_proxy_host_summary_ok">Proxy address is valid</string>
+	<string name="validation_proxy_host_summary_nok">Proxy address is not valid</string>
+	
+	<string name="validation_proxy_port_title">Proxy port</string>
+	<string name="validation_proxy_port_summary_ok">Proxy port is valid</string>
+	<string name="validation_proxy_port_summary_nok">Proxy port is not valid</string>
 
 	<string name="validation_proxy_reachable_title">Ping proxy host</string>
 	<string name="validation_proxy_reachable_summary_ok">Proxy host is reachable</string>
