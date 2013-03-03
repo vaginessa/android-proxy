@@ -6,11 +6,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
@@ -18,6 +20,7 @@ import com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyCheckerPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APLConstants;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 
 public class ProxyPreferencesActivity extends Activity
 {
@@ -27,12 +30,14 @@ public class ProxyPreferencesActivity extends Activity
 
 	// declare the dialog as a member field of your activity
 	private ProgressDialog mProgressDialog;
-	
+
 	private MainAPPrefsFragment mainFragment;
 	private HelpPrefsFragment helpFragment;
 	private ProxyCheckerPrefsFragment checkFragment;
 	private AdvancedPrefsFragment advFragment;
-	
+
+	private MenuItem menuItemWifiStatus;
+	private MenuItem menuItemWifiToggle;
 
 	public void showProgressDialog()
 	{
@@ -55,14 +60,13 @@ public class ProxyPreferencesActivity extends Activity
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState); 
-		
+		super.onCreate(savedInstanceState);
+
 		mainFragment = new MainAPPrefsFragment();
 		checkFragment = new ProxyCheckerPrefsFragment();
 		advFragment = new AdvancedPrefsFragment();
 		helpFragment = new HelpPrefsFragment();
-		
-	    
+
 		getFragmentManager().beginTransaction().replace(android.R.id.content, mainFragment).commit();
 	}
 
@@ -73,13 +77,39 @@ public class ProxyPreferencesActivity extends Activity
 		inflater.inflate(R.menu.proxy_prefs_activity, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
+		dismissProgressDialog();
+
+		menuItemWifiStatus = menu.findItem(R.id.menu_wifi_status);
+		menuItemWifiToggle = menu.findItem(R.id.menu_wifi_toggle);
+
+		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
+		if (wifiEnabled)
+		{
+			menuItemWifiToggle.setTitle("Turn off Wi-Fi");
+
+			ProxyConfiguration conf = ApplicationGlobals.getCurrentConfiguration();
+			Drawable icon;
+			if (conf.ap.security == 0) 
+				icon = getResources().getDrawable(R.drawable.wifi_signal_open);
+			else
+				icon = getResources().getDrawable(R.drawable.wifi_signal_lock);
+			
+			icon.setLevel(conf.ap.getLevel());
+			menuItemWifiStatus.setIcon(icon);
+		}
+		else
+		{
+			menuItemWifiToggle.setTitle("Turn on Wi-Fi");
+			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
+		}
+
 		MenuItem mi = menu.findItem(R.id.menu_proxy_status);
 		mi.setIcon(R.drawable.ic_action_notvalid);
-		
+
 		return true;
 	}
 
@@ -97,9 +127,21 @@ public class ProxyPreferencesActivity extends Activity
 			case R.id.menu_proxy_enabled:
 			case R.id.menu_proxy_host:
 			case R.id.menu_proxy_port:
-			case R.id.menu_proxy_reachable:	
+			case R.id.menu_proxy_reachable:
 			case R.id.menu_proxy_web_reach:
 				getFragmentManager().beginTransaction().replace(android.R.id.content, checkFragment).commit();
+				return true;
+
+			case R.id.menu_wifi_settings:
+				startActivity(new Intent("android.settings.WIFI_SETTINGS"));
+				return true;
+
+			case R.id.menu_wifi_toggle:
+				boolean wifiStatus = ApplicationGlobals.getWifiManager().isWifiEnabled();
+				ApplicationGlobals.getWifiManager().setWifiEnabled(!wifiStatus);
+				item.setEnabled(false);
+				menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
+				mainFragment.refreshUIComponents();
 				return true;
 
 			case R.id.menu_about:
@@ -113,7 +155,7 @@ public class ProxyPreferencesActivity extends Activity
 				return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -132,19 +174,19 @@ public class ProxyPreferencesActivity extends Activity
 			}
 		}
 	};
-	
+
 	private void refreshUI()
 	{
 		refreshActionBar();
 		mainFragment.refreshUIComponents();
 		checkFragment.refreshUIComponents();
 	}
-	
+
 	private void refreshActionBar()
 	{
 		this.invalidateOptionsMenu();
 	}
-	
+
 	@Override
 	public void onResume()
 	{

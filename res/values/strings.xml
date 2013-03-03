@@ -21,9 +21,7 @@
 	<string name="no_ap_active">No Wi-Fi Access Point active</string>
 	<string name="no_ap_selectable">No Wi-Fi Access Point can be selected</string>
 	<string name="ap_selector">Wi-Fi Access Point</string>
-	<string name="go_to_wifi_settings">Open Wi-Fi settings</string>
-	
-	
+	<string name="go_to_wifi_settings">Wi-Fi settings</string>
 	
 	
 	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>

@@ -38,10 +38,10 @@
 		android:showAsAction="ifRoom|withText">
 		<menu>
 			<item
-				android:id="@+id/wifi_toggle"
+				android:id="@+id/menu_wifi_toggle"
 				android:title="@string/wifi_quick_toggle_summary" />
 			<item
-				android:id="@+id/wifi_settings"
+				android:id="@+id/menu_wifi_settings"
 				android:title="@string/go_to_wifi_settings" />
 		</menu>
 	</item>

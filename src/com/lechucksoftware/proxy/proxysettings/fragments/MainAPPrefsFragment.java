@@ -160,54 +160,33 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		}
 		else
 		{
-			removeProxyPreferences();
+//			removeProxyPreferences();
 		}
 	}
 
 	/**
 	 * 
 	 */
-	public void addProxyPreferences()
-	{
-//		getPreferenceScreen().addPreference(proxyHostPref);
-//		getPreferenceScreen().addPreference(proxyPortPref);
-//		getPreferenceScreen().addPreference(proxyBypassPref);
-	}
+//	public void addProxyPreferences()
+//	{
+////		getPreferenceScreen().addPreference(proxyHostPref);
+////		getPreferenceScreen().addPreference(proxyPortPref);
+////		getPreferenceScreen().addPreference(proxyBypassPref);
+//	}
 
 	/**
 	 * 
 	 */
-	public void removeProxyPreferences()
-	{
-//		getPreferenceScreen().removePreference(proxyHostPref);
-//		getPreferenceScreen().removePreference(proxyPortPref);
-//		getPreferenceScreen().removePreference(proxyBypassPref);
-	}
+//	public void removeProxyPreferences()
+//	{
+////		getPreferenceScreen().removePreference(proxyHostPref);
+////		getPreferenceScreen().removePreference(proxyPortPref);
+////		getPreferenceScreen().removePreference(proxyBypassPref);
+//	}
 
 	
 	private void getUIComponents()
 	{
-//		wifiEnabledPref = (SwitchPreference) findPreference("pref_wifi_enabled");
-//		wifiEnabledPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-//		{
-//			public boolean onPreferenceChange(Preference preference, Object newValue)
-//			{
-//				Boolean isChecked = (Boolean) newValue;
-//				ApplicationGlobals.getWifiManager().setWifiEnabled(isChecked);
-//
-//				if (isChecked == false)
-//				{
-//					// Immediately disable when Wi-Fi is set to OFF
-////					apSelectorPref.setEnabled(isChecked);
-////					proxyEnablePref.setEnabled(isChecked);
-//				}
-//
-//				return true;
-//			}
-//		});
-////		
-//		wifiApPref = (Preference) findPreference("pref_wifi_ap");
-
 		apCategoryPref = (PreferenceCategory) findPreference("pref_ap_category");
 		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
 
@@ -305,12 +284,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	public void refreshUIComponents()
 	{
 		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
-		
-//		wifiEnabledPref.setChecked(wifiEnabled);
-//		wifiApPref.setEnabled(wifiEnabled);
 		apSelectorPref.setEnabled(wifiEnabled);
-//		proxyEnablePref
-		
+				
 		if (wifiEnabled)
 		{
 			WifiInfo wi = ApplicationGlobals.getWifiManager().getConnectionInfo();

@@ -63,7 +63,7 @@ public class ValidationPreference extends Preference
 		
 		if (st == ValidationStatus.CHECKING)
 		{
-			setWidgetLayoutResource(R.layout.validation_preference_widget_waiting);	
+			setWidgetLayoutResource(R.layout.actionbar_refresh_progress);	
 		}
 		else if (status == ValidationStatus.VALID)
 		{
