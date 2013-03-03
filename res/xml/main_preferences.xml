@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<PreferenceCategory
-		android:title="Status"
-		android:summary="Current Wi-Fi status">
+<!-- 	<PreferenceCategory -->
+<!-- 		android:title="Current Wi-Fi status"> -->
 
-		<SwitchPreference
-			android:defaultValue="false"
-			android:key="pref_wifi_enabled"
-			android:persistent="false"
-			android:title="Wi-Fi" />
+<!-- 		<SwitchPreference -->
+<!-- 			android:defaultValue="false" -->
+<!-- 			android:key="pref_wifi_enabled" -->
+<!-- 			android:persistent="false" -->
+<!-- 			android:title="Wi-Fi"> -->
+<!-- 		</SwitchPreference> -->
 
-		<Preference
-		    android:key="pref_wifi_ap"
-		    android:dependency="pref_wifi_enabled"
-			android:title="Current Wi-Fi"
-			android:persistent="false"
-			android:summary="WPAWEP bla bla bla">
-			<intent
-				android:action="android.settings.WIFI_SETTINGS" />
-		</Preference>
+<!-- 		<Preference -->
+<!-- 			android:key="pref_wifi_ap" -->
+<!-- 			android:dependency="pref_wifi_enabled" -->
+<!-- 			android:title="@string/ap_selector" -->
+<!-- 			android:persistent="false" -->
+<!-- 			android:summary="@string/no_ap_active"> -->
+<!-- 			<intent android:action="android.settings.WIFI_SETTINGS" /> -->
+<!-- 		</Preference> -->
 
-	</PreferenceCategory>
+<!-- 	</PreferenceCategory> -->
 
-	<PreferenceCategory
-		android:title="Settings"
-		android:summary="Selected Wi-Fi configuration">
+<!-- 	<PreferenceCategory -->
+<!-- 		android:title="AP Wi-Fi Proxy settings"> -->
 
 		<com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference
 			android:enabled="false"
 			android:key="pref_ap_selector_dialog"
 			android:persistent="false"
-			android:summary="Selected AP"
-			android:title="Access Point" />
+			android:summary="@string/no_ap_selectable"
+			android:title="@string/ap_selector" />
 
 		<SwitchPreference
-		    android:dependency="pref_ap_selector_dialog"
+			android:dependency="pref_ap_selector_dialog"
 			android:defaultValue="false"
 			android:key="pref_proxy_enabled"
 			android:persistent="false"
@@ -48,7 +46,7 @@
 			android:key="pref_proxy_host"
 			android:persistent="false"
 			android:title="@string/proxy_hostname_label" />
-		
+
 		<EditTextPreference
 			android:dependency="pref_proxy_enabled"
 			android:dialogMessage="@string/proxy_port_hint"
@@ -57,7 +55,7 @@
 			android:numeric="integer"
 			android:persistent="false"
 			android:title="@string/proxy_port_label" />
-		
+
 		<EditTextPreference
 			android:dependency="pref_proxy_enabled"
 			android:dialogMessage="@string/proxy_exclusionlist_hint"
@@ -93,7 +91,7 @@
 				android:title="@string/preference_proxy_authentication_password_title" />
 		</PreferenceScreen>
 
-	</PreferenceCategory>
+<!-- 	</PreferenceCategory> -->
 
 	<!-- <com.lechucksoftware.proxy.proxysettings.preferences.UrlDownloaderDialogPreference 
 		android:enabled="true" android:key="preference_url_downloader" android:summary="@string/preference_test_proxy_urlretriever_summary" 

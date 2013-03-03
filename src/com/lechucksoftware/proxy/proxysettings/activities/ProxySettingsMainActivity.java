@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.activities.help.DisclaimerFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+
 
 public class ProxySettingsMainActivity extends FragmentActivity
 {
@@ -40,7 +40,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 
 		finish();
 	}
-
+	
 	public void onBackPressed()
 	{
 		LogWrapper.d(TAG, "Back Pressed");

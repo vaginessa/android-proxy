@@ -1,36 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/menu_proxy_status"
-          android:icon="@drawable/ic_action_valid"
-          android:title="@string/proxy_checker"
-          android:showAsAction="ifRoom|withText">
-        <menu>
-            <item android:id="@+id/menu_proxy_enabled"
-                  android:icon="@drawable/ic_action_valid"
-                  android:title="@string/validation_proxy_enabled_title" />
-            <item android:id="@+id/menu_proxy_host"
-                  android:icon="@drawable/ic_action_valid"
-                  android:title="@string/validation_proxy_host_title" />
-            <item android:id="@+id/menu_proxy_port"
-                  android:icon="@drawable/ic_action_valid"
-                  android:title="@string/validation_proxy_port_title" />
-            <item android:id="@+id/menu_proxy_reachable"
-                  android:icon="@drawable/ic_action_valid"
-                  android:title="@string/validation_proxy_reachable_title" />
-            <item android:id="@+id/menu_proxy_web_reach"
-                  android:icon="@drawable/ic_action_valid"
-                  android:title="@string/validation_proxy_web_reachable_title" />
-        </menu>
-    </item>
-    
-    
-    <item
-        android:id="@+id/menu_advanced"
-        android:title="@string/advanced"/>
+	<item
+		android:id="@+id/menu_proxy_status"
+		android:icon="@drawable/ic_action_valid"
+		android:title="@string/proxy_checker"
+		android:showAsAction="ifRoom|withText">
 
-    <item
-        android:id="@+id/menu_about"
-        android:title="@string/about"/>
-    
+		<menu>
+			<item
+				android:id="@+id/menu_proxy_enabled"
+				android:icon="@drawable/ic_action_valid"
+				android:title="@string/validation_proxy_enabled_title" />
+			<item
+				android:id="@+id/menu_proxy_host"
+				android:icon="@drawable/ic_action_valid"
+				android:title="@string/validation_proxy_host_title" />
+			<item
+				android:id="@+id/menu_proxy_port"
+				android:icon="@drawable/ic_action_valid"
+				android:title="@string/validation_proxy_port_title" />
+			<item
+				android:id="@+id/menu_proxy_reachable"
+				android:icon="@drawable/ic_action_valid"
+				android:title="@string/validation_proxy_reachable_title" />
+			<item
+				android:id="@+id/menu_proxy_web_reach"
+				android:icon="@drawable/ic_action_valid"
+				android:title="@string/validation_proxy_web_reachable_title" />
+		</menu>
+	</item>
+
+	<item
+		android:id="@+id/menu_wifi_status"
+		android:icon="@drawable/wifi_signal"
+		android:title="@string/proxy_checker"
+		android:showAsAction="ifRoom|withText">
+		<menu>
+			<item
+				android:id="@+id/wifi_toggle"
+				android:title="@string/wifi_quick_toggle_summary" />
+			<item
+				android:id="@+id/wifi_settings"
+				android:title="@string/go_to_wifi_settings" />
+		</menu>
+	</item>
+
+
+	<item
+		android:id="@+id/menu_advanced"
+		android:title="@string/advanced" />
+
+	<item
+		android:id="@+id/menu_about"
+		android:title="@string/about" />
+
 </menu>

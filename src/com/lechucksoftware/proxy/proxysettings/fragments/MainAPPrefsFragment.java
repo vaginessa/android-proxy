@@ -13,6 +13,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
@@ -47,7 +48,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	private Preference aboutPref;
 	private SwitchPreference proxyEnablePref;
 	private PreferenceCategory apCategoryPref;
-	private SwitchPreference wifiEnabledPref;
+//	private SwitchPreference wifiEnabledPref;
+//	private Preference wifiApPref;
 	private ProxyConfiguration selectedConfiguration;
 
 	private ValidationPreference proxyValidAddressPref;
@@ -62,7 +64,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 	private EditTextPreference proxyBypassPref;
 
-	private Preference wifiApPref;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -107,17 +109,17 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		{
 			proxyEnablePref.setEnabled(true);
 			
-			apSelectorPref.setSummary(Utils.cleanUpSSID(selectedConfiguration.getSSID()) + " - " + selectedConfiguration.getAPDescription(getActivity()));
+			apSelectorPref.setSummary(selectedConfiguration.getAPDescription(getActivity()));
 
 			if (selectedConfiguration.proxySetting == ProxySetting.NONE || selectedConfiguration.proxySetting == ProxySetting.UNASSIGNED)
 			{
 				proxyEnablePref.setChecked(false);
-				removeProxyPreferences();
+//				removeProxyPreferences();
 			}
 			else
 			{
 				proxyEnablePref.setChecked(true);
-				addProxyPreferences();
+//				addProxyPreferences();
 			}
 			
 			String proxyHost = selectedConfiguration.getProxyHost();
@@ -167,9 +169,9 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	 */
 	public void addProxyPreferences()
 	{
-		getPreferenceScreen().addPreference(proxyHostPref);
-		getPreferenceScreen().addPreference(proxyPortPref);
-		getPreferenceScreen().addPreference(proxyBypassPref);
+//		getPreferenceScreen().addPreference(proxyHostPref);
+//		getPreferenceScreen().addPreference(proxyPortPref);
+//		getPreferenceScreen().addPreference(proxyBypassPref);
 	}
 
 	/**
@@ -177,33 +179,34 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	 */
 	public void removeProxyPreferences()
 	{
-		getPreferenceScreen().removePreference(proxyHostPref);
-		getPreferenceScreen().removePreference(proxyPortPref);
-		getPreferenceScreen().removePreference(proxyBypassPref);
+//		getPreferenceScreen().removePreference(proxyHostPref);
+//		getPreferenceScreen().removePreference(proxyPortPref);
+//		getPreferenceScreen().removePreference(proxyBypassPref);
 	}
 
+	
 	private void getUIComponents()
 	{
-		wifiEnabledPref = (SwitchPreference) findPreference("pref_wifi_enabled");
-		wifiEnabledPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-		{
-			public boolean onPreferenceChange(Preference preference, Object newValue)
-			{
-				Boolean isChecked = (Boolean) newValue;
-				ApplicationGlobals.getWifiManager().setWifiEnabled(isChecked);
-
-				if (isChecked == false)
-				{
-					// Immediately disable when Wi-Fi is set to OFF
-//					apSelectorPref.setEnabled(isChecked);
-//					proxyEnablePref.setEnabled(isChecked);
-				}
-
-				return true;
-			}
-		});
-		
-		wifiApPref = (Preference) findPreference("pref_wifi_ap");
+//		wifiEnabledPref = (SwitchPreference) findPreference("pref_wifi_enabled");
+//		wifiEnabledPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+//		{
+//			public boolean onPreferenceChange(Preference preference, Object newValue)
+//			{
+//				Boolean isChecked = (Boolean) newValue;
+//				ApplicationGlobals.getWifiManager().setWifiEnabled(isChecked);
+//
+//				if (isChecked == false)
+//				{
+//					// Immediately disable when Wi-Fi is set to OFF
+////					apSelectorPref.setEnabled(isChecked);
+////					proxyEnablePref.setEnabled(isChecked);
+//				}
+//
+//				return true;
+//			}
+//		});
+////		
+//		wifiApPref = (Preference) findPreference("pref_wifi_ap");
 
 		apCategoryPref = (PreferenceCategory) findPreference("pref_ap_category");
 		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
@@ -303,8 +306,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	{
 		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
 		
-		wifiEnabledPref.setChecked(wifiEnabled);
-		wifiApPref.setEnabled(wifiEnabled);
+//		wifiEnabledPref.setChecked(wifiEnabled);
+//		wifiApPref.setEnabled(wifiEnabled);
 		apSelectorPref.setEnabled(wifiEnabled);
 //		proxyEnablePref
 		
@@ -314,8 +317,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 			ProxyConfiguration conf = ApplicationGlobals.getConfiguration(wi.getSSID());
 			if (conf != null)
 			{
-				wifiApPref.setTitle(conf.getSSID());
-				wifiApPref.setSummary(conf.getAPDescription(getActivity()));
+//				wifiApPref.setSummary(conf.getAPDescription(getActivity()));
 			}
 			else
 			{
