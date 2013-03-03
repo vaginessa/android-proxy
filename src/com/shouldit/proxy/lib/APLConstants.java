@@ -16,34 +16,14 @@ public class APLConstants
 
 	public static final String ProxyStatus = "ProxyStatus";
 
-	//	public enum ProxyStatusCodes
-	//	{
-	//		NOT_CHECKED,
-	//		FOUND_PROBLEM_CHECKING,
-	//		PROXY_ENABLED,
-	//		PROXY_ADDRESS_VALID,
-	//		PROXY_REACHABLE,
-	//		WEB_REACHABILE,
-	//		CONFIGURATION_OK
-	//	}
-
-	//	public enum ProxyStatusErrors
-	//	{
-	//		PROXY_NOT_ENABLED,
-	//		PROXY_NOT_REACHABLE,
-	//		PROXY_HOSTNAME_NOT_VALID,
-	//		PROXY_PORT_NOT_VALID,
-	//		WEB_NOT_REACHABLE,
-	//		NO_ERRORS
-	//	}
-
 	public enum ProxyStatusProperties
 	{
-		PROXY_ENABLED(0), 
-		WEB_REACHABLE(1), 
-		PROXY_VALID_HOSTNAME(2), 
-		PROXY_VALID_PORT(3), 
-		PROXY_REACHABLE(4);
+		WIFI_ENABLED(0),
+		PROXY_ENABLED(1), 
+		WEB_REACHABLE(2), 
+		PROXY_VALID_HOSTNAME(3), 
+		PROXY_VALID_PORT(4), 
+		PROXY_REACHABLE(5);
 
 		private final Integer priority;
 

@@ -7,7 +7,7 @@ public class ProxyStatusItem
 {
 	public ProxyStatusProperties statusCode;
 	public CheckStatusValues status;
-	public Boolean value;
+	public Boolean result;
 	public String message;
 	
 	
@@ -15,7 +15,7 @@ public class ProxyStatusItem
 	{
 		statusCode = code;
 		status = st;
-		value = val;
+		result = val;
 		message = msg;
 	}
 	
@@ -24,10 +24,15 @@ public class ProxyStatusItem
 		this(code,st,val,"");
 	}
 	
+	public ProxyStatusItem(ProxyStatusProperties code)
+	{
+		this(code,CheckStatusValues.NOT_CHECKED, false, "");
+	}
+	
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("%s (Status:%s, Result:%s", statusCode,status, value));
+		sb.append(String.format("%s (Status:%s, Result:%s", statusCode,status, result));
 		if (message != null && message.length() > 0)
 			sb.append(", Message: " + message);
 		

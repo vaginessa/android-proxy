@@ -13,11 +13,11 @@ public class ProxyUIUtils
 		{
 			case CHECKED:
 			{
-				ProxyStatusProperty status = conf.status.getMostRelevantErrorProxyStatusProperty();
+				ProxyStatusItem status = conf.status.getMostRelevantErrorProxyStatusItem();
 
 				if (status != null)
 				{
-					switch (status.propertyName)
+					switch (status.statusCode)
 					{
 						case PROXY_ENABLED:
 							description = callerContext.getResources().getString(R.string.status_title_not_enabled);
@@ -68,11 +68,11 @@ public class ProxyUIUtils
 		{
 			case CHECKED:
 			{
-				ProxyStatusProperty status = conf.status.getMostRelevantErrorProxyStatusProperty();
+				ProxyStatusItem status = conf.status.getMostRelevantErrorProxyStatusItem();
 
 				if (status != null)
 				{
-					switch (status.propertyName)
+					switch (status.statusCode)
 					{
 						case PROXY_ENABLED:
 							description = callerContext.getResources().getString(R.string.status_description_not_enabled);

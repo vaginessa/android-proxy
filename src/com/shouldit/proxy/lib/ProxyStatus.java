@@ -17,18 +17,18 @@ public class ProxyStatus implements Serializable
 	 */
 	private static final long serialVersionUID = -2657093750716229587L;
 	
-	SortedMap<ProxyStatusProperties,ProxyStatusProperty> properties;
+	SortedMap<ProxyStatusProperties,ProxyStatusItem> properties;
 	
 	
 	public CheckStatusValues getCheckingStatus()
 	{
-		for (ProxyStatusProperty prop : properties.values())
+		for (ProxyStatusItem prop : properties.values())
 		{
 			if (prop.status == CheckStatusValues.NOT_CHECKED)
 				return CheckStatusValues.NOT_CHECKED;
 		}
 		
-		for (ProxyStatusProperty prop : properties.values())
+		for (ProxyStatusItem prop : properties.values())
 		{
 			if (prop.status == CheckStatusValues.CHECKING)
 				return CheckStatusValues.CHECKING;
@@ -37,29 +37,9 @@ public class ProxyStatus implements Serializable
 		return CheckStatusValues.CHECKED;
 	}
 	
-	public ProxyStatusProperty getEnabled()
+	public ProxyStatusItem getProperty(ProxyStatusProperties property)
 	{
-		return properties.get(ProxyStatusProperties.PROXY_ENABLED);
-	}
-
-	public ProxyStatusProperty getValid_hostname()
-	{
-		return properties.get(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
-	}
-	
-	public ProxyStatusProperty getValid_port()
-	{
-		return properties.get(ProxyStatusProperties.PROXY_VALID_PORT);
-	}
-
-	public ProxyStatusProperty getProxy_reachable()
-	{
-		return properties.get(ProxyStatusProperties.PROXY_REACHABLE);
-	}
-
-	public ProxyStatusProperty getWeb_reachable()
-	{
-		return properties.get(ProxyStatusProperties.WEB_REACHABLE);
+		return properties.get(property);
 	}
 
 	public ProxyStatus()
@@ -69,18 +49,19 @@ public class ProxyStatus implements Serializable
 
 	public void clear()
 	{
-		properties = new TreeMap<ProxyStatusProperties, ProxyStatusProperty>(new ProxyStatusPropertiesComparator());
+		properties = new TreeMap<ProxyStatusProperties, ProxyStatusItem>(new ProxyStatusPropertiesComparator());
 		
-		properties.put(ProxyStatusProperties.PROXY_ENABLED, new ProxyStatusProperty(ProxyStatusProperties.PROXY_ENABLED));
-		properties.put(ProxyStatusProperties.PROXY_VALID_HOSTNAME, new ProxyStatusProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME));
-		properties.put(ProxyStatusProperties.PROXY_VALID_PORT, new ProxyStatusProperty(ProxyStatusProperties.PROXY_VALID_PORT));
-		properties.put(ProxyStatusProperties.PROXY_REACHABLE, new ProxyStatusProperty(ProxyStatusProperties.PROXY_REACHABLE));
-		properties.put(ProxyStatusProperties.WEB_REACHABLE, new ProxyStatusProperty(ProxyStatusProperties.WEB_REACHABLE));
+		properties.put(ProxyStatusProperties.WIFI_ENABLED, new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED));
+		properties.put(ProxyStatusProperties.PROXY_ENABLED, new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED));
+		properties.put(ProxyStatusProperties.PROXY_VALID_HOSTNAME, new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME));
+		properties.put(ProxyStatusProperties.PROXY_VALID_PORT, new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT));
+		properties.put(ProxyStatusProperties.PROXY_REACHABLE, new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE));
+		properties.put(ProxyStatusProperties.WEB_REACHABLE, new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE));
 	}
 	
 	public void startchecking()
 	{
-		for (ProxyStatusProperty prop : properties.values())
+		for (ProxyStatusItem prop : properties.values())
 		{
 			prop.status = CheckStatusValues.CHECKING;
 		}
@@ -89,12 +70,12 @@ public class ProxyStatus implements Serializable
 	public void add(ProxyStatusItem item)
 	{
 		properties.get(item.statusCode).status = item.status;
-		properties.get(item.statusCode).result = item.value;
+		properties.get(item.statusCode).result = item.result;
 	}
 	
-	public ProxyStatusProperty getMostRelevantErrorProxyStatusProperty()
+	public ProxyStatusItem getMostRelevantErrorProxyStatusItem()
 	{
-		for (ProxyStatusProperty prop : properties.values())
+		for (ProxyStatusItem prop : properties.values())
 		{
 			if (prop.result == false)
 			{
@@ -110,13 +91,11 @@ public class ProxyStatus implements Serializable
 	{
 		StringBuilder sb = new StringBuilder();
 		
-		for (ProxyStatusProperty prop : properties.values())
+		for (ProxyStatusItem prop : properties.values())
 		{
-			sb.append(prop.status + " - " + prop.propertyName + ": " + prop.result + "\n");
+			sb.append(prop.toString() + "\n");
 		}
 		
 		return sb.toString();
 	}
-	
-
 }

@@ -42,6 +42,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public int deviceVersion;
 	private ConnectivityManager connManager;
 
+	private WifiManager wifiManager;
+
 	public Proxy getProxy()
 	{
 		if (proxySetting == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
@@ -114,11 +116,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		sb.append(String.format("Proxy: %s\n", toShortString()));
 		sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
 		sb.append(String.format("Proxy status checker results:\n"));
-		sb.append(String.format("%s\n" , isProxyEnabled()));
-		sb.append(String.format("%s\n", isProxyValidHostname()));
-		sb.append(String.format("%s\n", isProxyValidPort()));
-		sb.append(String.format("%s\n", isProxyReachable()));
-		sb.append(String.format("%s\n", isWebReachable(60000)));
+		sb.append(status.toString());
 
 		if (currentNetworkInfo != null)
 		{
@@ -180,6 +178,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		status.clear();
 		status.startchecking();
 		broadCastUpdatedStatus();
+		
+		LogWrapper.d(TAG, "Checking if Wi-Fi is enabled ...");
+		status.add(isWifiEnabled());
+		broadCastUpdatedStatus();
 
 		LogWrapper.d(TAG, "Checking if proxy is enabled ...");
 		status.add(isProxyEnabled());
@@ -208,6 +210,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 		//intent.putExtra(APLConstants.ProxyStatus, status);
 		context.sendBroadcast(intent);
+	}
+	
+	private ProxyStatusItem isWifiEnabled()
+	{
+		ProxyStatusItem result = null;
+		wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, wifiManager.isWifiEnabled());
+		return result;
 	}
 
 	private ProxyStatusItem isProxyEnabled()
@@ -446,8 +456,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public String getAPDescription(Context ctx)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append(ap.ssid);
-		sb.append(" - ");
+//		sb.append(ap.ssid);
+//		sb.append(" - ");
 		sb.append(ap.getSecurityString(ctx, false));
 		sb.append(" - ");
 		sb.append(toShortString());
