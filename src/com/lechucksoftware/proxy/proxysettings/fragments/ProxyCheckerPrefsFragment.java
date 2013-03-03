@@ -12,8 +12,9 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference.ValidationStatus;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
+import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxyStatusProperty;
+import com.shouldit.proxy.lib.ProxyStatusItem;
 
 public class ProxyCheckerPrefsFragment extends PreferenceFragment
 {
@@ -62,11 +63,11 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 		{
 			ProxyConfiguration conf = ApplicationGlobals.getCachedConfiguration();
 
-			ProxyStatusProperty enabled = conf.status.getEnabled();
-			ProxyStatusProperty hostname = conf.status.getValid_hostname();
-			ProxyStatusProperty port = conf.status.getValid_port();
-			ProxyStatusProperty ping = conf.status.getProxy_reachable();
-			ProxyStatusProperty web = conf.status.getWeb_reachable();
+			ProxyStatusItem enabled = conf.status.getProperty(ProxyStatusProperties.PROXY_ENABLED);
+			ProxyStatusItem hostname = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
+			ProxyStatusItem port = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT);
+			ProxyStatusItem ping = conf.status.getProperty(ProxyStatusProperties.PROXY_REACHABLE);
+			ProxyStatusItem web = conf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE);
 
 			if (enabled.status == CheckStatusValues.CHECKED)
 			{
