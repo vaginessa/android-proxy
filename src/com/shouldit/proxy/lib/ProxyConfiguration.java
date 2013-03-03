@@ -143,10 +143,25 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
 		{
-			return Proxy.NO_PROXY.toString();
+			return context.getResources().getString(R.string.direct_connection);
 		}
-
-		return String.format("%s:%d", proxyHost, proxyPort);
+		else
+		{
+			StringBuilder sb = new StringBuilder();
+			if (proxyHost != null && proxyHost.length() > 0)
+				sb.append(proxyHost);
+			else
+				sb.append(context.getResources().getString(R.string.not_set));
+			
+			sb.append(":");
+			
+			if (proxyPort != null && proxyPort > 0)
+				sb.append(proxyPort);
+			else
+				sb.append(context.getResources().getString(R.string.not_set));
+			
+			return sb.toString();
+		}
 	}
 
 	public Proxy.Type getProxyType()
@@ -205,13 +220,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			// Proxy is disabled by default on Mobile connection
 			if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
 			{
-				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false);
+				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_msg_mobile_enabled));
 			}
 		}
 
 		if (proxySetting == ProxySetting.UNASSIGNED || proxySetting == ProxySetting.NONE)
 		{
-			result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false);
+			result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_msg_proxy_disabled));
 		}
 		else
 		{
@@ -431,7 +446,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public String getAPDescription(Context ctx)
 	{
 		StringBuilder sb = new StringBuilder();
+		sb.append(ap.ssid);
+		sb.append(" - ");
 		sb.append(ap.getSecurityString(ctx, false));
+		sb.append(" - ");
+		sb.append(toShortString());
+		
 		return sb.toString();
 	}
 

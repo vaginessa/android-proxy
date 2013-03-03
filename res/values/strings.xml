@@ -4,12 +4,17 @@
     <string name="app_name">Android Proxy Library</string>
 
    	<string name="not_set">NOT SET</string>
+   	<string name="direct_connection">Direct connection</string>
    	
    	
    	<string name="status_title_enabled">Proxy Enabled</string>
 	<string name="status_title_checking">Checking proxy configuration &#8230;</string>
 	<string name="status_title_not_enabled">Proxy Not Enabled</string>
 
+	<string name="status_msg_mobile_enabled">Proxy cannot be configured for Mobile connectivity</string>
+	<string name="status_msg_proxy_disabled">Proxy is disabled for the selected Wi-Fi network</string>
+	
+	
 	<string name="status_title_invalid_host">Invalid Proxy Host</string>
 	<string name="status_title_invalid_port">Invalid Proxy Port</string>
 	<string name="status_title_not_reachable">Proxy Not Reachable</string>
