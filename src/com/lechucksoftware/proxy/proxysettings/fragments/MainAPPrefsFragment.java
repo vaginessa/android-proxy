@@ -66,11 +66,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 
 	public void selectAP(ProxyConfiguration conf)
 	{
-		if (conf.isValidConfiguration())
-		{
-			selectedConfiguration = conf;
-			refreshUIComponents();
-		}
+		selectedConfiguration = conf;
+		refreshUIComponents();
 	}
 	
 	private void getUIComponents()

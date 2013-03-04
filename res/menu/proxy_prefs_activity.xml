@@ -3,31 +3,34 @@
 
 	<item
 		android:id="@+id/menu_proxy_status"
-		android:icon="@drawable/ic_action_ok"
+		android:icon="@drawable/ic_action_valid"
 		android:title="@string/proxy_checker"
-		android:showAsAction="ifRoom|withText">
+		android:showAsAction="always|withText">
 
 		<menu>
-			<item
-				android:id="@+id/menu_proxy_enabled"
-				android:icon="@drawable/ic_action_nok"
-				android:title="@string/validation_proxy_enabled_title" />
-			<item
-				android:id="@+id/menu_proxy_host"
-				android:icon="@drawable/ic_action_ok"
-				android:title="@string/validation_proxy_host_title" />
-			<item
-				android:id="@+id/menu_proxy_port"
-				android:icon="@drawable/ic_action_ok"
-				android:title="@string/validation_proxy_port_title" />
-			<item
-				android:id="@+id/menu_proxy_reachable"
-				android:icon="@drawable/ic_action_ok"
-				android:title="@string/validation_proxy_reachable_title" />
-			<item
-				android:id="@+id/menu_proxy_web_reach"
-				android:icon="@drawable/ic_action_ok"
-				android:title="@string/validation_proxy_web_reachable_title" />
+            <item
+               android:id="@+id/menu_proxy_status_detail"
+               android:title="@string/validation_proxy_summary_checking" />
+<!-- 			<item -->
+<!-- 				android:id="@+id/menu_proxy_enabled" -->
+<!-- 				android:icon="@drawable/ic_action_nok" -->
+<!-- 				android:title="@string/validation_proxy_enabled_title" /> -->
+<!-- 			<item -->
+<!-- 				android:id="@+id/menu_proxy_host" -->
+<!-- 				android:icon="@drawable/ic_action_ok" -->
+<!-- 				android:title="@string/validation_proxy_host_title" /> -->
+<!-- 			<item -->
+<!-- 				android:id="@+id/menu_proxy_port" -->
+<!-- 				android:icon="@drawable/ic_action_ok" -->
+<!-- 				android:title="@string/validation_proxy_port_title" /> -->
+<!-- 			<item -->
+<!-- 				android:id="@+id/menu_proxy_reachable" -->
+<!-- 				android:icon="@drawable/ic_action_ok" -->
+<!-- 				android:title="@string/validation_proxy_reachable_title" /> -->
+<!-- 			<item -->
+<!-- 				android:id="@+id/menu_proxy_web_reach" -->
+<!-- 				android:icon="@drawable/ic_action_ok" -->
+<!-- 				android:title="@string/validation_proxy_web_reachable_title" /> -->
 		</menu>
 	</item>
 
