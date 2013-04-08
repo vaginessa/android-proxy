@@ -19,10 +19,12 @@ import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyCheckerPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxyStatusItem;
 
 public class ProxyPreferencesActivity extends Activity
 {
@@ -42,6 +44,8 @@ public class ProxyPreferencesActivity extends Activity
 	private MenuItem menuItemWifiToggle;
 	private MenuItem menuItemProxyStatus;
 	private MenuItem menuItemProxyEnabled;
+
+	private MenuItem menuItemProxyStatusDetail;
 
 	public void showProgressDialog()
 	{
@@ -87,30 +91,32 @@ public class ProxyPreferencesActivity extends Activity
 	{
 		dismissProgressDialog();
 
+		// Proxy checker section
 		ProxyConfiguration pconf = ApplicationGlobals.getCurrentConfiguration();
 		menuItemProxyStatus = menu.findItem(R.id.menu_proxy_status);
-		menuItemProxyStatus = menu.findItem(R.id.menu_proxy_status_detail);
+		menuItemProxyStatusDetail = menu.findItem(R.id.menu_proxy_status_detail);
 //		menuItemProxyEnabled = menu.findItem(R.id.menu_proxy_enabled);
+		
+		if (pconf.status.getCheckingStatus() == CheckStatusValues.CHECKED)
+		{
+		    ProxyStatusItem mostRelevantError =	pconf.status.getMostRelevantErrorProxyStatusItem();
+			if (mostRelevantError == null)
+			{
+				menuItemProxyStatus.setIcon(R.drawable.ic_action_valid);
+			}
+			else
+			{
+				menuItemProxyStatus.setIcon(UIUtils.writeOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, "1"));
+			}	
+		}
+		else
+			menuItemProxyStatus.setActionView(R.layout.actionbar_refresh_progress);
+
+		
+		
 		menuItemWifiStatus = menu.findItem(R.id.menu_wifi_status);
 		menuItemWifiToggle = menu.findItem(R.id.menu_wifi_toggle);
 
-		// Proxy checker section
-		
-//		if (pconf.status.getCheckingStatus() == CheckStatusValues.CHECKED)
-//		{
-//			if (pconf.status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
-//			{
-//				menuItemProxyEnabled.setIcon(R.drawable.ic_action_valid);
-//			}
-//			else
-//			{
-//				menuItemProxyEnabled.setIcon(R.drawable.ic_action_notvalid);
-//			}	
-//		}
-//		else
-//			menuItemProxyEnabled.setActionView(R.layout.actionbar_refresh_progress);
-
-		
 		// Wi-Fi section
 		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
 		if (wifiEnabled)
@@ -131,8 +137,6 @@ public class ProxyPreferencesActivity extends Activity
 			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
 			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
 		}
-
-
 
 		return true;
 	}

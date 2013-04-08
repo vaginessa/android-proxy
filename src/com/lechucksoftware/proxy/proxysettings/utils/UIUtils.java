@@ -9,6 +9,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.Paint.Style;
+import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
@@ -24,6 +33,26 @@ public class UIUtils
 	public static int PROXY_NOTIFICATION_ID = 1;
 	public static int URL_DOWNLOADER_COMPLETED_ID = 2;
 
+	public static BitmapDrawable writeOnDrawable(Context callerContext, int drawableId, String text){
+
+        Bitmap bm = BitmapFactory.decodeResource(callerContext.getResources(), drawableId).copy(Bitmap.Config.ARGB_8888, true);
+
+        Paint paint = new Paint(); 
+        paint.setStyle(Style.FILL);  
+        paint.setColor(Color.RED); 
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setTextSize(30); 
+
+        Canvas canvas = new Canvas(bm);
+        int w = bm.getWidth();
+        int h = bm.getHeight();
+        canvas.drawRect(new Rect(10,10,10,10),paint);
+        paint.setColor(Color.WHITE); 
+        canvas.drawText(text, w/2+ w/3, h, paint);
+
+        return new BitmapDrawable(callerContext.getResources(), bm);
+    }
+	
 	public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)
 	{
 //		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
