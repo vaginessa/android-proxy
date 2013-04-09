@@ -30,6 +30,8 @@ import com.shouldit.proxy.lib.ProxyUIUtils;
 
 public class UIUtils
 {
+	public static final String TAG = "UIUtils";
+	
 	public static int PROXY_NOTIFICATION_ID = 1;
 	public static int URL_DOWNLOADER_COMPLETED_ID = 2;
 
@@ -41,14 +43,44 @@ public class UIUtils
         paint.setStyle(Style.FILL);  
         paint.setColor(Color.RED); 
         paint.setTypeface(Typeface.DEFAULT_BOLD);
-        paint.setTextSize(30); 
+        paint.setTextSize(25); 
 
+        /*		      
+         *            W					
+         **************************
+         *            *  	      *
+         *            *  	      *
+         *            *           *
+         *            *           *
+         *            *           *
+         *            *           *
+         **************************	H
+         *            *  	      *
+         *            *  	      *
+         *            *     ##### *
+         *            *     ##### *
+         *            *     ##### *
+         *            *    		  *
+         **************************
+         *
+         */
+        
         Canvas canvas = new Canvas(bm);
+        
         int w = bm.getWidth();
         int h = bm.getHeight();
-        canvas.drawRect(new Rect(10,10,10,10),paint);
+        
+        int left = (w/4) * 3 - 5;
+        int right = w - 1;
+        int bottom = h - 1;
+        int top = (h/4) * 3 - 5; 
+        
+        LogWrapper.d(TAG,String.format("W: %d; H: %d; ",w,h));
+        LogWrapper.d(TAG,String.format("l: %d; r: %d; t: %d; b: %d",left,right,bottom,top));
+        
+        canvas.drawRect(new Rect(left,top,right,bottom),paint);
         paint.setColor(Color.WHITE); 
-        canvas.drawText(text, w/2+ w/3, h, paint);
+        canvas.drawText(text, left , bottom, paint);
 
         return new BitmapDrawable(callerContext.getResources(), bm);
     }

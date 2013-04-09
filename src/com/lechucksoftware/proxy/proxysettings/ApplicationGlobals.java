@@ -120,15 +120,16 @@ public class ApplicationGlobals extends Application
 			{
 				conf = mInstance.configurations.get(SSID);
 			}
+			
+			mInstance.currentConfiguration = conf;
 		}
 			
-		if (conf == null)
+		if (mInstance.currentConfiguration == null)
 		{
-			conf = new ProxyConfiguration(mInstance.getApplicationContext(), ProxySetting.NONE, null, null, null, null);
+			mInstance.currentConfiguration = new ProxyConfiguration(mInstance.getApplicationContext(), ProxySetting.NONE, null, null, null, null);
 		}
-
-		mInstance.currentConfiguration = conf;
-		return conf;
+		
+		return mInstance.currentConfiguration;
 	}
 
 	public static ProxyConfiguration getCachedConfiguration()
