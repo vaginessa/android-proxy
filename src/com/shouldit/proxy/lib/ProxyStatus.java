@@ -1,9 +1,6 @@
 package com.shouldit.proxy.lib;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
