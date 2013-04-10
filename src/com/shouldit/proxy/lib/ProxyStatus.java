@@ -83,6 +83,20 @@ public class ProxyStatus implements Serializable
 		return null;
 	}
 	
+	public Integer getErrorCount()
+	{
+		int count = 0;
+		for (ProxyStatusItem prop : properties.values())
+		{
+			if (prop.result == false)
+			{
+				count++;
+			}
+		}
+		
+		return count;
+	}
+	
 	@Override
 	public String toString()
 	{
