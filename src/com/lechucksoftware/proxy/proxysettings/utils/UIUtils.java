@@ -43,7 +43,7 @@ public class UIUtils
         paint.setStyle(Style.FILL);  
         paint.setColor(Color.RED); 
         paint.setTypeface(Typeface.DEFAULT_BOLD);
-        paint.setTextSize(25); 
+        paint.setTextSize(20); 
 
         /*		      
          *            W					
@@ -70,17 +70,22 @@ public class UIUtils
         int w = bm.getWidth();
         int h = bm.getHeight();
         
-        int left = (w/4) * 3 - 5;
-        int right = w - 1;
-        int bottom = h - 1;
-        int top = (h/4) * 3 - 5; 
+        int x0 = (int) (w*0.65);
+        int x1 = (int) (w*0.99);
+        int xr = (int) (w*0.72);
+        
+        int y0 = (int) (h*0.65);
+        int y1 = (int) (h*0.99);
+        int yr = (int) (h*0.94);
+         
         
         LogWrapper.d(TAG,String.format("W: %d; H: %d; ",w,h));
-        LogWrapper.d(TAG,String.format("l: %d; r: %d; t: %d; b: %d",left,right,bottom,top));
+        LogWrapper.d(TAG,String.format("x0: %d; x1: %d; xm: %d; y0: %d; y1: %d; ym: %d;",x0,x1,xr,y1,y0,yr));
         
-        canvas.drawRect(new Rect(left,top,right,bottom),paint);
+        
+        canvas.drawRect(new Rect(x0,y0,x1,y1),paint);
         paint.setColor(Color.WHITE); 
-        canvas.drawText(text, left , bottom, paint);
+        canvas.drawText(text, xr , yr, paint);
 
         return new BitmapDrawable(callerContext.getResources(), bm);
     }

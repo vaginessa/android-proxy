@@ -106,7 +106,7 @@ public class ProxyPreferencesActivity extends Activity
 			}
 			else
 			{
-				menuItemProxyStatus.setIcon(UIUtils.writeOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, "1"));
+				menuItemProxyStatus.setIcon(UIUtils.writeOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, pconf.status.getErrorCount().toString()));
 			}	
 		}
 		else
