@@ -123,8 +123,7 @@ public class ApplicationGlobals extends Application
 			
 			mInstance.currentConfiguration = conf;
 		}
-			
-		if (mInstance.currentConfiguration == null)
+		else
 		{
 			mInstance.currentConfiguration = new ProxyConfiguration(mInstance.getApplicationContext(), ProxySetting.NONE, null, null, null, null);
 		}

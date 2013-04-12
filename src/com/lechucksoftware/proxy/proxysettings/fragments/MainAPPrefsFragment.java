@@ -60,7 +60,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		{}
 		else
 		{
-			selectAP(ApplicationGlobals.getCurrentConfiguration());
+			selectAP(ApplicationGlobals.getCachedConfiguration());
 		}
 	}
 

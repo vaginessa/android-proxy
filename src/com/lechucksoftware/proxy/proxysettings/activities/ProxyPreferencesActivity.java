@@ -92,7 +92,7 @@ public class ProxyPreferencesActivity extends Activity
 		dismissProgressDialog();
 
 		// Proxy checker section
-		ProxyConfiguration pconf = ApplicationGlobals.getCurrentConfiguration();
+		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();
 		menuItemProxyStatus = menu.findItem(R.id.menu_proxy_status);
 		menuItemProxyStatusDetail = menu.findItem(R.id.menu_proxy_status_detail);
 //		menuItemProxyEnabled = menu.findItem(R.id.menu_proxy_enabled);
@@ -112,7 +112,6 @@ public class ProxyPreferencesActivity extends Activity
 		else
 			menuItemProxyStatus.setActionView(R.layout.actionbar_refresh_progress);
 
-		
 		
 		menuItemWifiStatus = menu.findItem(R.id.menu_wifi_status);
 		menuItemWifiToggle = menu.findItem(R.id.menu_wifi_toggle);
