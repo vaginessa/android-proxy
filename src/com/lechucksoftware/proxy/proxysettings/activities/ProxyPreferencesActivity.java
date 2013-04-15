@@ -90,6 +90,8 @@ public class ProxyPreferencesActivity extends Activity
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
 		dismissProgressDialog();
+		
+		//int a = 12/0; // TEST ACRA
 
 		// Proxy checker section
 		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();

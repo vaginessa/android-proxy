@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +21,8 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
+
+@ReportsCrashes(formKey = "1ISBFSvIYGlPNVH_tab8R0rFMuVrmotNYj6E3VVafcPw") 
 
 public class ApplicationGlobals extends Application
 {
@@ -60,6 +65,8 @@ public class ApplicationGlobals extends Application
 //			// Enable WiFi if it's not enabled
 //			ApplicationGlobals.getWifiManager().setWifiEnabled(true);
 //		}
+		
+		ACRA.init(this);
 		
 		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
 		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
