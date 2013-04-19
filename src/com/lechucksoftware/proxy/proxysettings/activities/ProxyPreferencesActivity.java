@@ -91,7 +91,7 @@ public class ProxyPreferencesActivity extends Activity
 	{
 		dismissProgressDialog();
 		
-		//int a = 12/0; // TEST ACRA
+//		int a = 12/0; // TEST ACRA
 
 		// Proxy checker section
 		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();
