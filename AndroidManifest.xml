@@ -102,7 +102,7 @@
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 				<action android:name="android.intent.action.PROXY_CHANGE" />
-<!-- Disable for debug -->	<!-- <action android:name="android.net.wifi.SCAN_RESULTS" /> -->
+				<action android:name="android.net.wifi.SCAN_RESULTS" />  <!-- Disable for debug -->
 				
 				<action android:name="com.shouldit.proxy.lib.PROXY_CONFIGURATION_UPDATED" />
 				<action android:name="com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE" />

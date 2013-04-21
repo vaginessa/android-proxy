@@ -31,83 +31,77 @@ import com.shouldit.proxy.lib.ProxyUIUtils;
 public class UIUtils
 {
 	public static final String TAG = "UIUtils";
-	
+
 	public static int PROXY_NOTIFICATION_ID = 1;
 	public static int URL_DOWNLOADER_COMPLETED_ID = 2;
 
-	public static BitmapDrawable writeOnDrawable(Context callerContext, int drawableId, String text){
-
-        Bitmap bm = BitmapFactory.decodeResource(callerContext.getResources(), drawableId).copy(Bitmap.Config.ARGB_8888, true);
-
-        Paint paint = new Paint(); 
-        paint.setStyle(Style.FILL);  
-        paint.setColor(Color.RED); 
-        paint.setTypeface(Typeface.DEFAULT_BOLD);
-        paint.setTextSize(20); 
-
-        /*		      
-         *            W					
-         **************************
-         *            *  	      *
-         *            *  	      *
-         *            *           *
-         *            *           *
-         *            *           *
-         *            *           *
-         **************************	H
-         *            *  	      *
-         *            *  	      *
-         *            *     ##### *
-         *            *     ##### *
-         *            *     ##### *
-         *            *    		  *
-         **************************
-         *
-         */
-        
-        Canvas canvas = new Canvas(bm);
-        
-        int w = bm.getWidth();
-        int h = bm.getHeight();
-        
-        int x0 = (int) (w*0.65);
-        int x1 = (int) (w*0.99);
-        int xr = (int) (w*0.72);
-        
-        int y0 = (int) (h*0.65);
-        int y1 = (int) (h*0.99);
-        int yr = (int) (h*0.94);
-         
-        
-        LogWrapper.d(TAG,String.format("W: %d; H: %d; ",w,h));
-        LogWrapper.d(TAG,String.format("x0: %d; x1: %d; xm: %d; y0: %d; y1: %d; ym: %d;",x0,x1,xr,y1,y0,yr));
-        
-        
-        canvas.drawRect(new Rect(x0,y0,x1,y1),paint);
-        paint.setColor(Color.WHITE); 
-        canvas.drawText(text, xr , yr, paint);
-
-        return new BitmapDrawable(callerContext.getResources(), bm);
-    }
+	public static BitmapDrawable writeWarningOnDrawable(Context callerContext, int drawableId, String text)
+	{
+		return writeOnDrawable(callerContext, drawableId, text, Color.rgb(255, 165, 0));
+	}
 	
+	public static BitmapDrawable writeErrorOnDrawable(Context callerContext, int drawableId, String text)
+	{
+		return writeOnDrawable(callerContext, drawableId, text, Color.RED);
+	}
+	
+	public static BitmapDrawable writeOnDrawable(Context callerContext, int drawableId, String text, int color)
+	{
+		Bitmap bm = BitmapFactory.decodeResource(callerContext.getResources(), drawableId).copy(Bitmap.Config.ARGB_8888, true);
+
+		Paint paint = new Paint();
+		paint.setStyle(Style.FILL);
+		paint.setColor(color);
+		paint.setTypeface(Typeface.DEFAULT_BOLD);
+		paint.setTextSize(20);
+
+		/*
+		 * W************************* * * * * * * * * * * * *
+		 * ************************* H * * * * * ##### * * ##### * * ##### * * *
+		 * *************************
+		 */
+
+		Canvas canvas = new Canvas(bm);
+
+		int w = bm.getWidth();
+		int h = bm.getHeight();
+
+		int x0 = (int) (w * 0.65);
+		int x1 = (int) (w * 0.99);
+		int xr = (int) (w * 0.72);
+
+		int y0 = (int) (h * 0.65);
+		int y1 = (int) (h * 0.99);
+		int yr = (int) (h * 0.94);
+
+//		LogWrapper.d(TAG, String.format("W: %d; H: %d; ", w, h));
+//		LogWrapper.d(TAG, String.format("x0: %d; x1: %d; xm: %d; y0: %d; y1: %d; ym: %d;", x0, x1, xr, y1, y0, yr));
+
+		canvas.drawRect(new Rect(x0, y0, x1, y1), paint);
+		paint.setColor(Color.WHITE);
+		canvas.drawText(text, xr, yr, paint);
+
+		return new BitmapDrawable(callerContext.getResources(), bm);
+	}
+
 	public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)
 	{
-//		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+		//		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
 		{
 			return ProxyUIUtils.GetStatusTitle(conf, ctx);
 		}
-//		else
-//		{
-			// if (Globals.getInstance().proxyConf.status.getEnabled())
-			// {
-//			return UIUtils.ProxyConfigToStatusString(ctx);
-			// }
-			// else
-			// {
-			// return
-			// ctx.getText(R.string.preference_proxy_host_port_summary_default).toString();
-			// }
-//		}
+		//		else
+		//		{
+		// if (Globals.getInstance().proxyConf.status.getEnabled())
+		// {
+		//			return UIUtils.ProxyConfigToStatusString(ctx);
+		// }
+		// else
+		// {
+		// return
+		// ctx.getText(R.string.preference_proxy_host_port_summary_default).toString();
+		// }
+		//		}
 	}
 
 	/**
@@ -118,7 +112,7 @@ public class UIUtils
 	public static void UpdateStatusBarNotification(ProxyConfiguration conf, Context context)
 	{
 		if (conf.getCheckingStatus() == CheckStatusValues.CHECKED)
-		{	
+		{
 			if (conf.getProxy().type() == Type.DIRECT)
 			{
 				DisableProxyNotification(context);
@@ -130,7 +124,7 @@ public class UIUtils
 		}
 		else
 		{
-			
+
 		}
 	}
 

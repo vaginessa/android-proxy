@@ -91,8 +91,6 @@ public class ProxyPreferencesActivity extends Activity
 	{
 		dismissProgressDialog();
 		
-//		int a = 12/0; // TEST ACRA
-
 		// Proxy checker section
 		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();
 		menuItemProxyStatus = menu.findItem(R.id.menu_proxy_status);
@@ -104,11 +102,21 @@ public class ProxyPreferencesActivity extends Activity
 		    ProxyStatusItem mostRelevantError =	pconf.status.getMostRelevantErrorProxyStatusItem();
 			if (mostRelevantError == null)
 			{
+				// No errors -> valid configuration
 				menuItemProxyStatus.setIcon(R.drawable.ic_action_valid);
 			}
 			else
 			{
-				menuItemProxyStatus.setIcon(UIUtils.writeOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, pconf.status.getErrorCount().toString()));
+				if (pconf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE).result)
+				{
+					// Errors, but internet is reachable
+					menuItemProxyStatus.setIcon(UIUtils.writeWarningOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_valid, pconf.status.getErrorCount().toString()));
+				}
+				else
+				{
+					// Errors & internet is not reachable
+					menuItemProxyStatus.setIcon(UIUtils.writeErrorOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, pconf.status.getErrorCount().toString()));
+				}
 			}	
 		}
 		else
@@ -202,6 +210,10 @@ public class ProxyPreferencesActivity extends Activity
 				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration");
 				refreshUI();
 			}
+			else
+			{
+				
+			}
 		}
 	};
 
@@ -237,6 +249,7 @@ public class ProxyPreferencesActivity extends Activity
 		IntentFilter ifilt = new IntentFilter();
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+//		ifilt.addAction(Constants.PROXY_REFRESH_UI);
 		registerReceiver(changeStatusReceiver, ifilt);
 	}
 
