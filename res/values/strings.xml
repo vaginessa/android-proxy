@@ -27,6 +27,8 @@
 	<string name="wifi_toggle_off_summary">Turn off Wi-Fi</string>
 	
 	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
+	<string name="validation_proxy_summary_warning">See validation warnings &#8230;</string>
+	<string name="validation_proxy_summary_errors">See validation errors &#8230;</string>
 
 	<string name="validation_proxy_enabled_title">Proxy enabled</string>
 	<string name="validation_proxy_enabled_summary_ok">Proxy is enabled</string>

@@ -104,23 +104,32 @@ public class ProxyPreferencesActivity extends Activity
 			{
 				// No errors -> valid configuration
 				menuItemProxyStatus.setIcon(R.drawable.ic_action_valid);
+				menuItemProxyStatusDetail.setVisible(false);
 			}
 			else
 			{
+				menuItemProxyStatusDetail.setVisible(true);
+				
 				if (pconf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE).result)
 				{
 					// Errors, but internet is reachable
 					menuItemProxyStatus.setIcon(UIUtils.writeWarningOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_valid, pconf.status.getErrorCount().toString()));
+					menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_warning));
 				}
 				else
 				{
 					// Errors & internet is not reachable
 					menuItemProxyStatus.setIcon(UIUtils.writeErrorOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, pconf.status.getErrorCount().toString()));
+					menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_errors));
 				}
 			}	
 		}
 		else
+		{
 			menuItemProxyStatus.setActionView(R.layout.actionbar_refresh_progress);
+			menuItemProxyStatusDetail.setVisible(true);
+			menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_checking));
+		}
 
 		
 		menuItemWifiStatus = menu.findItem(R.id.menu_wifi_status);
@@ -202,17 +211,17 @@ public class ProxyPreferencesActivity extends Activity
 			String action = intent.getAction();
 			if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
 			{
-				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration");
+				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration - RefreshUI");
 				refreshUI();
 			}
 			else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
 			{
-				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration");
+				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration - RefreshUI");
 				refreshUI();
 			}
 			else
 			{
-				
+				LogWrapper.e(TAG, "Received intent not handled: " + intent.getAction());
 			}
 		}
 	};
