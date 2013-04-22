@@ -72,6 +72,9 @@ public class ApplicationGlobals extends Application
 
 	public static synchronized ApplicationGlobals getInstance()
 	{
+		if (mInstance == null)
+			BugSenseHandler.sendException(new Exception("Cannot find valid instance of ApplicationGlobals"));
+		
 		return mInstance;
 	}
 

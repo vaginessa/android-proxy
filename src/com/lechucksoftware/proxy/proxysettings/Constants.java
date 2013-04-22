@@ -24,6 +24,12 @@ public class Constants
 	 */
 	public static final String PROXY_SETTINGS_STARTED = "com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_STARTED";	
 	
+	/* 
+	 * Started Proxy Settings app
+	 */
+	public static final String PROXY_SETTINGS_MANUAL_REFRESH = "com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_MANUAL_REFRESH";	
+	
+	
 	/*
 	 * Call a Refresh of the UI after a proxy change
 	 */

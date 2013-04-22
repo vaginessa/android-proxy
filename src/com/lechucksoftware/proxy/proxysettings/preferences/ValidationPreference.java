@@ -4,6 +4,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.R.drawable;
 import com.lechucksoftware.proxy.proxysettings.R.id;
 import com.lechucksoftware.proxy.proxysettings.R.layout;
+import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
+import com.shouldit.proxy.lib.ProxyStatusItem;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,10 +18,8 @@ import android.widget.ImageView;
 
 public class ValidationPreference extends Preference
 {
-	private ValidationStatus status;
-	private ProgressDialog progress;
 	private Drawable mIcon;
-	
+
 	public enum ValidationStatus
 	{
 		CHECKING, VALID, ERROR
@@ -28,10 +28,7 @@ public class ValidationPreference extends Preference
 	public ValidationPreference(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-
-		status = ValidationStatus.CHECKING;
-		setWidgetLayoutResource(R.layout.validation_preference_widget);		
-	    mIcon = getContext().getResources().getDrawable(R.drawable.waiting);
+		setWidgetLayoutResource(R.layout.actionbar_refresh_progress);
 	}
 
 	@Override
@@ -45,35 +42,41 @@ public class ValidationPreference extends Preference
 	{
 		super.onBindView(view);
 		ImageView imageView = (ImageView) view.findViewById(R.id.validation_preference_imageview);
-		
+
 		if (imageView != null && mIcon != null)
 		{
 			imageView.setImageDrawable(mIcon);
 		}
 	}
 
-    public Drawable getIcon() 
-    {
-        return mIcon;
-    }
-
-	public void SetStatus(ValidationStatus st)
+	public Drawable getIcon()
 	{
-		status = st;
-		
-		if (st == ValidationStatus.CHECKING)
+		return mIcon;
+	}
+
+	public void SetStatus(ProxyStatusItem st)
+	{
+		if (st.status == CheckStatusValues.CHECKING)
 		{
-			setWidgetLayoutResource(R.layout.actionbar_refresh_progress);	
-		}
-		else if (status == ValidationStatus.VALID)
-		{
-			setWidgetLayoutResource(R.layout.validation_preference_widget);	
-			mIcon = getContext().getResources().getDrawable(R.drawable.ok);
+			setWidgetLayoutResource(R.layout.actionbar_refresh_progress);
 		}
 		else
 		{
-			setWidgetLayoutResource(R.layout.validation_preference_widget);	
-			mIcon = getContext().getResources().getDrawable(R.drawable.problem);
+			if (st.result == true)
+			{
+				setWidgetLayoutResource(R.layout.validation_preference_widget);
+				mIcon = getContext().getResources().getDrawable(R.drawable.ic_action_valid);
+			}
+			else
+			{
+				setWidgetLayoutResource(R.layout.validation_preference_widget);
+				mIcon = getContext().getResources().getDrawable(R.drawable.ic_action_notvalid);
+			}
+		}
+
+		if (st.message != null)
+		{
+			
 		}
 		
 		notifyChanged();

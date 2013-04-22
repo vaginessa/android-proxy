@@ -35,6 +35,7 @@ public class ProxySettingsCheckerService extends IntentService
 			LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG);
 
 			if (   callerAction.equals(Constants.PROXY_SETTINGS_STARTED) 
+				|| callerAction.equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
 				|| callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
 				|| callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
 			{
@@ -55,8 +56,8 @@ public class ProxySettingsCheckerService extends IntentService
 				if (ni != null && ni.isConnected())
 				{
 					if (ni.getType() == intentNetworkType) // Check only for
-															// intent related to
-															// active network
+														   // intent related to
+														   // active network
 					{
 						// LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG,
 						// true);
@@ -65,7 +66,7 @@ public class ProxySettingsCheckerService extends IntentService
 				}
 				else
 				{
-
+					LogWrapper.d(TAG,"Do not check proxy settings if network is not available!");
 				}
 				// else
 				// LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG, false);
@@ -110,7 +111,7 @@ public class ProxySettingsCheckerService extends IntentService
 			NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
 			if (ni != null && ni.isAvailable() && ni.isConnected())
 			{
-				if (oldconf == null || oldconf.compareTo(newconf) != 0)
+				//if (oldconf == null || oldconf.compareTo(newconf) != 0)
 				{
 					newconf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
 					LogWrapper.i(TAG, newconf.toString());

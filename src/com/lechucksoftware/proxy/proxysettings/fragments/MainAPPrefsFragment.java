@@ -167,7 +167,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		{
 			proxyEnablePref.setEnabled(true);
 			apSelectorPref.setTitle(selectedConfiguration.ap.ssid);
-			apSelectorPref.setSummary(selectedConfiguration.getAPDescription(getActivity()));
+			apSelectorPref.setSummary(selectedConfiguration.getAPDescription(ApplicationGlobals.getInstance().getApplicationContext()));
 
 			if (selectedConfiguration.proxySetting == ProxySetting.NONE || selectedConfiguration.proxySetting == ProxySetting.UNASSIGNED)
 			{

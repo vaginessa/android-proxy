@@ -1,16 +1,20 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
-import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference.ValidationStatus;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -19,11 +23,14 @@ import com.shouldit.proxy.lib.ProxyStatusItem;
 public class ProxyCheckerPrefsFragment extends PreferenceFragment
 {
 	private ValidationPreference proxyEnabledPref;
-	private ValidationPreference proxyValidAddressPref;
 	private ValidationPreference proxyReachablePref;
 	private ValidationPreference proxyWebPref;
 	private ValidationPreference proxyValidHostPref;
 	private ValidationPreference proxyValidPortPref;
+	private ValidationPreference wifiEnabledPref;
+	private Preference startCheckPref;
+	
+	public static final String TAG = "ProxyCheckerPrefsFragment";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -33,8 +40,6 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
 		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-
-
 	}
 	
 	@Override 
@@ -50,6 +55,18 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
 	private void getUIComponents()
 	{
+		startCheckPref = (Preference) findPreference("preference_test_proxy_configuration");
+		startCheckPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
+		{
+			public boolean onPreferenceClick(Preference preference)
+			{
+				LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_MANUAL_REFRESH);
+				getActivity().sendBroadcast(new Intent(Constants.PROXY_SETTINGS_MANUAL_REFRESH));
+				return true;
+			}
+		});
+		
+		wifiEnabledPref = (ValidationPreference) findPreference("validation_wifi_enabled");
 		proxyEnabledPref = (ValidationPreference) findPreference("validation_proxy_enabled");
 		proxyValidHostPref = (ValidationPreference) findPreference("validation_proxy_valid_host");
 		proxyValidPortPref = (ValidationPreference) findPreference("validation_proxy_valid_port");
@@ -59,39 +76,37 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
 	public void refreshUIComponents()
 	{
-		if (proxyEnabledPref != null)
+		ProxyConfiguration conf = ApplicationGlobals.getCachedConfiguration();
+		
+		if (conf.status.getCheckingStatus() == CheckStatusValues.CHECKING)
 		{
-			ProxyConfiguration conf = ApplicationGlobals.getCachedConfiguration();
-
-			ProxyStatusItem enabled = conf.status.getProperty(ProxyStatusProperties.PROXY_ENABLED);
-			ProxyStatusItem hostname = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
-			ProxyStatusItem port = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT);
-			ProxyStatusItem ping = conf.status.getProperty(ProxyStatusProperties.PROXY_REACHABLE);
-			ProxyStatusItem web = conf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE);
-
-			if (enabled.status == CheckStatusValues.CHECKED)
-			{
-				if (enabled.result == true)
-					proxyEnabledPref.SetStatus(ValidationStatus.VALID);
-				else
-					proxyEnabledPref.SetStatus(ValidationStatus.ERROR);
-			}
-			else
-			{
-				proxyEnabledPref.SetStatus(ValidationStatus.CHECKING);
-			}
-
-			if (hostname.status == CheckStatusValues.CHECKED)
-			{
-
-			}
-			else
-			{
-				proxyValidHostPref.SetStatus(ValidationStatus.CHECKING);
-			}
-
+			startCheckPref.setEnabled(false);
+			startCheckPref.setSummary("Start checking on: " + conf.status.getCheckedDateString());
+		}
+		else
+		{
+			startCheckPref.setEnabled(true);
+			startCheckPref.setSummary("Last checked on: " + conf.status.getCheckedDateString());
 		}
 
+		ProxyStatusItem wifi = conf.status.getProperty(ProxyStatusProperties.WIFI_ENABLED);
+		ProxyStatusItem enabled = conf.status.getProperty(ProxyStatusProperties.PROXY_ENABLED);
+		ProxyStatusItem hostname = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
+		ProxyStatusItem port = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT);
+		ProxyStatusItem ping = conf.status.getProperty(ProxyStatusProperties.PROXY_REACHABLE);
+		ProxyStatusItem web = conf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE);
+
+		checkProxyStatusItem(wifi, wifiEnabledPref);
+		checkProxyStatusItem(enabled, proxyEnabledPref);
+		checkProxyStatusItem(hostname, proxyValidHostPref);
+		checkProxyStatusItem(port, proxyValidPortPref);
+		checkProxyStatusItem(ping, proxyReachablePref);
+		checkProxyStatusItem(web, proxyWebPref);
+	}
+
+	public void checkProxyStatusItem(ProxyStatusItem statusItem, ValidationPreference uiPref)
+	{
+		uiPref.SetStatus(statusItem);
 	}
 
 }

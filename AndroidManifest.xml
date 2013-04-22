@@ -106,6 +106,7 @@
 				
 				<action android:name="com.shouldit.proxy.lib.PROXY_CONFIGURATION_UPDATED" />
 				<action android:name="com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE" />
+				<action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_MANUAL_REFRESH" />
 				<action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_STARTED" />
 				<action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_REFRESH_UI" />
 			</intent-filter>

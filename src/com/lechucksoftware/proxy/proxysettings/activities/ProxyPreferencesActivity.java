@@ -104,12 +104,10 @@ public class ProxyPreferencesActivity extends Activity
 			{
 				// No errors -> valid configuration
 				menuItemProxyStatus.setIcon(R.drawable.ic_action_valid);
-				menuItemProxyStatusDetail.setVisible(false);
+				menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_ok));
 			}
 			else
-			{
-				menuItemProxyStatusDetail.setVisible(true);
-				
+			{	
 				if (pconf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE).result)
 				{
 					// Errors, but internet is reachable
@@ -127,7 +125,6 @@ public class ProxyPreferencesActivity extends Activity
 		else
 		{
 			menuItemProxyStatus.setActionView(R.layout.actionbar_refresh_progress);
-			menuItemProxyStatusDetail.setVisible(true);
 			menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_checking));
 		}
 
@@ -239,9 +236,16 @@ public class ProxyPreferencesActivity extends Activity
 			this.invalidateOptionsMenu();
 		}
 		
-		mainFragment.selectAP();
-		mainFragment.refreshUIComponents();
-		checkFragment.refreshUIComponents();
+		if (mainFragment.isVisible())
+		{
+			mainFragment.selectAP();
+			mainFragment.refreshUIComponents();
+		}
+		
+		if (checkFragment.isVisible())
+		{
+			checkFragment.refreshUIComponents();
+		}
 	}
 
 	private void refreshingProxyStatus()
