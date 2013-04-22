@@ -1,8 +1,13 @@
 package com.shouldit.proxy.lib;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import android.content.Context;
 
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
@@ -15,6 +20,13 @@ public class ProxyStatus implements Serializable
 	private static final long serialVersionUID = -2657093750716229587L;
 
 	SortedMap<ProxyStatusProperties, ProxyStatusItem> properties;
+	public Date checkedDate;
+
+	public String getCheckedDateString()
+	{
+		DateFormat df = DateFormat.getDateTimeInstance();
+		return df.format(checkedDate);
+	}
 
 	public CheckStatusValues getCheckingStatus()
 	{
@@ -68,6 +80,8 @@ public class ProxyStatus implements Serializable
 	{
 		synchronized (this)
 		{
+			checkedDate = new Date();
+			
 			for (ProxyStatusItem prop : properties.values())
 			{
 				prop.status = CheckStatusValues.CHECKING;
@@ -81,6 +95,7 @@ public class ProxyStatus implements Serializable
 		{
 			properties.get(item.statusCode).status = item.status;
 			properties.get(item.statusCode).result = item.result;
+			properties.get(item.statusCode).checkedDate = new Date();
 		}
 	}
 
@@ -123,6 +138,7 @@ public class ProxyStatus implements Serializable
 		synchronized (this)
 		{
 			StringBuilder sb = new StringBuilder();
+			sb.append("Start checking at: " + checkedDate.toLocaleString() + "\n");
 
 			for (ProxyStatusItem prop : properties.values())
 			{
