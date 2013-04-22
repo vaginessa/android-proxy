@@ -74,9 +74,9 @@ public class ValidationPreference extends Preference
 			}
 		}
 
-		if (st.message != null)
+		if (st.message != null && st.message.length() > 0)
 		{
-			
+			setSummary(st.message);
 		}
 		
 		notifyChanged();
