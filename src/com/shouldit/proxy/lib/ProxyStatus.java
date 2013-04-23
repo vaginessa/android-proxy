@@ -2,21 +2,16 @@ package com.shouldit.proxy.lib;
 
 import java.io.Serializable;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import android.content.Context;
 
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 
 public class ProxyStatus implements Serializable
 {
-	/**
-	 * 
-	 */
+	public static final String TAG = "ProxyConfiguration";
 	private static final long serialVersionUID = -2657093750716229587L;
 
 	SortedMap<ProxyStatusProperties, ProxyStatusItem> properties;
@@ -34,14 +29,20 @@ public class ProxyStatus implements Serializable
 		{
 			for (ProxyStatusItem prop : properties.values())
 			{
-				if (prop.status == CheckStatusValues.NOT_CHECKED)
-					return CheckStatusValues.NOT_CHECKED;
+				if (prop.effective)
+				{
+					if (prop.status == CheckStatusValues.NOT_CHECKED)
+						return CheckStatusValues.NOT_CHECKED;
+				}
 			}
 
 			for (ProxyStatusItem prop : properties.values())
 			{
-				if (prop.status == CheckStatusValues.CHECKING)
-					return CheckStatusValues.CHECKING;
+				if (prop.effective)
+				{
+					if (prop.status == CheckStatusValues.CHECKING)
+						return CheckStatusValues.CHECKING;
+				}
 			}
 
 			return CheckStatusValues.CHECKED;
@@ -68,11 +69,11 @@ public class ProxyStatus implements Serializable
 			properties = new TreeMap<ProxyStatusProperties, ProxyStatusItem>(new ProxyStatusPropertiesComparator());
 
 			properties.put(ProxyStatusProperties.WIFI_ENABLED, new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED));
+			properties.put(ProxyStatusProperties.WEB_REACHABLE, new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE));
 			properties.put(ProxyStatusProperties.PROXY_ENABLED, new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED));
 			properties.put(ProxyStatusProperties.PROXY_VALID_HOSTNAME, new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME));
 			properties.put(ProxyStatusProperties.PROXY_VALID_PORT, new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT));
 			properties.put(ProxyStatusProperties.PROXY_REACHABLE, new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE));
-			properties.put(ProxyStatusProperties.WEB_REACHABLE, new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE));
 		}
 	}
 
@@ -81,7 +82,7 @@ public class ProxyStatus implements Serializable
 		synchronized (this)
 		{
 			checkedDate = new Date();
-			
+
 			for (ProxyStatusItem prop : properties.values())
 			{
 				prop.status = CheckStatusValues.CHECKING;
@@ -89,13 +90,31 @@ public class ProxyStatus implements Serializable
 		}
 	}
 
-	public void add(ProxyStatusItem item)
+	public void set(ProxyStatusItem item)
+	{
+		set(item.statusCode, item.status, item.result, item.effective);
+	}
+
+	public void set(ProxyStatusProperties psp, CheckStatusValues stat, Boolean res)
+	{
+		set(psp, stat, res, true);
+	}
+
+	public void set(ProxyStatusProperties psp, CheckStatusValues stat, Boolean res, Boolean effect)
 	{
 		synchronized (this)
 		{
-			properties.get(item.statusCode).status = item.status;
-			properties.get(item.statusCode).result = item.result;
-			properties.get(item.statusCode).checkedDate = new Date();
+			if (properties.containsKey(psp))
+			{
+				properties.get(psp).status = stat;
+				properties.get(psp).result = res;
+				properties.get(psp).effective = effect;
+				properties.get(psp).checkedDate = new Date();
+			}
+			else
+			{
+				LogWrapper.e(TAG, "Cannot find status code: " + psp);
+			}
 		}
 	}
 
@@ -105,9 +124,12 @@ public class ProxyStatus implements Serializable
 		{
 			for (ProxyStatusItem prop : properties.values())
 			{
-				if (prop.result == false)
+				if (prop.effective)
 				{
-					return prop;
+					if (prop.result == false)
+					{
+						return prop;
+					}
 				}
 			}
 
@@ -122,9 +144,12 @@ public class ProxyStatus implements Serializable
 			int count = 0;
 			for (ProxyStatusItem prop : properties.values())
 			{
-				if (prop.result == false)
+				if (prop.effective)
 				{
-					count++;
+					if (prop.result == false)
+					{
+						count++;
+					}
 				}
 			}
 

@@ -40,6 +40,8 @@ public class APLConstants
 
 	public enum CheckStatusValues
 	{
-		NOT_CHECKED, CHECKING, CHECKED
+		NOT_CHECKED, 
+		CHECKING,
+		CHECKED
 	}
 }

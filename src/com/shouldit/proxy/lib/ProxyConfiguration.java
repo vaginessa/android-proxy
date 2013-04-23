@@ -180,27 +180,50 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		broadCastUpdatedStatus();
 		
 		LogWrapper.d(TAG, "Checking if Wi-Fi is enabled ...");
-		status.add(isWifiEnabled());
+		status.set(isWifiEnabled());
 		broadCastUpdatedStatus();
 
-		LogWrapper.d(TAG, "Checking if proxy is enabled ...");
-		status.add(isProxyEnabled());
-		broadCastUpdatedStatus();
-
-		LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
-		status.add(isProxyValidHostname());
-		broadCastUpdatedStatus();
+		if (status.getProperty(ProxyStatusProperties.WIFI_ENABLED).result)
+		{
+			// Wi-Fi enabled
+			LogWrapper.d(TAG, "Checking if proxy is enabled ...");
+			status.set(isProxyEnabled());
+			broadCastUpdatedStatus();
+			
+			if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
+			{
+				LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
+				status.set(isProxyValidHostname());
+				broadCastUpdatedStatus();
+				
+				LogWrapper.d(TAG, "Checking if proxy is valid port ...");
+				status.set(isProxyValidPort());
+				broadCastUpdatedStatus();
 		
-		LogWrapper.d(TAG, "Checking if proxy is valid port ...");
-		status.add(isProxyValidPort());
-		broadCastUpdatedStatus();
-
-		LogWrapper.d(TAG, "Checking if proxy is reachable ...");
-		status.add(isProxyReachable());
-		broadCastUpdatedStatus();
+				LogWrapper.d(TAG, "Checking if proxy is reachable ...");
+				status.set(isProxyReachable());
+				broadCastUpdatedStatus();
+			}
+			else
+			{
+				// Proxy disabled -> DO NOT CHECK for proxy details
+				status.set(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.NOT_CHECKED, false, false);
+				status.set(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.NOT_CHECKED, false, false);
+				status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+			}
+		}
+		else
+		{
+			// Wi-Fi disabled -> DO NOT CHECK for proxy properties
+			status.set(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
+			status.set(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.NOT_CHECKED, false, false);
+			status.set(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.NOT_CHECKED, false, false);
+			status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+		} 
 		
+		// Always check if WEB is reachable
 		LogWrapper.d(TAG, "Checking if web is reachable ...");
-		status.add(isWebReachable(timeout));
+		status.set(isWebReachable(timeout));
 		broadCastUpdatedStatus();		
 	}
 
@@ -216,7 +239,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		ProxyStatusItem result = null;
 		wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, wifiManager.isWifiEnabled());
+		result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, wifiManager.isWifiEnabled(), true, "");
 		return result;
 	}
 
@@ -309,7 +332,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		{
 			return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false);
 		}	
-			
 	}
 	
 	/**
