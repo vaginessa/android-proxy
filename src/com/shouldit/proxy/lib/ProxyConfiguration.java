@@ -207,6 +207,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			else
 			{
 				// Proxy disabled -> DO NOT CHECK for proxy details
+				status.set(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
+				
 				status.set(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.NOT_CHECKED, false, false);
 				status.set(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.NOT_CHECKED, false, false);
 				status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
