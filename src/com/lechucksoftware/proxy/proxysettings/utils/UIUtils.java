@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import java.io.File;
 import java.net.Proxy.Type;
+import java.util.logging.Logger;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -20,9 +21,12 @@ import android.graphics.Paint.Style;
 import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -111,6 +115,12 @@ public class UIUtils
 	 */
 	public static void UpdateStatusBarNotification(ProxyConfiguration conf, Context context)
 	{
+		if (conf == null)
+		{
+			BugSenseHandler.sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
+			return;
+		}
+		
 		if (conf.getCheckingStatus() == CheckStatusValues.CHECKED)
 		{
 			if (conf.getProxy().type() == Type.DIRECT)
@@ -142,7 +152,7 @@ public class UIUtils
 
 			// The PendingIntent will launch activity if the user selects this
 			// notification
-			Intent preferencesIntent = new Intent(callerContext, ProxySettingsMainActivity.class);
+			Intent preferencesIntent = new Intent(callerContext, ProxyPreferencesActivity.class);			
 			EnableProxyNotification(callerContext, preferencesIntent, notificationTitle, notificationDescription);
 		}
 		else
@@ -194,17 +204,35 @@ public class UIUtils
 
 	private static void EnableProxyNotification(Context callerContext, Intent intentToCall, String notificationTitle, String notificationDescription)
 	{
-		NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
-		PendingIntent contentIntent = PendingIntent.getActivity(callerContext, 0, intentToCall, 0);
+		NotificationCompat.Builder mBuilder =
+		        new NotificationCompat.Builder(callerContext)
+		        .setSmallIcon(R.drawable.ic_stat_proxy_notification)
+		        .setContentTitle(notificationTitle)
+		        .setAutoCancel(false)
+		        .setOngoing(true)
+		        .setContentText(notificationDescription);
+				
 
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(callerContext);
-		builder.setContentIntent(contentIntent).setSmallIcon(R.drawable.ic_stat_proxy_notification).setTicker(notificationTitle).setWhen(System.currentTimeMillis()).setContentTitle(notificationTitle).setContentText(notificationDescription);
-
-		Notification n;
-		n = builder.getNotification();
-		n.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-
-		manager.notify(PROXY_NOTIFICATION_ID, n);
+		// The stack builder object will contain an artificial back stack for the
+		// started Activity.
+		// This ensures that navigating backward from the Activity leads out of
+		// your application to the Home screen.
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(callerContext);
+		
+		// Adds the back stack for the Intent (but not the Intent itself)
+		stackBuilder.addParentStack(ProxyPreferencesActivity.class);
+		// Adds the Intent that starts the Activity to the top of the stack
+		stackBuilder.addNextIntent(intentToCall);
+		
+		PendingIntent resultPendingIntent =
+		        stackBuilder.getPendingIntent(
+		            0,
+		            PendingIntent.FLAG_UPDATE_CURRENT
+		        );
+		mBuilder.setContentIntent(resultPendingIntent);
+		NotificationManager mNotificationManager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
+		// mId allows you to update the notification later on.
+		mNotificationManager.notify(PROXY_NOTIFICATION_ID, mBuilder.build());
 	}
 
 	public static void DisableProxyNotification(Context callerContext)

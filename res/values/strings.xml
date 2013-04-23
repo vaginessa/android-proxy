@@ -25,6 +25,10 @@
 	<string name="go_to_wifi_settings">Go to system Wi-Fi settings</string>
 	<string name="wifi_toggle_on_summary">Turn on Wi-Fi</string>
 	<string name="wifi_toggle_off_summary">Turn off Wi-Fi</string>
+	<string name="not_available">n/a</string>
+	<string name="network_status">Network status</string>
+	<string name="proxy_status">Proxy status</string>
+	
 	
 	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
 	<string name="validation_proxy_summary_warning">See validation warnings &#8230;</string>

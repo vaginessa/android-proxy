@@ -29,6 +29,7 @@ import com.shouldit.proxy.lib.ProxyStatusItem;
 public class ProxyPreferencesActivity extends Activity
 {
 	public static final String TAG = "ProxyPreferencesActivity";
+	public static final String CALLING_EXTRA = "com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity.CALLING_EXTRA";
 
 	public static ProxyPreferencesActivity instance;
 
@@ -74,8 +75,18 @@ public class ProxyPreferencesActivity extends Activity
 		checkFragment = new ProxyCheckerPrefsFragment();
 		advFragment = new AdvancedPrefsFragment();
 		helpFragment = new HelpPrefsFragment();
-
-		getFragmentManager().beginTransaction().replace(android.R.id.content, mainFragment).commit();
+		
+		Intent callingIntent = getIntent();
+		String message = callingIntent.getStringExtra(CALLING_EXTRA);
+		
+		if (message != null && message.length() > 0)
+		{
+			
+		}
+		else
+		{
+			getFragmentManager().beginTransaction().replace(android.R.id.content, mainFragment).commit();
+		}
 	}
 
 	@Override
@@ -90,16 +101,16 @@ public class ProxyPreferencesActivity extends Activity
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
 		dismissProgressDialog();
-		
+
 		// Proxy checker section
 		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();
 		menuItemProxyStatus = menu.findItem(R.id.menu_proxy_status);
 		menuItemProxyStatusDetail = menu.findItem(R.id.menu_proxy_status_detail);
-//		menuItemProxyEnabled = menu.findItem(R.id.menu_proxy_enabled);
-		
+		//		menuItemProxyEnabled = menu.findItem(R.id.menu_proxy_enabled);
+
 		if (pconf.status.getCheckingStatus() == CheckStatusValues.CHECKED)
 		{
-		    ProxyStatusItem mostRelevantError =	pconf.status.getMostRelevantErrorProxyStatusItem();
+			ProxyStatusItem mostRelevantError = pconf.status.getMostRelevantErrorProxyStatusItem();
 			if (mostRelevantError == null)
 			{
 				// No errors -> valid configuration
@@ -107,7 +118,7 @@ public class ProxyPreferencesActivity extends Activity
 				menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_ok));
 			}
 			else
-			{	
+			{
 				if (pconf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE).result)
 				{
 					// Errors, but internet is reachable
@@ -120,7 +131,7 @@ public class ProxyPreferencesActivity extends Activity
 					menuItemProxyStatus.setIcon(UIUtils.writeErrorOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, pconf.status.getErrorCount().toString()));
 					menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_errors));
 				}
-			}	
+			}
 		}
 		else
 		{
@@ -128,7 +139,6 @@ public class ProxyPreferencesActivity extends Activity
 			menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_checking));
 		}
 
-		
 		menuItemWifiStatus = menu.findItem(R.id.menu_wifi_status);
 		menuItemWifiToggle = menu.findItem(R.id.menu_wifi_toggle);
 
@@ -138,11 +148,11 @@ public class ProxyPreferencesActivity extends Activity
 		{
 			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_off_summary));
 			Drawable icon;
-			if (pconf.ap.security == 0) 
+			if (pconf.ap.security == 0)
 				icon = getResources().getDrawable(R.drawable.wifi_signal_open);
 			else
 				icon = getResources().getDrawable(R.drawable.wifi_signal_lock);
-			
+
 			icon.setLevel(pconf.ap.getLevel());
 			menuItemWifiStatus.setIcon(icon);
 			menuItemWifiStatus.setTitle(pconf.ap.ssid);
@@ -167,11 +177,11 @@ public class ProxyPreferencesActivity extends Activity
 
 			case R.id.menu_proxy_status:
 				return true;
-//			case R.id.menu_proxy_enabled:
-//			case R.id.menu_proxy_host:
-//			case R.id.menu_proxy_port:
-//			case R.id.menu_proxy_reachable:
-//			case R.id.menu_proxy_web_reach:
+				//			case R.id.menu_proxy_enabled:
+				//			case R.id.menu_proxy_host:
+				//			case R.id.menu_proxy_port:
+				//			case R.id.menu_proxy_reachable:
+				//			case R.id.menu_proxy_web_reach:
 			case R.id.menu_proxy_status_detail:
 				getFragmentManager().beginTransaction().replace(android.R.id.content, checkFragment).commit();
 				return true;
@@ -185,7 +195,7 @@ public class ProxyPreferencesActivity extends Activity
 				ApplicationGlobals.getWifiManager().setWifiEnabled(!wifiStatus);
 				item.setEnabled(false);
 				menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
-				mainFragment.refreshUIComponents();
+				refreshUI();
 				return true;
 
 			case R.id.menu_about:
@@ -225,9 +235,7 @@ public class ProxyPreferencesActivity extends Activity
 
 	private void refreshUI()
 	{
-		if(mainFragment != null 
-			&&  mainFragment.selectedConfiguration != null 
-			&&  mainFragment.selectedConfiguration.status.getCheckingStatus() == CheckStatusValues.CHECKING)
+		if (mainFragment != null && mainFragment.selectedConfiguration != null && mainFragment.selectedConfiguration.status.getCheckingStatus() == CheckStatusValues.CHECKING)
 		{
 			refreshingProxyStatus();
 		}
@@ -235,13 +243,13 @@ public class ProxyPreferencesActivity extends Activity
 		{
 			this.invalidateOptionsMenu();
 		}
-		
+
 		if (mainFragment.isVisible())
 		{
 			mainFragment.selectAP();
 			mainFragment.refreshUIComponents();
 		}
-		
+
 		if (checkFragment.isVisible())
 		{
 			checkFragment.refreshUIComponents();
@@ -262,7 +270,7 @@ public class ProxyPreferencesActivity extends Activity
 		IntentFilter ifilt = new IntentFilter();
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-//		ifilt.addAction(Constants.PROXY_REFRESH_UI);
+		//		ifilt.addAction(Constants.PROXY_REFRESH_UI);
 		registerReceiver(changeStatusReceiver, ifilt);
 	}
 
@@ -273,5 +281,21 @@ public class ProxyPreferencesActivity extends Activity
 
 		// Stop the registered status receivers
 		unregisterReceiver(changeStatusReceiver);
+	}
+
+	static boolean active = false;
+
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		active = true;
+	}
+
+	@Override
+	public void onStop()
+	{
+		super.onStop();
+		active = false;
 	}
 }

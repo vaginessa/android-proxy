@@ -145,6 +145,7 @@ public class ApplicationGlobals extends Application
 		{
 			return getCurrentConfiguration();
 		}
+		
 		return mInstance.currentConfiguration;
 	}
 

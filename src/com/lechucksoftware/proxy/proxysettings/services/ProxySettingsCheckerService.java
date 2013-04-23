@@ -111,7 +111,10 @@ public class ProxySettingsCheckerService extends IntentService
 			NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
 			if (ni != null && ni.isAvailable() && ni.isConnected())
 			{
-				//if (oldconf == null || oldconf.compareTo(newconf) != 0)
+				if (
+					newconf != null
+					// && (oldconf == null || oldconf.compareTo(newconf) != 0)
+					)
 				{
 					newconf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
 					LogWrapper.i(TAG, newconf.toString());
