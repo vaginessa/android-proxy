@@ -7,7 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -75,13 +78,13 @@ public class ProxyPreferencesActivity extends Activity
 		checkFragment = new ProxyCheckerPrefsFragment();
 		advFragment = new AdvancedPrefsFragment();
 		helpFragment = new HelpPrefsFragment();
-		
+
 		Intent callingIntent = getIntent();
 		String message = callingIntent.getStringExtra(CALLING_EXTRA);
-		
+
 		if (message != null && message.length() > 0)
 		{
-			
+
 		}
 		else
 		{
@@ -143,25 +146,67 @@ public class ProxyPreferencesActivity extends Activity
 		menuItemWifiToggle = menu.findItem(R.id.menu_wifi_toggle);
 
 		// Wi-Fi section
-		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
-		if (wifiEnabled)
+		SupplicantState ss = ApplicationGlobals.getWifiManager().getConnectionInfo().getSupplicantState();
+		LogWrapper.d(TAG, "Supplicant state: " + ss.toString());
+		
+		if (ss == SupplicantState.COMPLETED)
 		{
-			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_off_summary));
-			Drawable icon;
-			if (pconf.ap.security == 0)
-				icon = getResources().getDrawable(R.drawable.wifi_signal_open);
-			else
-				icon = getResources().getDrawable(R.drawable.wifi_signal_lock);
+			boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
+		
+			if (wifiEnabled && pconf.ap != null)
+			{
+				menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_off_summary));
+				
+				Drawable icon;
 
-			icon.setLevel(pconf.ap.getLevel());
-			menuItemWifiStatus.setIcon(icon);
-			menuItemWifiStatus.setTitle(pconf.ap.ssid);
+				if (pconf.ap.security == 0)
+					icon = getResources().getDrawable(R.drawable.wifi_signal_open);
+				else
+					icon = getResources().getDrawable(R.drawable.wifi_signal_lock);
+				
+				icon.setLevel(pconf.ap.getLevel());
+				menuItemWifiStatus.setIcon(icon);
+				menuItemWifiStatus.setTitle(pconf.ap.ssid);
+			}
+			else
+			{
+//				if (
+////						wifiEnabled && 
+////						(				
+//								ss == SupplicantState.ASSOCIATED 
+//							||	ss == SupplicantState.ASSOCIATING
+//							||	ss == SupplicantState.AUTHENTICATING
+////							||	ss == SupplicantState.COMPLETED
+////							||	ss == SupplicantState.DISCONNECTED
+////							||	ss == SupplicantState.DORMANT
+//							||  ss == SupplicantState.FOUR_WAY_HANDSHAKE
+//							||  ss == SupplicantState.GROUP_HANDSHAKE
+////							||  ss == SupplicantState.INACTIVE
+//							||  ss == SupplicantState.FOUR_WAY_HANDSHAKE
+////							||  ss == SupplicantState.INTERFACE_DISABLED
+////							||  ss == SupplicantState.INVALID
+//							||  ss == SupplicantState.SCANNING
+////							||  ss == SupplicantState.UNINITIALIZED
+//						)
+////					)
+//				{
+					
+					
+//				}
+//				else
+//				{
+					menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
+					menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
+//				}
+			}
 		}
 		else
 		{
-			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
-			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
+			menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
 		}
+		
+		
+		
 
 		return true;
 	}
@@ -225,6 +270,16 @@ public class ProxyPreferencesActivity extends Activity
 			{
 				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration - RefreshUI");
 				refreshUI();
+			}								   
+			else if (
+						action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
+//					 || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
+					 || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
+					)
+			{
+				LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
+//				LogWrapper.d(TAG, "Received broadcast for wi-fi supplicant state changed - RefreshUI");
+				refreshUI();
 			}
 			else
 			{
@@ -235,14 +290,18 @@ public class ProxyPreferencesActivity extends Activity
 
 	private void refreshUI()
 	{
-		if (mainFragment != null && mainFragment.selectedConfiguration != null && mainFragment.selectedConfiguration.status.getCheckingStatus() == CheckStatusValues.CHECKING)
-		{
-			refreshingProxyStatus();
-		}
-		else
-		{
-			this.invalidateOptionsMenu();
-		}
+//		if (	   
+//				   mainFragment != null 
+//				&& mainFragment.selectedConfiguration != null 
+//				&& mainFragment.selectedConfiguration.status.getCheckingStatus() == CheckStatusValues.CHECKING
+//			)
+//		{
+//			refreshingProxyStatus();
+//		}
+//		else
+//		{
+		this.invalidateOptionsMenu();
+//		}
 
 		if (mainFragment.isVisible())
 		{
@@ -270,6 +329,10 @@ public class ProxyPreferencesActivity extends Activity
 		IntentFilter ifilt = new IntentFilter();
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+		ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+//		ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+		
 		//		ifilt.addAction(Constants.PROXY_REFRESH_UI);
 		registerReceiver(changeStatusReceiver, ifilt);
 	}

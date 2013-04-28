@@ -92,7 +92,7 @@ public class LogWrapper
 	        	for(String key: extras.keySet())
 	        	{
 	        		String extra = String.valueOf(extras.get(key));
-	        		log(tag, "Key: " + key + " ---- " + extra, logLevel);
+	        		log(tag, "EXTRA [\"" + key + "\"] : " + extra, logLevel);
 	        	}
 	    	}
     	}

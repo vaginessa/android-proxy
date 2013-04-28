@@ -41,7 +41,7 @@ public class ProxySettingsCheckerService extends IntentService
 			{
 				// LogWrapper.logIntent(TAG, callerIntent, Log.WARN);
 				CheckProxySettings(callerIntent);
-			}
+			}	
 			else if (callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION))
 			{
 				Boolean noConnectivity = callerIntent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
@@ -70,16 +70,15 @@ public class ProxySettingsCheckerService extends IntentService
 				}
 				// else
 				// LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG, false);
-
 			}
 			else
 			{
-				// TODO: ????
+				LogWrapper.e(TAG, "Intent ACTION not handled: " + callerAction);
 			}
 		}
 		else
 		{
-			// TODO: ????
+			LogWrapper.e(TAG, "Received Intent NULL ACTION");
 		}
 	}
 
