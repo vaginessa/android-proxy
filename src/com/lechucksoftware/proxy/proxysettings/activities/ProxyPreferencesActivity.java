@@ -105,8 +105,16 @@ public class ProxyPreferencesActivity extends Activity
 	{
 		dismissProgressDialog();
 
-		// Proxy checker section
 		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();
+		
+		updateProxyAction(menu, pconf);
+		updateWifiAction(menu, pconf);
+		
+		return true;
+	}
+
+	private void updateProxyAction(Menu menu, ProxyConfiguration pconf)
+	{
 		menuItemProxyStatus = menu.findItem(R.id.menu_proxy_status);
 		menuItemProxyStatusDetail = menu.findItem(R.id.menu_proxy_status_detail);
 		//		menuItemProxyEnabled = menu.findItem(R.id.menu_proxy_enabled);
@@ -141,7 +149,10 @@ public class ProxyPreferencesActivity extends Activity
 			menuItemProxyStatus.setActionView(R.layout.actionbar_refresh_progress);
 			menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_checking));
 		}
+	}
 
+	private void updateWifiAction(Menu menu, ProxyConfiguration pconf)
+	{
 		menuItemWifiStatus = menu.findItem(R.id.menu_wifi_status);
 		menuItemWifiToggle = menu.findItem(R.id.menu_wifi_toggle);
 
@@ -170,45 +181,34 @@ public class ProxyPreferencesActivity extends Activity
 			}
 			else
 			{
-//				if (
-////						wifiEnabled && 
-////						(				
-//								ss == SupplicantState.ASSOCIATED 
-//							||	ss == SupplicantState.ASSOCIATING
-//							||	ss == SupplicantState.AUTHENTICATING
-////							||	ss == SupplicantState.COMPLETED
-////							||	ss == SupplicantState.DISCONNECTED
-////							||	ss == SupplicantState.DORMANT
-//							||  ss == SupplicantState.FOUR_WAY_HANDSHAKE
-//							||  ss == SupplicantState.GROUP_HANDSHAKE
-////							||  ss == SupplicantState.INACTIVE
-//							||  ss == SupplicantState.FOUR_WAY_HANDSHAKE
-////							||  ss == SupplicantState.INTERFACE_DISABLED
-////							||  ss == SupplicantState.INVALID
-//							||  ss == SupplicantState.SCANNING
-////							||  ss == SupplicantState.UNINITIALIZED
-//						)
-////					)
-//				{
-					
-					
-//				}
-//				else
-//				{
-					menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
-					menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
-//				}
+				menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
+				menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
 			}
+		}
+		else if (ss == SupplicantState.SCANNING)	// Supplicant can remain int SCANNING state forever
+		{
+			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
+			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
 		}
 		else
 		{
 			menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
 		}
 		
-		
-		
-
-		return true;
+//		ss == SupplicantState.ASSOCIATED 
+//		ss == SupplicantState.ASSOCIATING
+//		ss == SupplicantState.AUTHENTICATING
+//		ss == SupplicantState.COMPLETED
+//		ss == SupplicantState.DISCONNECTED
+//		ss == SupplicantState.DORMANT
+//		ss == SupplicantState.FOUR_WAY_HANDSHAKE
+//		ss == SupplicantState.GROUP_HANDSHAKE
+//		ss == SupplicantState.INACTIVE
+//		ss == SupplicantState.FOUR_WAY_HANDSHAKE
+//		ss == SupplicantState.INTERFACE_DISABLED
+//		ss == SupplicantState.INVALID
+//		ss == SupplicantState.SCANNING
+//		ss == SupplicantState.UNINITIALIZED
 	}
 
 	@Override
