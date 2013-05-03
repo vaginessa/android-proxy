@@ -156,45 +156,53 @@ public class ProxyPreferencesActivity extends Activity
 		menuItemWifiStatus = menu.findItem(R.id.menu_wifi_status);
 		menuItemWifiToggle = menu.findItem(R.id.menu_wifi_toggle);
 
-		// Wi-Fi section
+		// Wi-Fi Toggle
+		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
+		if (wifiEnabled)
+			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_off_summary));
+		else
+			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
+		
+		// Wi-Fi Supplicant state
 		SupplicantState ss = ApplicationGlobals.getWifiManager().getConnectionInfo().getSupplicantState();
 		LogWrapper.d(TAG, "Supplicant state: " + ss.toString());
 		
-		if (ss == SupplicantState.COMPLETED)
+		if (wifiEnabled)
 		{
-			boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
-		
-			if (wifiEnabled && pconf.ap != null)
-			{
-				menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_off_summary));
-				
-				Drawable icon;
-
-				if (pconf.ap.security == 0)
-					icon = getResources().getDrawable(R.drawable.wifi_signal_open);
-				else
-					icon = getResources().getDrawable(R.drawable.wifi_signal_lock);
-				
-				icon.setLevel(pconf.ap.getLevel());
-				menuItemWifiStatus.setIcon(icon);
-				menuItemWifiStatus.setTitle(pconf.ap.ssid);
-			}
-			else
-			{
-				menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
-				menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
-			}
-		}
-		else if (ss == SupplicantState.SCANNING)	// Supplicant can remain int SCANNING state forever
-		{
-			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
-			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
+    		if (ss == SupplicantState.COMPLETED)
+    		{
+    			if (pconf.ap != null)
+    			{
+    				Drawable icon;
+    
+    				if (pconf.ap.security == 0)
+    					icon = getResources().getDrawable(R.drawable.wifi_signal_open);
+    				else
+    					icon = getResources().getDrawable(R.drawable.wifi_signal_lock);
+    				
+    				icon.setLevel(pconf.ap.getLevel());
+    				menuItemWifiStatus.setIcon(icon);
+    				menuItemWifiStatus.setTitle(pconf.ap.ssid);
+    			}
+    			else
+    			{
+    				menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
+    			}
+    		}
+    		else if (ss == SupplicantState.SCANNING)	// Supplicant can remain int SCANNING state forever
+    		{
+    			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
+    		}
+    		else
+    		{
+    			menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
+    		}
 		}
 		else
 		{
-			menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
-		}
-		
+			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_wifi_disabled));
+		}		
+				
 //		ss == SupplicantState.ASSOCIATED 
 //		ss == SupplicantState.ASSOCIATING
 //		ss == SupplicantState.AUTHENTICATING
@@ -272,13 +280,13 @@ public class ProxyPreferencesActivity extends Activity
 				refreshUI();
 			}								   
 			else if (
-						action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-//					 || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
+						action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
 					 || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
+					 ||	action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
+					 || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
 					)
 			{
 				LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
-//				LogWrapper.d(TAG, "Received broadcast for wi-fi supplicant state changed - RefreshUI");
 				refreshUI();
 			}
 			else
@@ -327,11 +335,14 @@ public class ProxyPreferencesActivity extends Activity
 
 		// Start register the status receivers
 		IntentFilter ifilt = new IntentFilter();
+		
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-		ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-//		ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+
+		ifilt.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
 		ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+		ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+		ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
 		
 		//		ifilt.addAction(Constants.PROXY_REFRESH_UI);
 		registerReceiver(changeStatusReceiver, ifilt);

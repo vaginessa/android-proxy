@@ -49,6 +49,12 @@ public class UIUtils
 		return writeOnDrawable(callerContext, drawableId, text, Color.RED);
 	}
 	
+	public static BitmapDrawable writeErrorDisabledOnDrawable(Context callerContext, int drawableId, String text)
+	{
+		BitmapDrawable bd = writeOnDrawable(callerContext, drawableId, text, Color.RED);
+		return bd;
+	}
+	
 	public static BitmapDrawable writeOnDrawable(Context callerContext, int drawableId, String text, int color)
 	{
 		Bitmap bm = BitmapFactory.decodeResource(callerContext.getResources(), drawableId).copy(Bitmap.Config.ARGB_8888, true);
@@ -59,13 +65,27 @@ public class UIUtils
 		paint.setTypeface(Typeface.DEFAULT_BOLD);
 		paint.setTextSize(20);
 
-		/*
-		 * W************************* * * * * * * * * * * * *
-		 * ************************* H * * * * * ##### * * ##### * * ##### * * *
-		 * *************************
-		 */
+        /*		      
+         *            W					
+         **************************
+         *            *  	      *
+         *            *  	      *
+         *            *           *
+         *            *           *
+         *            *           *
+         *            *           *
+         **************************	H
+         *            *  	      *
+         *            *  	      *
+         *            *     ##### *
+         *            *     ##### *
+         *            *     ##### *
+         *            *    		  *
+         **************************
+         *
+         */
 
-		Canvas canvas = new Canvas(bm);
+		Canvas canvas = new Canvas(bm);	
 
 		int w = bm.getWidth();
 		int h = bm.getHeight();
@@ -85,7 +105,8 @@ public class UIUtils
 		paint.setColor(Color.WHITE);
 		canvas.drawText(text, xr, yr, paint);
 
-		return new BitmapDrawable(callerContext.getResources(), bm);
+		BitmapDrawable bd = new BitmapDrawable(callerContext.getResources(), bm);
+		return bd;
 	}
 
 	public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)

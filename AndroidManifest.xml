@@ -59,8 +59,7 @@
 		<activity
 			android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity"
 			android:configChanges="orientation"
-			android:launchMode="singleTop"
-			uiOptions="splitActionBarWhenNarrow">
+			android:launchMode="singleTop">
 			<intent-filter>
 				<action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY" />
 				<action android:name="com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE" />
