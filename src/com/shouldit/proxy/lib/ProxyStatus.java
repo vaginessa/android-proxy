@@ -92,15 +92,20 @@ public class ProxyStatus implements Serializable
 
 	public void set(ProxyStatusItem item)
 	{
-		set(item.statusCode, item.status, item.result, item.effective);
+		set(item.statusCode, item.status, item.result, item.effective, item.message, new Date());
 	}
 
-	public void set(ProxyStatusProperties psp, CheckStatusValues stat, Boolean res)
+	public void set(ProxyStatusProperties psp, CheckStatusValues stat, Boolean res, String msg, Date checkDate)
 	{
-		set(psp, stat, res, true);
+		set(psp, stat, res, true, msg, checkDate);
+	}
+	
+	public void set(ProxyStatusProperties psp, CheckStatusValues stat, boolean res, boolean effect)
+	{
+		set(psp, stat, res, true, "", new Date());
 	}
 
-	public void set(ProxyStatusProperties psp, CheckStatusValues stat, Boolean res, Boolean effect)
+	public void set(ProxyStatusProperties psp, CheckStatusValues stat, Boolean res, Boolean effect, String msg, Date checkDate)
 	{
 		synchronized (this)
 		{
@@ -109,7 +114,8 @@ public class ProxyStatus implements Serializable
 				properties.get(psp).status = stat;
 				properties.get(psp).result = res;
 				properties.get(psp).effective = effect;
-				properties.get(psp).checkedDate = new Date();
+				properties.get(psp).message = msg;
+				properties.get(psp).checkedDate = checkDate;
 			}
 			else
 			{
@@ -173,4 +179,6 @@ public class ProxyStatus implements Serializable
 			return sb.toString();
 		}
 	}
+
+
 }

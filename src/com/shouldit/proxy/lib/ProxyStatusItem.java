@@ -25,9 +25,9 @@ public class ProxyStatusItem
 		checkedDate = date;
 	}
 	
-	public ProxyStatusItem(ProxyStatusProperties code, CheckStatusValues st, Boolean val, Boolean eff,String msg)
+	public ProxyStatusItem(ProxyStatusProperties code, CheckStatusValues st, Boolean val, Boolean eff, String msg)
 	{
-		this(code,st,val,eff,"",null);
+		this(code,st,val,eff,msg,null);
 	}
 	
 	public ProxyStatusItem(ProxyStatusProperties code, CheckStatusValues st, Boolean eff, Boolean val)
@@ -40,9 +40,9 @@ public class ProxyStatusItem
 		this(code,CheckStatusValues.NOT_CHECKED, false, true, "",null);
 	}
 	
-	public ProxyStatusItem(ProxyStatusProperties code, CheckStatusValues checked, boolean res, String string)
+	public ProxyStatusItem(ProxyStatusProperties code, CheckStatusValues checked, boolean res, String msg)
 	{
-		this(code,checked, res, true, "",null);
+		this(code,checked, res, true, msg,null);
 	}
 
 	public ProxyStatusItem(ProxyStatusProperties code, CheckStatusValues checked, boolean res)

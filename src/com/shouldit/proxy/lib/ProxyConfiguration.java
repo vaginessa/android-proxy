@@ -150,14 +150,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				sb.append(proxyHost);
 			else
 				sb.append(context.getResources().getString(R.string.not_set));
-			
+
 			sb.append(":");
-			
+
 			if (proxyPort != null && proxyPort > 0)
 				sb.append(proxyPort);
 			else
 				sb.append(context.getResources().getString(R.string.not_set));
-			
+
 			return sb.toString();
 		}
 	}
@@ -178,28 +178,70 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		status.clear();
 		status.startchecking();
 		broadCastUpdatedStatus();
-		
-		LogWrapper.d(TAG, "Checking if Wi-Fi is enabled ...");
-		status.set(isWifiEnabled());
-		broadCastUpdatedStatus();
 
-		if (status.getProperty(ProxyStatusProperties.WIFI_ENABLED).result)
+		if (Build.VERSION.SDK_INT >= 12)
 		{
-			// Wi-Fi enabled
+			LogWrapper.d(TAG, "Checking if Wi-Fi is enabled ...");
+			status.set(isWifiEnabled());
+			broadCastUpdatedStatus();
+
+			if (status.getProperty(ProxyStatusProperties.WIFI_ENABLED).result)
+			{
+				// Wi-Fi enabled
+				LogWrapper.d(TAG, "Checking if proxy is enabled ...");
+				status.set(isProxyEnabled());
+				broadCastUpdatedStatus();
+
+				if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
+				{
+					LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
+					status.set(isProxyValidHostname());
+					broadCastUpdatedStatus();
+
+					LogWrapper.d(TAG, "Checking if proxy is valid port ...");
+					status.set(isProxyValidPort());
+					broadCastUpdatedStatus();
+
+					LogWrapper.d(TAG, "Checking if proxy is reachable ...");
+					status.set(isProxyReachable());
+					broadCastUpdatedStatus();
+				}
+				else
+				{
+					// Proxy disabled -> DO NOT CHECK for proxy details
+					status.set(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
+
+					status.set(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.NOT_CHECKED, false, false);
+					status.set(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.NOT_CHECKED, false, false);
+					status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+				}
+			}
+			else
+			{
+				// Wi-Fi disabled -> DO NOT CHECK for proxy properties
+				status.set(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
+				status.set(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.NOT_CHECKED, false, false);
+				status.set(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.NOT_CHECKED, false, false);
+				status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+			}
+		}
+		else
+		{
+			// API version <= 11 (Older devices)
 			LogWrapper.d(TAG, "Checking if proxy is enabled ...");
 			status.set(isProxyEnabled());
 			broadCastUpdatedStatus();
-			
+
 			if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
 			{
 				LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
 				status.set(isProxyValidHostname());
 				broadCastUpdatedStatus();
-				
+
 				LogWrapper.d(TAG, "Checking if proxy is valid port ...");
 				status.set(isProxyValidPort());
 				broadCastUpdatedStatus();
-		
+
 				LogWrapper.d(TAG, "Checking if proxy is reachable ...");
 				status.set(isProxyReachable());
 				broadCastUpdatedStatus();
@@ -208,40 +250,39 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			{
 				// Proxy disabled -> DO NOT CHECK for proxy details
 				status.set(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
-				
 				status.set(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.NOT_CHECKED, false, false);
 				status.set(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.NOT_CHECKED, false, false);
 				status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
 			}
 		}
-		else
-		{
-			// Wi-Fi disabled -> DO NOT CHECK for proxy properties
-			status.set(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
-			status.set(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.NOT_CHECKED, false, false);
-			status.set(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.NOT_CHECKED, false, false);
-			status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
-		} 
-		
+
 		// Always check if WEB is reachable
 		LogWrapper.d(TAG, "Checking if web is reachable ...");
 		status.set(isWebReachable(timeout));
-		broadCastUpdatedStatus();		
+		broadCastUpdatedStatus();
 	}
 
 	private void broadCastUpdatedStatus()
 	{
 		LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 		Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-		//intent.putExtra(APLConstants.ProxyStatus, status);
+		// intent.putExtra(APLConstants.ProxyStatus, status);
 		context.sendBroadcast(intent);
 	}
-	
+
 	private ProxyStatusItem isWifiEnabled()
 	{
 		ProxyStatusItem result = null;
 		wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, wifiManager.isWifiEnabled(), true, "");
+		if (wifiManager.isWifiEnabled())
+		{
+			result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, true, true, "WIFI_ENABLED");
+		}
+		else
+		{
+			result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, "WIFI_NOT_ENABLED");
+		}
+
 		return result;
 	}
 
@@ -265,22 +306,23 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		}
 		else
 		{
-//			if (proxyHost != null && proxyPort != null)
-//			{
-				// HTTP or SOCKS proxy
-				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true);
-//			}
-//			else
-//			{
-//				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false);
-//			}
+			// if (proxyHost != null && proxyPort != null)
+			// {
+			// HTTP or SOCKS proxy
+			result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true);
+			// }
+			// else
+			// {
+			// result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED,
+			// CheckStatusValues.CHECKED, false);
+			// }
 		}
 
 		return result;
 	}
 
 	private ProxyStatusItem isProxyValidHostname()
-	{		
+	{
 		try
 		{
 			String proxyHost = getProxyHostString();
@@ -323,7 +365,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false);
 
 	}
-	
+
 	private ProxyStatusItem isProxyValidPort()
 	{
 		if ((proxyPort != null) && (proxyPort > 0))
@@ -333,9 +375,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		else
 		{
 			return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false);
-		}	
+		}
 	}
-	
+
 	/**
 	 * Try to PING the HOST specified in the current proxy configuration
 	 * */
@@ -381,7 +423,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	{
 		return proxyPort;
 	}
-	
+
 	public String getProxyExclusionList()
 	{
 		return stringProxyExclusionList;
@@ -439,25 +481,27 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 				}
 
-				//				// Same network types
-				//				if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-				//				{
-				//					// TYPE_WIFI
-				//					
-				//					result = ap.compareTo(another.ap);
-				//					if (result == 0)
-				//					{
-				//						if (getProxy() != another.getProxy())
-				//						{
-				//							result = getProxy().toString().compareTo(another.getProxy().toString());
-				//						}
-				//					}
-				//				}
-				//				else
-				//				{
-				//					// TYPE_MOBILE or No connection
-				//					result = 0;
-				//				}
+				// // Same network types
+				// if (currentNetworkInfo.getType() ==
+				// ConnectivityManager.TYPE_WIFI)
+				// {
+				// // TYPE_WIFI
+				//
+				// result = ap.compareTo(another.ap);
+				// if (result == 0)
+				// {
+				// if (getProxy() != another.getProxy())
+				// {
+				// result =
+				// getProxy().toString().compareTo(another.getProxy().toString());
+				// }
+				// }
+				// }
+				// else
+				// {
+				// // TYPE_MOBILE or No connection
+				// result = 0;
+				// }
 			}
 			else
 			{
@@ -480,12 +524,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	public String getAPDescription(Context ctx)
 	{
 		StringBuilder sb = new StringBuilder();
-//		sb.append(ap.ssid);
-//		sb.append(" - ");
+		// sb.append(ap.ssid);
+		// sb.append(" - ");
 		sb.append(ap.getSecurityString(ctx, false));
 		sb.append(" - ");
 		sb.append(toShortString());
-		
+
 		return sb.toString();
 	}
 
