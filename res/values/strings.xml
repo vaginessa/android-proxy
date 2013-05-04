@@ -25,7 +25,7 @@
 	<string name="go_to_wifi_settings">Go to system Wi-Fi settings</string>
 	<string name="wifi_toggle_on_summary">Turn on Wi-Fi</string>
 	<string name="wifi_toggle_off_summary">Turn off Wi-Fi</string>
-	<string name="not_available">n/a</string>
+	<string name="not_available">N/A</string>
 	<string name="network_status">Network status</string>
 	<string name="proxy_status">Proxy status</string>
 	
@@ -35,29 +35,15 @@
 	<string name="validation_proxy_summary_errors">See validation errors &#8230;</string>
 	<string name="validation_proxy_summary_ok">See validation details &#8230;</string>
 
-	<string name="validation_wifi_enabled_title">Wi-Fi enabled</string>
-	<string name="validation_wifi_enabled_summary_ok">Wi-Fi is enabled</string>
-	<string name="validation_wifi_enabled_summary_nok">Wi-Fi is not enabled</string>
-	
+	<string name="validation_wifi_enabled_title">Wi-Fi</string>
 	<string name="validation_proxy_enabled_title">Proxy enabled</string>
-	<string name="validation_proxy_enabled_summary_ok">Proxy is enabled</string>
-	<string name="validation_proxy_enabled_summary_nok">Proxy is not enabled</string>
-
-	<string name="validation_proxy_host_title">Proxy address</string>
+	<string name="validation_proxy_host_title">Proxy hostname</string>
 	<string name="validation_proxy_host_summary_ok">Proxy address is valid</string>
 	<string name="validation_proxy_host_summary_nok">Proxy address is not valid</string>
-	
 	<string name="validation_proxy_port_title">Proxy port</string>
-	<string name="validation_proxy_port_summary_ok">Proxy port is valid</string>
-	<string name="validation_proxy_port_summary_nok">Proxy port is not valid</string>
-
 	<string name="validation_proxy_reachable_title">Ping proxy host</string>
-	<string name="validation_proxy_reachable_summary_ok">Proxy host is reachable</string>
-	<string name="validation_proxy_reachable_summary_nok">Proxy host is not reachable</string>
+	<string name="validation_proxy_web_reachable_title">WEB reachability</string>
 
-	<string name="validation_proxy_web_reachable_title">Web reachability</string>
-	<string name="validation_proxy_web_reachable_summary_ok">HTTP requests working</string>
-	<string name="validation_proxy_web_reachable_summary_nok">HTTP requests aren\'t working</string>
 
 	<string name="pref_main_title">Proxy configuration</string>
 	<string name="pref_tools_title">Tools</string>

@@ -16,27 +16,4 @@ public class Utils
 			}
 		});
 	}
-	
-	public static String cleanUpSSID(String SSID)
-	{
-		if (SSID.startsWith("\""))
-			return removeDoubleQuotes(SSID);
-		else
-			return SSID;
-	}
-	
-	public static String removeDoubleQuotes(String string)
-	{
-		int length = string.length();
-		if ((length > 1) && (string.charAt(0) == '"') && (string.charAt(length - 1) == '"'))
-		{
-			return string.substring(1, length - 1);
-		}
-		return string;
-	}
-
-	public static String convertToQuotedString(String string)
-	{
-		return "\"" + string + "\"";
-	}
 }

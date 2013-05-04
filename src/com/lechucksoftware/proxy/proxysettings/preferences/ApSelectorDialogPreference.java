@@ -25,6 +25,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.AccessPoint;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
+import com.shouldit.proxy.lib.ProxyUtils;
 
 public class ApSelectorDialogPreference extends DialogPreference
 {
@@ -105,7 +106,7 @@ public class ApSelectorDialogPreference extends DialogPreference
 			        }
 					
 					
-					((TextView) view.findViewById(R.id.list_item_ap_name)).setText(Utils.cleanUpSSID(listItem.getSSID()));
+					((TextView) view.findViewById(R.id.list_item_ap_name)).setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
 					((TextView) view.findViewById(R.id.list_item_ap_description)).setText(listItem.toShortString());
 				}
 			}
