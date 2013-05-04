@@ -99,6 +99,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		setProxyExclusionList(exclusionList);
 
 		connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+		wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
 		currentNetworkInfo = connManager.getActiveNetworkInfo();
 
 		if (wifiConf != null)
@@ -202,9 +203,17 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 					status.set(isProxyValidPort());
 					broadCastUpdatedStatus();
 
-					LogWrapper.d(TAG, "Checking if proxy is reachable ...");
-					status.set(isProxyReachable());
-					broadCastUpdatedStatus();
+					if (   status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
+							&& status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
+					{
+						LogWrapper.d(TAG, "Checking if proxy is reachable ...");
+						status.set(isProxyReachable());
+						broadCastUpdatedStatus();
+					}
+					else
+					{
+						status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+					}
 				}
 				else
 				{
@@ -242,9 +251,17 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 				status.set(isProxyValidPort());
 				broadCastUpdatedStatus();
 
-				LogWrapper.d(TAG, "Checking if proxy is reachable ...");
-				status.set(isProxyReachable());
-				broadCastUpdatedStatus();
+				if (   status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
+					&& status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
+				{
+					LogWrapper.d(TAG, "Checking if proxy is reachable ...");
+					status.set(isProxyReachable());
+					broadCastUpdatedStatus();
+				}
+				else
+				{
+					status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+				}
 			}
 			else
 			{
@@ -273,14 +290,23 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	private ProxyStatusItem isWifiEnabled()
 	{
 		ProxyStatusItem result = null;
-		wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		
 		if (wifiManager.isWifiEnabled())
 		{
-			result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, true, true, "WIFI_ENABLED");
+			NetworkInfo ni = connManager.getActiveNetworkInfo();
+			if (ni != null && ni.isConnected() && ni.getType() == ConnectivityManager.TYPE_WIFI)
+			{
+				String status = String.format("%s %s", context.getString(R.string.status_wifi_connected), ProxyUtils.cleanUpSSID(getSSID()));
+				result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, true, true, status);
+			}
+			else
+			{
+				result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, context.getString(R.string.status_wifi_enabled_disconnected));	
+			}
 		}
 		else
 		{
-			result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, "WIFI_NOT_ENABLED");
+			result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, context.getString(R.string.status_wifi_not_enabled));
 		}
 
 		return result;
@@ -296,20 +322,20 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			// Proxy is disabled by default on Mobile connection
 			if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
 			{
-				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_msg_mobile_enabled));
+				result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_mobile_disabled));
 			}
 		}
 
 		if (proxySetting == ProxySetting.UNASSIGNED || proxySetting == ProxySetting.NONE)
 		{
-			result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_msg_proxy_disabled));
+			result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_disabled));
 		}
 		else
 		{
 			// if (proxyHost != null && proxyPort != null)
 			// {
 			// HTTP or SOCKS proxy
-			result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true);
+			result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true, context.getString(R.string.status_proxy_enabled));
 			// }
 			// else
 			// {
@@ -327,33 +353,29 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		{
 			String proxyHost = getProxyHostString();
 
-			if (proxyHost != null && proxyHost.length() > 0)
+			if (proxyHost == null || proxyHost.length() == 0)
 			{
-				if (InetAddressUtils.isIPv4Address(proxyHost) || InetAddressUtils.isIPv6Address(proxyHost) || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost) || InetAddressUtils.isIPv6StdAddress(proxyHost))
-				{
-					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
-				}
-
-				if (URLUtil.isNetworkUrl(proxyHost))
-				{
-					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
-				}
-
-				if (URLUtil.isValidUrl(proxyHost))
-				{
-					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
-				}
-
+				return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, context.getString(R.string.status_hostname_empty));
+			}
+			else 
+			{
 				// Test REGEX for Hostname validation
 				// http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
 				//
 				String ValidHostnameRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
 				Pattern pattern = Pattern.compile(ValidHostnameRegex);
 				Matcher matcher = pattern.matcher(proxyHost);
-
-				if (matcher.find())
+				
+				if (   InetAddressUtils.isIPv4Address(proxyHost) 
+					|| InetAddressUtils.isIPv6Address(proxyHost) 
+					|| InetAddressUtils.isIPv6HexCompressedAddress(proxyHost) 
+					|| InetAddressUtils.isIPv6StdAddress(proxyHost)
+					|| URLUtil.isNetworkUrl(proxyHost)
+					|| URLUtil.isValidUrl(proxyHost)
+					|| matcher.find())
 				{
-					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true);
+					String msg = String.format("%s %s", context.getString(R.string.status_hostname_valid), proxyHost);
+					return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true, msg);
 				}
 			}
 		}
@@ -362,19 +384,19 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 			e.printStackTrace();
 		}
 
-		return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false);
-
+		return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, context.getString(R.string.status_hostname_notvalid));
 	}
 
 	private ProxyStatusItem isProxyValidPort()
 	{
 		if ((proxyPort != null) && (proxyPort > 0))
 		{
-			return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true);
+			String msg = String.format("%s %d", context.getString(R.string.status_port_valid), proxyPort);
+			return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true, msg);
 		}
 		else
 		{
-			return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false);
+			return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false, context.getString(R.string.status_port_empty));
 		}
 	}
 
@@ -384,9 +406,21 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 	private ProxyStatusItem isProxyReachable()
 	{
 		if (getProxy() != null && getProxyType() != Proxy.Type.DIRECT)
-			return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, ProxyUtils.isHostReachable(getProxy()));
+		{
+			Boolean result = ProxyUtils.isHostReachable(getProxy());
+			if (result)
+			{
+				return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, true, context.getString(R.string.status_proxy_reachable));
+			}
+			else
+			{
+				return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_not_reachable));
+			}
+		}
 		else
-			return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false);
+		{
+			return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_not_valid_informations));
+		}
 	}
 
 	/**
@@ -401,7 +435,15 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	private ProxyStatusItem isWebReachable(int timeout)
 	{
-		return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, ProxyUtils.isWebReachable(this, timeout));
+		Boolean result = ProxyUtils.isWebReachable(this, timeout);
+		if (result)
+		{
+			return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, true, context.getString(R.string.status_web_reachable));
+		}
+		else
+		{
+			return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, false, context.getString(R.string.status_web_not_reachable));
+		}
 	}
 
 	public String getProxyHostString()

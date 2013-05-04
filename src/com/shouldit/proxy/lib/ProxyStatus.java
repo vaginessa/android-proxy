@@ -102,7 +102,7 @@ public class ProxyStatus implements Serializable
 	
 	public void set(ProxyStatusProperties psp, CheckStatusValues stat, boolean res, boolean effect)
 	{
-		set(psp, stat, res, true, "", new Date());
+		set(psp, stat, res, effect, "", new Date());
 	}
 
 	public void set(ProxyStatusProperties psp, CheckStatusValues stat, Boolean res, Boolean effect, String msg, Date checkDate)

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -17,20 +18,43 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
 
 import org.apache.http.HttpHost;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
-import android.util.Log;
 
 public class ProxyUtils
 {
 	public static final String TAG = "ProxyUtils";
+
+	public static String cleanUpSSID(String SSID)
+	{
+		if (SSID.startsWith("\""))
+			return removeDoubleQuotes(SSID);
+		else
+			return SSID;
+	}
+
+	public static String removeDoubleQuotes(String string)
+	{
+		int length = string.length();
+		if ((length > 1) && (string.charAt(0) == '"') && (string.charAt(length - 1) == '"'))
+		{
+			return string.substring(1, length - 1);
+		}
+		return string;
+	}
+
+	public static String convertToQuotedString(String string)
+	{
+		return "\"" + string + "\"";
+	}
 
 	public static Intent getProxyIntent()
 	{
@@ -74,44 +98,138 @@ public class ProxyUtils
 	// }
 
 	public static boolean isHostReachable(Proxy proxy)
+	{	
+		Boolean standardResult = standardAPIPingHost(proxy);
+		if (standardResult)
+		{
+			return true;
+		}
+		else
+		{
+			Boolean lowResult = lowLevelPingHost(proxy);
+			return lowResult;
+		}
+	}
+
+	public static boolean standardAPIPingHost(Proxy proxy)
+	{
+		try
+		{
+			InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
+			return InetAddress.getByName(proxySocketAddress.toString().split(":")[0]).isReachable(100000);
+//			return proxySocketAddress.getAddress().isReachable(100000);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+
+//	public static void pingMe()
+//	{
+//
+//		try
+//		{
+//			ByteBuffer send = ByteBuffer.wrap("Hello".getBytes());
+//			ByteBuffer receive = ByteBuffer.allocate("Hello".getBytes().length);
+//			//use echo port 7
+//			InetSocketAddress socketAddress = new InetSocketAddress("192.168.1.2", 7);
+//			DatagramChannel dgChannel = DatagramChannel.open();
+//			//we have the channel non-blocking.
+//			dgChannel.configureBlocking(false);
+//			dgChannel.connect(socketAddress);
+//			dgChannel.send(send, socketAddress);
+//			/*
+//			 * it's non-blocking so we need some amount of delay to get the
+//			 * response
+//			 */
+//			Thread.sleep(10000);
+//			dgChannel.receive(receive);
+//			String response = new String(receive.array());
+//			if (response.equals("Hello"))
+//			{
+//				System.out.println("Ping is alive");
+//			}
+//			else
+//			{
+//				System.out.println("No response");
+//			}
+//
+//		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+//		catch (InterruptedException e)
+//		{
+//			e.printStackTrace();
+//		}
+//
+//	}
+
+	public static boolean lowLevelPingHost(Proxy proxy)
 	{
 		int exitValue;
 		Runtime runtime = Runtime.getRuntime();
 		Process proc;
 
 		String cmdline = null;
+		String proxyAddress = null;
 
 		try
 		{
 			InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
-			String proxyAddress = proxySocketAddress.getAddress().getHostAddress();
-			cmdline = "ping -c 1   " + proxyAddress;
+			proxyAddress = proxySocketAddress.getAddress().getHostAddress();
 		}
 		catch (Exception e)
 		{
-			return false;
-		}
-
-		try
-		{
-			proc = runtime.exec(cmdline);
-			proc.waitFor();
-			exitValue = proc.exitValue();
-
-			LogWrapper.d(TAG, "Ping exit value: " + exitValue);
-
-			if (exitValue == 0)
-				return true;
-			else
-				return false;
-		}
-		catch (IOException e)
-		{
 			e.printStackTrace();
 		}
-		catch (InterruptedException e)
+
+		if (proxyAddress == null)
 		{
-			e.printStackTrace();
+			try
+			{
+				InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
+				proxyAddress = proxySocketAddress.toString();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+		if (proxyAddress != null)
+		{
+			cmdline = "ping -c 1 -w 1 " + proxyAddress;
+
+			try
+			{
+				proc = runtime.exec(cmdline);
+				proc.waitFor();
+				exitValue = proc.exitValue();
+
+				LogWrapper.d(TAG, "Ping exit value: " + exitValue);
+
+				if (exitValue == 0)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return false;
@@ -126,7 +244,7 @@ public class ProxyUtils
 			{
 				URL url = uri.toURL();
 
-				if (proxyConfiguration.getProxyType() == Type.HTTP)
+				if (proxyConfiguration != null && proxyConfiguration.getProxyType() == Type.HTTP)
 				{
 					System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
 					System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
@@ -146,11 +264,11 @@ public class ProxyUtils
 			}
 			catch (MalformedURLException e)
 			{
-				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() MalformedURLException : " + e.toString() );
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() MalformedURLException : " + e.toString());
 			}
 			catch (UnknownHostException e)
 			{
-				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() UnknownHostException : " + e.toString() );
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() UnknownHostException : " + e.toString());
 			}
 			catch (SocketTimeoutException e)
 			{
@@ -158,15 +276,15 @@ public class ProxyUtils
 			}
 			catch (SocketException e)
 			{
-				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() SocketException : " + e.toString() );
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() SocketException : " + e.toString());
 			}
 			catch (IOException e)
 			{
-				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() IOException : " + e.toString() );
+				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() IOException : " + e.toString());
 			}
-			
+
 			step++;
-			
+
 			try
 			{
 				Thread.sleep(500);

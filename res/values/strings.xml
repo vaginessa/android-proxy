@@ -11,10 +11,31 @@
 	<string name="status_title_checking">Checking proxy configuration &#8230;</string>
 	<string name="status_title_not_enabled">Proxy Not Enabled</string>
 
-	<string name="status_msg_mobile_enabled">Proxy cannot be configured for Mobile connectivity</string>
-	<string name="status_msg_proxy_disabled">Proxy is disabled for the selected Wi-Fi network</string>
+
 	
+	<string name="status_wifi_connected">Wi-Fi connected to: </string>
+	<string name="status_wifi_enabled_disconnected">Wi-Fi not connected</string>
+	<string name="status_wifi_not_enabled">Wi-Fi not enabled</string>
 	
+	<string name="status_proxy_mobile_disabled">Proxy cannot be configured for Mobile connectivity</string>
+	<string name="status_proxy_disabled">Proxy disabled for the selected Wi-Fi network</string>
+	<string name="status_proxy_enabled">Proxy enabled</string>
+	
+	<string name="status_hostname_empty">Proxy hostname cannot be empty</string>
+	<string name="status_hostname_notvalid">Proxy hostname seems not valid address</string>
+	<string name="status_hostname_valid">Proxy hostname is: </string>
+	
+	<string name="status_port_empty">Proxy port cannot be empty</string>
+	<string name="status_port_notvalid">Proxy port seems not valid</string>
+	<string name="status_port_valid">Proxy port is: </string>
+	
+	<string name="status_proxy_not_reachable">Proxy seems not reachable</string>
+	<string name="status_proxy_reachable">Proxy is reachable</string>
+	<string name="status_proxy_not_valid_informations">Not enough information to ping the proxy</string>
+	
+	<string name="status_web_not_reachable">WEB is not reachable</string>
+	<string name="status_web_reachable">WEB is reachable</string>
+		
 	<string name="status_title_invalid_host">Invalid Proxy Host</string>
 	<string name="status_title_invalid_port">Invalid Proxy Port</string>
 	<string name="status_title_not_reachable">Proxy Not Reachable</string>
