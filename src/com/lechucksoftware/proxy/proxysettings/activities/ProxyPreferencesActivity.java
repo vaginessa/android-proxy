@@ -251,12 +251,12 @@ public class ProxyPreferencesActivity extends Activity
 				refreshUI();
 				return true;
 
-			case R.id.menu_about:
-				getFragmentManager().beginTransaction().replace(android.R.id.content, helpFragment).commit();
-				return true;
-			case R.id.menu_advanced:
-				getFragmentManager().beginTransaction().replace(android.R.id.content, advFragment).commit();
-				return true;
+//			case R.id.menu_about:
+//				getFragmentManager().beginTransaction().replace(android.R.id.content, helpFragment).commit();
+//				return true;
+//			case R.id.menu_advanced:
+//				getFragmentManager().beginTransaction().replace(android.R.id.content, advFragment).commit();
+//				return true;
 
 			default:
 				return super.onOptionsItemSelected(item);

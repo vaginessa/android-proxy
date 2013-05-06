@@ -57,7 +57,9 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	public void selectAP()
 	{
 		if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
-		{}
+		{
+			//Do nothing
+		}
 		else
 		{
 			selectAP(ApplicationGlobals.getCachedConfiguration());

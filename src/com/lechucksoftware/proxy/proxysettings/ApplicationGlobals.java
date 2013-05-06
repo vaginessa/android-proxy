@@ -18,6 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxySettings;
+import com.shouldit.proxy.lib.ProxyUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 
@@ -90,14 +91,14 @@ public class ApplicationGlobals extends Application
 		
 		for (ProxyConfiguration conf : confs)
 		{
-			addConfiguration(Utils.cleanUpSSID(conf.getSSID()), conf);
+			addConfiguration(ProxyUtils.cleanUpSSID(conf.getSSID()), conf);
 		}
 		
 		if (scanResults != null)
 		{
 			for (ScanResult res : scanResults)
 			{
-				String currSSID = Utils.cleanUpSSID(res.SSID);
+				String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
 				if (mInstance.configurations.containsKey(currSSID))
 				{
 					mInstance.configurations.get(currSSID).ap.update(res);
@@ -113,7 +114,7 @@ public class ApplicationGlobals extends Application
 		if (mInstance.mWifiManager != null && mInstance.mWifiManager.isWifiEnabled())
 		{
 			WifiInfo info = mInstance.mWifiManager.getConnectionInfo();
-			String SSID = Utils.cleanUpSSID(info.getSSID());
+			String SSID = ProxyUtils.cleanUpSSID(info.getSSID());
 
 			if (mInstance.configurations.isEmpty())
 				updateProxyConfigurationList();
@@ -152,7 +153,7 @@ public class ApplicationGlobals extends Application
 	
 	public static ProxyConfiguration getConfiguration(String SSID)
 	{
-		String cleanSSID = Utils.cleanUpSSID(SSID);
+		String cleanSSID = ProxyUtils.cleanUpSSID(SSID);
 		
 		if (mInstance.configurations.containsKey(cleanSSID))
 		{

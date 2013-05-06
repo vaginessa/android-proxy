@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 
@@ -25,29 +24,6 @@ public class Utils
 				return new PasswordAuthentication(user, password.toCharArray());
 			}
 		});
-	}
-
-	public static String cleanUpSSID(String SSID)
-	{
-		if (SSID.startsWith("\""))
-			return removeDoubleQuotes(SSID);
-		else
-			return SSID;
-	}
-
-	public static String removeDoubleQuotes(String string)
-	{
-		int length = string.length();
-		if ((length > 1) && (string.charAt(0) == '"') && (string.charAt(length - 1) == '"'))
-		{
-			return string.substring(1, length - 1);
-		}
-		return string;
-	}
-
-	public static String convertToQuotedString(String string)
-	{
-		return "\"" + string + "\"";
 	}
 
 	public static void SetupBugSense(Context ctx)
