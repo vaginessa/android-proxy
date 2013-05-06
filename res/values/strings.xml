@@ -28,6 +28,7 @@
 	<string name="not_available">N/A</string>
 	<string name="network_status">Network status</string>
 	<string name="proxy_status">Proxy status</string>
+	<string name="ap_selection_title">Select the Wi-Fi access point to configure:</string>
 	
 	
 	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>

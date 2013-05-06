@@ -39,7 +39,7 @@ public class ApSelectorDialogPreference extends DialogPreference
 		super(context, attrs);
 		setPersistent(false);
 		setDialogLayoutResource(R.layout.ap_selector_dialog);	
-		setDialogTitle(context.getResources().getString(R.string.preference_test_proxy_urlbrowser_dialog_title));
+		setDialogTitle(context.getResources().getString(R.string.ap_selection_title));
 	}
 
 	@Override
