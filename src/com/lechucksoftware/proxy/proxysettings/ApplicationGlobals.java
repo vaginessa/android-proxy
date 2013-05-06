@@ -57,14 +57,8 @@ public class ApplicationGlobals extends Application
 		configurations = new HashMap<String, ProxyConfiguration>();
 
 		mInstance = this;
-		
-//		if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
-//		{
-//			// Enable WiFi if it's not enabled
-//			ApplicationGlobals.getWifiManager().setWifiEnabled(true);
-//		}
-		
-		BugSenseHandler.initAndStartSession(getApplicationContext(),"31575002");
+				
+		Utils.SetupBugSense(getApplicationContext());
 				
 		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
 		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
