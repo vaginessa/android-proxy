@@ -65,12 +65,12 @@ public class ValidationPreference extends Preference
 				if (st.result == true)
 				{
 					setWidgetLayoutResource(R.layout.validation_preference_widget);
-					mIcon = getContext().getResources().getDrawable(R.drawable.ic_action_valid);
+					mIcon = getContext().getResources().getDrawable(R.drawable.ic_valid);
 				}
 				else
 				{
 					setWidgetLayoutResource(R.layout.validation_preference_widget);
-					mIcon = getContext().getResources().getDrawable(R.drawable.ic_action_notvalid);
+					mIcon = getContext().getResources().getDrawable(R.drawable.ic_error);
 				}
 			}
 		}
