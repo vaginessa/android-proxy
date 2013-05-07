@@ -50,6 +50,7 @@ public class ProxyPreferencesActivity extends Activity
 	private MenuItem menuItemProxyEnabled;
 
 	private MenuItem menuItemProxyStatusDetail;
+	private MenuItem menuItemWifiSettings;
 
 	public void showProgressDialog()
 	{
@@ -155,6 +156,7 @@ public class ProxyPreferencesActivity extends Activity
 	{
 		menuItemWifiStatus = menu.findItem(R.id.menu_wifi_status);
 		menuItemWifiToggle = menu.findItem(R.id.menu_wifi_toggle);
+		menuItemWifiSettings = menu.findItem(R.id.menu_wifi_settings);
 
 		// Wi-Fi Toggle
 		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
@@ -182,7 +184,8 @@ public class ProxyPreferencesActivity extends Activity
     				
     				icon.setLevel(pconf.ap.getLevel());
     				menuItemWifiStatus.setIcon(icon);
-    				menuItemWifiStatus.setTitle(pconf.ap.ssid);
+    				
+    				menuItemWifiSettings.setTitle(getResources().getString(R.string.connected_to,pconf.ap.ssid));
     			}
     			else
     			{

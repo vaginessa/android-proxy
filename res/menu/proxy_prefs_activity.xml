@@ -4,7 +4,6 @@
 	<item
 		android:id="@+id/menu_proxy_status"
 		android:icon="@drawable/ic_action_valid"
-		android:title="@string/proxy_checker"
 		android:showAsAction="always|withText">
 
 		<menu>
@@ -37,15 +36,14 @@
 	<item
 		android:id="@+id/menu_wifi_status"
 		android:icon="@drawable/wifi_signal"
-		android:title="@string/wifi_settings"
 		android:showAsAction="ifRoom|withText">
 		<menu>
+            <item
+                android:id="@+id/menu_wifi_settings"
+                android:title="@string/go_to_wifi_settings" />
 			<item
 				android:id="@+id/menu_wifi_toggle"
 				android:title="@string/wifi_toggle_on_summary" />
-			<item
-				android:id="@+id/menu_wifi_settings"
-				android:title="@string/go_to_wifi_settings" />
 		</menu>
 	</item>
 

@@ -41,12 +41,12 @@ public class UIUtils
 
 	public static BitmapDrawable writeWarningOnDrawable(Context callerContext, int drawableId, String text)
 	{
-		return writeOnDrawable(callerContext, drawableId, text, Color.rgb(255, 165, 0));
+		return writeOnDrawable(callerContext, drawableId, text, Color.rgb(0xFF,0xBB,0x33));
 	}
 	
 	public static BitmapDrawable writeErrorOnDrawable(Context callerContext, int drawableId, String text)
 	{
-		return writeOnDrawable(callerContext, drawableId, text, Color.RED);
+		return writeOnDrawable(callerContext, drawableId, text, Color.rgb(0xFF,0x44 ,0x44));
 	}
 	
 	public static BitmapDrawable writeErrorDisabledOnDrawable(Context callerContext, int drawableId, String text)

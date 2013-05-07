@@ -29,12 +29,14 @@
 	<string name="network_status">Network status</string>
 	<string name="proxy_status">Proxy status</string>
 	<string name="ap_selection_title">Select the Wi-Fi access point to configure:</string>
+	<string name="connected_to">%1$s &#8230;</string>
+	
 	
 	
 	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
-	<string name="validation_proxy_summary_warning">See validation warnings &#8230;</string>
-	<string name="validation_proxy_summary_errors">See validation errors &#8230;</string>
-	<string name="validation_proxy_summary_ok">See validation details &#8230;</string>
+	<string name="validation_proxy_summary_warning">Validation warnings &#8230;</string>
+	<string name="validation_proxy_summary_errors">Validation errors &#8230;</string>
+	<string name="validation_proxy_summary_ok">Validation details &#8230;</string>
 
 	<string name="validation_wifi_enabled_title">Wi-Fi</string>
 	<string name="validation_proxy_enabled_title">Proxy enabled</string>
