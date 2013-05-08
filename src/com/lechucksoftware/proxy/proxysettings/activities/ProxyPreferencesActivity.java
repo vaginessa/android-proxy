@@ -239,7 +239,10 @@ public class ProxyPreferencesActivity extends Activity
 				//			case R.id.menu_proxy_reachable:
 				//			case R.id.menu_proxy_web_reach:
 			case R.id.menu_proxy_status_detail:
-				getFragmentManager().beginTransaction().replace(android.R.id.content, checkFragment).commit();
+				getFragmentManager().beginTransaction()
+									.replace(android.R.id.content,checkFragment)
+									.addToBackStack(null)
+									.commit();
 				return true;
 
 			case R.id.menu_wifi_settings:

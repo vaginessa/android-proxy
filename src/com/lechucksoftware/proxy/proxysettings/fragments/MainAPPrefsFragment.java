@@ -152,7 +152,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		});
 
 		authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
-		getPreferenceScreen().removePreference(authPrefScreen);
+		if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
 	}
 
 	public void refreshUIComponents()
@@ -168,8 +168,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
 		{
 			proxyEnablePref.setEnabled(true);
-			apSelectorPref.setTitle(selectedConfiguration.ap.ssid);
-			apSelectorPref.setSummary(selectedConfiguration.getAPDescription(ApplicationGlobals.getInstance().getApplicationContext()));
+			//apSelectorPref.setTitle(selectedConfiguration.ap.ssid);
+			apSelectorPref.setSummary(selectedConfiguration.getAPDescription(getActivity().getApplicationContext()));
 
 			if (selectedConfiguration.proxySetting == ProxySetting.NONE || selectedConfiguration.proxySetting == ProxySetting.UNASSIGNED)
 			{
@@ -218,7 +218,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		}
 		else
 		{
-			apSelectorPref.setTitle(getResources().getString(R.string.wifi_disabled));
+			//apSelectorPref.setTitle(getResources().getString(R.string.wifi_disabled));
 			apSelectorPref.setSummary(getResources().getString(R.string.no_ap_selectable));
 		}
 	}
