@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -74,22 +75,27 @@ public class ProxyPreferencesActivity extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main_pref_container);
 
 		mainFragment = new MainAPPrefsFragment();
 		checkFragment = new ProxyCheckerPrefsFragment();
 		advFragment = new AdvancedPrefsFragment();
 		helpFragment = new HelpPrefsFragment();
 
-		Intent callingIntent = getIntent();
-		String message = callingIntent.getStringExtra(CALLING_EXTRA);
-
-		if (message != null && message.length() > 0)
+		// Check that the activity is using the layout version with
+		// the fragment_container FrameLayout
+		if (findViewById(R.id.fragment_container) != null)
 		{
+			// However, if we're being restored from a previous state,
+			// then we don't need to do anything and should return or else
+			// we could end up with overlapping fragments.
+			if (savedInstanceState != null)
+			{
+				return;
+			}
 
-		}
-		else
-		{
-			getFragmentManager().beginTransaction().replace(android.R.id.content, mainFragment).commit();
+			// Add the fragment to the 'fragment_container' FrameLayout
+			getFragmentManager().beginTransaction().add(R.id.fragment_container, mainFragment).commit();
 		}
 	}
 
@@ -107,10 +113,10 @@ public class ProxyPreferencesActivity extends Activity
 		dismissProgressDialog();
 
 		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();
-		
+
 		updateProxyAction(menu, pconf);
 		updateWifiAction(menu, pconf);
-		
+
 		return true;
 	}
 
@@ -118,7 +124,7 @@ public class ProxyPreferencesActivity extends Activity
 	{
 		menuItemProxyStatus = menu.findItem(R.id.menu_proxy_status);
 		menuItemProxyStatusDetail = menu.findItem(R.id.menu_proxy_status_detail);
-		//		menuItemProxyEnabled = menu.findItem(R.id.menu_proxy_enabled);
+		// menuItemProxyEnabled = menu.findItem(R.id.menu_proxy_enabled);
 
 		if (pconf.status.getCheckingStatus() == CheckStatusValues.CHECKED)
 		{
@@ -164,85 +170,94 @@ public class ProxyPreferencesActivity extends Activity
 			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_off_summary));
 		else
 			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
-		
+
 		// Wi-Fi Supplicant state
 		SupplicantState ss = ApplicationGlobals.getWifiManager().getConnectionInfo().getSupplicantState();
 		LogWrapper.d(TAG, "Supplicant state: " + ss.toString());
-		
+
 		if (wifiEnabled)
 		{
-    		if (ss == SupplicantState.COMPLETED)
-    		{
-    			if (pconf.ap != null)
-    			{
-    				Drawable icon;
-    
-    				if (pconf.ap.security == 0)
-    					icon = getResources().getDrawable(R.drawable.wifi_signal_open);
-    				else
-    					icon = getResources().getDrawable(R.drawable.wifi_signal_lock);
-    				
-    				icon.setLevel(pconf.ap.getLevel());
-    				menuItemWifiStatus.setIcon(icon);
-    				
-    				menuItemWifiSettings.setTitle(getResources().getString(R.string.connected_to,pconf.ap.ssid));
-    			}
-    			else
-    			{
-    				menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
-    			}
-    		}
-    		else if (ss == SupplicantState.SCANNING)	// Supplicant can remain int SCANNING state forever
-    		{
-    			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
-    		}
-    		else
-    		{
-    			menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
-    		}
+			if (ss == SupplicantState.COMPLETED)
+			{
+				if (pconf.ap != null)
+				{
+					Drawable icon;
+
+					if (pconf.ap.security == 0)
+						icon = getResources().getDrawable(R.drawable.wifi_signal_open);
+					else
+						icon = getResources().getDrawable(R.drawable.wifi_signal_lock);
+
+					icon.setLevel(pconf.ap.getLevel());
+					menuItemWifiStatus.setIcon(icon);
+
+					menuItemWifiSettings.setTitle(getResources().getString(R.string.connected_to, pconf.ap.ssid));
+				}
+				else
+				{
+					menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
+				}
+			}
+			else if (ss == SupplicantState.SCANNING) // Supplicant can remain
+													 // int SCANNING state
+													 // forever
+			{
+				menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
+			}
+			else
+			{
+				menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
+			}
 		}
 		else
 		{
 			menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_wifi_disabled));
-		}		
-				
-//		ss == SupplicantState.ASSOCIATED 
-//		ss == SupplicantState.ASSOCIATING
-//		ss == SupplicantState.AUTHENTICATING
-//		ss == SupplicantState.COMPLETED
-//		ss == SupplicantState.DISCONNECTED
-//		ss == SupplicantState.DORMANT
-//		ss == SupplicantState.FOUR_WAY_HANDSHAKE
-//		ss == SupplicantState.GROUP_HANDSHAKE
-//		ss == SupplicantState.INACTIVE
-//		ss == SupplicantState.FOUR_WAY_HANDSHAKE
-//		ss == SupplicantState.INTERFACE_DISABLED
-//		ss == SupplicantState.INVALID
-//		ss == SupplicantState.SCANNING
-//		ss == SupplicantState.UNINITIALIZED
+		}
+
+		// ss == SupplicantState.ASSOCIATED
+		// ss == SupplicantState.ASSOCIATING
+		// ss == SupplicantState.AUTHENTICATING
+		// ss == SupplicantState.COMPLETED
+		// ss == SupplicantState.DISCONNECTED
+		// ss == SupplicantState.DORMANT
+		// ss == SupplicantState.FOUR_WAY_HANDSHAKE
+		// ss == SupplicantState.GROUP_HANDSHAKE
+		// ss == SupplicantState.INACTIVE
+		// ss == SupplicantState.FOUR_WAY_HANDSHAKE
+		// ss == SupplicantState.INTERFACE_DISABLED
+		// ss == SupplicantState.INVALID
+		// ss == SupplicantState.SCANNING
+		// ss == SupplicantState.UNINITIALIZED
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
+		FragmentTransaction transaction = null;
+		
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				getFragmentManager().beginTransaction().replace(android.R.id.content, mainFragment).commit();
+				transaction = getFragmentManager().beginTransaction();
+				// Replace whatever is in the fragment_container view with this fragment,
+				// and add the transaction to the back stack so the user can navigate back
+				transaction.replace(R.id.fragment_container, mainFragment);
+				//transaction.addToBackStack(null);
+				// Commit the transaction
+				transaction.commit();
 				return true;
 
 			case R.id.menu_proxy_status:
 				return true;
-				//			case R.id.menu_proxy_enabled:
-				//			case R.id.menu_proxy_host:
-				//			case R.id.menu_proxy_port:
-				//			case R.id.menu_proxy_reachable:
-				//			case R.id.menu_proxy_web_reach:
+				
 			case R.id.menu_proxy_status_detail:
-				getFragmentManager().beginTransaction()
-									.replace(android.R.id.content,checkFragment)
-									.addToBackStack(null)
-									.commit();
+				transaction = getFragmentManager().beginTransaction();
+				// Replace whatever is in the fragment_container view with this fragment,
+				// and add the transaction to the back stack so the user can navigate back
+				transaction.replace(R.id.fragment_container, checkFragment);
+				transaction.addToBackStack(null);
+				// Commit the transaction
+				transaction.commit();
 				return true;
 
 			case R.id.menu_wifi_settings:
@@ -257,12 +272,14 @@ public class ProxyPreferencesActivity extends Activity
 				refreshUI();
 				return true;
 
-//			case R.id.menu_about:
-//				getFragmentManager().beginTransaction().replace(android.R.id.content, helpFragment).commit();
-//				return true;
-//			case R.id.menu_advanced:
-//				getFragmentManager().beginTransaction().replace(android.R.id.content, advFragment).commit();
-//				return true;
+				// case R.id.menu_about:
+				// getFragmentManager().beginTransaction().replace(android.R.id.content,
+				// helpFragment).commit();
+				// return true;
+				// case R.id.menu_advanced:
+				// getFragmentManager().beginTransaction().replace(android.R.id.content,
+				// advFragment).commit();
+				// return true;
 
 			default:
 				return super.onOptionsItemSelected(item);
@@ -284,13 +301,8 @@ public class ProxyPreferencesActivity extends Activity
 			{
 				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration - RefreshUI");
 				refreshUI();
-			}								   
-			else if (
-						action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-					 || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
-					 ||	action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-					 || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
-					)
+			}
+			else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION) || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION) || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION) || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION))
 			{
 				LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
 				refreshUI();
@@ -304,18 +316,7 @@ public class ProxyPreferencesActivity extends Activity
 
 	private void refreshUI()
 	{
-//		if (	   
-//				   mainFragment != null 
-//				&& mainFragment.selectedConfiguration != null 
-//				&& mainFragment.selectedConfiguration.status.getCheckingStatus() == CheckStatusValues.CHECKING
-//			)
-//		{
-//			refreshingProxyStatus();
-//		}
-//		else
-//		{
 		this.invalidateOptionsMenu();
-//		}
 
 		if (mainFragment.isVisible())
 		{
@@ -329,11 +330,6 @@ public class ProxyPreferencesActivity extends Activity
 		}
 	}
 
-	private void refreshingProxyStatus()
-	{
-		menuItemProxyStatus.setActionView(R.layout.actionbar_refresh_progress);
-	}
-
 	@Override
 	public void onResume()
 	{
@@ -341,7 +337,7 @@ public class ProxyPreferencesActivity extends Activity
 
 		// Start register the status receivers
 		IntentFilter ifilt = new IntentFilter();
-		
+
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
 		ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 
@@ -349,8 +345,8 @@ public class ProxyPreferencesActivity extends Activity
 		ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
 		ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-		
-		//		ifilt.addAction(Constants.PROXY_REFRESH_UI);
+
+		// ifilt.addAction(Constants.PROXY_REFRESH_UI);
 		registerReceiver(changeStatusReceiver, ifilt);
 	}
 

@@ -39,9 +39,6 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.main_preferences);
 		instance = this;
-		
-		ActionBar actionBar = getActivity().getActionBar();
-	    actionBar.setDisplayHomeAsUpEnabled(false);
 	}
 
 	@Override
@@ -239,6 +236,10 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	{
 		super.onResume();		
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+		
+		ActionBar actionBar = getActivity().getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(false);
+	    actionBar.setHomeButtonEnabled(false);
 	}
 
 	@Override

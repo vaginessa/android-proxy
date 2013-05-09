@@ -37,9 +37,6 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.checker_preferences);
-
-		ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override 
@@ -109,4 +106,13 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 		uiPref.SetStatus(statusItem);
 	}
 
+	@Override
+	public void onResume()
+	{
+		super.onResume();		
+		
+		ActionBar actionBar = getActivity().getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    actionBar.setHomeButtonEnabled(true);
+	}
 }
