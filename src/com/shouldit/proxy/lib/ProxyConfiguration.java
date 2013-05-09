@@ -147,17 +147,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		else
 		{
 			StringBuilder sb = new StringBuilder();
-			if (proxyHost != null && proxyHost.length() > 0)
-				sb.append(proxyHost);
+			if (proxyHost != null && proxyHost.length() > 0 && proxyPort != null && proxyPort > 0)
+				sb.append(String.format("%s:%s", proxyHost, proxyPort));
 			else
+			{
 				sb.append(context.getResources().getString(R.string.not_set));
-
-			sb.append(":");
-
-			if (proxyPort != null && proxyPort > 0)
-				sb.append(proxyPort);
-			else
-				sb.append(context.getResources().getString(R.string.not_set));
+			}
 
 			return sb.toString();
 		}
@@ -565,14 +560,16 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 
 	public String getAPDescription(Context ctx)
 	{
-		StringBuilder sb = new StringBuilder();
-		// sb.append(ap.ssid);
-		// sb.append(" - ");
-		sb.append(ap.getSecurityString(ctx, false));
-		sb.append(" - ");
-		sb.append(toShortString());
-
-		return sb.toString();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(ap.ssid);
+//		sb.append(" - ");
+//		sb.append(ap.getSecurityString(ctx, false));
+//		sb.append(" - ");
+//		sb.append(toShortString());
+//
+//		return sb.toString();
+		
+		return String.format("%s - %s",ap.ssid, ap.getSecurityString(ctx, false));
 	}
 
 	public String getSSID()

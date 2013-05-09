@@ -21,9 +21,9 @@
 	<string name="status_proxy_disabled">Proxy disabled for the selected Wi-Fi network</string>
 	<string name="status_proxy_enabled">Proxy enabled</string>
 	
-	<string name="status_hostname_empty">Proxy hostname cannot be empty</string>
-	<string name="status_hostname_notvalid">Proxy hostname seems not valid address</string>
-	<string name="status_hostname_valid">Proxy hostname is: </string>
+	<string name="status_hostname_empty">Proxy IP/hostname cannot be empty</string>
+	<string name="status_hostname_notvalid">Proxy IP/Hostname seems not valid address</string>
+	<string name="status_hostname_valid">Proxy IP/Hostname is: </string>
 	
 	<string name="status_port_empty">Proxy port cannot be empty</string>
 	<string name="status_port_notvalid">Proxy port seems not valid</string>
