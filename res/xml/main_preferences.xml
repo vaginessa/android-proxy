@@ -29,7 +29,7 @@
 			android:enabled="false"
 			android:key="pref_ap_selector_dialog"
 			android:persistent="false"
-			android:summary="@string/no_ap_selectable"
+			android:summary="@string/wifi_disabled"
 			android:title="@string/ap_selector" />
 
 		<SwitchPreference

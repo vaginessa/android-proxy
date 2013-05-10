@@ -58,8 +58,8 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 				
 				
 				((TextView) view.findViewById(R.id.list_item_ap_name)).setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
-				((TextView) view.findViewById(R.id.list_item_ap_description)).setText(listItem.ap.getSecurityString(ctx, false));
-				((TextView) view.findViewById(R.id.list_item_ap_proxy_description)).setText(listItem.toShortString());
+				((TextView) view.findViewById(R.id.list_item_ap_description)).setText(ctx.getResources().getString(R.string.ap_security,listItem.ap.getSecurityString(ctx, false)));
+				((TextView) view.findViewById(R.id.list_item_ap_proxy_description)).setText(ctx.getResources().getString(R.string.ap_proxy, listItem.toShortString()));
 			}
 		}
 		catch (Exception e)

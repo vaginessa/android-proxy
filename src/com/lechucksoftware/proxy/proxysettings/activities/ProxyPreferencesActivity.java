@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -238,12 +239,11 @@ public class ProxyPreferencesActivity extends Activity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
+				// Clean-up the backstack when going back to home
+				getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 				transaction = getFragmentManager().beginTransaction();
-				// Replace whatever is in the fragment_container view with this fragment,
-				// and add the transaction to the back stack so the user can navigate back
 				transaction.replace(R.id.fragment_container, mainFragment);
 				//transaction.addToBackStack(null);
-				// Commit the transaction
 				transaction.commit();
 				return true;
 

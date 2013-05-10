@@ -16,10 +16,9 @@
 	<string name="advanced">Advanced</string>
 	<string name="about">About</string>
 	<string name="versionName">2.0</string>
-	<string name="wifi_disabled">Wi-Fi disabled</string>
+	<string name="wifi_disabled">Wi-Fi disabled: no Access Point can be selected</string>
 	<string name="wifi_enabled">Wi-Fi enabled</string>
-	<string name="no_ap_active">No Wi-Fi Access Point active</string>
-	<string name="no_ap_selectable">No Wi-Fi Access Point can be selected</string>
+	<string name="no_ap_active">Not connected to any Wi-Fi Access Point</string>
 	<string name="wifi_settings">Wi-Fi settings</string>
 	<string name="ap_selector">Wi-Fi Access Point</string>
 	<string name="go_to_wifi_settings">Go to system Wi-Fi settings</string>
@@ -30,7 +29,9 @@
 	<string name="proxy_status">Proxy status</string>
 	<string name="ap_selection_title">Select the Wi-Fi access point to configure:</string>
 	<string name="connected_to">%1$s &#8230;</string>
-	
+	<string name="ap_status">Status: %1$s</string>
+	<string name="ap_security">Security: %1$s</string>
+	<string name="ap_proxy">Connection: %1$s</string>	
 	
 	
 	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>

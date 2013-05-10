@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -215,8 +216,16 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		}
 		else
 		{
-			//apSelectorPref.setTitle(getResources().getString(R.string.wifi_disabled));
-			apSelectorPref.setSummary(getResources().getString(R.string.no_ap_selectable));
+			if (ApplicationGlobals.getWifiManager().isWifiEnabled())
+			{
+				apSelectorPref.setSummary(getResources().getString(R.string.no_ap_active));
+			}
+			else
+			{
+				apSelectorPref.setTitle(getResources().getString(R.string.wifi_disabled));
+			}		
+			
+			proxyEnablePref.setEnabled(false);
 		}
 	}
 	
