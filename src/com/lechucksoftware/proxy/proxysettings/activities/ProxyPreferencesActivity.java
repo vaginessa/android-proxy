@@ -23,6 +23,7 @@ import com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyCheckerPrefsFragment;
+import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APLConstants;
@@ -77,6 +78,8 @@ public class ProxyPreferencesActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_pref_container);
+
+		ViewServer.get(this).addWindow(this);
 
 		mainFragment = new MainAPPrefsFragment();
 		checkFragment = new ProxyCheckerPrefsFragment();
@@ -200,8 +203,8 @@ public class ProxyPreferencesActivity extends Activity
 				}
 			}
 			else if (ss == SupplicantState.SCANNING) // Supplicant can remain
-													 // int SCANNING state
-													 // forever
+														// int SCANNING state
+														// forever
 			{
 				menuItemWifiStatus.setIcon(getResources().getDrawable(R.drawable.ic_action_nowifi));
 			}
@@ -235,7 +238,7 @@ public class ProxyPreferencesActivity extends Activity
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		FragmentTransaction transaction = null;
-		
+
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
@@ -249,7 +252,7 @@ public class ProxyPreferencesActivity extends Activity
 
 			case R.id.menu_proxy_status:
 				return true;
-				
+
 			case R.id.menu_proxy_status_detail:
 				transaction = getFragmentManager().beginTransaction();
 				// Replace whatever is in the fragment_container view with this fragment,
@@ -330,6 +333,12 @@ public class ProxyPreferencesActivity extends Activity
 		}
 	}
 
+	public void onDestroy()
+	{
+		super.onDestroy();
+		ViewServer.get(this).removeWindow(this);
+	}
+
 	@Override
 	public void onResume()
 	{
@@ -348,6 +357,8 @@ public class ProxyPreferencesActivity extends Activity
 
 		// ifilt.addAction(Constants.PROXY_REFRESH_UI);
 		registerReceiver(changeStatusReceiver, ifilt);
+
+		ViewServer.get(this).setFocusedWindow(this);
 	}
 
 	@Override
