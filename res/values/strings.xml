@@ -6,6 +6,9 @@
    	<string name="not_set">NOT SET</string>
    	<string name="direct_connection">Direct connection</string>
    	
+   	<string name="connected">Connected</string>
+   	<string name="available">Available</string>
+   	<string name="not_available">Not available</string>
    	
    	<string name="status_title_enabled">Proxy Enabled</string>
 	<string name="status_title_checking">Checking proxy configuration &#8230;</string>

@@ -569,7 +569,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 //
 //		return sb.toString();
 		
-		return String.format("%s - %s",ap.ssid, ap.getSecurityString(ctx, false));
+		return String.format("%s - %s",ap.ssid, getAPStatus());
 	}
 
 	public String getSSID()
@@ -668,6 +668,23 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+
+	public String getAPStatus()
+	{
+		if (isCurrentNetwork())
+		{
+			return context.getString(R.string.connected);
+		}
+		else if (ap.getLevel() > 0)
+		{
+			return context.getString(R.string.available);
+		}
+		else
+		{
+			return context.getString(R.string.not_available);
 		}
 	}
 
