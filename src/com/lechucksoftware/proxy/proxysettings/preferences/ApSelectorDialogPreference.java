@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.content.Context;
+import android.os.Debug;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -26,6 +27,7 @@ public class ApSelectorDialogPreference extends DialogPreference
 	public ApSelectorDialogPreference(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
+		
 		setPersistent(false);
 		setDialogLayoutResource(R.layout.ap_selector_dialog);	
 		setDialogTitle(context.getResources().getString(R.string.ap_selection_title));
@@ -35,6 +37,8 @@ public class ApSelectorDialogPreference extends DialogPreference
 	protected View onCreateDialogView()
 	{
 		View root  = super.onCreateDialogView();
+		
+//		Debug.startMethodTracing();
 		
 		listview = (ListView) root.findViewById(R.id.ap_selector_listview);
 		
@@ -51,6 +55,8 @@ public class ApSelectorDialogPreference extends DialogPreference
 		    	ApSelectorDialogPreference.this.getDialog().dismiss();
 		    }
 		});
+		
+//		Debug.stopMethodTracing();
 		
 		return root;
 	}	

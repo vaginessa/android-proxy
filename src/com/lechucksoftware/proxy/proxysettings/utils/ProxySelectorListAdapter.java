@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.Debug;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,44 +28,58 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 		this.mList = list;
 	}
 
+	static class ApViewHolder
+	{
+		ImageView signal;
+		TextView ssid;
+		TextView status;
+		TextView security;
+		TextView description;
+	}
+
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
+		ApViewHolder viewHolder;
 		View view = convertView;
-		try
+
+		if (view == null)
 		{
-			if (view == null)
-			{
-				LayoutInflater vi = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = vi.inflate(R.layout.ap_list_item, null);
-			}
+			LayoutInflater vi = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = vi.inflate(R.layout.ap_list_item, null);
 
-			final ProxyConfiguration listItem = (ProxyConfiguration) mList.get(position);
-			
+			viewHolder = new ApViewHolder();
+			viewHolder.signal = (ImageView) view.findViewById(R.id.list_item_ap_icon);
+			viewHolder.ssid = (TextView) view.findViewById(R.id.list_item_ap_name);
+			viewHolder.status = (TextView) view.findViewById(R.id.list_item_ap_status);
+			viewHolder.security = (TextView) view.findViewById(R.id.list_item_ap_security);
+			viewHolder.description = (TextView) view.findViewById(R.id.list_item_ap_proxy_description);
 
-			if (listItem != null)
-			{					
-		        ImageView signal = (ImageView) view.findViewById(R.id.list_item_ap_icon);
-		        
-		        if (listItem.ap.mRssi == Integer.MAX_VALUE) 
-		        {
-		            signal.setImageDrawable(null);
-		        } 
-		        else 
-		        {
-		            signal.setImageLevel(listItem.ap.getLevel());
-		            signal.setImageResource(R.drawable.wifi_signal);
-		            signal.setImageState((listItem.ap.security != AccessPoint.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
-		        }
-				
-				
-				((TextView) view.findViewById(R.id.list_item_ap_name)).setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
-				((TextView) view.findViewById(R.id.list_item_ap_description)).setText(ctx.getResources().getString(R.string.ap_security,listItem.ap.getSecurityString(ctx, false)));
-				((TextView) view.findViewById(R.id.list_item_ap_proxy_description)).setText(ctx.getResources().getString(R.string.ap_proxy, listItem.toShortString()));
-			}
+			view.setTag(viewHolder);
 		}
-		catch (Exception e)
+		else
 		{
-//			LogWrapper.i(TAG, e.getMessage());
+			viewHolder = (ApViewHolder) view.getTag();
+		}
+
+		final ProxyConfiguration listItem = (ProxyConfiguration) mList.get(position);
+
+		if (listItem != null)
+		{
+			if (listItem.ap.mRssi == Integer.MAX_VALUE)
+			{
+				viewHolder.signal.setImageDrawable(null);
+			}
+			else
+			{
+				viewHolder.signal.setImageLevel(listItem.ap.getLevel());
+				viewHolder.signal.setImageResource(R.drawable.wifi_signal);
+				viewHolder.signal.setImageState((listItem.ap.security != AccessPoint.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
+			}
+
+			viewHolder.ssid.setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
+			viewHolder.status.setText(listItem.getAPStatus());
+			viewHolder.security.setText(listItem.ap.getSecurityString(ctx, false));
+			viewHolder.description.setText(listItem.toShortString());
 		}
 		return view;
 	}

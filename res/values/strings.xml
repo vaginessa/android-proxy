@@ -24,14 +24,15 @@
 	<string name="go_to_wifi_settings">Go to system Wi-Fi settings</string>
 	<string name="wifi_toggle_on_summary">Turn on Wi-Fi</string>
 	<string name="wifi_toggle_off_summary">Turn off Wi-Fi</string>
-	<string name="not_available">N/A</string>
+	<string name="not_available">Not available</string>
 	<string name="network_status">Network status</string>
 	<string name="proxy_status">Proxy status</string>
-	<string name="ap_selection_title">Select the Wi-Fi access point to configure:</string>
+	<string name="ap_selection_title">Select the Wi-Fi access point:</string>
 	<string name="connected_to">%1$s &#8230;</string>
-	<string name="ap_status">Status: %1$s</string>
-	<string name="ap_security">Security: %1$s</string>
-	<string name="ap_proxy">Connection: %1$s</string>	
+	
+	<string name="ap_status_label">Status:</string>
+	<string name="ap_security_label">Security:</string>
+	<string name="ap_proxy_label">Proxy:</string>	
 	
 	
 	<string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
@@ -229,7 +230,7 @@
 	<string name="preference_proxy_host_port_summary_exception">Invalid configuration</string>
 
 	<string name="application_list_description">Please select the application that doesn\'t support the proxy settings:</string>
-	<string name="application_list_loading_dialog_description">"Loading applications ..."</string>
+	<string name="application_list_loading_dialog_description">"Loading applications &#8230;"</string>
 
 	<string name="application_feedback_dialog_title">Submit your feedback!</string>
 
