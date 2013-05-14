@@ -1,96 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:orientation="horizontal"
 	android:padding="10dp">
 
-	<RelativeLayout
-		android:id="@+id/item_text"
-		android:layout_width="0dp"
+	<!-- <RelativeLayout -->
+	<!-- android:id="@+id/item_text" -->
+	<!-- android:layout_width="0dp" -->
+	<!-- android:layout_height="wrap_content" -->
+	<!-- android:layout_weight="1" -->
+	<!-- android:layout_marginLeft="10dp" -->
+	<!-- android:orientation="vertical"> -->
+
+	<TextView
+		android:id="@+id/list_item_ap_name"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_weight="1"
-		android:layout_marginLeft="10dp"
-		android:orientation="vertical">
+		android:layout_centerVertical="true"
+		android:layout_centerHorizontal="true"
+		android:layout_alignParentLeft="true"
+		android:textStyle="bold"
+		android:textSize="18sp"
+		android:text="AP NAME">
+	</TextView>
 
-		<TextView
-			android:id="@+id/list_item_ap_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textStyle="bold"
-			android:textSize="18sp"
-			android:text="AP NAME">
-		</TextView>
-
-		<TextView
-			android:id="@+id/list_item_ap_status_label"
-			android:layout_below="@id/list_item_ap_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginRight="5dp"
-			android:textStyle="bold"
-			android:textSize="14sp"
-			android:text="@string/ap_status_label">
-		</TextView>
-		<TextView
-			android:id="@+id/list_item_ap_status"
-			android:layout_below="@id/list_item_ap_name"
-			android:layout_toRightOf="@id/list_item_ap_status_label"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="14sp"
-			android:text="STATUS DESC">
-		</TextView>
-
-		<TextView
-			android:id="@+id/list_item_ap_security_label"
-			android:layout_below="@id/list_item_ap_status_label"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginRight="5dp"
-			android:textStyle="bold"
-			android:textSize="14sp"
-			android:text="@string/ap_security_label">
-		</TextView>
-		<TextView
-			android:id="@+id/list_item_ap_security"
-			android:layout_below="@id/list_item_ap_status_label"
-			android:layout_toRightOf="@id/list_item_ap_security_label"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="14sp"
-			android:text="SECURITY DESC">
-		</TextView>
-
-		<TextView
-			android:id="@+id/list_item_ap_proxy_label"
-			android:layout_below="@id/list_item_ap_security_label"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginRight="5dp"
-			android:textStyle="bold"
-			android:textSize="14sp"
-			android:text="@string/ap_proxy_label">
-		</TextView>
-		<TextView
-			android:id="@+id/list_item_ap_proxy_description"
-			android:layout_below="@id/list_item_ap_security_label"
-			android:layout_toRightOf="@id/list_item_ap_proxy_label"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="14sp"
-			android:text="PROXY DESC">
-		</TextView>
-	</RelativeLayout>
+	<TextView
+		android:id="@+id/list_item_ap_proxy_description"
+		android:paddingTop="10dp"
+		android:layout_below="@id/list_item_ap_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="14sp"
+		android:text="PROXY DESC">
+	</TextView>
 
 	<ImageView
 		android:id="@+id/list_item_ap_icon"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_gravity="center_vertical"
+		android:layout_centerVertical="true"
+		android:layout_alignParentRight="true"
 		android:contentDescription="Ap icon"
+		android:layout_toRightOf="@id/list_item_ap_name"
 		android:src="@drawable/wifi_signal">
 	</ImageView>
 
-</LinearLayout>
+	<!-- <TextView -->
+	<!-- android:id="@+id/list_item_ap_status_label" -->
+	<!-- android:layout_below="@id/list_item_ap_name" -->
+	<!-- android:layout_width="wrap_content" -->
+	<!-- android:layout_height="wrap_content" -->
+	<!-- android:layout_marginRight="5dp" -->
+	<!-- android:textStyle="bold" -->
+	<!-- android:textSize="14sp" -->
+	<!-- android:text="@string/ap_status_label"> -->
+	<!-- </TextView> -->
+	<!-- <TextView -->
+	<!-- android:id="@+id/list_item_ap_status" -->
+	<!-- android:layout_below="@id/list_item_ap_name" -->
+	<!-- android:layout_toRightOf="@id/list_item_ap_status_label" -->
+	<!-- android:layout_width="wrap_content" -->
+	<!-- android:layout_height="wrap_content" -->
+	<!-- android:textSize="14sp" -->
+	<!-- android:text="STATUS DESC"> -->
+	<!-- </TextView> -->
+
+	<!-- <TextView -->
+	<!-- android:id="@+id/list_item_ap_security_label" -->
+	<!-- android:layout_below="@id/list_item_ap_status_label" -->
+	<!-- android:layout_width="wrap_content" -->
+	<!-- android:layout_height="wrap_content" -->
+	<!-- android:layout_marginRight="5dp" -->
+	<!-- android:textStyle="bold" -->
+	<!-- android:textSize="14sp" -->
+	<!-- android:text="@string/ap_security_label"> -->
+	<!-- </TextView> -->
+	<!-- <TextView -->
+	<!-- android:id="@+id/list_item_ap_security" -->
+	<!-- android:layout_below="@id/list_item_ap_status_label" -->
+	<!-- android:layout_toRightOf="@id/list_item_ap_security_label" -->
+	<!-- android:layout_width="wrap_content" -->
+	<!-- android:layout_height="wrap_content" -->
+	<!-- android:textSize="14sp" -->
+	<!-- android:text="SECURITY DESC"> -->
+	<!-- </TextView> -->
+
+	<!-- <TextView -->
+	<!-- android:id="@+id/list_item_ap_proxy_label" -->
+	<!-- android:layout_below="@id/list_item_ap_security_label" -->
+	<!-- android:layout_width="wrap_content" -->
+	<!-- android:layout_height="wrap_content" -->
+	<!-- android:layout_marginRight="5dp" -->
+	<!-- android:textStyle="bold" -->
+	<!-- android:textSize="14sp" -->
+	<!-- android:text="@string/ap_proxy_label"> -->
+	<!-- </TextView> -->
+	<!-- <TextView -->
+	<!-- android:id="@+id/list_item_ap_proxy_description" -->
+	<!-- android:layout_below="@id/list_item_ap_security_label" -->
+	<!-- android:layout_toRightOf="@id/list_item_ap_proxy_label" -->
+	<!-- android:layout_width="wrap_content" -->
+	<!-- android:layout_height="wrap_content" -->
+	<!-- android:textSize="14sp" -->
+	<!-- android:text="PROXY DESC"> -->
+	<!-- </TextView> -->
+	<!-- </RelativeLayout> -->
+
+
+
+</RelativeLayout>
