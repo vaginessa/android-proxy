@@ -189,7 +189,6 @@
 	<string name="preference_test_proxy_webview_summary">Browse a WEB page with full proxy support</string>
 	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
 	<string name="preference_test_proxy_urlretriever_summary">Download a specific remote resource with full proxy support</string>
-	<string name="preference_test_proxy_urlretriever_title">URL downloader</string>
 	<string name="preference_test_proxy_urlretriever_dialog_title">Enter the URL to download:</string>
 	<string name="preference_test_proxy_urlretriever_dialog_status">Downloading </string>
 	<string name="preference_test_proxy_urlretriever_dialog_file_saved">download completed!</string>

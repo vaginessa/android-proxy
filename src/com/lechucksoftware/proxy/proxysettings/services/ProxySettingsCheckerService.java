@@ -50,7 +50,8 @@ public class ProxySettingsCheckerService extends IntentService
 					return;
 				}
 
-				int intentNetworkType = callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, -1);
+                //TODO : check here
+				int intentNetworkType = callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_INFO , -1);
 				NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
 
 				if (ni != null && ni.isConnected())
