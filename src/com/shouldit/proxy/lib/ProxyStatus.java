@@ -19,8 +19,13 @@ public class ProxyStatus implements Serializable
 
 	public String getCheckedDateString()
 	{
-		DateFormat df = DateFormat.getDateTimeInstance();
-		return df.format(checkedDate);
+		if (checkedDate != null)
+		{
+			DateFormat df = DateFormat.getDateTimeInstance();
+			return df.format(checkedDate);
+		}
+		else
+			return null;
 	}
 
 	public CheckStatusValues getCheckingStatus()
@@ -69,6 +74,7 @@ public class ProxyStatus implements Serializable
 			properties = new TreeMap<ProxyStatusProperties, ProxyStatusItem>(new ProxyStatusPropertiesComparator());
 
 			properties.put(ProxyStatusProperties.WIFI_ENABLED, new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED));
+			properties.put(ProxyStatusProperties.WIFI_SELECTED, new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED));
 			properties.put(ProxyStatusProperties.WEB_REACHABLE, new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE));
 			properties.put(ProxyStatusProperties.PROXY_ENABLED, new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED));
 			properties.put(ProxyStatusProperties.PROXY_VALID_HOSTNAME, new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME));

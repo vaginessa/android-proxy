@@ -4,6 +4,8 @@
     <string name="app_name">Android Proxy Library</string>
 
    	<string name="not_set">NOT SET</string>
+   	
+   	<string name="proxy">Proxy</string>
    	<string name="direct_connection">Direct connection</string>
    	
    	<string name="connected">Connected</string>
@@ -16,8 +18,8 @@
 
 
 	
-	<string name="status_wifi_connected">Wi-Fi connected to: </string>
-	<string name="status_wifi_enabled_disconnected">Wi-Fi not connected</string>
+	<string name="status_wifi_connected">Connected to: </string>
+	<string name="status_wifi_enabled_disconnected">Not connected to any Wi-Fi Access point</string>
 	<string name="status_wifi_not_enabled">Wi-Fi not enabled</string>
 	
 	<string name="status_proxy_mobile_disabled">Proxy cannot be configured for Mobile connectivity</string>

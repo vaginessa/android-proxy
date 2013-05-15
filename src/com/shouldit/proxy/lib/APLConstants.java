@@ -19,11 +19,12 @@ public class APLConstants
 	public enum ProxyStatusProperties
 	{
 		WIFI_ENABLED(0),
-		PROXY_ENABLED(1), 
-		WEB_REACHABLE(2), 
-		PROXY_VALID_HOSTNAME(3), 
-		PROXY_VALID_PORT(4), 
-		PROXY_REACHABLE(5);
+		WIFI_SELECTED(1),
+		PROXY_ENABLED(2), 
+		WEB_REACHABLE(3), 
+		PROXY_VALID_HOSTNAME(4), 
+		PROXY_VALID_PORT(5), 
+		PROXY_REACHABLE(6);
 
 		private final Integer priority;
 
