@@ -33,8 +33,6 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 		ImageView signal;
 		TextView ssid;
 		TextView status;
-		TextView security;
-		TextView description;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent)
@@ -50,9 +48,7 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 			viewHolder = new ApViewHolder();
 			viewHolder.signal = (ImageView) view.findViewById(R.id.list_item_ap_icon);
 			viewHolder.ssid = (TextView) view.findViewById(R.id.list_item_ap_name);
-//			viewHolder.status = (TextView) view.findViewById(R.id.list_item_ap_status);
-//			viewHolder.security = (TextView) view.findViewById(R.id.list_item_ap_security);
-//			viewHolder.description = (TextView) view.findViewById(R.id.list_item_ap_proxy_description);
+			viewHolder.status = (TextView) view.findViewById(R.id.list_item_ap_status);
 
 			view.setTag(viewHolder);
 		}
@@ -77,9 +73,9 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 			}
 
 			viewHolder.ssid.setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
-//			viewHolder.status.setText(listItem.getAPStatus());
-//			viewHolder.security.setText(listItem.ap.getSecurityString(ctx, false));
-//			viewHolder.description.setText(listItem.toShortString());
+			
+//			viewHolder.status.setText(String.format("%s - %s", listItem.toShortString(), listItem.getAPStatus()));
+			viewHolder.status.setText(listItem.getAPStatus());
 		}
 		return view;
 	}

@@ -78,12 +78,16 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 		if (conf.status.getCheckingStatus() == CheckStatusValues.CHECKING)
 		{
 			startCheckPref.setEnabled(false);
-			startCheckPref.setSummary("Start checking on: " + conf.status.getCheckedDateString());
+			String checkedDate = conf.status.getCheckedDateString();
+			if (checkedDate != null && checkedDate.length() > 0)
+				startCheckPref.setSummary("Start checking on: " + checkedDate);
 		}
 		else
 		{
 			startCheckPref.setEnabled(true);
-			startCheckPref.setSummary("Last checked on: " + conf.status.getCheckedDateString());
+			String checkedDate = conf.status.getCheckedDateString();
+			if (checkedDate != null && checkedDate.length() > 0)
+				startCheckPref.setSummary("Last checked on: " + checkedDate);
 		}
 
 		ProxyStatusItem wifi = conf.status.getProperty(ProxyStatusProperties.WIFI_ENABLED);

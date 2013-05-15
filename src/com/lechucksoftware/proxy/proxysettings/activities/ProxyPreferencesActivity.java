@@ -354,6 +354,7 @@ public class ProxyPreferencesActivity extends Activity
 		ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
 		ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+//		ifilt.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
 
 		// ifilt.addAction(Constants.PROXY_REFRESH_UI);
 		registerReceiver(changeStatusReceiver, ifilt);

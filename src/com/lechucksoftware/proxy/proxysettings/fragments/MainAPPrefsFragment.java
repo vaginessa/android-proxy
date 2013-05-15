@@ -18,6 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxyUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
@@ -166,8 +167,8 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 		if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
 		{
 			proxyEnablePref.setEnabled(true);
-			//apSelectorPref.setTitle(selectedConfiguration.ap.ssid);
-			apSelectorPref.setSummary(selectedConfiguration.getAPDescription(getActivity().getApplicationContext()));
+			String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(selectedConfiguration.getSSID()), selectedConfiguration.getAPStatus());
+			apSelectorPref.setSummary(apdesc);
 
 			if (selectedConfiguration.proxySetting == ProxySetting.NONE || selectedConfiguration.proxySetting == ProxySetting.UNASSIGNED)
 			{

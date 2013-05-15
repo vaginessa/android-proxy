@@ -7,20 +7,24 @@
 		android:key="preference_test_proxy_configuration"
 		android:summary="@string/preference_test_proxy_configuration_summary"
 		android:title="@string/preference_test_proxy_configuration_title" />
-	<PreferenceCategory
-	    android:title="@string/network_status">
-		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
-			android:key="validation_web_reachable"
-			android:summary="@string/validation_proxy_summary_checking"
-			android:title="@string/validation_proxy_web_reachable_title" />
+
+	<PreferenceCategory android:title="@string/network_status">
 
 		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
 			android:key="validation_wifi_enabled"
 			android:summary="@string/validation_proxy_summary_checking"
 			android:title="@string/validation_wifi_enabled_title" />
+
+		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+			android:key="validation_web_reachable"
+			android:summary="@string/validation_proxy_summary_checking"
+			android:title="@string/validation_proxy_web_reachable_title" />
+
+
 	</PreferenceCategory>
-	<PreferenceCategory
-	    android:title="@string/proxy_status">
+
+	<PreferenceCategory android:title="@string/proxy_status">
+
 		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
 			android:key="validation_proxy_enabled"
 			android:summary="@string/validation_proxy_summary_checking"

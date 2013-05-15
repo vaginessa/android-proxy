@@ -183,7 +183,7 @@
 	<string name="preference_proxy_host_port_title">Proxy selector</string>
 	<string name="preference_proxy_host_port_summary_default">Not set</string>
 
-	<string name="preference_test_proxy_configuration_title">Validate configuration</string>
+	<string name="preference_test_proxy_configuration_title">Validate network connection</string>
 	<string name="preference_test_proxy_configuration_summary">Start proxy configuration tests</string>
 	<string name="preference_test_proxy_webview_title">URL browser</string>
 	<string name="preference_test_proxy_webview_summary">Browse a WEB page with full proxy support</string>
