@@ -1,4 +1,4 @@
-package com.shouldit.proxy.lib.reflection.android;
+package com.shouldit.proxy.lib.reflection.android.excluded;
 
 /*
  * Copyright (C) 2010 The Android Open Source Project
@@ -20,6 +20,7 @@ import android.net.ProxyProperties;
 import android.os.Parcelable;
 import android.os.Parcel;
 import android.text.TextUtils;
+import com.shouldit.proxy.lib.reflection.android.ProxyProperties;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
