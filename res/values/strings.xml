@@ -18,9 +18,12 @@
 
 
 	
-	<string name="status_wifi_connected">Connected to: </string>
+	<string name="status_wifi_connected">Wi-Fi enabled</string>
 	<string name="status_wifi_enabled_disconnected">Not connected to any Wi-Fi Access point</string>
 	<string name="status_wifi_not_enabled">Wi-Fi not enabled</string>
+
+    <string name="status_wifi_selected">Wi-Fi connected to: %1$s</string>
+    <string name="status_wifi_not_selected">Connected to another Wi-Fi Access point</string>
 	
 	<string name="status_proxy_mobile_disabled">Proxy cannot be configured for Mobile connectivity</string>
 	<string name="status_proxy_disabled">Proxy disabled for the selected Wi-Fi network</string>
