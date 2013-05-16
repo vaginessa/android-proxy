@@ -31,17 +31,17 @@ public class DownloadReceiver extends ResultReceiver
 
 			String message = (String) _activity.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_status);
 			message = message.concat(" " + String.valueOf(downloaded) + " bytes");
-			_activity.setProgressDialogMessage(message);
+//			_activity.setProgressDialogMessage(message);
 			
 			if (resultData.getBoolean("finish"))
 			{
-				_activity.dismissProgressDialog();
+//				_activity.dismissProgressDialog();
 				UIUtils.NotifyCompletedDownload(_activity,resultData.getString("filename"));
 			}
 		}
 		else if (resultCode == DownloadService.UPDATE_EXCEPTION)
 		{
-			_activity.dismissProgressDialog();
+//			_activity.dismissProgressDialog();
 			
 			Exception e = (Exception) resultData.getSerializable("exception");
 			UIUtils.NotifyExceptionOnDownload(_activity, e.getMessage());

@@ -40,7 +40,8 @@
 	<string name="validation_proxy_summary_errors">Validation errors &#8230;</string>
 	<string name="validation_proxy_summary_ok">Validation details &#8230;</string>
 
-	<string name="validation_wifi_enabled_title">Wi-Fi</string>
+	<string name="validation_wifi_enabled_title">Wi-Fi status</string>
+    <string name="validation_wifi_selected_title">Connected Wi-Fi AP</string>
 	<string name="validation_proxy_enabled_title">Proxy enabled</string>
 	<string name="validation_proxy_host_title">Proxy IP/hostname</string>
 	<string name="validation_proxy_port_title">Proxy Port</string>

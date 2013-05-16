@@ -55,23 +55,23 @@ public class ProxyPreferencesActivity extends Activity
 	private MenuItem menuItemProxyStatusDetail;
 	private MenuItem menuItemWifiSettings;
 
-	public void showProgressDialog()
-	{
-		if (mProgressDialog != null)
-			mProgressDialog.show();
-	}
-
-	public void dismissProgressDialog()
-	{
-		if (mProgressDialog != null && mProgressDialog.isShowing())
-			mProgressDialog.dismiss();
-	}
-
-	public void setProgressDialogMessage(String message)
-	{
-		if (mProgressDialog != null)
-			mProgressDialog.setMessage(message);
-	}
+//	public void showProgressDialog()
+//	{
+//		if (mProgressDialog != null)
+//			mProgressDialog.show();
+//	}
+//
+//	public void dismissProgressDialog()
+//	{
+//		if (mProgressDialog != null && mProgressDialog.isShowing())
+//			mProgressDialog.dismiss();
+//	}
+//
+//	public void setProgressDialogMessage(String message)
+//	{
+//		if (mProgressDialog != null)
+//			mProgressDialog.setMessage(message);
+//	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -114,7 +114,7 @@ public class ProxyPreferencesActivity extends Activity
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
-		dismissProgressDialog();
+//		dismissProgressDialog();
 
 		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();
 

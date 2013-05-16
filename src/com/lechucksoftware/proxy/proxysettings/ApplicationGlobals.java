@@ -162,6 +162,18 @@ public class ApplicationGlobals extends Application
 		else return null;
 	}
 
+    public static void connectToAP(ProxyConfiguration conf)
+    {
+        if(mInstance.mWifiManager != null && mInstance.mWifiManager.isWifiEnabled())
+        {
+            if (conf != null && conf.ap != null && conf.ap.getLevel() < Integer.MAX_VALUE)
+            {
+                // Connect to AP only if it's available
+                mInstance.mWifiManager.enableNetwork(conf.ap.networkId, false);
+            }
+        }
+    }
+
 	public static void startWifiScan()
 	{
 		if (mInstance.mWifiManager != null && mInstance.mWifiManager.isWifiEnabled())

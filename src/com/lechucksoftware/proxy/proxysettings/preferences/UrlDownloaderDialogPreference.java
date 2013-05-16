@@ -66,7 +66,7 @@ public class UrlDownloaderDialogPreference extends DialogPreference
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				ProxyPreferencesActivity.instance.showProgressDialog();
+//				ProxyPreferencesActivity.instance.showProgressDialog();
 				String urlstring = input.getText().toString();
 				URL url = null;
 				

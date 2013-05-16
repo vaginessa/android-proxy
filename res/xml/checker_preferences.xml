@@ -15,6 +15,11 @@
 			android:summary="@string/validation_proxy_summary_checking"
 			android:title="@string/validation_wifi_enabled_title" />
 
+        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+                android:key="validation_wifi_selected"
+                android:summary="@string/validation_proxy_summary_checking"
+                android:title="@string/validation_wifi_selected_title" />
+
 		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
 			android:key="validation_web_reachable"
 			android:summary="@string/validation_proxy_summary_checking"

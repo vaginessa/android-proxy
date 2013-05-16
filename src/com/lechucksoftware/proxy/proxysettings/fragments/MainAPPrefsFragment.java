@@ -68,6 +68,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
 	public void selectAP(ProxyConfiguration conf)
 	{
 		selectedConfiguration = conf;
+        ApplicationGlobals.connectToAP(conf);
 		refreshUIComponents();
 	}
 	
