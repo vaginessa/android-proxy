@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
 import com.lechucksoftware.proxy.proxysettings.receivers.DownloadReceiver;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.utils.UrlManager;
@@ -66,7 +65,7 @@ public class UrlDownloaderDialogPreference extends DialogPreference
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-//				ProxyPreferencesActivity.instance.showProgressDialog();
+
 				String urlstring = input.getText().toString();
 				URL url = null;
 				

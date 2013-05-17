@@ -25,15 +25,17 @@
 <!-- 	<PreferenceCategory -->
 <!-- 		android:title="AP Wi-Fi Proxy settings"> -->
 
-		<com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference
-			android:enabled="false"
-			android:key="pref_ap_selector_dialog"
-			android:persistent="false"
-			android:summary="@string/wifi_disabled"
-			android:title="@string/ap_selector" />
+		<!--<com.lechucksoftware.proxy.proxysettings.preferences.ApSelectorDialogPreference-->
+			<!--android:enabled="false"-->
+			<!--android:key="pref_ap_selector_dialog"-->
+			<!--android:persistent="false"-->
+			<!--android:summary="@string/wifi_disabled"-->
+			<!--android:title="@string/ap_selector" />-->
+
+    <!--android:dependency="pref_ap_selector_dialog"-->
 
 		<SwitchPreference
-			android:dependency="pref_ap_selector_dialog"
+
 			android:defaultValue="false"
 			android:key="pref_proxy_enabled"
 			android:persistent="false"

@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v4.app.FragmentActivity;
 
+import android.support.v4.app.FragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -74,9 +74,9 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 
 	public void GoToProxy()
 	{
-		LogWrapper.d(TAG, "Starting ProxyPreferencesActivity activity");
+		LogWrapper.d(TAG, "Starting MainActivity activity");
 		
-		final Intent intent = new Intent(this, ProxyPreferencesActivity.class);
+		final Intent intent = new Intent(this, MainActivity.class);
 		
 		startActivity(intent);
 		

@@ -26,6 +26,7 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 		super(context, textViewResourceId, list);
 		ctx = context;
 		this.mList = list;
+        notifyDataSetChanged();
 	}
 
 	static class ApViewHolder

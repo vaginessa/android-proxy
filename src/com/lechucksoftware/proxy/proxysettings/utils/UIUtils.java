@@ -2,9 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import java.io.File;
 import java.net.Proxy.Type;
-import java.util.logging.Logger;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -26,8 +24,7 @@ import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
-import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsMainActivity;
+import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUIUtils;
@@ -129,11 +126,6 @@ public class UIUtils
 		//		}
 	}
 
-	/**
-	 * @param context
-	 * @param proxyConfig
-	 * @param status
-	 */
 	public static void UpdateStatusBarNotification(ProxyConfiguration conf, Context context)
 	{
 		if (conf == null)
@@ -173,7 +165,7 @@ public class UIUtils
 
 			// The PendingIntent will launch activity if the user selects this
 			// notification
-			Intent preferencesIntent = new Intent(callerContext, ProxyPreferencesActivity.class);			
+			Intent preferencesIntent = new Intent(callerContext, MainActivity.class);
 			EnableProxyNotification(callerContext, preferencesIntent, notificationTitle, notificationDescription);
 		}
 		else
@@ -241,7 +233,7 @@ public class UIUtils
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(callerContext);
 		
 		// Adds the back stack for the Intent (but not the Intent itself)
-		stackBuilder.addParentStack(ProxyPreferencesActivity.class);
+		stackBuilder.addParentStack(MainActivity.class);
 		// Adds the Intent that starts the Activity to the top of the stack
 		stackBuilder.addNextIntent(intentToCall);
 		

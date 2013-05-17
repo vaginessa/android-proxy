@@ -19,10 +19,7 @@ import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.fragments.AdvancedPrefsFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.ProxyCheckerPrefsFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.*;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -46,6 +43,7 @@ public class ProxyPreferencesActivity extends Activity
 	private HelpPrefsFragment helpFragment;
 	private ProxyCheckerPrefsFragment checkFragment;
 	private AdvancedPrefsFragment advFragment;
+    private APSelectorFragment apSelectorFragment;
 
 	private MenuItem menuItemWifiStatus;
 	private MenuItem menuItemWifiToggle;
@@ -85,6 +83,7 @@ public class ProxyPreferencesActivity extends Activity
 		checkFragment = new ProxyCheckerPrefsFragment();
 		advFragment = new AdvancedPrefsFragment();
 		helpFragment = new HelpPrefsFragment();
+        apSelectorFragment = new APSelectorFragment();
 
 		// Check that the activity is using the layout version with
 		// the fragment_container FrameLayout
@@ -99,7 +98,7 @@ public class ProxyPreferencesActivity extends Activity
 			}
 
 			// Add the fragment to the 'fragment_container' FrameLayout
-			getFragmentManager().beginTransaction().add(R.id.fragment_container, mainFragment).commit();
+			getFragmentManager().beginTransaction().add(R.id.fragment_container, ap).commit();
 		}
 	}
 

@@ -5,8 +5,6 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.R.string;
-import com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity;
 import com.lechucksoftware.proxy.proxysettings.services.DownloadService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 

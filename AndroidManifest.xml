@@ -52,19 +52,27 @@
 			android:theme="@style/Invisible">
 		</activity>
 
+        <activity
+                android:name="com.lechucksoftware.proxy.proxysettings.activities.MainActivity">
+        </activity>
+
+        <activity
+                android:name="com.lechucksoftware.proxy.proxysettings.activities.DetailsActivity">
+        </activity>
+
 		<activity
 			android:name="com.lechucksoftware.proxy.proxysettings.activities.help.DisclaimerFragmentActivity">
 		</activity>
 
-		<activity
-			android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity"
-			android:configChanges="orientation"
-			android:launchMode="singleTop">
-			<intent-filter>
-				<action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY" />
-				<action android:name="com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE" />
-			</intent-filter>
-		</activity>
+		<!--<activity-->
+			<!--android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity"-->
+			<!--android:configChanges="orientation"-->
+			<!--android:launchMode="singleTop">-->
+			<!--<intent-filter>-->
+				<!--<action android:name="com.lechucksoftware.proxy.proxysettings.UPDATE_PROXY" />-->
+				<!--<action android:name="com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE" />-->
+			<!--</intent-filter>-->
+		<!--</activity>-->
 
 		<activity android:name=".activities.ApplicationsFeedbacksActivity">
 		</activity>
