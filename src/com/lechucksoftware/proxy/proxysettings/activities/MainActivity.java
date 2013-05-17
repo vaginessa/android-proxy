@@ -1,7 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.*;
 
@@ -11,11 +14,11 @@ import com.lechucksoftware.proxy.proxysettings.fragments.*;
  */
 public class MainActivity extends Activity
 {
-    private MainAPPrefsFragment mainFragment;
+    private ProxyDetailsFragment mainFragment;
     private HelpPrefsFragment helpFragment;
     private ProxyCheckerPrefsFragment checkFragment;
     private AdvancedPrefsFragment advFragment;
-    private APSelectorFragment apSelectorFragment;
+    private AccessPointListFragment apSelectorFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,11 +27,11 @@ public class MainActivity extends Activity
 
         setContentView(R.layout.main_layout);
 
-        mainFragment = new MainAPPrefsFragment();
+        mainFragment = new ProxyDetailsFragment();
         checkFragment = new ProxyCheckerPrefsFragment();
         advFragment = new AdvancedPrefsFragment();
         helpFragment = new HelpPrefsFragment();
-        apSelectorFragment = new APSelectorFragment();
+        apSelectorFragment = new AccessPointListFragment();
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -47,5 +50,26 @@ public class MainActivity extends Activity
         }
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        FragmentTransaction transaction = null;
+
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                // Clean-up the backstack when going back to home
+                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, apSelectorFragment);
+                //transaction.addToBackStack(null);
+                transaction.commit();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

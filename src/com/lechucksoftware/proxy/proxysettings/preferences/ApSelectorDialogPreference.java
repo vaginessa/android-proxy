@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.content.Context;
-import android.os.Debug;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,7 +14,7 @@ import android.widget.ListView;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.fragments.MainAPPrefsFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -51,7 +50,7 @@ public class ApSelectorDialogPreference extends DialogPreference
 		{
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		    {		    	
-		    	MainAPPrefsFragment.instance.selectAP(confsList.get(position));
+		    	ProxyDetailsFragment.instance.selectAP(confsList.get(position));
 		    	ApSelectorDialogPreference.this.getDialog().dismiss();
 		    }
 		});

@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
-import android.content.Intent;
 import com.lechucksoftware.proxy.proxysettings.R;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -9,8 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.activities.DetailsActivity;
-import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -83,18 +80,16 @@ public class AccessPointListFragment extends ListFragment
     {
         mCurCheckPosition = index;
 
-//        if (mDualPane)
-//        {
             // We can display everything in-place with fragments, so update
             // the list to highlight the selected item and show the data.
             getListView().setItemChecked(index, true);
 
             // Check what fragment is currently shown, replace if needed.
-            MainAPPrefsFragment details = (MainAPPrefsFragment) getFragmentManager().findFragmentById(R.id.details);
+            ProxyDetailsFragment details = (ProxyDetailsFragment) getFragmentManager().findFragmentById(R.id.details);
             if (details == null || details.getShownIndex() != index)
             {
                 // Make new fragment to show this selection.
-                details = MainAPPrefsFragment.newInstance(index);
+                details = ProxyDetailsFragment.getInstance(index);
 
                 // Execute a transaction, replacing any existing fragment
                 // with this one inside the frame.
@@ -111,16 +106,5 @@ public class AccessPointListFragment extends ListFragment
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 ft.commit();
             }
-
-//        }
-//        else
-//        {
-//            // Otherwise we need to launch a new activity to display
-//            // the dialog fragment with selected text.
-//            Intent intent = new Intent();
-//            intent.setClass(getActivity(), DetailsActivity.class);
-//            intent.putExtra("index", index);
-//            startActivity(intent);
-//        }
     }
 }
