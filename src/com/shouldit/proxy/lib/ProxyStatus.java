@@ -175,7 +175,15 @@ public class ProxyStatus implements Serializable
 		synchronized (this)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append("Start checking at: " + checkedDate.toLocaleString() + "\n");
+
+            if (checkedDate != null)
+            {
+			    sb.append("Start checking at: " + checkedDate.toLocaleString() + "\n");
+            }
+            else
+            {
+                sb.append("Not checked");
+            }
 
 			for (ProxyStatusItem prop : properties.values())
 			{

@@ -53,7 +53,12 @@ public class ProxyStatusItem
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("%s (Effective: %s, Status: %s, Result: %s, Checked at: %s", statusCode, effective, status, result, checkedDate.toLocaleString()));
+
+		sb.append(String.format("%s (Effective: %s, Status: %s, Result: %s", statusCode, effective, status, result));
+
+        if (checkedDate != null)
+            sb.append(", Checked at: " + checkedDate.toLocaleString());
+
 		if (message != null && message.length() > 0)
 			sb.append(", Message: " + message);
 		
