@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import com.lechucksoftware.proxy.proxysettings.R;
 import android.app.FragmentTransaction;
@@ -19,13 +20,13 @@ import java.util.Collections;
 /**
  * Created by marco on 17/05/13.
  */
-public class APSelectorFragment extends ListFragment
+public class AccessPointListFragment extends ListFragment
 {
     boolean mDualPane;
     int mCurCheckPosition = 0;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
+    public void onCreate(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
 
@@ -64,6 +65,15 @@ public class APSelectorFragment extends ListFragment
         showDetails(position);
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setHomeButtonEnabled(false);
+    }
+
     /**
      * Helper function to show the details of a selected item, either by
      * displaying a fragment in-place in the current UI, or starting a
@@ -91,12 +101,12 @@ public class APSelectorFragment extends ListFragment
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 if (index == 0)
                 {
-                    ft.replace(R.id.details, details);
+                    ft.replace(R.id.fragment_container, details);
                 }
                 else
                 {
                     // TODO Check here
-                    ft.replace(R.id.details, details);
+                    ft.replace(R.id.fragment_container, details);
                 }
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 ft.commit();

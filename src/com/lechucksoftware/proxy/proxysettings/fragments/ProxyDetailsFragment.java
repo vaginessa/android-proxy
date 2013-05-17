@@ -14,10 +14,10 @@ import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
-public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
+public class ProxyDetailsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
-    public static MainAPPrefsFragment instance;
-    public static final String TAG = "MainAPPrefsFragment";
+    public static ProxyDetailsFragment instance;
+    public static final String TAG = "ProxyDetailsFragment";
     public ProxyConfiguration selectedConfiguration;
 
     //	private ApSelectorDialogPreference apSelectorPref;
@@ -29,19 +29,25 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
     private EditTextPreference proxyBypassPref;
 
     /**
-     * Create a new instance of MainAPPrefsFragment, initialized to
+     * Create a new instance of ProxyDetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static MainAPPrefsFragment newInstance(int index)
+    public static ProxyDetailsFragment getInstance(int index)
     {
-        MainAPPrefsFragment f = new MainAPPrefsFragment();
+        if (instance == null)
+            instance = new ProxyDetailsFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
         args.putInt("index", index);
-        f.setArguments(args);
+        instance.setArguments(args);
 
-        return f;
+        return instance;
+    }
+
+    public int getShownIndex()
+    {
+        return getArguments().getInt("index", 0);
     }
 
 
@@ -53,10 +59,7 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
         instance = this;
     }
 
-    public int getShownIndex()
-    {
-        return getArguments().getInt("index", 0);
-    }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
@@ -263,8 +266,9 @@ public class MainAPPrefsFragment extends PreferenceFragment implements OnSharedP
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
         ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setHomeButtonEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle(selectedConfiguration.ap.ssid);
     }
 
     @Override
