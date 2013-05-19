@@ -15,6 +15,7 @@ import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import org.apache.http.conn.util.InetAddressUtils;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
@@ -22,8 +23,7 @@ import java.net.Proxy;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ProxyConfiguration implements Comparable<ProxyConfiguration>
-{
+public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Serializable {
     public static final String TAG = "ProxyConfiguration";
 
     public Context context;
