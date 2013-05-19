@@ -26,18 +26,11 @@
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="exception" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b1a02b2-4d3a-4044-843e-c79d778b78e7" name="Default" comment="Fixed current proxyconfiguration selection">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable/border_blue.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable/border_green.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable/border_red.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/AccessPointListFragment.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/AccessPointListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/utils/ProxySelectorListAdapter.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/utils/ProxySelectorListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/ap_list_item.xml" afterPath="$PROJECT_DIR$/res/layout/ap_list_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/colors.xml" afterPath="$PROJECT_DIR$/res/values/colors.xml" />
+    <list default="true" id="9b1a02b2-4d3a-4044-843e-c79d778b78e7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="../Android-ViewPagerIndicator/library/build.gradle" />
-    <file path="/Dummy.txt" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368955208807" ignored="false" />
+    <file path="/Dummy.txt" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368959731471" ignored="false" />
     <file path="/a.xml" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368953411526" ignored="false" />
     <file path="/a.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368819340880" ignored="false" />
     <file path="/sample.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368819346777" ignored="false" />
@@ -707,7 +700,7 @@
       <workItem from="1368703384538" duration="7293000" />
       <workItem from="1368775131769" duration="11070000" />
       <workItem from="1368818004777" duration="5343000" />
-      <workItem from="1368952191652" duration="7510000" />
+      <workItem from="1368952191652" duration="7583000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring application in order to clarify which Wi-Fi AP is currently active and selected">
       <created>1368707668327</created>
@@ -717,11 +710,15 @@
       <created>1368955179459</created>
       <updated>1368955179459</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added status colors for  listed Access points">
+      <created>1368959737021</created>
+      <updated>1368959737021</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34186000" />
+    <option name="totallyTimeSpent" value="34259000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -815,7 +812,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed current proxyconfiguration selection" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added status colors for  listed Access points" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -831,6 +828,7 @@
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="Refactoring application in order to clarify which Wi-Fi AP is currently active and selected" />
     <MESSAGE value="Fixed current proxyconfiguration selection" />
+    <MESSAGE value="Added status colors for  listed Access points" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
