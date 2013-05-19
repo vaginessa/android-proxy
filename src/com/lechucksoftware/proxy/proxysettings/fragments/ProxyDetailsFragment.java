@@ -18,7 +18,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 {
     public static ProxyDetailsFragment instance;
     public static final String TAG = "ProxyDetailsFragment";
-    public ProxyConfiguration selectedConfiguration;
+//    public ProxyConfiguration selectedConfiguration;
 
     //	private ApSelectorDialogPreference apSelectorPref;
     private PreferenceScreen authPrefScreen;
@@ -32,24 +32,13 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
      * Create a new instance of ProxyDetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static ProxyDetailsFragment getInstance(int index)
+    public static ProxyDetailsFragment getInstance()
     {
         if (instance == null)
             instance = new ProxyDetailsFragment();
 
-        // Supply index input as an argument.
-        Bundle args = new Bundle();
-        args.putInt("index", index);
-        instance.setArguments(args);
-
         return instance;
     }
-
-    public int getShownIndex()
-    {
-        return getArguments().getInt("index", 0);
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -59,8 +48,6 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         instance = this;
     }
 
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
@@ -68,27 +55,27 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
         getUIComponents();
         refreshUIComponents();
-        selectAP();
+//        selectAP();
     }
 
-    public void selectAP()
-    {
-        if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
-        {
-            //Do nothing
-        }
-        else
-        {
-            selectAP(ApplicationGlobals.getCachedConfiguration());
-        }
-    }
+//    public void selectAP()
+//    {
+//        if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
+//        {
+//            //Do nothing
+//        }
+//        else
+//        {
+//            selectAP(ApplicationGlobals.getCachedConfiguration());
+//        }
+//    }
 
-    public void selectAP(ProxyConfiguration conf)
-    {
-        selectedConfiguration = conf;
-        ApplicationGlobals.connectToAP(conf);
-        refreshUIComponents();
-    }
+//    public void selectAP(ProxyConfiguration conf)
+//    {
+//        selectedConfiguration = conf;
+//        ApplicationGlobals.connectToAP(conf);
+//        refreshUIComponents();
+//    }
 
     private void getUIComponents()
     {
@@ -103,14 +90,14 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
                 if (isChecked)
                 {
-                    selectedConfiguration.proxySetting = ProxySetting.STATIC;
+                    ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.STATIC;
                 }
                 else
                 {
-                    selectedConfiguration.proxySetting = ProxySetting.NONE;
+                    ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.NONE;
                 }
 
-                selectedConfiguration.writeConfigurationToDevice();
+                ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
                 return true;
             }
         });
@@ -123,8 +110,8 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
             {
                 String proxyHost = (String) newValue;
 
-                selectedConfiguration.setProxyHost(proxyHost);
-                selectedConfiguration.writeConfigurationToDevice();
+                ApplicationGlobals.getSelectedConfiguration().setProxyHost(proxyHost);
+                ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
 
                 return true;
             }
@@ -147,8 +134,8 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                     proxyPort = 0; // Equivalent to NOT SET
                 }
 
-                selectedConfiguration.setProxyPort(proxyPort);
-                selectedConfiguration.writeConfigurationToDevice();
+                ApplicationGlobals.getSelectedConfiguration().setProxyPort(proxyPort);
+                ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
 
                 return true;
             }
@@ -162,8 +149,8 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
             {
                 String proxyExclusionList = (String) newValue;
 
-                selectedConfiguration.setProxyExclusionList(proxyExclusionList);
-                selectedConfiguration.writeConfigurationToDevice();
+                ApplicationGlobals.getSelectedConfiguration().setProxyExclusionList(proxyExclusionList);
+                ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
 
                 return true;
             }
@@ -183,13 +170,13 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
     private void refreshAP()
     {
-        if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
+        if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
         {
             proxyEnablePref.setEnabled(true);
-            String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(selectedConfiguration.getSSID()), selectedConfiguration.getAPStatus());
+            String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPStatus());
 //			apSelectorPref.setSummary(apdesc);
 
-            if (selectedConfiguration.proxySetting == ProxySetting.NONE || selectedConfiguration.proxySetting == ProxySetting.UNASSIGNED)
+            if (ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.NONE || ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.UNASSIGNED)
             {
                 proxyEnablePref.setChecked(false);
             }
@@ -198,7 +185,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 proxyEnablePref.setChecked(true);
             }
 
-            String proxyHost = selectedConfiguration.getProxyHost();
+            String proxyHost = ApplicationGlobals.getSelectedConfiguration().getProxyHost();
             proxyHostPref.setText(proxyHost);
             if (proxyHost == null || proxyHost.length() == 0)
             {
@@ -209,7 +196,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 proxyHostPref.setSummary(proxyHost);
             }
 
-            Integer proxyPort = selectedConfiguration.getProxyPort();
+            Integer proxyPort = ApplicationGlobals.getSelectedConfiguration().getProxyPort();
             String proxyPortString;
             if (proxyPort == null || proxyPort == 0)
             {
@@ -222,7 +209,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 proxyPortPref.setText(proxyPortString);
             }
 
-            String bypassList = selectedConfiguration.getProxyExclusionList();
+            String bypassList = ApplicationGlobals.getSelectedConfiguration().getProxyExclusionList();
             if (bypassList == null || bypassList.equals(""))
             {
                 proxyBypassPref.setSummary(getText(R.string.not_set));
@@ -268,7 +255,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(selectedConfiguration.ap.ssid);
+        actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
     }
 
     @Override

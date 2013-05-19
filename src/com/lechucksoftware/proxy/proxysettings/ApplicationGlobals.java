@@ -1,9 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import android.app.Application;
 import android.content.Context;
@@ -35,8 +32,9 @@ public class ApplicationGlobals extends Application
 	private ProxyConfiguration currentConfiguration;
 
 	private static final String TAG = "ApplicationGlobals";
+    private static ProxyConfiguration selectedConfiguration;
 
-	public static WifiManager getWifiManager()
+    public static WifiManager getWifiManager()
 	{
 		return mInstance.mWifiManager;
 	}
@@ -46,7 +44,17 @@ public class ApplicationGlobals extends Application
 		return mInstance.mConnManager;
 	}
 
-	@Override
+    public static void setSelectedConfiguration(ProxyConfiguration selectedConfiguration)
+    {
+        ApplicationGlobals.selectedConfiguration = selectedConfiguration;
+    }
+
+    public static ProxyConfiguration getSelectedConfiguration()
+    {
+        return ApplicationGlobals.selectedConfiguration;
+    }
+
+    @Override
 	public void onCreate()
 	{
 		super.onCreate();
@@ -148,7 +156,9 @@ public class ApplicationGlobals extends Application
 
 	public static List<ProxyConfiguration> getConfigurationsList()
 	{
-		return new ArrayList<ProxyConfiguration>(mInstance.configurations.values());
+		ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(mInstance.configurations.values());
+        Collections.sort(results);
+        return results;
 	}
 	
 	public static ProxyConfiguration getConfiguration(String SSID)
@@ -181,4 +191,6 @@ public class ApplicationGlobals extends Application
 			mInstance.mWifiManager.startScan();
 		}
 	}
+
+
 }

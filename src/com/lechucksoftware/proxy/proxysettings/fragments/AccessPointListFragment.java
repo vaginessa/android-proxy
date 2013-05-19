@@ -28,7 +28,6 @@ public class AccessPointListFragment extends ListFragment
         super.onActivityCreated(savedInstanceState);
 
         final ArrayList<ProxyConfiguration> confsList = (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList();
-        Collections.sort(confsList);
         setListAdapter(new ProxySelectorListAdapter(getActivity(), android.R.id.list, confsList));
 
         // Check to see if we have a frame in which to embed the details
@@ -36,12 +35,14 @@ public class AccessPointListFragment extends ListFragment
         View detailsFrame = getActivity().findViewById(R.id.details);
         mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null)
+        {
             // Restore last state for checked position.
             mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
         }
 
-        if (mDualPane) {
+        if (mDualPane)
+        {
             // In dual-pane mode, the list view highlights the selected item.
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             // Make sure our UI is in the correct state.
@@ -51,7 +52,8 @@ public class AccessPointListFragment extends ListFragment
 
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
         outState.putInt("curChoice", mCurCheckPosition);
     }
@@ -80,31 +82,34 @@ public class AccessPointListFragment extends ListFragment
     {
         mCurCheckPosition = index;
 
-            // We can display everything in-place with fragments, so update
-            // the list to highlight the selected item and show the data.
-            getListView().setItemChecked(index, true);
+        // We can display everything in-place with fragments, so update
+        // the list to highlight the selected item and show the data.
+        getListView().setItemChecked(index, true);
 
-            // Check what fragment is currently shown, replace if needed.
-            ProxyDetailsFragment details = (ProxyDetailsFragment) getFragmentManager().findFragmentById(R.id.details);
-            if (details == null || details.getShownIndex() != index)
+        ProxyConfiguration selectedConfiguration = (ProxyConfiguration) getListView().getItemAtPosition(index);
+        ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
+
+        // Check what fragment is currently shown, replace if needed.
+        ProxyDetailsFragment details = (ProxyDetailsFragment) getFragmentManager().findFragmentById(R.id.details);
+        if (details == null)
+        {
+            // Make new fragment to show this selection.
+            details = ProxyDetailsFragment.getInstance();
+
+            // Execute a transaction, replacing any existing fragment
+            // with this one inside the frame.
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            if (index == 0)
             {
-                // Make new fragment to show this selection.
-                details = ProxyDetailsFragment.getInstance(index);
-
-                // Execute a transaction, replacing any existing fragment
-                // with this one inside the frame.
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                if (index == 0)
-                {
-                    ft.replace(R.id.fragment_container, details);
-                }
-                else
-                {
-                    // TODO Check here
-                    ft.replace(R.id.fragment_container, details);
-                }
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.commit();
+                ft.replace(R.id.fragment_container, details);
             }
+            else
+            {
+                // TODO Check here
+                ft.replace(R.id.fragment_container, details);
+            }
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
+        }
     }
 }
