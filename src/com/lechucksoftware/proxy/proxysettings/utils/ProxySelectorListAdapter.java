@@ -3,14 +3,11 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Debug;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -87,8 +84,8 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 
 			viewHolder.ssid.setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
 			
-//			viewHolder.status.setText(String.format("%s - %s", listItem.toShortString(), listItem.getAPStatus()));
-			viewHolder.status.setText(listItem.getAPStatus());
+			viewHolder.status.setText(String.format("%s - %s", listItem.toShortString(), listItem.getAPConnectionStatus()));
+//			viewHolder.status.setText(listItem.getAPConnectionStatus());
 		}
 		return view;
 	}

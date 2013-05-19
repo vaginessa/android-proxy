@@ -6,23 +6,27 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
+
 
 public class ProxyDetailsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
     public static ProxyDetailsFragment instance;
     public static final String TAG = "ProxyDetailsFragment";
-//    public ProxyConfiguration selectedConfiguration;
 
-    //	private ApSelectorDialogPreference apSelectorPref;
     private PreferenceScreen authPrefScreen;
     private SwitchPreference proxyEnablePref;
+    private TextView confStatus;
 
     private EditTextPreference proxyHostPref;
     private EditTextPreference proxyPortPref;
@@ -45,6 +49,8 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.main_preferences);
+
+
         instance = this;
     }
 
@@ -58,24 +64,17 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 //        selectAP();
     }
 
-//    public void selectAP()
-//    {
-//        if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
-//        {
-//            //Do nothing
-//        }
-//        else
-//        {
-//            selectAP(ApplicationGlobals.getCachedConfiguration());
-//        }
-//    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        LinearLayout v = (LinearLayout) super.onCreateView(inflater, container, savedInstanceState);
 
-//    public void selectAP(ProxyConfiguration conf)
-//    {
-//        selectedConfiguration = conf;
-//        ApplicationGlobals.connectToAP(conf);
-//        refreshUIComponents();
-//    }
+        confStatus = new Button(getActivity().getApplicationContext());
+
+        v.addView(confStatus);
+
+        return v;
+    }
 
     private void getUIComponents()
     {
@@ -170,10 +169,25 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
     private void refreshAP()
     {
+        confStatus.setText(ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
+
+        if (ApplicationGlobals.getSelectedConfiguration().isCurrentNetwork())
+        {
+            confStatus.setBackgroundResource(R.color.Holo_Blue_Light);
+        }
+        else if (ApplicationGlobals.getSelectedConfiguration().ap.mRssi < Integer.MAX_VALUE)
+        {
+            confStatus.setBackgroundResource(R.color.Holo_Green_Light);
+        }
+        else
+        {
+            confStatus.setBackgroundResource(R.color.Gray);
+        }
+
         if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
         {
             proxyEnablePref.setEnabled(true);
-            String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPStatus());
+            String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
 //			apSelectorPref.setSummary(apdesc);
 
             if (ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.NONE || ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.UNASSIGNED)
