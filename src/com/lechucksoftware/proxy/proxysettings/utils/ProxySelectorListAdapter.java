@@ -3,12 +3,14 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Debug;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -26,11 +28,13 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 		super(context, textViewResourceId, list);
 		ctx = context;
 		this.mList = list;
+
         notifyDataSetChanged();
 	}
 
 	static class ApViewHolder
 	{
+        View statusColor;
 		ImageView signal;
 		TextView ssid;
 		TextView status;
@@ -47,6 +51,7 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 			view = vi.inflate(R.layout.ap_list_item, null);
 
 			viewHolder = new ApViewHolder();
+            viewHolder.statusColor = (View) view.findViewById(R.id.list_item_status_color);
 			viewHolder.signal = (ImageView) view.findViewById(R.id.list_item_ap_icon);
 			viewHolder.ssid = (TextView) view.findViewById(R.id.list_item_ap_name);
 			viewHolder.status = (TextView) view.findViewById(R.id.list_item_ap_status);
@@ -58,19 +63,26 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 			viewHolder = (ApViewHolder) view.getTag();
 		}
 
-		final ProxyConfiguration listItem = (ProxyConfiguration) mList.get(position);
+		final ProxyConfiguration listItem = mList.get(position);
 
 		if (listItem != null)
 		{
 			if (listItem.ap.mRssi == Integer.MAX_VALUE)
 			{
 				viewHolder.signal.setImageDrawable(null);
+
+                viewHolder.statusColor.setBackgroundResource(R.color.Gray);
 			}
 			else
 			{
 				viewHolder.signal.setImageLevel(listItem.ap.getLevel());
 				viewHolder.signal.setImageResource(R.drawable.wifi_signal);
 				viewHolder.signal.setImageState((listItem.ap.security != AccessPoint.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
+
+                if (listItem.isCurrentNetwork())
+                    viewHolder.statusColor.setBackgroundResource(R.color.Holo_Blue_Light);
+                else
+                    viewHolder.statusColor.setBackgroundResource(R.color.Holo_Green_Light);
 			}
 
 			viewHolder.ssid.setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));

@@ -35,6 +35,8 @@ public class AccessPointListFragment extends ListFragment
         View detailsFrame = getActivity().findViewById(R.id.details);
         mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
+
+
         if (savedInstanceState != null)
         {
             // Restore last state for checked position.
@@ -109,6 +111,7 @@ public class AccessPointListFragment extends ListFragment
                 ft.replace(R.id.fragment_container, details);
             }
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(null);
             ft.commit();
         }
     }
