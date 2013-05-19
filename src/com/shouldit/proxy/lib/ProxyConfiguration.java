@@ -705,7 +705,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     }
 
 
-    public String getAPStatus()
+    public String getAPConnectionStatus()
     {
         if (isCurrentNetwork())
         {
