@@ -29,7 +29,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public Context context;
     public ProxyStatus status;
     public AccessPoint ap;
-    public NetworkInfo currentNetworkInfo;
+//    public NetworkInfo currentNetworkInfo;
 
     public ProxySetting proxySetting;
     private String proxyHost;
@@ -98,10 +98,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
-        currentNetworkInfo = connManager.getActiveNetworkInfo();
 
         if (wifiConf != null)
-            ap = new AccessPoint(wifiConf);
+        {
+            if (wifiConf.networkId == wifiManager.getConnectionInfo().getNetworkId())
+                ap = new AccessPoint(wifiConf, wifiManager.getConnectionInfo());
+            else
+                ap = new AccessPoint(wifiConf, null);
+        }
 
         deviceVersion = Build.VERSION.SDK_INT;
         status = new ProxyStatus();
@@ -117,9 +121,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         sb.append(String.format("Proxy status checker results:\n"));
         sb.append(status.toString());
 
-        if (currentNetworkInfo != null)
+        if (connManager.getActiveNetworkInfo() != null)
         {
-            sb.append(String.format("Network Info: %s\n", currentNetworkInfo));
+            sb.append(String.format("Network Info: %s\n", connManager.getActiveNetworkInfo()));
         }
 
         if (ap != null && ap.wifiConfig != null)
@@ -130,7 +134,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public Boolean isCurrentNetwork()
     {
-        if (currentNetworkInfo != null && this.getSSID() != null && this.getSSID().equals(currentNetworkInfo.getExtraInfo()))
+        if (connManager.getActiveNetworkInfo() != null && this.getSSID() != null && this.getSSID().equals(connManager.getActiveNetworkInfo().getExtraInfo()))
             return true;
         else
             return false;
@@ -348,7 +352,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             // On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
             // Proxy is disabled by default on Mobile connection
-            if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
+            if (connManager.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE)
             {
                 result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_mobile_disabled));
             }
@@ -506,7 +510,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public int getNetworkType()
     {
-        return currentNetworkInfo.getType();
+        return connManager.getActiveNetworkInfo().getType();
     }
 
     @Override
@@ -514,10 +518,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         int result = 0;
 
-        if (currentNetworkInfo != null && another.currentNetworkInfo != null)
-        {
-            if (currentNetworkInfo.getType() == another.currentNetworkInfo.getType())
-            {
+//        if (connManager.getActiveNetworkInfo() != null && another.connManager.getActiveNetworkInfo() != null)
+//        {
+//            if (currentNetworkInfo.getType() == another.connManager.getActiveNetworkInfo().getType())
+//            {
                 if (ap != null && another.ap != null)
                 {
                     result = ap.compareTo(another.ap);
@@ -572,21 +576,21 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 // // TYPE_MOBILE or No connection
                 // result = 0;
                 // }
-            }
-            else
-            {
-                // Different network types
-                if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-                {
-                    // Give priority to TYPE_WIFI
-                    result = -1;
-                }
-                else
-                {
-                    result = +1;
-                }
-            }
-        }
+//            }
+//            else
+//            {
+//                // Different network types
+//                if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+//                {
+//                    // Give priority to TYPE_WIFI
+//                    result = -1;
+//                }
+//                else
+//                {
+//                    result = +1;
+//                }
+//            }
+//        }
 
         return result;
     }

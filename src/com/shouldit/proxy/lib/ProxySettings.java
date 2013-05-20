@@ -61,7 +61,7 @@ public class ProxySettings
 		 * */
 		ConnectivityManager connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
-		proxyConfig.currentNetworkInfo = activeNetInfo;
+//		proxyConfig.currentNetworkInfo = activeNetInfo;
 
 		if (activeNetInfo != null)
 		{
@@ -75,7 +75,7 @@ public class ProxySettings
 					{
 						if (wc.networkId == wifiInfo.getNetworkId())
 						{
-							proxyConfig.ap = new AccessPoint(wc);
+							proxyConfig.ap = new AccessPoint(wc, wifiInfo);
 							break;
 						}
 					}

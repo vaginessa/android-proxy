@@ -134,18 +134,19 @@ public class AccessPoint implements Comparable<AccessPoint>
 		}
 	}
 
-	public AccessPoint(WifiConfiguration config)
+	public AccessPoint(WifiConfiguration config, WifiInfo info)
 	{
-		loadConfig(config);
+		loadConfig(config, info);
 	}
 
-	private void loadConfig(WifiConfiguration config)
+	private void loadConfig(WifiConfiguration config, WifiInfo info)
 	{
 		ssid = (config.SSID == null ? "" : removeDoubleQuotes(config.SSID));
 		bssid = config.BSSID;
 		security = getSecurity(config);
 		networkId = config.networkId;
 		mRssi = Integer.MAX_VALUE;
+        mInfo = info;
 		wifiConfig = config;
 	}
 
