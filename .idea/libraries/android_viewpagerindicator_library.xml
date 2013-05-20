@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="android-viewpagerindicator-library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/android-viewpagerindicator-library.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

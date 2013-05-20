@@ -10,7 +10,6 @@ apply plugin: 'android'
 
 dependencies {
     compile project(':android-proxy-library')
-    compile project(':Android-ViewPagerIndicator:library')
 }
 
 android {

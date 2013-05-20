@@ -36,12 +36,12 @@ public class ApplicationGlobals extends Application
 
     public static WifiManager getWifiManager()
 	{
-		return mInstance.mWifiManager;
+		return getInstance().mWifiManager;
 	}
 
 	public static ConnectivityManager getConnectivityManager()
 	{
-		return mInstance.mConnManager;
+		return getInstance().mConnManager;
 	}
 
     public static void setSelectedConfiguration(ProxyConfiguration selectedConfiguration)
@@ -83,18 +83,18 @@ public class ApplicationGlobals extends Application
 
 	public static void addConfiguration(String SSID, ProxyConfiguration conf)
 	{
-		if (mInstance.configurations.containsKey(SSID))
+		if (getInstance().configurations.containsKey(SSID))
 		{
-			mInstance.configurations.remove(SSID);
+            getInstance().configurations.remove(SSID);
 		}
 
-		mInstance.configurations.put(SSID, conf);
+        getInstance().configurations.put(SSID, conf);
 	}
 	
 	public static void updateProxyConfigurationList()
 	{
 		// Get information regarding other configured AP
-		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(mInstance);
+		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getInstance());
 		List<ScanResult> scanResults = getWifiManager().getScanResults();
 		
 		for (ProxyConfiguration conf : confs)
@@ -107,9 +107,9 @@ public class ApplicationGlobals extends Application
 			for (ScanResult res : scanResults)
 			{
 				String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
-				if (mInstance.configurations.containsKey(currSSID))
+				if (getInstance().configurations.containsKey(currSSID))
 				{
-					mInstance.configurations.get(currSSID).ap.update(res);
+                    getInstance().configurations.get(currSSID).ap.update(res);
 				}
 			}
 		}
@@ -119,44 +119,47 @@ public class ApplicationGlobals extends Application
 	{
 		ProxyConfiguration conf = null;
 
-		if (mInstance.mWifiManager != null && mInstance.mWifiManager.isWifiEnabled())
+		if (getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
 		{
-			WifiInfo info = mInstance.mWifiManager.getConnectionInfo();
+			WifiInfo info = getInstance().mWifiManager.getConnectionInfo();
 			String SSID = ProxyUtils.cleanUpSSID(info.getSSID());
 
-			if (mInstance.configurations.isEmpty())
+			if (getInstance().configurations.isEmpty())
 				updateProxyConfigurationList();
 			
-			if (mInstance.configurations.containsKey(SSID))
+			if (getInstance().configurations.containsKey(SSID))
 			{
-				conf = mInstance.configurations.get(SSID);
+				conf = getInstance().configurations.get(SSID);
 			}
-			
-			mInstance.currentConfiguration = conf;
+
+            getInstance().currentConfiguration = conf;
 		}
 		
 		// Always return a not null configuration
-		if (mInstance.currentConfiguration == null)
+		if (getInstance().currentConfiguration == null)
 		{
-			mInstance.currentConfiguration = new ProxyConfiguration(mInstance.getApplicationContext(), ProxySetting.NONE, null, null, null, null);
+            getInstance().currentConfiguration = new ProxyConfiguration(getInstance().getApplicationContext(), ProxySetting.NONE, null, null, null, null);
 		}
 		
-		return mInstance.currentConfiguration;
+		return getInstance().currentConfiguration;
 	}
 
 	public static ProxyConfiguration getCachedConfiguration()
 	{
-		if (mInstance.currentConfiguration == null)
+		if (getInstance().currentConfiguration == null)
 		{
 			return getCurrentConfiguration();
 		}
 		
-		return mInstance.currentConfiguration;
+		return getInstance().currentConfiguration;
 	}
 
 	public static List<ProxyConfiguration> getConfigurationsList()
 	{
-		ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(mInstance.configurations.values());
+        if (getInstance().configurations.isEmpty())
+            updateProxyConfigurationList();
+
+		ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(getInstance().configurations.values());
         Collections.sort(results);
         return results;
 	}
@@ -165,30 +168,30 @@ public class ApplicationGlobals extends Application
 	{
 		String cleanSSID = ProxyUtils.cleanUpSSID(SSID);
 		
-		if (mInstance.configurations.containsKey(cleanSSID))
+		if (getInstance().configurations.containsKey(cleanSSID))
 		{
-			return mInstance.configurations.get(cleanSSID);
+			return getInstance().configurations.get(cleanSSID);
 		}
 		else return null;
 	}
 
     public static void connectToAP(ProxyConfiguration conf)
     {
-        if(mInstance.mWifiManager != null && mInstance.mWifiManager.isWifiEnabled())
+        if(getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
         {
             if (conf != null && conf.ap != null && conf.ap.getLevel() < Integer.MAX_VALUE)
             {
                 // Connect to AP only if it's available
-                mInstance.mWifiManager.enableNetwork(conf.ap.networkId, false);
+                getInstance().mWifiManager.enableNetwork(conf.ap.networkId, false);
             }
         }
     }
 
 	public static void startWifiScan()
 	{
-		if (mInstance.mWifiManager != null && mInstance.mWifiManager.isWifiEnabled())
+		if (getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
 		{
-			mInstance.mWifiManager.startScan();
+            getInstance().mWifiManager.startScan();
 		}
 	}
 

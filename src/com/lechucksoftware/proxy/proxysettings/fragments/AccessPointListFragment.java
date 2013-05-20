@@ -19,36 +19,29 @@ import java.util.Collections;
  */
 public class AccessPointListFragment extends ListFragment
 {
+    private static AccessPointListFragment instance;
     boolean mDualPane;
     int mCurCheckPosition = 0;
+    private ProxySelectorListAdapter apListAdapter;
+
+
+    public static AccessPointListFragment getInstance()
+    {
+        if (instance == null)
+            instance = new AccessPointListFragment();
+
+        return instance;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
 
-        final ArrayList<ProxyConfiguration> confsList = (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList();
-        setListAdapter(new ProxySelectorListAdapter(getActivity(), android.R.id.list, confsList));
-
-        // Check to see if we have a frame in which to embed the details
-        // fragment directly in the containing UI.
-        View detailsFrame = getActivity().findViewById(R.id.details);
-        mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
-
-
-
         if (savedInstanceState != null)
         {
             // Restore last state for checked position.
             mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
-        }
-
-        if (mDualPane)
-        {
-            // In dual-pane mode, the list view highlights the selected item.
-            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            // Make sure our UI is in the correct state.
-            showDetails(mCurCheckPosition);
         }
     }
 
@@ -70,9 +63,22 @@ public class AccessPointListFragment extends ListFragment
     public void onResume()
     {
         super.onResume();
+
+        refresh();
+
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
+    }
+
+    public void refresh()
+    {
+        if (apListAdapter != null)
+            apListAdapter.clear();
+
+        final ArrayList<ProxyConfiguration> confsList = (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList();
+        apListAdapter = new ProxySelectorListAdapter(getActivity(), android.R.id.list, confsList);
+        setListAdapter(apListAdapter);
     }
 
     /**
