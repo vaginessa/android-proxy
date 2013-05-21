@@ -33,8 +33,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
     private EditTextPreference proxyBypassPref;
 
     /**
-     * Create a new instance of ProxyDetailsFragment, initialized to
-     * show the text at 'index'.
+     * Create a new instance of ProxyDetailsFragment
      */
     public static ProxyDetailsFragment getInstance()
     {
@@ -60,7 +59,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         super.onViewCreated(view, savedInstanceState);
 
         getUIComponents();
-        refreshUIComponents();
+        refreshUI();
 //        selectAP();
     }
 
@@ -159,7 +158,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
     }
 
-    public void refreshUIComponents()
+    public void refreshUI()
     {
         boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
 //		apSelectorPref.setEnabled(wifiEnabled);

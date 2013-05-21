@@ -51,12 +51,12 @@ public class ProxySettingsCheckerService extends IntentService
 				}
 
                 //TODO : check here
-				int intentNetworkType = callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_INFO , -1);
+				//int intentNetworkType = callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_INFO , -1);
 				NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
 
 				if (ni != null && ni.isConnected())
 				{
-					if (ni.getType() == intentNetworkType) // Check only for
+					//if (ni.getType() == intentNetworkType) // Check only for
 														   // intent related to
 														   // active network
 					{
@@ -89,9 +89,6 @@ public class ProxySettingsCheckerService extends IntentService
 		LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
 	};
 
-	/**
-	 * @param context
-	 */
 	public void CheckProxySettings(Intent callerIntent)
 	{
 		try

@@ -8,7 +8,6 @@
     <Preference
         android:enabled="true"
         android:key="preference_about"
-        android:summary="@string/versionName"
         android:title="@string/preference_about_title" />
 
 </PreferenceScreen>

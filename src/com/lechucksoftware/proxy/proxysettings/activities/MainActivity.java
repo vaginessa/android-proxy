@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APLConstants;
@@ -53,6 +54,22 @@ public class MainActivity extends Activity
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getFragmentManager().beginTransaction().add(R.id.fragment_container, AccessPointListFragment.getInstance()).commit();
+        }
+
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.status_fragment_container) != null)
+        {
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null)
+            {
+                return;
+            }
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
         }
     }
 
@@ -105,6 +122,8 @@ public class MainActivity extends Activity
         registerReceiver(changeStatusReceiver, ifilt);
 
         ViewServer.get(this).setFocusedWindow(this);
+
+        refreshUI();
     }
 
     @Override
@@ -153,16 +172,21 @@ public class MainActivity extends Activity
 
         if (ProxyDetailsFragment.getInstance().isVisible())
         {
-            ProxyDetailsFragment.getInstance().refreshUIComponents();
+            ProxyDetailsFragment.getInstance().refreshUI();
         }
 
         if (AccessPointListFragment.getInstance().isVisible())
         {
-            AccessPointListFragment.getInstance().refresh();
+            AccessPointListFragment.getInstance().refreshUI();
+        }
+
+        if (StatusFragment.getInstance().isVisible())
+        {
+            StatusFragment.getInstance().refreshUI();
         }
 //        if (checkFragment.isVisible())
 //        {
-//            checkFragment.refreshUIComponents();
+//            checkFragment.refreshUI();
 //        }
     }
 

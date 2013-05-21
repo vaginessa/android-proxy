@@ -3,7 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.lechucksoftware.proxy.proxysettings"
 	android:versionCode="1200200"
-	android:versionName="2.0"> <!-- Remember to update also the strings.xml values -->
+	android:versionName="2.0">
 
 	<!-- Scheme for version codes: ##@@$$$ , using: ## - the first two digits 
 		for the API Level, @@ - the second and third digits for the minimum and maximum 

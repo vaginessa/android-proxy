@@ -27,25 +27,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b1a02b2-4d3a-4044-843e-c79d778b78e7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/android-viewpagerindicator-library.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/android_viewpagerindicator_library.xml" />
-      <change type="DELETED" beforePath="C:\Users\marco\git\proxy_settings\res\drawable\border_blue.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/AccessPoint.java" afterPath="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/AccessPoint.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/StatusFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/status.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/AccessPointListFragment.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/AccessPointListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/ApplicationGlobals.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/ApplicationGlobals.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxyConfiguration.java" afterPath="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxyConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxySettings.java" afterPath="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxySettings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proxy_settings.iml" afterPath="$PROJECT_DIR$/proxy_settings.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/receivers/ProxyChangeReceiver.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/receivers/ProxyChangeReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/ProxyDetailsFragment.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/ProxyDetailsFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/services/ProxySettingsCheckerService.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/services/ProxySettingsCheckerService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/utils/Utils.java" afterPath="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/utils/Utils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/help_preferences.xml" afterPath="$PROJECT_DIR$/res/xml/help_preferences.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/main_layout.xml" afterPath="$PROJECT_DIR$/res/layout/main_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
-    <file path="/Dummy.txt" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369041039307" ignored="false" />
+    <file path="/Dummy.txt" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369121680878" ignored="false" />
     <file path="/a.xml" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369052790233" ignored="false" />
     <file path="/a.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369052793216" ignored="false" />
     <file path="/sample.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369052669400" ignored="false" />
@@ -63,17 +59,20 @@
     <file path="/ProxyStatusItem.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368790431045" ignored="false" />
     <file path="/ProxySelectorListAdapter.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368791245806" ignored="false" />
     <file path="/ProxySettingsCallerActivity.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368794399113" ignored="false" />
-    <file path="/main_layout.xml" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368793919393" ignored="false" />
+    <file path="/main_layout.xml" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369139549195" ignored="false" />
     <file path="/DetailsActivity.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368793737553" ignored="false" />
-    <file path="/MainActivity.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369054062847" ignored="false" />
+    <file path="/MainActivity.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369151755297" ignored="false" />
     <file path="/UIUtils.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368794730383" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1368794911207" ignored="false" />
-    <file path="/a.dummy" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369059076079" ignored="false" />
+    <file path="/a.dummy" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369125623545" ignored="false" />
     <file path="/a.groovy" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369052664279" ignored="false" />
     <file path="/a.html" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369052668474" ignored="false" />
-    <file path="/AccessPointListFragment.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369053306251" ignored="false" />
+    <file path="/AccessPointListFragment.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369139278888" ignored="false" />
     <file path="/AccessPoint.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369054646396" ignored="false" />
     <file path="/ProxySettings.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369054700196" ignored="false" />
+    <file path="/Utils.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369121909510" ignored="false" />
+    <file path="/StatusFragment.java" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369139467190" ignored="false" />
+    <file path="/status.xml" changelist="9b1a02b2-4d3a-4044-843e-c79d778b78e7" time="1369139415424" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +87,53 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxySettings.java" line="75" class="com.shouldit.proxy.lib.ProxySettings" package="com.shouldit.proxy.lib">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java" line="106" class="com.lechucksoftware.proxy.proxysettings.activities.MainActivity" package="com.lechucksoftware.proxy.proxysettings.activities">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java" line="44" class="com.lechucksoftware.proxy.proxysettings.activities.MainActivity" package="com.lechucksoftware.proxy.proxysettings.activities">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
@@ -125,23 +171,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxySettings.java" line="75" class="com.shouldit.proxy.lib.ProxySettings" package="com.shouldit.proxy.lib">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -151,105 +180,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="54" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#4020#5268#0" expanded="true" />
-                <element signature="e#5261#5262#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProxyConfiguration.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxyConfiguration.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="526" column="0" selection-start="18796" selection-end="18796" vertical-scroll-proportion="-5.68">
-              <folding>
-                <element signature="e#4881#4941#0" expanded="true" />
-                <element signature="e#5257#5307#0" expanded="true" />
-                <element signature="e#10926#10975#0" expanded="true" />
-                <element signature="e#11308#11368#0" expanded="true" />
-                <element signature="e#11535#11586#0" expanded="true" />
-                <element signature="e#11880#11941#0" expanded="true" />
-                <element signature="e#12095#12147#0" expanded="true" />
-                <element signature="e#12681#12737#0" expanded="true" />
-                <element signature="e#12977#13026#0" expanded="true" />
-                <element signature="e#13284#13332#0" expanded="true" />
-                <element signature="e#13908#13957#0" expanded="true" />
-                <element signature="e#14988#15037#0" expanded="true" />
-                <element signature="e#15418#15470#0" expanded="true" />
-                <element signature="e#15643#15688#0" expanded="true" />
-                <element signature="e#15966#16011#0" expanded="true" />
-                <element signature="e#16476#16526#0" expanded="true" />
-                <element signature="e#16690#16744#0" expanded="true" />
-                <element signature="e#16906#16969#0" expanded="true" />
-                <element signature="e#17512#17560#0" expanded="true" />
-                <element signature="e#17706#17758#0" expanded="true" />
-                <element signature="e#25296#25333#0" expanded="true" />
-                <element signature="e#25410#25447#0" expanded="true" />
-                <element signature="e#25501#25542#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProxySettings.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxySettings.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="249" column="0" selection-start="7812" selection-end="7812" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#7865#7885#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Collections.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://D:/Documents/Dev/android-sdk-windows/sources/android-15/java/util/Collections.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1866" column="0" selection-start="58163" selection-end="58163" vertical-scroll-proportion="0.0">
+            <state line="115" column="0" selection-start="4121" selection-end="4121" vertical-scroll-proportion="0.34172663">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Arrays.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://D:/Documents/Dev/android-sdk-windows/sources/android-15/java/util/Arrays.java">
+      <file leaf-file-name="StatusFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/StatusFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1972" column="0" selection-start="72080" selection-end="72080" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccessPoint.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/AccessPoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="0" selection-start="4422" selection-end="4422" vertical-scroll-proportion="-7.72">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProxySettingsCheckerService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/services/ProxySettingsCheckerService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="0" selection-start="4119" selection-end="4119" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ApplicationGlobals.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/ApplicationGlobals.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="4" selection-start="740" selection-end="740" vertical-scroll-proportion="0.25660378">
+            <state line="34" column="67" selection-start="1011" selection-end="1011" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#4710#4730#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="status.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/status.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="36" selection-start="356" selection-end="356" vertical-scroll-proportion="-4.76">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProxyDetailsFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/ProxyDetailsFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="165" column="20" selection-start="5670" selection-end="5670" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -257,7 +224,7 @@
       <file leaf-file-name="AccessPointListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/AccessPointListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="0" selection-start="1997" selection-end="1997" vertical-scroll-proportion="-7.28">
+            <state line="72" column="23" selection-start="1889" selection-end="1889" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -287,22 +254,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/DetailsActivity.java" />
-        <option value="$PROJECT_DIR$/res/layout/main_layout.xml" />
-        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/MainAPPrefsFragment.java" />
-        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/preferences/UrlDownloaderDialogPreference.java" />
-        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/utils/UIUtils.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/res/xml/main_preferences.xml" />
-        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/APSelectorFragment.java" />
-        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/ProxySettingsCallerActivity.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/AccessPointListFragment.java" />
-        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/AccessPoint.java" />
         <option value="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxySettings.java" />
         <option value="$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxyConfiguration.java" />
         <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/ApplicationGlobals.java" />
+        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/utils/Utils.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/services/ProxySettingsCheckerService.java" />
+        <option value="$PROJECT_DIR$/res/xml/help_preferences.xml" />
+        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/ProxyDetailsFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/AccessPointListFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/StatusFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/main_layout.xml" />
+        <option value="$PROJECT_DIR$/res/layout/status.xml" />
+        <option value="$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -476,12 +443,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files" />
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -515,6 +476,50 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="proxysettings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxysettings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxysettings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -590,7 +595,47 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="android-proxy-library" />
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -603,16 +648,14 @@
               <option name="myItemId" value="android-proxy-library" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files" />
       </pane>
     </panes>
   </component>
@@ -661,6 +704,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\marco\git\proxy_settings\res\layout" />
       <recent name="C:\Users\marco\git\proxy_settings\libs" />
     </key>
   </component>
@@ -851,7 +895,9 @@
       <workItem from="1368796976828" duration="165000" />
       <workItem from="1369037306660" duration="201000" />
       <workItem from="1369037537616" duration="1434000" />
-      <workItem from="1369041039245" duration="7838000" />
+      <workItem from="1369041039245" duration="8438000" />
+      <workItem from="1369066084282" duration="183000" />
+      <workItem from="1369121666824" duration="7812000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring application in order to clarify which Wi-Fi AP is currently active and selected">
       <created>1368707668327</created>
@@ -861,7 +907,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30971000" />
+    <option name="totallyTimeSpent" value="39566000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -887,26 +933,26 @@
     <frame x="-4" y="-4" width="1928" height="1036" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.347191" sideWeight="0.4759872" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.098185696" sideWeight="0.71011233" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32371795" sideWeight="0.71011233" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34606743" sideWeight="0.36446103" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.7404494" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921347" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28988764" sideWeight="0.67395943" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.347191" sideWeight="0.5240128" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280899" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28988764" sideWeight="0.67342585" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34606743" sideWeight="0.63500535" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16808964" sideWeight="0.2988764" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26785713" sideWeight="0.39460248" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26741573" sideWeight="0.39434364" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25617978" sideWeight="0.50533617" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921347" sideWeight="0.6846318" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32847533" sideWeight="0.49733192" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3094984" sideWeight="0.67152464" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30929488" sideWeight="0.71011233" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17929563" sideWeight="0.65280896" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17895299" sideWeight="0.71011233" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.106189966" sideWeight="0.8146067" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.8146067" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.7404494" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -975,144 +1021,123 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/project.properties">
+    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/utils/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="29" column="0" selection-start="788" selection-end="788" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.6489607">
+        <state line="20" column="56" selection-start="954" selection-end="954" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="45" selection-start="229" selection-end="229" vertical-scroll-proportion="0.41834453">
+        <state line="5" column="30" selection-start="218" selection-end="218" vertical-scroll-proportion="0.14834206">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/ApplicationsFeedbacksActivity.java">
+    <entry file="file://D:/Documents/Dev/android-sdk-windows/sources/android-15/android/net/ConnectivityManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="13" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.12806027">
+        <state line="92" column="49" selection-start="3937" selection-end="3955" vertical-scroll-proportion="0.42206654">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/ProxyDetailsFragment.java">
+    <entry file="file://D:/Documents/Dev/android-sdk-windows/sources/android-15/android/app/ListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1409" selection-end="1580" vertical-scroll-proportion="-6.8">
+        <state line="147" column="37" selection-start="6200" selection-end="6200" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/WebViewWithProxyActivity.java">
+    <entry file="file://D:/Documents/Dev/android-sdk-windows/sources/android-15/android/app/Fragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="52" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.70433146">
+        <state line="1096" column="16" selection-start="41855" selection-end="41855" vertical-scroll-proportion="0.35973597">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/xml/help_preferences.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="54" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#4020#5268#0" expanded="true" />
-            <element signature="e#5261#5262#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Documents/Dev/android-sdk-windows/sources/android-15/java/util/Collections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1866" column="0" selection-start="58163" selection-end="58163" vertical-scroll-proportion="0.0">
+        <state line="9" column="38" selection-start="346" selection-end="346" vertical-scroll-proportion="0.25247526">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Documents/Dev/android-sdk-windows/sources/android-15/java/util/Arrays.java">
+    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/HelpPrefsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1972" column="0" selection-start="72080" selection-end="72080" vertical-scroll-proportion="0.0">
+        <state line="10" column="13" selection-start="344" selection-end="344" vertical-scroll-proportion="0.11467116">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/ProxyCheckerPrefsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="13" selection-start="948" selection-end="948" vertical-scroll-proportion="0.11467116">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/services/ProxySettingsCheckerService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="0" selection-start="4119" selection-end="4119" vertical-scroll-proportion="0.0">
+        <state line="54" column="0" selection-start="1907" selection-end="1907" vertical-scroll-proportion="0.30528054">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxyConfiguration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="526" column="0" selection-start="18796" selection-end="18796" vertical-scroll-proportion="-5.68">
-          <folding>
-            <element signature="e#4881#4941#0" expanded="true" />
-            <element signature="e#5257#5307#0" expanded="true" />
-            <element signature="e#10926#10975#0" expanded="true" />
-            <element signature="e#11308#11368#0" expanded="true" />
-            <element signature="e#11535#11586#0" expanded="true" />
-            <element signature="e#11880#11941#0" expanded="true" />
-            <element signature="e#12095#12147#0" expanded="true" />
-            <element signature="e#12681#12737#0" expanded="true" />
-            <element signature="e#12977#13026#0" expanded="true" />
-            <element signature="e#13284#13332#0" expanded="true" />
-            <element signature="e#13908#13957#0" expanded="true" />
-            <element signature="e#14988#15037#0" expanded="true" />
-            <element signature="e#15418#15470#0" expanded="true" />
-            <element signature="e#15643#15688#0" expanded="true" />
-            <element signature="e#15966#16011#0" expanded="true" />
-            <element signature="e#16476#16526#0" expanded="true" />
-            <element signature="e#16690#16744#0" expanded="true" />
-            <element signature="e#16906#16969#0" expanded="true" />
-            <element signature="e#17512#17560#0" expanded="true" />
-            <element signature="e#17706#17758#0" expanded="true" />
-            <element signature="e#25296#25333#0" expanded="true" />
-            <element signature="e#25410#25447#0" expanded="true" />
-            <element signature="e#25501#25542#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/AccessPoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="0" selection-start="4422" selection-end="4422" vertical-scroll-proportion="-7.72">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/ProxySettings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="0" selection-start="7812" selection-end="7812" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#7865#7885#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/AccessPointListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="0" selection-start="1997" selection-end="1997" vertical-scroll-proportion="-7.28">
+        <state line="72" column="23" selection-start="1889" selection-end="1889" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/ApplicationGlobals.java">
+    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/StatusFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="4" selection-start="740" selection-end="740" vertical-scroll-proportion="0.25660378">
+        <state line="34" column="67" selection-start="1011" selection-end="1011" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#4710#4730#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/main_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="47" selection-start="653" selection-end="653" vertical-scroll-proportion="0.38037866">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/status.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="36" selection-start="356" selection-end="356" vertical-scroll-proportion="-4.76">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/fragments/ProxyDetailsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="165" column="20" selection-start="5670" selection-end="5670" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/activities/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="0" selection-start="4121" selection-end="4121" vertical-scroll-proportion="0.34172663">
+          <folding />
         </state>
       </provider>
     </entry>

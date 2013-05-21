@@ -12,7 +12,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by marco on 17/05/13.
@@ -64,14 +63,14 @@ public class AccessPointListFragment extends ListFragment
     {
         super.onResume();
 
-        refresh();
+        refreshUI();
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
     }
 
-    public void refresh()
+    public void refreshUI()
     {
         if (apListAdapter != null)
             apListAdapter.clear();

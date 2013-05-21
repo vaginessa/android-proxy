@@ -15,7 +15,6 @@
 	<string name="proxy_checker">Proxy checker</string>
 	<string name="advanced">Advanced</string>
 	<string name="about">About</string>
-	<string name="versionName">2.0</string>
 	<string name="wifi_disabled">Wi-Fi disabled: no Access Point can be selected</string>
 	<string name="wifi_enabled">Wi-Fi enabled</string>
 	<string name="no_ap_active">Not connected to any Wi-Fi Access Point</string>

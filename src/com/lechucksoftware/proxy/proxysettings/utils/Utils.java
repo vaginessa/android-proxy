@@ -9,11 +9,28 @@ import java.net.PasswordAuthentication;
 
 import android.content.Context;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import com.bugsense.trace.BugSenseHandler;
 
 public class Utils
 {
 	public static String TAG = "Utils";
+
+    public static PackageInfo getAppInfo(Context ctx)
+    {
+        PackageInfo pInfo = null;
+        try
+        {
+            pInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            BugSenseHandler.sendException(e);
+        }
+
+        return pInfo;
+    }
 
 	public static void SetHTTPAuthentication(final String user, final String password)
 	{
