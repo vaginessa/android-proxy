@@ -22,9 +22,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="android-support-v4" level="project" />
     <orderEntry type="library" name="bugsense3.2.2" level="project" />
+    <orderEntry type="library" name="android-viewpagerindicator-library" level="project" />
     <orderEntry type="module" module-name="android-proxy-library" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="android-viewpagerindicator-library" level="project" />
   </component>
 </module>
 

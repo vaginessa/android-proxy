@@ -26,7 +26,6 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
     private PreferenceScreen authPrefScreen;
     private SwitchPreference proxyEnablePref;
-    private TextView confStatus;
 
     private EditTextPreference proxyHostPref;
     private EditTextPreference proxyPortPref;
@@ -61,18 +60,6 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         getUIComponents();
         refreshUI();
 //        selectAP();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        LinearLayout v = (LinearLayout) super.onCreateView(inflater, container, savedInstanceState);
-
-        confStatus = new Button(getActivity().getApplicationContext());
-
-        v.addView(confStatus);
-
-        return v;
     }
 
     private void getUIComponents()
@@ -168,21 +155,6 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
     private void refreshAP()
     {
-        confStatus.setText(ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
-
-        if (ApplicationGlobals.getSelectedConfiguration().isCurrentNetwork())
-        {
-            confStatus.setBackgroundResource(R.color.Holo_Blue_Light);
-        }
-        else if (ApplicationGlobals.getSelectedConfiguration().ap.mRssi < Integer.MAX_VALUE)
-        {
-            confStatus.setBackgroundResource(R.color.Holo_Green_Light);
-        }
-        else
-        {
-            confStatus.setBackgroundResource(R.color.Gray);
-        }
-
         if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
         {
             proxyEnablePref.setEnabled(true);
@@ -269,6 +241,8 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
+
+        StatusFragment.getInstance().Show();
     }
 
     @Override

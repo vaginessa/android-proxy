@@ -71,6 +71,9 @@ public class MainActivity extends Activity
             // Add the fragment to the 'fragment_container' FrameLayout
             getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
         }
+
+//        StatusFragment.getInstance().Hide();
+
     }
 
     @Override

@@ -68,6 +68,8 @@ public class AccessPointListFragment extends ListFragment
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
+
+        StatusFragment.getInstance().Hide();
     }
 
     public void refreshUI()
