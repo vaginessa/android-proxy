@@ -39,22 +39,22 @@ public class ApSelectorDialogPreference extends DialogPreference
 		
 //		Debug.startMethodTracing();
 		
-		listview = (ListView) root.findViewById(R.id.ap_selector_listview);
-		
-		
-		final ArrayList<ProxyConfiguration> confsList = (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList();
-		Collections.sort(confsList);
+//		listview = (ListView) root.findViewById(R.id.ap_selector_listview);
+//
+//
+//		final ArrayList<ProxyConfiguration> confsList = (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList();
+//		Collections.sort(confsList);
 				
-		listview.setAdapter(new ProxySelectorListAdapter(ApSelectorDialogPreference.this.getContext(), R.id.list_view, confsList));
-		listview.setOnItemClickListener(new OnItemClickListener()
-		{
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-		    {		    	
-//		    	ProxyDetailsFragment.instance.selectAP(confsList.get(position));
-		    	ApSelectorDialogPreference.this.getDialog().dismiss();
-		    }
-		});
-		
+//		listview.setAdapter(new ProxySelectorListAdapter(ApSelectorDialogPreference.this.getContext(), R.id.list_view, confsList));
+//		listview.setOnItemClickListener(new OnItemClickListener()
+//		{
+//		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+//		    {
+////		    	ProxyDetailsFragment.instance.selectAP(confsList.get(position));
+//		    	ApSelectorDialogPreference.this.getDialog().dismiss();
+//		    }
+//		});
+//
 //		Debug.stopMethodTracing();
 		
 		return root;
