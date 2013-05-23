@@ -156,8 +156,9 @@ public class ApplicationGlobals extends Application
 
 	public static List<ProxyConfiguration> getConfigurationsList()
 	{
-        if (getInstance().configurations.isEmpty())
-            updateProxyConfigurationList();
+//        if (getInstance().configurations.isEmpty())
+
+        updateProxyConfigurationList();
 
 		ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(getInstance().configurations.values());
         Collections.sort(results);

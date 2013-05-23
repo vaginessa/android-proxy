@@ -44,38 +44,70 @@ public class StatusFragment extends Fragment {
 
             if (selConf != null)
             {
-                statusButton.setText(selConf.getAPConnectionStatus());
+                // Write something about selected configuration
+                show();
 
                 if (selConf.isCurrentNetwork())
                 {
-                    statusButton.setBackgroundResource(R.color.Holo_Blue_Light);
+                    setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Blue_Light);
                 }
                 else if (selConf.ap.mRssi < Integer.MAX_VALUE)
                 {
-                    statusButton.setBackgroundResource(R.color.Holo_Green_Light);
+                    setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Green_Light);
                 }
                 else
                 {
-                    statusButton.setBackgroundResource(R.color.Gray);
+                    setStatus(selConf.getAPConnectionStatus(), null, R.color.Gray);
                 }
+            }
+            else
+            {
+                // No configuration selected
+                if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
+                {
+                    setStatus("Enable Wi-Fi", enableWifi, R.color.Holo_Red_Light);
+                }
+                else
+                    hide();
             }
         }
     }
 
+
+    public void setStatus(String status, View.OnClickListener listener, int resId)
+    {
+        if (listener != null)
+            statusButton.setText(String.format("%s...",status));
+        else
+            statusButton.setText(status);
+
+        statusButton.setBackgroundResource(resId);
+        statusButton.setOnClickListener(listener);
+    }
+
+    View.OnClickListener enableWifi = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            ApplicationGlobals.getWifiManager().setWifiEnabled(true);
+        }
+    };
+
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         refreshUI();
     }
 
-    public void Hide() {
-//        statusButton.setHeight(0);
+    public void hide()
+    {
         statusButton.setVisibility(View.GONE);
-        refreshUI();
     }
 
-    public void Show() {
+    public void show()
+    {
         statusButton.setVisibility(View.VISIBLE);
-        refreshUI();
     }
 }

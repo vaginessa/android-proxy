@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
@@ -72,7 +73,7 @@ public class MainActivity extends Activity
             getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
         }
 
-//        StatusFragment.getInstance().Hide();
+//        StatusFragment.getInstance().hide();
 
     }
 

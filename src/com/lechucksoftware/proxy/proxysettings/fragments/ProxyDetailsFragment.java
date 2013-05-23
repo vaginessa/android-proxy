@@ -242,7 +242,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
 
-        StatusFragment.getInstance().Show();
+        StatusFragment.getInstance().refreshUI();
     }
 
     @Override

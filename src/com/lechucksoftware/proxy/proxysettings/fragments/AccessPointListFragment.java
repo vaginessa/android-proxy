@@ -42,19 +42,22 @@ public class AccessPointListFragment extends ListFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         apListAdapter = new ProxySelectorListAdapter(getActivity());
         setListAdapter(apListAdapter);
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(ListView l, View v, int position, long id)
+    {
         showDetails(position);
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
 
         refreshUI();
@@ -63,11 +66,14 @@ public class AccessPointListFragment extends ListFragment {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
 
-//        StatusFragment.getInstance().Hide();
+        ApplicationGlobals.setSelectedConfiguration(null);
+        StatusFragment.getInstance().refreshUI();
     }
 
-    public void refreshUI() {
-        if (apListAdapter != null) {
+    public void refreshUI()
+    {
+        if (apListAdapter != null)
+        {
             apListAdapter.setData(ApplicationGlobals.getConfigurationsList());
         }
     }
