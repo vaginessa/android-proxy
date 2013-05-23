@@ -8,7 +8,10 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -27,6 +30,69 @@ public class AccessPointListFragment extends ListFragment implements LoaderManag
     int mCurCheckPosition = 0;
     private ProxySelectorListAdapter apListAdapter;
 
+    public ListView mList;
+    boolean mListShown;
+    View mProgressContainer;
+    View mListContainer;
+
+    public void setListShown(boolean shown, boolean animate)
+    {
+        if (mListShown == shown)
+        {
+            return;
+        }
+
+        mListShown = shown;
+
+        if (shown)
+        {
+            if (animate)
+            {
+                mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+                        getActivity(), android.R.anim.fade_out));
+                mListContainer.startAnimation(AnimationUtils.loadAnimation(
+                        getActivity(), android.R.anim.fade_in));
+            }
+            mProgressContainer.setVisibility(View.GONE);
+            mListContainer.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            if (animate)
+            {
+                mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+                        getActivity(), android.R.anim.fade_in));
+                mListContainer.startAnimation(AnimationUtils.loadAnimation(
+                        getActivity(), android.R.anim.fade_out));
+            }
+            mProgressContainer.setVisibility(View.VISIBLE);
+            mListContainer.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setListShown(boolean shown)
+    {
+        setListShown(shown, true);
+    }
+
+    public void setListShownNoAnimation(boolean shown)
+    {
+        setListShown(shown, false);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
+    {
+        int INTERNAL_EMPTY_ID = 0x00ff0001;
+        View root = inflater.inflate(R.layout.ap_selector_fragment, container, false);
+        (root.findViewById(R.id.internalEmpty)).setId(INTERNAL_EMPTY_ID);
+        mList = (ListView) root.findViewById(android.R.id.list);
+        mListContainer = root.findViewById(R.id.listContainer);
+        mProgressContainer = root.findViewById(R.id.progressContainer);
+        mListShown = true;
+        return root;
+    }
 
     public static AccessPointListFragment getInstance()
     {
@@ -41,8 +107,9 @@ public class AccessPointListFragment extends ListFragment implements LoaderManag
     {
         super.onActivityCreated(savedInstanceState);
 
+
         // Initially there is no data
-        setEmptyText("No Data Here");
+//        setEmptyText("No Data Here");
 
         // Create an empty adapter we will use to display the loaded data.
         apListAdapter = new ProxySelectorListAdapter(getActivity());
@@ -56,6 +123,13 @@ public class AccessPointListFragment extends ListFragment implements LoaderManag
         getLoaderManager().initLoader(0, null, this);
     }
 
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+//    {
+//        View v = inflater.inflate(R.layout.ap_selector_fragment, null);
+//        return v;
+//    }
+
     @Override
     public Loader<List<ProxyConfiguration>> onCreateLoader(int arg0, Bundle arg1)
     {
@@ -66,7 +140,7 @@ public class AccessPointListFragment extends ListFragment implements LoaderManag
     public void onLoadFinished(Loader<List<ProxyConfiguration>> arg0, List<ProxyConfiguration> data)
     {
         apListAdapter.setData(data);
-        System.out.println("DataListFragment.onLoadFinished");
+
         // The list should now be shown.
         if (isResumed())
         {
@@ -86,7 +160,6 @@ public class AccessPointListFragment extends ListFragment implements LoaderManag
 
     public static class DataListLoader extends AsyncTaskLoader<List<ProxyConfiguration>>
     {
-
         List<ProxyConfiguration> mModels;
 
         public DataListLoader(Context context)
@@ -97,8 +170,6 @@ public class AccessPointListFragment extends ListFragment implements LoaderManag
         @Override
         public List<ProxyConfiguration> loadInBackground()
         {
-            System.out.println("DataListLoader.loadInBackground");
-
             // You should perform the heavy task of getting data from
             // Internet or database or other source
             // Here, we are generating some Sample data
@@ -244,7 +315,7 @@ public class AccessPointListFragment extends ListFragment implements LoaderManag
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
 
-        StatusFragment.getInstance().Hide();
+//        StatusFragment.getInstance().Hide();
     }
 
     public void refreshUI()
@@ -254,9 +325,6 @@ public class AccessPointListFragment extends ListFragment implements LoaderManag
 
 //        final ArrayList<ProxyConfiguration> confsList = (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList();
 //        apListAdapter = new ProxySelectorListAdapter(getActivity(), R.layout.ap_selector_fragment, confsList);
-
-
-        setListAdapter(apListAdapter);
     }
 
     /**
