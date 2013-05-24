@@ -28,6 +28,9 @@
 	<string name="proxy_status">Proxy status</string>
 	<string name="ap_selection_title">Select the Wi-Fi access point:</string>
 	<string name="connected_to">%1$s &#8230;</string>
+
+    <string name="enable_wifi_action">Enable Wi-Fi</string>
+
 	
 	<string name="ap_status_label">Status:</string>
 	<string name="ap_security_label">Security:</string>
@@ -832,4 +835,5 @@
 		injury, loss of privacy, moral rights or the disclosure of confidential 
 		information.
 	</string>
+
 </resources>

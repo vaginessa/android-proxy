@@ -8,19 +8,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by marco on 21/05/13.
  */
-public class StatusFragment extends Fragment {
+public class StatusFragment extends EnhancedFragment
+{
+    private static final String TAG = "StatusFragment";
     public static StatusFragment instance;
     private Button statusButton;
 
     /**
      * Create a new instance of StatusFragment
      */
-    public static StatusFragment getInstance() {
+    public static StatusFragment getInstance()
+    {
         if (instance == null)
             instance = new StatusFragment();
 
@@ -38,37 +42,40 @@ public class StatusFragment extends Fragment {
 
     public void refreshUI()
     {
-        if (statusButton != null)
+//        if (isVisible())
         {
-            ProxyConfiguration selConf = ApplicationGlobals.getSelectedConfiguration();
-
-            if (selConf != null)
+            if (statusButton != null)
             {
-                // Write something about selected configuration
-                show();
+                ProxyConfiguration selConf = ApplicationGlobals.getSelectedConfiguration();
 
-                if (selConf.isCurrentNetwork())
+                if (selConf != null)
                 {
-                    setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Blue_Light);
-                }
-                else if (selConf.ap.mRssi < Integer.MAX_VALUE)
-                {
-                    setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Green_Light);
+                    // Write something about selected configuration
+                    show();
+
+                    if (selConf.isCurrentNetwork())
+                    {
+                        setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Blue_Light);
+                    }
+                    else if (selConf.ap.mRssi < Integer.MAX_VALUE)
+                    {
+                        setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Green_Light);
+                    }
+                    else
+                    {
+                        setStatus(selConf.getAPConnectionStatus(), null, R.color.Gray);
+                    }
                 }
                 else
                 {
-                    setStatus(selConf.getAPConnectionStatus(), null, R.color.Gray);
+                    // No configuration selected
+                    if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
+                    {
+                        setStatus(getResources().getString(R.string.enable_wifi_action), enableWifi, R.color.Holo_Red_Light);
+                    }
+                    else
+                        hide();
                 }
-            }
-            else
-            {
-                // No configuration selected
-                if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
-                {
-                    setStatus("Enable Wi-Fi", enableWifi, R.color.Holo_Red_Light);
-                }
-                else
-                    hide();
             }
         }
     }
@@ -77,7 +84,7 @@ public class StatusFragment extends Fragment {
     public void setStatus(String status, View.OnClickListener listener, int resId)
     {
         if (listener != null)
-            statusButton.setText(String.format("%s...",status));
+            statusButton.setText(String.format("%s...", status));
         else
             statusButton.setText(status);
 
@@ -91,6 +98,7 @@ public class StatusFragment extends Fragment {
         public void onClick(View view)
         {
             ApplicationGlobals.getWifiManager().setWifiEnabled(true);
+            hide();
         }
     };
 
@@ -101,12 +109,12 @@ public class StatusFragment extends Fragment {
         refreshUI();
     }
 
-    public void hide()
+    private void hide()
     {
         statusButton.setVisibility(View.GONE);
     }
 
-    public void show()
+    private void show()
     {
         statusButton.setVisibility(View.VISIBLE);
     }

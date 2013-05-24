@@ -11,7 +11,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
@@ -72,9 +71,6 @@ public class MainActivity extends Activity
             // Add the fragment to the 'fragment_container' FrameLayout
             getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
         }
-
-//        StatusFragment.getInstance().hide();
-
     }
 
     @Override
@@ -116,10 +112,10 @@ public class MainActivity extends Activity
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 
-        ifilt.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-        ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-        ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-        ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+//        ifilt.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+//        ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+//        ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+//        ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
 //		ifilt.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
 
         // ifilt.addAction(Constants.PROXY_REFRESH_UI);
@@ -145,24 +141,25 @@ public class MainActivity extends Activity
         public void onReceive(Context context, Intent intent)
         {
             String action = intent.getAction();
+
             if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
             {
-                LogWrapper.d(TAG, "Received broadcast for updated proxy configuration - RefreshUI");
+                LogWrapper.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
                 refreshUI();
             }
             else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
             {
-                LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration - RefreshUI");
+                LogWrapper.d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();
             }
-            else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-                    || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
-                    || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION))
-            {
-                LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
-                refreshUI();
-            }
+//            else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+//                    || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
+//                    || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
+//                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION))
+//            {
+//                LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
+//                refreshUI();
+//            }
             else
             {
                 LogWrapper.e(TAG, "Received intent not handled: " + intent.getAction());
@@ -172,26 +169,11 @@ public class MainActivity extends Activity
 
     private void refreshUI()
     {
-        this.invalidateOptionsMenu();
+//        this.invalidateOptionsMenu();
 
-        if (ProxyDetailsFragment.getInstance().isVisible())
-        {
-            ProxyDetailsFragment.getInstance().refreshUI();
-        }
-
-        if (AccessPointListFragment.getInstance().isVisible())
-        {
-            AccessPointListFragment.getInstance().refreshUI();
-        }
-
-        if (StatusFragment.getInstance().isVisible())
-        {
-            StatusFragment.getInstance().refreshUI();
-        }
-//        if (checkFragment.isVisible())
-//        {
-//            checkFragment.refreshUI();
-//        }
+        AccessPointListFragment.getInstance().refreshUI();
+        ProxyDetailsFragment.getInstance().refreshUI();
+        StatusFragment.getInstance().refreshUI();
     }
 
     static boolean active = false;

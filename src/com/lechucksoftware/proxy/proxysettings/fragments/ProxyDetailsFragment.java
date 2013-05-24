@@ -6,12 +6,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -147,77 +142,72 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
     public void refreshUI()
     {
-        boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
-//		apSelectorPref.setEnabled(wifiEnabled);
-
-        refreshAP();
-    }
-
-    private void refreshAP()
-    {
-        if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
+        if (isVisible())
         {
-            proxyEnablePref.setEnabled(true);
-            String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
+            if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
+            {
+                proxyEnablePref.setEnabled(true);
+                String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
 //			apSelectorPref.setSummary(apdesc);
 
-            if (ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.NONE || ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.UNASSIGNED)
-            {
-                proxyEnablePref.setChecked(false);
+                if (ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.NONE || ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.UNASSIGNED)
+                {
+                    proxyEnablePref.setChecked(false);
+                }
+                else
+                {
+                    proxyEnablePref.setChecked(true);
+                }
+
+                String proxyHost = ApplicationGlobals.getSelectedConfiguration().getProxyHost();
+                proxyHostPref.setText(proxyHost);
+                if (proxyHost == null || proxyHost.length() == 0)
+                {
+                    proxyHostPref.setSummary(getText(R.string.not_set));
+                }
+                else
+                {
+                    proxyHostPref.setSummary(proxyHost);
+                }
+
+                Integer proxyPort = ApplicationGlobals.getSelectedConfiguration().getProxyPort();
+                String proxyPortString;
+                if (proxyPort == null || proxyPort == 0)
+                {
+                    proxyPortString = getText(R.string.not_set).toString();
+                    proxyPortPref.setText(null);
+                }
+                else
+                {
+                    proxyPortString = proxyPort.toString();
+                    proxyPortPref.setText(proxyPortString);
+                }
+
+                String bypassList = ApplicationGlobals.getSelectedConfiguration().getProxyExclusionList();
+                if (bypassList == null || bypassList.equals(""))
+                {
+                    proxyBypassPref.setSummary(getText(R.string.not_set));
+                }
+                else
+                {
+                    proxyBypassPref.setSummary(bypassList);
+                }
+
+                proxyPortPref.setSummary(proxyPortString);
             }
             else
             {
-                proxyEnablePref.setChecked(true);
-            }
-
-            String proxyHost = ApplicationGlobals.getSelectedConfiguration().getProxyHost();
-            proxyHostPref.setText(proxyHost);
-            if (proxyHost == null || proxyHost.length() == 0)
-            {
-                proxyHostPref.setSummary(getText(R.string.not_set));
-            }
-            else
-            {
-                proxyHostPref.setSummary(proxyHost);
-            }
-
-            Integer proxyPort = ApplicationGlobals.getSelectedConfiguration().getProxyPort();
-            String proxyPortString;
-            if (proxyPort == null || proxyPort == 0)
-            {
-                proxyPortString = getText(R.string.not_set).toString();
-                proxyPortPref.setText(null);
-            }
-            else
-            {
-                proxyPortString = proxyPort.toString();
-                proxyPortPref.setText(proxyPortString);
-            }
-
-            String bypassList = ApplicationGlobals.getSelectedConfiguration().getProxyExclusionList();
-            if (bypassList == null || bypassList.equals(""))
-            {
-                proxyBypassPref.setSummary(getText(R.string.not_set));
-            }
-            else
-            {
-                proxyBypassPref.setSummary(bypassList);
-            }
-
-            proxyPortPref.setSummary(proxyPortString);
-        }
-        else
-        {
-            if (ApplicationGlobals.getWifiManager().isWifiEnabled())
-            {
+                if (ApplicationGlobals.getWifiManager().isWifiEnabled())
+                {
 //				apSelectorPref.setSummary(getResources().getString(R.string.no_ap_active));
-            }
-            else
-            {
+                }
+                else
+                {
 //				apSelectorPref.setTitle(getResources().getString(R.string.wifi_disabled));
-            }
+                }
 
-            proxyEnablePref.setEnabled(false);
+                proxyEnablePref.setEnabled(false);
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.app.Application;
 import android.content.Context;
@@ -24,7 +25,13 @@ public class ApplicationGlobals extends Application
 {
 	private static ApplicationGlobals mInstance;
 
-	private Map<String, ProxyConfiguration> configurations;
+
+
+    private Map<String, ProxyConfiguration> configurations;
+    private Map<String, ProxyConfiguration> getConfigurations()
+    {
+        return configurations;
+    }
 
 	public int timeout;
 	private WifiManager mWifiManager;
@@ -63,7 +70,7 @@ public class ApplicationGlobals extends Application
 		mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		mConnManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-		configurations = new HashMap<String, ProxyConfiguration>();
+		configurations = new ConcurrentHashMap<String, ProxyConfiguration>();
 
 		mInstance = this;
 				
@@ -73,7 +80,7 @@ public class ApplicationGlobals extends Application
 		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
 	}
 
-	public static synchronized ApplicationGlobals getInstance()
+	public static ApplicationGlobals getInstance()
 	{
 		if (mInstance == null)
 			BugSenseHandler.sendException(new Exception("Cannot find valid instance of ApplicationGlobals"));
@@ -81,17 +88,17 @@ public class ApplicationGlobals extends Application
 		return mInstance;
 	}
 
-	public static void addConfiguration(String SSID, ProxyConfiguration conf)
+	public void addConfiguration(String SSID, ProxyConfiguration conf)
 	{
-		if (getInstance().configurations.containsKey(SSID))
+		if (getConfigurations().containsKey(SSID))
 		{
-            getInstance().configurations.remove(SSID);
+            getConfigurations().remove(SSID);
 		}
 
-        getInstance().configurations.put(SSID, conf);
+        getConfigurations().put(SSID, conf);
 	}
 	
-	public static void updateProxyConfigurationList()
+	public void updateProxyConfigurationList()
 	{
 		// Get information regarding other configured AP
 		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getInstance());
@@ -107,15 +114,15 @@ public class ApplicationGlobals extends Application
 			for (ScanResult res : scanResults)
 			{
 				String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
-				if (getInstance().configurations.containsKey(currSSID))
+				if (getConfigurations().containsKey(currSSID))
 				{
-                    getInstance().configurations.get(currSSID).ap.update(res);
+                    getConfigurations().get(currSSID).ap.update(res);
 				}
 			}
 		}
 	}
 
-	public static ProxyConfiguration getCurrentConfiguration()
+	public ProxyConfiguration getCurrentConfiguration()
 	{
 		ProxyConfiguration conf = null;
 
@@ -124,12 +131,12 @@ public class ApplicationGlobals extends Application
 			WifiInfo info = getInstance().mWifiManager.getConnectionInfo();
 			String SSID = ProxyUtils.cleanUpSSID(info.getSSID());
 
-			if (getInstance().configurations.isEmpty())
+			if (getConfigurations().isEmpty())
 				updateProxyConfigurationList();
 			
-			if (getInstance().configurations.containsKey(SSID))
+			if (getConfigurations().containsKey(SSID))
 			{
-				conf = getInstance().configurations.get(SSID);
+				conf = getConfigurations().get(SSID);
 			}
 
             getInstance().currentConfiguration = conf;
@@ -144,7 +151,7 @@ public class ApplicationGlobals extends Application
 		return getInstance().currentConfiguration;
 	}
 
-	public static ProxyConfiguration getCachedConfiguration()
+	public ProxyConfiguration getCachedConfiguration()
 	{
 		if (getInstance().currentConfiguration == null)
 		{
@@ -154,24 +161,25 @@ public class ApplicationGlobals extends Application
 		return getInstance().currentConfiguration;
 	}
 
-	public static List<ProxyConfiguration> getConfigurationsList()
+	public List<ProxyConfiguration> getConfigurationsList()
 	{
 //        if (getInstance().configurations.isEmpty())
 
         updateProxyConfigurationList();
-
-		ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(getInstance().configurations.values());
+        Collection<ProxyConfiguration> values = getConfigurations().values();
+		ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(values);
         Collections.sort(results);
+
         return results;
 	}
 	
-	public static ProxyConfiguration getConfiguration(String SSID)
+	public ProxyConfiguration getConfiguration(String SSID)
 	{
 		String cleanSSID = ProxyUtils.cleanUpSSID(SSID);
 		
-		if (getInstance().configurations.containsKey(cleanSSID))
+		if (getConfigurations().containsKey(cleanSSID))
 		{
-			return getInstance().configurations.get(cleanSSID);
+			return getConfigurations().get(cleanSSID);
 		}
 		else return null;
 	}

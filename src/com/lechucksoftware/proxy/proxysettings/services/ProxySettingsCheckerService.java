@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -97,22 +98,45 @@ public class ProxySettingsCheckerService extends IntentService
 
 			if (!callerIntent.getAction().equals(Constants.PROXY_SETTINGS_STARTED))
 			{
-				oldconf = ApplicationGlobals.getCachedConfiguration();
+				oldconf = ApplicationGlobals.getInstance().getCachedConfiguration();
 			}	
 
 			CallRefreshApplicationStatus();
 			
-			ApplicationGlobals.updateProxyConfigurationList();
-			ProxyConfiguration newconf = ApplicationGlobals.getCurrentConfiguration();
+			ApplicationGlobals.getInstance().updateProxyConfigurationList();
+			ProxyConfiguration newconf = ApplicationGlobals.getInstance().getCurrentConfiguration();
 
 			NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
 			if (ni != null && ni.isAvailable() && ni.isConnected())
 			{
-				if (
-					newconf != null
-					// && (oldconf == null || oldconf.compareTo(newconf) != 0)
-					)
-				{
+                boolean checkNewConf = false;
+                if (newconf != null)
+                {
+                    if (oldconf != null)
+                    {
+                        if (oldconf.compareTo(newconf) != 0)
+                        {
+                            checkNewConf = true;
+                        }
+                        else
+                        {
+                            // Skip check when configuration is the same
+                        }
+                    }
+                    else
+                    {
+                        checkNewConf = true;
+                    }
+                }
+                else
+                {
+                    // newconf cannot be null!!
+                    BugSenseHandler.sendException(new Exception("Cannot have a null ProxyConfiguration"));
+                }
+
+                if (checkNewConf)
+                {
+                    LogWrapper.d(TAG, "Changed current proxy configuration: calling refresh of proxy status");
 					newconf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
 					LogWrapper.i(TAG, newconf.toString());
 				}
@@ -137,6 +161,6 @@ public class ProxySettingsCheckerService extends IntentService
 		Intent intent = new Intent(Constants.PROXY_REFRESH_UI);
 		getApplicationContext().sendBroadcast(intent);
 
-		UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getCachedConfiguration(), getApplicationContext());
+		UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getInstance().getCachedConfiguration(), getApplicationContext());
 	}
 }
