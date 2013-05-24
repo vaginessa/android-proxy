@@ -175,11 +175,11 @@ public class AccessPoint implements Comparable<AccessPoint>
 			return (networkId != -1) ? -1 : 1;
 		}
 		// Sort by signal strength.
-		int difference = WifiManager.compareSignalLevel(other.mRssi, mRssi);
-		if (difference != 0)
-		{
-			return difference;
-		}
+//		int difference = WifiManager.compareSignalLevel(other.mRssi, mRssi);
+//		if (difference != 0)
+//		{
+//			return difference;
+//		}
 		// Sort by ssid.
 		return ssid.compareToIgnoreCase(other.ssid);
 	}
