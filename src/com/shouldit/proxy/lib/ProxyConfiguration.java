@@ -552,7 +552,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                         else
                             result = 0;
                     }
-
                 }
 
                 // // Same network types

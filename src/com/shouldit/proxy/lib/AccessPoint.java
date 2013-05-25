@@ -159,8 +159,9 @@ public class AccessPoint implements Comparable<AccessPoint>
 		}
 		
 		AccessPoint other = (AccessPoint) ap;
-		// Active one goes first.
-		if (mInfo != other.mInfo)
+
+		// Active one goes first: Only check different SSID
+	    if (ssid.compareTo(other.ssid) != 0 && mInfo != other.mInfo)
 		{
 			return (mInfo != null) ? -1 : 1;
 		}
