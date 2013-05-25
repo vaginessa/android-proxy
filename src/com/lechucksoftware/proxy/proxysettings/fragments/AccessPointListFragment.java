@@ -61,6 +61,7 @@ public class AccessPointListFragment extends EnhancedListFragment
 
         // Reset selected configuration
         ApplicationGlobals.setSelectedConfiguration(null);
+        StatusFragment.getInstance().refreshUI();
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);

@@ -165,7 +165,6 @@ public class ProxySettingsCheckerService extends IntentService
                     LogWrapper.d(TAG, "Same configuration, skip checking...");
                 }
             }
-
 //            TEMP DISABLED
 //            CallRefreshApplicationStatus();
         }
