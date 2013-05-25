@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class AccessPointListFragment extends ListFragment
+public class AccessPointListFragment extends EnhancedListFragment
 {
     private static final String TAG = "AccessPointListFragment";
     private static AccessPointListFragment instance;
@@ -58,7 +58,6 @@ public class AccessPointListFragment extends ListFragment
     public void onResume()
     {
         super.onResume();
-        LogWrapper.d(TAG,"onResume " + this.getClass().getName());
 
         // Reset selected configuration
         ApplicationGlobals.setSelectedConfiguration(null);
@@ -69,6 +68,12 @@ public class AccessPointListFragment extends ListFragment
         actionBar.setTitle(getResources().getString(R.string.app_name));
 
         refreshUI();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
     }
 
     public void refreshUI()
@@ -85,13 +90,15 @@ public class AccessPointListFragment extends ListFragment
             {
                 List<ProxyConfiguration> results = ApplicationGlobals.getInstance().getConfigurationsList();
                 if (results.size() > 0)
+                {
                     apListAdapter.setData(results);
+                }
                 else
                 {
                     // Wi-Fi is enabled, but no Wi-Fi access point configured
                     apListAdapter.clear();
                     apListAdapter.setData(new ArrayList<ProxyConfiguration>());
-                    emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
+                    emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
                 }
             }
             else

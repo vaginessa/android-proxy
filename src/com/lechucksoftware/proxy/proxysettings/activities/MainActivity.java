@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
@@ -26,17 +27,13 @@ import com.shouldit.proxy.lib.APLConstants;
 public class MainActivity extends Activity
 {
     public static final String TAG = "MainActivity";
-
-    //    private ProxyDetailsFragment mainFragment;
-//    private HelpPrefsFragment helpFragment;
-//    private ProxyCheckerPrefsFragment checkFragment;
-//    private AdvancedPrefsFragment advFragment;
-//    private AccessPointListFragment apSelectorFragment;
+    private static boolean active = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        LogWrapper.d(TAG,"Creating MainActivity");
 
         setContentView(R.layout.main_layout);
 
@@ -74,6 +71,12 @@ public class MainActivity extends Activity
     }
 
     @Override
+    protected void onNewIntent (Intent intent)
+    {
+        LogWrapper.d(TAG,"onNewIntent MainActivity");
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         FragmentTransaction transaction = null;
@@ -98,6 +101,7 @@ public class MainActivity extends Activity
     public void onDestroy()
     {
         super.onDestroy();
+        LogWrapper.d(TAG,"Destroying MainActivity");
         ViewServer.get(this).removeWindow(this);
     }
 
@@ -105,6 +109,7 @@ public class MainActivity extends Activity
     public void onResume()
     {
         super.onResume();
+        LogWrapper.d(TAG,"Resuming MainActivity");
 
         // Start register the status receivers
         IntentFilter ifilt = new IntentFilter();
@@ -112,13 +117,13 @@ public class MainActivity extends Activity
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 
-//        ifilt.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-//        ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-//        ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-//        ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-//		ifilt.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        ifilt.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+        ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		ifilt.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
 
-        // ifilt.addAction(Constants.PROXY_REFRESH_UI);
+        ifilt.addAction(Constants.PROXY_REFRESH_UI);
         registerReceiver(changeStatusReceiver, ifilt);
 
         ViewServer.get(this).setFocusedWindow(this);
@@ -131,8 +136,25 @@ public class MainActivity extends Activity
     {
         super.onPause();
 
+        LogWrapper.d("TAG","Pause MainActivity");
         // Stop the registered status receivers
         unregisterReceiver(changeStatusReceiver);
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        LogWrapper.d(TAG,"Starting MainActivity");
+        active = true;
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        LogWrapper.d(TAG,"Stopping MainActivity");
+        active = false;
     }
 
     private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
@@ -152,14 +174,14 @@ public class MainActivity extends Activity
                 LogWrapper.d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();
             }
-//            else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-//                    || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
-//                    || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-//                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION))
-//            {
-//                LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
-//                refreshUI();
-//            }
+            else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+                    || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
+                    || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
+                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION))
+            {
+                LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
+                refreshUI();
+            }
             else
             {
                 LogWrapper.e(TAG, "Received intent not handled: " + intent.getAction());
@@ -174,21 +196,5 @@ public class MainActivity extends Activity
         AccessPointListFragment.getInstance().refreshUI();
         ProxyDetailsFragment.getInstance().refreshUI();
         StatusFragment.getInstance().refreshUI();
-    }
-
-    static boolean active = false;
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        active = true;
-    }
-
-    @Override
-    public void onStop()
-    {
-        super.onStop();
-        active = false;
     }
 }

@@ -77,7 +77,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 		LogWrapper.d(TAG, "Starting MainActivity activity");
 		
 		final Intent intent = new Intent(this, MainActivity.class);
-		
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		
 		finish();

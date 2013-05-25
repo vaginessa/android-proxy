@@ -7,6 +7,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -31,6 +32,12 @@ public class ApplicationGlobals extends Application
     private Map<String, ProxyConfiguration> getConfigurations()
     {
         return configurations;
+    }
+
+    private Map<String, ScanResult> notConfiguredWifi;
+    public Map<String, ScanResult> getNotConfiguredWifi()
+    {
+        return notConfiguredWifi;
     }
 
 	public int timeout;
@@ -71,6 +78,7 @@ public class ApplicationGlobals extends Application
 		mConnManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		configurations = new ConcurrentHashMap<String, ProxyConfiguration>();
+        notConfiguredWifi = new ConcurrentHashMap<String, ScanResult>();
 
 		mInstance = this;
 				
@@ -118,6 +126,15 @@ public class ApplicationGlobals extends Application
 				{
                     getConfigurations().get(currSSID).ap.update(res);
 				}
+                else
+                {
+                    if (getNotConfiguredWifi().containsKey(currSSID))
+                    {
+                        getNotConfiguredWifi().remove(currSSID);
+                    }
+
+                    getNotConfiguredWifi().put(currSSID, res);
+                }
 			}
 		}
 	}
@@ -184,6 +201,8 @@ public class ApplicationGlobals extends Application
 		else return null;
 	}
 
+
+
     public static void connectToAP(ProxyConfiguration conf)
     {
         if(getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
@@ -194,6 +213,44 @@ public class ApplicationGlobals extends Application
                 getInstance().mWifiManager.enableNetwork(conf.ap.networkId, false);
             }
         }
+    }
+
+    public static Boolean isConnected()
+    {
+        NetworkInfo ni = getCurrentNetworkInfo();
+        if (ni != null && ni.isAvailable() && ni.isConnected())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static Boolean isConnectedToWiFi()
+    {
+        NetworkInfo ni = getCurrentWiFiInfo();
+        if (ni != null && ni.isAvailable() && ni.isConnected())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static NetworkInfo getCurrentNetworkInfo()
+    {
+        NetworkInfo ni = getConnectivityManager().getActiveNetworkInfo();
+        return ni;
+    }
+
+    public static NetworkInfo getCurrentWiFiInfo()
+    {
+        NetworkInfo ni = getConnectivityManager().getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return ni;
     }
 
 	public static void startWifiScan()

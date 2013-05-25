@@ -1,7 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,10 +74,30 @@ public class StatusFragment extends EnhancedFragment
                     // No configuration selected
                     if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
                     {
+                        // Wi-Fi disabled -> ask to enable!
                         setStatus(getResources().getString(R.string.enable_wifi_action), enableWifi, R.color.Holo_Red_Light);
                     }
                     else
-                        hide();
+                    {
+                        // Wi-Fi enabled
+                        if (ApplicationGlobals.isConnectedToWiFi())
+                        {
+                            // Connected to Wi-Fi ap
+                        }
+                        else
+                        {
+                            if (ApplicationGlobals.getInstance().getNotConfiguredWifi().values().size() > 0)
+                            {
+                                // Wi-Fi AP available to connection -> Go to Wi-Fi Settings
+                                setStatus(getResources().getString(R.string.setupap_wifi_action), configureNewWifiAp, R.color.Holo_Green_Light);
+                            }
+                            else
+                            {
+                                // Wi-Fi AP available to connection
+//                                setStatus(getResources().getString(R.string.enable_wifi_action), configureNewWifiAp, R.color.Holo_Green_Light);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -90,15 +113,27 @@ public class StatusFragment extends EnhancedFragment
 
         statusButton.setBackgroundResource(resId);
         statusButton.setOnClickListener(listener);
+        show();
     }
 
     View.OnClickListener enableWifi = new View.OnClickListener()
+{
+    @Override
+    public void onClick(View view)
+    {
+        ApplicationGlobals.getWifiManager().setWifiEnabled(true);
+        hide();
+    }
+};
+
+    View.OnClickListener configureNewWifiAp = new View.OnClickListener()
     {
         @Override
         public void onClick(View view)
         {
-            ApplicationGlobals.getWifiManager().setWifiEnabled(true);
             hide();
+            Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
+            startActivity(intent);
         }
     };
 
@@ -107,6 +142,12 @@ public class StatusFragment extends EnhancedFragment
     {
         super.onResume();
         refreshUI();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
     }
 
     private void hide()

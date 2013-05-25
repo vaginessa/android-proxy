@@ -30,6 +30,11 @@
 	<string name="connected_to">%1$s &#8230;</string>
 
     <string name="enable_wifi_action">Enable Wi-Fi</string>
+    <string name="setupap_wifi_action">Connect to available Wi-Fi</string>
+
+    <string name="wifi_empty_list_no_ap">No Wi-Fi networks configured</string>
+    <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50]-->
+    <string name="wifi_empty_list_wifi_off">To see available networks, turn Wi-Fi on.</string>
 
 	
 	<string name="ap_status_label">Status:</string>
@@ -381,8 +386,7 @@
     <string name="wifi_menu_forget">Forget network</string>
     <!-- Menu option to modify a Wi-Fi network configuration -->
     <string name="wifi_menu_modify">Modify network</string>
-    <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50]-->
-    <string name="wifi_empty_list_wifi_off">To see available networks, turn Wi-Fi on.</string>
+
     <!-- Wi-Fi settings. text displayed when Wi-Fi is on and network list is empty [CHAR LIMIT=50]-->
     <string name="wifi_empty_list_wifi_on">Searching for Wi-Fi networks\u2026</string>
     <!-- Wi-Fi settings. title for setup other network button [CHAR LIMIT=35]-->
