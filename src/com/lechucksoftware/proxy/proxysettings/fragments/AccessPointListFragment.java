@@ -96,7 +96,6 @@ public class AccessPointListFragment extends EnhancedListFragment
                 else
                 {
                     // Wi-Fi is enabled, but no Wi-Fi access point configured
-                    apListAdapter.clear();
                     apListAdapter.setData(new ArrayList<ProxyConfiguration>());
                     emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
                 }
@@ -104,7 +103,6 @@ public class AccessPointListFragment extends EnhancedListFragment
             else
             {
                 // Do not display results when Wi-Fi is not enabled
-                apListAdapter.clear();
                 apListAdapter.setData(new ArrayList<ProxyConfiguration>());
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
             }

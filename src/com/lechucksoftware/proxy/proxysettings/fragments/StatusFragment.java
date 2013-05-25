@@ -45,17 +45,14 @@ public class StatusFragment extends EnhancedFragment
 
     public void refreshUI()
     {
-//        if (isVisible())
-        {
             if (statusButton != null)
             {
+                hide();
+
                 ProxyConfiguration selConf = ApplicationGlobals.getSelectedConfiguration();
 
                 if (selConf != null)
                 {
-                    // Write something about selected configuration
-                    show();
-
                     if (selConf.isCurrentNetwork())
                     {
                         setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Blue_Light);
@@ -83,6 +80,7 @@ public class StatusFragment extends EnhancedFragment
                         if (ApplicationGlobals.isConnectedToWiFi())
                         {
                             // Connected to Wi-Fi ap
+
                         }
                         else
                         {
@@ -93,14 +91,13 @@ public class StatusFragment extends EnhancedFragment
                             }
                             else
                             {
-                                // Wi-Fi AP available to connection
+                                // Wi-Fi AP not available to connection
 //                                setStatus(getResources().getString(R.string.enable_wifi_action), configureNewWifiAp, R.color.Holo_Green_Light);
                             }
                         }
                     }
                 }
             }
-        }
     }
 
 
