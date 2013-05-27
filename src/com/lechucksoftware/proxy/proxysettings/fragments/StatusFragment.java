@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
@@ -58,7 +59,21 @@ public class StatusFragment extends EnhancedFragment
                 {
                     if (selConf.isCurrentNetwork())
                     {
-                        setStatus(Constants.StatusFragmentStates.CONNECTED, selConf.getAPConnectionStatus());
+                        if(selConf.status != null)
+                        {
+                            if (selConf.status.getCheckingStatus() == APLConstants.CheckStatusValues.CHECKED)
+                            {
+                                setStatus(Constants.StatusFragmentStates.CONNECTED, selConf.getAPConnectionStatus());
+                            }
+                            else
+                            {
+                                setStatus(Constants.StatusFragmentStates.CHECKING, getResources().getString(R.string.checking_action));
+                            }
+                        }
+                        else
+                        {
+                            setStatus(Constants.StatusFragmentStates.CHECKING, getResources().getString(R.string.checking_action));
+                        }
                     }
                     else if (selConf.ap.mRssi < Integer.MAX_VALUE)
                     {
@@ -106,8 +121,12 @@ public class StatusFragment extends EnhancedFragment
 
     public void setStatus(Constants.StatusFragmentStates status, String message)
     {
-        currentStatus = status;
-        if (currentStatus == clickedStatus)
+        setStatus(status,message,Boolean.FALSE);
+    }
+
+    public void setStatus(Constants.StatusFragmentStates status, String message, Boolean isInProgress)
+    {
+        if (status == clickedStatus)
         {
             return;
         }
@@ -115,6 +134,9 @@ public class StatusFragment extends EnhancedFragment
         switch (status)
         {
             case CONNECTED:
+                setStatusInternal(message, null, R.color.Holo_Blue_Light);
+                break;
+            case CHECKING:
                 setStatusInternal(message, null, R.color.Holo_Blue_Light);
                 break;
             case CONNECT_TO:
@@ -129,7 +151,6 @@ public class StatusFragment extends EnhancedFragment
             case GOTO_AVAILABLE_WIFI:
                 setStatusInternal(message, configureNewWifiAp, R.color.Holo_Green_Light);
                 break;
-
             case NONE:
             default:
                 hide();
@@ -138,6 +159,8 @@ public class StatusFragment extends EnhancedFragment
 
     private void setStatusInternal(String status, View.OnClickListener listener, int resId)
     {
+        clickedStatus = null;
+
         if (listener != null)
             statusButton.setText(String.format("%s...", status));
         else

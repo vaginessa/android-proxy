@@ -51,6 +51,7 @@ public class Constants
         CONNECT_TO,
         NOT_AVAILABLE,
         ENABLE_WIFI,
-        GOTO_AVAILABLE_WIFI
+        GOTO_AVAILABLE_WIFI,
+        CHECKING
     }
 }

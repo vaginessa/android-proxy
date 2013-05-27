@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import android.app.Application;
 import android.content.Context;
@@ -77,8 +76,9 @@ public class ApplicationGlobals extends Application
 		mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		mConnManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-		configurations = new ConcurrentHashMap<String, ProxyConfiguration>();
-        notConfiguredWifi = new ConcurrentHashMap<String, ScanResult>();
+
+		configurations = Collections.synchronizedMap(new HashMap<String, ProxyConfiguration>());
+        notConfiguredWifi = Collections.synchronizedMap(new HashMap<String, ScanResult>());
 
 		mInstance = this;
 				
@@ -100,7 +100,8 @@ public class ApplicationGlobals extends Application
 	{
 		if (getConfigurations().containsKey(SSID))
 		{
-            getConfigurations().remove(SSID);
+            ProxyConfiguration originalConf = getConfigurations().get(SSID);
+            originalConf.updateConfiguration(conf);
 		}
 
         getConfigurations().put(SSID, conf);
@@ -109,10 +110,10 @@ public class ApplicationGlobals extends Application
 	public void updateProxyConfigurationList()
 	{
 		// Get information regarding other configured AP
-		List<ProxyConfiguration> confs = ProxySettings.getProxiesConfigurations(getInstance());
+		List<ProxyConfiguration> updatedConfigurations = ProxySettings.getProxiesConfigurations(getInstance());
 		List<ScanResult> scanResults = getWifiManager().getScanResults();
 		
-		for (ProxyConfiguration conf : confs)
+		for (ProxyConfiguration conf : updatedConfigurations)
 		{
 			addConfiguration(ProxyUtils.cleanUpSSID(conf.getSSID()), conf);
 		}
