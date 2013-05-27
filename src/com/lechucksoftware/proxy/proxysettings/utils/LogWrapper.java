@@ -80,7 +80,7 @@ public class LogWrapper
 	
 	public static void logIntent(String tag, Intent intent, int logLevel, boolean logExtras)
 	{
-		log(tag, intent.toString(), logLevel);
+		log(tag, "LOG Intent: " + intent.toString(), logLevel);
     	if (intent.getAction() != null) log(tag, intent.getAction(), logLevel);
     	if (intent.getDataString() != null) log(tag, intent.getDataString(), logLevel);
     	
