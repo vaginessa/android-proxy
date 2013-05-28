@@ -210,7 +210,7 @@ public class ApplicationGlobals extends Application
             if (conf != null && conf.ap != null && conf.ap.getLevel() < Integer.MAX_VALUE)
             {
                 // Connect to AP only if it's available
-                getInstance().mWifiManager.enableNetwork(conf.ap.networkId, false);
+                getInstance().mWifiManager.enableNetwork(conf.ap.networkId, true);
             }
         }
     }

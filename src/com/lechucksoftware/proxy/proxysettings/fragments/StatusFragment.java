@@ -1,17 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
@@ -39,12 +37,14 @@ public class StatusFragment extends EnhancedFragment
     {
         View view = inflater.inflate(R.layout.status, container, false);
         statusButton = (Button) view.findViewById(R.id.status_button);
-        statusButton.setBackgroundResource(R.color.Holo_Green_Light);
+//        statusButton.setBackgroundColor(getResources().getColor(R.color.Holo_Green_Light));
         return view;
     }
 
     public void refreshUI()
     {
+        if (isAdded())
+        {
             if (statusButton != null)
             {
                 hide();
@@ -59,7 +59,7 @@ public class StatusFragment extends EnhancedFragment
                     }
                     else if (selConf.ap.mRssi < Integer.MAX_VALUE)
                     {
-                        setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Green_Light);
+                        setStatus(selConf.getAPConnectionStatus(), connectToWifi, R.color.Holo_Green_Light);
                     }
                     else
                     {
@@ -98,6 +98,7 @@ public class StatusFragment extends EnhancedFragment
                     }
                 }
             }
+        }
     }
 
 
@@ -108,20 +109,32 @@ public class StatusFragment extends EnhancedFragment
         else
             statusButton.setText(status);
 
-        statusButton.setBackgroundResource(resId);
+//        statusButton.getBackground().setColorFilter(null);
+//        statusButton.getBackground().setColorFilter(new LightingColorFilter(getResources().getColor(resId),0x000000));
+        statusButton.setBackgroundColor(getResources().getColor(resId));
         statusButton.setOnClickListener(listener);
         show();
     }
 
     View.OnClickListener enableWifi = new View.OnClickListener()
-{
-    @Override
-    public void onClick(View view)
     {
-        ApplicationGlobals.getWifiManager().setWifiEnabled(true);
-        hide();
-    }
-};
+        @Override
+        public void onClick(View view)
+        {
+            hide();
+            ApplicationGlobals.getWifiManager().setWifiEnabled(true);
+        }
+    };
+
+    View.OnClickListener connectToWifi = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            hide();
+            ApplicationGlobals.connectToAP(ApplicationGlobals.getSelectedConfiguration());
+        }
+    };
 
     View.OnClickListener configureNewWifiAp = new View.OnClickListener()
     {

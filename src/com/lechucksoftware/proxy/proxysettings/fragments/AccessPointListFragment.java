@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,8 +81,8 @@ public class AccessPointListFragment extends EnhancedListFragment
 
     public void refreshUI()
     {
-        //if (isVisible())
-//        {
+        if (isAdded())
+        {
             if (apListAdapter == null)
             {
                 apListAdapter = new ProxySelectorListAdapter(getActivity());
@@ -91,19 +92,19 @@ public class AccessPointListFragment extends EnhancedListFragment
             if (ApplicationGlobals.getWifiManager().isWifiEnabled())
             {
                 List<ProxyConfiguration> results = ApplicationGlobals.getInstance().getConfigurationsList();
-                if (results.size() > 0)
+                if (results != null && results.size() > 0)
                 {
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(getActivity(), "Proxy configurations received", duration);
-                    toast.show();
+//                    int duration = Toast.LENGTH_SHORT;
+//                    Toast toast = Toast.makeText(getActivity(), "Proxy configurations received", duration);
+//                    toast.show();
 
                     apListAdapter.setData(results);
                 }
                 else
                 {
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(getActivity(), "No proxy configurations received", duration);
-                    toast.show();
+//                    int duration = Toast.LENGTH_SHORT;
+//                    Toast toast = Toast.makeText(getActivity(), "No proxy configurations received", duration);
+//                    toast.show();
 
                     // Wi-Fi is enabled, but no Wi-Fi access point configured
                     apListAdapter.setData(new ArrayList<ProxyConfiguration>());
@@ -112,21 +113,19 @@ public class AccessPointListFragment extends EnhancedListFragment
             }
             else
             {
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getActivity(), "Wi-Fi is not enabled", duration);
-                toast.show();
+//                int duration = Toast.LENGTH_SHORT;
+//                Toast toast = Toast.makeText(getActivity(), "Wi-Fi is not enabled", duration);
+//                toast.show();
 
                 // Do not display results when Wi-Fi is not enabled
                 apListAdapter.setData(new ArrayList<ProxyConfiguration>());
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
             }
-//        }
-//        else
-//        {
-//            int duration = Toast.LENGTH_SHORT;
-//            Toast toast = Toast.makeText(getActivity(), "AccessPointListFragment is not visible", duration);
-//            toast.show();
-//        }
+        }
+        else
+        {
+            LogWrapper.d(TAG,"AccessPointListFragment is not added to activity");
+        }
     }
 
         /**

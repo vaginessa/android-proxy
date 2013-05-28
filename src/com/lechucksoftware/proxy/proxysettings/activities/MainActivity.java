@@ -177,9 +177,15 @@ public class MainActivity extends Activity
             else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
                     || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
                     || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION))
+                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
+                    || action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
             {
                 LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
+                refreshUI();
+            }
+            else if (action.equals(Constants.PROXY_REFRESH_UI))
+            {
+                LogWrapper.d(TAG, "Received broadcast for update the Proxy Settings UI - RefreshUI");
                 refreshUI();
             }
             else

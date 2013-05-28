@@ -6,6 +6,7 @@
             android:id="@+id/status_button"
             android:layout_width="match_parent"
             android:layout_height="50dip"
+
             android:text="TEST">
     </Button>
 </RelativeLayout>
