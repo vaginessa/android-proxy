@@ -31,6 +31,8 @@
 
     <string name="enable_wifi_action">Enable Wi-Fi</string>
     <string name="setupap_wifi_action">Connect to available Wi-Fi</string>
+    <string name="connect_to_wifi_action">Connect to %1$s</string>
+
 
     <string name="wifi_empty_list_no_ap">No Wi-Fi networks configured</string>
     <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50]-->

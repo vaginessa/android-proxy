@@ -10,6 +10,7 @@ import android.view.View;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
@@ -230,7 +231,10 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
+
+        ProxyConfiguration selconf = ApplicationGlobals.getSelectedConfiguration();
+        if (selconf != null && selconf.ap != null)
+            actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
 
         StatusFragment.getInstance().refreshUI();
     }

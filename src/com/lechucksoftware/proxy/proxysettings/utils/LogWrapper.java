@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.Date;
+
 public class LogWrapper
 {
 	/**
@@ -20,7 +22,7 @@ public class LogWrapper
 	
 //	private static int mLogLevel = Integer.MAX_VALUE; 
 	private static int mLogLevel = Log.DEBUG;
-	
+
 	public static void d(String tag, String msg)
 	{
 		if (mLogLevel <= Log.DEBUG)
@@ -44,13 +46,19 @@ public class LogWrapper
 		if (mLogLevel <= Log.INFO)
 			Log.i(tag, msg);
 	}
+
+    public static void w(String tag, String msg)
+    {
+        if (mLogLevel <= Log.WARN)
+            Log.w(tag, msg);
+    }
 	
 	public static void a(String tag, String msg)
 	{
 		if (mLogLevel <= Log.ASSERT)
 			Log.println(Log.ASSERT, tag, msg);
 	}
-	
+
 	public static void log(String tag, String msg, int logLevel)
 	{
 		switch(logLevel)
@@ -70,8 +78,16 @@ public class LogWrapper
 			case Log.ASSERT:
 				a(tag,msg);
 				break;
+            case Log.WARN:
+                w(tag,msg);
+                break;
 		}
 	}
+
+    public static void trace(String tag, String msg, int logLevel)
+    {
+        log(tag,msg + " ################## " + new Date().toLocaleString() + " #####################################################################",logLevel);
+    }
 	
 	public static void logIntent(String tag, Intent intent, int logLevel)
 	{
@@ -97,4 +113,6 @@ public class LogWrapper
 	    	}
     	}
 	}
+
+
 }

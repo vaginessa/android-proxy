@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.content.Intent;
-import android.graphics.LightingColorFilter;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -20,6 +20,9 @@ public class StatusFragment extends EnhancedFragment
     private static final String TAG = "StatusFragment";
     public static StatusFragment instance;
     private Button statusButton;
+
+    private Constants.StatusFragmentStates currentStatus;
+    private Constants.StatusFragmentStates clickedStatus;
 
     /**
      * Create a new instance of StatusFragment
@@ -55,15 +58,15 @@ public class StatusFragment extends EnhancedFragment
                 {
                     if (selConf.isCurrentNetwork())
                     {
-                        setStatus(selConf.getAPConnectionStatus(), null, R.color.Holo_Blue_Light);
+                        setStatus(Constants.StatusFragmentStates.CONNECTED, selConf.getAPConnectionStatus());
                     }
                     else if (selConf.ap.mRssi < Integer.MAX_VALUE)
                     {
-                        setStatus(selConf.getAPConnectionStatus(), connectToWifi, R.color.Holo_Green_Light);
+                        setStatus(Constants.StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action,selConf.ap.ssid));
                     }
                     else
                     {
-                        setStatus(selConf.getAPConnectionStatus(), null, R.color.Gray);
+                        setStatus(Constants.StatusFragmentStates.NOT_AVAILABLE, selConf.getAPConnectionStatus());
                     }
                 }
                 else
@@ -72,7 +75,7 @@ public class StatusFragment extends EnhancedFragment
                     if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
                     {
                         // Wi-Fi disabled -> ask to enable!
-                        setStatus(getResources().getString(R.string.enable_wifi_action), enableWifi, R.color.Holo_Red_Light);
+                        setStatus(Constants.StatusFragmentStates.ENABLE_WIFI, getResources().getString(R.string.enable_wifi_action));
                     }
                     else
                     {
@@ -87,12 +90,12 @@ public class StatusFragment extends EnhancedFragment
                             if (ApplicationGlobals.getInstance().getNotConfiguredWifi().values().size() > 0)
                             {
                                 // Wi-Fi AP available to connection -> Go to Wi-Fi Settings
-                                setStatus(getResources().getString(R.string.setupap_wifi_action), configureNewWifiAp, R.color.Holo_Green_Light);
+                                setStatus(Constants.StatusFragmentStates.GOTO_AVAILABLE_WIFI, getResources().getString(R.string.setupap_wifi_action));
                             }
                             else
                             {
                                 // Wi-Fi AP not available to connection
-//                                setStatus(getResources().getString(R.string.enable_wifi_action), configureNewWifiAp, R.color.Holo_Green_Light);
+//                                setStatusInternal(getResources().getString(R.string.enable_wifi_action), configureNewWifiAp, R.color.Holo_Green_Light);
                             }
                         }
                     }
@@ -101,16 +104,45 @@ public class StatusFragment extends EnhancedFragment
         }
     }
 
+    public void setStatus(Constants.StatusFragmentStates status, String message)
+    {
+        currentStatus = status;
+        if (currentStatus == clickedStatus)
+        {
+            return;
+        }
 
-    public void setStatus(String status, View.OnClickListener listener, int resId)
+        switch (status)
+        {
+            case CONNECTED:
+                setStatusInternal(message, null, R.color.Holo_Blue_Light);
+                break;
+            case CONNECT_TO:
+                setStatusInternal(message, connectToWifi, R.color.Holo_Green_Light);
+                break;
+            case NOT_AVAILABLE:
+                setStatusInternal(message, null, R.color.Gray);
+                break;
+            case ENABLE_WIFI:
+                setStatusInternal(message, enableWifi, R.color.Holo_Red_Light);
+                break;
+            case GOTO_AVAILABLE_WIFI:
+                setStatusInternal(message, configureNewWifiAp, R.color.Holo_Green_Light);
+                break;
+
+            case NONE:
+            default:
+                hide();
+        }
+    }
+
+    private void setStatusInternal(String status, View.OnClickListener listener, int resId)
     {
         if (listener != null)
             statusButton.setText(String.format("%s...", status));
         else
             statusButton.setText(status);
 
-//        statusButton.getBackground().setColorFilter(null);
-//        statusButton.getBackground().setColorFilter(new LightingColorFilter(getResources().getColor(resId),0x000000));
         statusButton.setBackgroundColor(getResources().getColor(resId));
         statusButton.setOnClickListener(listener);
         show();
@@ -123,6 +155,7 @@ public class StatusFragment extends EnhancedFragment
         {
             hide();
             ApplicationGlobals.getWifiManager().setWifiEnabled(true);
+            clickedStatus = Constants.StatusFragmentStates.ENABLE_WIFI;
         }
     };
 
@@ -133,6 +166,7 @@ public class StatusFragment extends EnhancedFragment
         {
             hide();
             ApplicationGlobals.connectToAP(ApplicationGlobals.getSelectedConfiguration());
+            clickedStatus = Constants.StatusFragmentStates.CONNECT_TO;
         }
     };
 
@@ -144,6 +178,7 @@ public class StatusFragment extends EnhancedFragment
             hide();
             Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
             startActivity(intent);
+            clickedStatus = Constants.StatusFragmentStates.GOTO_AVAILABLE_WIFI;
         }
     };
 

@@ -124,7 +124,11 @@ public class ApplicationGlobals extends Application
 				String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
 				if (getConfigurations().containsKey(currSSID))
 				{
-                    getConfigurations().get(currSSID).ap.update(res);
+                    ProxyConfiguration conf = getConfigurations().get(currSSID);
+                    if (conf != null && conf.ap != null)
+                    {
+                        conf.ap.update(res);
+                    }
 				}
                 else
                 {
@@ -156,7 +160,10 @@ public class ApplicationGlobals extends Application
 				conf = getConfigurations().get(SSID);
 			}
 
-            getInstance().currentConfiguration = conf;
+            if (currentConfiguration == null || conf != null && currentConfiguration.compareTo(conf) != 0)
+            {
+                getInstance().currentConfiguration = conf;
+            }
 		}
 		
 		// Always return a not null configuration
@@ -180,14 +187,19 @@ public class ApplicationGlobals extends Application
 
 	public List<ProxyConfiguration> getConfigurationsList()
 	{
-//        if (getInstance().configurations.isEmpty())
-
         updateProxyConfigurationList();
-        Collection<ProxyConfiguration> values = getConfigurations().values();
-		ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(values);
-        Collections.sort(results);
+        if (!getConfigurations().isEmpty())
+        {
+            Collection<ProxyConfiguration> values = getConfigurations().values();
+            if (values != null && values.size() > 0)
+            {
+                ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(values);
+                Collections.sort(results);
+                return results;
+            }
+        }
 
-        return results;
+        return null;
 	}
 	
 	public ProxyConfiguration getConfiguration(String SSID)

@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
@@ -40,7 +41,8 @@ public class ProxySettingsCheckerService extends IntentService
             if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)
                     || callerAction.equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
                     || callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-                    || callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
+                    || callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)
+                    || callerAction.equals(Proxy.PROXY_CHANGE_ACTION))
             {
                 // LogWrapper.logIntent(TAG, callerIntent, Log.WARN);
                 CheckProxySettings(callerIntent);
@@ -96,6 +98,8 @@ public class ProxySettingsCheckerService extends IntentService
 
     public void CheckProxySettings(Intent callerIntent)
     {
+        LogWrapper.trace(TAG, "START CheckProxySettings", Log.ERROR);
+
         try
         {
             ProxyConfiguration oldconf = null;
@@ -103,6 +107,7 @@ public class ProxySettingsCheckerService extends IntentService
             if (!callerIntent.getAction().equals(Constants.PROXY_SETTINGS_STARTED))
             {
                 oldconf = ApplicationGlobals.getInstance().getCachedConfiguration();
+                LogWrapper.d(TAG,"Got old configuration: " + oldconf.toShortString());
             }
 
             CallRefreshApplicationStatus();
@@ -114,6 +119,7 @@ public class ProxySettingsCheckerService extends IntentService
 
             if (ni != null && ni.isAvailable() && ni.isConnected())
             {
+                //<editor-fold desc="Network is available and connected">
                 boolean checkNewConf = false;
                 if (newconf != null)
                 {
@@ -122,6 +128,7 @@ public class ProxySettingsCheckerService extends IntentService
                         if (oldconf.compareTo(newconf) != 0)
                         {
                             checkNewConf = true;
+                            LogWrapper.d(TAG,"Found change into current proxy configurations -> needs to check again the proxy status");
                         }
                         else
                         {
@@ -140,30 +147,42 @@ public class ProxySettingsCheckerService extends IntentService
                                     LogWrapper.d(TAG, "Same configuration for 30 minutes check again!");
                                 }
                             }
+                            else
+                            {
+                                LogWrapper.d(TAG,"Old configuration has not been checked -> needs to check the proxy status");
+                                checkNewConf = true;
+                            }
                         }
                     }
                     else
                     {
                         checkNewConf = true;
+                        LogWrapper.d(TAG,"Not found old configuration -> needs to check the proxy status");
                     }
                 }
                 else
                 {
                     // newconf cannot be null!!
+                    LogWrapper.d(TAG,"Not found new configuration -> needs to check the proxy status");
                     BugSenseHandler.sendException(new Exception("Cannot have a null ProxyConfiguration"));
                 }
 
                 if (checkNewConf)
                 {
-                    LogWrapper.d(TAG, "Changed current proxy configuration: calling refresh of proxy status");
+                    LogWrapper.i(TAG, "Changed current proxy configuration: calling refresh of proxy status");
                     newconf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
-                    LogWrapper.i(TAG, newconf.toString());
+                    LogWrapper.i(TAG, "Acquired refreshed proxy configuration: " + newconf.toShortString());
                 }
                 else
                 {
                     // Skip check when configuration is the same
-                    LogWrapper.d(TAG, "Same configuration, skip checking...");
+                    LogWrapper.i(TAG, "No need to check the configuration. Skip...");
                 }
+                //</editor-fold>
+            }
+            else
+            {
+                LogWrapper.w(TAG,"Network is not available, cannot check proxy settings");
             }
 //            TEMP DISABLED
 //            CallRefreshApplicationStatus();
@@ -172,9 +191,10 @@ public class ProxySettingsCheckerService extends IntentService
         {
             BugSenseHandler.sendException(e);
             UIUtils.DisableProxyNotification(getApplicationContext());
-            LogWrapper.d(TAG, "Exception caught: disable proxy notification");
+            e.printStackTrace();
         }
 
+        LogWrapper.trace(TAG,"END CheckProxySettings",Log.ERROR);
     }
 
     public void CallRefreshApplicationStatus()

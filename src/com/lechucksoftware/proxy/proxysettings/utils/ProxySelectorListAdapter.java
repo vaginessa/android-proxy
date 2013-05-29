@@ -94,7 +94,7 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 
             viewHolder.ssid.setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
 
-            viewHolder.status.setText(String.format("%s - %s", listItem.toShortString(), listItem.getAPConnectionStatus()));
+            viewHolder.status.setText(String.format("%s - %s", listItem.toStatusString(), listItem.getAPConnectionStatus()));
 //			viewHolder.status.setText(listItem.getAPConnectionStatus());
         }
         return view;
