@@ -100,7 +100,7 @@ public class ProxyUIUtils
 				else
 				{
 					description = callerContext.getResources().getString(R.string.status_description_enabled);
-					description = description + " " + conf.toShortString();
+					description = description + " " + conf.toStatusString();
 					break;
 				}
 
@@ -121,7 +121,7 @@ public class ProxyUIUtils
 
 	public static String ProxyConfigToStatusString(ProxyConfiguration conf, Context callerContext)
 	{
-		String message = String.format("%s", conf.toShortString());
+		String message = String.format("%s", conf.toStatusString());
 
 		message += " - " + GetStatusTitle(conf, callerContext);
 

@@ -194,5 +194,23 @@ public class ProxyStatus implements Serializable
 		}
 	}
 
+    public String toShortString()
+    {
+        synchronized (this)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (ProxyStatusItem prop : properties.values())
+            {
+                if (prop.effective) // Print only effective status items
+                {
+                    sb.append(prop.toShortString() + " - ");
+                }
+            }
+
+            return sb.toString();
+        }
+    }
+
 
 }

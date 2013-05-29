@@ -66,4 +66,13 @@ public class ProxyStatusItem
 		
 		return sb.toString();
 	}
+
+    public String toShortString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("%s %s/%s", statusCode, status, result));
+
+        return sb.toString();
+    }
 }

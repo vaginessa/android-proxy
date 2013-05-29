@@ -116,10 +116,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("Proxy setting: %s\n", proxySetting.toString()));
-        sb.append(String.format("Proxy: %s\n", toShortString()));
+        sb.append(String.format("Proxy: %s\n", toStatusString()));
         sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
-        sb.append(String.format("Proxy status checker results:\n"));
-        sb.append(status.toString());
+        sb.append(String.format("Proxy status checker results: %s\n", status.toString()));
 
         if (connManager.getActiveNetworkInfo() != null)
         {
@@ -132,15 +131,19 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         return sb.toString();
     }
 
-    public Boolean isCurrentNetwork()
+    public String toShortString()
     {
-        if (connManager.getActiveNetworkInfo() != null && this.getSSID() != null && this.getSSID().equals(connManager.getActiveNetworkInfo().getExtraInfo()))
-            return true;
-        else
-            return false;
+        StringBuilder sb = new StringBuilder();
+         sb.append(toStatusString());
+        if (ap != null && ap.wifiConfig != null)
+            sb.append(" - " + ap.wifiConfig.SSID.toString());
+        if (status != null)
+            sb.append(" - " + status.toShortString());
+
+        return sb.toString();
     }
 
-    public String toShortString()
+    public String toStatusString()
     {
         if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
         {
@@ -159,6 +162,16 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             return sb.toString();
         }
     }
+
+    public Boolean isCurrentNetwork()
+    {
+        if (connManager.getActiveNetworkInfo() != null && this.getSSID() != null && this.getSSID().equals(connManager.getActiveNetworkInfo().getExtraInfo()))
+            return true;
+        else
+            return false;
+    }
+
+
 
     public Proxy.Type getProxyType()
     {
@@ -601,7 +614,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //		sb.append(" - ");
 //		sb.append(ap.getSecurityString(ctx, false));
 //		sb.append(" - ");
-//		sb.append(toShortString());
+//		sb.append(toStatusString());
 //
 //		return sb.toString();
 
