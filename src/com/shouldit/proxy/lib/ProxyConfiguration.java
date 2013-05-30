@@ -117,21 +117,26 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public boolean equals(Object another)
     {
         if (!(another instanceof ProxyConfiguration))
-        {
             return false;
-        }
 
         ProxyConfiguration anotherConf = (ProxyConfiguration) another;
-        if (    !this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid)
-                || !this.proxySetting.equals(anotherConf.proxySetting)
-                || !this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost)
-                || !this.proxyPort.equals(anotherConf.proxyPort)
-                || !this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList)
-            )
-        {
-            return false;
-        }
 
+        if (this.ap != null && anotherConf.ap != null && !this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid))
+            return false;
+
+        if (!this.proxySetting.equals(anotherConf.proxySetting))
+            return false;
+
+        if (this.proxyHost != null && anotherConf.proxyHost != null && !this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost))
+            return false;
+
+        if (this.proxyPort != null && anotherConf.proxyPort != null && !this.proxyPort.equals(anotherConf.proxyPort))
+            return false;
+
+        if (this.stringProxyExclusionList != null && anotherConf.stringProxyExclusionList != null &&  !this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
+            return false;
+
+//        if
 
         return true;
     }
@@ -225,6 +230,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             proxySetting = updated.proxySetting;
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
+
+            LogWrapper.d(TAG,"Updated proxy configuration: " + this.toShortString());
+        }
+        else
+        {
+//            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
         }
     }
 
@@ -427,7 +438,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     private void broadCastUpdatedStatus()
     {
-        LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+//        LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
         Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
         // intent.putExtra(APLConstants.ProxyStatus, status);
         context.sendBroadcast(intent);
