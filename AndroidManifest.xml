@@ -2,13 +2,13 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.lechucksoftware.proxy.proxysettings"
-	android:versionCode="1200200"
-	android:versionName="2.0">
+	android:versionCode="1200202"
+	android:versionName="2.02">
 
-	<!-- Scheme for version codes: ##@@$$$ , using: ## - the first two digits 
-		for the API Level, @@ - the second and third digits for the minimum and maximum 
-		screen size (1 - 4 indicating each of the four sizes) or to denote the texture 
-		formats $$$ - the last three digits for the app version. -->
+	<!-- Scheme for version codes: ##@@$$$ , using:
+	    ## - the first two digits for the API Level,
+	    @@ - the second and third digits for the minimum and maximum screen size (1 - 4 indicating each of the four sizes) or to denote the texture formats
+		$$$ - the last three digits for the app version. -->
 
 	<uses-sdk
 		android:minSdkVersion="15"

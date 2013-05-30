@@ -103,8 +103,11 @@ public class ApplicationGlobals extends Application
             ProxyConfiguration originalConf = getConfigurations().get(SSID);
             originalConf.updateConfiguration(conf);
 		}
-
-        getConfigurations().put(SSID, conf);
+        else
+        {
+            LogWrapper.d(TAG,"Adding to list new proxy configurations: " + conf.toShortString());
+            getConfigurations().put(SSID, conf);
+        }
 	}
 	
 	public void updateProxyConfigurationList()
