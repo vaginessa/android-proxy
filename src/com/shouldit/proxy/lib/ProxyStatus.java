@@ -2,6 +2,7 @@ package com.shouldit.proxy.lib;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -71,7 +72,7 @@ public class ProxyStatus implements Serializable
 	{
 		synchronized (this)
 		{
-			properties = new TreeMap<ProxyStatusProperties, ProxyStatusItem>(new ProxyStatusPropertiesComparator());
+			properties = Collections.synchronizedSortedMap(new TreeMap<ProxyStatusProperties, ProxyStatusItem>(new ProxyStatusPropertiesComparator()));
 
 			properties.put(ProxyStatusProperties.WIFI_ENABLED, new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED));
 			properties.put(ProxyStatusProperties.WIFI_SELECTED, new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED));

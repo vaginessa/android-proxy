@@ -20,16 +20,20 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Serializable {
+public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Serializable
+{
     public static final String TAG = "ProxyConfiguration";
+    public static ConnectivityManager connManager;
+    public static WifiManager wifiManager;
 
+    public UUID id;
     public Context context;
     public ProxyStatus status;
     public AccessPoint ap;
-//    public NetworkInfo currentNetworkInfo;
 
     public ProxySetting proxySetting;
     private String proxyHost;
@@ -38,9 +42,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     private String[] parsedProxyExclusionList;
 
     public int deviceVersion;
-    private ConnectivityManager connManager;
-
-    private WifiManager wifiManager;
 
     public Proxy getProxy()
     {
@@ -89,6 +90,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public ProxyConfiguration(Context ctx, ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
     {
+        id = UUID.randomUUID();
         context = ctx;
 
         proxySetting = proxyEnabled;
@@ -112,9 +114,125 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     }
 
     @Override
+    public boolean equals(Object another)
+    {
+        if (!(another instanceof ProxyConfiguration))
+        {
+            return false;
+        }
+
+        ProxyConfiguration anotherConf = (ProxyConfiguration) another;
+        if (    !this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid)
+                || !this.proxySetting.equals(anotherConf.proxySetting)
+                || !this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost)
+                || !this.proxyPort.equals(anotherConf.proxyPort)
+                || !this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList)
+            )
+        {
+            return false;
+        }
+
+
+        return true;
+    }
+
+    @Override
+    public int compareTo(ProxyConfiguration another)
+    {
+        int result = 0;
+
+//        if (connManager.getActiveNetworkInfo() != null && another.connManager.getActiveNetworkInfo() != null)
+//        {
+//            if (currentNetworkInfo.getType() == another.connManager.getActiveNetworkInfo().getType())
+//            {
+        if (ap != null && another.ap != null)
+        {
+            result = ap.compareTo(another.ap);
+        }
+
+        if (result == 0)
+        {
+            if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
+            {
+                if (another.proxySetting == ProxySetting.NONE || another.proxySetting == ProxySetting.UNASSIGNED)
+                {
+                    // Both DIRECT connection
+                    result = 0;
+                }
+                else
+                {
+                    result = -1;
+                }
+            }
+            else
+            {
+                if (getProxy() != another.getProxy())
+                {
+                    String proxystring = getProxy().toString();
+                    String anotherstring = another.getProxy().toString();
+                    result = proxystring.compareTo(anotherstring);
+                }
+                else
+                    result = 0;
+            }
+        }
+
+        // // Same network types
+        // if (currentNetworkInfo.getType() ==
+        // ConnectivityManager.TYPE_WIFI)
+        // {
+        // // TYPE_WIFI
+        //
+        // result = ap.compareTo(another.ap);
+        // if (result == 0)
+        // {
+        // if (getProxy() != another.getProxy())
+        // {
+        // result =
+        // getProxy().toString().compareTo(another.getProxy().toString());
+        // }
+        // }
+        // }
+        // else
+        // {
+        // // TYPE_MOBILE or No connection
+        // result = 0;
+        // }
+//            }
+//            else
+//            {
+//                // Different network types
+//                if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+//                {
+//                    // Give priority to TYPE_WIFI
+//                    result = -1;
+//                }
+//                else
+//                {
+//                    result = +1;
+//                }
+//            }
+//        }
+
+        return result;
+    }
+
+    public void updateConfiguration(ProxyConfiguration updated)
+    {
+        //TODO: Add all required fields for updating an old configuration with an updated version
+        if (!this.equals(updated))
+        {
+            proxySetting = updated.proxySetting;
+            proxyHost = updated.proxyHost;
+            proxyPort = updated.proxyPort;
+        }
+    }
+
+    @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
+        sb.append(String.format("ID: %s\n", id.toString()));
         sb.append(String.format("Proxy setting: %s\n", proxySetting.toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
         sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
@@ -134,7 +252,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public String toShortString()
     {
         StringBuilder sb = new StringBuilder();
-         sb.append(toStatusString());
+        sb.append(id.toString());
+        sb.append(" - " + toStatusString());
         if (ap != null && ap.wifiConfig != null)
             sb.append(" - " + ap.wifiConfig.SSID.toString());
         if (status != null)
@@ -170,7 +289,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         else
             return false;
     }
-
 
 
     public Proxy.Type getProxyType()
@@ -346,7 +464,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         if (isCurrentNetwork())
         {
-            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, context.getString(R.string.status_wifi_selected,this.ap.ssid));
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, context.getString(R.string.status_wifi_selected, this.ap.ssid));
         }
         else
         {
@@ -524,87 +642,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public int getNetworkType()
     {
         return connManager.getActiveNetworkInfo().getType();
-    }
-
-    @Override
-    public int compareTo(ProxyConfiguration another)
-    {
-        int result = 0;
-
-//        if (connManager.getActiveNetworkInfo() != null && another.connManager.getActiveNetworkInfo() != null)
-//        {
-//            if (currentNetworkInfo.getType() == another.connManager.getActiveNetworkInfo().getType())
-//            {
-                if (ap != null && another.ap != null)
-                {
-                    result = ap.compareTo(another.ap);
-                }
-
-                if (result == 0)
-                {
-                    if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
-                    {
-                        if (another.proxySetting == ProxySetting.NONE || another.proxySetting == ProxySetting.UNASSIGNED)
-                        {
-                            // Both DIRECT connection
-                            result = 0;
-                        }
-                        else
-                        {
-                            result = -1;
-                        }
-                    }
-                    else
-                    {
-                        if (getProxy() != another.getProxy())
-                        {
-                            String proxystring = getProxy().toString();
-                            String anotherstring = another.getProxy().toString();
-                            result = proxystring.compareTo(anotherstring);
-                        }
-                        else
-                            result = 0;
-                    }
-                }
-
-                // // Same network types
-                // if (currentNetworkInfo.getType() ==
-                // ConnectivityManager.TYPE_WIFI)
-                // {
-                // // TYPE_WIFI
-                //
-                // result = ap.compareTo(another.ap);
-                // if (result == 0)
-                // {
-                // if (getProxy() != another.getProxy())
-                // {
-                // result =
-                // getProxy().toString().compareTo(another.getProxy().toString());
-                // }
-                // }
-                // }
-                // else
-                // {
-                // // TYPE_MOBILE or No connection
-                // result = 0;
-                // }
-//            }
-//            else
-//            {
-//                // Different network types
-//                if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-//                {
-//                    // Give priority to TYPE_WIFI
-//                    result = -1;
-//                }
-//                else
-//                {
-//                    result = +1;
-//                }
-//            }
-//        }
-
-        return result;
     }
 
     public String getAPDescription(Context ctx)
