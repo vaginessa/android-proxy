@@ -72,6 +72,7 @@ public class ProxyStatus implements Serializable
 	{
 		synchronized (this)
 		{
+            checkedDate = null;
 			properties = Collections.synchronizedSortedMap(new TreeMap<ProxyStatusProperties, ProxyStatusItem>(new ProxyStatusPropertiesComparator()));
 
 			properties.put(ProxyStatusProperties.WIFI_ENABLED, new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED));

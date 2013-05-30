@@ -121,22 +121,50 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         ProxyConfiguration anotherConf = (ProxyConfiguration) another;
 
-        if (this.ap != null && anotherConf.ap != null && !this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid))
+        if (this.ap != null && anotherConf.ap != null)
+        {
+            // Both not null
+            if (!this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid))
+                return false;
+        }
+        else if (this.ap != anotherConf.ap)
+        {
+            // At least one is null
             return false;
+        }
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
             return false;
 
-        if (this.proxyHost != null && anotherConf.proxyHost != null && !this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost))
+        if (this.proxyHost != null && anotherConf.proxyHost != null)
+        {
+            if (!this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost))
+                return false;
+        }
+        else if (this.proxyHost != anotherConf.proxyHost)
+        {
             return false;
+        }
 
-        if (this.proxyPort != null && anotherConf.proxyPort != null && !this.proxyPort.equals(anotherConf.proxyPort))
+        if (this.proxyPort != null && anotherConf.proxyPort != null)
+        {
+            if (!this.proxyPort.equals(anotherConf.proxyPort))
+                return false;
+        }
+        else if (this.proxyPort != anotherConf.proxyPort)
+        {
             return false;
+        }
 
-        if (this.stringProxyExclusionList != null && anotherConf.stringProxyExclusionList != null &&  !this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
+        if (this.stringProxyExclusionList != null && anotherConf.stringProxyExclusionList != null)
+        {
+            if (!this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
+                return false;
+        }
+        else if (this.stringProxyExclusionList != anotherConf.stringProxyExclusionList)
+        {
             return false;
-
-//        if
+        }
 
         return true;
     }
@@ -171,11 +199,18 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             }
             else
             {
-                if (getProxy() != another.getProxy())
+                if (getProxy() != null && another.getProxy() != null)
                 {
                     String proxystring = getProxy().toString();
                     String anotherstring = another.getProxy().toString();
                     result = proxystring.compareTo(anotherstring);
+                }
+                else if (getProxy() != another.getProxy())
+                {
+                    if (getProxy() == null)
+                        return -1;
+                    else
+                        return +1;
                 }
                 else
                     result = 0;
@@ -230,6 +265,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             proxySetting = updated.proxySetting;
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
+            stringProxyExclusionList = updated.stringProxyExclusionList;
+            status.clear();
 
             LogWrapper.d(TAG,"Updated proxy configuration: " + this.toShortString());
         }
