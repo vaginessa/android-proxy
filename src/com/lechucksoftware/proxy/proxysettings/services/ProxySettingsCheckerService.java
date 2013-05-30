@@ -91,7 +91,7 @@ public class ProxySettingsCheckerService extends IntentService
     @Override
     public void onDestroy()
     {
-        LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
+//        LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
     }
 
     ;

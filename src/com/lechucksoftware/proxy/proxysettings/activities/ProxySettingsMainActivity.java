@@ -43,7 +43,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	
 	public void onBackPressed()
 	{
-		LogWrapper.d(TAG, "Back Pressed");
+//		LogWrapper.d(TAG, "Back Pressed");
 		return;
 	}
 
@@ -51,34 +51,34 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	protected void onStart()
 	{
 		super.onStart();
-		LogWrapper.d(TAG, "Start");
+//		LogWrapper.d(TAG, "Start");
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		LogWrapper.d(TAG, "Resume");
+//		LogWrapper.d(TAG, "Resume");
 	}
 
 	@Override
 	protected void onPause()
 	{
 		super.onPause();
-		LogWrapper.d(TAG, "Pause");
+//		LogWrapper.d(TAG, "Pause");
 	}
 
 	@Override
 	protected void onStop()
 	{
-		LogWrapper.d(TAG, "Stop");
+//		LogWrapper.d(TAG, "Stop");
 		super.onStop();
 	}
 
 	@Override
 	protected void onDestroy()
 	{
-		LogWrapper.d(TAG, "Destroy");
+//		LogWrapper.d(TAG, "Destroy");
 		super.onDestroy();
 	}
 

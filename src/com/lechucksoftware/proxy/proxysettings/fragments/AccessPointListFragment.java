@@ -124,7 +124,7 @@ public class AccessPointListFragment extends EnhancedListFragment
         }
         else
         {
-            LogWrapper.d(TAG,"AccessPointListFragment is not added to activity");
+//            LogWrapper.d(TAG,"AccessPointListFragment is not added to activity");
         }
     }
 
@@ -144,7 +144,7 @@ public class AccessPointListFragment extends EnhancedListFragment
 
         ProxyConfiguration selectedConfiguration = (ProxyConfiguration) getListView().getItemAtPosition(index);
         ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
-        LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
+//        LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
         // Make new fragment to show this selection.
         ProxyDetailsFragment details = ProxyDetailsFragment.getInstance();

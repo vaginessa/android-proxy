@@ -37,7 +37,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 			GoToProxy();
 		}
 		
-		LogWrapper.d(TAG, "Finish onCreate");
+//		LogWrapper.d(TAG, "Finish onCreate");
 	}
 
     public void onBackPressed() 
