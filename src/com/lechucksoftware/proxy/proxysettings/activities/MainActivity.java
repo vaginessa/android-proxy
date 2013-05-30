@@ -101,7 +101,7 @@ public class MainActivity extends Activity
     public void onDestroy()
     {
         super.onDestroy();
-        LogWrapper.d(TAG,"Destroying MainActivity");
+//        LogWrapper.d(TAG,"Destroying MainActivity");
         ViewServer.get(this).removeWindow(this);
     }
 
@@ -109,7 +109,7 @@ public class MainActivity extends Activity
     public void onResume()
     {
         super.onResume();
-        LogWrapper.d(TAG,"Resuming MainActivity");
+//        LogWrapper.d(TAG,"Resuming MainActivity");
 
         // Start register the status receivers
         IntentFilter ifilt = new IntentFilter();
@@ -136,7 +136,7 @@ public class MainActivity extends Activity
     {
         super.onPause();
 
-        LogWrapper.d("TAG","Pause MainActivity");
+//        LogWrapper.d("TAG","Pause MainActivity");
         // Stop the registered status receivers
         unregisterReceiver(changeStatusReceiver);
     }
@@ -145,7 +145,7 @@ public class MainActivity extends Activity
     public void onStart()
     {
         super.onStart();
-        LogWrapper.d(TAG,"Starting MainActivity");
+//        LogWrapper.d(TAG,"Starting MainActivity");
         active = true;
     }
 
@@ -153,7 +153,7 @@ public class MainActivity extends Activity
     public void onStop()
     {
         super.onStop();
-        LogWrapper.d(TAG,"Stopping MainActivity");
+//        LogWrapper.d(TAG,"Stopping MainActivity");
         active = false;
     }
 

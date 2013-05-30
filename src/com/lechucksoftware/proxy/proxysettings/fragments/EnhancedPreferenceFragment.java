@@ -13,13 +13,13 @@ public class EnhancedPreferenceFragment extends PreferenceFragment
     public void onResume()
     {
         super.onResume();
-        LogWrapper.d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
+//        LogWrapper.d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        LogWrapper.d(this.getClass().getSimpleName(),"onPause " + this.getClass().getSimpleName());
+//        LogWrapper.d(this.getClass().getSimpleName(),"onPause " + this.getClass().getSimpleName());
     }
 }

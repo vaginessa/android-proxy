@@ -49,32 +49,32 @@ public class ProxySettingsCallerActivity extends FragmentActivity
     @Override
     protected void onStart() {
         super.onStart();
-        LogWrapper.d(TAG, "Start");
+//        LogWrapper.d(TAG, "Start");
     }
     @Override
     protected void onResume() {
         super.onResume();
-        LogWrapper.d(TAG, "Resume");
+//        LogWrapper.d(TAG, "Resume");
     }
     @Override
     protected void onPause() {
         super.onPause();
-        LogWrapper.d(TAG, "Pause");
+//        LogWrapper.d(TAG, "Pause");
     }
     @Override
     protected void onStop() {
-    	LogWrapper.d(TAG, "Stop");
+//    	LogWrapper.d(TAG, "Stop");
         super.onStop();
     }
     @Override
     protected void onDestroy() {
-    	LogWrapper.d(TAG, "Destroy");
+//    	LogWrapper.d(TAG, "Destroy");
         super.onDestroy();
     }
 
 	public void GoToProxy()
 	{
-		LogWrapper.d(TAG, "Starting MainActivity activity");
+//		LogWrapper.d(TAG, "Starting MainActivity activity");
 		
 		final Intent intent = new Intent(this, MainActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

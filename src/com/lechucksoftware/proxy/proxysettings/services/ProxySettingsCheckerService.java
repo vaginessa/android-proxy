@@ -102,87 +102,60 @@ public class ProxySettingsCheckerService extends IntentService
 
         try
         {
-            ProxyConfiguration oldconf = null;
-
-            if (!callerIntent.getAction().equals(Constants.PROXY_SETTINGS_STARTED))
-            {
-                oldconf = ApplicationGlobals.getInstance().getCachedConfiguration();
-                LogWrapper.d(TAG,"Got old configuration: " + oldconf.toShortString());
-            }
-
             CallRefreshApplicationStatus();
 
             ApplicationGlobals.getInstance().updateProxyConfigurationList();
-            ProxyConfiguration newconf = ApplicationGlobals.getInstance().getCurrentConfiguration();
+            ProxyConfiguration conf = ApplicationGlobals.getInstance().getCurrentConfiguration();
 
             NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
 
             if (ni != null && ni.isAvailable() && ni.isConnected())
             {
-                //<editor-fold desc="Network is available and connected">
                 boolean checkNewConf = false;
-                if (newconf != null)
+                if (conf != null)
                 {
-                    if (oldconf != null)
+                    if (conf.status != null
+                            && conf.status.checkedDate != null)
                     {
-                        if (oldconf.compareTo(newconf) != 0)
+                        long diffMsec = new Date().getTime() - conf.status.checkedDate.getTime();
+                        long diffSeconds = diffMsec / 1000;
+                        long diffMinutes = diffMsec / (60 * 1000);
+
+                        if (diffMinutes > 30)
                         {
                             checkNewConf = true;
-                            LogWrapper.d(TAG,"Found change into current proxy configurations -> needs to check again the proxy status");
-                        }
-                        else
-                        {
-                            if (oldconf.status != null
-                                    && oldconf.status.checkedDate != null)
-                            {
-
-                                long diffMsec = new Date().getTime() - oldconf.status.checkedDate.getTime();
-                                long diffSeconds = diffMsec / 1000;
-                                long diffMinutes = diffMsec / (60 * 1000);
-
-                                if (diffMinutes > 30)
-                                {
-                                    checkNewConf = true;
-                                    // Skip check when configuration is the same
-                                    LogWrapper.d(TAG, "Same configuration for 30 minutes check again!");
-                                }
-                            }
-                            else
-                            {
-                                LogWrapper.d(TAG,"Old configuration has not been checked -> needs to check the proxy status");
-                                checkNewConf = true;
-                            }
+                            // Skip check when configuration is the same
+                            LogWrapper.d(TAG, "Same configuration for 30 minutes check again!");
                         }
                     }
                     else
                     {
+                        LogWrapper.d(TAG, "Current configuration has not been checked -> needs to check the proxy status");
                         checkNewConf = true;
-                        LogWrapper.d(TAG,"Not found old configuration -> needs to check the proxy status");
                     }
                 }
                 else
                 {
                     // newconf cannot be null!!
-                    LogWrapper.d(TAG,"Not found new configuration -> needs to check the proxy status");
+                    LogWrapper.d(TAG, "Not found new configuration -> needs to check the proxy status");
                     BugSenseHandler.sendException(new Exception("Cannot have a null ProxyConfiguration"));
                 }
 
                 if (checkNewConf)
                 {
                     LogWrapper.i(TAG, "Changed current proxy configuration: calling refresh of proxy status");
-                    newconf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
-                    LogWrapper.i(TAG, "Acquired refreshed proxy configuration: " + newconf.toShortString());
+                    conf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
+                    LogWrapper.i(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
                 }
                 else
                 {
                     // Skip check when configuration is the same
                     LogWrapper.i(TAG, "No need to check the configuration. Skip...");
                 }
-                //</editor-fold>
             }
             else
             {
-                LogWrapper.w(TAG,"Network is not available, cannot check proxy settings");
+                LogWrapper.w(TAG, "Network is not available, cannot check proxy settings");
             }
 //            TEMP DISABLED
 //            CallRefreshApplicationStatus();
@@ -194,7 +167,7 @@ public class ProxySettingsCheckerService extends IntentService
             e.printStackTrace();
         }
 
-        LogWrapper.trace(TAG,"END CheckProxySettings",Log.ERROR);
+        LogWrapper.trace(TAG, "END CheckProxySettings", Log.ERROR);
     }
 
     public void CallRefreshApplicationStatus()
