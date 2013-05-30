@@ -2,8 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.lechucksoftware.proxy.proxysettings"
-	android:versionCode="1200202"
-	android:versionName="2.02">
+	android:versionCode="1200203"
+	android:versionName="2.03">
 
 	<!-- Scheme for version codes: ##@@$$$ , using:
 	    ## - the first two digits for the API Level,
