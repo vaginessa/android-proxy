@@ -114,6 +114,8 @@ public class ProxySettingsCheckerService extends IntentService
                 boolean checkNewConf = false;
                 if (conf != null)
                 {
+                    LogWrapper.i(TAG,"Checking configuration: " + conf.toShortString());
+
                     if (conf.status != null
                             && conf.status.checkedDate != null)
                     {

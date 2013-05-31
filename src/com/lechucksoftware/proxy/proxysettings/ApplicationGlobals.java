@@ -199,6 +199,14 @@ public class ApplicationGlobals extends Application
             {
                 ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(values);
                 Collections.sort(results);
+
+                StringBuilder sb = new StringBuilder();
+                for(ProxyConfiguration conf : results)
+                {
+                    sb.append(conf.ap.ssid + ",");
+                }
+                LogWrapper.d(TAG,"Sorted config list: " + sb.toString());
+
                 return results;
             }
         }
