@@ -113,8 +113,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         status = new ProxyStatus();
     }
 
-    @Override
-    public boolean equals(Object another)
+    public boolean isSameConfiguration(Object another)
     {
         if (!(another instanceof ProxyConfiguration))
             return false;
@@ -126,6 +125,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             // Both not null
             if (!this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid))
                 return false;
+            else
+            {
+                if(this.ap.mInfo != anotherConf.ap.mInfo)
+                {
+                    // One AP is connected and one not
+                    return false;
+                }
+            }
         }
         else if (this.ap != anotherConf.ap)
         {
@@ -260,12 +267,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public void updateConfiguration(ProxyConfiguration updated)
     {
         //TODO: Add all required fields for updating an old configuration with an updated version
-        if (!this.equals(updated))
+        if (!this.isSameConfiguration(updated))
         {
             proxySetting = updated.proxySetting;
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
             stringProxyExclusionList = updated.stringProxyExclusionList;
+            ap = updated.ap;
+
             status.clear();
 
             LogWrapper.d(TAG,"Updated proxy configuration: " + this.toShortString());
@@ -281,6 +290,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("ID: %s\n", id.toString()));
+
+        if (ap != null)
+            sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.ssid.toString()));
+
         sb.append(String.format("Proxy setting: %s\n", proxySetting.toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
         sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
@@ -291,9 +304,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             sb.append(String.format("Network Info: %s\n", connManager.getActiveNetworkInfo()));
         }
 
-        if (ap != null && ap.wifiConfig != null)
-            sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.wifiConfig.SSID.toString()));
-
         return sb.toString();
     }
 
@@ -301,9 +311,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         StringBuilder sb = new StringBuilder();
         sb.append(id.toString());
+
+        if (ap != null)
+            sb.append(" - " + ap.ssid.toString());
+
         sb.append(" - " + toStatusString());
-        if (ap != null && ap.wifiConfig != null)
-            sb.append(" - " + ap.wifiConfig.SSID.toString());
+
         if (status != null)
             sb.append(" - " + status.toShortString());
 

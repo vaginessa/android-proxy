@@ -52,7 +52,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 	/* package */ScanResult mScanResult;
 
 	public int mRssi;
-	private WifiInfo mInfo;
+	public WifiInfo mInfo;
 	
 	public static int getSecurity(WifiConfiguration config)
 	{

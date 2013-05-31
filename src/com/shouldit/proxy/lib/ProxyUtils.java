@@ -148,7 +148,7 @@ public class ProxyUtils
 //			Thread.sleep(10000);
 //			dgChannel.receive(receive);
 //			String response = new String(receive.array());
-//			if (response.equals("Hello"))
+//			if (response.isSameConfiguration("Hello"))
 //			{
 //				System.out.println("Ping is alive");
 //			}
