@@ -120,25 +120,33 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         ProxyConfiguration anotherConf = (ProxyConfiguration) another;
 
-        if (this.ap != null && anotherConf.ap != null)
-        {
-            // Both not null
-            if (!this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid))
-                return false;
-            else
-            {
-                if(this.ap.mInfo != anotherConf.ap.mInfo)
-                {
-                    // One AP is connected and one not
-                    return false;
-                }
-            }
-        }
-        else if (this.ap != anotherConf.ap)
-        {
-            // At least one is null
-            return false;
-        }
+//        if (this.ap != null && anotherConf.ap != null)
+//        {
+//            // Both not null
+//            if (!this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid))
+//            {
+//                // Different SSID -> Different configurations!
+//                return false;
+//            }
+//            else
+//            {
+//                if(this.ap.mInfo != anotherConf.ap.mInfo)
+//                {
+//                    // One AP is connected and one not
+//                    return false;
+//                }
+//
+//                if(this.ap.mRssi != anotherConf.ap.mRssi)
+//                {
+//                    return false;
+//                }
+//            }
+//        }
+//        else if (this.ap != anotherConf.ap)
+//        {
+//            // At least one is null
+//            return false;
+//        }
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
             return false;
@@ -273,7 +281,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
             stringProxyExclusionList = updated.stringProxyExclusionList;
-            ap = updated.ap;
+
 
             status.clear();
 
@@ -281,9 +289,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         }
         else
         {
-//            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
+            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
         }
+
+        // Always update AP
+        ap = updated.ap;
     }
+
 
     @Override
     public String toString()
