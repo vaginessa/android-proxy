@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
@@ -29,6 +32,10 @@ public class MainActivity extends Activity
     public static final String TAG = "MainActivity";
     private static boolean active = false;
 
+    // Combo scans can take 5-6s to complete - set to 10s.
+    private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
+    private Scanner mScanner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -36,6 +43,7 @@ public class MainActivity extends Activity
         LogWrapper.d(TAG,"Creating MainActivity");
 
         setContentView(R.layout.main_layout);
+        mScanner = new Scanner();
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -109,6 +117,9 @@ public class MainActivity extends Activity
     public void onResume()
     {
         super.onResume();
+
+        mScanner.resume();
+
 //        LogWrapper.d(TAG,"Resuming MainActivity");
 
         // Start register the status receivers
@@ -139,6 +150,7 @@ public class MainActivity extends Activity
 //        LogWrapper.d("TAG","Pause MainActivity");
         // Stop the registered status receivers
         unregisterReceiver(changeStatusReceiver);
+        mScanner.pause();
     }
 
     @Override
@@ -202,5 +214,42 @@ public class MainActivity extends Activity
         AccessPointListFragment.getInstance().refreshUI();
         ProxyDetailsFragment.getInstance().refreshUI();
         StatusFragment.getInstance().refreshUI();
+    }
+
+
+    private class Scanner extends Handler
+    {
+        private int mRetry = 0;
+
+        void resume() {
+            if (!hasMessages(0)) {
+                sendEmptyMessage(0);
+            }
+        }
+
+        void forceScan() {
+            removeMessages(0);
+            sendEmptyMessage(0);
+        }
+
+        void pause() {
+            mRetry = 0;
+            removeMessages(0);
+        }
+
+        @Override
+        public void handleMessage(Message message)
+        {
+            if (ApplicationGlobals.getWifiManager().startScan())
+            {
+                mRetry = 0;
+            }
+            else if (++mRetry >= 3)
+            {
+                mRetry = 0;
+                return;
+            }
+            sendEmptyMessageDelayed(0, WIFI_RESCAN_INTERVAL_MS);
+        }
     }
 }
