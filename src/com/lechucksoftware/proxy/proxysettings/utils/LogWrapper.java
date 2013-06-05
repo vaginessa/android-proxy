@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LogWrapper
 {
@@ -20,8 +22,9 @@ public class LogWrapper
 	 * 
 	 * */
 	
-//	private static int mLogLevel = Integer.MAX_VALUE;
-	private static int mLogLevel = Log.DEBUG;
+	private static int mLogLevel = Integer.MAX_VALUE;
+//	private static int mLogLevel = Log.DEBUG;
+    private static Map<String,Date> startTraces;
 
 	public static void d(String tag, String msg)
 	{
@@ -69,9 +72,6 @@ public class LogWrapper
 			case Log.ERROR:
 				e(tag,msg);
 				break;
-			case Log.VERBOSE:
-				v(tag,msg);
-				break;
 			case Log.INFO:
 				i(tag,msg);
 				break;
@@ -81,12 +81,43 @@ public class LogWrapper
             case Log.WARN:
                 w(tag,msg);
                 break;
+            default:
+                v(tag,msg);
+                break;
 		}
 	}
 
     public static void trace(String tag, String msg, int logLevel)
     {
         log(tag,msg + " ################## " + new Date().toLocaleString() + " #####################################################################",logLevel);
+    }
+
+    public static void startTrace(String tag, String msg, int logLevel)
+    {
+        if (startTraces == null)
+        {
+            startTraces = new ConcurrentHashMap<String, Date>();
+        }
+
+        Date now = new Date();
+        log(tag,"START " + msg + " ################## " + now.toLocaleString() + " #####################################################################",logLevel);
+        startTraces.put(msg,now);
+    }
+
+
+    public static void stopTrace(String tag, String msg, int logLevel)
+    {
+        if (startTraces != null && startTraces.containsKey(msg))
+        {
+            Date start = startTraces.get(msg);
+            Date now = new Date();
+            Long diff = now.getTime() - start.getTime();
+            log(tag,"STOP " + msg + " ################## " + diff + " msec #####################################################################",logLevel);
+        }
+        else
+        {
+            log(tag,msg + " ################## " + new Date().toLocaleString() + " #####################################################################",logLevel);
+        }
     }
 	
 	public static void logIntent(String tag, Intent intent, int logLevel)

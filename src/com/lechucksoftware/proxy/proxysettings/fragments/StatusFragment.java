@@ -209,6 +209,8 @@ public class StatusFragment extends EnhancedFragment
     public void onResume()
     {
         super.onResume();
+        clickedStatus = null;
+
         refreshUI();
     }
 
@@ -216,6 +218,7 @@ public class StatusFragment extends EnhancedFragment
     public void onPause()
     {
         super.onPause();
+        clickedStatus = null;
     }
 
     private void hide()

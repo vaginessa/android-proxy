@@ -24,6 +24,6 @@ public class PInfo implements Serializable
     
     void prettyPrint() 
     {
-        LogWrapper.v(TAG,appname + "\t" + pname + "\t" + versionName + "\t" + versionCode);
+        LogWrapper.d(TAG,appname + "\t" + pname + "\t" + versionName + "\t" + versionCode);
     }
 }

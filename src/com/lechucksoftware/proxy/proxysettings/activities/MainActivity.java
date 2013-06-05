@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -40,7 +41,8 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        LogWrapper.d(TAG,"Creating MainActivity");
+
+        LogWrapper.d(TAG, "Creating MainActivity");
 
         setContentView(R.layout.main_layout);
         mScanner = new Scanner();
@@ -79,9 +81,9 @@ public class MainActivity extends Activity
     }
 
     @Override
-    protected void onNewIntent (Intent intent)
+    protected void onNewIntent(Intent intent)
     {
-        LogWrapper.d(TAG,"onNewIntent MainActivity");
+        LogWrapper.d(TAG, "onNewIntent MainActivity");
     }
 
     @Override
@@ -128,11 +130,11 @@ public class MainActivity extends Activity
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
 
-        ifilt.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-        ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-        ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-        ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-		ifilt.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+//        ifilt.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+//        ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+//        ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+//        ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+//        ifilt.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
 
         ifilt.addAction(Constants.PROXY_REFRESH_UI);
         registerReceiver(changeStatusReceiver, ifilt);
@@ -176,6 +178,8 @@ public class MainActivity extends Activity
         {
             String action = intent.getAction();
 
+            LogWrapper.logIntent(TAG, intent, Log.INFO, true);
+
             if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
             {
                 LogWrapper.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
@@ -186,15 +190,15 @@ public class MainActivity extends Activity
                 LogWrapper.d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();
             }
-            else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-                    || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
-                    || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
-                    || action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
-            {
-                LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
-                refreshUI();
-            }
+//            else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+//                    || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
+//                    || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
+//                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
+//                    || action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+//            {
+//                LogWrapper.d(TAG, "Received broadcast for update on network status - RefreshUI");
+//                refreshUI();
+//            }
             else if (action.equals(Constants.PROXY_REFRESH_UI))
             {
                 LogWrapper.d(TAG, "Received broadcast for update the Proxy Settings UI - RefreshUI");
@@ -221,18 +225,25 @@ public class MainActivity extends Activity
     {
         private int mRetry = 0;
 
-        void resume() {
-            if (!hasMessages(0)) {
+        void resume()
+        {
+            if (!hasMessages(0))
+            {
+                LogWrapper.w(TAG, "Resume Wi-Fi scanner");
                 sendEmptyMessage(0);
             }
         }
 
-        void forceScan() {
+        void forceScan()
+        {
+            LogWrapper.w(TAG, "Force Wi-Fi scanner");
             removeMessages(0);
             sendEmptyMessage(0);
         }
 
-        void pause() {
+        void pause()
+        {
+            LogWrapper.w(TAG, "Pause Wi-Fi scanner");
             mRetry = 0;
             removeMessages(0);
         }
@@ -240,6 +251,8 @@ public class MainActivity extends Activity
         @Override
         public void handleMessage(Message message)
         {
+            LogWrapper.w(TAG, "Calling Wi-Fi scanner");
+
             if (ApplicationGlobals.getWifiManager().startScan())
             {
                 mRetry = 0;
@@ -249,6 +262,7 @@ public class MainActivity extends Activity
                 mRetry = 0;
                 return;
             }
+
             sendEmptyMessageDelayed(0, WIFI_RESCAN_INTERVAL_MS);
         }
     }

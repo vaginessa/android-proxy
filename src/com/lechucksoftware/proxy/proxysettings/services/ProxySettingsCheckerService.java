@@ -36,7 +36,7 @@ public class ProxySettingsCheckerService extends IntentService
         if (callerIntent != null)
         {
             String callerAction = callerIntent.getAction();
-            LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG);
+            LogWrapper.logIntent(TAG, callerIntent, Log.INFO);
 
             if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)
                     || callerAction.equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
@@ -44,7 +44,6 @@ public class ProxySettingsCheckerService extends IntentService
                     || callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)
                     || callerAction.equals(Proxy.PROXY_CHANGE_ACTION))
             {
-                // LogWrapper.logIntent(TAG, callerIntent, Log.WARN);
                 CheckProxySettings(callerIntent);
             }
             else if (callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION))
@@ -74,8 +73,6 @@ public class ProxySettingsCheckerService extends IntentService
                 {
                     LogWrapper.d(TAG, "Do not check proxy settings if network is not available!");
                 }
-                // else
-                // LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG, false);
             }
             else
             {
@@ -177,7 +174,7 @@ public class ProxySettingsCheckerService extends IntentService
         /**
          * Call the update of the UI
          * */
-        LogWrapper.d(TAG, "Sending broadcast intent " + Constants.PROXY_REFRESH_UI);
+        LogWrapper.i(TAG, "Sending broadcast intent " + Constants.PROXY_REFRESH_UI);
         Intent intent = new Intent(Constants.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 

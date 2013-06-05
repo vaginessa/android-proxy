@@ -36,7 +36,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 //				|| intent.getAction().isSameConfiguration(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION) 	    // Changed wifi supplicant connection state (connected/disconnected)
 		   )
 		{
-			LogWrapper.logIntent(TAG, intent, Log.DEBUG);
+			LogWrapper.logIntent(TAG, intent, Log.INFO);
 			callProxySettingsChecker(context, intent);
 		}
 		else if (	intent.getAction().equals(Constants.PROXY_REFRESH_UI)						// INTERNAL (PS) : Called to refreshUI the UI of Proxy Settings

@@ -11,6 +11,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import android.os.Debug;
+import android.util.Log;
 import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -110,8 +112,10 @@ public class ApplicationGlobals extends Application
         }
 	}
 	
-	public void updateProxyConfigurationList()
+	public synchronized void updateProxyConfigurationList()
 	{
+        LogWrapper.startTrace(TAG,"updateProxyConfigurationList", Log.ASSERT);
+
 		// Get information regarding other configured AP
 		List<ProxyConfiguration> updatedConfigurations = ProxySettings.getProxiesConfigurations(getInstance());
 		List<ScanResult> scanResults = getWifiManager().getScanResults();
@@ -145,6 +149,8 @@ public class ApplicationGlobals extends Application
                 }
 			}
 		}
+
+        LogWrapper.stopTrace(TAG,"updateProxyConfigurationList", Log.ASSERT);
 	}
 
 	public ProxyConfiguration getCurrentConfiguration()
@@ -191,7 +197,9 @@ public class ApplicationGlobals extends Application
 
 	public List<ProxyConfiguration> getConfigurationsList()
 	{
-        updateProxyConfigurationList();
+        if (getConfigurations().isEmpty())
+            updateProxyConfigurationList();
+
         if (!getConfigurations().isEmpty())
         {
             Collection<ProxyConfiguration> values = getConfigurations().values();
@@ -205,7 +213,7 @@ public class ApplicationGlobals extends Application
                 {
                     sb.append(conf.ap.ssid + ",");
                 }
-                LogWrapper.d(TAG,"Sorted config list: " + sb.toString());
+                LogWrapper.d(TAG,"Sorted proxy configuration list: " + sb.toString());
 
                 return results;
             }
