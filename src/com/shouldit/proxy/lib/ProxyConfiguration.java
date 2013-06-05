@@ -116,7 +116,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public boolean isSameConfiguration(Object another)
     {
         if (!(another instanceof ProxyConfiguration))
+        {
+            LogWrapper.d(TAG,"Not a ProxyConfiguration object");
             return false;
+        }
 
         ProxyConfiguration anotherConf = (ProxyConfiguration) another;
 
@@ -139,7 +142,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //                if(this.ap.mRssi != anotherConf.ap.mRssi)
 //                {
 //                    return false;
-//                }
+//                }No need to update proxy
 //            }
 //        }
 //        else if (this.ap != anotherConf.ap)
@@ -149,38 +152,54 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //        }
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
+        {
+            LogWrapper.d(TAG,"Different proxy settings toggle status");
             return false;
+        }
 
         if (this.proxyHost != null && anotherConf.proxyHost != null)
         {
             if (!this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost))
+            {
+                LogWrapper.d(TAG,"Different proxy host value");
                 return false;
+            }
         }
         else if (this.proxyHost != anotherConf.proxyHost)
         {
+            LogWrapper.d(TAG,"Different proxy host set");
             return false;
         }
 
         if (this.proxyPort != null && anotherConf.proxyPort != null)
         {
             if (!this.proxyPort.equals(anotherConf.proxyPort))
+            {
+                LogWrapper.d(TAG,"Different proxy port value");
                 return false;
+            }
         }
         else if (this.proxyPort != anotherConf.proxyPort)
         {
+            LogWrapper.d(TAG,"Different proxy port set");
             return false;
         }
 
         if (this.stringProxyExclusionList != null && anotherConf.stringProxyExclusionList != null)
         {
             if (!this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
+            {
+                LogWrapper.d(TAG,"Different proxy exclusion list value");
                 return false;
+            }
         }
         else if (this.stringProxyExclusionList != anotherConf.stringProxyExclusionList)
         {
+            LogWrapper.d(TAG,"Different proxy exclusion list set");
             return false;
         }
 
+//        LogWrapper.d(TAG,"Same proxy configuration: \n" +  this.toShortString() + "\n" +  anotherConf.toShortString());
         return true;
     }
 
@@ -277,22 +296,24 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         //TODO: Add all required fields for updating an old configuration with an updated version
         if (!this.isSameConfiguration(updated))
         {
+            LogWrapper.d(TAG,"Updating proxy configuration: \n" +  this.toShortString() + "\n" +  updated.toShortString());
+
             proxySetting = updated.proxySetting;
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
             stringProxyExclusionList = updated.stringProxyExclusionList;
-
+            parseExclusionList(stringProxyExclusionList);
 
             status.clear();
 
-            LogWrapper.d(TAG,"Updated proxy configuration: " + this.toShortString());
+            LogWrapper.d(TAG,"Updated proxy configuration: \n" +  this.toShortString() + "\n" +  updated.toShortString());
         }
         else
         {
-            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
+//            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
         }
 
-        // Always update AP
+        // Always update AP information
         ap = updated.ap;
     }
 
@@ -328,6 +349,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             sb.append(" - " + ap.ssid.toString());
 
         sb.append(" - " + toStatusString());
+        sb.append(getProxyExclusionList());
 
         if (status != null)
             sb.append(" - " + status.toShortString());
@@ -704,7 +726,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public String getProxyExclusionList()
     {
-        return stringProxyExclusionList;
+        if (stringProxyExclusionList == null)
+            return "";
+        else
+            return stringProxyExclusionList;
     }
 
     public CheckStatusValues getCheckingStatus()
@@ -799,7 +824,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             if (result == -1)
                 throw new Exception("Can't update network configuration");
 
-            LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+            LogWrapper.d(TAG,"Succesfully updated configuration on device: " + this.toShortString());
+
+            LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
             context.sendBroadcast(intent);
         }
