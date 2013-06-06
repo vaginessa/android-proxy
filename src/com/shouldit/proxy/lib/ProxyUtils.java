@@ -35,7 +35,7 @@ public class ProxyUtils
 
 	public static String cleanUpSSID(String SSID)
 	{
-		if (SSID.startsWith("\""))
+        if (SSID != null && SSID.startsWith("\""))
 			return removeDoubleQuotes(SSID);
 		else
 			return SSID;
