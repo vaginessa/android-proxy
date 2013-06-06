@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
@@ -47,37 +48,10 @@ public class MainActivity extends Activity
         setContentView(R.layout.main_layout);
         mScanner = new Scanner();
 
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        if (findViewById(R.id.fragment_container) != null)
-        {
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null)
-            {
-                return;
-            }
+        GoToAccessPointListFragment(getFragmentManager());
 
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getFragmentManager().beginTransaction().add(R.id.fragment_container, AccessPointListFragment.getInstance()).commit();
-        }
-
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        if (findViewById(R.id.status_fragment_container) != null)
-        {
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null)
-            {
-                return;
-            }
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
-        }
+        // Add the fragment to the 'fragment_container' FrameLayout
+        getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
     }
 
     @Override
@@ -94,12 +68,13 @@ public class MainActivity extends Activity
         switch (item.getItemId())
         {
             case android.R.id.home:
-                // Clean-up the backstack when going back to home
-                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, AccessPointListFragment.getInstance());
-                //transaction.addToBackStack(null);
-                transaction.commit();
+                GoToAccessPointListFragment(getFragmentManager());
+//                // Clean-up the backstack when going back to home
+//                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                transaction = getFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, AccessPointListFragment.getInstance());
+//                //transaction.addToBackStack(null);
+//                transaction.commit();
                 return true;
 
             default:
@@ -107,6 +82,40 @@ public class MainActivity extends Activity
         }
     }
 
+    public static void GoToAccessPointListFragment(FragmentManager fm)
+    {
+        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // Clean-up the backstack when going back to home
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+        Fragment f = fm.findFragmentById(R.id.fragment_container);
+
+        if (f != null)
+        {
+            ft.replace(R.id.fragment_container, AccessPointListFragment.getInstance());
+        }
+        else
+        {
+            ft.add(R.id.fragment_container, AccessPointListFragment.getInstance());
+        }
+
+        // Do NOT add AccessPointListFragment to back stack
+        ft.commit();
+    }
+
+    public static void GoToProxyDetailsFragment(FragmentManager fm)
+    {
+        ProxyDetailsFragment details = ProxyDetailsFragment.getInstance();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+        ft.replace(R.id.fragment_container, details);
+
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
     public void onDestroy()
     {

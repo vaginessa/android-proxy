@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -11,6 +12,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.View;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;
@@ -236,14 +238,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
         if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
         {
-            Fragment f = getFragmentManager().findFragmentById(R.id.fragment_container);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            if (f != null)
-            {
-                ft.remove(f);
-            }
-
-            ft.add(R.id.fragment_container, AccessPointListFragment.getInstance()).commit();
+            MainActivity.GoToAccessPointListFragment(getFragmentManager());
         }
 
         ProxyConfiguration selconf = ApplicationGlobals.getSelectedConfiguration();

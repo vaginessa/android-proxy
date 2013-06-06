@@ -35,6 +35,7 @@ public class ApplicationGlobals extends Application
         return configurations;
     }
 
+    // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
     private Map<String, ScanResult> notConfiguredWifi;
     public Map<String, ScanResult> getNotConfiguredWifi()
     {
@@ -98,37 +99,71 @@ public class ApplicationGlobals extends Application
 		return mInstance;
 	}
 
-	public void addConfiguration(String SSID, ProxyConfiguration conf)
-	{
-		if (getConfigurations().containsKey(SSID))
-		{
-            ProxyConfiguration originalConf = getConfigurations().get(SSID);
-            originalConf.updateConfiguration(conf);
-		}
-        else
-        {
-            LogWrapper.d(TAG,"Adding to list new proxy configurations: " + conf.toShortString());
-            getConfigurations().put(SSID, conf);
-        }
-	}
+//	public void addConfiguration(String SSID, ProxyConfiguration conf)
+//	{
+//		if (getConfigurations().containsKey(SSID))
+//		{
+//            ProxyConfiguration originalConf = getConfigurations().get(SSID);
+//            originalConf.updateConfiguration(conf);
+//		}
+//        else
+//        {
+//            LogWrapper.d(TAG,"Adding to list new proxy configurations: " + conf.toShortString());
+//            getConfigurations().put(SSID, conf);
+//        }
+//	}
 	
 	public synchronized void updateProxyConfigurationList()
 	{
         LogWrapper.startTrace(TAG,"updateProxyConfigurationList", Log.ASSERT);
 
-		// Get information regarding other configured AP
+        // Get information regarding current saved configuration
+        Collection <String> savedSSID = getConfigurations().keySet();
+        List <String> savedSSIDNotMoreConfiguredList = new ArrayList<String>();
+        for (String SSID: savedSSID)
+        {
+            savedSSIDNotMoreConfiguredList.add(SSID.toString());
+        }
+
+		// Get latests information regarding configured AP
 		List<ProxyConfiguration> updatedConfigurations = ProxySettings.getProxiesConfigurations(getInstance());
-		List<ScanResult> scanResults = getWifiManager().getScanResults();
-		
+
 		for (ProxyConfiguration conf : updatedConfigurations)
 		{
-			addConfiguration(ProxyUtils.cleanUpSSID(conf.getSSID()), conf);
+            String SSID = ProxyUtils.cleanUpSSID(conf.getSSID());
+
+            if (getConfigurations().containsKey(SSID))
+            {
+                ProxyConfiguration originalConf = getConfigurations().get(SSID);
+                originalConf.updateConfiguration(conf);
+            }
+            else
+            {
+                LogWrapper.d(TAG,"Adding to list new proxy configurations: " + conf.toShortString());
+                getConfigurations().put(SSID, conf);
+            }
+
+            if (savedSSIDNotMoreConfiguredList.contains(SSID))
+                savedSSIDNotMoreConfiguredList.remove(SSID);
 		}
-		
+
+        // Remove from current configuration the SSID that are not more configured into Android's Wi-Fi settings
+        for (String SSID : savedSSIDNotMoreConfiguredList)
+        {
+            if (getConfigurations().containsKey(SSID))
+            {
+                ProxyConfiguration removed = getConfigurations().remove(SSID);
+                LogWrapper.w(TAG,"Removing from Proxy Settings configuration a no more configured SSID: " + removed.toShortString());
+            }
+        }
+
+        // Update configurations with latest Wi-Fi scan results
+        List<ScanResult> scanResults = getWifiManager().getScanResults();
 		if (scanResults != null)
 		{
 			for (ScanResult res : scanResults)
 			{
+                LogWrapper.d(TAG, "Updating from scanresult: " + res.SSID + " level: " + res.level);
 				String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
 				if (getConfigurations().containsKey(currSSID))
 				{

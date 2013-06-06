@@ -11,7 +11,9 @@ import android.content.Context;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.widget.Toast;
 import com.bugsense.trace.BugSenseHandler;
+import com.lechucksoftware.proxy.proxysettings.R;
 
 public class Utils
 {
@@ -45,6 +47,7 @@ public class Utils
 
 	public static void SetupBugSense(Context ctx)
 	{
+        String key = null;
 		// If you want to use BugSense for your fork, register with
 		// them and place your API key in /assets/bugsense.txt
 		// (This prevents me receiving reports of crashes from forked
@@ -53,15 +56,25 @@ public class Utils
 		{
 			InputStream inputStream = ctx.getAssets().open("proxy_settings_bugsense_license.txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-			String key = br.readLine();
-					
+			key = br.readLine();
 			key = key.trim();
 			LogWrapper.d(TAG, "Using bugsense key '" + key + "'");
-			BugSenseHandler.initAndStartSession(ctx, key);
 		}
 		catch (IOException e)
 		{
 			LogWrapper.e("TAG", "No bugsense keyfile found");
 		}
+
+        if (key == null)
+        {
+            CharSequence text =  "No bugsense keyfile found";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(ctx, text, duration);
+            toast.show();
+        }
+        else
+        {
+            BugSenseHandler.initAndStartSession(ctx, key);
+        }
 	}
 }

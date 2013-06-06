@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -147,23 +148,6 @@ public class AccessPointListFragment extends EnhancedListFragment
         ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
 //        LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
-        // Make new fragment to show this selection.
-        ProxyDetailsFragment details = ProxyDetailsFragment.getInstance();
-
-        // Execute a transaction, replacing any existing fragment
-        // with this one inside the frame.
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if (index == 0)
-        {
-            ft.replace(R.id.fragment_container, details);
-        }
-        else
-        {
-            // TODO Check here
-            ft.replace(R.id.fragment_container, details);
-        }
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.addToBackStack(null);
-        ft.commit();
+        MainActivity.GoToProxyDetailsFragment(getFragmentManager());
     }
 }
