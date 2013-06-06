@@ -160,19 +160,26 @@ public class ApplicationGlobals extends Application
 		if (getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
 		{
 			WifiInfo info = getInstance().mWifiManager.getConnectionInfo();
-			String SSID = ProxyUtils.cleanUpSSID(info.getSSID());
-
-			if (getConfigurations().isEmpty())
-				updateProxyConfigurationList();
-			
-			if (getConfigurations().containsKey(SSID))
-			{
-				conf = getConfigurations().get(SSID);
-			}
-
-            if (currentConfiguration == null || conf != null && currentConfiguration.compareTo(conf) != 0)
+            if (info != null)
             {
-                getInstance().currentConfiguration = conf;
+                String rawSSID = info.getSSID();
+                if (rawSSID != null)
+                {
+                    String SSID = ProxyUtils.cleanUpSSID(rawSSID);
+
+                    if (getConfigurations().isEmpty())
+                        updateProxyConfigurationList();
+
+                    if (getConfigurations().containsKey(SSID))
+                    {
+                        conf = getConfigurations().get(SSID);
+                    }
+
+                    if (currentConfiguration == null || conf != null && currentConfiguration != null && currentConfiguration.compareTo(conf) != 0)
+                    {
+                        getInstance().currentConfiguration = conf;
+                    }
+                }
             }
 		}
 		
