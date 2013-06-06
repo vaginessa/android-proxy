@@ -1,6 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -231,6 +233,18 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+
+        if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
+        {
+            Fragment f = getFragmentManager().findFragmentById(R.id.fragment_container);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            if (f != null)
+            {
+                ft.remove(f);
+            }
+
+            ft.add(R.id.fragment_container, AccessPointListFragment.getInstance()).commit();
+        }
 
         ProxyConfiguration selconf = ApplicationGlobals.getSelectedConfiguration();
         if (selconf != null && selconf.ap != null)
