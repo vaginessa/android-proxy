@@ -264,16 +264,16 @@ public class ApplicationGlobals extends Application
         return null;
 	}
 	
-	public ProxyConfiguration getConfiguration(String SSID)
-	{
-		String cleanSSID = ProxyUtils.cleanUpSSID(SSID);
-		
-		if (getConfigurations().containsKey(cleanSSID))
-		{
-			return getConfigurations().get(cleanSSID);
-		}
-		else return null;
-	}
+//	public ProxyConfiguration getConfiguration(String SSID)
+//	{
+//		String cleanSSID = ProxyUtils.cleanUpSSID(SSID);
+//
+//		if (getConfigurations().containsKey(cleanSSID))
+//		{
+//			return getConfigurations().get(cleanSSID);
+//		}
+//		else return null;
+//	}
 
 
 
