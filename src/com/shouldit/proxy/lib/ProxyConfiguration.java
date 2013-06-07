@@ -537,7 +537,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             NetworkInfo ni = connManager.getActiveNetworkInfo();
             if (ni != null && ni.isConnected() && ni.getType() == ConnectivityManager.TYPE_WIFI)
             {
-                String status = String.format("%s %s", context.getString(R.string.status_wifi_connected), ProxyUtils.cleanUpSSID(getSSID()));
+                String status =context.getString(R.string.status_wifi_enabled);
                 result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, true, true, status);
             }
             else

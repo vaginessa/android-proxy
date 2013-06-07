@@ -35,10 +35,15 @@ public class ProxyUtils
 
 	public static String cleanUpSSID(String SSID)
 	{
-        if (SSID != null && SSID.startsWith("\""))
-			return removeDoubleQuotes(SSID);
+        if (SSID != null)
+        {
+            if (SSID.startsWith("\""))
+			    return removeDoubleQuotes(SSID);    // Remove double quotes from SSID
+            else
+                return SSID;
+        }
 		else
-			return SSID;
+			return "";  // For safety return always and empty string
 	}
 
 	public static String removeDoubleQuotes(String string)

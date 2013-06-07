@@ -18,7 +18,7 @@
 
 
 	
-	<string name="status_wifi_connected">Wi-Fi enabled</string>
+	<string name="status_wifi_enabled">Wi-Fi enabled</string>
 	<string name="status_wifi_enabled_disconnected">Not connected to any Wi-Fi Access point</string>
 	<string name="status_wifi_not_enabled">Wi-Fi not enabled</string>
 
