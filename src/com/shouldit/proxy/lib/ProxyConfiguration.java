@@ -766,6 +766,16 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             return null;
     }
 
+    public String getBSSID()
+    {
+        if (ap != null && ap.bssid != null)
+        {
+            return ap.bssid;
+        }
+        else
+            return null;
+    }
+
     public boolean isValidConfiguration()
     {
         if (ap != null)
