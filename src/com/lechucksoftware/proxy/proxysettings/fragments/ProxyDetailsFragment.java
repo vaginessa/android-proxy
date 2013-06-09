@@ -1,9 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.*;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -108,15 +105,23 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
                 String portString = (String) newValue;
-                int proxyPort;
+                Integer proxyPort;
 
                 try
                 {
-                    proxyPort = (int) Integer.parseInt(portString);
+                    proxyPort = Integer.parseInt(portString);
                 }
                 catch (NumberFormatException ex)
                 {
                     proxyPort = 0; // Equivalent to NOT SET
+                    showError(R.string.proxy_error_invalid_port);
+                    return false;
+                }
+
+                if (proxyPort <= 0 || proxyPort > 0xFFFF)
+                {
+                    showError(R.string.proxy_error_invalid_port);
+                    return false;
                 }
 
                 ApplicationGlobals.getSelectedConfiguration().setProxyPort(proxyPort);
@@ -143,6 +148,15 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
         authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
         if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
+    }
+
+    protected void showError(int error)
+    {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.proxy_error)
+                .setMessage(error)
+                .setPositiveButton(R.string.proxy_error_dismiss, null)
+                .show();
     }
 
     public void refreshUI()
@@ -236,16 +250,19 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
+        ProxyConfiguration selconf = ApplicationGlobals.getSelectedConfiguration();
+
+        if (ApplicationGlobals.getWifiManager().isWifiEnabled()
+            && selconf != null
+            && selconf.ap != null)
+        {
+            actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
+            StatusFragment.getInstance().refreshUI();
+        }
+        else
         {
             MainActivity.GoToAccessPointListFragment(getFragmentManager());
         }
-
-        ProxyConfiguration selconf = ApplicationGlobals.getSelectedConfiguration();
-        if (selconf != null && selconf.ap != null)
-            actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
-
-        StatusFragment.getInstance().refreshUI();
     }
 
     @Override

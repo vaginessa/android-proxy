@@ -8,17 +8,17 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
 import android.os.Debug;
+import android.text.TextUtils;
 import android.util.Log;
 import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxySettings;
-import com.shouldit.proxy.lib.ProxyUtils;
+import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 
@@ -27,17 +27,20 @@ public class ApplicationGlobals extends Application
 {
 	private static ApplicationGlobals mInstance;
 
-
-
-    private Map<String, ProxyConfiguration> configurations;
-    private Map<String, ProxyConfiguration> getConfigurations()
+    private Map<WifiNetworkId, ProxyConfiguration> configurations;
+    private Map<WifiNetworkId, ProxyConfiguration> getConfigurations()
     {
         return configurations;
     }
 
+    private String getConfigurationsString()
+    {
+        return TextUtils.join(", " ,getConfigurations().keySet());
+    }
+
     // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
-    private Map<String, ScanResult> notConfiguredWifi;
-    public Map<String, ScanResult> getNotConfiguredWifi()
+    private Map<WifiNetworkId, ScanResult> notConfiguredWifi;
+    public Map<WifiNetworkId, ScanResult> getNotConfiguredWifi()
     {
         return notConfiguredWifi;
     }
@@ -52,11 +55,21 @@ public class ApplicationGlobals extends Application
 
     public static WifiManager getWifiManager()
 	{
+        if (getInstance().mWifiManager == null)
+        {
+            getInstance().mWifiManager = (WifiManager) getInstance().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        }
+
 		return getInstance().mWifiManager;
 	}
 
 	public static ConnectivityManager getConnectivityManager()
 	{
+        if (getInstance().mConnManager == null)
+        {
+            getInstance().mConnManager = (ConnectivityManager) getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        }
+
 		return getInstance().mConnManager;
 	}
 
@@ -75,15 +88,12 @@ public class ApplicationGlobals extends Application
 	{
 		super.onCreate();
 
+        mInstance = this;
+
 		timeout = 10000; // Set default timeout value (10 seconds)
-		mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-		mConnManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-
-		configurations = Collections.synchronizedMap(new HashMap<String, ProxyConfiguration>());
-        notConfiguredWifi = Collections.synchronizedMap(new HashMap<String, ScanResult>());
-
-		mInstance = this;
+		configurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, ProxyConfiguration>());
+        notConfiguredWifi = Collections.synchronizedMap(new HashMap<WifiNetworkId, ScanResult>());
 				
 		Utils.SetupBugSense(getApplicationContext());
 				
@@ -94,68 +104,63 @@ public class ApplicationGlobals extends Application
 	public static ApplicationGlobals getInstance()
 	{
 		if (mInstance == null)
-			BugSenseHandler.sendException(new Exception("Cannot find valid instance of ApplicationGlobals"));
+        {
+			BugSenseHandler.sendException(new Exception("Cannot find valid instance of ApplicationGlobals, trying to instanciate a new one"));
+            mInstance = new ApplicationGlobals();
+        }
 		
 		return mInstance;
 	}
 
-//	public void addConfiguration(String SSID, ProxyConfiguration conf)
-//	{
-//		if (getConfigurations().containsKey(SSID))
-//		{
-//            ProxyConfiguration originalConf = getConfigurations().get(SSID);
-//            originalConf.updateConfiguration(conf);
-//		}
-//        else
-//        {
-//            LogWrapper.d(TAG,"Adding to list new proxy configurations: " + conf.toShortString());
-//            getConfigurations().put(SSID, conf);
-//        }
-//	}
-	
 	public synchronized void updateProxyConfigurationList()
 	{
         LogWrapper.startTrace(TAG,"updateProxyConfigurationList", Log.ASSERT);
 
         // Get information regarding current saved configuration
-        Collection <String> savedSSID = getConfigurations().keySet();
-        List <String> savedSSIDNotMoreConfiguredList = new ArrayList<String>();
-        for (String SSID: savedSSID)
+        Collection <WifiNetworkId> savedNetworks = getConfigurations().keySet();
+        List <WifiNetworkId> savedSSIDNotMoreConfiguredList = new ArrayList<WifiNetworkId>();
+
+        for (WifiNetworkId wifiNet: savedNetworks)
         {
-            savedSSIDNotMoreConfiguredList.add(SSID.toString());
+            savedSSIDNotMoreConfiguredList.add(wifiNet);
         }
+
+//        LogWrapper.d(TAG,"Saved configurations: " + TextUtils.join(", " , savedSSIDNotMoreConfiguredList));
 
 		// Get latests information regarding configured AP
 		List<ProxyConfiguration> updatedConfigurations = ProxySettings.getProxiesConfigurations(getInstance());
 
 		for (ProxyConfiguration conf : updatedConfigurations)
 		{
-            String SSID = ProxyUtils.cleanUpSSID(conf.getSSID());
-
-            if (getConfigurations().containsKey(SSID))
+            if (getConfigurations().containsKey(conf.networkId))
             {
-                ProxyConfiguration originalConf = getConfigurations().get(SSID);
+                ProxyConfiguration originalConf = getConfigurations().get(conf.networkId);
                 originalConf.updateConfiguration(conf);
             }
             else
             {
                 LogWrapper.d(TAG,"Adding to list new proxy configurations: " + conf.toShortString());
-                getConfigurations().put(SSID, conf);
+                getConfigurations().put(conf.networkId, conf);
             }
 
-            if (savedSSIDNotMoreConfiguredList.contains(SSID))
-                savedSSIDNotMoreConfiguredList.remove(SSID);
+            if (savedSSIDNotMoreConfiguredList.contains(conf.networkId))
+                savedSSIDNotMoreConfiguredList.remove(conf.networkId);
 		}
 
+//        LogWrapper.d(TAG,"Updated configurations list: " + getConfigurationsString());
+//        LogWrapper.d(TAG,"Configurations that need to be removed: " + TextUtils.join(", " , savedSSIDNotMoreConfiguredList));
+
         // Remove from current configuration the SSID that are not more configured into Android's Wi-Fi settings
-        for (String SSID : savedSSIDNotMoreConfiguredList)
+        for (WifiNetworkId netId : savedSSIDNotMoreConfiguredList)
         {
-            if (getConfigurations().containsKey(SSID))
+            if (getConfigurations().containsKey(netId))
             {
-                ProxyConfiguration removed = getConfigurations().remove(SSID);
+                ProxyConfiguration removed = getConfigurations().remove(netId);
                 LogWrapper.w(TAG,"Removing from Proxy Settings configuration a no more configured SSID: " + removed.toShortString());
             }
         }
+
+//        LogWrapper.d(TAG,"Cleaned up configurations list: " + getConfigurationsString());
 
         // Update configurations with latest Wi-Fi scan results
         List<ScanResult> scanResults = getWifiManager().getScanResults();
@@ -165,9 +170,12 @@ public class ApplicationGlobals extends Application
 			{
                 LogWrapper.d(TAG, "Updating from scanresult: " + res.SSID + " level: " + res.level);
 				String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
-				if (getConfigurations().containsKey(currSSID))
+                APLConstants.SecurityType security = ProxyUtils.getSecurity(res);
+                WifiNetworkId currWifiNet = new WifiNetworkId(currSSID, security);
+
+				if (getConfigurations().containsKey(currWifiNet))
 				{
-                    ProxyConfiguration conf = getConfigurations().get(currSSID);
+                    ProxyConfiguration conf = getConfigurations().get(currWifiNet);
                     if (conf != null && conf.ap != null)
                     {
                         conf.ap.update(res);
@@ -175,16 +183,18 @@ public class ApplicationGlobals extends Application
 				}
                 else
                 {
-                    if (getNotConfiguredWifi().containsKey(currSSID))
+                    if (getNotConfiguredWifi().containsKey(currWifiNet))
                     {
-                        getNotConfiguredWifi().remove(currSSID);
+                        getNotConfiguredWifi().remove(currWifiNet);
                     }
 
-                    getNotConfiguredWifi().put(currSSID, res);
+                    getNotConfiguredWifi().put(currWifiNet, res);
                 }
 			}
 		}
 
+//        LogWrapper.d(TAG,"Not configured Wi-Fi: " + TextUtils.join(", " , getNotConfiguredWifi().values()));
+        LogWrapper.d(TAG,"Final configurations list: " + getConfigurationsString());
         LogWrapper.stopTrace(TAG,"updateProxyConfigurationList", Log.ASSERT);
 	}
 
@@ -200,14 +210,21 @@ public class ApplicationGlobals extends Application
                 String rawSSID = info.getSSID();
                 if (rawSSID != null)
                 {
-                    String SSID = ProxyUtils.cleanUpSSID(rawSSID);
-
                     if (getConfigurations().isEmpty())
                         updateProxyConfigurationList();
 
-                    if (getConfigurations().containsKey(SSID))
+                    for (WifiConfiguration wifiConfig : getWifiManager().getConfiguredNetworks())
                     {
-                        conf = getConfigurations().get(SSID);
+                        if (wifiConfig.SSID.equals(rawSSID))
+                        {
+                            String SSID = ProxyUtils.cleanUpSSID(rawSSID);
+                            WifiNetworkId netId = new WifiNetworkId(SSID, ProxyUtils.getSecurity(wifiConfig));
+                            if (getConfigurations().containsKey(netId))
+                            {
+                                conf = getConfigurations().get(netId);
+                                break;
+                            }
+                        }
                     }
 
                     if (currentConfiguration == null || conf != null && currentConfiguration != null && currentConfiguration.compareTo(conf) != 0)
@@ -221,6 +238,7 @@ public class ApplicationGlobals extends Application
 		// Always return a not null configuration
 		if (getInstance().currentConfiguration == null)
 		{
+            LogWrapper.w(TAG,"Cannot find a valid current configuration: creating an empty one");
             getInstance().currentConfiguration = new ProxyConfiguration(getInstance().getApplicationContext(), ProxySetting.NONE, null, null, null, null);
 		}
 		
