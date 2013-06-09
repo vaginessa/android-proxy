@@ -845,6 +845,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             if (result == -1)
                 throw new Exception("Can't update network configuration");
 
+            this.status.clear();
             LogWrapper.d(TAG,"Succesfully updated configuration on device: " + this.toShortString());
 
             LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
