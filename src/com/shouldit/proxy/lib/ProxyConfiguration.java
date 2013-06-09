@@ -31,6 +31,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public static WifiManager wifiManager;
 
     public UUID id;
+    public WifiNetworkId networkId;
     public Context context;
     public ProxyStatus status;
     public AccessPoint ap;
@@ -56,7 +57,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         proxyHost = host;
     }
 
-    public void setProxyPort(int port)
+    public void setProxyPort(Integer port)
     {
         proxyPort = port;
     }
@@ -107,6 +108,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 ap = new AccessPoint(wifiConf, wifiManager.getConnectionInfo());
             else
                 ap = new AccessPoint(wifiConf, null);
+
+            networkId = new WifiNetworkId(ap.ssid, ap.security);
         }
 
         deviceVersion = Build.VERSION.SDK_INT;
@@ -313,8 +316,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
         }
 
-        // Always update AP information
-        ap = updated.ap;
+        // Do NOT update AP information here -> this information is handled on the scanresult receive phase
+        //ap = updated.ap;
     }
 
 
@@ -647,7 +650,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     private ProxyStatusItem isProxyValidPort()
     {
-        if ((proxyPort != null) && (proxyPort > 0))
+        if ((proxyPort != null) && (proxyPort >= 1) && (proxyPort <= 65535))
         {
             String msg = String.format("%s %d", context.getString(R.string.status_port_valid), proxyPort);
             return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true, msg);
@@ -753,7 +756,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //
 //		return sb.toString();
 
-        return String.format("%s (%s)", ap.ssid, ap.getSecurityString(ctx, false));
+        return String.format("%s (%s)", ap.ssid, ProxyUtils.getSecurityString(ap.security, ap.pskType, ctx, false));
     }
 
     public String getSSID()
@@ -765,6 +768,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         else
             return null;
     }
+
+//    public String getSecurityString()
+//    {
+//        if (ap != null)
+//        {
+//            return ap.getSecurity();
+//        }
+//    }
 
     public String getBSSID()
     {

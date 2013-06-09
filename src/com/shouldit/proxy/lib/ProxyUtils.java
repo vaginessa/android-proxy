@@ -21,6 +21,9 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.util.Log;
 import org.apache.http.HttpHost;
 
 import android.content.ComponentName;
@@ -490,5 +493,85 @@ public class ProxyUtils
 		}
 		return out;
 	}
+
+    public static APLConstants.SecurityType getSecurity(WifiConfiguration config)
+    {
+        if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK))
+        {
+            return APLConstants.SecurityType.SECURITY_PSK;
+        }
+        if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP) || config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X))
+        {
+            return APLConstants.SecurityType.SECURITY_EAP;
+        }
+        return (config.wepKeys[0] != null) ? APLConstants.SecurityType.SECURITY_WEP : APLConstants.SecurityType.SECURITY_NONE;
+    }
+
+    public static APLConstants.SecurityType getSecurity(ScanResult result)
+    {
+        if (result.capabilities.contains("WEP"))
+        {
+            return APLConstants.SecurityType.SECURITY_WEP;
+        }
+        else if (result.capabilities.contains("PSK"))
+        {
+            return APLConstants.SecurityType.SECURITY_PSK;
+        }
+        else if (result.capabilities.contains("EAP"))
+        {
+            return APLConstants.SecurityType.SECURITY_EAP;
+        }
+        return APLConstants.SecurityType.SECURITY_NONE;
+    }
+
+    public static String getSecurityString(APLConstants.SecurityType security, APLConstants.PskType pskType, Context context, boolean concise)
+    {
+        switch (security)
+        {
+            case SECURITY_EAP:
+                return concise ? context.getString(R.string.wifi_security_short_eap) : context.getString(R.string.wifi_security_eap);
+            case SECURITY_PSK:
+                switch (pskType)
+                {
+                    case WPA:
+                        return concise ? context.getString(R.string.wifi_security_short_wpa) : context.getString(R.string.wifi_security_wpa);
+                    case WPA2:
+                        return concise ? context.getString(R.string.wifi_security_short_wpa2) : context.getString(R.string.wifi_security_wpa2);
+                    case WPA_WPA2:
+                        return concise ? context.getString(R.string.wifi_security_short_wpa_wpa2) : context.getString(R.string.wifi_security_wpa_wpa2);
+                    case UNKNOWN:
+                    default:
+                        return concise ? context.getString(R.string.wifi_security_short_psk_generic) : context.getString(R.string.wifi_security_psk_generic);
+                }
+            case SECURITY_WEP:
+                return concise ? context.getString(R.string.wifi_security_short_wep) : context.getString(R.string.wifi_security_wep);
+            case SECURITY_NONE:
+            default:
+                return concise ? "" : context.getString(R.string.wifi_security_none);
+        }
+    }
+
+    public static APLConstants.PskType getPskType(ScanResult result)
+    {
+        boolean wpa = result.capabilities.contains("WPA-PSK");
+        boolean wpa2 = result.capabilities.contains("WPA2-PSK");
+        if (wpa2 && wpa)
+        {
+            return APLConstants.PskType.WPA_WPA2;
+        }
+        else if (wpa2)
+        {
+            return APLConstants.PskType.WPA2;
+        }
+        else if (wpa)
+        {
+            return APLConstants.PskType.WPA;
+        }
+        else
+        {
+            Log.w(TAG, "Received abnormal flag string: " + result.capabilities);
+            return APLConstants.PskType.UNKNOWN;
+        }
+    }
 
 }

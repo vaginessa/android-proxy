@@ -172,7 +172,7 @@ public class ProxySettings
 				String proxyAddress = proxyParts[0];
 				try
 				{
-					Integer proxyPort = Integer.parseInt(proxyParts[1]);
+					int proxyPort = Integer.parseInt(proxyParts[1]);
 					proxyConfig = new ProxyConfiguration(ctx, ProxySetting.STATIC, proxyAddress, proxyPort, null, null);
 				}
 				catch (NumberFormatException e)

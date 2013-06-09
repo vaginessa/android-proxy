@@ -27,112 +27,19 @@ public class AccessPoint implements Comparable<AccessPoint>
 	public static final int[] STATE_SECURED = { R.attr.state_encrypted };
 	public static final int[] STATE_NONE = {};
 
-	/**
-	 * These values are matched in string arrays -- changes must be kept in sync
-	 */
-	public static final int SECURITY_NONE = 0;
-	public static final int SECURITY_WEP = 1;
-	public static final int SECURITY_PSK = 2;
-	public static final int SECURITY_EAP = 3;
-
-	enum PskType
-	{
-		UNKNOWN, WPA, WPA2, WPA_WPA2
-	}
-
 	public String ssid;
 	public String bssid;
-	public int security;
+	public APLConstants.SecurityType security;
 	public int networkId;
 	public boolean wpsAvailable = false;
 
-	PskType pskType = PskType.UNKNOWN;
+	APLConstants.PskType pskType = APLConstants.PskType.UNKNOWN;
 
 	public WifiConfiguration wifiConfig;
 	/* package */ScanResult mScanResult;
 
 	public int mRssi;
 	public WifiInfo mInfo;
-	
-	public static int getSecurity(WifiConfiguration config)
-	{
-		if (config.allowedKeyManagement.get(KeyMgmt.WPA_PSK))
-		{
-			return SECURITY_PSK;
-		}
-		if (config.allowedKeyManagement.get(KeyMgmt.WPA_EAP) || config.allowedKeyManagement.get(KeyMgmt.IEEE8021X))
-		{
-			return SECURITY_EAP;
-		}
-		return (config.wepKeys[0] != null) ? SECURITY_WEP : SECURITY_NONE;
-	}
-
-	public static int getSecurity(ScanResult result)
-	{
-		if (result.capabilities.contains("WEP"))
-		{
-			return SECURITY_WEP;
-		}
-		else if (result.capabilities.contains("PSK"))
-		{
-			return SECURITY_PSK;
-		}
-		else if (result.capabilities.contains("EAP"))
-		{
-			return SECURITY_EAP;
-		}
-		return SECURITY_NONE;
-	}
-
-	public String getSecurityString(Context context, boolean concise)
-	{
-		switch (security)
-		{
-			case SECURITY_EAP:
-				return concise ? context.getString(R.string.wifi_security_short_eap) : context.getString(R.string.wifi_security_eap);
-			case SECURITY_PSK:
-				switch (pskType)
-				{
-					case WPA:
-						return concise ? context.getString(R.string.wifi_security_short_wpa) : context.getString(R.string.wifi_security_wpa);
-					case WPA2:
-						return concise ? context.getString(R.string.wifi_security_short_wpa2) : context.getString(R.string.wifi_security_wpa2);
-					case WPA_WPA2:
-						return concise ? context.getString(R.string.wifi_security_short_wpa_wpa2) : context.getString(R.string.wifi_security_wpa_wpa2);
-					case UNKNOWN:
-					default:
-						return concise ? context.getString(R.string.wifi_security_short_psk_generic) : context.getString(R.string.wifi_security_psk_generic);
-				}
-			case SECURITY_WEP:
-				return concise ? context.getString(R.string.wifi_security_short_wep) : context.getString(R.string.wifi_security_wep);
-			case SECURITY_NONE:
-			default:
-				return concise ? "" : context.getString(R.string.wifi_security_none);
-		}
-	}
-
-	public static PskType getPskType(ScanResult result)
-	{
-		boolean wpa = result.capabilities.contains("WPA-PSK");
-		boolean wpa2 = result.capabilities.contains("WPA2-PSK");
-		if (wpa2 && wpa)
-		{
-			return PskType.WPA_WPA2;
-		}
-		else if (wpa2)
-		{
-			return PskType.WPA2;
-		}
-		else if (wpa)
-		{
-			return PskType.WPA;
-		}
-		else
-		{
-			Log.w(TAG, "Received abnormal flag string: " + result.capabilities);
-			return PskType.UNKNOWN;
-		}
-	}
 
 	public AccessPoint(WifiConfiguration config, WifiInfo info)
 	{
@@ -143,7 +50,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 	{
 		ssid = (config.SSID == null ? "" : removeDoubleQuotes(config.SSID));
 		bssid = config.BSSID;
-		security = getSecurity(config);
+		security = ProxyUtils.getSecurity(config);
 		networkId = config.networkId;
 		mRssi = Integer.MAX_VALUE;
         mInfo = info;
@@ -187,16 +94,16 @@ public class AccessPoint implements Comparable<AccessPoint>
 
 	public boolean update(ScanResult result)
 	{
-		if (ssid.equals(result.SSID) && security == getSecurity(result))
+		if (ssid.equals(result.SSID) && security == ProxyUtils.getSecurity(result))
 		{
 			if (WifiManager.compareSignalLevel(result.level, mRssi) > 0)
 			{
 				mRssi = result.level;
 			}
 			// This flag only comes from scans, is not easily saved in config
-			if (security == SECURITY_PSK)
+			if (security == APLConstants.SecurityType.SECURITY_PSK)
 			{
-				pskType = getPskType(result);
+				pskType = ProxyUtils.getPskType(result);
 			}
 			return true;
 		}
