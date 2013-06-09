@@ -91,8 +91,6 @@ public class ProxySettingsCheckerService extends IntentService
 //        LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
     }
 
-    ;
-
     public void CheckProxySettings(Intent callerIntent)
     {
         LogWrapper.trace(TAG, "START CheckProxySettings", Log.ERROR);
