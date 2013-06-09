@@ -33,7 +33,7 @@ public class ApplicationSubmitService extends IntentService
     public void onDestroy() 
     {
     	LogWrapper.d(TAG, "ApplicationSubmitService destroying");
-    };
+    }
     
 	/**
 	 * @param context
