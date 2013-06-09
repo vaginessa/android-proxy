@@ -146,7 +146,7 @@ public class AccessPointListFragment extends EnhancedListFragment
 
         ProxyConfiguration selectedConfiguration = (ProxyConfiguration) getListView().getItemAtPosition(index);
         ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
-//        LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
+        LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
         MainActivity.GoToProxyDetailsFragment(getFragmentManager());
     }
