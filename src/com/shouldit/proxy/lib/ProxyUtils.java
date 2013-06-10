@@ -524,6 +524,16 @@ public class ProxyUtils
         return APLConstants.SecurityType.SECURITY_NONE;
     }
 
+    public static String getSecurityString(ProxyConfiguration conf, Context ctx, boolean concise)
+    {
+        if (conf != null && conf.ap != null)
+        {
+            return getSecurityString(conf.ap.security, conf.ap.pskType, ctx, true);
+        }
+        else
+            return "";
+    }
+
     public static String getSecurityString(APLConstants.SecurityType security, APLConstants.PskType pskType, Context context, boolean concise)
     {
         switch (security)

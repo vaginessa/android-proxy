@@ -75,7 +75,7 @@ public class ProxySettings
 					{
 						if (wc.networkId == wifiInfo.getNetworkId())
 						{
-							proxyConfig.ap = new AccessPoint(wc, wifiInfo);
+							proxyConfig.ap = new AccessPoint(wc);
 							break;
 						}
 					}
@@ -259,8 +259,9 @@ public class ProxySettings
 				proxyHosts.add(conf);
 			}
 		}
-		
-		Collections.sort(proxyHosts);
+
+        if (proxyHosts.size() > 0)
+		    Collections.sort(proxyHosts);
 
 		return proxyHosts;
 	}

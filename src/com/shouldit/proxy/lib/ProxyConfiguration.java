@@ -31,7 +31,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public static WifiManager wifiManager;
 
     public UUID id;
-    public WifiNetworkId networkId;
+    public WifiNetworkId internalWifiNetworkId;
     public Context context;
     public ProxyStatus status;
     public AccessPoint ap;
@@ -104,12 +104,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         if (wifiConf != null)
         {
-            if (wifiConf.networkId == wifiManager.getConnectionInfo().getNetworkId())
-                ap = new AccessPoint(wifiConf, wifiManager.getConnectionInfo());
-            else
-                ap = new AccessPoint(wifiConf, null);
-
-            networkId = new WifiNetworkId(ap.ssid, ap.security);
+            ap = new AccessPoint(wifiConf);
+            internalWifiNetworkId = new WifiNetworkId(ap.ssid, ap.security);
         }
 
         deviceVersion = Build.VERSION.SDK_INT;
@@ -211,10 +207,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         int result = 0;
 
-//        if (connManager.getActiveNetworkInfo() != null && another.connManager.getActiveNetworkInfo() != null)
-//        {
-//            if (currentNetworkInfo.getType() == another.connManager.getActiveNetworkInfo().getType())
-//            {
+        if (this == null || another == null)
+            return 0;   // Cannot be sorted
+
+        if (this.isCurrentNetwork())
+            return -1;
+        if  (another.isCurrentNetwork())
+            return +1;
+
         if (ap != null && another.ap != null)
         {
             result = ap.compareTo(another.ap);
@@ -382,7 +382,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public Boolean isCurrentNetwork()
     {
-        if (connManager.getActiveNetworkInfo() != null && this.getSSID() != null && this.getSSID().equals(connManager.getActiveNetworkInfo().getExtraInfo()))
+        if (ap != null && ap.networkId == wifiManager.getConnectionInfo().getNetworkId())
             return true;
         else
             return false;

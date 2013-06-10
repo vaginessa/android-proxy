@@ -33,27 +33,27 @@ public class AccessPoint implements Comparable<AccessPoint>
 	public int networkId;
 	public boolean wpsAvailable = false;
 
-	APLConstants.PskType pskType = APLConstants.PskType.UNKNOWN;
+	public APLConstants.PskType pskType = APLConstants.PskType.UNKNOWN;
 
 	public WifiConfiguration wifiConfig;
 	/* package */ScanResult mScanResult;
 
-	public int mRssi;
-	public WifiInfo mInfo;
+	private int mRssi;
+//	private WifiInfo mInfo;
 
-	public AccessPoint(WifiConfiguration config, WifiInfo info)
+	public AccessPoint(WifiConfiguration config)
 	{
-		loadConfig(config, info);
+		loadConfig(config);
 	}
 
-	private void loadConfig(WifiConfiguration config, WifiInfo info)
+	private void loadConfig(WifiConfiguration config)
 	{
 		ssid = (config.SSID == null ? "" : removeDoubleQuotes(config.SSID));
 		bssid = config.BSSID;
 		security = ProxyUtils.getSecurity(config);
 		networkId = config.networkId;
 		mRssi = Integer.MAX_VALUE;
-        mInfo = info;
+//        mInfo = info;
 		wifiConfig = config;
 	}
 
@@ -67,11 +67,11 @@ public class AccessPoint implements Comparable<AccessPoint>
 		
 		AccessPoint other = (AccessPoint) ap;
 
-		// Active one goes first: Only check different SSID
-	    if (ssid.compareTo(other.ssid) != 0 && mInfo != other.mInfo)
-		{
-			return (mInfo != null) ? -1 : 1;
-		}
+//		// Active one goes first: Only check different SSID
+//	    if (ssid.compareTo(other.ssid) != 0 && mInfo != other.mInfo)
+//		{
+//			return (mInfo != null) ? -1 : 1;
+//		}
 		// Reachable one goes before unreachable one.
 		if ((mRssi ^ other.mRssi) < 0)
 		{
@@ -119,10 +119,10 @@ public class AccessPoint implements Comparable<AccessPoint>
 		return WifiManager.calculateSignalLevel(mRssi, 4);
 	}
 
-	WifiInfo getInfo()
-	{
-		return mInfo;
-	}
+//	WifiInfo getInfo()
+//	{
+//		return mInfo;
+//	}
 
 	static String removeDoubleQuotes(String string)
 	{
