@@ -75,7 +75,7 @@ public class StatusFragment extends EnhancedFragment
                             setStatus(Constants.StatusFragmentStates.CHECKING, getResources().getString(R.string.checking_action));
                         }
                     }
-                    else if (selConf.ap.mRssi < Integer.MAX_VALUE)
+                    else if (selConf.ap.getLevel() > -1)
                     {
                         setStatus(Constants.StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action,selConf.ap.ssid));
                     }

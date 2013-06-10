@@ -12,7 +12,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import android.os.Debug;
 import android.text.TextUtils;
 import android.util.Log;
 import com.bugsense.trace.BugSenseHandler;
@@ -132,19 +131,19 @@ public class ApplicationGlobals extends Application
 
 		for (ProxyConfiguration conf : updatedConfigurations)
 		{
-            if (getConfigurations().containsKey(conf.networkId))
+            if (getConfigurations().containsKey(conf.internalWifiNetworkId))
             {
-                ProxyConfiguration originalConf = getConfigurations().get(conf.networkId);
+                ProxyConfiguration originalConf = getConfigurations().get(conf.internalWifiNetworkId);
                 originalConf.updateConfiguration(conf);
             }
             else
             {
                 LogWrapper.d(TAG,"Adding to list new proxy configurations: " + conf.toShortString());
-                getConfigurations().put(conf.networkId, conf);
+                getConfigurations().put(conf.internalWifiNetworkId, conf);
             }
 
-            if (savedSSIDNotMoreConfiguredList.contains(conf.networkId))
-                savedSSIDNotMoreConfiguredList.remove(conf.networkId);
+            if (savedSSIDNotMoreConfiguredList.contains(conf.internalWifiNetworkId))
+                savedSSIDNotMoreConfiguredList.remove(conf.internalWifiNetworkId);
 		}
 
 //        LogWrapper.d(TAG,"Updated configurations list: " + getConfigurationsString());
@@ -207,30 +206,26 @@ public class ApplicationGlobals extends Application
 			WifiInfo info = getInstance().mWifiManager.getConnectionInfo();
             if (info != null)
             {
-                String rawSSID = info.getSSID();
-                if (rawSSID != null)
-                {
-                    if (getConfigurations().isEmpty())
-                        updateProxyConfigurationList();
+                if (getConfigurations().isEmpty())
+                    updateProxyConfigurationList();
 
-                    for (WifiConfiguration wifiConfig : getWifiManager().getConfiguredNetworks())
+                for (WifiConfiguration wifiConfig : getWifiManager().getConfiguredNetworks())
+                {
+                    if (wifiConfig.networkId == info.getNetworkId())
                     {
-                        if (wifiConfig.SSID.equals(rawSSID))
+                        String SSID = ProxyUtils.cleanUpSSID(info.getSSID());
+                        WifiNetworkId netId = new WifiNetworkId(SSID, ProxyUtils.getSecurity(wifiConfig));
+                        if (getConfigurations().containsKey(netId))
                         {
-                            String SSID = ProxyUtils.cleanUpSSID(rawSSID);
-                            WifiNetworkId netId = new WifiNetworkId(SSID, ProxyUtils.getSecurity(wifiConfig));
-                            if (getConfigurations().containsKey(netId))
-                            {
-                                conf = getConfigurations().get(netId);
-                                break;
-                            }
+                            conf = getConfigurations().get(netId);
+                            break;
                         }
                     }
+                }
 
-                    if (currentConfiguration == null || conf != null && currentConfiguration != null && currentConfiguration.compareTo(conf) != 0)
-                    {
-                        getInstance().currentConfiguration = conf;
-                    }
+                if (currentConfiguration == null || conf != null && currentConfiguration != null && currentConfiguration.compareTo(conf) != 0)
+                {
+                    getInstance().currentConfiguration = conf;
                 }
             }
 		}
@@ -299,7 +294,7 @@ public class ApplicationGlobals extends Application
     {
         if(getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
         {
-            if (conf != null && conf.ap != null && conf.ap.getLevel() < Integer.MAX_VALUE)
+            if (conf != null && conf.ap != null && conf.ap.getLevel() > -1)
             {
                 // Connect to AP only if it's available
                 getInstance().mWifiManager.enableNetwork(conf.ap.networkId, true);

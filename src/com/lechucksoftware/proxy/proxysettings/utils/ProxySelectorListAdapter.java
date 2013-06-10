@@ -75,7 +75,7 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 
         if (listItem != null)
         {
-            if (listItem.ap.mRssi == Integer.MAX_VALUE)
+            if (listItem.ap.getLevel() == -1)
             {
                 viewHolder.signal.setImageDrawable(null);
 
@@ -93,10 +93,15 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
                     viewHolder.statusColor.setBackgroundResource(R.color.Holo_Green_Light);
             }
 
-            viewHolder.ssid.setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
+            viewHolder.ssid.setText(String.format("%s",ProxyUtils.cleanUpSSID(listItem.getSSID())));
 
-            viewHolder.status.setText(String.format("%s - %s", listItem.toStatusString(), listItem.getAPConnectionStatus()));
-//			viewHolder.status.setText(listItem.getAPConnectionStatus());
+            StringBuilder sb = new StringBuilder();
+            sb.append(listItem.toStatusString());
+            String sec = ProxyUtils.getSecurityString(listItem,ctx,true);
+            if (sec != null && sec.length() > 0)
+                sb.append(String.format(" - %s",sec));
+
+            viewHolder.status.setText(sb.toString());
         }
         return view;
     }
