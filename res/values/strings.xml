@@ -15,6 +15,7 @@
 	<string name="proxy_checker">Proxy checker</string>
 	<string name="advanced">Advanced</string>
 	<string name="about">About</string>
+    <string name="oops">Oops</string>
 	<string name="wifi_disabled">Wi-Fi disabled: no Access Point can be selected</string>
 	<string name="wifi_enabled">Wi-Fi enabled</string>
 	<string name="no_ap_active">Not connected to any Wi-Fi Access Point</string>
@@ -34,6 +35,7 @@
     <string name="connect_to_wifi_action">Connect to %1$s</string>
     <string name="checking_action">Checking configuration</string>
 
+    <string name="not_supported_network_8021x_error_message">Proxy Settings is currently not able to access and modify the settings for Wi-Fi networks with 802.1x security type.</string>
 
     <string name="wifi_empty_list_no_ap">No Wi-Fi networks configured</string>
     <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50]-->

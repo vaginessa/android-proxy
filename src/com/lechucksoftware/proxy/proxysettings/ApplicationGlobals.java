@@ -165,6 +165,12 @@ public class ApplicationGlobals extends Application
         List<ScanResult> scanResults = getWifiManager().getScanResults();
 		if (scanResults != null)
 		{
+            // clear all the configurations AP status
+            for (ProxyConfiguration conf : getConfigurations().values())
+            {
+                conf.ap.clearScanStatus();
+            }
+
 			for (ScanResult res : scanResults)
 			{
                 LogWrapper.d(TAG, "Updating from scanresult: " + res.SSID + " level: " + res.level);

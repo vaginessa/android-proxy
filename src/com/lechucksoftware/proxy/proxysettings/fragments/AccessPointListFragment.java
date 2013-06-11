@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
@@ -11,12 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bugsense.trace.BugSense;
+import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.ArrayList;
@@ -145,9 +149,23 @@ public class AccessPointListFragment extends EnhancedListFragment
         getListView().setItemChecked(index, true);
 
         ProxyConfiguration selectedConfiguration = (ProxyConfiguration) getListView().getItemAtPosition(index);
-        ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
-        LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
-        MainActivity.GoToProxyDetailsFragment(getFragmentManager());
+        if (selectedConfiguration.ap.security == APLConstants.SecurityType.SECURITY_EAP)
+        {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.oops)
+                    .setMessage(getResources().getString(R.string.not_supported_network_8021x_error_message))
+                    .setPositiveButton(R.string.proxy_error_dismiss, null)
+                    .show();
+
+            BugSenseHandler.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
+        }
+        else
+        {
+            ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
+            LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
+
+            MainActivity.GoToProxyDetailsFragment(getFragmentManager());
+        }
     }
 }
