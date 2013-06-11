@@ -92,6 +92,12 @@ public class AccessPoint implements Comparable<AccessPoint>
 		return ssid.compareToIgnoreCase(other.ssid);
 	}
 
+    public void clearScanStatus()
+    {
+        mRssi = Integer.MAX_VALUE;
+        pskType = APLConstants.PskType.UNKNOWN;
+    }
+
 	public boolean update(ScanResult result)
 	{
 		if (ssid.equals(result.SSID) && security == ProxyUtils.getSecurity(result))
