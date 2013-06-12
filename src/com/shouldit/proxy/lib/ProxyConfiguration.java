@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.webkit.URLUtil;
@@ -27,12 +28,9 @@ import java.util.regex.Pattern;
 public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Serializable
 {
     public static final String TAG = "ProxyConfiguration";
-    public static ConnectivityManager connManager;
-    public static WifiManager wifiManager;
 
     public UUID id;
     public WifiNetworkId internalWifiNetworkId;
-    public Context context;
     public ProxyStatus status;
     public AccessPoint ap;
 
@@ -89,23 +87,23 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         }
     }
 
-    public ProxyConfiguration(Context ctx, ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
+    public ProxyConfiguration(ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
     {
         id = UUID.randomUUID();
-        context = ctx;
 
         proxySetting = proxyEnabled;
         proxyHost = host;
         proxyPort = port;
         setProxyExclusionList(exclusionList);
 
-        connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
-
         if (wifiConf != null)
         {
             ap = new AccessPoint(wifiConf);
             internalWifiNetworkId = new WifiNetworkId(ap.ssid, ap.security);
+        }
+        else
+        {
+
         }
 
         deviceVersion = Build.VERSION.SDK_INT;
@@ -206,9 +204,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public int compareTo(ProxyConfiguration another)
     {
         int result = 0;
-
-        if (this == null || another == null)
-            return 0;   // Cannot be sorted
 
         if (this.isCurrentNetwork())
             return -1;
@@ -335,9 +330,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
         sb.append(String.format("Proxy status checker results: %s\n", status.toString()));
 
-        if (connManager.getActiveNetworkInfo() != null)
+        if (APL.getConnectivityManager().getActiveNetworkInfo() != null)
         {
-            sb.append(String.format("Network Info: %s\n", connManager.getActiveNetworkInfo()));
+            sb.append(String.format("Network Info: %s\n", APL.getConnectivityManager().getActiveNetworkInfo()));
         }
 
         return sb.toString();
@@ -364,7 +359,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
         {
-            return context.getResources().getString(R.string.direct_connection);
+            return APL.getContext().getResources().getString(R.string.direct_connection);
         }
         else
         {
@@ -373,7 +368,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 sb.append(String.format("%s:%s", proxyHost, proxyPort));
             else
             {
-                sb.append(context.getResources().getString(R.string.not_set));
+                sb.append(APL.getContext().getResources().getString(R.string.not_set));
             }
 
             return sb.toString();
@@ -382,7 +377,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public Boolean isCurrentNetwork()
     {
-        if (ap != null && ap.networkId == wifiManager.getConnectionInfo().getNetworkId())
+        WifiInfo connectionInfo = APL.getWifiManager().getConnectionInfo();
+
+        if (ap != null && connectionInfo!= null && ap.networkId == connectionInfo.getNetworkId())
             return true;
         else
             return false;
@@ -528,29 +525,29 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //        LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
         Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
         // intent.putExtra(APLConstants.ProxyStatus, status);
-        context.sendBroadcast(intent);
+        APL.getContext().sendBroadcast(intent);
     }
 
     private ProxyStatusItem isWifiEnabled()
     {
         ProxyStatusItem result = null;
 
-        if (wifiManager.isWifiEnabled())
+        if (APL.getWifiManager().isWifiEnabled())
         {
-            NetworkInfo ni = connManager.getActiveNetworkInfo();
+            NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
             if (ni != null && ni.isConnected() && ni.getType() == ConnectivityManager.TYPE_WIFI)
             {
-                String status =context.getString(R.string.status_wifi_enabled);
+                String status = APL.getContext().getString(R.string.status_wifi_enabled);
                 result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, true, true, status);
             }
             else
             {
-                result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, context.getString(R.string.status_wifi_enabled_disconnected));
+                result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, APL.getContext().getString(R.string.status_wifi_enabled_disconnected));
             }
         }
         else
         {
-            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, context.getString(R.string.status_wifi_not_enabled));
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, APL.getContext().getString(R.string.status_wifi_not_enabled));
         }
 
         return result;
@@ -562,11 +559,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         if (isCurrentNetwork())
         {
-            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, context.getString(R.string.status_wifi_selected, this.ap.ssid));
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, this.ap.ssid));
         }
         else
         {
-            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, false, true, context.getString(R.string.status_wifi_not_selected));
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, false, true, APL.getContext().getString(R.string.status_wifi_not_selected));
         }
 
         return result;
@@ -581,22 +578,22 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             // On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
             // Proxy is disabled by default on Mobile connection
-            if (connManager.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE)
+            if (APL.getConnectivityManager().getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE)
             {
-                result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_mobile_disabled));
+                result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_mobile_disabled));
             }
         }
 
         if (proxySetting == ProxySetting.UNASSIGNED || proxySetting == ProxySetting.NONE)
         {
-            result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_disabled));
+            result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_disabled));
         }
         else
         {
             // if (proxyHost != null && proxyPort != null)
             // {
             // HTTP or SOCKS proxy
-            result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true, context.getString(R.string.status_proxy_enabled));
+            result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_proxy_enabled));
             // }
             // else
             // {
@@ -616,7 +613,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
             if (proxyHost == null || proxyHost.length() == 0)
             {
-                return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, context.getString(R.string.status_hostname_empty));
+                return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_empty));
             }
             else
             {
@@ -635,7 +632,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                         || URLUtil.isValidUrl(proxyHost)
                         || matcher.find())
                 {
-                    String msg = String.format("%s %s", context.getString(R.string.status_hostname_valid), proxyHost);
+                    String msg = String.format("%s %s", APL.getContext().getString(R.string.status_hostname_valid), proxyHost);
                     return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true, msg);
                 }
             }
@@ -645,19 +642,19 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             e.printStackTrace();
         }
 
-        return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, context.getString(R.string.status_hostname_notvalid));
+        return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));
     }
 
     private ProxyStatusItem isProxyValidPort()
     {
         if ((proxyPort != null) && (proxyPort >= 1) && (proxyPort <= 65535))
         {
-            String msg = String.format("%s %d", context.getString(R.string.status_port_valid), proxyPort);
+            String msg = String.format("%s %d", APL.getContext().getString(R.string.status_port_valid), proxyPort);
             return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true, msg);
         }
         else
         {
-            return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false, context.getString(R.string.status_port_empty));
+            return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_port_empty));
         }
     }
 
@@ -671,16 +668,16 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             Boolean result = ProxyUtils.isHostReachable(getProxy());
             if (result)
             {
-                return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, true, context.getString(R.string.status_proxy_reachable));
+                return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_proxy_reachable));
             }
             else
             {
-                return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_not_reachable));
+                return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_not_reachable));
             }
         }
         else
         {
-            return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, context.getString(R.string.status_proxy_not_valid_informations));
+            return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_not_valid_informations));
         }
     }
 
@@ -699,11 +696,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         Boolean result = ProxyUtils.isWebReachable(this, timeout);
         if (result)
         {
-            return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, true, context.getString(R.string.status_web_reachable));
+            return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_web_reachable));
         }
         else
         {
-            return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, false, context.getString(R.string.status_web_not_reachable));
+            return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_web_not_reachable));
         }
     }
 
@@ -738,11 +735,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public CheckStatusValues getCheckingStatus()
     {
         return status.getCheckingStatus();
-    }
-
-    public int getNetworkType()
-    {
-        return connManager.getActiveNetworkInfo().getType();
     }
 
     public String getAPDescription(Context ctx)
@@ -799,7 +791,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     @TargetApi(12)
     public void writeConfigurationToDevice()
     {
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) APL.getContext().getSystemService(Context.WIFI_SERVICE);
 
         try
         {
@@ -850,7 +842,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
             LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-            context.sendBroadcast(intent);
+            APL.getContext().sendBroadcast(intent);
         }
         catch (IllegalArgumentException e)
         {
@@ -884,15 +876,15 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         if (isCurrentNetwork())
         {
-            return context.getString(R.string.connected);
+            return APL.getContext().getString(R.string.connected);
         }
         else if (ap.getLevel() > 0)
         {
-            return context.getString(R.string.available);
+            return APL.getContext().getString(R.string.available);
         }
         else
         {
-            return context.getString(R.string.not_available);
+            return APL.getContext().getString(R.string.not_available);
         }
     }
 

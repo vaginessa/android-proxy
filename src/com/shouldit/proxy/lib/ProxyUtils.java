@@ -433,7 +433,7 @@ public class ProxyUtils
 		}
 		catch (Exception e)
 		{
-			LogWrapper.e("ProxySettings", "Exception setting WebKit proxy settings: " + e.toString());
+			LogWrapper.e("APL", "Exception setting WebKit proxy settings: " + e.toString());
 		}
 		return ret;
 	}
