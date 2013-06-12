@@ -34,10 +34,12 @@ public class APL
     private static WifiManager mWifiManager;
     private static Context gContext;
     private static boolean sSetupCalled;
+    private static int deviceVersion;
 
     public static boolean setup(Context context)
     {
         gContext = context;
+        deviceVersion = Build.VERSION.SDK_INT;
 
         // Make sure this is only called once.
         if (sSetupCalled)
@@ -59,6 +61,9 @@ public class APL
 
     public static WifiManager getWifiManager()
     {
+        if (!sSetupCalled && gContext == null)
+            throw new RuntimeException("you need to call setup() first");
+
         if (mWifiManager == null)
         {
             mWifiManager = (WifiManager) gContext.getSystemService(Context.WIFI_SERVICE);
@@ -69,6 +74,9 @@ public class APL
 
     public static ConnectivityManager getConnectivityManager()
     {
+        if (!sSetupCalled && gContext == null)
+            throw new RuntimeException("you need to call setup() first");
+
         if (mConnManager == null)
         {
             mConnManager = (ConnectivityManager) gContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -87,7 +95,7 @@ public class APL
 
         ProxyConfiguration proxyConfig;
 
-        if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1
+        if (deviceVersion >= 12) // Honeycomb 3.1
         {
             proxyConfig = getProxySelectorConfiguration(uri);
         }

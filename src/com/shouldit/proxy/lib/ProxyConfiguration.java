@@ -40,7 +40,28 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     private String stringProxyExclusionList;
     private String[] parsedProxyExclusionList;
 
-    public int deviceVersion;
+    public ProxyConfiguration(ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
+    {
+        id = UUID.randomUUID();
+
+        proxySetting = proxyEnabled;
+        proxyHost = host;
+        proxyPort = port;
+        setProxyExclusionList(exclusionList);
+
+        if (wifiConf != null)
+        {
+            ap = new AccessPoint(wifiConf);
+            internalWifiNetworkId = new WifiNetworkId(ap.ssid, ap.security);
+        }
+        else
+        {
+
+        }
+
+
+        status = new ProxyStatus();
+    }
 
     public Proxy getProxy()
     {
@@ -85,29 +106,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 parsedProxyExclusionList[(i * 2) + 1] = "." + s;
             }
         }
-    }
-
-    public ProxyConfiguration(ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
-    {
-        id = UUID.randomUUID();
-
-        proxySetting = proxyEnabled;
-        proxyHost = host;
-        proxyPort = port;
-        setProxyExclusionList(exclusionList);
-
-        if (wifiConf != null)
-        {
-            ap = new AccessPoint(wifiConf);
-            internalWifiNetworkId = new WifiNetworkId(ap.ssid, ap.security);
-        }
-        else
-        {
-
-        }
-
-        deviceVersion = Build.VERSION.SDK_INT;
-        status = new ProxyStatus();
     }
 
     public boolean isSameConfiguration(Object another)
