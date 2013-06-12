@@ -547,7 +547,7 @@ com.shouldit.proxy.lib.ProxyConfiguration:
     256:256:private java.lang.Boolean isWebReachable()
     324:324:public java.lang.String toShortIPString()
     329:329:public int getNetworkType()
-com.shouldit.proxy.lib.ProxySettings:
+com.shouldit.proxy.lib.APL:
     public static final java.lang.String TAG
     25:25:public ProxySettings()
     128:129:public static com.shouldit.proxy.lib.ProxyConfiguration getCurrentHttpsProxyConfiguration(android.content.Context)

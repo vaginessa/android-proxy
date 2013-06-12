@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -216,7 +217,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
             }
             else
             {
-                if (ApplicationGlobals.getWifiManager().isWifiEnabled())
+                if (APL.getWifiManager().isWifiEnabled())
                 {
 //				apSelectorPref.setSummary(getResources().getString(R.string.no_ap_active));
                 }
@@ -252,7 +253,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
         ProxyConfiguration selconf = ApplicationGlobals.getSelectedConfiguration();
 
-        if (ApplicationGlobals.getWifiManager().isWifiEnabled()
+        if (APL.getWifiManager().isWifiEnabled()
             && selconf != null
             && selconf.ap != null)
         {

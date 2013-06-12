@@ -13,6 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -56,7 +57,7 @@ public class ProxySettingsCheckerService extends IntentService
 
                 //TODO : check here
                 //int intentNetworkType = callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_INFO , -1);
-                NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
+                NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
                 if (ni != null && ni.isConnected())
                 {
@@ -102,7 +103,7 @@ public class ProxySettingsCheckerService extends IntentService
             ApplicationGlobals.getInstance().updateProxyConfigurationList();
             ProxyConfiguration conf = ApplicationGlobals.getInstance().getCurrentConfiguration();
 
-            NetworkInfo ni = ApplicationGlobals.getConnectivityManager().getActiveNetworkInfo();
+            NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
             if (ni != null && ni.isAvailable() && ni.isConnected())
             {

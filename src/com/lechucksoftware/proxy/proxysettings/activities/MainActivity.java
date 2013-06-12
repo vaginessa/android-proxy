@@ -23,6 +23,7 @@ import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 
 
@@ -34,14 +35,20 @@ public class MainActivity extends Activity
     public static final String TAG = "MainActivity";
     private static boolean active = false;
 
-    // Combo scans can take 5-6s to complete - set to 10s.
-    private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
+    // Combo scans can take 5-6s to complete - set to 20s.
+    private static final int WIFI_RESCAN_INTERVAL_MS = 20 * 1000;
     private Scanner mScanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+//        FragmentManager.enableDebugLogging(true);
+        if (savedInstanceState != null)
+        {
+            LogWrapper.d(TAG, "Saved instance state is not null");
+        }
 
         LogWrapper.d(TAG, "Creating MainActivity");
 
@@ -262,7 +269,7 @@ public class MainActivity extends Activity
         {
             LogWrapper.w(TAG, "Calling Wi-Fi scanner");
 
-            if (ApplicationGlobals.getWifiManager().startScan())
+            if (APL.getWifiManager().startScan())
             {
                 mRetry = 0;
             }

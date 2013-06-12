@@ -21,7 +21,6 @@ import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 
-
 public class ApplicationGlobals extends Application
 {
 	private static ApplicationGlobals mInstance;
@@ -45,32 +44,10 @@ public class ApplicationGlobals extends Application
     }
 
 	public int timeout;
-	private WifiManager mWifiManager;
-	private ConnectivityManager mConnManager;
 	private ProxyConfiguration currentConfiguration;
 
 	private static final String TAG = "ApplicationGlobals";
     private static ProxyConfiguration selectedConfiguration;
-
-    public static WifiManager getWifiManager()
-	{
-        if (getInstance().mWifiManager == null)
-        {
-            getInstance().mWifiManager = (WifiManager) getInstance().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        }
-
-		return getInstance().mWifiManager;
-	}
-
-	public static ConnectivityManager getConnectivityManager()
-	{
-        if (getInstance().mConnManager == null)
-        {
-            getInstance().mConnManager = (ConnectivityManager) getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        }
-
-		return getInstance().mConnManager;
-	}
 
     public static void setSelectedConfiguration(ProxyConfiguration selectedConfiguration)
     {
@@ -93,7 +70,9 @@ public class ApplicationGlobals extends Application
 
 		configurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, ProxyConfiguration>());
         notConfiguredWifi = Collections.synchronizedMap(new HashMap<WifiNetworkId, ScanResult>());
-				
+
+
+        APL.setup(getApplicationContext());
 		Utils.SetupBugSense(getApplicationContext());
 				
 		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
@@ -127,7 +106,7 @@ public class ApplicationGlobals extends Application
 //        LogWrapper.d(TAG,"Saved configurations: " + TextUtils.join(", " , savedSSIDNotMoreConfiguredList));
 
 		// Get latests information regarding configured AP
-		List<ProxyConfiguration> updatedConfigurations = ProxySettings.getProxiesConfigurations(getInstance());
+		List<ProxyConfiguration> updatedConfigurations = APL.getProxiesConfigurations();
 
 		for (ProxyConfiguration conf : updatedConfigurations)
 		{
@@ -162,7 +141,7 @@ public class ApplicationGlobals extends Application
 //        LogWrapper.d(TAG,"Cleaned up configurations list: " + getConfigurationsString());
 
         // Update configurations with latest Wi-Fi scan results
-        List<ScanResult> scanResults = getWifiManager().getScanResults();
+        List<ScanResult> scanResults = APL.getWifiManager().getScanResults();
 		if (scanResults != null)
 		{
             // clear all the configurations AP status
@@ -207,15 +186,15 @@ public class ApplicationGlobals extends Application
 	{
 		ProxyConfiguration conf = null;
 
-		if (getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
+		if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
 		{
-			WifiInfo info = getInstance().mWifiManager.getConnectionInfo();
+			WifiInfo info = APL.getWifiManager().getConnectionInfo();
             if (info != null)
             {
                 if (getConfigurations().isEmpty())
                     updateProxyConfigurationList();
 
-                for (WifiConfiguration wifiConfig : getWifiManager().getConfiguredNetworks())
+                for (WifiConfiguration wifiConfig : APL.getWifiManager().getConfiguredNetworks())
                 {
                     if (wifiConfig.networkId == info.getNetworkId())
                     {
@@ -240,7 +219,7 @@ public class ApplicationGlobals extends Application
 		if (getInstance().currentConfiguration == null)
 		{
             LogWrapper.w(TAG,"Cannot find a valid current configuration: creating an empty one");
-            getInstance().currentConfiguration = new ProxyConfiguration(getInstance().getApplicationContext(), ProxySetting.NONE, null, null, null, null);
+            getInstance().currentConfiguration = new ProxyConfiguration(ProxySetting.NONE, null, null, null, null);
 		}
 		
 		return getInstance().currentConfiguration;
@@ -266,6 +245,8 @@ public class ApplicationGlobals extends Application
             Collection<ProxyConfiguration> values = getConfigurations().values();
             if (values != null && values.size() > 0)
             {
+                LogWrapper.startTrace(TAG,"SortConfigurationList",Log.ERROR);
+
                 ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(values);
                 Collections.sort(results);
 
@@ -275,6 +256,8 @@ public class ApplicationGlobals extends Application
                     sb.append(conf.ap.ssid + ",");
                 }
                 LogWrapper.d(TAG,"Sorted proxy configuration list: " + sb.toString());
+
+                LogWrapper.stopTrace(TAG,"SortConfigurationList",Log.ERROR);
 
                 return results;
             }
@@ -298,12 +281,12 @@ public class ApplicationGlobals extends Application
 
     public static void connectToAP(ProxyConfiguration conf)
     {
-        if(getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
+        if(APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
         {
             if (conf != null && conf.ap != null && conf.ap.getLevel() > -1)
             {
                 // Connect to AP only if it's available
-                getInstance().mWifiManager.enableNetwork(conf.ap.networkId, true);
+                APL.getWifiManager().enableNetwork(conf.ap.networkId, true);
             }
         }
     }
@@ -336,21 +319,21 @@ public class ApplicationGlobals extends Application
 
     public static NetworkInfo getCurrentNetworkInfo()
     {
-        NetworkInfo ni = getConnectivityManager().getActiveNetworkInfo();
+        NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
         return ni;
     }
 
     public static NetworkInfo getCurrentWiFiInfo()
     {
-        NetworkInfo ni = getConnectivityManager().getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo ni = APL.getConnectivityManager().getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return ni;
     }
 
 	public static void startWifiScan()
 	{
-		if (getInstance().mWifiManager != null && getInstance().mWifiManager.isWifiEnabled())
+		if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
 		{
-            getInstance().mWifiManager.startScan();
+            APL.getWifiManager().startScan();
 		}
 	}
 

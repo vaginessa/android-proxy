@@ -1117,7 +1117,7 @@ com.shouldit.proxy.lib.ProxyConfiguration -> com.a.a.a.f:
     java.lang.String getProxyIPHost() -> c
     java.lang.Integer getProxyPort() -> d
     java.lang.String toShortString() -> e
-com.shouldit.proxy.lib.ProxySettings -> com.a.a.a.g:
+com.shouldit.proxy.lib.APL -> com.a.a.a.g:
     com.shouldit.proxy.lib.ProxyConfiguration getCurrentProxyConfiguration(android.content.Context,java.net.URI) -> a
     com.shouldit.proxy.lib.ProxyConfiguration getCurrentHttpProxyConfiguration(android.content.Context) -> a
     com.shouldit.proxy.lib.ProxyConfiguration getGlobalProxy(android.content.Context) -> b

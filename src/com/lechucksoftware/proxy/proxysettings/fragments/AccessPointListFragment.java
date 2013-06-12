@@ -20,6 +20,7 @@ import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -94,9 +95,9 @@ public class AccessPointListFragment extends EnhancedListFragment
                 setListAdapter(apListAdapter);
             }
 
-            if (ApplicationGlobals.getWifiManager().isWifiEnabled())
+            if (APL.getWifiManager().isWifiEnabled())
             {
-                LogWrapper.d(TAG,"Refresh listview: get updated configuration list");
+                LogWrapper.d(TAG,"Refresh listview UI: get configuration list");
                 List<ProxyConfiguration> results = ApplicationGlobals.getInstance().getConfigurationsList();
                 if (results != null && results.size() > 0)
                 {

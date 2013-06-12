@@ -114,7 +114,7 @@ public class UIUtils
 		}
 		//		else
 		//		{
-		// if (Globals.getInstance().proxyConf.status.getEnabled())
+		// if (APLGlobals.getInstance().proxyConf.status.getEnabled())
 		// {
 		//			return UIUtils.ProxyConfigToStatusString(ctx);
 		// }

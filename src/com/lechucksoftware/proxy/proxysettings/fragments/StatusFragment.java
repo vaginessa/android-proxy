@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -87,7 +88,7 @@ public class StatusFragment extends EnhancedFragment
                 else
                 {
                     // No configuration selected
-                    if (!ApplicationGlobals.getWifiManager().isWifiEnabled())
+                    if (!APL.getWifiManager().isWifiEnabled())
                     {
                         // Wi-Fi disabled -> ask to enable!
                         setStatus(Constants.StatusFragmentStates.ENABLE_WIFI, getResources().getString(R.string.enable_wifi_action));
@@ -177,7 +178,7 @@ public class StatusFragment extends EnhancedFragment
         public void onClick(View view)
         {
             hide();
-            ApplicationGlobals.getWifiManager().setWifiEnabled(true);
+            APL.getWifiManager().setWifiEnabled(true);
             clickedStatus = Constants.StatusFragmentStates.ENABLE_WIFI;
         }
     };
