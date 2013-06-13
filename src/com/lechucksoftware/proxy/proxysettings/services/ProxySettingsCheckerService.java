@@ -94,11 +94,11 @@ public class ProxySettingsCheckerService extends IntentService
 
     public void CheckProxySettings(Intent callerIntent)
     {
-        LogWrapper.trace(TAG, "START CheckProxySettings", Log.ERROR);
+        LogWrapper.startTrace(TAG, "CheckProxySettings", Log.ERROR);
 
         try
         {
-            CallRefreshApplicationStatus();
+//            CallRefreshApplicationStatus();
 
             ApplicationGlobals.getInstance().updateProxyConfigurationList();
             ProxyConfiguration conf = ApplicationGlobals.getInstance().getCurrentConfiguration();
@@ -165,7 +165,7 @@ public class ProxySettingsCheckerService extends IntentService
             e.printStackTrace();
         }
 
-        LogWrapper.trace(TAG, "END CheckProxySettings", Log.ERROR);
+        LogWrapper.stopTrace(TAG, "CheckProxySettings", Log.ERROR);
     }
 
     public void CallRefreshApplicationStatus()

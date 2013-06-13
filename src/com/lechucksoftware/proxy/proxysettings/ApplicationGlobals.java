@@ -28,6 +28,45 @@ public class ApplicationGlobals extends Application
         return configurations;
     }
 
+    private List<ProxyConfiguration> sortedConfigurationsList;
+    public List<ProxyConfiguration> getSortedConfigurationsList()
+    {
+        if (sortedConfigurationsList == null)
+        {
+            sortedConfigurationsList = getConfigurationsList();
+        }
+
+        return sortedConfigurationsList;
+    }
+
+    private List<ProxyConfiguration> getConfigurationsList()
+    {
+        if (!getConfigurations().isEmpty())
+        {
+            Collection<ProxyConfiguration> values = getConfigurations().values();
+            if (values != null && values.size() > 0)
+            {
+                LogWrapper.startTrace(TAG,"SortConfigurationList",Log.DEBUG);
+
+                sortedConfigurationsList = new ArrayList<ProxyConfiguration>(values);
+                Collections.sort(sortedConfigurationsList);
+
+                StringBuilder sb = new StringBuilder();
+                for(ProxyConfiguration conf : sortedConfigurationsList)
+                {
+                    sb.append(conf.ap.ssid + ",");
+                }
+                LogWrapper.d(TAG,"Sorted proxy configuration list: " + sb.toString());
+
+                LogWrapper.stopTrace(TAG,"SortConfigurationList",Log.DEBUG);
+
+                return sortedConfigurationsList;
+            }
+        }
+
+        return null;
+    }
+
     private String getConfigurationsString()
     {
         return TextUtils.join(", " ,getConfigurations().keySet());
@@ -89,13 +128,13 @@ public class ApplicationGlobals extends Application
 	public synchronized void updateProxyConfigurationList()
 	{
         LogWrapper.startTrace(TAG,"updateProxyConfigurationList", Log.ASSERT);
-
+        Boolean updatedConfiguration = false;
 
         /**************************************************************************************************************
          * Get information regarding current saved configuration
          **************************************************************************************************************/
 
-        LogWrapper.startTrace(TAG,"getSavedConfigurations", Log.DEBUG);
+//        LogWrapper.startTrace(TAG,"getSavedConfigurations", Log.DEBUG);
         Collection <WifiNetworkId> savedNetworks = getConfigurations().keySet();
         List <WifiNetworkId> savedSSIDNotMoreConfiguredList = new ArrayList<WifiNetworkId>();
 
@@ -103,22 +142,21 @@ public class ApplicationGlobals extends Application
         {
             savedSSIDNotMoreConfiguredList.add(wifiNet);
         }
-        LogWrapper.stopTrace(TAG,"getSavedConfigurations", Log.DEBUG);
-
+//        LogWrapper.stopTrace(TAG,"getSavedConfigurations", Log.DEBUG);
 
 
         /**************************************************************************************************************
          * Get latests information regarding configured AP
          **************************************************************************************************************/
-        LogWrapper.startTrace(TAG,"getConfigurations", Log.DEBUG);
+//        LogWrapper.startTrace(TAG,"getConfigurations", Log.DEBUG);
 		List<ProxyConfiguration> updatedConfigurations = APL.getProxiesConfigurations();
-
 		for (ProxyConfiguration conf : updatedConfigurations)
 		{
             if (getConfigurations().containsKey(conf.internalWifiNetworkId))
             {
                 ProxyConfiguration originalConf = getConfigurations().get(conf.internalWifiNetworkId);
-                originalConf.updateConfiguration(conf);
+                if (originalConf.updateConfiguration(conf))
+                    updatedConfiguration = true;
             }
             else
             {
@@ -127,38 +165,42 @@ public class ApplicationGlobals extends Application
             }
 
             if (savedSSIDNotMoreConfiguredList.contains(conf.internalWifiNetworkId))
+            {
                 savedSSIDNotMoreConfiguredList.remove(conf.internalWifiNetworkId);
+            }
 		}
-        LogWrapper.stopTrace(TAG,"getConfigurations", Log.DEBUG);
+//        LogWrapper.stopTrace(TAG,"getConfigurations", Log.DEBUG);
 
 //        LogWrapper.d(TAG,"Updated configurations list: " + getConfigurationsString());
 //        LogWrapper.d(TAG,"Configurations that need to be removed: " + TextUtils.join(", " , savedSSIDNotMoreConfiguredList));
 
 
-
         /**************************************************************************************************************
          * Remove from current configuration the SSID that are not more configured into Android's Wi-Fi settings
          **************************************************************************************************************/
+//        LogWrapper.startTrace(TAG,"removeNoMoreConfiguredSSID", Log.DEBUG);
         for (WifiNetworkId netId : savedSSIDNotMoreConfiguredList)
         {
             if (getConfigurations().containsKey(netId))
             {
                 ProxyConfiguration removed = getConfigurations().remove(netId);
+                updatedConfiguration = true;
                 LogWrapper.w(TAG,"Removing from Proxy Settings configuration a no more configured SSID: " + removed.toShortString());
             }
         }
-
+//        LogWrapper.stopTrace(TAG,"removeNoMoreConfiguredSSID", Log.DEBUG);
 //        LogWrapper.d(TAG,"Cleaned up configurations list: " + getConfigurationsString());
-
-
 
 
         /**************************************************************************************************************
          * Update configurations with latest Wi-Fi scan results
          **************************************************************************************************************/
+//        LogWrapper.startTrace(TAG,"updateAfterScanResults", Log.DEBUG);
         List<ScanResult> scanResults = APL.getWifiManager().getScanResults();
 		if (scanResults != null)
 		{
+            updatedConfiguration = true;
+
             // clear all the configurations AP status
             for (ProxyConfiguration conf : getConfigurations().values())
             {
@@ -191,10 +233,14 @@ public class ApplicationGlobals extends Application
                 }
 			}
 		}
+//        LogWrapper.stopTrace(TAG,"updateAfterScanResults", Log.DEBUG);
 
+        if (updatedConfiguration)
+        {
+            LogWrapper.d(TAG,"Configuration updated -> need to create again the sorted list");
+            sortedConfigurationsList = getConfigurationsList();
+        }
 
-
-//        LogWrapper.d(TAG,"Not configured Wi-Fi: " + TextUtils.join(", " , getNotConfiguredWifi().values()));
         LogWrapper.d(TAG,"Final configurations list: " + getConfigurationsString());
         LogWrapper.stopTrace(TAG,"updateProxyConfigurationList", Log.ASSERT);
 	}
@@ -250,37 +296,6 @@ public class ApplicationGlobals extends Application
 		}
 		
 		return getInstance().currentConfiguration;
-	}
-
-	public List<ProxyConfiguration> getConfigurationsList()
-	{
-        if (getConfigurations().isEmpty())
-            updateProxyConfigurationList();
-
-        if (!getConfigurations().isEmpty())
-        {
-            Collection<ProxyConfiguration> values = getConfigurations().values();
-            if (values != null && values.size() > 0)
-            {
-                LogWrapper.startTrace(TAG,"SortConfigurationList",Log.ERROR);
-
-                ArrayList<ProxyConfiguration> results = new ArrayList<ProxyConfiguration>(values);
-                Collections.sort(results);
-
-                StringBuilder sb = new StringBuilder();
-                for(ProxyConfiguration conf : results)
-                {
-                    sb.append(conf.ap.ssid + ",");
-                }
-                LogWrapper.d(TAG,"Sorted proxy configuration list: " + sb.toString());
-
-                LogWrapper.stopTrace(TAG,"SortConfigurationList",Log.ERROR);
-
-                return results;
-            }
-        }
-
-        return null;
 	}
 
     public static void connectToAP(ProxyConfiguration conf)

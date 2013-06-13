@@ -45,6 +45,7 @@ public class MainActivity extends Activity
         if (savedInstanceState != null)
         {
             LogWrapper.d(TAG, "Saved instance state is not null");
+            return;
         }
 
         LogWrapper.d(TAG, "Creating MainActivity");
