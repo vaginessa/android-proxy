@@ -35,6 +35,15 @@ public class MainActivity extends Activity
     // Combo scans can take 5-6s to complete - set to 10s.
     private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
     private Scanner mScanner;
+    private Scanner getScanner()
+    {
+        if (mScanner == null)
+            mScanner = new Scanner();
+
+        return mScanner;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +60,6 @@ public class MainActivity extends Activity
         LogWrapper.d(TAG, "Creating MainActivity");
 
         setContentView(R.layout.main_layout);
-        mScanner = new Scanner();
 
         GoToAccessPointListFragment(getFragmentManager());
 
@@ -134,7 +142,7 @@ public class MainActivity extends Activity
     {
         super.onResume();
 
-        mScanner.resume();
+        getScanner().resume();
 
 //        LogWrapper.d(TAG,"Resuming MainActivity");
 
@@ -166,7 +174,7 @@ public class MainActivity extends Activity
 //        LogWrapper.d("TAG","Pause MainActivity");
         // Stop the registered status receivers
         unregisterReceiver(changeStatusReceiver);
-        mScanner.pause();
+        getScanner().pause();
     }
 
     @Override
