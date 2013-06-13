@@ -10,6 +10,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
@@ -316,10 +317,12 @@ public class APL
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
+//        LogWrapper.startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
         List<ProxyConfiguration> proxyConfigurations = new ArrayList<ProxyConfiguration>();
-        WifiManager wifiManager = (WifiManager) gContext.getSystemService(Context.WIFI_SERVICE);
-        List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
+        List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
+//        LogWrapper.stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
 
+//        LogWrapper.startTrace(TAG,"getProxySdk12", Log.DEBUG);
         if (configuredNetworks != null)
         {
             for (WifiConfiguration wifiConf : configuredNetworks)
@@ -328,9 +331,14 @@ public class APL
                 proxyConfigurations.add(conf);
             }
         }
+//        LogWrapper.stopTrace(TAG,"getProxySdk12", Log.DEBUG);
 
-        if (proxyConfigurations.size() > 0)
-            Collections.sort(proxyConfigurations);
+
+        // Commented out sorting, not useful here
+//        LogWrapper.startTrace(TAG,"sortConfigurations", Log.DEBUG);
+//        if (proxyConfigurations.size() > 0)
+//            Collections.sort(proxyConfigurations);
+//        LogWrapper.stopTrace(TAG,"sortConfigurations", Log.DEBUG);
 
         return proxyConfigurations;
     }

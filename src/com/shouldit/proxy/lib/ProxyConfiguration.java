@@ -215,81 +215,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             result = ap.compareTo(another.ap);
         }
 
-        if (result == 0)
-        {
-            if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
-            {
-                if (another.proxySetting == ProxySetting.NONE || another.proxySetting == ProxySetting.UNASSIGNED)
-                {
-                    // Both DIRECT connection
-                    result = 0;
-                }
-                else
-                {
-                    result = -1;
-                }
-            }
-            else
-            {
-                if (getProxy() != null && another.getProxy() != null)
-                {
-                    String proxystring = getProxy().toString();
-                    String anotherstring = another.getProxy().toString();
-                    result = proxystring.compareTo(anotherstring);
-                }
-                else if (getProxy() != another.getProxy())
-                {
-                    if (getProxy() == null)
-                        return -1;
-                    else
-                        return +1;
-                }
-                else
-                    result = 0;
-            }
-        }
-
-        // // Same network types
-        // if (currentNetworkInfo.getType() ==
-        // ConnectivityManager.TYPE_WIFI)
-        // {
-        // // TYPE_WIFI
-        //
-        // result = ap.compareTo(another.ap);
-        // if (result == 0)
-        // {
-        // if (getProxy() != another.getProxy())
-        // {
-        // result =
-        // getProxy().toString().compareTo(another.getProxy().toString());
-        // }
-        // }
-        // }
-        // else
-        // {
-        // // TYPE_MOBILE or No connection
-        // result = 0;
-        // }
-//            }
-//            else
-//            {
-//                // Different network types
-//                if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-//                {
-//                    // Give priority to TYPE_WIFI
-//                    result = -1;
-//                }
-//                else
-//                {
-//                    result = +1;
-//                }
-//            }
-//        }
-
         return result;
     }
 
-    public void updateConfiguration(ProxyConfiguration updated)
+    public boolean updateConfiguration(ProxyConfiguration updated)
     {
         //TODO: Add all required fields for updating an old configuration with an updated version
         if (!this.isSameConfiguration(updated))
@@ -305,14 +234,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             status.clear();
 
             LogWrapper.d(TAG,"Updated proxy configuration: \n" +  this.toShortString() + "\n" +  updated.toShortString());
+
+            return true;
         }
         else
         {
 //            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
+            return false;
         }
-
-        // Do NOT update AP information here -> this information is handled on the scanresult receive phase
-        //ap = updated.ap;
     }
 
 
