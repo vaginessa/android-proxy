@@ -155,8 +155,8 @@ public class ProxySettingsCheckerService extends IntentService
             {
                 LogWrapper.w(TAG, "Network is not available, cannot check proxy settings");
             }
-//            TEMP DISABLED
-//            CallRefreshApplicationStatus();
+
+            CallRefreshApplicationStatus();
         }
         catch (Exception e)
         {

@@ -8,14 +8,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
@@ -35,8 +32,8 @@ public class MainActivity extends Activity
     public static final String TAG = "MainActivity";
     private static boolean active = false;
 
-    // Combo scans can take 5-6s to complete - set to 20s.
-    private static final int WIFI_RESCAN_INTERVAL_MS = 20 * 1000;
+    // Combo scans can take 5-6s to complete - set to 10s.
+    private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
     private Scanner mScanner;
 
     @Override

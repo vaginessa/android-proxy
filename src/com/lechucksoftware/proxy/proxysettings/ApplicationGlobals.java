@@ -1,17 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings;
 
-import java.util.*;
-
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-
 import android.text.TextUtils;
 import android.util.Log;
 import com.bugsense.trace.BugSenseHandler;
@@ -19,6 +14,8 @@ import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
+
+import java.util.*;
 
 
 public class ApplicationGlobals extends Application
@@ -71,9 +68,8 @@ public class ApplicationGlobals extends Application
 		configurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, ProxyConfiguration>());
         notConfiguredWifi = Collections.synchronizedMap(new HashMap<WifiNetworkId, ScanResult>());
 
-
-        APL.setup(getApplicationContext());
-		Utils.SetupBugSense(getApplicationContext());
+        APL.setup(this);
+		Utils.SetupBugSense(this);
 				
 		LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
 		sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
@@ -94,7 +90,12 @@ public class ApplicationGlobals extends Application
 	{
         LogWrapper.startTrace(TAG,"updateProxyConfigurationList", Log.ASSERT);
 
-        // Get information regarding current saved configuration
+
+        /**************************************************************************************************************
+         * Get information regarding current saved configuration
+         **************************************************************************************************************/
+
+        LogWrapper.startTrace(TAG,"getSavedConfigurations", Log.DEBUG);
         Collection <WifiNetworkId> savedNetworks = getConfigurations().keySet();
         List <WifiNetworkId> savedSSIDNotMoreConfiguredList = new ArrayList<WifiNetworkId>();
 
@@ -102,10 +103,14 @@ public class ApplicationGlobals extends Application
         {
             savedSSIDNotMoreConfiguredList.add(wifiNet);
         }
+        LogWrapper.stopTrace(TAG,"getSavedConfigurations", Log.DEBUG);
 
-//        LogWrapper.d(TAG,"Saved configurations: " + TextUtils.join(", " , savedSSIDNotMoreConfiguredList));
 
-		// Get latests information regarding configured AP
+
+        /**************************************************************************************************************
+         * Get latests information regarding configured AP
+         **************************************************************************************************************/
+        LogWrapper.startTrace(TAG,"getConfigurations", Log.DEBUG);
 		List<ProxyConfiguration> updatedConfigurations = APL.getProxiesConfigurations();
 
 		for (ProxyConfiguration conf : updatedConfigurations)
@@ -124,11 +129,16 @@ public class ApplicationGlobals extends Application
             if (savedSSIDNotMoreConfiguredList.contains(conf.internalWifiNetworkId))
                 savedSSIDNotMoreConfiguredList.remove(conf.internalWifiNetworkId);
 		}
+        LogWrapper.stopTrace(TAG,"getConfigurations", Log.DEBUG);
 
 //        LogWrapper.d(TAG,"Updated configurations list: " + getConfigurationsString());
 //        LogWrapper.d(TAG,"Configurations that need to be removed: " + TextUtils.join(", " , savedSSIDNotMoreConfiguredList));
 
-        // Remove from current configuration the SSID that are not more configured into Android's Wi-Fi settings
+
+
+        /**************************************************************************************************************
+         * Remove from current configuration the SSID that are not more configured into Android's Wi-Fi settings
+         **************************************************************************************************************/
         for (WifiNetworkId netId : savedSSIDNotMoreConfiguredList)
         {
             if (getConfigurations().containsKey(netId))
@@ -140,7 +150,12 @@ public class ApplicationGlobals extends Application
 
 //        LogWrapper.d(TAG,"Cleaned up configurations list: " + getConfigurationsString());
 
-        // Update configurations with latest Wi-Fi scan results
+
+
+
+        /**************************************************************************************************************
+         * Update configurations with latest Wi-Fi scan results
+         **************************************************************************************************************/
         List<ScanResult> scanResults = APL.getWifiManager().getScanResults();
 		if (scanResults != null)
 		{
@@ -176,6 +191,8 @@ public class ApplicationGlobals extends Application
                 }
 			}
 		}
+
+
 
 //        LogWrapper.d(TAG,"Not configured Wi-Fi: " + TextUtils.join(", " , getNotConfiguredWifi().values()));
         LogWrapper.d(TAG,"Final configurations list: " + getConfigurationsString());
@@ -265,19 +282,6 @@ public class ApplicationGlobals extends Application
 
         return null;
 	}
-	
-//	public ProxyConfiguration getConfiguration(String SSID)
-//	{
-//		String cleanSSID = ProxyUtils.cleanUpSSID(SSID);
-//
-//		if (getConfigurations().containsKey(cleanSSID))
-//		{
-//			return getConfigurations().get(cleanSSID);
-//		}
-//		else return null;
-//	}
-
-
 
     public static void connectToAP(ProxyConfiguration conf)
     {
