@@ -43,21 +43,11 @@ public class MainActivity extends Activity
         return mScanner;
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-
-//        FragmentManager.enableDebugLogging(true);
-        if (savedInstanceState != null)
-        {
-            LogWrapper.d(TAG, "Saved instance state is not null");
-            return;
-        }
-
-        LogWrapper.d(TAG, "Creating MainActivity");
+        super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
+//        LogWrapper.d(TAG, "Creating MainActivity");
 
         setContentView(R.layout.main_layout);
 
@@ -76,18 +66,10 @@ public class MainActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        FragmentTransaction transaction = null;
-
         switch (item.getItemId())
         {
             case android.R.id.home:
                 GoToAccessPointListFragment(getFragmentManager());
-//                // Clean-up the backstack when going back to home
-//                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                transaction = getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, AccessPointListFragment.getInstance());
-//                //transaction.addToBackStack(null);
-//                transaction.commit();
                 return true;
 
             default:
@@ -133,7 +115,7 @@ public class MainActivity extends Activity
     public void onDestroy()
     {
         super.onDestroy();
-//        LogWrapper.d(TAG,"Destroying MainActivity");
+        LogWrapper.d(TAG,"Destroying MainActivity");
         ViewServer.get(this).removeWindow(this);
     }
 
@@ -144,20 +126,13 @@ public class MainActivity extends Activity
 
         getScanner().resume();
 
-//        LogWrapper.d(TAG,"Resuming MainActivity");
+        LogWrapper.d(TAG,"Resuming MainActivity");
 
         // Start register the status receivers
         IntentFilter ifilt = new IntentFilter();
 
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-
-//        ifilt.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-//        ifilt.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-//        ifilt.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-//        ifilt.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-//        ifilt.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-
         ifilt.addAction(Constants.PROXY_REFRESH_UI);
         registerReceiver(changeStatusReceiver, ifilt);
 
@@ -171,17 +146,20 @@ public class MainActivity extends Activity
     {
         super.onPause();
 
-//        LogWrapper.d("TAG","Pause MainActivity");
+        LogWrapper.d("TAG","Pause MainActivity");
+
         // Stop the registered status receivers
         unregisterReceiver(changeStatusReceiver);
+
         getScanner().pause();
+        mScanner = null;
     }
 
     @Override
     public void onStart()
     {
         super.onStart();
-//        LogWrapper.d(TAG,"Starting MainActivity");
+        LogWrapper.d(TAG,"Starting MainActivity");
         active = true;
     }
 
@@ -189,7 +167,7 @@ public class MainActivity extends Activity
     public void onStop()
     {
         super.onStop();
-//        LogWrapper.d(TAG,"Stopping MainActivity");
+        LogWrapper.d(TAG,"Stopping MainActivity");
         active = false;
     }
 
@@ -212,15 +190,6 @@ public class MainActivity extends Activity
                 LogWrapper.d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();
             }
-//            else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-//                    || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
-//                    || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-//                    || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
-//                    || action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
-//            {
-//                LogWrapper.d(TAG, "Received broadcast for update on network status - RefreshUI");
-//                refreshUI();
-//            }
             else if (action.equals(Constants.PROXY_REFRESH_UI))
             {
                 LogWrapper.d(TAG, "Received broadcast for update the Proxy Settings UI - RefreshUI");

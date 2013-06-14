@@ -23,21 +23,48 @@ public class ProxySettingsCheckerService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = "ProxySettingsCheckerService";
+    private boolean isHandling = false;
+    private static ProxySettingsCheckerService instance;
 
     public ProxySettingsCheckerService()
     {
         super("ProxySettingsCheckerService");
+        LogWrapper.log(TAG, "ProxySettingsCheckerService constructor", Log.VERBOSE);
+    }
+
+    public static ProxySettingsCheckerService getInstance()
+    {
+        return instance;
+    }
+
+    public boolean isHandlingIntent()
+    {
+        return isHandling;
     }
 
     @Override
     protected void onHandleIntent(Intent intent)
     {
+        instance = this;
+        isHandling = true;
+
+        LogWrapper.startTrace(TAG, "checkProxySettings", Log.ERROR);
+
+        handleIntentLogic(intent);
+
+        LogWrapper.stopTrace(TAG, "checkProxySettings", Log.ERROR);
+        isHandling = false;
+    }
+
+    private void handleIntentLogic(Intent intent)
+    {
+        //        LogWrapper.logIntent(TAG, "onHandleIntent: ", intent, Log.VERBOSE);
         Intent callerIntent = (Intent) intent.getExtras().get(CALLER_INTENT);
 
         if (callerIntent != null)
         {
             String callerAction = callerIntent.getAction();
-            LogWrapper.logIntent(TAG, callerIntent, Log.INFO);
+            LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.INFO);
 
             if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)
                     || callerAction.equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
@@ -45,7 +72,7 @@ public class ProxySettingsCheckerService extends IntentService
                     || callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)
                     || callerAction.equals(Proxy.PROXY_CHANGE_ACTION))
             {
-                CheckProxySettings(callerIntent);
+                checkProxySettings();
             }
             else if (callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION))
             {
@@ -61,14 +88,7 @@ public class ProxySettingsCheckerService extends IntentService
 
                 if (ni != null && ni.isConnected())
                 {
-                    //if (ni.getType() == intentNetworkType) // Check only for
-                    // intent related to
-                    // active network
-                    {
-                        // LogWrapper.logIntent(TAG, callerIntent, Log.DEBUG,
-                        // true);
-                        CheckProxySettings(callerIntent);
-                    }
+                    checkProxySettings();
                 }
                 else
                 {
@@ -84,6 +104,8 @@ public class ProxySettingsCheckerService extends IntentService
         {
             LogWrapper.e(TAG, "Received Intent NULL ACTION");
         }
+
+        return;
     }
 
     @Override
@@ -92,10 +114,8 @@ public class ProxySettingsCheckerService extends IntentService
 //        LogWrapper.d(TAG, "ProxySettingsCheckerService destroying");
     }
 
-    public void CheckProxySettings(Intent callerIntent)
+    private void checkProxySettings()
     {
-        LogWrapper.startTrace(TAG, "CheckProxySettings", Log.ERROR);
-
         try
         {
 //            CallRefreshApplicationStatus();
@@ -164,8 +184,6 @@ public class ProxySettingsCheckerService extends IntentService
             UIUtils.DisableProxyNotification(getApplicationContext());
             e.printStackTrace();
         }
-
-        LogWrapper.stopTrace(TAG, "CheckProxySettings", Log.ERROR);
     }
 
     public void CallRefreshApplicationStatus()

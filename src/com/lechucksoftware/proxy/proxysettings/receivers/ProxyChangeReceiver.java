@@ -42,7 +42,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 		else if (	intent.getAction().equals(Constants.PROXY_REFRESH_UI)						// INTERNAL (PS) : Called to refreshUI the UI of Proxy Settings
 				 || intent.getAction().equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))		// INTERNAL (APL): Called when an updated status on the check of a configuration is available
 		{
-			//LogWrapper.logIntent(TAG, intent, Log.DEBUG);
+			LogWrapper.logIntent(TAG, intent, Log.DEBUG);
 			UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getInstance().getCachedConfiguration(), context);
 		}
 		else
@@ -55,6 +55,17 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 	private void callProxySettingsChecker(Context context, Intent intent)
 	{
 		//Call the ProxySettingsCheckerService for update the network status
+        ProxySettingsCheckerService instance = ProxySettingsCheckerService.getInstance();
+        if (instance != null)
+        {
+            if (instance.isHandlingIntent())
+            {
+                LogWrapper.w(TAG,"Already checking proxy.. skip another call");
+                return;
+            }
+        }
+
+
 		Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
 		serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
 		context.startService(serviceIntent);

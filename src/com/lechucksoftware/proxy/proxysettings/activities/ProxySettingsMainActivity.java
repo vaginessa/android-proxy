@@ -20,6 +20,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+//        LogWrapper.d(TAG, "Creating ProxySettingsMainActivity");
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
