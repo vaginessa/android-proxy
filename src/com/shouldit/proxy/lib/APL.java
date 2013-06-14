@@ -60,6 +60,14 @@ public class APL
         return gContext;
     }
 
+    public static int getDeviceVersion()
+    {
+        if (!sSetupCalled && gContext == null)
+            throw new RuntimeException("you need to call setup() first");
+
+        return deviceVersion;
+    }
+
     public static WifiManager getWifiManager()
     {
         if (!sSetupCalled && gContext == null)

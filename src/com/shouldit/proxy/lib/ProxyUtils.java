@@ -391,7 +391,7 @@ public class ProxyUtils
 	{
 		try
 		{
-			if (proxyConf != null && proxyConf.getProxyType() == Type.HTTP && proxyConf.deviceVersion < 12)
+			if (proxyConf != null && proxyConf.getProxyType() == Type.HTTP && APL.getDeviceVersion() < 12)
 			{
 				setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
 			}
