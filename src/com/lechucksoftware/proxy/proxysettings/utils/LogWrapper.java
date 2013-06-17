@@ -21,8 +21,8 @@ public class LogWrapper
      * ASSERT	Constant Value: 7 (0x00000007)
      */
 
-//	private static int mLogLevel = Integer.MAX_VALUE;
-    private static int mLogLevel = Log.VERBOSE;
+	private static int mLogLevel = Integer.MAX_VALUE;
+//    private static int mLogLevel = Log.VERBOSE;
     private static Map<String, Date> startTraces;
 
     public static void d(String tag, String msg)
