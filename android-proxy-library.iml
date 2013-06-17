@@ -4,6 +4,7 @@
     <facet type="android" name="Android">
       <configuration>
         <option name="LIBRARY_PROJECT" value="true" />
+        <option name="UPDATE_PROPERTY_FILES" value="true" />
         <notImportedProperties>
           <property>MANIFEST_FILE_PATH</property>
           <property>RESOURCES_DIR_PATH</property>
@@ -21,9 +22,9 @@
       <excludeFolder url="file://$MODULE_DIR$/src/com/shouldit/proxy/lib/reflection/android/excluded" />
     </content>
     <orderEntry type="jdk" jdkName="Android 2.1 Platform" jdkType="Android SDK" />
+    <orderEntry type="library" name="android-support-v4" level="project" />
     <orderEntry type="module" module-name="android-utils" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="android-support-v4" level="project" />
   </component>
 </module>
 
