@@ -1,5 +1,7 @@
 package com.shouldit.proxy.lib.reflection;
 
+import com.shouldit.android.utils.lib.log.LogWrapper;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -7,10 +9,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.shouldit.proxy.lib.LogWrapper;
-
-import android.util.Log;
 
 public class ReflectionUtils
 {

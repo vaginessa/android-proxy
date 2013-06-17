@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 
@@ -180,7 +181,8 @@ public class ProxyStatus implements Serializable
 
             if (checkedDate != null)
             {
-			    sb.append("Start checking at: " + checkedDate.toLocaleString() + "\n");
+                DateFormat df = DateFormat.getDateTimeInstance();
+			    sb.append("Start checking at: " + df.format(checkedDate) + "\n");
             }
             else
             {

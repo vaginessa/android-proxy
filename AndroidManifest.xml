@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shouldit.proxy.lib"
-    android:versionCode="2"
-    android:versionName="1.0" >
-    
+    android:versionCode="0400190"
+    android:versionName="1.9" >
+
+    <!-- Scheme for version codes: ##@@$$$ , using:
+    ## - the first two digits for the API Level,
+    @@ - the second and third digits for the minimum and maximum screen size (1 - 4 indicating each of the four sizes) or to denote the texture formats
+    $$$ - the last three digits for the app version. -->
+
     <uses-sdk 
         android:minSdkVersion="4" 
         android:targetSdkVersion="15" />
-
-    <application
-            android:name=".reflection.APLGlobals"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name">
-    </application>
-
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.WAKE_LOCK" >
-    </uses-permission>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.shouldit.proxy.lib;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
@@ -57,7 +58,10 @@ public class ProxyStatusItem
 		sb.append(String.format("%s (Effective: %s, Status: %s, Result: %s", statusCode, effective, status, result));
 
         if (checkedDate != null)
-            sb.append(", Checked at: " + checkedDate.toLocaleString());
+        {
+            DateFormat df = DateFormat.getDateTimeInstance();
+            sb.append(", Checked at: " + df.format(checkedDate));
+        }
 
 		if (message != null && message.length() > 0)
 			sb.append(", Message: " + message);
