@@ -63,7 +63,14 @@ public class Utils
 		catch (IOException e)
 		{
 			LogWrapper.e("TAG", "No bugsense keyfile found");
+            BugSenseHandler.sendException(e);
+            return;
 		}
+        catch (Exception e)
+        {
+            BugSenseHandler.sendException(e);
+            return;
+        }
 
         if (key == null)
         {
