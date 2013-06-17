@@ -42,8 +42,6 @@ public class ApplicationGlobals extends Application
         return sortedConfigurationsList;
     }
 
-    
-
     private List<ProxyConfiguration> getConfigurationsList()
     {
         if (getConfigurations().isEmpty())
@@ -263,7 +261,7 @@ private static ProxyConfiguration selectedConfiguration;
         if (updatedConfiguration && !getConfigurations().isEmpty())
         {
             LogWrapper.d(TAG, "Configuration updated -> need to create again the sorted list");
-            sortedConfigurationsList = getConfigurationsList();
+            buildConfigurationsList();
         }
 
         LogWrapper.d(TAG, "Final configurations list: " + getConfigurationsString());
