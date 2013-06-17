@@ -7,12 +7,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.R.string;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.android.utils.lib.log.LogWrapper;
 
 public class RateApplicationAlertDialog extends DialogFragment
 {

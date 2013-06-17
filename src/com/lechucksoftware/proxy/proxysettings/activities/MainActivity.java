@@ -19,7 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 

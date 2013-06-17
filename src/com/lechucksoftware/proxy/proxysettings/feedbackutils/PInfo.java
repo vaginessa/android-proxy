@@ -2,10 +2,9 @@ package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
 import java.io.Serializable;
 
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.android.utils.lib.log.LogWrapper;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 public class PInfo implements Serializable 
 {

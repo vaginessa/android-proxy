@@ -14,7 +14,7 @@ import android.webkit.WebView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.ProxyUtils;
 
 public class WebViewWithProxyActivity extends FragmentActivity

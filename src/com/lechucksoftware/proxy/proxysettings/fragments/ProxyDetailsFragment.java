@@ -10,7 +10,7 @@ import android.view.View;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;

@@ -10,7 +10,8 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 import com.bugsense.trace.BugSenseHandler;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
+import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -41,11 +42,20 @@ public class ApplicationGlobals extends Application
         return sortedConfigurationsList;
     }
 
+    
+
     private List<ProxyConfiguration> getConfigurationsList()
     {
         if (getConfigurations().isEmpty())
             updateProxyConfigurationList();
 
+        buildConfigurationsList();
+
+        return sortedConfigurationsList;
+    }
+
+    private void buildConfigurationsList()
+    {
         if (!getConfigurations().isEmpty())
         {
             Collection<ProxyConfiguration> values = getConfigurations().values();
@@ -64,12 +74,8 @@ public class ApplicationGlobals extends Application
                 LogWrapper.d(TAG, "Sorted proxy configuration list: " + sb.toString());
 
                 LogWrapper.stopTrace(TAG, "SortConfigurationList", Log.DEBUG);
-
-                return sortedConfigurationsList;
             }
         }
-
-        return null;
     }
 
     private String getConfigurationsString()
@@ -254,7 +260,7 @@ private static ProxyConfiguration selectedConfiguration;
         }
 //        LogWrapper.stopTrace(TAG,"updateAfterScanResults", Log.DEBUG);
 
-        if (updatedConfiguration)
+        if (updatedConfiguration && !getConfigurations().isEmpty())
         {
             LogWrapper.d(TAG, "Configuration updated -> need to create again the sorted list");
             sortedConfigurationsList = getConfigurationsList();
