@@ -291,6 +291,10 @@ public class ProxyUtils
 			{
 				LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() IOException : " + e.toString());
 			}
+            catch (Exception e)
+            {
+                LogWrapper.e(TAG, "ProxyUtils.testHTTPConnection() Exception : " + e.toString());
+            }
 
 			step++;
 
