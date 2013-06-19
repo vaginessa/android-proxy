@@ -10,9 +10,8 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 import com.bugsense.trace.BugSenseHandler;
-import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
-import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
@@ -88,19 +87,19 @@ public class ApplicationGlobals extends Application
         }
     }
 
-// Wi-Fi networks available but still not configured into Android's Wi-Fi settings
-private Map<WifiNetworkId, ScanResult> notConfiguredWifi;
+    // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
+    private Map<WifiNetworkId, ScanResult> notConfiguredWifi;
 
     public Map<WifiNetworkId, ScanResult> getNotConfiguredWifi()
     {
         return notConfiguredWifi;
     }
 
-public int timeout;
-private ProxyConfiguration currentConfiguration;
+    public int timeout;
+    private ProxyConfiguration currentConfiguration;
 
-private static final String TAG = "ApplicationGlobals";
-private static ProxyConfiguration selectedConfiguration;
+    private static final String TAG = "ApplicationGlobals";
+    private static ProxyConfiguration selectedConfiguration;
 
     public static void setSelectedConfiguration(ProxyConfiguration selectedConfiguration)
     {
@@ -123,9 +122,6 @@ private static ProxyConfiguration selectedConfiguration;
 
         configurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, ProxyConfiguration>());
         notConfiguredWifi = Collections.synchronizedMap(new HashMap<WifiNetworkId, ScanResult>());
-
-        APL.setup(this);
-        Utils.SetupBugSense(this);
 
         LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
@@ -280,16 +276,20 @@ private static ProxyConfiguration selectedConfiguration;
                 if (getConfigurations().isEmpty())
                     updateProxyConfigurationList();
 
-                for (WifiConfiguration wifiConfig : APL.getWifiManager().getConfiguredNetworks())
+                List<WifiConfiguration> wificonfigurations = APL.getWifiManager().getConfiguredNetworks();
+                if (!wificonfigurations.isEmpty())
                 {
-                    if (wifiConfig.networkId == info.getNetworkId())
+                    for (WifiConfiguration wifiConfig : wificonfigurations)
                     {
-                        String SSID = ProxyUtils.cleanUpSSID(info.getSSID());
-                        WifiNetworkId netId = new WifiNetworkId(SSID, ProxyUtils.getSecurity(wifiConfig));
-                        if (getConfigurations().containsKey(netId))
+                        if (wifiConfig.networkId == info.getNetworkId())
                         {
-                            conf = getConfigurations().get(netId);
-                            break;
+                            String SSID = ProxyUtils.cleanUpSSID(info.getSSID());
+                            WifiNetworkId netId = new WifiNetworkId(SSID, ProxyUtils.getSecurity(wifiConfig));
+                            if (getConfigurations().containsKey(netId))
+                            {
+                                conf = getConfigurations().get(netId);
+                                break;
+                            }
                         }
                     }
                 }

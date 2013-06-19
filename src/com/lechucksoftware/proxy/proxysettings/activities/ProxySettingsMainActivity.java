@@ -8,7 +8,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.activities.help.DisclaimerFragmentActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.shouldit.proxy.lib.APL;
 
 
 public class ProxySettingsMainActivity extends FragmentActivity
@@ -21,6 +23,11 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 //        LogWrapper.d(TAG, "Creating ProxySettingsMainActivity");
+
+
+        // SETUP Libraries
+        APL.setup(ProxySettingsMainActivity.this);
+        Utils.SetupBugSense(ProxySettingsMainActivity.this);
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);

@@ -54,6 +54,7 @@ public class Utils
 		// versions which is somewhat confusing!)
 		try
 		{
+
 			InputStream inputStream = ctx.getAssets().open("proxy_settings_bugsense_license.txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 			key = br.readLine();
