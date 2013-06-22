@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <!--<Preference-->
+        <!--android:enabled="true"-->
+        <!--android:key="preference_help"-->
+        <!--android:title="@string/preference_help_title" />-->
+    <!---->
+
     <Preference
+            android:enabled="true"
+            android:key="pref_full_changelog"
+            android:title="@string/pref_help_changelog" />
+
+    <com.lechucksoftware.proxy.proxysettings.dialogs.AboutDialog
         android:enabled="true"
-        android:key="preference_help"
-        android:title="@string/preference_help_title" />
-    <Preference
-        android:enabled="true"
-        android:key="preference_about"
-        android:title="@string/preference_about_title" />
+        android:key="pref_about"
+        android:title="@string/pref_about_title" />
 
 </PreferenceScreen>

@@ -10,6 +10,7 @@ import android.view.View;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -45,7 +46,6 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.main_preferences);
-
 
         instance = this;
     }
@@ -262,7 +262,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         }
         else
         {
-            MainActivity.GoToAccessPointListFragment(getFragmentManager());
+            NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
         }
     }
 

@@ -12,6 +12,7 @@ import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
 import com.shouldit.proxy.lib.APL;
@@ -160,7 +161,7 @@ public class AccessPointListFragment extends EnhancedListFragment
             ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
             LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
-            MainActivity.GoToProxyDetailsFragment(getFragmentManager());
+            NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());
         }
     }
 }

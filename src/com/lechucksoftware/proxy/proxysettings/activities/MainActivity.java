@@ -11,14 +11,20 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.Preference;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
 import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
@@ -51,11 +57,21 @@ public class MainActivity extends Activity
 
         setContentView(R.layout.main_layout);
 
-        GoToAccessPointListFragment(getFragmentManager());
+        NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
 
         // Add the fragment to the 'fragment_container' FrameLayout
         getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.proxy_prefs_activity, menu);
+        return true;
+    }
+
 
     @Override
     protected void onNewIntent(Intent intent)
@@ -69,47 +85,16 @@ public class MainActivity extends Activity
         switch (item.getItemId())
         {
             case android.R.id.home:
-                GoToAccessPointListFragment(getFragmentManager());
+                NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
+                return true;
+
+            case R.id.menu_about:
+                NavigationUtils.GoToHelpFragment(getFragmentManager());
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public static void GoToAccessPointListFragment(FragmentManager fm)
-    {
-        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // Clean-up the backstack when going back to home
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
-        Fragment f = fm.findFragmentById(R.id.fragment_container);
-
-        if (f != null)
-        {
-            ft.replace(R.id.fragment_container, AccessPointListFragment.getInstance());
-        }
-        else
-        {
-            ft.add(R.id.fragment_container, AccessPointListFragment.getInstance());
-        }
-
-        // Do NOT add AccessPointListFragment to back stack
-        ft.commit();
-    }
-
-    public static void GoToProxyDetailsFragment(FragmentManager fm)
-    {
-        ProxyDetailsFragment details = ProxyDetailsFragment.getInstance();
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
-        ft.replace(R.id.fragment_container, details);
-
-        ft.addToBackStack(null);
-        ft.commit();
     }
 
     public void onDestroy()
@@ -137,6 +122,9 @@ public class MainActivity extends Activity
         registerReceiver(changeStatusReceiver, ifilt);
 
         ViewServer.get(this).setFocusedWindow(this);
+
+        WhatsNewDialog wnd = new WhatsNewDialog(this);
+        wnd.show();
 
         refreshUI();
     }

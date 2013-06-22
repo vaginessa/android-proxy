@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.10" versioncode="1200210" date="06/17/2013">
+        <change>Added What's new dialog at application startup</change>
+        <change>Added Help section in application menu</change>
+        <change>Fixed assets loading exception on some devices</change>
+    </release>
+    <release version="2.09" versioncode="1200209" date="06/17/2013">
+        <change>Fixed various bugs</change>
+        <change>Improved stability and overall application performances</change>
+    </release>    
+    <release version="2.07" versioncode="2" date="06/11/2013">
+        <change>Temporary disabled editing of networks with Wi-Fi enterprise security (802.1X)</change>
+    </release>
+    <release version="2.06" versioncode="2" date="06/07/2013">
+        <change>Startup bug fixed</change>
+        <change>Various navigation bugifixes</change>
+    </release>
+    <release version="2.04" versioncode="2" date="06/05/2013">
+        <change>Added support for devices with API version greater than or equal to 11</change>
+    </release>
+</changelog>
