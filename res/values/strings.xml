@@ -2,6 +2,12 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
 	<string name="app_name">Proxy Settings</string>
+    <string name="app_versionname">V.%1$s</string>
+    <string name="app_codename">Build #PS-%1$d</string>
+    <string name="title_changelog">@string/app_name</string>
+    <string name="changelog_close">Close</string>
+
+
 	<string name="accept">Accept</string>
 	<string name="submit">Submit</string>
 	<string name="cancel">Cancel</string>
@@ -40,11 +46,6 @@
     <string name="wifi_empty_list_no_ap">No Wi-Fi networks configured</string>
     <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50]-->
     <string name="wifi_empty_list_wifi_off">To see available networks, turn Wi-Fi on.</string>
-
-
-    <string name="title_changelog">Change log</string>
-    <string name="changelog_close">Close</string>
-
 	
 	<string name="ap_status_label">Status:</string>
 	<string name="ap_security_label">Security:</string>
@@ -69,7 +70,9 @@
 	<string name="pref_tools_title">Tools</string>
 
     <string name="pref_help_whatsnew">What\'s new</string>
-    <string name="pref_help_changelog">Full changelog</string>
+    <string name="pref_help_changelog">Application change log</string>
+    <string name="pref_send_feedback">Send us a feedback!</string>
+    <string name="pref_send_feedback_summary">Write a mail to SHOULDIT</string>
     <string name="pref_about_title">About</string>
 
 	<string name="disclaimer_intro_title">Introduction</string>

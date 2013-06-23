@@ -123,6 +123,10 @@ public class ApplicationGlobals extends Application
         configurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, ProxyConfiguration>());
         notConfiguredWifi = Collections.synchronizedMap(new HashMap<WifiNetworkId, ScanResult>());
 
+        // SETUP Libraries
+        APL.setup(ApplicationGlobals.this);
+        Utils.SetupBugSense(ApplicationGlobals.this);
+
         LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
     }

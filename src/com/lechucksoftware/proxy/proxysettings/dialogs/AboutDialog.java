@@ -3,7 +3,9 @@ package com.lechucksoftware.proxy.proxysettings.dialogs;
 import android.content.Context;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import com.lechucksoftware.proxy.proxysettings.R;
 
 public class AboutDialog extends DialogPreference
 {
@@ -16,23 +18,9 @@ public class AboutDialog extends DialogPreference
     @Override
     public View onCreateDialogView()
     {
-        View v = super.onCreateDialogView();
+        LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = vi.inflate(R.layout.about, null);
 
-//		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//		builder.setTitle(getResources().getText(string.proxysettingscalleractivity_dialog_title));
-//		builder.setMessage(getResources().getText(string.proxysettingscalleractivity_dialog_description));
-//		builder.setCancelable(true);
-//
-//		builder.setPositiveButton(getResources().getText(string.proxysettingscalleractivity_dialog_OK), new DialogInterface.OnClickListener() {
-//
-//			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-//			{
-//				startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-//				getActivity().finish();
-//			}
-//		});
-
-		return v;
+        return v;
     }
 }

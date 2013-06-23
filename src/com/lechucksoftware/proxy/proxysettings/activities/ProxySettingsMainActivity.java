@@ -25,7 +25,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 //        LogWrapper.d(TAG, "Creating ProxySettingsMainActivity");
 
 
-        // SETUP Libraries
+        // Ensure that SETUP for Libraries are called
         APL.setup(ProxySettingsMainActivity.this);
         Utils.SetupBugSense(ProxySettingsMainActivity.this);
 
