@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -178,7 +179,14 @@ public class StatusFragment extends EnhancedFragment
         public void onClick(View view)
         {
             hide();
-            APL.getWifiManager().setWifiEnabled(true);
+            try
+            {
+                APL.enableWifi();
+            }
+            catch (Exception e)
+            {
+                BugSenseHandler.sendException(new Exception("Exception during StatusFragment enableWifi action: " + e.toString()));
+            }
             clickedStatus = Constants.StatusFragmentStates.ENABLE_WIFI;
         }
     };

@@ -130,38 +130,45 @@ public class AccessPointListFragment extends EnhancedListFragment
         }
     }
 
-        /**
-         * Helper function to show the details of a selected item, either by
-         * displaying a fragment in-place in the current UI, or starting a
-         * whole new activity in which it is displayed.
-         */
+    /**
+     * Helper function to show the details of a selected item, either by
+     * displaying a fragment in-place in the current UI, or starting a
+     * whole new activity in which it is displayed.
+     */
 
     void showDetails(int index)
     {
         mCurCheckPosition = index;
 
-        // We can display everything in-place with fragments, so update
-        // the list to highlight the selected item and show the data.
-        getListView().setItemChecked(index, true);
-
-        ProxyConfiguration selectedConfiguration = (ProxyConfiguration) getListView().getItemAtPosition(index);
-
-        if (selectedConfiguration.ap.security == APLConstants.SecurityType.SECURITY_EAP)
+        try
         {
-            new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.oops)
-                    .setMessage(getResources().getString(R.string.not_supported_network_8021x_error_message))
-                    .setPositiveButton(R.string.proxy_error_dismiss, null)
-                    .show();
+            // We can display everything in-place with fragments, so update
+            // the list to highlight the selected item and show the data.
+            getListView().setItemChecked(index, true);
 
-            BugSenseHandler.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
+            ProxyConfiguration selectedConfiguration = (ProxyConfiguration) getListView().getItemAtPosition(index);
+
+            if (selectedConfiguration.ap.security == APLConstants.SecurityType.SECURITY_EAP)
+            {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.oops)
+                        .setMessage(getResources().getString(R.string.not_supported_network_8021x_error_message))
+                        .setPositiveButton(R.string.proxy_error_dismiss, null)
+                        .show();
+
+                BugSenseHandler.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
+            }
+            else
+            {
+                ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
+                LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
+
+                NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());
+            }
         }
-        else
+        catch (Exception e)
         {
-            ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
-            LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
-
-            NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());
+            BugSenseHandler.sendException(new Exception("Exception during AccessPointListFragment showDetails("+ index + ") " + e.toString()));
         }
     }
 }

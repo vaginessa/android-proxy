@@ -65,7 +65,7 @@ public class HelpPrefsFragment extends PreferenceFragment
         if (pi != null)
         {
             appVersionName = getResources().getString(R.string.app_versionname, pi.versionName);
-            aboutPref.setSummary(appVersionName);
+            changeLogPref.setSummary(appVersionName);
         }
         else
         {
