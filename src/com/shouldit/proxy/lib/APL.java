@@ -82,6 +82,15 @@ public class APL
         return mWifiManager;
     }
 
+    public static void enableWifi() throws Exception
+    {
+        if (!sSetupCalled && gContext == null)
+            throw new RuntimeException("you need to call setup() first");
+
+        WifiManager wm = getWifiManager();
+        wm.setWifiEnabled(true);
+    }
+
     public static ConnectivityManager getConnectivityManager()
     {
         if (!sSetupCalled && gContext == null)
@@ -359,5 +368,4 @@ public class APL
 
         return proxyConfigurations;
     }
-
 }
