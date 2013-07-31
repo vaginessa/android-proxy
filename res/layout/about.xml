@@ -3,18 +3,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:padding="10sp">
 
-    <TextView android:text="@string/app_name"
+    <TextView android:id="@+id/about_title"
+              android:text="@string/app_name"
+              android:layout_gravity="center"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
 
-    <TextView android:text="@string/app_versionname"
+    <TextView android:id="@+id/about_version"
+              android:text="@string/app_versionname"
+              android:layout_gravity="center"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
 
-    <ImageView android:src="@drawable/proxy_settings_logo"
-               android:layout_width="50dp"
-               android:layout_height="50dp"/>
+    <TextView android:id="@+id/about_copyright"
+              android:text="@string/about_copyright"
+              android:layout_gravity="center"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+    <TextView android:id="@+id/about_opensource"
+              android:text="@string/about_opensource"
+              android:paddingTop="10sp"
+              android:layout_gravity="center"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:autoLink="all"
+              android:linksClickable="true"/>
+
+    <TextView android:id="@+id/about_github"
+              android:text="@string/about_github"
+              android:paddingTop="10sp"
+              android:layout_gravity="center"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:autoLink="all"
+              android:linksClickable="true"/>
+
 
 </LinearLayout>

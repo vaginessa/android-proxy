@@ -19,7 +19,7 @@ public class RateApplicationAlertDialog extends DialogFragment
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
 		builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
 		builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
 		builder.setCancelable(false);

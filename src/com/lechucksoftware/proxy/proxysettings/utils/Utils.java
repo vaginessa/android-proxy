@@ -13,11 +13,29 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
 import com.bugsense.trace.BugSenseHandler;
+import com.lechucksoftware.proxy.proxysettings.R;
 import com.shouldit.android.utils.lib.log.LogWrapper;
 
 public class Utils
 {
 	public static String TAG = "Utils";
+
+    public static String getAppVersionName(Context ctx)
+    {
+        PackageInfo pi = Utils.getAppInfo(ctx);
+        String appVersionName;
+
+        if (pi != null)
+        {
+            appVersionName = ctx.getResources().getString(R.string.app_versionname, pi.versionName);
+        }
+        else
+        {
+            appVersionName = "";
+        }
+
+        return appVersionName;
+    }
 
     public static PackageInfo getAppInfo(Context ctx)
     {

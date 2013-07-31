@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
 	<string name="app_name">Proxy Settings</string>
-    <string name="app_versionname">V.%1$s</string>
+    <string name="app_versionname">Version %1$s</string>
     <string name="app_codename">Build #PS-%1$d</string>
     <string name="title_changelog">@string/app_name</string>
     <string name="changelog_close">Close</string>
@@ -854,5 +854,8 @@
 		injury, loss of privacy, moral rights or the disclosure of confidential 
 		information.
 	</string>
+    <string name="about_copyright">\u00A9 SHOULDIT 2013</string>
+    <string name="about_opensource">Proxy Settings is an open source software. You can find the source code here:</string>
+    <string name="about_github">https://github.com/shouldit/proxy-settings"</string>
 
 </resources>
