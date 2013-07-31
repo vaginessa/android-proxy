@@ -60,7 +60,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         }
 
-
         status = new ProxyStatus();
     }
 
