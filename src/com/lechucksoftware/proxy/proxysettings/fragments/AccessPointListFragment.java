@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.bugsense.trace.BugSenseHandler;
+import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
@@ -64,7 +65,8 @@ public class AccessPointListFragment extends EnhancedListFragment
 
         // Reset selected configuration
         ApplicationGlobals.setSelectedConfiguration(null);
-        StatusFragment.getInstance().refreshUI();
+
+        ActionManager.getInstance().refreshUI();
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);

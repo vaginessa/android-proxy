@@ -1,9 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,15 +8,14 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.Preference;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
@@ -196,7 +192,8 @@ public class MainActivity extends Activity
 
         AccessPointListFragment.getInstance().refreshUI();
         ProxyDetailsFragment.getInstance().refreshUI();
-        StatusFragment.getInstance().refreshUI();
+
+        ActionManager.getInstance().refreshUI();
     }
 
 

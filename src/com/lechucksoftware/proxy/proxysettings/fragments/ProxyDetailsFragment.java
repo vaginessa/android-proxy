@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.View;
+import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
@@ -258,7 +259,8 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
             && selconf.ap != null)
         {
             actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
-            StatusFragment.getInstance().refreshUI();
+
+            ActionManager.getInstance().refreshUI();
         }
         else
         {
