@@ -181,7 +181,7 @@ public class ProxySettingsCheckerService extends IntentService
         catch (Exception e)
         {
             BugSenseHandler.sendException(e);
-            UIUtils.DisableProxyNotification(getApplicationContext());
+            UIUtils.DisableProxyNotification(ApplicationGlobals.getInstance());
             e.printStackTrace();
         }
     }

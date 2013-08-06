@@ -9,14 +9,14 @@
         <change>Fixed various bugs</change>
         <change>Improved stability and overall application performances</change>
     </release>    
-    <release version="2.07" versioncode="2" date="06/11/2013">
+    <release version="2.07" versioncode="1200207" date="06/11/2013">
         <change>Temporary disabled editing of networks with Wi-Fi enterprise security (802.1X)</change>
     </release>
-    <release version="2.06" versioncode="2" date="06/07/2013">
+    <release version="2.06" versioncode="1200206" date="06/07/2013">
         <change>Startup bug fixed</change>
         <change>Various navigation bugifixes</change>
     </release>
-    <release version="2.04" versioncode="2" date="06/05/2013">
+    <release version="2.04" versioncode="1200204" date="06/05/2013">
         <change>Added support for devices with API version greater than or equal to 11</change>
     </release>
 </changelog>

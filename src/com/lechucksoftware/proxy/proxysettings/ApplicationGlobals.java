@@ -61,7 +61,15 @@ public class ApplicationGlobals extends Application
                 LogWrapper.startTrace(TAG, "SortConfigurationList", Log.DEBUG);
 
                 sortedConfigurationsList = new ArrayList<ProxyConfiguration>(values);
-                Collections.sort(sortedConfigurationsList);
+
+                try
+                {
+                    Collections.sort(sortedConfigurationsList);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    BugSenseHandler.sendException(e);
+                }
 
                 StringBuilder sb = new StringBuilder();
                 for (ProxyConfiguration conf : sortedConfigurationsList)
