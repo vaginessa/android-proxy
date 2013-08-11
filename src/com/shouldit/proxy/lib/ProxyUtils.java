@@ -367,8 +367,10 @@ public class ProxyUtils
 		try
 		{
 			int result = testHTTPConnection(new URI("http://www.un.org/"), proxyConfiguration, timeout);
+//            int rawresult = testHTTPConnection(new URI("http://157.150.34.32"), proxyConfiguration, timeout);
 
-			switch (result)
+
+            switch (result)
 			{
 				case HttpURLConnection.HTTP_OK:
 				case HttpURLConnection.HTTP_CREATED:

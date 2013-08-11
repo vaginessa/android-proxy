@@ -348,6 +348,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     private void acquireProxyStatusSDK1_11()
     {
         // API version <= 11 (Older devices)
+        status.set(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
+        status.set(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.NOT_CHECKED, false, false);
+
         LogWrapper.d(TAG, "Checking if proxy is enabled ...");
         status.set(isProxyEnabled());
         broadCastUpdatedStatus();
