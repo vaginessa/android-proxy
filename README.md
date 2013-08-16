@@ -9,8 +9,8 @@
 
 
 # Try
-* All the basic functionalities of **APL** are shown on a **[DEMO](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.lib.activities)** application on the Play Store
-* **[Proxy Settings](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.proxysettings)** make use of all the advanced fucntionalities of **APL** 
+* The core features of **APL** are shown on a **[DEMO](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.lib.activities)** application on the Play Store
+* **[Proxy Settings](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.proxysettings)** makes use of all the advanced features of **APL** 
 
 
 # How to use it
