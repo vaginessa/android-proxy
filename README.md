@@ -9,7 +9,9 @@
 
 
 # Try
-All the basic functionalities of **APL** are shown on a **[DEMO](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.lib.activities)** application on the Play Store
+* All the basic functionalities of **APL** are shown on a **[DEMO](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.lib.activities)** application on the Play Store
+* **APL** is the core library on which is based are shown on a **[Proxy Settings](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.proxysettings)** 
+
 
 # How to use it
 * Getting started [here](https://github.com/shouldit/android-proxy-library/wiki/Getting-Started).
