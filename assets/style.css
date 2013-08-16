@@ -1,28 +1,26 @@
-body {
-  background-color: #000000;
-  color: #FFFFFF;
+h1 {
+    margin-left: 0px;
+    font-size: 12pt;
 }
-img {
-  margin: 3px;
-}
+
 li {
-  padding-top: 3px;
-  padding-bottom: 3px;
-  margin-left: -3px;
+    margin-left: 0px;
+    font-size: 9pt;
 }
-ul.touchable li {
-  padding-top: 8px;
-  padding-bottom: 8px;
+
+ul { 
+    padding-left: 30px 
 }
-a:link {
-  color: #33B5E5;
+
+.summary {
+    font-size: 9pt;
+    color: #606060;
+    display: block;
+    clear: left;
 }
-a:visited {
-  color: #33B5E5;
-}
-td {
-  vertical-align: top;
-}
-p.imgcenter {
-  text-align:center;
+
+.date {
+    font-size: 9pt;
+    color: #606060;
+    display: block;
 }

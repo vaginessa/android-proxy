@@ -214,35 +214,7 @@ public class ChangeLogDialog {
             return;
         }
 
-        //Create web view and load html
-        final WebView webView = new WebView(mContext);
-        webView.loadDataWithBaseURL(null, htmlChangelog, "text/html", "utf-8", null);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
-                .setTitle(title)
-                .setView(webView)
-                .setPositiveButton(closeString, new Dialog.OnClickListener() {
-                    public void onClick(final DialogInterface dialogInterface, final int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .setOnCancelListener( new OnCancelListener() {
-					
-					@Override
-					public void onCancel(DialogInterface dialog) {
-						dialog.dismiss();						
-					}
-				});        		
-        AlertDialog dialog = builder.create();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(final DialogInterface dialog) {
-                if (mOnDismissListener != null) {
-                    mOnDismissListener.onDismiss(dialog);
-                }
-            }
-        });
-        dialog.show();
+        UIUtils.showHTMLAlertDialog(mContext, title, htmlChangelog, closeString, mOnDismissListener);
     }
-
 }
 

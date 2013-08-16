@@ -49,7 +49,8 @@ public class WhatsNewDialog extends ChangeLogDialog {
     }
 
     @Override
-    public void show() {
+    public void show()
+    {
         //ToDo check if version is shown
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         final int versionShown = prefs.getInt(WHATS_NEW_LAST_SHOWN, 0);

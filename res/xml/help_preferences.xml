@@ -18,10 +18,9 @@
             <!--android:title="@string/pref_send_feedback"-->
             <!--android:summary="@string/pref_send_feedback_summary"/>-->
 
-    <com.lechucksoftware.proxy.proxysettings.dialogs.AboutDialog
+    <Preference
         android:enabled="true"
         android:key="pref_about"
-        android:title="@string/pref_about_title"
-        android:dialogTitle="@string/app_name" />
+        android:title="@string/pref_about_title"/>
 
 </PreferenceScreen>

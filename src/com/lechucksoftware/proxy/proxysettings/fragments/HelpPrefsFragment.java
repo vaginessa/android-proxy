@@ -1,7 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +9,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import com.lechucksoftware.proxy.proxysettings.dialogs.AboutDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ChangeLogDialog;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 public class HelpPrefsFragment extends PreferenceFragment
@@ -20,7 +18,7 @@ public class HelpPrefsFragment extends PreferenceFragment
     public static HelpPrefsFragment instance;
     private Preference whatsNewPref;
     private Preference changeLogPref;
-    private AboutDialog aboutPref;
+    private Preference aboutPref;
     private Preference sendFeedbackPref;
 //    private Preference aboutPref;
 
@@ -52,13 +50,23 @@ public class HelpPrefsFragment extends PreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
+
                 ChangeLogDialog cld = new ChangeLogDialog(getActivity());
                 cld.show();
                 return true;
             }
         });
 
-        aboutPref = (AboutDialog) findPreference("pref_about");
+        aboutPref = findPreference("pref_about");
+        aboutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                UIUtils.showHTMLAssetsAlertDialog(getActivity(),"test","about.html","closexxx",null);
+                return true;
+            }
+        });
 
         final String appVersionName = Utils.getAppVersionName(getActivity());
 

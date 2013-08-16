@@ -1,11 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
-import java.io.File;
+import java.io.*;
 import java.net.Proxy.Type;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -17,9 +20,12 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
@@ -51,7 +57,7 @@ public class UIUtils
 		BitmapDrawable bd = writeOnDrawable(callerContext, drawableId, text, Color.RED);
 		return bd;
 	}
-	
+
 	public static BitmapDrawable writeOnDrawable(Context callerContext, int drawableId, String text, int color)
 	{
 		Bitmap bm = BitmapFactory.decodeResource(callerContext.getResources(), drawableId).copy(Bitmap.Config.ARGB_8888, true);
@@ -105,6 +111,75 @@ public class UIUtils
 		BitmapDrawable bd = new BitmapDrawable(callerContext.getResources(), bm);
 		return bd;
 	}
+
+    public static void showHTMLAssetsAlertDialog(Context ctx, String title, String filename, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
+    {
+        String BASE_URL = "www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
+
+        try
+        {
+            InputStream inputStream = ctx.getAssets().open(BASE_URL+filename);
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder builder = new StringBuilder();
+            String aux;
+
+            while ((aux = br.readLine()) != null)
+            {
+                builder.append(aux);
+            }
+
+            String text = builder.toString();
+            showHTMLAlertDialog(ctx,title, text, closeString, null);
+        }
+        catch (Exception e)
+        {
+            BugSenseHandler.sendException(e);
+            return;
+        }
+    }
+
+    public static void showHTMLAlertDialog(final Context ctx, String title, String htmlText, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
+    {
+        //Create web view and load html
+        final WebView webView = new WebView(ctx);
+        webView.setWebViewClient(new WebViewClient()
+        {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                ctx.startActivity(intent);
+                return true;
+            }
+
+        });
+        webView.loadDataWithBaseURL(null, htmlText, "text/html", "utf-8", null);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+                .setTitle(title)
+                .setView(webView)
+                .setPositiveButton(closeString, new Dialog.OnClickListener() {
+                    public void onClick(final DialogInterface dialogInterface, final int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setOnCancelListener( new DialogInterface.OnCancelListener() {
+
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(final DialogInterface dialog) {
+                if (mOnDismissListener != null) {
+                    mOnDismissListener.onDismiss(dialog);
+                }
+            }
+        });
+        dialog.show();
+    }
 
 	public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)
 	{
