@@ -57,18 +57,20 @@ public class HelpPrefsFragment extends PreferenceFragment
             }
         });
 
+        final String appVersionName = Utils.getAppVersionName(getActivity());
         aboutPref = findPreference("pref_about");
         aboutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                UIUtils.showHTMLAssetsAlertDialog(getActivity(),"test","about.html","closexxx",null);
+                UIUtils.showHTMLAssetsAlertDialog(getActivity(),getResources().getString(R.string.about),"about.html",getResources().getString(R.string.close),null);
                 return true;
             }
         });
+        aboutPref.setSummary(appVersionName);
 
-        final String appVersionName = Utils.getAppVersionName(getActivity());
+
 
 //        sendFeedbackPref = findPreference("pref_send_feedback");
 //        sendFeedbackPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()

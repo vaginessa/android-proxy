@@ -17,18 +17,14 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.webkit.WebView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -210,7 +206,7 @@ public class ChangeLogDialog {
         final String htmlChangelog = getHTMLChangelog(R.xml.changelog, resources, version);
 
         //Get button strings
-        final String closeString = resources.getString(R.string.changelog_close);
+        final String closeString = resources.getString(R.string.close);
 
         //Check for empty change log
         if (htmlChangelog.length() == 0) {
