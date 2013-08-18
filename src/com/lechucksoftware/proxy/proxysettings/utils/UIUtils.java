@@ -112,24 +112,53 @@ public class UIUtils
 		return bd;
 	}
 
-    public static void showHTMLAssetsAlertDialog(Context ctx, String title, String filename, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
+    public static void showHTMLAssetsAlertDialog(final Context ctx, String title, String filename, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
     {
-        String BASE_URL = "www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
+        String BASE_URL = "file:///android_asset/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
 
         try
         {
-            InputStream inputStream = ctx.getAssets().open(BASE_URL+filename);
-            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder builder = new StringBuilder();
-            String aux;
-
-            while ((aux = br.readLine()) != null)
+            //Create web view and load html
+            final WebView webView = new WebView(ctx);
+            webView.setWebViewClient(new WebViewClient()
             {
-                builder.append(aux);
-            }
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    Uri uri = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    ctx.startActivity(intent);
+                    return true;
+                }
 
-            String text = builder.toString();
-            showHTMLAlertDialog(ctx,title, text, closeString, null);
+            });
+
+            webView.loadUrl(BASE_URL+filename);
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+                    .setTitle(title)
+                    .setView(webView)
+                    .setPositiveButton(closeString, new Dialog.OnClickListener() {
+                        public void onClick(final DialogInterface dialogInterface, final int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setOnCancelListener( new DialogInterface.OnCancelListener() {
+
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(final DialogInterface dialog) {
+                    if (mOnDismissListener != null) {
+                        mOnDismissListener.onDismiss(dialog);
+                    }
+                }
+            });
+            dialog.show();
         }
         catch (Exception e)
         {
@@ -153,6 +182,7 @@ public class UIUtils
             }
 
         });
+
         webView.loadDataWithBaseURL(null, htmlText, "text/html", "utf-8", null);
         final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                 .setTitle(title)

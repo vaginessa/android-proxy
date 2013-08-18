@@ -19,6 +19,7 @@ import com.shouldit.android.utils.lib.log.LogWrapper;
 public class Utils
 {
 	public static String TAG = "Utils";
+    public static String BASE_ASSETS = "file:///android_asset/";
 
     public static String getAppVersionName(Context ctx)
     {
@@ -52,7 +53,7 @@ public class Utils
         return pInfo;
     }
 
-	public static void SetHTTPAuthentication(final String user, final String password)
+	public static void setHTTPAuthentication(final String user, final String password)
 	{
 		Authenticator.setDefault(new Authenticator()
 		{
@@ -63,7 +64,33 @@ public class Utils
 		});
 	}
 
-	public static void SetupBugSense(Context ctx)
+    public static String getFullAsset(Context ctx, String filename)
+    {
+        String text = null;
+        InputStream inputStream = null;
+        try
+        {
+            inputStream = ctx.getAssets().open(filename);
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder builder = new StringBuilder();
+            String aux;
+
+            while ((aux = br.readLine()) != null)
+            {
+                builder.append(aux);
+            }
+
+            text = builder.toString();
+        }
+        catch (Exception e)
+        {
+            BugSenseHandler.sendException(e);
+        }
+
+        return text;
+    }
+
+	public static void setupBugSense(Context ctx)
 	{
         String key = null;
 		// If you want to use BugSense for your fork, register with

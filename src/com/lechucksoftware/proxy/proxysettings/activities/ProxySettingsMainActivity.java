@@ -27,7 +27,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 
         // Ensure that SETUP for Libraries are called
         APL.setup(ProxySettingsMainActivity.this);
-        Utils.SetupBugSense(ProxySettingsMainActivity.this);
+        Utils.setupBugSense(ProxySettingsMainActivity.this);
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);

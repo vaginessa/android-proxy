@@ -1,6 +1,15 @@
-h1 {
-    margin-left: 0px;
-    font-size: 12pt;
+body {
+	font-size: 10pt; 
+}
+
+h1 { 
+	margin-left: 0px; 
+	font-size: 14pt; 
+}
+
+h2 { 
+	margin-left: 0px; 
+	font-size: 12pt; 
 }
 
 li {
@@ -10,6 +19,10 @@ li {
 
 ul { 
     padding-left: 30px 
+}
+
+a {
+	color: #33B5E5;
 }
 
 .summary {
@@ -24,3 +37,4 @@ ul {
     color: #606060;
     display: block;
 }
+
