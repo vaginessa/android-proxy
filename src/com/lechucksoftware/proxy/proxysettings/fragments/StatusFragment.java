@@ -14,6 +14,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by marco on 21/05/13.
@@ -26,6 +28,7 @@ public class StatusFragment extends EnhancedFragment
 
     private Constants.StatusFragmentStates currentStatus;
     private Constants.StatusFragmentStates clickedStatus;
+    private View statusSpace;
 
     /**
      * Create a new instance of StatusFragment
@@ -43,6 +46,7 @@ public class StatusFragment extends EnhancedFragment
     {
         View view = inflater.inflate(R.layout.status, container, false);
         statusButton = (Button) view.findViewById(R.id.status_button);
+//        statusSpace = view.findViewById(R.id.status_space);
 //        statusButton.setBackgroundColor(getResources().getColor(R.color.Holo_Green_Light));
         return view;
     }
@@ -168,6 +172,9 @@ public class StatusFragment extends EnhancedFragment
         else
             statusButton.setText(status);
 
+//        Crouton c = Crouton.makeText(getActivity(),status, Style.ALERT);
+//        c.show();
+
         statusButton.setBackgroundColor(getResources().getColor(resId));
         statusButton.setOnClickListener(listener);
         show();
@@ -233,10 +240,12 @@ public class StatusFragment extends EnhancedFragment
     private void hide()
     {
         statusButton.setVisibility(View.GONE);
+//        statusSpace.setVisibility(View.GONE);
     }
 
     private void show()
     {
         statusButton.setVisibility(View.VISIBLE);
+//        statusSpace.setVisibility(View.VISIBLE);
     }
 }

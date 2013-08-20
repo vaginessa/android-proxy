@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_item_ap_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="14dp"
+        >
+
+    <!-- <RelativeLayout -->
+    <!-- android:id="@+id/item_text" -->
+    <!-- android:layout_width="0dp" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_weight="1" -->
+    <!-- android:layout_marginLeft="10dp" -->
+    <!-- android:orientation="vertical"> -->
+
+    <View
+            android:id="@+id/list_item_status_color"
+            android:layout_width="14dp"
+            android:layout_alignParentLeft="true"
+            android:background="@color/White"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/list_item_ap_status"
+            android:layout_marginRight="10dp">
+    </View>
+
+    <TextView
+            android:id="@+id/list_item_ap_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/list_item_status_color"
+            android:layout_toLeftOf="@+id/list_item_ap_icon"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:text="AP NAME">
+    </TextView>
+
+    <TextView
+            android:id="@+id/list_item_ap_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/list_item_status_color"
+            android:layout_below="@id/list_item_ap_name"
+            android:layout_toLeftOf="@+id/list_item_ap_icon"
+            android:textSize="18sp"
+            android:text="STATUS DESC">
+    </TextView>
+
+    <ImageView
+            android:id="@+id/list_item_ap_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:contentDescription="Ap icon"
+            android:src="@drawable/wifi_signal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="false"
+            android:layout_centerVertical="true">
+    </ImageView>
+
+</RelativeLayout>
