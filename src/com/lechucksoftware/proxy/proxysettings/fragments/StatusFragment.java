@@ -175,7 +175,7 @@ public class StatusFragment extends EnhancedFragment
 //        Crouton c = Crouton.makeText(getActivity(),status, Style.ALERT);
 //        c.show();
 
-        statusButton.setBackgroundColor(getResources().getColor(resId));
+//        statusButton.setBackgroundColor(getResources().getColor(resId));
         statusButton.setOnClickListener(listener);
         show();
     }
