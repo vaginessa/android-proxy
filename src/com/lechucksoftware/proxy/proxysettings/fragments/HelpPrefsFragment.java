@@ -1,5 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +25,8 @@ public class HelpPrefsFragment extends PreferenceFragment
     private Preference changeLogPref;
     private Preference aboutPref;
     private Preference sendFeedbackPref;
+    private Preference betaTestPref;
+    private Preference appRatePref;
 //    private Preference aboutPref;
 
     public static HelpPrefsFragment getInstance()
@@ -64,13 +71,33 @@ public class HelpPrefsFragment extends PreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                UIUtils.showHTMLAssetsAlertDialog(getActivity(),getResources().getString(R.string.about),"about.html",getResources().getString(R.string.close),null);
+                UIUtils.showHTMLAssetsAlertDialog(getActivity(), getResources().getString(R.string.about), "about.html", getResources().getString(R.string.close), null);
                 return true;
             }
         });
         aboutPref.setSummary(appVersionName);
 
+        betaTestPref = findPreference("pref_betatest");
+        betaTestPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                showBetaTestDialog();
+                return true;
+            }
+        });
 
+        appRatePref = findPreference("pref_rate_app");
+        appRatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
+                return true;
+            }
+        });
 
 //        sendFeedbackPref = findPreference("pref_send_feedback");
 //        sendFeedbackPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -90,6 +117,41 @@ public class HelpPrefsFragment extends PreferenceFragment
 
 
         return v;
+    }
+
+    private void showBetaTestDialog()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.beta_testing);
+        builder.setMessage(R.string.beta_testing_instructions);
+        builder.setPositiveButton(R.string.cont, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/communities/104290788068260973104"));
+                startActivity(browserIntent);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
+        {
+            @Override
+            public void onCancel(DialogInterface dialog)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
