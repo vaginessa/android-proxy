@@ -16,6 +16,6 @@
 
 <resources>
     <declare-styleable name="WifiEncryptionState">
-        <attr name="state_encrypted" format="boolean" />
+        <attr name="state_encrypted" format="enum" />
     </declare-styleable>    
 </resources>
