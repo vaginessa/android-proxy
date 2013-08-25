@@ -140,22 +140,22 @@ public class StatusFragment extends EnhancedFragment
         switch (status)
         {
             case CONNECTED:
-                setStatusInternal(message, null, R.color.Holo_Blue_Light);
+                setStatusInternal(message, null, R.drawable.btn_blue_holo_dark,true);
                 break;
             case CHECKING:
-                setStatusInternal(message, null, R.color.Holo_Blue_Light);
+                setStatusInternal(message, null, R.drawable.btn_blue_holo_dark,false);
                 break;
             case CONNECT_TO:
-                setStatusInternal(message, connectToWifi, R.color.Holo_Green_Light);
+                setStatusInternal(message, connectToWifi, R.drawable.btn_green_holo_dark,true);
                 break;
             case NOT_AVAILABLE:
-                setStatusInternal(message, null, R.color.Gray);
+                setStatusInternal(message, null, R.drawable.btn_blue_holo_dark,false);
                 break;
             case ENABLE_WIFI:
-                setStatusInternal(message, enableWifi, R.color.Holo_Red_Light);
+                setStatusInternal(message, enableWifi, R.drawable.btn_red_holo_dark,true);
                 break;
             case GOTO_AVAILABLE_WIFI:
-                setStatusInternal(message, configureNewWifiAp, R.color.Holo_Green_Light);
+                setStatusInternal(message, configureNewWifiAp, R.drawable.btn_green_holo_dark,true);
                 break;
             case NONE:
             default:
@@ -163,7 +163,7 @@ public class StatusFragment extends EnhancedFragment
         }
     }
 
-    private void setStatusInternal(String status, View.OnClickListener listener, int resId)
+    private void setStatusInternal(String status, View.OnClickListener listener, int resId, boolean enabled)
     {
         clickedStatus = null;
 
@@ -172,10 +172,8 @@ public class StatusFragment extends EnhancedFragment
         else
             statusButton.setText(status);
 
-//        Crouton c = Crouton.makeText(getActivity(),status, Style.ALERT);
-//        c.show();
-
-//        statusButton.setBackgroundColor(getResources().getColor(resId));
+        statusButton.setBackgroundResource(resId);
+        statusButton.setEnabled(enabled);
         statusButton.setOnClickListener(listener);
         show();
     }
