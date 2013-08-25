@@ -4,11 +4,11 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
   <style name="Buttongreen" parent="android:Widget.Holo.Button">
-	  <item name="android:background">@drawable/btn_default_holo_dark</item>
+	  <item name="android:background">@drawable/btn_green_holo_dark</item>
   </style>
 
   <style name="ImageButtongreen" parent="android:Widget.Holo.ImageButton">
-	  <item name="android:background">@drawable/btn_default_holo_dark</item>
+	  <item name="android:background">@drawable/btn_green_holo_dark</item>
   </style>
 
 </resources>
