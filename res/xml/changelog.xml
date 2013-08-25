@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.10" versioncode="1200210" date="06/17/2013">
+    <release version="2.11" versioncode="1200211" date="06/17/2013">
         <change>Added What's new dialog at application startup</change>
         <change>Added Help section in application menu</change>
         <change>Fixed assets loading exception on some devices</change>
