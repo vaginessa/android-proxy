@@ -24,7 +24,6 @@ import java.nio.channels.DatagramChannel;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.util.Log;
-import com.shouldit.android.utils.lib.log.LogWrapper;
 import org.apache.http.HttpHost;
 
 import android.content.ComponentName;

@@ -1,6 +1,6 @@
 package com.shouldit.proxy.lib.reflection;
 
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.shouldit.proxy.lib.LogWrapper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

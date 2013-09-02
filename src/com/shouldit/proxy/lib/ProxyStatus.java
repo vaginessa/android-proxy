@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import com.shouldit.android.utils.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
 import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
 
