@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.receivers;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APLConstants;
 

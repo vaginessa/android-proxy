@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
 import java.io.Serializable;
 
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 import android.graphics.drawable.Drawable;
 

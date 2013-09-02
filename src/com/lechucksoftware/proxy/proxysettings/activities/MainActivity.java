@@ -21,7 +21,7 @@ import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 

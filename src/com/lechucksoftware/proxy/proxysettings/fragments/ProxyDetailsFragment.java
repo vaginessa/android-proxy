@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.app.*;
+import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -10,9 +11,8 @@ import android.view.View;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;

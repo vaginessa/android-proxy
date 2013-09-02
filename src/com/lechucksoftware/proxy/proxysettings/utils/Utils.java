@@ -14,7 +14,6 @@ import android.content.pm.PackageManager;
 import android.widget.Toast;
 import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.shouldit.android.utils.lib.log.LogWrapper;
 
 public class Utils
 {

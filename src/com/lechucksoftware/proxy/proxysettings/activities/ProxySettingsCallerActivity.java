@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 public class ProxySettingsCallerActivity extends FragmentActivity
 {

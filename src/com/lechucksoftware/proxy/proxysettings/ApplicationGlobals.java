@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 

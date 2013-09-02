@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.activities.help.DisclaimerFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 
 

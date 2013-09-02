@@ -6,7 +6,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesUtils;
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 import android.app.ProgressDialog;
 import android.content.Context;

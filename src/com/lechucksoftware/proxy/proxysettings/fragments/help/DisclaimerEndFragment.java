@@ -18,7 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
-import com.shouldit.android.utils.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 public class DisclaimerEndFragment extends Fragment
 {

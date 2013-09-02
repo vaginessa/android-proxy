@@ -23,8 +23,6 @@
     <orderEntry type="library" name="android-support-v4" level="project" />
     <orderEntry type="library" name="android-viewpagerindicator-library" level="project" />
     <orderEntry type="module" module-name="android-proxy-library" />
-    <orderEntry type="module" module-name="android-utils" />
-    <orderEntry type="library" name="crouton-1.8.1" level="project" />
     <orderEntry type="library" name="bugsense3.4" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-import com.shouldit.android.utils.lib.log.LogWrapper;
 
 public class LocalWebViewClient extends WebViewClient
 {
