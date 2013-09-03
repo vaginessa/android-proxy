@@ -9,8 +9,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
-import com.bugsense.trace.BugSenseHandler;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -68,7 +67,7 @@ public class ApplicationGlobals extends Application
                 }
                 catch (IllegalArgumentException e)
                 {
-                    BugSenseHandler.sendException(e);
+                    BugReportingUtils.sendException(e);
                 }
 
                 StringBuilder sb = new StringBuilder();
@@ -133,7 +132,7 @@ public class ApplicationGlobals extends Application
 
         // SETUP Libraries
         APL.setup(ApplicationGlobals.this);
-        Utils.setupBugSense(ApplicationGlobals.this);
+        BugReportingUtils.setupBugSense(ApplicationGlobals.this);
 
         LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
@@ -143,7 +142,7 @@ public class ApplicationGlobals extends Application
     {
         if (mInstance == null)
         {
-            BugSenseHandler.sendException(new Exception("Cannot find valid instance of ApplicationGlobals, trying to instanciate a new one"));
+            BugReportingUtils.sendException(new Exception("Cannot find valid instance of ApplicationGlobals, trying to instanciate a new one"));
             mInstance = new ApplicationGlobals();
         }
 
@@ -289,7 +288,7 @@ public class ApplicationGlobals extends Application
                     updateProxyConfigurationList();
 
                 List<WifiConfiguration> wificonfigurations = APL.getWifiManager().getConfiguredNetworks();
-                if (!wificonfigurations.isEmpty())
+                if (wificonfigurations != null && !wificonfigurations.isEmpty())
                 {
                     for (WifiConfiguration wifiConfig : wificonfigurations)
                     {

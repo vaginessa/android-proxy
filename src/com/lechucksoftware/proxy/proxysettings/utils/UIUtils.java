@@ -28,7 +28,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
@@ -162,7 +161,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            BugSenseHandler.sendException(e);
+            BugReportingUtils.sendException(e);
             return;
         }
     }
@@ -235,7 +234,7 @@ public class UIUtils
 	{
 		if (conf == null)
 		{
-			BugSenseHandler.sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
+            BugReportingUtils.sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
 			return;
 		}
 		
@@ -355,7 +354,13 @@ public class UIUtils
 
 	public static void DisableProxyNotification(Context callerContext)
 	{
-		NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.cancel(PROXY_NOTIFICATION_ID);
+        if (callerContext != null)
+        {
+		    NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (manager != null)
+            {
+		        manager.cancel(PROXY_NOTIFICATION_ID);
+            }
+        }
 	}
 }

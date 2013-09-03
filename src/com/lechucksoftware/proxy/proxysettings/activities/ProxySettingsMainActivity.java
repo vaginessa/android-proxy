@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.activities.help.DisclaimerFragmentActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 
@@ -27,7 +27,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 
         // Ensure that SETUP for Libraries are called
         APL.setup(ProxySettingsMainActivity.this);
-        Utils.setupBugSense(ProxySettingsMainActivity.this);
+        BugReportingUtils.setupBugSense(ProxySettingsMainActivity.this);
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);

@@ -7,15 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+
 
 /**
  * Created by marco on 21/05/13.
@@ -190,7 +189,7 @@ public class StatusFragment extends EnhancedFragment
             }
             catch (Exception e)
             {
-                BugSenseHandler.sendException(new Exception("Exception during StatusFragment enableWifi action: " + e.toString()));
+                BugReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action: " + e.toString()));
             }
             clickedStatus = Constants.StatusFragmentStates.ENABLE_WIFI;
         }

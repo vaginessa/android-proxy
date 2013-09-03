@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
@@ -157,7 +157,9 @@ public class AccessPointListFragment extends EnhancedListFragment
                         .setPositiveButton(R.string.proxy_error_dismiss, null)
                         .show();
 
-                BugSenseHandler.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
+
+
+                BugReportingUtils.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
             }
             else
             {
@@ -169,7 +171,7 @@ public class AccessPointListFragment extends EnhancedListFragment
         }
         catch (Exception e)
         {
-            BugSenseHandler.sendException(new Exception("Exception during AccessPointListFragment showDetails("+ index + ") " + e.toString()));
+            BugReportingUtils.sendException(new Exception("Exception during AccessPointListFragment showDetails("+ index + ") " + e.toString()));
         }
     }
 }

@@ -1,19 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import com.lechucksoftware.proxy.proxysettings.R;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
-
-import android.content.Context;
-
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.widget.Toast;
-import com.bugsense.trace.BugSenseHandler;
-import com.lechucksoftware.proxy.proxysettings.R;
 
 public class Utils
 {
@@ -46,7 +42,7 @@ public class Utils
         }
         catch (PackageManager.NameNotFoundException e)
         {
-            BugSenseHandler.sendException(e);
+            BugReportingUtils.sendException(e);
         }
 
         return pInfo;
@@ -83,49 +79,9 @@ public class Utils
         }
         catch (Exception e)
         {
-            BugSenseHandler.sendException(e);
+            BugReportingUtils.sendException(e);
         }
 
         return text;
     }
-
-	public static void setupBugSense(Context ctx)
-	{
-        String key = null;
-		// If you want to use BugSense for your fork, register with
-		// them and place your API key in /assets/bugsense.txt
-		// (This prevents me receiving reports of crashes from forked
-		// versions which is somewhat confusing!)
-		try
-		{
-			InputStream inputStream = ctx.getAssets().open("proxy_settings_bugsense_license.txt");
-			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-			key = br.readLine();
-			key = key.trim();
-			LogWrapper.d(TAG, "Using bugsense key '" + key + "'");
-		}
-		catch (IOException e)
-		{
-			LogWrapper.e("TAG", "No bugsense keyfile found");
-            BugSenseHandler.sendException(e);
-            return;
-		}
-        catch (Exception e)
-        {
-            BugSenseHandler.sendException(e);
-            return;
-        }
-
-        if (key == null)
-        {
-            CharSequence text =  "No bugsense keyfile found";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(ctx, text, duration);
-            toast.show();
-        }
-        else
-        {
-            BugSenseHandler.initAndStartSession(ctx, key);
-        }
-	}
 }
