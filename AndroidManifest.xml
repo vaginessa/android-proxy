@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shouldit.proxy.lib"
-    android:versionCode="0400190"
-    android:versionName="1.9" >
+    android:versionCode="0400201"
+    android:versionName="2.01" >
 
     <!-- Scheme for version codes: ##@@$$$ , using:
     ## - the first two digits for the API Level,
