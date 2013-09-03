@@ -507,9 +507,15 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             // On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
             // Proxy is disabled by default on Mobile connection
-            if (APL.getConnectivityManager().getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE)
+            ConnectivityManager cm = APL.getConnectivityManager();
+            if (cm != null)
             {
-                result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_mobile_disabled));
+                NetworkInfo ni = cm.getActiveNetworkInfo();
+                if (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE)
+                {
+                    result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_mobile_disabled));
+                    return result;
+                }
             }
         }
 
