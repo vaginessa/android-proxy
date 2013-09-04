@@ -46,7 +46,8 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.main_preferences);
+        addPreferencesFromResource(R.xml.proxy_enabled_preference);
+        addPreferencesFromResource(R.xml.proxy_settings_preferences);
 
         instance = this;
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.widget.Toast;
 import com.bugsense.trace.BugSenseHandler;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,9 +57,10 @@ public class BugReportingUtils
         if (key == null)
         {
             CharSequence text = "No bugsense keyfile found";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(ctx, text, duration);
-            toast.show();
+//            int duration = Toast.LENGTH_LONG;
+//            Toast toast = Toast.makeText(ctx, text, duration);
+//            toast.show();
+            LogWrapper.e(TAG, text.toString());
         }
         else
         {
@@ -75,6 +77,7 @@ public class BugReportingUtils
         }
         else
         {
+            setupBugSense(ApplicationGlobals.getInstance().getApplicationContext());
             LogWrapper.e(TAG, "sendException: " + e.toString());
         }
     }

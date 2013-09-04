@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_proxy_enabled"
+            android:persistent="false"
+            android:summary="Enable/Disable proxy for the selected Access Point"
+            android:title="Proxy"/>
+
+</PreferenceScreen>
