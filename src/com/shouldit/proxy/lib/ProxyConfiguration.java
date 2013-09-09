@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,7 +148,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
         {
-            LogWrapper.d(TAG,"Different proxy settings toggle status");
+            LogWrapper.d(TAG, "Different proxy settings toggle status");
             return false;
         }
 
@@ -155,13 +156,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost))
             {
-                LogWrapper.d(TAG,"Different proxy host value");
+                LogWrapper.d(TAG, "Different proxy host value");
                 return false;
             }
         }
         else if (this.proxyHost != anotherConf.proxyHost)
         {
-            LogWrapper.d(TAG,"Different proxy host set");
+            LogWrapper.d(TAG, "Different proxy host set");
             return false;
         }
 
@@ -169,13 +170,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.proxyPort.equals(anotherConf.proxyPort))
             {
-                LogWrapper.d(TAG,"Different proxy port value");
+                LogWrapper.d(TAG, "Different proxy port value");
                 return false;
             }
         }
         else if (this.proxyPort != anotherConf.proxyPort)
         {
-            LogWrapper.d(TAG,"Different proxy port set");
+            LogWrapper.d(TAG, "Different proxy port set");
             return false;
         }
 
@@ -183,13 +184,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
             {
-                LogWrapper.d(TAG,"Different proxy exclusion list value");
+                LogWrapper.d(TAG, "Different proxy exclusion list value");
                 return false;
             }
         }
         else if (this.stringProxyExclusionList != anotherConf.stringProxyExclusionList)
         {
-            LogWrapper.d(TAG,"Different proxy exclusion list set");
+            LogWrapper.d(TAG, "Different proxy exclusion list set");
             return false;
         }
 
@@ -204,7 +205,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         if (this.isCurrentNetwork())
             return -1;
-        if  (another.isCurrentNetwork())
+        if (another.isCurrentNetwork())
             return +1;
 
         if (ap != null && another.ap != null)
@@ -220,7 +221,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         //TODO: Add all required fields for updating an old configuration with an updated version
         if (!this.isSameConfiguration(updated))
         {
-            LogWrapper.d(TAG,"Updating proxy configuration: \n" +  this.toShortString() + "\n" +  updated.toShortString());
+            LogWrapper.d(TAG, "Updating proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
 
             proxySetting = updated.proxySetting;
             proxyHost = updated.proxyHost;
@@ -230,7 +231,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
             status.clear();
 
-            LogWrapper.d(TAG,"Updated proxy configuration: \n" +  this.toShortString() + "\n" +  updated.toShortString());
+            LogWrapper.d(TAG, "Updated proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
 
             return true;
         }
@@ -305,7 +306,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         WifiInfo connectionInfo = APL.getWifiManager().getConnectionInfo();
 
-        if (ap != null && connectionInfo!= null && ap.networkId == connectionInfo.getNetworkId())
+        if (ap != null && connectionInfo != null && ap.networkId == connectionInfo.getNetworkId())
             return true;
         else
             return false;
@@ -727,82 +728,111 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public void writeConfigurationToDevice()
     {
         WifiManager wifiManager = (WifiManager) APL.getContext().getSystemService(Context.WIFI_SERVICE);
+        List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
 
-        try
+        WifiConfiguration selectedConfiguration = null;
+        for (WifiConfiguration conf : configuredNetworks)
         {
-            Field proxySettingsField = ap.wifiConfig.getClass().getField("proxySettings");
-            proxySettingsField.set(ap.wifiConfig, (Object) proxySettingsField.getType().getEnumConstants()[proxySetting.ordinal()]);
-            Object proxySettings = proxySettingsField.get(ap.wifiConfig);
-            int ordinal = ((Enum) proxySettings).ordinal();
-            if (ordinal != proxySetting.ordinal())
-                throw new Exception("Cannot set proxySettings variable");
-
-            Field linkPropertiesField = ap.wifiConfig.getClass().getField("linkProperties");
-            Object linkProperties = linkPropertiesField.get(ap.wifiConfig);
-            Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
-            mHttpProxyField.setAccessible(true);
-
-            if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
+            if (conf.networkId == ap.wifiConfig.networkId)
             {
-                mHttpProxyField.set(linkProperties, null);
+                selectedConfiguration = conf;
+                break;
             }
-            else if (proxySetting == ProxySetting.STATIC)
+        }
+//        WifiConfiguration newConf = new WifiConfiguration(ap.wifiConfig);
+//        mHttpProxyField.set(linkProperties, ProxyProperties);
+
+        if (selectedConfiguration != null)
+        {
+            try
             {
-                Class ProxyPropertiesClass = mHttpProxyField.getType();
-                Integer port = getProxyPort();
+                Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];
+                WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance((Object) selectedConfiguration);
 
-                if (port == null)
+                Field proxySettingsField = newConf.getClass().getField("proxySettings");
+                proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[proxySetting.ordinal()]);
+                Object proxySettings = proxySettingsField.get(newConf);
+                int ordinal = ((Enum) proxySettings).ordinal();
+                if (ordinal != proxySetting.ordinal())
+                    throw new Exception("Cannot set proxySettings variable");
+
+                Field linkPropertiesField = newConf.getClass().getField("linkProperties");
+                Object linkProperties = linkPropertiesField.get(newConf);
+                Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
+                mHttpProxyField.setAccessible(true);
+
+                if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
                 {
-                    Constructor constr = ProxyPropertiesClass.getConstructors()[0];
-                    Object ProxyProperties = constr.newInstance((Object) null);
-                    mHttpProxyField.set(linkProperties, ProxyProperties);
+                    mHttpProxyField.set(linkProperties, null);
                 }
-                else
+                else if (proxySetting == ProxySetting.STATIC)
                 {
-                    Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-                    Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
-                    mHttpProxyField.set(linkProperties, ProxyProperties);
+                    Class ProxyPropertiesClass = mHttpProxyField.getType();
+                    Integer port = getProxyPort();
+
+                    if (port == null)
+                    {
+                        Constructor constr = ProxyPropertiesClass.getConstructors()[0];
+                        Object ProxyProperties = constr.newInstance((Object) null);
+                        mHttpProxyField.set(linkProperties, ProxyProperties);
+                    }
+                    else
+                    {
+                        Constructor constr = ProxyPropertiesClass.getConstructors()[1];
+                        Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
+                        mHttpProxyField.set(linkProperties, ProxyProperties);
+                    }
                 }
+
+                Object mHttpProxy = mHttpProxyField.get(linkProperties);
+                mHttpProxy = mHttpProxyField.get(linkProperties);
+
+//            int result = wifiManager.addNetwork(ap.wifiConfig);
+
+//                wifiManager.removeNetwork(selectedConfiguration.networkId);
+
+                int result = wifiManager.addNetwork(newConf);
+                if (result == -1)
+                    throw new Exception("Can't update network configuration");
+
+//                wifiManager.enableNetwork(newConf.networkId, false);
+
+//                boolean ressave = wifiManager.saveConfiguration();
+//                if (!ressave)
+//                    throw new Exception("Can't save network configuration");
+
+                this.status.clear();
+                LogWrapper.d(TAG, "Succesfully updated configuration on device: " + this.toShortString());
+
+                LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+                Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+                APL.getContext().sendBroadcast(intent);
             }
-
-            Object mHttpProxy = mHttpProxyField.get(linkProperties);
-            mHttpProxy = mHttpProxyField.get(linkProperties);
-
-            int result = wifiManager.updateNetwork(ap.wifiConfig);
-            if (result == -1)
-                throw new Exception("Can't update network configuration");
-
-            this.status.clear();
-            LogWrapper.d(TAG,"Succesfully updated configuration on device: " + this.toShortString());
-
-            LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-            Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-            APL.getContext().sendBroadcast(intent);
-        }
-        catch (IllegalArgumentException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IllegalAccessException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (SecurityException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (NoSuchFieldException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (Exception e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            catch (IllegalArgumentException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (IllegalAccessException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (SecurityException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (NoSuchFieldException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (Exception e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 
