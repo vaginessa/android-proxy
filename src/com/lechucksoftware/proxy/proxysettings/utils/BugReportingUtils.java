@@ -82,6 +82,20 @@ public class BugReportingUtils
         }
     }
 
+    public static void addCrashExtraData(String s1, String s2)
+    {
+        if (setupDone)
+        {
+            BugSenseHandler.addCrashExtraData(s1,s2);
+        }
+        else
+        {
+            setupBugSense(ApplicationGlobals.getInstance().getApplicationContext());
+            LogWrapper.e(TAG, "addCrashExtraData: " + s1.toString());
+            LogWrapper.e(TAG, "addCrashExtraData: " + s2.toString());
+        }
+    }
+
     public static void sendEvent(String s)
     {
         if (setupDone)

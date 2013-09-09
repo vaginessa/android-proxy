@@ -64,7 +64,7 @@ public class ProxySettingsCheckerService extends IntentService
         if (callerIntent != null)
         {
             String callerAction = callerIntent.getAction();
-            LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.INFO);
+            LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
 
             if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)
                     || callerAction.equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
@@ -73,6 +73,10 @@ public class ProxySettingsCheckerService extends IntentService
                     || callerAction.equals(Proxy.PROXY_CHANGE_ACTION))
             {
                 checkProxySettings();
+            }
+            else if (callerAction.equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE"))
+            {
+                LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.ERROR, true);
             }
             else if (callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION))
             {

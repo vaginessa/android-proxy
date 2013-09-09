@@ -67,6 +67,18 @@ public class ApplicationGlobals extends Application
                 }
                 catch (IllegalArgumentException e)
                 {
+                    try
+                    {
+                        for (ProxyConfiguration conf: sortedConfigurationsList)
+                        {
+                            BugReportingUtils.addCrashExtraData(conf.getSSID(), conf.toString());
+                        }
+                    }
+                    catch (Exception innerexception)
+                    {
+                        BugReportingUtils.sendException(innerexception);
+                    }
+
                     BugReportingUtils.sendException(e);
                 }
 

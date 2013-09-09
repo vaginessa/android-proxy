@@ -22,8 +22,8 @@ public class LogWrapper
      * ASSERT	Constant Value: 7 (0x00000007)
      */
 
-	private static int mLogLevel = Integer.MAX_VALUE;
-//    private static int mLogLevel = Log.VERBOSE;
+//	private static int mLogLevel = Integer.MAX_VALUE;
+    private static int mLogLevel = Log.VERBOSE;
     private static Map<String, Date> startTraces;
 
     public static void d(String tag, String msg)
@@ -148,8 +148,10 @@ public class LogWrapper
         else
             sb.append("LOG Intent: " + intent.toString());
 
-        if (intent.getAction() != null) sb.append(intent.getAction() + " ");
-        if (intent.getDataString() != null) sb.append(intent.getDataString() + " ");
+        if (intent.getAction() != null)
+            sb.append(intent.getAction() + " ");
+        if (intent.getDataString() != null)
+            sb.append(intent.getDataString() + " ");
 
         if (logExtras)
         {
@@ -159,7 +161,7 @@ public class LogWrapper
                 for (String key : extras.keySet())
                 {
                     String extra = String.valueOf(extras.get(key));
-                    sb.append("EXTRA [\"" + key + "\"] : " + extra);
+                    sb.append("EXTRA [\"" + key + "\"] : " + extra + " ");
                 }
             }
         }
