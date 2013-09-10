@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
@@ -59,54 +58,57 @@ public class ProxySettingsCheckerService extends IntentService
     private void handleIntentLogic(Intent intent)
     {
         //        LogWrapper.logIntent(TAG, "onHandleIntent: ", intent, Log.VERBOSE);
-        Intent callerIntent = (Intent) intent.getExtras().get(CALLER_INTENT);
-
-        if (callerIntent != null)
+        if (intent != null && intent.hasExtra(CALLER_INTENT))
         {
-            String callerAction = callerIntent.getAction();
-            LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
+            Intent callerIntent = (Intent) intent.getExtras().get(CALLER_INTENT);
 
-            if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)
-                    || callerAction.equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
-                    || callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-                    || callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)
-                    || callerAction.equals(Proxy.PROXY_CHANGE_ACTION))
+            if (callerIntent != null)
             {
-                checkProxySettings();
-            }
-            else if (callerAction.equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE"))
-            {
-                LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.ERROR, true);
-            }
-            else if (callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION))
-            {
-                Boolean noConnectivity = callerIntent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
-                if (noConnectivity)
-                {
-                    return;
-                }
+                String callerAction = callerIntent.getAction();
+                LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
 
-                //TODO : check here
-                //int intentNetworkType = callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_INFO , -1);
-                NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
-
-                if (ni != null && ni.isConnected())
+                if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)
+                        || callerAction.equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
+                        || callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+                        || callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)
+                        || callerAction.equals(Proxy.PROXY_CHANGE_ACTION))
                 {
                     checkProxySettings();
                 }
+                else if (callerAction.equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE"))
+                {
+                    LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.ERROR, true);
+                }
+                else if (callerAction.equals(ConnectivityManager.CONNECTIVITY_ACTION))
+                {
+                    Boolean noConnectivity = callerIntent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+                    if (noConnectivity)
+                    {
+                        return;
+                    }
+
+                    //TODO : check here
+                    //int intentNetworkType = callerIntent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_INFO , -1);
+                    NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
+
+                    if (ni != null && ni.isConnected())
+                    {
+                        checkProxySettings();
+                    }
+                    else
+                    {
+                        LogWrapper.d(TAG, "Do not check proxy settings if network is not available!");
+                    }
+                }
                 else
                 {
-                    LogWrapper.d(TAG, "Do not check proxy settings if network is not available!");
+                    LogWrapper.e(TAG, "Intent ACTION not handled: " + callerAction);
                 }
             }
             else
             {
-                LogWrapper.e(TAG, "Intent ACTION not handled: " + callerAction);
+                LogWrapper.e(TAG, "Received Intent NULL ACTION");
             }
-        }
-        else
-        {
-            LogWrapper.e(TAG, "Received Intent NULL ACTION");
         }
 
         return;
@@ -134,7 +136,7 @@ public class ProxySettingsCheckerService extends IntentService
                 boolean checkNewConf = false;
                 if (conf != null)
                 {
-                    LogWrapper.i(TAG,"Checking configuration: " + conf.toShortString());
+                    LogWrapper.i(TAG, "Checking configuration: " + conf.toShortString());
 
                     if (conf.status != null
                             && conf.status.checkedDate != null)

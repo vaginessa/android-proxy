@@ -36,12 +36,14 @@
 	<string name="ap_selection_title">Select the Wi-Fi access point:</string>
 	<string name="connected_to">%1$s &#8230;</string>
 
+
     <string name="enable_wifi_action">Enable Wi-Fi</string>
     <string name="setupap_wifi_action">Connect to available Wi-Fi</string>
     <string name="connect_to_wifi_action">Connect to %1$s</string>
     <string name="checking_action">Checking configuration</string>
 
     <string name="not_supported_network_8021x_error_message">Proxy Settings is currently not able to access and modify the settings for Wi-Fi networks with 802.1x security type.</string>
+    <string name="exception_apl_writeconfig_error_message">Proxy Settings experienced an error writing the configuration on the device.</string>
 
     <string name="wifi_empty_list_no_ap">No Wi-Fi networks configured</string>
     <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50]-->
@@ -869,4 +871,10 @@
     <string name="beta_testing_instructions">In order to become a beta tester for you need to join the \"Proxy Settings - Beta Testers\" Community on Google+. More information available on the Community page.</string>
     <string name="ok">OK</string>
     <string name="cont">Continue</string>
+    <string name="pref_share_app">Spread the voice</string>
+    <string name="pref_share_app_summary">Share what you think about Proxy Settings with your friends!</string>
+    <string name="pref_issues">Issues and feature requests</string>
+    <string name="pref_issues_summary">Let us know if you have feature requests or if you experienced issues using Proxy
+        Settings
+    </string>
 </resources>

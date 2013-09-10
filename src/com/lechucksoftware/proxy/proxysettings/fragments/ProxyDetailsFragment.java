@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.View;
+import com.bugsense.trace.BugSense;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
@@ -82,7 +84,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                     ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.NONE;
                 }
 
-                ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
+                saveConfiguration();
                 return true;
             }
         });
@@ -96,7 +98,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 String proxyHost = (String) newValue;
 
                 ApplicationGlobals.getSelectedConfiguration().setProxyHost(proxyHost);
-                ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
+                saveConfiguration();
 
                 return true;
             }
@@ -128,7 +130,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 }
 
                 ApplicationGlobals.getSelectedConfiguration().setProxyPort(proxyPort);
-                ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
+                saveConfiguration();
 
                 return true;
             }
@@ -143,7 +145,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 String proxyExclusionList = (String) newValue;
 
                 ApplicationGlobals.getSelectedConfiguration().setProxyExclusionList(proxyExclusionList);
-                ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
+                saveConfiguration();
 
                 return true;
             }
@@ -151,6 +153,19 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
         authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
         if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
+    }
+
+    private void saveConfiguration()
+    {
+        try
+        {
+            ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
+        }
+        catch (Exception e)
+        {
+            BugReportingUtils.sendException(e);
+            showError(R.string.exception_apl_writeconfig_error_message);
+        }
     }
 
     protected void showError(int error)

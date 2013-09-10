@@ -27,6 +27,7 @@ public class HelpPrefsFragment extends PreferenceFragment
     private Preference sendFeedbackPref;
     private Preference betaTestPref;
     private Preference appRatePref;
+    private Preference shareApp;
 //    private Preference aboutPref;
 
     public static HelpPrefsFragment getInstance()
@@ -77,6 +78,17 @@ public class HelpPrefsFragment extends PreferenceFragment
         });
         aboutPref.setSummary(appVersionName);
 
+        appRatePref = findPreference("pref_issues");
+        appRatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/shouldit/proxy-settings/issues/new")));
+                return true;
+            }
+        });
+
         betaTestPref = findPreference("pref_betatest");
         betaTestPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
@@ -98,6 +110,26 @@ public class HelpPrefsFragment extends PreferenceFragment
                 return true;
             }
         });
+
+        shareApp = findPreference("pref_share_app");
+        shareApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, "market://details?id=com.lechucksoftware.proxy.proxysettings");
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out Proxy Settings!");
+                startActivity(Intent.createChooser(intent, "Share Proxy Settings"));
+                return true;
+            }
+        });
+
+
+
+
 
 //        sendFeedbackPref = findPreference("pref_send_feedback");
 //        sendFeedbackPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
