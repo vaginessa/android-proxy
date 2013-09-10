@@ -19,6 +19,7 @@ import org.apache.http.conn.util.InetAddressUtils;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.List;
@@ -725,7 +726,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     @Deprecated
     @TargetApi(12)
-    public void writeConfigurationToDevice()
+    public void writeConfigurationToDevice() throws Exception
     {
         WifiManager wifiManager = (WifiManager) APL.getContext().getSystemService(Context.WIFI_SERVICE);
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
@@ -739,100 +740,58 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 break;
             }
         }
-//        WifiConfiguration newConf = new WifiConfiguration(ap.wifiConfig);
-//        mHttpProxyField.set(linkProperties, ProxyProperties);
 
         if (selectedConfiguration != null)
         {
-            try
+            Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];
+            WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance((Object) selectedConfiguration);
+
+            Field proxySettingsField = newConf.getClass().getField("proxySettings");
+            proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[proxySetting.ordinal()]);
+            Object proxySettings = proxySettingsField.get(newConf);
+            int ordinal = ((Enum) proxySettings).ordinal();
+            if (ordinal != proxySetting.ordinal())
+                throw new Exception("Cannot set proxySettings variable");
+
+            Field linkPropertiesField = newConf.getClass().getField("linkProperties");
+            Object linkProperties = linkPropertiesField.get(newConf);
+            Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
+            mHttpProxyField.setAccessible(true);
+
+            if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
             {
-                Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];
-                WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance((Object) selectedConfiguration);
+                mHttpProxyField.set(linkProperties, null);
+            }
+            else if (proxySetting == ProxySetting.STATIC)
+            {
+                Class ProxyPropertiesClass = mHttpProxyField.getType();
+                Integer port = getProxyPort();
 
-                Field proxySettingsField = newConf.getClass().getField("proxySettings");
-                proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[proxySetting.ordinal()]);
-                Object proxySettings = proxySettingsField.get(newConf);
-                int ordinal = ((Enum) proxySettings).ordinal();
-                if (ordinal != proxySetting.ordinal())
-                    throw new Exception("Cannot set proxySettings variable");
-
-                Field linkPropertiesField = newConf.getClass().getField("linkProperties");
-                Object linkProperties = linkPropertiesField.get(newConf);
-                Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
-                mHttpProxyField.setAccessible(true);
-
-                if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
+                if (port == null)
                 {
-                    mHttpProxyField.set(linkProperties, null);
+                    Constructor constr = ProxyPropertiesClass.getConstructors()[0];
+                    Object ProxyProperties = constr.newInstance((Object) null);
+                    mHttpProxyField.set(linkProperties, ProxyProperties);
                 }
-                else if (proxySetting == ProxySetting.STATIC)
+                else
                 {
-                    Class ProxyPropertiesClass = mHttpProxyField.getType();
-                    Integer port = getProxyPort();
-
-                    if (port == null)
-                    {
-                        Constructor constr = ProxyPropertiesClass.getConstructors()[0];
-                        Object ProxyProperties = constr.newInstance((Object) null);
-                        mHttpProxyField.set(linkProperties, ProxyProperties);
-                    }
-                    else
-                    {
-                        Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-                        Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
-                        mHttpProxyField.set(linkProperties, ProxyProperties);
-                    }
+                    Constructor constr = ProxyPropertiesClass.getConstructors()[1];
+                    Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
+                    mHttpProxyField.set(linkProperties, ProxyProperties);
                 }
-
-                Object mHttpProxy = mHttpProxyField.get(linkProperties);
-                mHttpProxy = mHttpProxyField.get(linkProperties);
-
-//            int result = wifiManager.addNetwork(ap.wifiConfig);
-
-//                wifiManager.removeNetwork(selectedConfiguration.networkId);
-
-                int result = wifiManager.addNetwork(newConf);
-                if (result == -1)
-                    throw new Exception("Can't update network configuration");
-
-//                wifiManager.enableNetwork(newConf.networkId, false);
-
-//                boolean ressave = wifiManager.saveConfiguration();
-//                if (!ressave)
-//                    throw new Exception("Can't save network configuration");
-
-                this.status.clear();
-                LogWrapper.d(TAG, "Succesfully updated configuration on device: " + this.toShortString());
-
-                LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-                Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-                APL.getContext().sendBroadcast(intent);
             }
-            catch (IllegalArgumentException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (IllegalAccessException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (SecurityException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (NoSuchFieldException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (Exception e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            Object mHttpProxy = mHttpProxyField.get(linkProperties);
+            mHttpProxy = mHttpProxyField.get(linkProperties);
+
+            ReflectionUtils.saveWifiConfiguration(wifiManager,newConf);
+
+            this.status.clear();
+            LogWrapper.d(TAG, "Succesfully updated configuration on device: " + this.toShortString());
+
+            LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+            Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+            APL.getContext().sendBroadcast(intent);
         }
     }
 

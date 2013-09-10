@@ -1,5 +1,7 @@
 package com.shouldit.proxy.lib.reflection;
 
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import com.shouldit.proxy.lib.LogWrapper;
 
 import java.lang.reflect.Constructor;
@@ -13,7 +15,57 @@ import java.util.List;
 public class ReflectionUtils
 {
 	public static final String TAG = "ReflectionUtils";
-	
+
+    public static void saveWifiConfiguration(WifiManager wifiManager, WifiConfiguration configuration) throws Exception
+    {
+        boolean internalSaveDone = false;
+
+        try
+        {
+            Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
+            if (internalSave != null)
+            {
+                Class<?>[] paramsTypes = internalSave.getParameterTypes();
+                if (paramsTypes.length == 2)
+                    internalSave.invoke(wifiManager,configuration,null);
+                else if (paramsTypes.length == 1)
+                    internalSave.invoke(wifiManager,configuration);
+
+                internalSaveDone = true;
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        if (!internalSaveDone)
+        {
+            // Use the STANDARD API as a fallback solution
+            wifiManager.updateNetwork(configuration);
+        }
+    }
+
+    public static Method getMethod(Method [] methods, String methodName) throws Exception
+    {
+        Method m = null;
+
+        for (Method lm:methods)
+        {
+            String currentMethodName = lm.getName();
+            if (currentMethodName.equals(methodName))
+            {
+                m = lm;
+                break;
+            }
+        }
+
+        if (m == null)
+            throw new Exception(new String(methodName + " method not found!"));
+
+        return m;
+    }
+
 	public static Field getField(Field [] fields, String fieldName) throws Exception
 	{
 		Field f = null;
