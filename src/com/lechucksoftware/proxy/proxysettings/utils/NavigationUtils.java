@@ -3,10 +3,12 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 
 /**
  * Created by Marco on 22/06/13.
@@ -31,18 +33,19 @@ public class NavigationUtils
             ft.add(R.id.fragment_container, AccessPointListFragment.getInstance());
         }
 
+        ft.show(StatusFragment.getInstance());
+
         // Do NOT add AccessPointListFragment to back stack
         ft.commit();
     }
 
     public static void GoToHelpFragment(FragmentManager fm)
     {
-        HelpPrefsFragment help = HelpPrefsFragment.getInstance();
-
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
-        ft.replace(R.id.fragment_container, help);
+        ft.replace(R.id.fragment_container, HelpPrefsFragment.getInstance());
+        ft.hide(StatusFragment.getInstance());
 
         ft.addToBackStack(null);
         ft.commit();
@@ -56,6 +59,7 @@ public class NavigationUtils
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         ft.replace(R.id.fragment_container, details);
+        ft.show(StatusFragment.getInstance());
 
         ft.addToBackStack(null);
         ft.commit();

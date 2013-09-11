@@ -42,11 +42,11 @@
             android:title="@string/pref_rate_app"
             android:summary="@string/pref_rate_app_summary" />
 
-    <Preference
-            android:enabled="true"
-            android:key="pref_share_app"
-            android:title="@string/pref_share_app"
-            android:summary="@string/pref_share_app_summary" />
+    <!--<Preference-->
+            <!--android:enabled="true"-->
+            <!--android:key="pref_share_app"-->
+            <!--android:title="@string/pref_share_app"-->
+            <!--android:summary="@string/pref_share_app_summary" />-->
 
     <!--<Preference-->
             <!--android:enabled="true"-->

@@ -9,6 +9,7 @@ import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 
 import android.app.ActionBar;
@@ -111,21 +112,16 @@ public class HelpPrefsFragment extends PreferenceFragment
             }
         });
 
-        shareApp = findPreference("pref_share_app");
-        shareApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-        {
-            @Override
-            public boolean onPreferenceClick(Preference preference)
-            {
-
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "market://details?id=com.lechucksoftware.proxy.proxysettings");
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out Proxy Settings!");
-                startActivity(Intent.createChooser(intent, "Share Proxy Settings"));
-                return true;
-            }
-        });
+//        shareApp = findPreference("pref_share_app");
+//        shareApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+//        {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference)
+//            {
+//
+//
+//            }
+//        });
 
 
 
@@ -190,6 +186,9 @@ public class HelpPrefsFragment extends PreferenceFragment
     public void onResume()
     {
         super.onResume();
+
+        // Reset selected configuration
+        ApplicationGlobals.setSelectedConfiguration(null);
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
