@@ -129,7 +129,7 @@ public class ProxyUtils
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+            LogWrapper.e(TAG, "ProxyUtils.standardAPIPingHost() Exception: " + e.toString());
 		}
 		
 		return false;
@@ -193,7 +193,7 @@ public class ProxyUtils
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+            LogWrapper.e(TAG, "ProxyUtils.lowLevelPingHost() Exception calling getAddress().getHostAddress() on proxySocketAddress : " + e.toString());
 		}
 
 		if (proxyAddress == null)
@@ -205,7 +205,7 @@ public class ProxyUtils
 			}
 			catch (Exception e)
 			{
-				e.printStackTrace();
+                LogWrapper.e(TAG, "ProxyUtils.lowLevelPingHost() Exception calling toString() on proxySocketAddress : " + e.toString());
 			}
 		}
 
@@ -232,11 +232,11 @@ public class ProxyUtils
 			}
 			catch (IOException e)
 			{
-				e.printStackTrace();
+                LogWrapper.e(TAG, "ProxyUtils.lowLevelPingHost() IOException : " + e.toString());
 			}
 			catch (InterruptedException e)
 			{
-				e.printStackTrace();
+                LogWrapper.e(TAG, "ProxyUtils.lowLevelPingHost() InterruptedException : " + e.toString());
 			}
 		}
 

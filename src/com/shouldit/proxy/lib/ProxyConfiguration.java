@@ -19,7 +19,6 @@ import org.apache.http.conn.util.InetAddressUtils;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.List;
@@ -781,8 +780,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 }
             }
 
-            Object mHttpProxy = mHttpProxyField.get(linkProperties);
-            mHttpProxy = mHttpProxyField.get(linkProperties);
+//            Object mHttpProxy = mHttpProxyField.get(linkProperties);
+//            mHttpProxy = mHttpProxyField.get(linkProperties);
 
             ReflectionUtils.saveWifiConfiguration(wifiManager,newConf);
 
