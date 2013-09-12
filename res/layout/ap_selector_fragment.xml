@@ -4,6 +4,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <!--<com.lechucksoftware.proxy.proxysettings.components.StatusView-->
+            <!--android:id="@+id/status_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+    <!--</com.lechucksoftware.proxy.proxysettings.components.StatusView>-->
+
     <ListView android:id="@id/android:list"
               android:layout_width="match_parent"
               android:layout_height="match_parent"

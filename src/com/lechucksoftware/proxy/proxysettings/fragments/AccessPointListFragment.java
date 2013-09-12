@@ -2,6 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.components.StatusView;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -112,6 +116,7 @@ public class AccessPointListFragment extends EnhancedListFragment
                     // Wi-Fi is enabled, but no Wi-Fi access point configured
                     apListAdapter.setData(new ArrayList<ProxyConfiguration>());
                     emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
+//                    evaluateStatus();
                 }
             }
             else
@@ -123,6 +128,7 @@ public class AccessPointListFragment extends EnhancedListFragment
                 // Do not display results when Wi-Fi is not enabled
                 apListAdapter.setData(new ArrayList<ProxyConfiguration>());
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
+//                evaluateStatus();
             }
         }
         else
@@ -130,6 +136,66 @@ public class AccessPointListFragment extends EnhancedListFragment
 //            LogWrapper.d(TAG,"AccessPointListFragment is not added to activity");
         }
     }
+
+//    private void evaluateStatus()
+//    {
+//        // No configuration selected
+//        if (!APL.getWifiManager().isWifiEnabled())
+//        {
+//            // Wi-Fi disabled -> ask to enable!
+//            statusView.setStatus(Constants.StatusFragmentStates.ENABLE_WIFI, getResources().getString(R.string.enable_wifi_action), enableWifi , false);
+//        }
+//        else
+//        {
+//            // Wi-Fi enabled
+//            if (ApplicationGlobals.isConnectedToWiFi())
+//            {
+//                // Connected to Wi-Fi ap
+//
+//            }
+//            else
+//            {
+//                if (ApplicationGlobals.getInstance().getNotConfiguredWifi().values().size() > 0)
+//                {
+//                    // Wi-Fi AP available to connection -> Go to Wi-Fi Settings
+//                    statusView.setStatus(Constants.StatusFragmentStates.GOTO_AVAILABLE_WIFI, getResources().getString(R.string.setupap_wifi_action),configureNewWifiAp, false);
+//                }
+//                else
+//                {
+//                    // Wi-Fi AP not available to connection
+////                                setStatusInternal(getResources().getString(R.string.enable_wifi_action), configureNewWifiAp, R.color.Holo_Green_Light);
+//                }
+//            }
+//        }
+//    }
+//
+//    View.OnClickListener enableWifi = new View.OnClickListener()
+//    {
+//        @Override
+//        public void onClick(View view)
+//        {
+//            try
+//            {
+//                APL.enableWifi();
+//            }
+//            catch (Exception e)
+//            {
+//                BugReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action: " + e.toString()));
+//            }
+//        }
+//    };
+//
+//    View.OnClickListener configureNewWifiAp = new View.OnClickListener()
+//    {
+//        @Override
+//        public void onClick(View view)
+//        {
+////            hide();
+//            Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
+//            startActivity(intent);
+////            clickedStatus = Constants.StatusFragmentStates.GOTO_AVAILABLE_WIFI;
+//        }
+//    };
 
     /**
      * Helper function to show the details of a selected item, either by

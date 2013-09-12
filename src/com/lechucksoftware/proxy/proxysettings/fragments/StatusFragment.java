@@ -1,5 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -25,9 +27,9 @@ public class StatusFragment extends EnhancedFragment
     public static StatusFragment instance;
     private Button statusButton;
 
-    private Constants.StatusFragmentStates currentStatus;
-    private Constants.StatusFragmentStates clickedStatus;
-    private View statusSpace;
+//    private Constants.StatusFragmentStates currentStatus;
+//    private Constants.StatusFragmentStates clickedStatus;
+//    private View statusSpace;
 
     /**
      * Create a new instance of StatusFragment
@@ -56,7 +58,7 @@ public class StatusFragment extends EnhancedFragment
         {
             if (statusButton != null)
             {
-                hide();
+//                hide();
 
                 ProxyConfiguration selConf = ApplicationGlobals.getSelectedConfiguration();
 
@@ -131,10 +133,10 @@ public class StatusFragment extends EnhancedFragment
 
     public void setStatus(Constants.StatusFragmentStates status, String message, Boolean isInProgress)
     {
-        if (status == clickedStatus)
-        {
-            return;
-        }
+//        if (status == clickedStatus)
+//        {
+//            return;
+//        }
 
         switch (status)
         {
@@ -157,14 +159,14 @@ public class StatusFragment extends EnhancedFragment
                 setStatusInternal(message, configureNewWifiAp, R.drawable.btn_green_holo_dark,true);
                 break;
             case NONE:
-            default:
-                hide();
+//            default:
+//                hide();
         }
     }
 
     private void setStatusInternal(String status, View.OnClickListener listener, int resId, boolean enabled)
     {
-        clickedStatus = null;
+//        clickedStatus = null;
 
         if (listener != null)
             statusButton.setText(String.format("%s...", status));
@@ -174,7 +176,7 @@ public class StatusFragment extends EnhancedFragment
         statusButton.setBackgroundResource(resId);
         statusButton.setEnabled(enabled);
         statusButton.setOnClickListener(listener);
-        show();
+//        show();
     }
 
     View.OnClickListener enableWifi = new View.OnClickListener()
@@ -182,7 +184,7 @@ public class StatusFragment extends EnhancedFragment
         @Override
         public void onClick(View view)
         {
-            hide();
+//            hide();
             try
             {
                 APL.enableWifi();
@@ -191,7 +193,7 @@ public class StatusFragment extends EnhancedFragment
             {
                 BugReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action: " + e.toString()));
             }
-            clickedStatus = Constants.StatusFragmentStates.ENABLE_WIFI;
+//            clickedStatus = Constants.StatusFragmentStates.ENABLE_WIFI;
         }
     };
 
@@ -200,9 +202,9 @@ public class StatusFragment extends EnhancedFragment
         @Override
         public void onClick(View view)
         {
-            hide();
+//            hide();
             ApplicationGlobals.connectToAP(ApplicationGlobals.getSelectedConfiguration());
-            clickedStatus = Constants.StatusFragmentStates.CONNECT_TO;
+//            clickedStatus = Constants.StatusFragmentStates.CONNECT_TO;
         }
     };
 
@@ -211,10 +213,10 @@ public class StatusFragment extends EnhancedFragment
         @Override
         public void onClick(View view)
         {
-            hide();
+//            hide();
             Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
             startActivity(intent);
-            clickedStatus = Constants.StatusFragmentStates.GOTO_AVAILABLE_WIFI;
+//            clickedStatus = Constants.StatusFragmentStates.GOTO_AVAILABLE_WIFI;
         }
     };
 
@@ -222,7 +224,7 @@ public class StatusFragment extends EnhancedFragment
     public void onResume()
     {
         super.onResume();
-        clickedStatus = null;
+//        clickedStatus = null;
 
         refreshUI();
     }
@@ -231,18 +233,30 @@ public class StatusFragment extends EnhancedFragment
     public void onPause()
     {
         super.onPause();
-        clickedStatus = null;
+//        clickedStatus = null;
     }
 
-    private void hide()
-    {
-        statusButton.setVisibility(View.GONE);
-//        statusSpace.setVisibility(View.GONE);
-    }
+//    private void hide()
+//    {
+//        FragmentManager fm = this.getFragmentManager();
+//        FragmentTransaction fts = fm.beginTransaction();
+//        fts.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        fts.hide(StatusFragment.getInstance());
+//        fts.commit();
+//
+////        statusButton.setVisibility(View.GONE);
+////        statusSpace.setVisibility(View.GONE);
+//    }
 
-    private void show()
-    {
-        statusButton.setVisibility(View.VISIBLE);
-//        statusSpace.setVisibility(View.VISIBLE);
-    }
+//    private void show()
+//    {
+//        FragmentManager fm = this.getFragmentManager();
+//        FragmentTransaction fts = fm.beginTransaction();
+//        fts.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        fts.show(StatusFragment.getInstance());
+//        fts.commit();
+//
+////        statusButton.setVisibility(View.VISIBLE);
+////        statusSpace.setVisibility(View.VISIBLE);
+//    }
 }

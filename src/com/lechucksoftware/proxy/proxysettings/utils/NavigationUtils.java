@@ -20,35 +20,40 @@ public class NavigationUtils
         fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // Clean-up the backstack when going back to home
 
         FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         Fragment f = fm.findFragmentById(R.id.fragment_container);
 
         if (f != null)
         {
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             ft.replace(R.id.fragment_container, AccessPointListFragment.getInstance());
         }
         else
         {
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.add(R.id.fragment_container, AccessPointListFragment.getInstance());
         }
 
-        ft.show(StatusFragment.getInstance());
-
         // Do NOT add AccessPointListFragment to back stack
         ft.commit();
+
+//        FragmentTransaction fts = fm.beginTransaction();
+//        fts.show(StatusFragment.getInstance());
+//        fts.commit();
     }
 
     public static void GoToHelpFragment(FragmentManager fm)
     {
         FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         ft.replace(R.id.fragment_container, HelpPrefsFragment.getInstance());
-        ft.hide(StatusFragment.getInstance());
-
         ft.addToBackStack(null);
         ft.commit();
+
+//        FragmentTransaction fts = fm.beginTransaction();
+//        fts.hide(StatusFragment.getInstance());
+//        fts.commit();
     }
 
     public static void GoToProxyDetailsFragment(FragmentManager fm)
@@ -56,12 +61,13 @@ public class NavigationUtils
         ProxyDetailsFragment details = ProxyDetailsFragment.getInstance();
 
         FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.replace(R.id.fragment_container, details);
-        ft.show(StatusFragment.getInstance());
-
         ft.addToBackStack(null);
         ft.commit();
+
+//        FragmentTransaction fts = fm.beginTransaction();
+//        fts.show(StatusFragment.getInstance());
+//        fts.commit();
     }
 }

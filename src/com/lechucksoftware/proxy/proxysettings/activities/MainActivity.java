@@ -49,7 +49,7 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
-//        LogWrapper.d(TAG, "Creating MainActivity");
+        LogWrapper.d(TAG, "Creating MainActivity");
 
         setContentView(R.layout.main_layout);
 
