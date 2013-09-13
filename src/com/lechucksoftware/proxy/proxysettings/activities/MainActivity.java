@@ -192,8 +192,6 @@ public class MainActivity extends Activity
 
         AccessPointListFragment.getInstance().refreshUI();
         ProxyDetailsFragment.getInstance().refreshUI();
-
-        ActionManager.getInstance().refreshUI();
     }
 
 

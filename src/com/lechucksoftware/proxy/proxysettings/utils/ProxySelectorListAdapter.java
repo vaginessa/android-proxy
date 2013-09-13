@@ -4,9 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.AccessPoint;
@@ -31,6 +29,7 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 
     static class ApViewHolder
     {
+//        RelativeLayout layout;
         View statusColor;
         ImageView signal;
         TextView ssid;
@@ -59,6 +58,7 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
             view = vi.inflate(R.layout.ap_list_item, null);
 
             viewHolder = new ApViewHolder();
+//            viewHolder.layout = (RelativeLayout) view.findViewById(R.id.list_item_ap_layout);
             viewHolder.statusColor = view.findViewById(R.id.list_item_status_color);
             viewHolder.signal = (ImageView) view.findViewById(R.id.list_item_ap_icon);
             viewHolder.ssid = (TextView) view.findViewById(R.id.list_item_ap_name);
@@ -88,9 +88,15 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
                 viewHolder.signal.setImageState((listItem.ap.security != APLConstants.SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
 
                 if (listItem.isCurrentNetwork())
+                {
+//                    viewHolder.layout.setBackgroundResource(R.color.Holo_Blue_Light);
                     viewHolder.statusColor.setBackgroundResource(R.color.Holo_Blue_Light);
+                }
                 else
+                {
+//                    viewHolder.layout.setBackgroundResource(R.color.Holo_Green_Light);
                     viewHolder.statusColor.setBackgroundResource(R.color.Holo_Green_Light);
+                }
             }
 
             viewHolder.ssid.setText(String.format("%s",ProxyUtils.cleanUpSSID(listItem.getSSID())));

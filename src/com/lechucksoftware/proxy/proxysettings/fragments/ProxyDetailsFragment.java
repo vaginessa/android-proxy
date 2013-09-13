@@ -8,14 +8,15 @@ import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.View;
-import com.bugsense.trace.BugSense;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
+import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -231,6 +232,35 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 }
 
                 proxyPortPref.setSummary(proxyPortString);
+
+
+                if (ApplicationGlobals.getSelectedConfiguration().isCurrentNetwork())
+                {
+                    if (ApplicationGlobals.getSelectedConfiguration().status != null)
+                    {
+                        if (ApplicationGlobals.getSelectedConfiguration().status.getCheckingStatus() == APLConstants.CheckStatusValues.CHECKED)
+                        {
+                            ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECTED, ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
+                        }
+                        else
+                        {
+                            ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CHECKING);
+                        }
+                    }
+                    else
+                    {
+                        ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CHECKING);
+                    }
+                }
+                else if (ApplicationGlobals.getSelectedConfiguration().ap.getLevel() > -1)
+                {
+                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action, ApplicationGlobals.getSelectedConfiguration().ap.ssid));
+                }
+                else
+                {
+                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.NOT_AVAILABLE, ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
+                }
+
             }
             else
             {
@@ -271,12 +301,12 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
         ProxyConfiguration selconf = ApplicationGlobals.getSelectedConfiguration();
 
         if (APL.getWifiManager().isWifiEnabled()
-            && selconf != null
-            && selconf.ap != null)
+                && selconf != null
+                && selconf.ap != null)
         {
             actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
 
-            ActionManager.getInstance().refreshUI();
+//            ActionManager.getInstance().refreshUI();
         }
         else
         {
