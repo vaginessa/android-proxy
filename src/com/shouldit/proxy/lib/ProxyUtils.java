@@ -20,13 +20,18 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.util.EnumSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.util.Log;
+import android.webkit.URLUtil;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
+import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import org.apache.http.HttpHost;
 
 import android.content.ComponentName;
@@ -34,6 +39,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
+import org.apache.http.conn.util.InetAddressUtils;
 
 public class ProxyUtils
 {
@@ -424,7 +430,7 @@ public class ProxyUtils
 		return null;
 	}
 
-	public static boolean isWebReachable(ProxyConfiguration proxyConfiguration, int timeout)
+	public static boolean canGetWebResources(ProxyConfiguration proxyConfiguration, int timeout)
 	{
 		try
 		{
@@ -563,34 +569,34 @@ public class ProxyUtils
 		return out;
 	}
 
-    public static APLConstants.SecurityType getSecurity(WifiConfiguration config)
+    public static SecurityType getSecurity(WifiConfiguration config)
     {
         if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK))
         {
-            return APLConstants.SecurityType.SECURITY_PSK;
+            return SecurityType.SECURITY_PSK;
         }
         if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP) || config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X))
         {
-            return APLConstants.SecurityType.SECURITY_EAP;
+            return SecurityType.SECURITY_EAP;
         }
-        return (config.wepKeys[0] != null) ? APLConstants.SecurityType.SECURITY_WEP : APLConstants.SecurityType.SECURITY_NONE;
+        return (config.wepKeys[0] != null) ? SecurityType.SECURITY_WEP : SecurityType.SECURITY_NONE;
     }
 
-    public static APLConstants.SecurityType getSecurity(ScanResult result)
+    public static SecurityType getSecurity(ScanResult result)
     {
         if (result.capabilities.contains("WEP"))
         {
-            return APLConstants.SecurityType.SECURITY_WEP;
+            return SecurityType.SECURITY_WEP;
         }
         else if (result.capabilities.contains("PSK"))
         {
-            return APLConstants.SecurityType.SECURITY_PSK;
+            return SecurityType.SECURITY_PSK;
         }
         else if (result.capabilities.contains("EAP"))
         {
-            return APLConstants.SecurityType.SECURITY_EAP;
+            return SecurityType.SECURITY_EAP;
         }
-        return APLConstants.SecurityType.SECURITY_NONE;
+        return SecurityType.SECURITY_NONE;
     }
 
     public static String getSecurityString(ProxyConfiguration conf, Context ctx, boolean concise)
@@ -603,7 +609,7 @@ public class ProxyUtils
             return "";
     }
 
-    public static String getSecurityString(APLConstants.SecurityType security, APLConstants.PskType pskType, Context context, boolean concise)
+    public static String getSecurityString(SecurityType security, PskType pskType, Context context, boolean concise)
     {
         switch (security)
         {
@@ -630,26 +636,356 @@ public class ProxyUtils
         }
     }
 
-    public static APLConstants.PskType getPskType(ScanResult result)
+    public static PskType getPskType(ScanResult result)
     {
         boolean wpa = result.capabilities.contains("WPA-PSK");
         boolean wpa2 = result.capabilities.contains("WPA2-PSK");
         if (wpa2 && wpa)
         {
-            return APLConstants.PskType.WPA_WPA2;
+            return PskType.WPA_WPA2;
         }
         else if (wpa2)
         {
-            return APLConstants.PskType.WPA2;
+            return PskType.WPA2;
         }
         else if (wpa)
         {
-            return APLConstants.PskType.WPA;
+            return PskType.WPA;
         }
         else
         {
             Log.w(TAG, "Received abnormal flag string: " + result.capabilities);
-            return APLConstants.PskType.UNKNOWN;
+            return PskType.UNKNOWN;
+        }
+    }
+
+    public static void acquireProxyStatus(ProxyConfiguration conf, ProxyStatus status)
+    {
+        acquireProxyStatus(conf, status, ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
+    }
+
+    /**
+     * Can take a long time to execute this task. - Check if the proxy is
+     * enabled - Check if the proxy address is valid - Check if the proxy is
+     * reachable (using a PING) - Check if is possible to retrieve an URI
+     * resource using the proxy
+     */
+    public static void acquireProxyStatus(ProxyConfiguration conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions, int timeout)
+    {
+        status.clear();
+        status.startchecking();
+        broadCastUpdatedStatus();
+
+        if (Build.VERSION.SDK_INT >= 12)
+        {
+            acquireProxyStatusSDK12(conf, status,checkOptions);
+        }
+        else
+        {
+            acquireProxyStatusSDK1_11(conf, status, checkOptions);
+        }
+
+        if (checkOptions.contains(ProxyCheckOptions.ONLINE_CHECK))
+        {
+            // Always check if WEB is reachable
+            LogWrapper.d(TAG, "Checking if web is reachable ...");
+            status.set(isWebReachable(conf, timeout));
+            broadCastUpdatedStatus();
+        }
+        else
+        {
+            status.set(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+        }
+    }
+
+    private static void acquireProxyStatusSDK1_11(ProxyConfiguration conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions)
+    {
+        // API version <= 11 (Older devices)
+        status.set(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
+        status.set(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.NOT_CHECKED, false, false);
+
+        LogWrapper.d(TAG, "Checking if proxy is enabled ...");
+        status.set(isProxyEnabled(conf));
+        broadCastUpdatedStatus();
+
+        if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
+        {
+            LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
+            status.set(isProxyValidHostname(conf));
+            broadCastUpdatedStatus();
+
+            LogWrapper.d(TAG, "Checking if proxy is valid port ...");
+            status.set(isProxyValidPort(conf));
+            broadCastUpdatedStatus();
+
+            if (checkOptions.contains(ProxyCheckOptions.ONLINE_CHECK)
+                && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
+                && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
+            {
+                LogWrapper.d(TAG, "Checking if proxy is reachable ...");
+                status.set(isProxyReachable(conf));
+                broadCastUpdatedStatus();
+            }
+            else
+            {
+                status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+            }
+        }
+        else
+        {
+            wifiNotEnabled_DisableChecking(status);
+        }
+    }
+
+    private static void acquireProxyStatusSDK12(ProxyConfiguration conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions)
+    {
+        LogWrapper.d(TAG, "Checking if Wi-Fi is enabled ...");
+        status.set(isWifiEnabled(conf));
+        broadCastUpdatedStatus();
+
+        if (status.getProperty(ProxyStatusProperties.WIFI_ENABLED).result)
+        {
+            LogWrapper.d(TAG, "Checking if Wi-Fi is selected ...");
+            status.set(isWifiSelected(conf));
+            broadCastUpdatedStatus();
+
+            if (status.getProperty(ProxyStatusProperties.WIFI_SELECTED).result)
+            {
+                // Wi-Fi enabled & selected
+                LogWrapper.d(TAG, "Checking if proxy is enabled ...");
+                status.set(isProxyEnabled(conf));
+                broadCastUpdatedStatus();
+
+                if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
+                {
+                    LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
+                    status.set(isProxyValidHostname(conf));
+                    broadCastUpdatedStatus();
+
+                    LogWrapper.d(TAG, "Checking if proxy is valid port ...");
+                    status.set(isProxyValidPort(conf));
+                    broadCastUpdatedStatus();
+
+                    if (checkOptions.contains(ProxyCheckOptions.ONLINE_CHECK)
+                        && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
+                        && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
+                    {
+                        LogWrapper.d(TAG, "Checking if proxy is reachable ...");
+                        status.set(isProxyReachable(conf));
+                        broadCastUpdatedStatus();
+                    }
+                    else
+                    {
+                        status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+                    }
+                }
+                else
+                {
+                    wifiNotEnabled_DisableChecking(status);
+                }
+            }
+            else
+            {
+                wifiNotEnabled_DisableChecking(status);
+            }
+        }
+        else
+        {
+            status.set(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.NOT_CHECKED, false, false);
+            wifiNotEnabled_DisableChecking(status);
+        }
+    }
+
+    private static void wifiNotEnabled_DisableChecking(ProxyStatus status)
+    {
+        status.set(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
+        status.set(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.NOT_CHECKED, false, false);
+        status.set(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.NOT_CHECKED, false, false);
+        status.set(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.NOT_CHECKED, false, false);
+    }
+
+
+    private static void broadCastUpdatedStatus()
+    {
+//        LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+        Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+        // intent.putExtra(APLConstants.ProxyStatus, status);
+        APL.getContext().sendBroadcast(intent);
+    }
+
+    protected static ProxyStatusItem isWifiEnabled(ProxyConfiguration conf)
+    {
+        ProxyStatusItem result = null;
+
+        if (APL.getWifiManager().isWifiEnabled())
+        {
+            NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
+            if (ni != null && ni.isConnected() && ni.getType() == ConnectivityManager.TYPE_WIFI)
+            {
+                String status = APL.getContext().getString(R.string.status_wifi_enabled);
+                result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, true, true, status);
+            }
+            else
+            {
+                result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, APL.getContext().getString(R.string.status_wifi_enabled_disconnected));
+            }
+        }
+        else
+        {
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.CHECKED, false, true, APL.getContext().getString(R.string.status_wifi_not_enabled));
+        }
+
+        return result;
+    }
+
+    protected static ProxyStatusItem isWifiSelected(ProxyConfiguration conf)
+    {
+        ProxyStatusItem result = null;
+
+        if (conf.isCurrentNetwork())
+        {
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, conf.ap.ssid));
+        }
+        else
+        {
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, false, true, APL.getContext().getString(R.string.status_wifi_not_selected));
+        }
+
+        return result;
+    }
+
+    protected static ProxyStatusItem isProxyEnabled(ProxyConfiguration conf)
+    {
+        ProxyStatusItem result;
+
+        if (Build.VERSION.SDK_INT >= 12)
+        {
+            // On API version > Honeycomb 3.1 (HONEYCOMB_MR1)
+            // Proxy is disabled by default on Mobile connection
+            ConnectivityManager cm = APL.getConnectivityManager();
+            if (cm != null)
+            {
+                NetworkInfo ni = cm.getActiveNetworkInfo();
+                if (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE)
+                {
+                    result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_mobile_disabled));
+                    return result;
+                }
+            }
+        }
+
+        if (conf.proxySetting == ProxySetting.UNASSIGNED || conf.proxySetting == ProxySetting.NONE)
+        {
+            result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_disabled));
+        }
+        else
+        {
+            // if (proxyHost != null && proxyPort != null)
+            // {
+            // HTTP or SOCKS proxy
+            result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_proxy_enabled));
+            // }
+            // else
+            // {
+            // result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED,
+            // CheckStatusValues.CHECKED, false);
+            // }
+        }
+
+        return result;
+    }
+
+    protected static ProxyStatusItem isProxyValidHostname(ProxyConfiguration conf)
+    {
+        try
+        {
+            String proxyHost = conf.getProxyHostString();
+
+            if (proxyHost == null || proxyHost.length() == 0)
+            {
+                return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_empty));
+            }
+            else
+            {
+                // Test REGEX for Hostname validation
+                // http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
+                //
+                String ValidHostnameRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
+                Pattern pattern = Pattern.compile(ValidHostnameRegex);
+                Matcher matcher = pattern.matcher(proxyHost);
+
+                if (InetAddressUtils.isIPv4Address(proxyHost)
+                        || InetAddressUtils.isIPv6Address(proxyHost)
+                        || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost)
+                        || InetAddressUtils.isIPv6StdAddress(proxyHost)
+                        || URLUtil.isNetworkUrl(proxyHost)
+                        || URLUtil.isValidUrl(proxyHost)
+                        || matcher.find())
+                {
+                    String msg = String.format("%s %s", APL.getContext().getString(R.string.status_hostname_valid), proxyHost);
+                    return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true, msg);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));
+    }
+
+    protected static ProxyStatusItem isProxyValidPort(ProxyConfiguration conf)
+    {
+        if ((conf.getProxyPort() != null) && (conf.getProxyPort() >= 1) && (conf.getProxyPort() <= 65535))
+        {
+            String msg = String.format("%s %d", APL.getContext().getString(R.string.status_port_valid), conf.getProxyPort());
+            return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true, msg);
+        }
+        else
+        {
+            return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_port_empty));
+        }
+    }
+
+    /**
+     * Try to PING the HOST specified in the current proxy configuration
+     */
+    protected static ProxyStatusItem isProxyReachable(ProxyConfiguration conf)
+    {
+        if (conf.getProxy() != null && conf.getProxyType() != Proxy.Type.DIRECT)
+        {
+            Boolean result = ProxyUtils.isHostReachable(conf.getProxy());
+            if (result)
+            {
+                return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_proxy_reachable));
+            }
+            else
+            {
+                return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_not_reachable));
+            }
+        }
+        else
+        {
+            return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_not_valid_informations));
+        }
+    }
+
+    protected ProxyStatusItem isWebReachable(ProxyConfiguration conf)
+    {
+        return isWebReachable(conf, APLConstants.DEFAULT_TIMEOUT);
+    }
+
+    protected static ProxyStatusItem isWebReachable(ProxyConfiguration conf, int timeout)
+    {
+        Boolean result = ProxyUtils.canGetWebResources(conf, timeout);
+        if (result)
+        {
+            return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_web_reachable));
+        }
+        else
+        {
+            return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_web_not_reachable));
         }
     }
 

@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
-import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
-
 public class ProxyStatus implements Serializable
 {
 	public static final String TAG = "ProxyConfiguration";

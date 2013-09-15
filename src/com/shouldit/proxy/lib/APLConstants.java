@@ -1,5 +1,7 @@
 package com.shouldit.proxy.lib;
 
+import java.util.EnumSet;
+
 public class APLConstants
 {
     /**
@@ -15,76 +17,8 @@ public class APLConstants
     public static final String ProxyStatus = "ProxyStatus";
 
     /**
-     * These values are matched in string arrays -- changes must be kept in sync
+     * Try to download a webpage using the current proxy configuration
      */
-    public enum SecurityType
-    {
-        SECURITY_NONE(0),
-        SECURITY_WEP(1),
-        SECURITY_PSK(2),
-        SECURITY_EAP(3);
+    public static final Integer DEFAULT_TIMEOUT = 10000; // 10 seconds
 
-        private final Integer value;
-
-        SecurityType(int index)
-        {
-            this.value = index;
-        }
-
-        public Integer getValue()
-        {
-            return value;
-        }
-    }
-
-    public enum PskType
-    {
-        UNKNOWN, WPA, WPA2, WPA_WPA2
-    }
-
-    public enum ProxyStatusProperties
-    {
-        WIFI_ENABLED(0),
-        WIFI_SELECTED(1),
-        PROXY_ENABLED(2),
-        WEB_REACHABLE(3),
-        PROXY_VALID_HOSTNAME(4),
-        PROXY_VALID_PORT(5),
-        PROXY_REACHABLE(6);
-
-        private final Integer priority;
-
-        ProxyStatusProperties(int index)
-        {
-            this.priority = index;
-        }
-
-        public Integer getPriority()
-        {
-            return priority;
-        }
-    }
-
-    public enum CheckStatusValues
-    {
-        NOT_CHECKED,
-        CHECKING,
-        CHECKED;
-
-        @Override
-        public String toString()
-        {
-            switch (this)
-            {
-                case NOT_CHECKED:
-                    return "N";
-                case CHECKING:
-                    return "?";
-                case CHECKED:
-                    return "C";
-            }
-
-            return "?";
-        }
-    }
 }

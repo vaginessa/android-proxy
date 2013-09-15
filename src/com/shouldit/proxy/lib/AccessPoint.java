@@ -29,11 +29,11 @@ public class AccessPoint implements Comparable<AccessPoint>
 
 	public String ssid;
 	public String bssid;
-	public APLConstants.SecurityType security;
+	public SecurityType security;
 	public int networkId;
 	public boolean wpsAvailable = false;
 
-	public APLConstants.PskType pskType = APLConstants.PskType.UNKNOWN;
+	public PskType pskType = PskType.UNKNOWN;
 
 	public WifiConfiguration wifiConfig;
 	/* package */ScanResult mScanResult;
@@ -95,7 +95,7 @@ public class AccessPoint implements Comparable<AccessPoint>
     public void clearScanStatus()
     {
         mRssi = Integer.MAX_VALUE;
-        pskType = APLConstants.PskType.UNKNOWN;
+        pskType = PskType.UNKNOWN;
     }
 
 	public boolean update(ScanResult result)
@@ -107,7 +107,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 				mRssi = result.level;
 			}
 			// This flag only comes from scans, is not easily saved in config
-			if (security == APLConstants.SecurityType.SECURITY_PSK)
+			if (security == SecurityType.SECURITY_PSK)
 			{
 				pskType = ProxyUtils.getPskType(result);
 			}

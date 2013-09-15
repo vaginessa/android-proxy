@@ -6,9 +6,9 @@ package com.shouldit.proxy.lib;
 public class WifiNetworkId
 {
     public String SSID;
-    public APLConstants.SecurityType Security;
+    public SecurityType Security;
 
-    public WifiNetworkId(String ssid, APLConstants.SecurityType sec)
+    public WifiNetworkId(String ssid, SecurityType sec)
     {
         SSID = ssid;
         Security = sec;

@@ -3,9 +3,6 @@ package com.shouldit.proxy.lib;
 import java.text.DateFormat;
 import java.util.Date;
 
-import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
-import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
-
 public class ProxyStatusItem
 {
 	public ProxyStatusProperties statusCode;
@@ -14,7 +11,6 @@ public class ProxyStatusItem
 	public Boolean effective;
 	public String message;
 	public Date checkedDate;
-	
 	
 	public ProxyStatusItem(ProxyStatusProperties code, CheckStatusValues st, Boolean val, Boolean eff, String msg, Date date)
 	{
