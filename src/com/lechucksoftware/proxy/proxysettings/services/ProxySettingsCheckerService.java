@@ -12,16 +12,14 @@ import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.APLConstants;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.*;
 
 import java.util.Date;
 
 public class ProxySettingsCheckerService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
-    public static String TAG = "ProxySettingsCheckerService";
+    public static String TAG = ProxySettingsCheckerService.class.getSimpleName();
     private boolean isHandling = false;
     private static ProxySettingsCheckerService instance;
 
@@ -165,7 +163,7 @@ public class ProxySettingsCheckerService extends IntentService
                 if (checkNewConf)
                 {
                     LogWrapper.i(TAG, "Changed current proxy configuration: calling refresh of proxy status");
-                    conf.acquireProxyStatus(ApplicationGlobals.getInstance().timeout);
+                    ProxyUtils.acquireProxyStatus(conf, conf.status, ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
                     LogWrapper.i(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
                 }
                 else

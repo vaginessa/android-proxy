@@ -6,12 +6,14 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyDataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
+import java.net.Proxy;
 import java.util.*;
 
 /**
@@ -22,7 +24,7 @@ public class ProxyManager
     private static final String TAG = "ProxyManager";
     private final Context context;
     private ProxyConfiguration currentConfiguration;
-//    private List<WifiNetworkId> internalSavedSSID;
+    //    private List<WifiNetworkId> internalSavedSSID;
     Boolean updatedConfiguration;
 
     public ProxyManager(Context ctx)
@@ -131,7 +133,9 @@ public class ProxyManager
     public ProxyDataSource getProxyDataSource()
     {
         if (proxyDataSource == null)
+        {
             proxyDataSource = new ProxyDataSource(context);
+        }
 
         return proxyDataSource;
     }
@@ -175,10 +179,46 @@ public class ProxyManager
         {
             LogWrapper.d(TAG, "Configuration updated -> need to create again the sorted list");
             buildConfigurationsList();
+
+            // Save or update on the DB all the found proxy
+            try
+            {
+                upsertFoundProxyConfigurations();
+            }
+            catch (Exception e)
+            {
+                BugReportingUtils.sendException(new Exception("Exception during upsertFoundProxyConfigurations",e));
+            }
         }
 
         LogWrapper.d(TAG, "Final savedConfigurations list: " + getConfigurationsString());
         LogWrapper.stopTrace(TAG, "updateProxyConfigurationList", Log.ASSERT);
+    }
+
+    private void upsertFoundProxyConfigurations()
+    {
+        if (!getSavedConfigurations().isEmpty())
+        {
+            ProxyDataSource pds = getProxyDataSource();
+            pds.openWritable();
+
+            for (ProxyConfiguration conf : getSavedConfigurations().values())
+            {
+                if (conf.getProxy() != Proxy.NO_PROXY && conf.isValidProxyConfiguration())
+                {
+                    ProxyData pd = new ProxyData();
+                    pd.host = conf.getProxyHost();
+                    pd.port = conf.getProxyPort();
+                    pd.exclusion = conf.getProxyExclusionList();
+                    pd.description = null;
+
+                    pds.upsertProxy(pd);
+                }
+            }
+
+            List<ProxyData> savedProxies = pds.getAllProxies();
+            LogWrapper.d(TAG,"Saved proxies: " + TextUtils.join(",",savedProxies));
+        }
     }
 
     private void updateConfigurationsWithWifiScanResults()
@@ -203,7 +243,7 @@ public class ProxyManager
             {
                 LogWrapper.d(TAG, "Updating from scanresult: " + res.SSID + " level: " + res.level);
                 String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
-                APLConstants.SecurityType security = ProxyUtils.getSecurity(res);
+                SecurityType security = ProxyUtils.getSecurity(res);
                 WifiNetworkId currWifiNet = new WifiNetworkId(currSSID, security);
 
                 if (getSavedConfigurations().containsKey(currWifiNet))

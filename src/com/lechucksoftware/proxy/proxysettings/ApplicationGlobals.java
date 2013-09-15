@@ -11,7 +11,7 @@ import com.shouldit.proxy.lib.*;
 public class ApplicationGlobals extends Application
 {
     private static ApplicationGlobals mInstance;
-    public int timeout;
+//    public int timeout;
 
     private ProxyManager proxyManager;
     private static final String TAG = "ApplicationGlobals";
@@ -24,7 +24,7 @@ public class ApplicationGlobals extends Application
 
         mInstance = this;
 
-        timeout = 10000; // Set default timeout value (10 seconds)
+//        timeout = 10000; // Set default timeout value (10 seconds)
 
         proxyManager = new ProxyManager(ApplicationGlobals.this);
 

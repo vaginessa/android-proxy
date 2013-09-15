@@ -22,6 +22,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.SecurityType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +158,7 @@ public class AccessPointListFragment extends EnhancedListFragment
 
             ProxyConfiguration selectedConfiguration = (ProxyConfiguration) getListView().getItemAtPosition(index);
 
-            if (selectedConfiguration.ap.security == APLConstants.SecurityType.SECURITY_EAP)
+            if (selectedConfiguration.ap.security == SecurityType.SECURITY_EAP)
             {
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.oops)

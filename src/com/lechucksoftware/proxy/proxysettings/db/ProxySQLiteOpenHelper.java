@@ -22,12 +22,14 @@ public class ProxySQLiteOpenHelper extends SQLiteOpenHelper
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
-            + TABLE_PROXIES + "(" + COLUMN_ID
-            + " integer primary key autoincrement, "
+            + TABLE_PROXIES
+            + "("
+            + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_PROXY_HOST + " text not null,"
             + COLUMN_PROXY_PORT + " integer not null,"
             + COLUMN_PROXY_EXCLUSION + " text not null,"
-            + COLUMN_PROXY_DESCRIPTION + " text," + ");";
+            + COLUMN_PROXY_DESCRIPTION + " text"
+            + ");";
 
 
     public ProxySQLiteOpenHelper(Context context)

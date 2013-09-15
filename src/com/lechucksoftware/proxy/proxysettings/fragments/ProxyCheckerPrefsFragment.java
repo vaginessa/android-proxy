@@ -14,10 +14,10 @@ import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-import com.shouldit.proxy.lib.APLConstants.CheckStatusValues;
-import com.shouldit.proxy.lib.APLConstants.ProxyStatusProperties;
+import com.shouldit.proxy.lib.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyStatusItem;
+import com.shouldit.proxy.lib.ProxyStatusProperties;
 
 public class ProxyCheckerPrefsFragment extends PreferenceFragment
 {

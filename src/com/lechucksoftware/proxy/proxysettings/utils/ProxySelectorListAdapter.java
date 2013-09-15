@@ -6,10 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.shouldit.proxy.lib.APLConstants;
-import com.shouldit.proxy.lib.AccessPoint;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxyUtils;
+import com.shouldit.proxy.lib.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +82,7 @@ public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
             {
                 viewHolder.signal.setImageLevel(listItem.ap.getLevel());
                 viewHolder.signal.setImageResource(R.drawable.wifi_signal);
-                viewHolder.signal.setImageState((listItem.ap.security != APLConstants.SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
+                viewHolder.signal.setImageState((listItem.ap.security != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
 
                 if (listItem.isCurrentNetwork())
                 {

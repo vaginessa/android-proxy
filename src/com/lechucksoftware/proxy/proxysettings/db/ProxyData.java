@@ -11,17 +11,20 @@ public class ProxyData
     public String exclusion;
     public String description;
 
-    public long getId() {
+    public long getId()
+    {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(long id)
+    {
         this.id = id;
     }
 
     // Will be used by the ArrayAdapter in the ListView
     @Override
-    public String toString() {
-        return host + ":" + port;
+    public String toString()
+    {
+        return String.format("%s - %s:%d (%s)", description, host, port, exclusion);
     }
 }

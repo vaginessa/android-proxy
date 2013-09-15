@@ -15,10 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.APLConstants;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxyUtils;
+import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 
@@ -238,7 +235,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 {
                     if (ApplicationGlobals.getSelectedConfiguration().status != null)
                     {
-                        if (ApplicationGlobals.getSelectedConfiguration().status.getCheckingStatus() == APLConstants.CheckStatusValues.CHECKED)
+                        if (ApplicationGlobals.getSelectedConfiguration().status.getCheckingStatus() == CheckStatusValues.CHECKED)
                         {
                             ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECTED, ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
                         }
