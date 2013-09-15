@@ -21,9 +21,12 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.util.Log;
+import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import org.apache.http.HttpHost;
 
 import android.content.ComponentName;
@@ -35,6 +38,66 @@ import android.provider.Settings;
 public class ProxyUtils
 {
 	public static final String TAG = "ProxyUtils";
+
+    public static void startWifiScan()
+    {
+        if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
+        {
+            APL.getWifiManager().startScan();
+        }
+    }
+
+    public static void connectToAP(ProxyConfiguration conf) throws Exception
+    {
+        if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
+        {
+            if (conf != null && conf.ap != null && conf.ap.getLevel() > -1)
+            {
+                // Connect to AP only if it's available
+                ReflectionUtils.connectToWifi(APL.getWifiManager(),conf.ap.networkId);
+
+                APL.getWifiManager().enableNetwork(conf.ap.networkId, true);
+            }
+        }
+    }
+
+    public static NetworkInfo getCurrentNetworkInfo()
+    {
+        NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
+        return ni;
+    }
+
+    public static NetworkInfo getCurrentWiFiInfo()
+    {
+        NetworkInfo ni = APL.getConnectivityManager().getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return ni;
+    }
+
+    public static Boolean isConnectedToWiFi()
+    {
+        NetworkInfo ni = ProxyUtils.getCurrentWiFiInfo();
+        if (ni != null && ni.isAvailable() && ni.isConnected())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static Boolean isConnected()
+    {
+        NetworkInfo ni = ProxyUtils.getCurrentNetworkInfo();
+        if (ni != null && ni.isAvailable() && ni.isConnected())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 	public static String cleanUpSSID(String SSID)
 	{

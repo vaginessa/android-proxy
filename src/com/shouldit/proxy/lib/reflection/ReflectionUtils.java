@@ -2,6 +2,7 @@ package com.shouldit.proxy.lib.reflection;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.LogWrapper;
 
 import java.lang.reflect.Constructor;
@@ -15,6 +16,36 @@ import java.util.List;
 public class ReflectionUtils
 {
 	public static final String TAG = "ReflectionUtils";
+
+    public static void connectToWifi(WifiManager wifiManager, Integer networkId) throws Exception
+    {
+        boolean internalConnectDone = false;
+
+        try
+        {
+//            Method internalSave = WifiManager.class.getMethod(), "connect"
+//            if (internalSave != null)
+//            {
+//                Class<?>[] paramsTypes = internalSave.getParameterTypes();
+//                if (paramsTypes.length == 2)
+//                    internalSave.invoke(wifiManager,configuration,null);
+//                else if (paramsTypes.length == 1)
+//                    internalSave.invoke(wifiManager,configuration);
+//
+//                internalConnectDone = true;
+//            }
+        }
+        catch (Exception e)
+        {
+            LogWrapper.e(TAG,"Exception during connectToWifi: " + e.toString());
+        }
+
+        if (!internalConnectDone)
+        {
+            // Use the STANDARD API as a fallback solution
+            wifiManager.enableNetwork(networkId, true);
+        }
+    }
 
     public static void saveWifiConfiguration(WifiManager wifiManager, WifiConfiguration configuration) throws Exception
     {
@@ -36,7 +67,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            LogWrapper.e(TAG,"Exception during saveWifiConfiguration: " + e.toString());
         }
 
         if (!internalSaveDone)
