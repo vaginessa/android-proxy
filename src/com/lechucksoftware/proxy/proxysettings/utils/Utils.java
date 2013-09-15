@@ -3,7 +3,10 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.shouldit.proxy.lib.APL;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

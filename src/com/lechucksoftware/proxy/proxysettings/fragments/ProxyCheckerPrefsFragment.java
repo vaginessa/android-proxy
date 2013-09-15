@@ -75,7 +75,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
     public void refreshUIComponents()
     {
-        ProxyConfiguration conf = ApplicationGlobals.getInstance().getCachedConfiguration();
+        ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCachedConfiguration();
 
         if (conf.status.getCheckingStatus() == CheckStatusValues.CHECKING)
         {

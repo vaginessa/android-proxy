@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.APL;
+import com.shouldit.proxy.lib.ProxyUtils;
 
 
 /**
@@ -106,6 +108,15 @@ public class StatusFragment extends EnhancedFragment
         show();
     }
 
+    protected void showError(int error)
+    {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.proxy_error)
+                .setMessage(error)
+                .setPositiveButton(R.string.proxy_error_dismiss, null)
+                .show();
+    }
+
     View.OnClickListener enableWifi = new View.OnClickListener()
     {
         @Override
@@ -118,7 +129,7 @@ public class StatusFragment extends EnhancedFragment
             }
             catch (Exception e)
             {
-                BugReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action: " + e.toString()));
+                BugReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action", e));
             }
 
             setStatus(Constants.StatusFragmentStates.CHECKING);
@@ -132,7 +143,16 @@ public class StatusFragment extends EnhancedFragment
         public void onClick(View view)
         {
 //            hide();
-            ApplicationGlobals.connectToAP(ApplicationGlobals.getSelectedConfiguration());
+
+            try
+            {
+                ProxyUtils.connectToAP(ApplicationGlobals.getSelectedConfiguration());
+            }
+            catch (Exception e)
+            {
+                BugReportingUtils.sendException(new Exception("Exception during StatusFragment connectToWifi action",e));
+            }
+
             setStatus(Constants.StatusFragmentStates.CHECKING);
             clickedStatus = Constants.StatusFragmentStates.CHECKING;
         }

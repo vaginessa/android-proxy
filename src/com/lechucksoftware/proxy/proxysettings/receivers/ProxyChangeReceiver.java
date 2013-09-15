@@ -42,7 +42,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 				 || intent.getAction().equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))		// INTERNAL (APL): Called when an updated status on the check of a configuration is available
 		{
 			LogWrapper.logIntent(TAG, intent, Log.DEBUG);
-			UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getInstance().getCachedConfiguration(), context);
+			UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getProxyManager().getCachedConfiguration(), context);
 		}
 		else
 		{

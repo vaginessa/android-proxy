@@ -123,8 +123,8 @@ public class ProxySettingsCheckerService extends IntentService
         {
 //            CallRefreshApplicationStatus();
 
-            ApplicationGlobals.getInstance().updateProxyConfigurationList();
-            ProxyConfiguration conf = ApplicationGlobals.getInstance().getCurrentConfiguration();
+            ApplicationGlobals.getProxyManager().updateProxyConfigurationList();
+            ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCurrentConfiguration();
 
             NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
@@ -198,6 +198,6 @@ public class ProxySettingsCheckerService extends IntentService
         Intent intent = new Intent(Constants.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 
-        UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getInstance().getCachedConfiguration(), getApplicationContext());
+        UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getProxyManager().getCachedConfiguration(), getApplicationContext());
     }
 }

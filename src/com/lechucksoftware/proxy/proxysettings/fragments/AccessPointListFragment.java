@@ -96,7 +96,7 @@ public class AccessPointListFragment extends EnhancedListFragment
             if (APL.getWifiManager().isWifiEnabled())
             {
                 LogWrapper.d(TAG,"Refresh listview UI: get configuration list");
-                List<ProxyConfiguration> results = ApplicationGlobals.getInstance().getSortedConfigurationsList();
+                List<ProxyConfiguration> results = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
                 if (results != null && results.size() > 0)
                 {
 //                    int duration = Toast.LENGTH_SHORT;
