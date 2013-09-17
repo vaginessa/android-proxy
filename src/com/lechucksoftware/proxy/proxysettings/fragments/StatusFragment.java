@@ -26,7 +26,7 @@ public class StatusFragment extends EnhancedFragment
     public static StatusFragment instance;
     private Button statusButton;
 
-//    private Constants.StatusFragmentStates currentStatus;
+    //    private Constants.StatusFragmentStates currentStatus;
     private Constants.StatusFragmentStates clickedStatus;
 //    private View statusSpace;
 
@@ -53,43 +53,54 @@ public class StatusFragment extends EnhancedFragment
 
     public void setStatus(Constants.StatusFragmentStates status, String message)
     {
-        setStatus(status,message,Boolean.FALSE);
+        setStatus(status, message, Boolean.FALSE);
     }
 
     public void setStatus(Constants.StatusFragmentStates status)
     {
-        setStatus(status,null,Boolean.FALSE);
+        setStatus(status, null, Boolean.FALSE);
     }
 
     public void setStatus(Constants.StatusFragmentStates status, String message, Boolean isInProgress)
     {
-        LogWrapper.d(TAG,String.format("setStatus to: %s (%s)",status.toString(),message));
+        LogWrapper.d(TAG, String.format("setStatus: %s ->  %s (%s)", clickedStatus, status.toString(), message));
 
-        if (status == clickedStatus)
+        if (clickedStatus != null)
         {
-            LogWrapper.d(TAG,String.format("already into status: %s",status.toString()));
-            return;
+            switch (clickedStatus)
+            {
+                case CONNECTED:
+                    break;
+
+                default:
+                    if (status == clickedStatus)
+                    {
+                        LogWrapper.d(TAG, String.format("already into status: %s", status.toString()));
+                        return;
+                    }
+            }
         }
 
         switch (status)
         {
             case CONNECTED:
-                setStatusInternal(message, null, R.drawable.btn_blue_holo_dark,true);
+                clickedStatus = Constants.StatusFragmentStates.CONNECTED;
+                setStatusInternal(message, null, R.drawable.btn_blue_holo_dark, true);
                 break;
             case CHECKING:
-                setStatusInternal(getResources().getString(R.string.checking_action), null, R.drawable.btn_blue_holo_dark,false);
+                setStatusInternal(getResources().getString(R.string.checking_action), null, R.drawable.btn_blue_holo_dark, false);
                 break;
             case CONNECT_TO:
-                setStatusInternal(message, connectToWifi, R.drawable.btn_green_holo_dark,true);
+                setStatusInternal(message, connectToWifi, R.drawable.btn_green_holo_dark, true);
                 break;
             case NOT_AVAILABLE:
-                setStatusInternal(message, null, R.drawable.btn_blue_holo_dark,false);
+                setStatusInternal(message, null, R.drawable.btn_blue_holo_dark, false);
                 break;
             case ENABLE_WIFI:
-                setStatusInternal(getResources().getString(R.string.enable_wifi_action), enableWifi, R.drawable.btn_red_holo_dark,true);
+                setStatusInternal(getResources().getString(R.string.enable_wifi_action), enableWifi, R.drawable.btn_red_holo_dark, true);
                 break;
             case GOTO_AVAILABLE_WIFI:
-                setStatusInternal(message, configureNewWifiAp, R.drawable.btn_green_holo_dark,true);
+                setStatusInternal(message, configureNewWifiAp, R.drawable.btn_green_holo_dark, true);
                 break;
             case NONE:
             default:
@@ -99,7 +110,7 @@ public class StatusFragment extends EnhancedFragment
 
     private void setStatusInternal(String status, View.OnClickListener listener, int resId, boolean enabled)
     {
-        LogWrapper.d(TAG,String.format("setStatusInternal to: %s",status.toString()));
+//        LogWrapper.d(TAG,String.format("setStatusInternal to: %s",status.toString()));
 
         if (listener != null)
             statusButton.setText(String.format("%s...", status));
@@ -154,7 +165,7 @@ public class StatusFragment extends EnhancedFragment
             }
             catch (Exception e)
             {
-                BugReportingUtils.sendException(new Exception("Exception during StatusFragment connectToWifi action",e));
+                BugReportingUtils.sendException(new Exception("Exception during StatusFragment connectToWifi action", e));
             }
 
             setStatus(Constants.StatusFragmentStates.CHECKING);
