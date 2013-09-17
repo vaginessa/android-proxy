@@ -5,10 +5,7 @@ import android.net.wifi.WifiManager;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.LogWrapper;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,17 +20,19 @@ public class ReflectionUtils
 
         try
         {
-//            Method internalSave = WifiManager.class.getMethod(), "connect"
-//            if (internalSave != null)
-//            {
-//                Class<?>[] paramsTypes = internalSave.getParameterTypes();
-//                if (paramsTypes.length == 2)
-//                    internalSave.invoke(wifiManager,configuration,null);
-//                else if (paramsTypes.length == 1)
-//                    internalSave.invoke(wifiManager,configuration);
-//
-//                internalConnectDone = true;
-//            }
+            Class [] knownParam = new Class[1];
+            knownParam[0] = int.class;
+            Method internalConnect = getMethod(WifiManager.class.getMethods(), "connect",knownParam);
+            if (internalConnect != null)
+            {
+                Class<?>[] paramsTypes = internalConnect.getParameterTypes();
+                if (paramsTypes.length == 2)
+                    internalConnect.invoke(wifiManager,networkId,null);
+                else if (paramsTypes.length == 1)
+                    internalConnect.invoke(wifiManager,networkId);
+
+                internalConnectDone = true;
+            }
         }
         catch (Exception e)
         {
@@ -95,6 +94,66 @@ public class ReflectionUtils
             throw new Exception(new String(methodName + " method not found!"));
 
         return m;
+    }
+
+    public static Method getMethod(Method [] methods, String methodName, Class [] knownParameters) throws Exception
+    {
+        Method m = null;
+
+        for (Method lm:methods)
+        {
+            String currentMethodName = lm.getName();
+            if (currentMethodName.equals(methodName))
+            {
+                Boolean found = false;
+
+                for (Class knowParam:knownParameters)
+                {
+                    found = false;
+                    for(Class param : lm.getParameterTypes())
+                    {
+                        if(param.getName().equals(knowParam.getName()))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found == false)
+                        break;
+                }
+
+                if (found)
+                {
+                    m = lm;
+                    break;
+                }
+            }
+        }
+
+        if (m == null)
+            throw new Exception(new String(methodName + " method not found!"));
+
+        return m;
+    }
+
+    public static List<Method> getMethods(Method [] methods, String methodName) throws Exception
+    {
+        ArrayList<Method> ml = new ArrayList<Method>();
+
+        for (Method lm:methods)
+        {
+            String currentMethodName = lm.getName();
+            if (currentMethodName.equals(methodName))
+            {
+                ml.add(lm);
+            }
+        }
+
+        if (ml.size() == 0)
+            throw new Exception(new String(methodName + " method not found!"));
+
+        return ml;
     }
 
 	public static Field getField(Field [] fields, String fieldName) throws Exception
