@@ -12,6 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyUtils;
 
@@ -62,8 +63,11 @@ public class StatusFragment extends EnhancedFragment
 
     public void setStatus(Constants.StatusFragmentStates status, String message, Boolean isInProgress)
     {
+        LogWrapper.d(TAG,String.format("setStatus to: %s (%s)",status.toString(),message));
+
         if (status == clickedStatus)
         {
+            LogWrapper.d(TAG,String.format("already into status: %s",status.toString()));
             return;
         }
 
@@ -95,7 +99,7 @@ public class StatusFragment extends EnhancedFragment
 
     private void setStatusInternal(String status, View.OnClickListener listener, int resId, boolean enabled)
     {
-        clickedStatus = null;
+        LogWrapper.d(TAG,String.format("setStatusInternal to: %s",status.toString()));
 
         if (listener != null)
             statusButton.setText(String.format("%s...", status));
@@ -133,7 +137,7 @@ public class StatusFragment extends EnhancedFragment
             }
 
             setStatus(Constants.StatusFragmentStates.CHECKING);
-            clickedStatus = Constants.StatusFragmentStates.CHECKING;
+            clickedStatus = Constants.StatusFragmentStates.ENABLE_WIFI;
         }
     };
 
@@ -154,7 +158,7 @@ public class StatusFragment extends EnhancedFragment
             }
 
             setStatus(Constants.StatusFragmentStates.CHECKING);
-            clickedStatus = Constants.StatusFragmentStates.CHECKING;
+            clickedStatus = Constants.StatusFragmentStates.CONNECT_TO;
         }
     };
 
