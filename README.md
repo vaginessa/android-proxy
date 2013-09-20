@@ -12,7 +12,6 @@
 * The core features of **APL** are shown on a **[DEMO](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.lib.activities)** application on the Play Store
 * **[Proxy Settings](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.proxysettings)** makes use of all the advanced features of **APL** 
 
-
 # How to use it
 * Getting started [here](https://github.com/shouldit/android-proxy-library/wiki/Getting-Started).
 * See how to [make an HTTP request](https://github.com/shouldit/android-proxy-library/wiki/Make-a-HTTP-Request) using the proxy.
@@ -27,6 +26,9 @@ If you have isolated a problem or want a new feature to be included in the **And
 * Any workarounds if you have them.
 
 The more information you provide, the quicker the issue can be verified and prioritized. A test case (source code) that demonstrates the problem is greatly preferred.
+
+# Support APL
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=shouldit&url=https://github.com/shouldit/android-proxy-library&title=Android Proxy Library&language=&tags=github&category=software) 
 
 # Project's resources
 
