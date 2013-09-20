@@ -27,6 +27,8 @@ public class ProxyDataSource
             ProxySQLiteOpenHelper.COLUMN_PROXY_PORT,
             ProxySQLiteOpenHelper.COLUMN_PROXY_EXCLUSION,
             ProxySQLiteOpenHelper.COLUMN_PROXY_DESCRIPTION,
+            ProxySQLiteOpenHelper.COLUMN_PROXY_CREATION_DATE,
+            ProxySQLiteOpenHelper.COLUMN_PROXY_MODIFIED_DATE,
     };
 
     public ProxyDataSource(Context context)
@@ -51,30 +53,38 @@ public class ProxyDataSource
 
     public ProxyData upsertProxy(ProxyData proxyData)
     {
-        String query = "SELECT " + ProxySQLiteOpenHelper.COLUMN_ID
+        ProxyData persistedProxy = findProxy(proxyData);
+
+        if (persistedProxy == null)
+        {
+//            LogWrapper.d(TAG,"Insert new Proxy: " + proxyData);
+            return createProxy(proxyData);
+        }
+        else
+        {
+            // Update
+//            LogWrapper.d(TAG,"Update Proxy: " + proxyData);
+            return updateProxy(proxyData, persistedProxy);
+        }
+    }
+
+    public ProxyData findProxy(ProxyData proxyData)
+    {
+        String query = "SELECT * "
                        + " FROM " + ProxySQLiteOpenHelper.TABLE_PROXIES
                        + " WHERE " + ProxySQLiteOpenHelper.COLUMN_PROXY_HOST + " =?"
                        + " AND " + ProxySQLiteOpenHelper.COLUMN_PROXY_PORT + "=?";
 
         Cursor cursor = database.rawQuery(query, new String[]{proxyData.host, Integer.toString(proxyData.port)});
-//        Cursor cursor = database.query(ProxySQLiteOpenHelper.TABLE_PROXIES, allColumns, )
 
         cursor.moveToFirst();
-        if (cursor.isAfterLast())
+        ProxyData persisted = null;
+        if (!cursor.isAfterLast())
         {
-            // Insert
-            LogWrapper.d(TAG,"Insert new Proxy: " + proxyData);
-            createProxy(proxyData);
-        }
-        else
-        {
-            // Update
-            long proxyId = cursor.getLong(0);
-            LogWrapper.d(TAG,"Update Proxy: " + proxyData);
-            updateProxy(proxyData, proxyId);
+            persisted = cursorToProxy(cursor);
         }
         cursor.close();
-        return null;
+        return persisted;
     }
 
     public ProxyData createProxy(ProxyData proxyData)
@@ -83,7 +93,15 @@ public class ProxyDataSource
         values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_HOST, proxyData.host);
         values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_PORT,  proxyData.port);
         values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, proxyData.exclusion);
+
+        if (proxyData.description == null || proxyData.description.equals(""))
+            proxyData.description = ProxyData.getAutomaticDescription(proxyData);
+
         values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_DESCRIPTION, proxyData.description);
+
+        long currentDate = System.currentTimeMillis();
+        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_CREATION_DATE, currentDate);
+        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_MODIFIED_DATE, currentDate);
 
         Long insertId = database.insert(ProxySQLiteOpenHelper.TABLE_PROXIES, null, values);
 
@@ -97,22 +115,30 @@ public class ProxyDataSource
         return newProxy;
     }
 
-    public ProxyData updateProxy(ProxyData proxyData, Long proxyId)
+    public ProxyData updateProxy(ProxyData newData, ProxyData persistedProxy)
     {
         ContentValues values = new ContentValues();
-        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_HOST, proxyData.host);
-        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_PORT,  proxyData.port);
-        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_EXCLUSION,  proxyData.exclusion);
-        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_DESCRIPTION,  proxyData.description);
+        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_HOST, newData.host);
+        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_PORT,  newData.port);
+        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_EXCLUSION,  newData.exclusion);
 
-        long insertId = database.update(ProxySQLiteOpenHelper.TABLE_PROXIES, values, ProxySQLiteOpenHelper.COLUMN_ID + " =?", new String[] {proxyId.toString()});
+        if (newData.description != null)
+        {
+            values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_DESCRIPTION,  newData.description);
+        }
 
-        Cursor cursor = database.query(ProxySQLiteOpenHelper.TABLE_PROXIES,
+        long currentDate = System.currentTimeMillis();
+        values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_MODIFIED_DATE, currentDate);
+
+        long insertId = database.update(ProxySQLiteOpenHelper.TABLE_PROXIES, values, ProxySQLiteOpenHelper.COLUMN_ID + " =?", new String[] {persistedProxy.getId().toString()});
+
+        Cursor updatedCursor = database.query(ProxySQLiteOpenHelper.TABLE_PROXIES,
                 allColumns, ProxySQLiteOpenHelper.COLUMN_ID + "=?", new String[]{Long.toString(insertId)},
                 null, null, null);
-        cursor.moveToFirst();
-        ProxyData newProxy = cursorToProxy(cursor);
-        cursor.close();
+
+        updatedCursor.moveToFirst();
+        ProxyData newProxy = cursorToProxy(updatedCursor);
+        updatedCursor.close();
         return newProxy;
     }
 
@@ -149,6 +175,11 @@ public class ProxyDataSource
         proxy.port = cursor.getInt(2);
         proxy.exclusion = cursor.getString(3);
         proxy.description = cursor.getString(4);
+        proxy.setCreationDate(cursor.getLong(5));
+        proxy.setModifiedDate(cursor.getLong(6));
+
+        proxy.isPersisted = true;
+
         return proxy;
     }
 }

@@ -11,13 +11,13 @@ import com.shouldit.proxy.lib.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProxySelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
+public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
 {
     private final LayoutInflater vi;
     private ArrayList<ProxyConfiguration> mList; // --CloneChangeRequired
     private Context ctx;
 
-    public ProxySelectorListAdapter(Context context)
+    public WifiAPSelectorListAdapter(Context context)
     {
         super(context, R.layout.ap_list_item);
         vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

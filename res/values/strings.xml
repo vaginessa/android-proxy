@@ -877,4 +877,5 @@
     <string name="pref_issues_summary">Let us know if you have feature requests or if you experienced issues using Proxy
         Settings
     </string>
+    <string name="proxy_configurations">Proxy configurations</string>
 </resources>

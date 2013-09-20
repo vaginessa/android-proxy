@@ -16,6 +16,8 @@ public class ProxySQLiteOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_PROXY_PORT = "port";
     public static final String COLUMN_PROXY_EXCLUSION = "exclusion";
     public static final String COLUMN_PROXY_DESCRIPTION = "description";
+    public static final String COLUMN_PROXY_CREATION_DATE = "creationDate";
+    public static final String COLUMN_PROXY_MODIFIED_DATE = "modifiedDate";
 
     private static final String DATABASE_NAME = "proxysettings.db";
     private static final int DATABASE_VERSION = 1;
@@ -28,7 +30,9 @@ public class ProxySQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_PROXY_HOST + " text not null,"
             + COLUMN_PROXY_PORT + " integer not null,"
             + COLUMN_PROXY_EXCLUSION + " text not null,"
-            + COLUMN_PROXY_DESCRIPTION + " text"
+            + COLUMN_PROXY_DESCRIPTION + " text,"
+            + COLUMN_PROXY_CREATION_DATE + " integer not null,"
+            + COLUMN_PROXY_MODIFIED_DATE + " integer not null"
             + ");";
 
 

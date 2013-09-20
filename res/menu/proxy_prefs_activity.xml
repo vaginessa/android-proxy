@@ -52,6 +52,12 @@
 <!-- 		android:id="@+id/menu_advanced" -->
 <!-- 		android:title="@string/advanced" /> -->
 
+    <item
+    android:id="@+id/menu_proxies"
+    android:icon="@drawable/ic_action_shuffle"
+    android:showAsAction="always|withText"
+    android:title="@string/proxy"/>
+
     <!--<item-->
         <!--android:id="@+id/menu_actions"-->
         <!--android:icon="@drawable/ic_action_valid"-->

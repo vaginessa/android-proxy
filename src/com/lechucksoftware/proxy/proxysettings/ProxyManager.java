@@ -217,7 +217,10 @@ public class ProxyManager
             }
 
             List<ProxyData> savedProxies = pds.getAllProxies();
-            LogWrapper.d(TAG,"Saved proxies: " + TextUtils.join(",",savedProxies));
+            for (ProxyData p : savedProxies)
+            {
+                LogWrapper.d(TAG,"Saved proxy: " + p.getDebugInfo());
+            }
         }
     }
 

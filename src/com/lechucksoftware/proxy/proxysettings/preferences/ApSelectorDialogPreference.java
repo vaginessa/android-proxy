@@ -1,22 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.preferences;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import android.content.Context;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
-import com.shouldit.proxy.lib.ProxyConfiguration;
 
 public class ApSelectorDialogPreference extends DialogPreference
 {
@@ -45,7 +36,7 @@ public class ApSelectorDialogPreference extends DialogPreference
 //		final ArrayList<ProxyConfiguration> confsList = (ArrayList<ProxyConfiguration>) ApplicationGlobals.getConfigurationsList();
 //		Collections.sort(confsList);
 				
-//		listview.setAdapter(new ProxySelectorListAdapter(ApSelectorDialogPreference.this.getContext(), R.id.list_view, confsList));
+//		listview.setAdapter(new WifiAPSelectorListAdapter(ApSelectorDialogPreference.this.getContext(), R.id.list_view, confsList));
 //		listview.setOnItemClickListener(new OnItemClickListener()
 //		{
 //		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)

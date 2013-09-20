@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_item_ap_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+    <TextView
+            android:id="@+id/list_item_proxy_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:text="PROXY NAME">
+    </TextView>
+
+    <TextView
+            android:id="@+id/list_item_proxy_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/list_item_proxy_title"
+            android:textSize="14sp"
+            android:text="PROXY DESC">
+    </TextView>
+
+</RelativeLayout>
