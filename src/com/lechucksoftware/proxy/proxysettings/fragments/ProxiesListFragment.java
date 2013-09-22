@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxiesSelectorListAdapter;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.SecurityType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,9 +126,9 @@ public class ProxiesListFragment extends EnhancedListFragment
             getListView().setItemChecked(index, true);
 
             ProxyData selectedProxy = (ProxyData) getListView().getItemAtPosition(index);
-//            ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
+            ApplicationGlobals.setSelectedProxy(selectedProxy);
 //            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
-//            NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());
+            NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());
         }
         catch (Exception e)
         {

@@ -41,7 +41,7 @@ public class ApSelectorDialogPreference extends DialogPreference
 //		{
 //		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 //		    {
-////		    	ProxyDetailsFragment.instance.selectAP(confsList.get(position));
+////		    	WifiAPDetailsFragment.instance.selectAP(confsList.get(position));
 //		    	ApSelectorDialogPreference.this.getDialog().dismiss();
 //		    }
 //		});

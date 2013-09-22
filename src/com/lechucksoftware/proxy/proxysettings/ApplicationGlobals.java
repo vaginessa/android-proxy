@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import android.app.Application;
 import android.content.Intent;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyDataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -16,6 +17,7 @@ public class ApplicationGlobals extends Application
     private ProxyManager proxyManager;
     private static final String TAG = "ApplicationGlobals";
     private static ProxyConfiguration selectedConfiguration;
+    private static ProxyData selectedProxy;
 
     @Override
     public void onCreate()
@@ -63,8 +65,18 @@ public class ApplicationGlobals extends Application
         ApplicationGlobals.selectedConfiguration = selectedConfiguration;
     }
 
+    public static void setSelectedProxy(ProxyData selectedProxy)
+    {
+        ApplicationGlobals.selectedProxy = selectedProxy;
+    }
+
     public static ProxyConfiguration getSelectedConfiguration()
     {
         return ApplicationGlobals.selectedConfiguration;
+    }
+
+    public static ProxyData getSelectedProxy()
+    {
+        return ApplicationGlobals.selectedProxy;
     }
 }

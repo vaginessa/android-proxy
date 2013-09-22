@@ -878,4 +878,7 @@
         Settings
     </string>
     <string name="proxy_configurations">Proxy configurations</string>
+    <string name="proxy_description_hint">Enter a name/description for the proxy</string>
+    <string name="proxy_description_title">Proxy description</string>
+    <string name="proxy_description">Description</string>
 </resources>

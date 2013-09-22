@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+            android:dialogMessage="@string/proxy_description_hint"
+            android:dialogTitle="@string/proxy_description_title"
+            android:key="pref_proxy_description"
+            android:persistent="false"
+            android:title="@string/proxy_description" />
+
+</PreferenceScreen>

@@ -171,7 +171,7 @@ public class AccessPointListFragment extends EnhancedListFragment
                 ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
                 LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
-                NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());
+                NavigationUtils.GoToAPDetailsFragment(getFragmentManager());
             }
         }
         catch (Exception e)
