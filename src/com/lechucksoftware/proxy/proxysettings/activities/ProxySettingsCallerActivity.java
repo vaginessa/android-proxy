@@ -143,29 +143,29 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 
     public boolean showAppBetaTest()
     {
-        return true;
+//        return true;
 
-//        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
-//        if (prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
-//        {
-//            return false;
-//        }
-//
-//        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(getApplicationContext());
-//
-//        // Wait at least N days before opening
-//        if (statistics.launchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)
-//        {
-//            Calendar c = Calendar.getInstance();
-//            c.setTime(statistics.launhcFirstDate);
-//            c.add(Calendar.DATE, Constants.BETATEST_DAYS_UNTIL_PROMPT);
-//
-//            if (System.currentTimeMillis() >= c.getTime().getTime())
-//            {
-//                return true;
-//            }
-//        }
+        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        if (prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
+        {
+            return false;
+        }
 
-//        return false;
+        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(getApplicationContext());
+
+        // Wait at least N days before opening
+        if (statistics.launchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)
+        {
+            Calendar c = Calendar.getInstance();
+            c.setTime(statistics.launhcFirstDate);
+            c.add(Calendar.DATE, Constants.BETATEST_DAYS_UNTIL_PROMPT);
+
+            if (System.currentTimeMillis() >= c.getTime().getTime())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

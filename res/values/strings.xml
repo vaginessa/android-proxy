@@ -868,6 +868,7 @@
     <string name="pref_rate_app_summary">Write a review and rate Proxy Settings on Play Store</string>
     <string name="pref_help_changelog_summary">Show full application changelog</string>
     <string name="beta_testing">Beta testing</string>
+    <string name="beta_testing_request">Be the first to get the latest features of Proxy Settings joining the \"Proxy Settings - Beta Testers\" Community on Google+. Are you interested? You will find more information available on the Community page.</string>
     <string name="beta_testing_instructions">In order to become a beta tester for you need to join the \"Proxy Settings - Beta Testers\" Community on Google+. More information available on the Community page.</string>
     <string name="ok">OK</string>
     <string name="cont">Continue</string>
