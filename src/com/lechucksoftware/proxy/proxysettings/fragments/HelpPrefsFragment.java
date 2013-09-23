@@ -9,6 +9,7 @@ import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 
@@ -149,36 +150,7 @@ public class HelpPrefsFragment extends PreferenceFragment
 
     private void showBetaTestDialog()
     {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.beta_testing);
-        builder.setMessage(R.string.beta_testing_instructions);
-        builder.setPositiveButton(R.string.cont, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/communities/104290788068260973104"));
-                startActivity(browserIntent);
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-        {
-            @Override
-            public void onCancel(DialogInterface dialog)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
+        AlertDialog dialog = UIUtils.getBetaTestDialog(getActivity());
         dialog.show();
     }
 
@@ -193,6 +165,9 @@ public class HelpPrefsFragment extends PreferenceFragment
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle(getResources().getString(R.string.help));
+
+        ActionManager.getInstance().hide();
     }
 
 }

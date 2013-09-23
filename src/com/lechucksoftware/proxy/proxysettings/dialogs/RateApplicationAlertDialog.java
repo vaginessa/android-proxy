@@ -27,7 +27,7 @@ public class RateApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((ProxySettingsCallerActivity) getActivity()).DontDisplayAgain();
+				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
 				LogWrapper.d(TAG, "Starting Market activity");
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
 				getActivity().finish();
@@ -46,7 +46,7 @@ public class RateApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((ProxySettingsCallerActivity) getActivity()).DontDisplayAgain();
+				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
 				((ProxySettingsCallerActivity) getActivity()).GoToProxy();
 			}
 		});

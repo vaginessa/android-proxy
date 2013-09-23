@@ -5,15 +5,19 @@ public class Constants
 	public static final String PREFERENCES_FILENAME = "ProxySettingsPreferences";
 	
 	public static final String PREFERENCES_ACCEPTED_DISCLAIMER = "AcceptedDisclaimer";
-	
 	public static final String PREFERENCES_APPRATE_DONT_SHOW_AGAIN = "DontShowAgainAppRater";
-	public static final String PREFERENCES_APPRATE_LAUNCH_COUNT = "LaunchCount";
-	public static final String PREFERENCES_APPRATE_DATE_FIRST_LAUNCH = "DateFirstLaunch";
+    public static final String PREFERENCES_BETATEST_DONT_SHOW_AGAIN = "DontShowAgainBetaTest";
+
+    public static final String PREFERENCES_APP_LAUNCH_COUNT = "LaunchCount";
+    public static final String PREFERENCES_APP_DATE_FIRST_LAUNCH = "DateFirstLaunch";
 	
 	public static final String PREFERENCES_CACHED_URLS = "CachedUrls";
 	
 	public final static int   APPRATE_DAYS_UNTIL_PROMPT	 = 7;
 	public final static int   APPRATE_LAUNCHES_UNTIL_PROMPT = 10;
+
+    public final static int   BETATEST_DAYS_UNTIL_PROMPT	 = 14;
+    public final static int   BETATEST_LAUNCHES_UNTIL_PROMPT = 50;
 	
 	/***************************************************************************
 	 * Intent 

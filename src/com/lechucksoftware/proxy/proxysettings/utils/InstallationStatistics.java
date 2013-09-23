@@ -13,8 +13,8 @@ import java.util.Date;
 public class InstallationStatistics
 {
     private static final String TAG = InstallationStatistics.class.getSimpleName();
-    private long launchCount;
-    private Date launhcFirstDate;
+    public long launchCount;
+    public Date launhcFirstDate;
 
     public static InstallationStatistics GetInstallationDetails(Context applicationContext)
     {
@@ -22,15 +22,15 @@ public class InstallationStatistics
         SharedPreferences.Editor editor = prefs.edit();
 
         // Increment launch counter
-        long launch_count = prefs.getLong(Constants.PREFERENCES_APPRATE_LAUNCH_COUNT, 0) + 1;
-        editor.putLong(Constants.PREFERENCES_APPRATE_LAUNCH_COUNT, launch_count);
+        long launch_count = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0) + 1;
+        editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, launch_count);
 
         // Get date of first launch
-        Long date_firstLaunch = prefs.getLong(Constants.PREFERENCES_APPRATE_DATE_FIRST_LAUNCH, 0);
+        Long date_firstLaunch = prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0);
         if (date_firstLaunch == 0)
         {
             date_firstLaunch = System.currentTimeMillis();
-            editor.putLong(Constants.PREFERENCES_APPRATE_DATE_FIRST_LAUNCH, date_firstLaunch);
+            editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, date_firstLaunch);
         }
 
         DateFormat df = DateFormat.getDateTimeInstance();

@@ -111,6 +111,45 @@ public class UIUtils
 		return bd;
 	}
 
+    public static AlertDialog getBetaTestDialog(final Context ctx)
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setTitle(R.string.beta_testing);
+        builder.setMessage(R.string.beta_testing_instructions);
+        builder.setPositiveButton(R.string.cont, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                openBetaTestProject(ctx);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
+        {
+            @Override
+            public void onCancel(DialogInterface dialog)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        return builder.create();
+    }
+
+    public static void openBetaTestProject(Context ctx)
+    {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/communities/104290788068260973104"));
+        ctx.startActivity(browserIntent);
+    }
+
     public static void showHTMLAssetsAlertDialog(final Context ctx, String title, String filename, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
     {
         String BASE_URL = "file:///android_asset/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';

@@ -7,8 +7,12 @@ import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.Constants;
+import com.lechucksoftware.proxy.proxysettings.dialogs.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+
+import java.util.Calendar;
 
 public class ProxySettingsCallerActivity extends FragmentActivity
 {
@@ -26,12 +30,17 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 		LogWrapper.d(TAG, "SDK Version");
 		LogWrapper.d(TAG, "SDK Version: " + Build.VERSION.SDK_INT);
 
-		if (AppLaunched())
+        if (showAppRate())
 		{
-			RateApplicationAlertDialog newFragment = RateApplicationAlertDialog.newInstance();
-			newFragment.show(getSupportFragmentManager(), TAG);
+			RateApplicationAlertDialog dialog = RateApplicationAlertDialog.newInstance();
+            dialog.show(getSupportFragmentManager(), TAG);
 		}
-		else
+		else if (showAppBetaTest())
+        {
+            BetaTestApplicationAlertDialog dialog = BetaTestApplicationAlertDialog.newInstance();
+            dialog.show(getSupportFragmentManager(), TAG);
+        }
+        else
 		{
 			GoToProxy();
 		}
@@ -82,7 +91,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 		finish();
 	}
 
-	public void DontDisplayAgain()
+	public void dontDisplayAgainAppRate()
 	{
 		SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
 		SharedPreferences.Editor editor = prefs.edit();
@@ -94,39 +103,69 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 		}
 	}
 
-	public boolean AppLaunched()
-	{
-		SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
-		if (prefs.getBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, false))
-		{
-			return false;
-		}
+    public boolean showAppRate()
+    {
+        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        if (prefs.getBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, false))
+        {
+            return false;
+        }
 
-		SharedPreferences.Editor editor = prefs.edit();
+        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(getApplicationContext());
 
-		// Increment launch counter
-		long launch_count = prefs.getLong(Constants.PREFERENCES_APPRATE_LAUNCH_COUNT, 0) + 1;
-		editor.putLong(Constants.PREFERENCES_APPRATE_LAUNCH_COUNT, launch_count);
+        // Wait at least N days before opening
+        if (statistics.launchCount >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT)
+        {
+            Calendar c = Calendar.getInstance();
+            c.setTime(statistics.launhcFirstDate);
+            c.add(Calendar.DATE, Constants.APPRATE_DAYS_UNTIL_PROMPT);
 
-		// Get date of first launch
-		Long date_firstLaunch = prefs.getLong(Constants.PREFERENCES_APPRATE_DATE_FIRST_LAUNCH, 0);
-		if (date_firstLaunch == 0)
-		{
-			date_firstLaunch = System.currentTimeMillis();
-			editor.putLong(Constants.PREFERENCES_APPRATE_DATE_FIRST_LAUNCH, date_firstLaunch);
-		}
+            if (System.currentTimeMillis() >= c.getTime().getTime())
+            {
+                return true;
+            }
+        }
 
-		editor.commit();
+        return false;
+    }
 
-		// Wait at least N days before opening
-		if (launch_count >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT)
-		{
-			if (System.currentTimeMillis() >= date_firstLaunch + (Constants.APPRATE_DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000))
-			{
-				return true;
-			}
-		}
+    public void dontDisplayAgainBetaTest()
+    {
+        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences.Editor editor = prefs.edit();
 
-		return false;
-	}
+        if (editor != null)
+        {
+            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
+            editor.commit();
+        }
+    }
+
+    public boolean showAppBetaTest()
+    {
+        return true;
+
+//        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+//        if (prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
+//        {
+//            return false;
+//        }
+//
+//        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(getApplicationContext());
+//
+//        // Wait at least N days before opening
+//        if (statistics.launchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)
+//        {
+//            Calendar c = Calendar.getInstance();
+//            c.setTime(statistics.launhcFirstDate);
+//            c.add(Calendar.DATE, Constants.BETATEST_DAYS_UNTIL_PROMPT);
+//
+//            if (System.currentTimeMillis() >= c.getTime().getTime())
+//            {
+//                return true;
+//            }
+//        }
+
+//        return false;
+    }
 }
