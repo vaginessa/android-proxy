@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.12" versioncode="1200212" date="09/03/2013">
-        <change>Fixed exception on missing available Wi-Fi networks</change>
+    <release version="2.12" versioncode="1200212" date="09/23/2013">
+        <change>Updated to latest version of APL, with better support of proxy change notification to system</change>
+        <change>Added infrastructure for proxy saving feature that will be added in next version</change>
+        <change>Various bugfix</change>
     </release>
     <release version="2.11" versioncode="1200211" date="09/02/2013">
         <change>Added What's new dialog at application startup</change>
