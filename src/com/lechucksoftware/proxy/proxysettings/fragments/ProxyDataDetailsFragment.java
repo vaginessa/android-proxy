@@ -15,14 +15,17 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.*;
+import com.shouldit.proxy.lib.APL;
+import com.shouldit.proxy.lib.CheckStatusValues;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxyUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 
-public class ProxyDetailsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
+public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
-    public static ProxyDetailsFragment instance;
-    public static final String TAG = "ProxyDetailsFragment";
+    public static ProxyDataDetailsFragment instance;
+    public static final String TAG = ProxyDataDetailsFragment.class.getSimpleName();
 
     private PreferenceScreen authPrefScreen;
     private SwitchPreference proxyEnablePref;
@@ -30,14 +33,15 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
     private EditTextPreference proxyHostPref;
     private EditTextPreference proxyPortPref;
     private EditTextPreference proxyBypassPref;
+    private EditTextPreference proxyDescriptionPref;
 
     /**
-     * Create a new instance of ProxyDetailsFragment
+     * Create a new instance of WifiAPDetailsFragment
      */
-    public static ProxyDetailsFragment getInstance()
+    public static ProxyDataDetailsFragment getInstance()
     {
         if (instance == null)
-            instance = new ProxyDetailsFragment();
+            instance = new ProxyDataDetailsFragment();
 
         return instance;
     }
@@ -46,7 +50,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.proxy_enabled_preference);
+        addPreferencesFromResource(R.xml.proxy_description_preference);
         addPreferencesFromResource(R.xml.proxy_settings_preferences);
 
         instance = this;
@@ -59,91 +63,52 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
 
         getUIComponents();
         refreshUI();
-//        selectAP();
     }
 
     private void getUIComponents()
     {
 //		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
 
-        proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
-        proxyEnablePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+        proxyDescriptionPref = (EditTextPreference) findPreference("pref_proxy_description");
+        proxyDescriptionPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
         {
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
-                Boolean isChecked = (Boolean) newValue;
 
-                if (isChecked)
-                {
-                    ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.STATIC;
-                }
-                else
-                {
-                    ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.NONE;
-                }
-
-                saveConfiguration();
                 return true;
             }
         });
 
         proxyHostPref = (EditTextPreference) findPreference("pref_proxy_host");
+        proxyHostPref.setDependency(null);
         proxyHostPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
         {
 
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
-                String proxyHost = (String) newValue;
-
-                ApplicationGlobals.getSelectedConfiguration().setProxyHost(proxyHost);
-                saveConfiguration();
 
                 return true;
             }
         });
 
         proxyPortPref = (EditTextPreference) findPreference("pref_proxy_port");
+        proxyPortPref.setDependency(null);
         proxyPortPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
         {
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
-                String portString = (String) newValue;
-                Integer proxyPort;
-
-                try
-                {
-                    proxyPort = Integer.parseInt(portString);
-                }
-                catch (NumberFormatException ex)
-                {
-                    proxyPort = 0; // Equivalent to NOT SET
-                    showError(R.string.proxy_error_invalid_port);
-                    return false;
-                }
-
-                if (proxyPort <= 0 || proxyPort > 0xFFFF)
-                {
-                    showError(R.string.proxy_error_invalid_port);
-                    return false;
-                }
-
-                ApplicationGlobals.getSelectedConfiguration().setProxyPort(proxyPort);
-                saveConfiguration();
-
                 return true;
             }
         });
 
         proxyBypassPref = (EditTextPreference) findPreference("pref_proxy_bypass");
+        proxyBypassPref.setDependency(null);
         proxyBypassPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
         {
 
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
-                String proxyExclusionList = (String) newValue;
 
-                ApplicationGlobals.getSelectedConfiguration().setProxyExclusionList(proxyExclusionList);
-                saveConfiguration();
 
                 return true;
             }
@@ -179,22 +144,9 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
     {
         if (isVisible())
         {
-            if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
+            if (ApplicationGlobals.getSelectedProxy() != null)
             {
-                proxyEnablePref.setEnabled(true);
-                String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
-//			apSelectorPref.setSummary(apdesc);
-
-                if (ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.NONE || ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.UNASSIGNED)
-                {
-                    proxyEnablePref.setChecked(false);
-                }
-                else
-                {
-                    proxyEnablePref.setChecked(true);
-                }
-
-                String proxyHost = ApplicationGlobals.getSelectedConfiguration().getProxyHost();
+                String proxyHost = ApplicationGlobals.getSelectedProxy().host;
                 proxyHostPref.setText(proxyHost);
                 if (proxyHost == null || proxyHost.length() == 0)
                 {
@@ -205,7 +157,7 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                     proxyHostPref.setSummary(proxyHost);
                 }
 
-                Integer proxyPort = ApplicationGlobals.getSelectedConfiguration().getProxyPort();
+                Integer proxyPort = ApplicationGlobals.getSelectedProxy().port;
                 String proxyPortString;
                 if (proxyPort == null || proxyPort == 0)
                 {
@@ -218,7 +170,9 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                     proxyPortPref.setText(proxyPortString);
                 }
 
-                String bypassList = ApplicationGlobals.getSelectedConfiguration().getProxyExclusionList();
+                proxyPortPref.setSummary(proxyPortString);
+
+                String bypassList = ApplicationGlobals.getSelectedProxy().exclusion;
                 if (bypassList == null || bypassList.equals(""))
                 {
                     proxyBypassPref.setSummary(getText(R.string.not_set));
@@ -227,50 +181,10 @@ public class ProxyDetailsFragment extends PreferenceFragment implements OnShared
                 {
                     proxyBypassPref.setSummary(bypassList);
                 }
-
-                proxyPortPref.setSummary(proxyPortString);
-
-
-                if (ApplicationGlobals.getSelectedConfiguration().isCurrentNetwork())
-                {
-                    if (ApplicationGlobals.getSelectedConfiguration().status != null)
-                    {
-                        if (ApplicationGlobals.getSelectedConfiguration().status.getCheckingStatus() == CheckStatusValues.CHECKED)
-                        {
-                            ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECTED, ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
-                        }
-                        else
-                        {
-                            ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CHECKING);
-                        }
-                    }
-                    else
-                    {
-                        ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CHECKING);
-                    }
-                }
-                else if (ApplicationGlobals.getSelectedConfiguration().ap.getLevel() > -1)
-                {
-                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action, ApplicationGlobals.getSelectedConfiguration().ap.ssid));
-                }
-                else
-                {
-                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.NOT_AVAILABLE, ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
-                }
-
             }
             else
             {
-                if (APL.getWifiManager().isWifiEnabled())
-                {
-//				apSelectorPref.setSummary(getResources().getString(R.string.no_ap_active));
-                }
-                else
-                {
-//				apSelectorPref.setTitle(getResources().getString(R.string.wifi_disabled));
-                }
-
-                proxyEnablePref.setEnabled(false);
+                //int e = 1/0;
             }
         }
     }

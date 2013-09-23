@@ -21,16 +21,16 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-		builder.setTitle("BETA TEST");
-		builder.setMessage("Go to beta test (open into browser, g+ official app seems to not support proxy settings)");
+		builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
+		builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
 		builder.setCancelable(false);
 		builder.setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener() 
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
 				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
-				LogWrapper.d(TAG, "Starting BetaTest activity");
-                UIUtils.openBetaTestProject(getActivity());
+				LogWrapper.d(TAG, "Starting Market activity");
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
 				getActivity().finish();
 			}
 		});
@@ -47,7 +47,7 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
+//				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
 				((ProxySettingsCallerActivity) getActivity()).GoToProxy();
 			}
 		});

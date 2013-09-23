@@ -2,8 +2,6 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.content.Intent;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +12,11 @@ import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.components.StatusView;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-import com.lechucksoftware.proxy.proxysettings.utils.ProxySelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.utils.WifiAPSelectorListAdapter;
 import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.SecurityType;
 
@@ -35,13 +31,13 @@ public class AccessPointListFragment extends EnhancedListFragment
     private static final String TAG = "AccessPointListFragment";
     private static AccessPointListFragment instance;
     int mCurCheckPosition = 0;
-    private ProxySelectorListAdapter apListAdapter;
+    private WifiAPSelectorListAdapter apListAdapter;
     private TextView emptyText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.ap_selector_fragment, container, false);
+        View v = inflater.inflate(R.layout.base_list_fragment, container, false);
 
         emptyText = (TextView) v.findViewById(android.R.id.empty);
 
@@ -90,7 +86,7 @@ public class AccessPointListFragment extends EnhancedListFragment
         {
             if (apListAdapter == null)
             {
-                apListAdapter = new ProxySelectorListAdapter(getActivity());
+                apListAdapter = new WifiAPSelectorListAdapter(getActivity());
                 setListAdapter(apListAdapter);
             }
 
@@ -175,7 +171,7 @@ public class AccessPointListFragment extends EnhancedListFragment
                 ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
                 LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
-                NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());
+                NavigationUtils.GoToAPDetailsFragment(getFragmentManager());
             }
         }
         catch (Exception e)

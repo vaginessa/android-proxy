@@ -12,11 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.WifiAPDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -87,6 +86,9 @@ public class MainActivity extends Activity
             case R.id.menu_about:
                 NavigationUtils.GoToHelpFragment(getFragmentManager());
                 return true;
+
+            case R.id.menu_proxies:
+                NavigationUtils.GoToProxiesList(getFragmentManager());
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -191,7 +193,7 @@ public class MainActivity extends Activity
 //        this.invalidateOptionsMenu();
 
         AccessPointListFragment.getInstance().refreshUI();
-        ProxyDetailsFragment.getInstance().refreshUI();
+        WifiAPDetailsFragment.getInstance().refreshUI();
     }
 
 

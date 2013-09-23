@@ -3,12 +3,8 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailsFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.*;
 
 /**
  * Created by Marco on 22/06/13.
@@ -56,9 +52,9 @@ public class NavigationUtils
 //        fts.commit();
     }
 
-    public static void GoToProxyDetailsFragment(FragmentManager fm)
+    public static void GoToAPDetailsFragment(FragmentManager fm)
     {
-        ProxyDetailsFragment details = ProxyDetailsFragment.getInstance();
+        WifiAPDetailsFragment details = WifiAPDetailsFragment.getInstance();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -69,5 +65,27 @@ public class NavigationUtils
 //        FragmentTransaction fts = fm.beginTransaction();
 //        fts.show(StatusFragment.getInstance());
 //        fts.commit();
+    }
+
+    public static void GoToProxyDetailsFragment(FragmentManager fm)
+    {
+        ProxyDataDetailsFragment details = ProxyDataDetailsFragment.getInstance();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.replace(R.id.fragment_container, details);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public static void GoToProxiesList(FragmentManager fm)
+    {
+        ProxiesListFragment list = ProxiesListFragment.getInstance();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.replace(R.id.fragment_container, list);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }
