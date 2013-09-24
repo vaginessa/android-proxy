@@ -12,6 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -146,7 +147,20 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
         {
             if (ApplicationGlobals.getSelectedProxy() != null)
             {
-                String proxyHost = ApplicationGlobals.getSelectedProxy().host;
+                ProxyData proxy = ApplicationGlobals.getSelectedProxy();
+
+                String description = proxy.description;
+                proxyDescriptionPref.setText(description);
+                if (description == null || description.length() == 0)
+                {
+                    proxyDescriptionPref.setSummary(getText(R.string.not_set));
+                }
+                else
+                {
+                    proxyDescriptionPref.setSummary(description);
+                }
+
+                String proxyHost = proxy.host;
                 proxyHostPref.setText(proxyHost);
                 if (proxyHost == null || proxyHost.length() == 0)
                 {
@@ -157,7 +171,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
                     proxyHostPref.setSummary(proxyHost);
                 }
 
-                Integer proxyPort = ApplicationGlobals.getSelectedProxy().port;
+                Integer proxyPort = proxy.port;
                 String proxyPortString;
                 if (proxyPort == null || proxyPort == 0)
                 {
@@ -172,7 +186,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
 
                 proxyPortPref.setSummary(proxyPortString);
 
-                String bypassList = ApplicationGlobals.getSelectedProxy().exclusion;
+                String bypassList = proxy.exclusion;
                 if (bypassList == null || bypassList.equals(""))
                 {
                     proxyBypassPref.setSummary(getText(R.string.not_set));
@@ -184,7 +198,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
             }
             else
             {
-                //int e = 1/0;
+                LogWrapper.e(TAG,"NOT VISIBLE");
             }
         }
     }
@@ -209,14 +223,11 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        ProxyConfiguration selconf = ApplicationGlobals.getSelectedConfiguration();
+        ProxyData selconf = ApplicationGlobals.getSelectedProxy();
 
-        if (APL.getWifiManager().isWifiEnabled()
-                && selconf != null
-                && selconf.ap != null)
+        if (selconf != null)
         {
-            actionBar.setTitle(ApplicationGlobals.getSelectedConfiguration().ap.ssid);
-
+            actionBar.setTitle(selconf.description);
 //            ActionManager.getInstance().refreshUI();
         }
         else

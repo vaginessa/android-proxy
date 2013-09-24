@@ -230,7 +230,6 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
 
                 proxyPortPref.setSummary(proxyPortString);
 
-
                 if (ApplicationGlobals.getSelectedConfiguration().isCurrentNetwork())
                 {
                     if (ApplicationGlobals.getSelectedConfiguration().status != null)
