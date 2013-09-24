@@ -31,7 +31,8 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyData>
 
     static class ApViewHolder
     {
-        TextView title;
+        TextView host;
+        TextView port;
         TextView description;
     }
 
@@ -57,7 +58,8 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyData>
             view = vi.inflate(R.layout.proxy_list_item, null);
 
             viewHolder = new ApViewHolder();
-            viewHolder.title = (TextView) view.findViewById(R.id.list_item_proxy_title);
+            viewHolder.host = (TextView) view.findViewById(R.id.list_item_proxy_host);
+            viewHolder.port = (TextView) view.findViewById(R.id.list_item_proxy_port);
             viewHolder.description = (TextView) view.findViewById(R.id.list_item_proxy_description);
             view.setTag(viewHolder);
         }
@@ -70,8 +72,9 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyData>
 
         if (listItem != null)
         {
-            viewHolder.title.setText(listItem.description);
-            viewHolder.description.setText(String.format("Host: %s, Port: %d, Exclusion List: %s",listItem.host,listItem.port, listItem.exclusion));
+            viewHolder.host.setText(listItem.host);
+            viewHolder.port.setText(listItem.port.toString());
+            viewHolder.description.setText(listItem.description);
         }
         return view;
     }
