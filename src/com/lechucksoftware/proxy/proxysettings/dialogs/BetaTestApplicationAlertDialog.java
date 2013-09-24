@@ -21,25 +21,16 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-		builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
-		builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
+		builder.setTitle(R.string.beta_testing);
+		builder.setMessage(R.string.beta_testing_request);
 		builder.setCancelable(false);
-		builder.setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener() 
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
-				LogWrapper.d(TAG, "Starting Market activity");
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
+				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainBetaTest();
+                UIUtils.openBetaTestProject(getActivity());
 				getActivity().finish();
-			}
-		});
-
-		builder.setNeutralButton(getResources().getText(R.string.app_rater_dialog_button_remind), new DialogInterface.OnClickListener() 
-		{
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
-				((ProxySettingsCallerActivity) getActivity()).GoToProxy();
 			}
 		});
 

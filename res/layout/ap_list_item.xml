@@ -18,14 +18,14 @@
     <!-- android:orientation="vertical"> -->
 
     <View
-                  android:id="@+id/list_item_status_color"
-                  android:layout_width="10dp"
-                  android:layout_alignParentLeft="true"
-                  android:background="@color/White"
-                  android:layout_height="wrap_content"
-                  android:layout_alignBottom="@+id/list_item_ap_status"
-                  android:layout_marginRight="10dp"
-            ></View>
+            android:id="@+id/list_item_status_color"
+            android:layout_width="20dp"
+            android:layout_alignParentLeft="true"
+            android:background="@color/White"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/list_item_ap_status"
+            android:layout_marginRight="10dp">
+    </View>
 
     <TextView
             android:id="@+id/list_item_ap_name"
