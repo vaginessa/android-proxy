@@ -28,8 +28,7 @@ public class ProxyDataSource
             ProxySQLiteOpenHelper.COLUMN_PROXY_EXCLUSION,
             ProxySQLiteOpenHelper.COLUMN_PROXY_DESCRIPTION,
             ProxySQLiteOpenHelper.COLUMN_PROXY_CREATION_DATE,
-            ProxySQLiteOpenHelper.COLUMN_PROXY_MODIFIED_DATE,
-    };
+            ProxySQLiteOpenHelper.COLUMN_PROXY_MODIFIED_DATE };
 
     public ProxyDataSource(Context context)
     {

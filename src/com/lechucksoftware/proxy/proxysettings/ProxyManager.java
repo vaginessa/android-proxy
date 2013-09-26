@@ -221,6 +221,8 @@ public class ProxyManager
             {
                 LogWrapper.d(TAG,"Saved proxy: " + p.getDebugInfo());
             }
+
+            pds.close();
         }
     }
 

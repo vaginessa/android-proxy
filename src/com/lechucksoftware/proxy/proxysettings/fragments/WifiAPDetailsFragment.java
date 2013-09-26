@@ -59,98 +59,98 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
 
         getUIComponents();
         refreshUI();
-//        selectAP();
     }
 
     private void getUIComponents()
     {
-//		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
-
-        proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
-        proxyEnablePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
+        if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
         {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
+            proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
+            proxyEnablePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
             {
-                Boolean isChecked = (Boolean) newValue;
-
-                if (isChecked)
+                public boolean onPreferenceChange(Preference preference, Object newValue)
                 {
-                    ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.STATIC;
+                    Boolean isChecked = (Boolean) newValue;
+
+                    if (isChecked)
+                    {
+                        ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.STATIC;
+                    }
+                    else
+                    {
+                        ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.NONE;
+                    }
+
+                    saveConfiguration();
+                    return true;
                 }
-                else
-                {
-                    ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.NONE;
-                }
+            });
 
-                saveConfiguration();
-                return true;
-            }
-        });
-
-        proxyHostPref = (EditTextPreference) findPreference("pref_proxy_host");
-        proxyHostPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-        {
-
-            public boolean onPreferenceChange(Preference preference, Object newValue)
+            proxyHostPref = (EditTextPreference) findPreference("pref_proxy_host");
+            proxyHostPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
             {
-                String proxyHost = (String) newValue;
 
-                ApplicationGlobals.getSelectedConfiguration().setProxyHost(proxyHost);
-                saveConfiguration();
+                public boolean onPreferenceChange(Preference preference, Object newValue)
+                {
+                    String proxyHost = (String) newValue;
 
-                return true;
-            }
-        });
+                    ApplicationGlobals.getSelectedConfiguration().setProxyHost(proxyHost);
+                    saveConfiguration();
 
-        proxyPortPref = (EditTextPreference) findPreference("pref_proxy_port");
-        proxyPortPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
+                    return true;
+                }
+            });
+
+            proxyPortPref = (EditTextPreference) findPreference("pref_proxy_port");
+            proxyPortPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
             {
-                String portString = (String) newValue;
-                Integer proxyPort;
-
-                try
+                public boolean onPreferenceChange(Preference preference, Object newValue)
                 {
-                    proxyPort = Integer.parseInt(portString);
+                    String portString = (String) newValue;
+                    Integer proxyPort;
+
+                    try
+                    {
+                        proxyPort = Integer.parseInt(portString);
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        proxyPort = 0; // Equivalent to NOT SET
+                        showError(R.string.proxy_error_invalid_port);
+                        return false;
+                    }
+
+                    if (proxyPort <= 0 || proxyPort > 0xFFFF)
+                    {
+                        showError(R.string.proxy_error_invalid_port);
+                        return false;
+                    }
+
+                    ApplicationGlobals.getSelectedConfiguration().setProxyPort(proxyPort);
+                    saveConfiguration();
+
+                    return true;
                 }
-                catch (NumberFormatException ex)
-                {
-                    proxyPort = 0; // Equivalent to NOT SET
-                    showError(R.string.proxy_error_invalid_port);
-                    return false;
-                }
+            });
 
-                if (proxyPort <= 0 || proxyPort > 0xFFFF)
-                {
-                    showError(R.string.proxy_error_invalid_port);
-                    return false;
-                }
-
-                ApplicationGlobals.getSelectedConfiguration().setProxyPort(proxyPort);
-                saveConfiguration();
-
-                return true;
-            }
-        });
-
-        proxyBypassPref = (EditTextPreference) findPreference("pref_proxy_bypass");
-        proxyBypassPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-        {
-
-            public boolean onPreferenceChange(Preference preference, Object newValue)
+            proxyBypassPref = (EditTextPreference) findPreference("pref_proxy_bypass");
+            proxyBypassPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
             {
-                String proxyExclusionList = (String) newValue;
 
-                ApplicationGlobals.getSelectedConfiguration().setProxyExclusionList(proxyExclusionList);
-                saveConfiguration();
+                public boolean onPreferenceChange(Preference preference, Object newValue)
+                {
+                    String proxyExclusionList = (String) newValue;
 
-                return true;
-            }
-        });
+                    ApplicationGlobals.getSelectedConfiguration().setProxyExclusionList(proxyExclusionList);
+                    saveConfiguration();
 
-        authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
-        if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
+                    return true;
+                }
+            });
+
+            authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
+            if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
+        }
     }
 
     private void saveConfiguration()
@@ -179,11 +179,16 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
     {
         if (isVisible())
         {
-            if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
+            if (ApplicationGlobals.getSelectedConfiguration() != null
+                && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration()
+                && proxyEnablePref != null
+                && proxyHostPref != null
+                && proxyPortPref != null
+                && proxyBypassPref != null)
             {
                 proxyEnablePref.setEnabled(true);
-                String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
-//			apSelectorPref.setSummary(apdesc);
+//                String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
+////			apSelectorPref.setSummary(apdesc);
 
                 if (ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.NONE || ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.UNASSIGNED)
                 {
@@ -195,7 +200,6 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 }
 
                 String proxyHost = ApplicationGlobals.getSelectedConfiguration().getProxyHost();
-                proxyHostPref.setText(proxyHost);
                 if (proxyHost == null || proxyHost.length() == 0)
                 {
                     proxyHostPref.setSummary(getText(R.string.not_set));
@@ -204,17 +208,18 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 {
                     proxyHostPref.setSummary(proxyHost);
                 }
+                proxyHostPref.setText(proxyHost);
 
                 Integer proxyPort = ApplicationGlobals.getSelectedConfiguration().getProxyPort();
-                String proxyPortString;
                 if (proxyPort == null || proxyPort == 0)
                 {
-                    proxyPortString = getText(R.string.not_set).toString();
+                    proxyPortPref.setSummary(R.string.not_set);
                     proxyPortPref.setText(null);
                 }
                 else
                 {
-                    proxyPortString = proxyPort.toString();
+                    String proxyPortString = proxyPort.toString();
+                    proxyPortPref.setSummary(proxyPortString);
                     proxyPortPref.setText(proxyPortString);
                 }
 
@@ -227,8 +232,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 {
                     proxyBypassPref.setSummary(bypassList);
                 }
-
-                proxyPortPref.setSummary(proxyPortString);
+                proxyBypassPref.setText(bypassList);
 
                 if (ApplicationGlobals.getSelectedConfiguration().isCurrentNetwork())
                 {

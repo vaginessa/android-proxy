@@ -102,6 +102,8 @@ public class ProxiesListFragment extends EnhancedListFragment
                 proxiesListAdapter.setData(new ArrayList<ProxyData>());
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
             }
+
+            datasource.close();
         }
         else
         {
