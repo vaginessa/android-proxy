@@ -421,6 +421,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         WifiManager wifiManager = (WifiManager) APL.getContext().getSystemService(Context.WIFI_SERVICE);
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
 
+        if (configuredNetworks == null || configuredNetworks.size() == 0)
+            throw new Exception("Cannot find any configured network during writing configuration to the device: " + this.toShortString());
+
         WifiConfiguration selectedConfiguration = null;
         for (WifiConfiguration conf : configuredNetworks)
         {
@@ -482,6 +485,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
             APL.getContext().sendBroadcast(intent);
+        }
+        else
+        {
+            throw new Exception("Cannot find selected configuration among configured networks during writing to the device: " + this.toShortString());
         }
     }
 
