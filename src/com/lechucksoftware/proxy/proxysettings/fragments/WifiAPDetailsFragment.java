@@ -63,7 +63,9 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
 
     private void getUIComponents()
     {
-        if (ApplicationGlobals.getSelectedConfiguration() != null && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration())
+        final ProxyConfiguration selectedConfiguration = ApplicationGlobals.getSelectedConfiguration();
+
+        if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
         {
             proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
             proxyEnablePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
@@ -74,11 +76,11 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
 
                     if (isChecked)
                     {
-                        ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.STATIC;
+                        selectedConfiguration.proxySetting = ProxySetting.STATIC;
                     }
                     else
                     {
-                        ApplicationGlobals.getSelectedConfiguration().proxySetting = ProxySetting.NONE;
+                        selectedConfiguration.proxySetting = ProxySetting.NONE;
                     }
 
                     saveConfiguration();
@@ -94,7 +96,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 {
                     String proxyHost = (String) newValue;
 
-                    ApplicationGlobals.getSelectedConfiguration().setProxyHost(proxyHost);
+                    selectedConfiguration.setProxyHost(proxyHost);
                     saveConfiguration();
 
                     return true;
@@ -126,7 +128,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                         return false;
                     }
 
-                    ApplicationGlobals.getSelectedConfiguration().setProxyPort(proxyPort);
+                    selectedConfiguration.setProxyPort(proxyPort);
                     saveConfiguration();
 
                     return true;
@@ -141,7 +143,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 {
                     String proxyExclusionList = (String) newValue;
 
-                    ApplicationGlobals.getSelectedConfiguration().setProxyExclusionList(proxyExclusionList);
+                    selectedConfiguration.setProxyExclusionList(proxyExclusionList);
                     saveConfiguration();
 
                     return true;
@@ -179,18 +181,18 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
     {
         if (isVisible())
         {
-            if (ApplicationGlobals.getSelectedConfiguration() != null
-                && ApplicationGlobals.getSelectedConfiguration().isValidConfiguration()
+            ProxyConfiguration selectedConf = ApplicationGlobals.getSelectedConfiguration();
+
+            if (selectedConf != null
+                && selectedConf.isValidConfiguration()
                 && proxyEnablePref != null
                 && proxyHostPref != null
                 && proxyPortPref != null
                 && proxyBypassPref != null)
             {
                 proxyEnablePref.setEnabled(true);
-//                String apdesc = String.format("%s - %s", ProxyUtils.cleanUpSSID(ApplicationGlobals.getSelectedConfiguration().getSSID()), ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
-////			apSelectorPref.setSummary(apdesc);
 
-                if (ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.NONE || ApplicationGlobals.getSelectedConfiguration().proxySetting == ProxySetting.UNASSIGNED)
+                if (selectedConf.proxySetting == ProxySetting.NONE || selectedConf.proxySetting == ProxySetting.UNASSIGNED)
                 {
                     proxyEnablePref.setChecked(false);
                 }
@@ -199,7 +201,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                     proxyEnablePref.setChecked(true);
                 }
 
-                String proxyHost = ApplicationGlobals.getSelectedConfiguration().getProxyHost();
+                String proxyHost = selectedConf.getProxyHost();
                 if (proxyHost == null || proxyHost.length() == 0)
                 {
                     proxyHostPref.setSummary(getText(R.string.not_set));
@@ -210,7 +212,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 }
                 proxyHostPref.setText(proxyHost);
 
-                Integer proxyPort = ApplicationGlobals.getSelectedConfiguration().getProxyPort();
+                Integer proxyPort = selectedConf.getProxyPort();
                 if (proxyPort == null || proxyPort == 0)
                 {
                     proxyPortPref.setSummary(R.string.not_set);
@@ -223,7 +225,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                     proxyPortPref.setText(proxyPortString);
                 }
 
-                String bypassList = ApplicationGlobals.getSelectedConfiguration().getProxyExclusionList();
+                String bypassList = selectedConf.getProxyExclusionList();
                 if (bypassList == null || bypassList.equals(""))
                 {
                     proxyBypassPref.setSummary(getText(R.string.not_set));
@@ -234,13 +236,13 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 }
                 proxyBypassPref.setText(bypassList);
 
-                if (ApplicationGlobals.getSelectedConfiguration().isCurrentNetwork())
+                if (selectedConf.isCurrentNetwork())
                 {
-                    if (ApplicationGlobals.getSelectedConfiguration().status != null)
+                    if (selectedConf.status != null)
                     {
-                        if (ApplicationGlobals.getSelectedConfiguration().status.getCheckingStatus() == CheckStatusValues.CHECKED)
+                        if (selectedConf.status.getCheckingStatus() == CheckStatusValues.CHECKED)
                         {
-                            ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECTED, ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
+                            ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECTED, selectedConf.getAPConnectionStatus());
                         }
                         else
                         {
@@ -252,13 +254,13 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                         ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CHECKING);
                     }
                 }
-                else if (ApplicationGlobals.getSelectedConfiguration().ap.getLevel() > -1)
+                else if (selectedConf.ap.getLevel() > -1)
                 {
-                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action, ApplicationGlobals.getSelectedConfiguration().ap.ssid));
+                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action, selectedConf.ap.ssid));
                 }
                 else
                 {
-                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.NOT_AVAILABLE, ApplicationGlobals.getSelectedConfiguration().getAPConnectionStatus());
+                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.NOT_AVAILABLE, selectedConf.getAPConnectionStatus());
                 }
 
             }
