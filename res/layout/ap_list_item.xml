@@ -5,21 +5,11 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/list_item_ap_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        >
-
-    <!-- <RelativeLayout -->
-    <!-- android:id="@+id/item_text" -->
-    <!-- android:layout_width="0dp" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_weight="1" -->
-    <!-- android:layout_marginLeft="10dp" -->
-    <!-- android:orientation="vertical"> -->
+        android:layout_height="wrap_content">
 
     <View
             android:id="@+id/list_item_status_color"
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_alignParentLeft="true"
             android:background="@color/White"
             android:layout_height="wrap_content"
@@ -34,10 +24,11 @@
             android:layout_toRightOf="@+id/list_item_status_color"
             android:layout_toLeftOf="@+id/list_item_ap_icon"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
+            android:padding="5dp"
             android:text="AP NAME">
     </TextView>
 
@@ -51,8 +42,9 @@
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
-            android:textSize="14sp"
-            android:text="STATUS DESC">
+            android:textSize="15sp"
+            android:text="STATUS DESC"
+            android:padding="5dp">
     </TextView>
 
     <!--<TextView-->
@@ -73,6 +65,7 @@
             android:src="@drawable/wifi_signal"
             android:layout_alignParentRight="true"
             android:layout_alignParentLeft="false"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp">
     </ImageView>
 </RelativeLayout>

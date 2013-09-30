@@ -19,7 +19,7 @@ public class ProxyDataSource
     // Database fields
     public static String TAG = ProxyDataSource.class.getSimpleName();
 
-    private SQLiteDatabase database;
+//    private SQLiteDatabase database;
     private ProxySQLiteOpenHelper dbHelper;
     private String[] allColumns = {
             ProxySQLiteOpenHelper.COLUMN_ID,
@@ -35,15 +35,15 @@ public class ProxyDataSource
         dbHelper = new ProxySQLiteOpenHelper(context);
     }
 
-    public void openWritable() throws SQLException
-    {
-        database = dbHelper.getWritableDatabase();
-    }
-
-    public void openReadable() throws SQLException
-    {
-        database = dbHelper.getReadableDatabase();
-    }
+//    public void openWritable() throws SQLException
+//    {
+//        database = dbHelper.getWritableDatabase();
+//    }
+//
+//    public void openReadable() throws SQLException
+//    {
+//        database = dbHelper.getReadableDatabase();
+//    }
 
     public void close()
     {
@@ -69,6 +69,8 @@ public class ProxyDataSource
 
     public ProxyData findProxy(ProxyData proxyData)
     {
+        SQLiteDatabase database =  dbHelper.getReadableDatabase();
+
         String query = "SELECT * "
                        + " FROM " + ProxySQLiteOpenHelper.TABLE_PROXIES
                        + " WHERE " + ProxySQLiteOpenHelper.COLUMN_PROXY_HOST + " =?"
@@ -83,11 +85,16 @@ public class ProxyDataSource
             persisted = cursorToProxy(cursor);
         }
         cursor.close();
+
+        database.close();
+
         return persisted;
     }
 
     public ProxyData createProxy(ProxyData proxyData)
     {
+        SQLiteDatabase database =  dbHelper.getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_HOST, proxyData.host);
         values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_PORT,  proxyData.port);
@@ -111,11 +118,15 @@ public class ProxyDataSource
         cursor.moveToFirst();
         ProxyData newProxy = cursorToProxy(cursor);
         cursor.close();
+
+        database.close();
         return newProxy;
     }
 
     public ProxyData updateProxy(ProxyData newData, ProxyData persistedProxy)
     {
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_HOST, newData.host);
         values.put(ProxySQLiteOpenHelper.COLUMN_PROXY_PORT,  newData.port);
@@ -138,18 +149,27 @@ public class ProxyDataSource
         updatedCursor.moveToFirst();
         ProxyData newProxy = cursorToProxy(updatedCursor);
         updatedCursor.close();
+
+        database.close();
+
         return newProxy;
     }
 
     public void deleteProxy(ProxyData proxy)
     {
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+
         long id = proxy.getId();
         System.out.println("Comment deleted with id: " + id);
         database.delete(ProxySQLiteOpenHelper.TABLE_PROXIES, ProxySQLiteOpenHelper.COLUMN_ID + " = " + id, null);
+
+        database.close();
     }
 
     public List<ProxyData> getAllProxies()
     {
+        SQLiteDatabase database = dbHelper.getReadableDatabase();
+
         List<ProxyData> proxies = new ArrayList<ProxyData>();
 
         Cursor cursor = database.query(ProxySQLiteOpenHelper.TABLE_PROXIES, allColumns, null, null, null, null, null);
@@ -163,6 +183,8 @@ public class ProxyDataSource
         }
         // Make sure to close the cursor
         cursor.close();
+
+        database.close();
         return proxies;
     }
 

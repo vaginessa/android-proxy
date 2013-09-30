@@ -5,13 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.help.DisclaimerEndFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.DisclaimerIntroFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment0;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment1;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment2;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment3;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment4;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment5;
 
 public class DisclaimerFragmentActivity extends HelpFragmentActivity
 {
@@ -68,28 +62,28 @@ public class DisclaimerFragmentActivity extends HelpFragmentActivity
 		Fragment f = new Fragment();
 		switch (position)
 		{
-			case 0:
-				f = DisclaimerIntroFragment.newInstance(getApplicationContext());
-				break;
-			
-			case 1:
-				f = HelpProblemDescriptionFragment0.newInstance(getApplicationContext());
-				break;
-			case 2:
-				f = HelpProblemDescriptionFragment1.newInstance(getApplicationContext());
-				break;
-			case 3:
-				f = HelpProblemDescriptionFragment2.newInstance(getApplicationContext());
-				break;
-			case 4:
-				f = HelpProblemDescriptionFragment3.newInstance(getApplicationContext());
-				break;
-			case 5:
-				f = HelpProblemDescriptionFragment4.newInstance(getApplicationContext());
-				break;
-			case 6:
-				f = HelpProblemDescriptionFragment5.newInstance(getApplicationContext());
-				break;
+//			case 0:
+//				f = DisclaimerIntroFragment.newInstance(getApplicationContext());
+//				break;
+//
+//			case 1:
+//				f = HelpProblemDescriptionFragment0.newInstance(getApplicationContext());
+//				break;
+//			case 2:
+//				f = HelpProblemDescriptionFragment1.newInstance(getApplicationContext());
+//				break;
+//			case 3:
+//				f = HelpProblemDescriptionFragment2.newInstance(getApplicationContext());
+//				break;
+//			case 4:
+//				f = HelpProblemDescriptionFragment3.newInstance(getApplicationContext());
+//				break;
+//			case 5:
+//				f = HelpProblemDescriptionFragment4.newInstance(getApplicationContext());
+//				break;
+//			case 6:
+//				f = HelpProblemDescriptionFragment5.newInstance(getApplicationContext());
+//				break;
 				
 			case 7:
 				f = DisclaimerEndFragment.newInstance(getApplicationContext());

@@ -7,19 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment0;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment1;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment2;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment3;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment4;
-import com.lechucksoftware.proxy.proxysettings.fragments.help.HelpProblemDescriptionFragment5;
-import com.viewpagerindicator.LinePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -62,21 +52,21 @@ public class HelpFragmentActivity extends FragmentActivity
 			case 0:
 				f = HelpProblemDescriptionFragment0.newInstance(getApplicationContext());
 				break;
-			case 1:
-				f = HelpProblemDescriptionFragment1.newInstance(getApplicationContext());
-				break;
-			case 2:
-				f = HelpProblemDescriptionFragment2.newInstance(getApplicationContext());
-				break;
-			case 3:
-				f = HelpProblemDescriptionFragment3.newInstance(getApplicationContext());
-				break;
-			case 4:
-				f = HelpProblemDescriptionFragment4.newInstance(getApplicationContext());
-				break;
-			case 5:
-				f = HelpProblemDescriptionFragment5.newInstance(getApplicationContext());
-				break;
+//			case 1:
+//				f = HelpProblemDescriptionFragment1.newInstance(getApplicationContext());
+//				break;
+//			case 2:
+//				f = HelpProblemDescriptionFragment2.newInstance(getApplicationContext());
+//				break;
+//			case 3:
+//				f = HelpProblemDescriptionFragment3.newInstance(getApplicationContext());
+//				break;
+//			case 4:
+//				f = HelpProblemDescriptionFragment4.newInstance(getApplicationContext());
+//				break;
+//			case 5:
+//				f = HelpProblemDescriptionFragment5.newInstance(getApplicationContext());
+//				break;
 		}
 		return f;
 	}
