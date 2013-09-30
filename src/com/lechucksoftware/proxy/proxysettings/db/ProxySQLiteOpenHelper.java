@@ -19,8 +19,8 @@ public class ProxySQLiteOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_PROXY_CREATION_DATE = "creationDate";
     public static final String COLUMN_PROXY_MODIFIED_DATE = "modifiedDate";
 
-    private static final String DATABASE_NAME = "proxysettings.db";
-    private static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "proxysettings.db";
+    public static final int DATABASE_VERSION = 1;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "

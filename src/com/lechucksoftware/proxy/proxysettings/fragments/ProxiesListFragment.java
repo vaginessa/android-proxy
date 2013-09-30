@@ -30,7 +30,6 @@ public class ProxiesListFragment extends EnhancedListFragment
     int mCurCheckPosition = 0;
     private ProxiesSelectorListAdapter proxiesListAdapter;
     private TextView emptyText;
-    private ProxyDataSource datasource;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -89,10 +88,8 @@ public class ProxiesListFragment extends EnhancedListFragment
             }
 
             LogWrapper.d(TAG, "Refresh listview UI: get configuration list");
-            datasource = new ProxyDataSource(getActivity());
-            datasource.openReadable();
+            List<ProxyData> results = ApplicationGlobals.getDBManager().getAllProxies();
 
-            List<ProxyData> results = datasource.getAllProxies();
             if (results != null && results.size() > 0)
             {
                 proxiesListAdapter.setData(results);
@@ -102,8 +99,6 @@ public class ProxiesListFragment extends EnhancedListFragment
                 proxiesListAdapter.setData(new ArrayList<ProxyData>());
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
             }
-
-            datasource.close();
         }
         else
         {

@@ -128,18 +128,6 @@ public class ProxyManager
         return currentConfiguration;
     }
 
-    private ProxyDataSource proxyDataSource;
-
-    public ProxyDataSource getProxyDataSource()
-    {
-        if (proxyDataSource == null)
-        {
-            proxyDataSource = new ProxyDataSource(context);
-        }
-
-        return proxyDataSource;
-    }
-
     /**
      * If necessary updates the configuration list and sort it
      *
@@ -199,9 +187,6 @@ public class ProxyManager
     {
         if (!getSavedConfigurations().isEmpty())
         {
-            ProxyDataSource pds = getProxyDataSource();
-            pds.openWritable();
-
             for (ProxyConfiguration conf : getSavedConfigurations().values())
             {
                 if (conf.getProxy() != Proxy.NO_PROXY && conf.isValidProxyConfiguration())
@@ -212,17 +197,15 @@ public class ProxyManager
                     pd.exclusion = conf.getProxyExclusionList();
                     pd.description = null;
 
-                    pds.upsertProxy(pd);
+                    ApplicationGlobals.getDBManager().upsertProxy(pd);
                 }
             }
 
-            List<ProxyData> savedProxies = pds.getAllProxies();
+            List<ProxyData> savedProxies = ApplicationGlobals.getDBManager().getAllProxies();
             for (ProxyData p : savedProxies)
             {
                 LogWrapper.d(TAG,"Saved proxy: " + p.getDebugInfo());
             }
-
-            pds.close();
         }
     }
 

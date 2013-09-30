@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import android.app.Application;
 import android.content.Intent;
+import com.lechucksoftware.proxy.proxysettings.db.DBManager;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyDataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
@@ -18,6 +19,7 @@ public class ApplicationGlobals extends Application
     private static final String TAG = "ApplicationGlobals";
     private static ProxyConfiguration selectedConfiguration;
     private static ProxyData selectedProxy;
+    private DBManager dbManager;
 
     @Override
     public void onCreate()
@@ -29,6 +31,7 @@ public class ApplicationGlobals extends Application
 //        timeout = 10000; // Set default timeout value (10 seconds)
 
         proxyManager = new ProxyManager(ApplicationGlobals.this);
+        dbManager = new DBManager(ApplicationGlobals.this);
 
         // SETUP Libraries
         APL.setup(ApplicationGlobals.this);
@@ -58,6 +61,17 @@ public class ApplicationGlobals extends Application
         }
 
         return getInstance().proxyManager;
+    }
+
+    public static DBManager getDBManager()
+    {
+        if (getInstance().dbManager == null)
+        {
+            BugReportingUtils.sendException(new Exception("Cannot find valid instance of DBManager, trying to instanciate a new one"));
+            getInstance().dbManager = new DBManager(getInstance());
+        }
+
+        return getInstance().dbManager;
     }
 
     public static void setSelectedConfiguration(ProxyConfiguration selectedConfiguration)

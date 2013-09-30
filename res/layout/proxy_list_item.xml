@@ -5,9 +5,7 @@
         android:id="@+id/list_item_ap_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_border_green"
         android:padding="10dp">
-
 
     <TextView
             android:id="@+id/list_item_proxy_port"
