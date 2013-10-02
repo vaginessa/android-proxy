@@ -9,26 +9,38 @@
 
     <View
             android:id="@+id/list_item_status_color"
-            android:layout_width="30dp"
+            android:layout_width="50dp"
             android:layout_alignParentLeft="true"
-            android:background="@color/White"
+            android:background="@color/Holo_Blue_Light"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/list_item_ap_status"
+            android:layout_margin="5dp"
             android:layout_marginRight="10dp">
     </View>
+
+    <ImageView
+            android:id="@+id/list_item_ap_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Ap icon"
+            android:src="@drawable/wifi_signal"
+            android:layout_alignLeft="@id/list_item_status_color"
+            android:layout_alignRight="@id/list_item_status_color"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+    </ImageView>
 
     <TextView
             android:id="@+id/list_item_ap_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/list_item_status_color"
-            android:layout_toLeftOf="@+id/list_item_ap_icon"
             android:textStyle="bold"
             android:textSize="20sp"
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
-            android:padding="5dp"
+            android:padding="3dp"
             android:text="AP NAME">
     </TextView>
 
@@ -38,34 +50,12 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/list_item_status_color"
             android:layout_below="@id/list_item_ap_name"
-            android:layout_toLeftOf="@+id/list_item_ap_icon"
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
             android:textSize="15sp"
             android:text="STATUS DESC"
-            android:padding="5dp">
+            android:padding="3dp">
     </TextView>
 
-    <!--<TextView-->
-            <!--android:id="@+id/list_item_ap_type"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@id/list_item_ap_name"-->
-            <!--android:layout_toLeftOf="@+id/list_item_ap_icon"-->
-            <!--android:textSize="14sp"-->
-            <!--android:text="WPA/WPA2">-->
-    <!--</TextView>-->
-
-    <ImageView
-            android:id="@+id/list_item_ap_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Ap icon"
-            android:src="@drawable/wifi_signal"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="false"
-            android:layout_centerVertical="true"
-            android:paddingRight="10dp">
-    </ImageView>
 </RelativeLayout>

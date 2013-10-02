@@ -77,6 +77,13 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
                 viewHolder.signal.setImageDrawable(null);
 
                 viewHolder.statusColor.setBackgroundResource(R.color.Gray);
+
+//                // Set disabled layout for not available networks
+//                viewHolder.signal.setEnabled(false);
+//                viewHolder.statusColor.setEnabled(false);
+//                viewHolder.ssid.setEnabled(false);
+//                viewHolder.status.setEnabled(false);
+//                view.setEnabled(false);
             }
             else
             {
