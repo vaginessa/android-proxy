@@ -84,9 +84,10 @@ public class ProxyDataSource
         {
             persisted = cursorToProxy(cursor);
         }
-        cursor.close();
 
+        cursor.close();
         database.close();
+        dbHelper.close();
 
         return persisted;
     }
@@ -117,9 +118,11 @@ public class ProxyDataSource
 
         cursor.moveToFirst();
         ProxyData newProxy = cursorToProxy(cursor);
-        cursor.close();
 
+        cursor.close();
         database.close();
+        dbHelper.close();
+
         return newProxy;
     }
 
@@ -148,9 +151,10 @@ public class ProxyDataSource
 
         updatedCursor.moveToFirst();
         ProxyData newProxy = cursorToProxy(updatedCursor);
-        updatedCursor.close();
 
+        updatedCursor.close();
         database.close();
+        dbHelper.close();
 
         return newProxy;
     }
@@ -164,6 +168,7 @@ public class ProxyDataSource
         database.delete(ProxySQLiteOpenHelper.TABLE_PROXIES, ProxySQLiteOpenHelper.COLUMN_ID + " = " + id, null);
 
         database.close();
+        dbHelper.close();
     }
 
     public List<ProxyData> getAllProxies()
@@ -182,9 +187,11 @@ public class ProxyDataSource
             cursor.moveToNext();
         }
         // Make sure to close the cursor
-        cursor.close();
 
+        cursor.close();
         database.close();
+        dbHelper.close();
+
         return proxies;
     }
 
