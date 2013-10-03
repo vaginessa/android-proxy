@@ -63,7 +63,7 @@
 	
     
     <!-- Used in Wi-Fi settings dialogs when Wi-Fi does not have any security. -->
-    <string name="wifi_security_none">None</string>
+    <string name="wifi_security_none">OPEN</string>
 
     <!-- Do not translate.  Terminology for wifi with WEP security -->
     <string name="wifi_security_wep">WEP</string>

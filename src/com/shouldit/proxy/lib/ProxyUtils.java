@@ -632,7 +632,7 @@ public class ProxyUtils
                 return concise ? context.getString(R.string.wifi_security_short_wep) : context.getString(R.string.wifi_security_wep);
             case SECURITY_NONE:
             default:
-                return concise ? "" : context.getString(R.string.wifi_security_none);
+                return concise ? context.getString(R.string.wifi_security_none) : context.getString(R.string.wifi_security_none);
         }
     }
 
