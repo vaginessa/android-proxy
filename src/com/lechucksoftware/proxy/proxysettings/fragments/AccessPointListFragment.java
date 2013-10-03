@@ -2,7 +2,10 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,30 +95,7 @@ public class AccessPointListFragment extends EnhancedListFragment
 
             if (APL.getWifiManager().isWifiEnabled())
             {
-                LogWrapper.d(TAG,"Refresh listview UI: get configuration list");
-                List<ProxyConfiguration> results = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
-                if (results != null && results.size() > 0)
-                {
-//                    int duration = Toast.LENGTH_SHORT;
-//                    Toast toast = Toast.makeText(getActivity(), "Proxy configurations received", duration);
-//                    toast.show();
-
-                    apListAdapter.setData(results);
-
-                    ActionManager.getInstance().hide();
-                }
-                else
-                {
-//                    int duration = Toast.LENGTH_SHORT;
-//                    Toast toast = Toast.makeText(getActivity(), "No proxy configurations received", duration);
-//                    toast.show();
-
-                    // Wi-Fi is enabled, but no Wi-Fi access point configured
-                    apListAdapter.setData(new ArrayList<ProxyConfiguration>());
-                    emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
-
-                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECT_TO);
-                }
+                new backgroundLoadListView().execute();
             }
             else
             {
@@ -133,6 +113,70 @@ public class AccessPointListFragment extends EnhancedListFragment
         else
         {
 //            LogWrapper.d(TAG,"AccessPointListFragment is not added to activity");
+        }
+    }
+
+    public class backgroundLoadListView extends
+            AsyncTask<Void, Void, Void>
+    {
+        private ProgressDialog dialog;
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            getActivity().setProgressBarIndeterminateVisibility(false);
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+
+            getActivity().setProgressBarIndeterminate(true);
+            getActivity().setProgressBarVisibility(true);
+//            dialog=new ProgressDialog(getActivity());
+//            dialog.setTitle("Please Wait");
+//            dialog.setMessage("Loading list of stuff");
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            refreshListView();
+            return null;
+        }
+
+    }
+
+    private void refreshListView()
+    {
+        LogWrapper.startTrace(TAG, "Refresh listview UI", Log.DEBUG);
+        final List<ProxyConfiguration> results = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
+        LogWrapper.stopTrace(TAG, "Refresh listview UI", Log.DEBUG);
+        if (results != null && results.size() > 0)
+        {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+
+                    apListAdapter.setData(results);
+                    LogWrapper.stopTrace(TAG, "STARTAPP", Log.INFO);
+                    ActionManager.getInstance().hide();
+
+                }
+            });
+
+        }
+        else
+        {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+
+                    // Wi-Fi is enabled, but no Wi-Fi access point configured
+                    apListAdapter.setData(new ArrayList<ProxyConfiguration>());
+                    emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
+                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECT_TO);
+
+                }
+            });
+
         }
     }
 

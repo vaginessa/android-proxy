@@ -22,6 +22,7 @@
             android:layout_alignParentLeft="true"
             android:id="@+id/list_item_proxy_host_section"
             android:layout_below="@id/list_item_proxy_description"
+            android:layout_toLeftOf="@+id/list_item_proxy_port_section"
             android:padding="5sp">
 
         <TextView
@@ -51,6 +52,7 @@
             android:layout_below="@id/list_item_proxy_description"
             android:layout_toLeftOf="@+id/proxycolor"
             android:id="@+id/list_item_proxy_port_section"
+            android:layout_alignParentRight="true"
             android:padding="5sp">
 
         <TextView
@@ -72,14 +74,14 @@
         </TextView>
     </LinearLayout>
 
-    <ImageView
-            android:id="@+id/proxycolor"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:padding="5sp"
-            android:src="@drawable/square"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true">
-    </ImageView>
+    <!--<ImageView-->
+            <!--android:id="@+id/proxycolor"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:padding="5sp"-->
+            <!--android:src="@drawable/square"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true">-->
+    <!--</ImageView>-->
 
 </RelativeLayout>

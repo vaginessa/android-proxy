@@ -11,11 +11,10 @@ import com.shouldit.proxy.lib.*;
 
 public class ApplicationGlobals extends Application
 {
-    private static ApplicationGlobals mInstance;
-//    public int timeout;
+    private static final String TAG = ApplicationGlobals.class.getSimpleName();
 
+    private static ApplicationGlobals mInstance;
     private ProxyManager proxyManager;
-    private static final String TAG = "ApplicationGlobals";
     private static ProxyConfiguration selectedConfiguration;
     private static ProxyData selectedProxy;
     private ProxyDataSource dbManager;
@@ -27,14 +26,12 @@ public class ApplicationGlobals extends Application
 
         mInstance = this;
 
-//        timeout = 10000; // Set default timeout value (10 seconds)
-
         proxyManager = new ProxyManager(ApplicationGlobals.this);
         dbManager = new ProxyDataSource(ApplicationGlobals.this);
 
         // SETUP Libraries
         APL.setup(ApplicationGlobals.this);
-        BugReportingUtils.setupBugSense(ApplicationGlobals.this);
+        BugReportingUtils.setup(ApplicationGlobals.this);
 
         LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));

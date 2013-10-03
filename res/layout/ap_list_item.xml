@@ -27,10 +27,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:padding="5dp"
                 android:contentDescription="Ap icon"
                 android:src="@drawable/wifi_signal">
         </ImageView>
+
+        <TextView
+                android:id="@+id/list_item_ap_security"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list_item_ap_icon"
+                android:text="WPA/WPA2"
+                android:textColor="@color/White"
+                android:layout_centerHorizontal="true"
+                android:textSize="8sp">
+        </TextView>
 
     </RelativeLayout>
 

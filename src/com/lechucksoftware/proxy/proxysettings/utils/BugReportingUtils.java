@@ -21,7 +21,12 @@ public class BugReportingUtils
         setupDone = false;
     }
 
-    public static void setupBugSense(Context ctx)
+    public static void setup(Context ctx)
+    {
+        setupBugSense(ctx);
+    }
+
+    private static void setupBugSense(Context ctx)
     {
         String key = null;
         // If you want to use BugSense for your fork, register with

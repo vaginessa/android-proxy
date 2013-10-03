@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.activities.help.DisclaimerFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
@@ -22,12 +23,14 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-//        LogWrapper.d(TAG, "Creating ProxySettingsMainActivity");
 
+        LogWrapper.startTrace(TAG,"STARTAPP", Log.INFO);
+
+//        LogWrapper.d(TAG, "Creating ProxySettingsMainActivity");
 
         // Ensure that SETUP for Libraries are called
         APL.setup(ProxySettingsMainActivity.this);
-        BugReportingUtils.setupBugSense(ProxySettingsMainActivity.this);
+        BugReportingUtils.setup(ProxySettingsMainActivity.this);
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
