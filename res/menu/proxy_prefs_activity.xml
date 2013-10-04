@@ -58,6 +58,12 @@
     android:showAsAction="always|withText"
     android:title="@string/proxy"/>
 
+    <item
+            android:id="@+id/menu_feedbacks"
+            android:icon="@drawable/ic_action_notvalid"
+            android:showAsAction="always|withText"
+            android:title="@string/pref_send_feedback"/>
+
     <!--<item-->
         <!--android:id="@+id/menu_actions"-->
         <!--android:icon="@drawable/ic_action_valid"-->

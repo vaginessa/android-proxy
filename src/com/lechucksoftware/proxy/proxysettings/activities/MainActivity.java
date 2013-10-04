@@ -90,6 +90,9 @@ public class MainActivity extends Activity
             case R.id.menu_proxies:
                 NavigationUtils.GoToProxiesList(getFragmentManager());
 
+            case R.id.menu_feedbacks:
+                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
+
             default:
                 return super.onOptionsItemSelected(item);
         }

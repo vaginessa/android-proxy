@@ -88,4 +88,15 @@ public class NavigationUtils
         ft.addToBackStack(null);
         ft.commit();
     }
+
+    public static void GoToAppFeedbacks(FragmentManager fm)
+    {
+        ApplicationsFeedbacksFragment list = ApplicationsFeedbacksFragment.getInstance();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.replace(R.id.fragment_container, list);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 }

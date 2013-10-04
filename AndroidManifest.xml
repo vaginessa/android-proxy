@@ -73,9 +73,6 @@
 			<!--</intent-filter>-->
 		<!--</activity>-->
 
-		<activity android:name=".activities.ApplicationsFeedbacksActivity">
-		</activity>
-
 		<activity android:name=".activities.help.HelpFragmentActivity">
 		</activity>
 
