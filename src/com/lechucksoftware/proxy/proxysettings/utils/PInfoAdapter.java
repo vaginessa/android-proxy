@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by marco on 04/10/13.
@@ -18,14 +19,26 @@ import java.util.ArrayList;
 public class PInfoAdapter extends ArrayAdapter<PInfo>
 {
     private static String TAG = PInfoAdapter.class.getSimpleName();
+    private final LayoutInflater inflater;
     private Context ctx;
-    private ArrayList<PInfo> mList; // --CloneChangeRequired
 
     public PInfoAdapter(Context context)
     {
-        super(context);
+        super(context, R.layout.application_list_item);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ctx = context;
-        this.mList = list;
+    }
+
+    public void setData(List<PInfo> pInfoList)
+    {
+        clear();
+        if (pInfoList != null)
+        {
+            for (PInfo pInfo : pInfoList)
+            {
+                add(pInfo);
+            }
+        }
     }
 
     public View getView(int position, View convertView, ViewGroup parent)
@@ -39,7 +52,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo>
                 view = vi.inflate(R.layout.application_list_item, null);
             }
 
-            final PInfo listItem = (PInfo) mList.get(position);
+            final PInfo listItem = (PInfo) getItem(position);
 
             if (listItem != null)
             {
@@ -50,7 +63,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo>
         }
         catch (Exception e)
         {
-            LogWrapper.i(TAG, e.getMessage());
+            LogWrapper.i(TAG, e.toString());
         }
         return view;
     }

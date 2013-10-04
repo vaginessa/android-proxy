@@ -63,7 +63,7 @@ public class ApplicationsFeedbacksFragment extends EnhancedListFragment implemen
 
         Loader<List<PInfo>> loader = getLoaderManager().initLoader(LOADER_TEST, new Bundle(), this);
         loader.forceLoad();
-        setListShown(false);
+//        setListShown(false);
 
         return v;
 	}
@@ -126,9 +126,12 @@ public class ApplicationsFeedbacksFragment extends EnhancedListFragment implemen
     @Override
     public void onLoadFinished(Loader<List<PInfo>> loader, List<PInfo> data)
     {
-        apListAdapter = new PInfoAdapter(getActivity(),data);
+        apListAdapter = new PInfoAdapter(getActivity());
         setListAdapter(apListAdapter);
-        setListShown(true);
+
+        apListAdapter.setData(data);
+//        setListShown(true);
+
         Toast.makeText(getActivity(), "LOADED", Toast.LENGTH_SHORT).show();
     }
 
