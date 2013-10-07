@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.lechucksoftware.proxy.proxysettings.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 
 import java.text.DateFormat;
 import java.util.Date;

@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 
 /**
  * Created by marco on 12/09/13.
@@ -32,7 +32,7 @@ public class StatusView extends LinearLayout
         }
     }
 
-    public void setStatus(Constants.StatusFragmentStates status, String message, View.OnClickListener listener, Boolean isInProgress)
+    public void setStatus(StatusFragmentStates status, String message, View.OnClickListener listener, Boolean isInProgress)
     {
 //        if (status == clickedStatus)
 //        {

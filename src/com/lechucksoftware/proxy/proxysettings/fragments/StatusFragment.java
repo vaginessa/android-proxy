@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
@@ -27,7 +27,7 @@ public class StatusFragment extends EnhancedFragment
     private Button statusButton;
 
     //    private Constants.StatusFragmentStates currentStatus;
-    private Constants.StatusFragmentStates clickedStatus;
+    private StatusFragmentStates clickedStatus;
 //    private View statusSpace;
 
     /**
@@ -51,17 +51,17 @@ public class StatusFragment extends EnhancedFragment
         return view;
     }
 
-    public void setStatus(Constants.StatusFragmentStates status, String message)
+    public void setStatus(StatusFragmentStates status, String message)
     {
         setStatus(status, message, Boolean.FALSE);
     }
 
-    public void setStatus(Constants.StatusFragmentStates status)
+    public void setStatus(StatusFragmentStates status)
     {
         setStatus(status, null, Boolean.FALSE);
     }
 
-    public void setStatus(Constants.StatusFragmentStates status, String message, Boolean isInProgress)
+    public void setStatus(StatusFragmentStates status, String message, Boolean isInProgress)
     {
         LogWrapper.d(TAG, String.format("setStatus: %s ->  %s (%s)", clickedStatus, status.toString(), message));
 
@@ -84,7 +84,7 @@ public class StatusFragment extends EnhancedFragment
         switch (status)
         {
             case CONNECTED:
-                clickedStatus = Constants.StatusFragmentStates.CONNECTED;
+                clickedStatus = StatusFragmentStates.CONNECTED;
                 setStatusInternal(message, null, R.drawable.btn_blue_holo_dark, true);
                 break;
             case CHECKING:
@@ -147,8 +147,8 @@ public class StatusFragment extends EnhancedFragment
                 BugReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action", e));
             }
 
-            setStatus(Constants.StatusFragmentStates.CHECKING);
-            clickedStatus = Constants.StatusFragmentStates.ENABLE_WIFI;
+            setStatus(StatusFragmentStates.CHECKING);
+            clickedStatus = StatusFragmentStates.ENABLE_WIFI;
         }
     };
 
@@ -168,8 +168,8 @@ public class StatusFragment extends EnhancedFragment
                 BugReportingUtils.sendException(new Exception("Exception during StatusFragment connectToWifi action", e));
             }
 
-            setStatus(Constants.StatusFragmentStates.CHECKING);
-            clickedStatus = Constants.StatusFragmentStates.CONNECT_TO;
+            setStatus(StatusFragmentStates.CHECKING);
+            clickedStatus = StatusFragmentStates.CONNECT_TO;
         }
     };
 
@@ -181,7 +181,7 @@ public class StatusFragment extends EnhancedFragment
 //            hide();
             Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
             startActivity(intent);
-            clickedStatus = Constants.StatusFragmentStates.CHECKING;
+            clickedStatus = StatusFragmentStates.CHECKING;
         }
     };
 

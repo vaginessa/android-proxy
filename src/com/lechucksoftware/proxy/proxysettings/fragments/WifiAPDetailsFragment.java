@@ -8,10 +8,9 @@ import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.View;
-import com.lechucksoftware.proxy.proxysettings.ActionManager;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.Constants;
+import com.lechucksoftware.proxy.proxysettings.*;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -242,25 +241,25 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                     {
                         if (selectedConf.status.getCheckingStatus() == CheckStatusValues.CHECKED)
                         {
-                            ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECTED, selectedConf.getAPConnectionStatus());
+                            ActionManager.getInstance().setStatus(StatusFragmentStates.CONNECTED, selectedConf.getAPConnectionStatus());
                         }
                         else
                         {
-                            ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CHECKING);
+                            ActionManager.getInstance().setStatus(StatusFragmentStates.CHECKING);
                         }
                     }
                     else
                     {
-                        ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CHECKING);
+                        ActionManager.getInstance().setStatus(StatusFragmentStates.CHECKING);
                     }
                 }
                 else if (selectedConf.ap.getLevel() > -1)
                 {
-                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action, selectedConf.ap.ssid));
+                    ActionManager.getInstance().setStatus(StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action, selectedConf.ap.ssid));
                 }
                 else
                 {
-                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.NOT_AVAILABLE, selectedConf.getAPConnectionStatus());
+                    ActionManager.getInstance().setStatus(StatusFragmentStates.NOT_AVAILABLE, selectedConf.getAPConnectionStatus());
                 }
 
             }

@@ -1,30 +1,20 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
-import com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.OnItemClickListener;
-import com.lechucksoftware.proxy.proxysettings.utils.PInfoAdapter;
+import com.lechucksoftware.proxy.proxysettings.adapters.PInfoAdapter;
 import com.lechucksoftware.proxy.proxysettings.utils.PInfoTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.utils.WifiAPSelectorListAdapter;
 
 public class ApplicationsFeedbacksFragment extends EnhancedListFragment implements LoaderManager.LoaderCallbacks<List<PInfo>>
 {

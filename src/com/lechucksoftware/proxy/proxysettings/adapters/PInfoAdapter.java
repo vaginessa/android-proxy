@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.utils;
+package com.lechucksoftware.proxy.proxysettings.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

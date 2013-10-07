@@ -1,9 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings;
 
+import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.APLConstants;
-import com.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by Marco on 06/08/13.
@@ -23,17 +21,17 @@ public class ActionManager
         return instance;
     }
 
-    public void setStatus(Constants.StatusFragmentStates status)
+    public void setStatus(StatusFragmentStates status)
     {
         StatusFragment.getInstance().setStatus(status);
     }
 
-    public void setStatus(Constants.StatusFragmentStates status, String message)
+    public void setStatus(StatusFragmentStates status, String message)
     {
         StatusFragment.getInstance().setStatus(status, message);
     }
 
-    public void setStatus(Constants.StatusFragmentStates status, String message, Boolean isInProgress)
+    public void setStatus(StatusFragmentStates status, String message, Boolean isInProgress)
     {
         StatusFragment.getInstance().setStatus(status, message, isInProgress);
     }

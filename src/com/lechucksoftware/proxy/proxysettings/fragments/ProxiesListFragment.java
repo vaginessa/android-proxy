@@ -11,11 +11,10 @@ import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyDataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.ProxiesSelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,14 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.lechucksoftware.proxy.proxysettings.ActionManager;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.Constants;
-import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.*;
+import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-import com.lechucksoftware.proxy.proxysettings.utils.WifiAPSelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.adapters.WifiAPSelectorListAdapter;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.SecurityType;
@@ -107,7 +105,7 @@ public class AccessPointListFragment extends EnhancedListFragment
                 apListAdapter.setData(new ArrayList<ProxyConfiguration>());
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
 
-                ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.ENABLE_WIFI);
+                ActionManager.getInstance().setStatus(StatusFragmentStates.ENABLE_WIFI);
             }
         }
         else
@@ -172,7 +170,7 @@ public class AccessPointListFragment extends EnhancedListFragment
                     // Wi-Fi is enabled, but no Wi-Fi access point configured
                     apListAdapter.setData(new ArrayList<ProxyConfiguration>());
                     emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
-                    ActionManager.getInstance().setStatus(Constants.StatusFragmentStates.CONNECT_TO);
+                    ActionManager.getInstance().setStatus(StatusFragmentStates.CONNECT_TO);
 
                 }
             });

@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 public class RateApplicationAlertDialog extends DialogFragment
@@ -29,7 +30,7 @@ public class RateApplicationAlertDialog extends DialogFragment
 			{
 				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
 				LogWrapper.d(TAG, "Starting Market activity");
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
+				startActivity(new Intent(Intent.ACTION_VIEW, Constants.PLAY_MARKET_URL));
 				getActivity().finish();
 			}
 		});

@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.utils;
+package com.lechucksoftware.proxy.proxysettings.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

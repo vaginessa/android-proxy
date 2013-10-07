@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
-import com.lechucksoftware.proxy.proxysettings.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.dialogs.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;

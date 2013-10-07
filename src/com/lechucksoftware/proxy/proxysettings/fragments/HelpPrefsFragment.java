@@ -16,6 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.ChangeLogDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -108,7 +109,7 @@ public class HelpPrefsFragment extends PreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Constants.PLAY_MARKET_URL));
                 return true;
             }
         });
