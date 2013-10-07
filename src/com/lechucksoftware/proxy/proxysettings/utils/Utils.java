@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -52,6 +53,12 @@ public class Utils
         }
 
         return pInfo;
+    }
+
+    public static void startMarketActivity(Context ctx)
+    {
+        Uri marketUri = getMarketUri(ApplicationGlobals.getInstance().activeMarket);
+        ctx.startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
     }
 
     public static Uri getMarketUri(AndroidMarket market)

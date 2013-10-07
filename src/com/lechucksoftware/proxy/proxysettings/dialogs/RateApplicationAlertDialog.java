@@ -12,6 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 public class RateApplicationAlertDialog extends DialogFragment
 {
@@ -30,10 +31,12 @@ public class RateApplicationAlertDialog extends DialogFragment
 			{
 				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
 				LogWrapper.d(TAG, "Starting Market activity");
-				startActivity(new Intent(Intent.ACTION_VIEW, Constants.PLAY_MARKET_URL));
-				getActivity().finish();
+
+                Utils.startMarketActivity(getActivity());
+
+                getActivity().finish();
 			}
-		});
+        });
 
 		builder.setNeutralButton(getResources().getText(R.string.app_rater_dialog_button_remind), new DialogInterface.OnClickListener() 
 		{

@@ -21,7 +21,7 @@ public class ApplicationGlobals extends Application
     private static ProxyConfiguration selectedConfiguration;
     private static ProxyData selectedProxy;
     private ProxyDataSource dbManager;
-    private AndroidMarket activeMarket;
+    public AndroidMarket activeMarket;
 
     @Override
     public void onCreate()

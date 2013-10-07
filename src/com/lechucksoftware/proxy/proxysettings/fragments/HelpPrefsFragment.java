@@ -109,7 +109,9 @@ public class HelpPrefsFragment extends PreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                startActivity(new Intent(Intent.ACTION_VIEW, Constants.PLAY_MARKET_URL));
+
+                Utils.startMarketActivity(getActivity());
+
                 return true;
             }
         });

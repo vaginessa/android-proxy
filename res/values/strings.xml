@@ -864,8 +864,8 @@
     <string name="pref_become_tester_summary">Receive the latest development versions of Proxy Settings</string>
     <string name="pref_translation">Translations</string>
     <string name="pref_translation_summary">Help us translate Proxy Settings</string>
-    <string name="pref_rate_app">Play Store feedback</string>
-    <string name="pref_rate_app_summary">Write a review and rate Proxy Settings on Play Store</string>
+    <string name="pref_rate_app">Application feedback</string>
+    <string name="pref_rate_app_summary">Write a review and rate Proxy Settings!</string>
     <string name="pref_help_changelog_summary">Show full application changelog</string>
     <string name="beta_testing">Beta testing</string>
     <string name="beta_testing_request">Be the first to get the latest features of Proxy Settings joining the \"Proxy Settings - Beta Testers\" Community on Google+. Are you interested? You will find more information available on the Community page.</string>
