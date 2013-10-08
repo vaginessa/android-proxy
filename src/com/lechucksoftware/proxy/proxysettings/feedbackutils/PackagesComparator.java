@@ -6,6 +6,6 @@ public class PackagesComparator implements Comparator<PInfo>
 {
 	public int compare(PInfo lhs, PInfo rhs)
 	{
-		return lhs.appname.compareTo(rhs.appname);
+		return lhs.appname.toLowerCase().compareTo(rhs.appname.toLowerCase());
 	}
 }

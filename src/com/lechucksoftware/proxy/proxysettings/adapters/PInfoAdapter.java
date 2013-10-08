@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by marco on 04/10/13.
  */
-public class PInfoAdapter extends ArrayAdapter<PInfo>
+public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
 {
     private static String TAG = PInfoAdapter.class.getSimpleName();
     private final LayoutInflater inflater;
@@ -66,6 +67,44 @@ public class PInfoAdapter extends ArrayAdapter<PInfo>
             LogWrapper.i(TAG, e.toString());
         }
         return view;
+    }
+
+    private static String sections = "abcdefghilmnopqrstuvz";
+
+    @Override
+    public Object[] getSections()
+    {
+        String[] sectionsArr = new String[sections.length()];
+        for (int i = 0; i < sections.length(); i++)
+            sectionsArr[i] = "" + sections.charAt(i);
+
+        return sectionsArr;
+    }
+
+    @Override
+    public int getPositionForSection(int section)
+    {
+        for (int i = 0; i < getCount(); i++)
+        {
+            String item = this.getItem(i).appname.toLowerCase();
+            if (item.charAt(0) == sections.charAt(section))
+                return i;
+        }
+        return 0;
+    }
+
+    @Override
+    public int getSectionForPosition(int i)
+    {
+        PInfo item = getItem(i);
+        char c = item.appname.toLowerCase().charAt(0);
+        int index = sections.indexOf(c);
+        if (index < 0)
+            return 0;
+        else
+            return index;
+//        return sections.indexOf();
+//        return 0;
     }
 
 }

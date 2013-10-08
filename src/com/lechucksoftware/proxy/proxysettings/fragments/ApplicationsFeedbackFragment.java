@@ -7,32 +7,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.PInfoAdapter;
-import com.lechucksoftware.proxy.proxysettings.feedbackutils.ApplicationFeedbacksConfirmDialog;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.PInfoTaskLoader;
 
 import java.util.List;
 
-public class ApplicationsFeedbacksFragment extends EnhancedListFragment implements LoaderManager.LoaderCallbacks<List<PInfo>>
+public class ApplicationsFeedbackFragment extends EnhancedListFragment implements LoaderManager.LoaderCallbacks<List<PInfo>>
 {
-    public static final String TAG = "ApplicationsFeedbacksFragment";
-    //	static final int DIALOG_ID_PROXY = 0;
-    private static ApplicationsFeedbacksFragment instance;
+    public static final String TAG = "ApplicationsFeedbackFragment";
+    private static ApplicationsFeedbackFragment instance;
     private TextView emptyText;
 
     public static final int LOADER_TEST = 1;
     private PInfoAdapter apListAdapter;
     ProgressDialog progressDialog;
 
-    public static ApplicationsFeedbacksFragment getInstance()
+    public static ApplicationsFeedbackFragment getInstance()
     {
         if (instance == null)
-            instance = new ApplicationsFeedbacksFragment();
+            instance = new ApplicationsFeedbackFragment();
 
         return instance;
     }
@@ -42,7 +40,7 @@ public class ApplicationsFeedbacksFragment extends EnhancedListFragment implemen
     {
         Toast.makeText(getActivity(), "CREATEVIEW", Toast.LENGTH_SHORT).show();
 
-        View v = inflater.inflate(R.layout.base_list_fragment, container, false);
+        View v = inflater.inflate(R.layout.applications_list, container, false);
 
         emptyText = (TextView) v.findViewById(android.R.id.empty);
 
@@ -55,25 +53,6 @@ public class ApplicationsFeedbacksFragment extends EnhancedListFragment implemen
 
         return v;
     }
-
-//    void showDialog(PInfo pInfo)
-//    {
-//        ApplicationFeedbacksConfirmDialog newFragment = ApplicationFeedbacksConfirmDialog.newInstance(pInfo);
-//        newFragment.show(getSupportFragmentManager(), TAG);
-//    }
-//
-//    public void doPositiveClick()
-//    {
-//        // Do stuff here.
-//        LogWrapper.i("FragmentAlertDialog", "Positive click!");
-//    }
-//
-//    public void doNegativeClick()
-//    {
-//        // Do stuff here.
-//        LogWrapper.i("FragmentAlertDialog", "Negative click!");
-//    }
-
 
     @Override
     public Loader<List<PInfo>> onCreateLoader(int id, Bundle args)

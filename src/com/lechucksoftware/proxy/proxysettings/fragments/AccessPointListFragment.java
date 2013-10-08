@@ -38,7 +38,7 @@ public class AccessPointListFragment extends EnhancedListFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.base_list_fragment, container, false);
+        View v = inflater.inflate(R.layout.ap_list, container, false);
 
         emptyText = (TextView) v.findViewById(android.R.id.empty);
 

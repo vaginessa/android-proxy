@@ -91,7 +91,7 @@ public class NavigationUtils
 
     public static void GoToAppFeedbacks(FragmentManager fm)
     {
-        ApplicationsFeedbacksFragment list = ApplicationsFeedbacksFragment.getInstance();
+        ApplicationsFeedbackFragment list = ApplicationsFeedbackFragment.getInstance();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

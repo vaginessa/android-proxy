@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.fragments.ApplicationsFeedbacksFragment;
 
 public class ApplicationFeedbacksConfirmDialog extends DialogFragment
 {
@@ -64,7 +63,7 @@ public class ApplicationFeedbacksConfirmDialog extends DialogFragment
                 	{
                         public void onClick(DialogInterface dialog, int whichButton) 
                         {
-//                            ((ApplicationsFeedbacksFragment)getActivity()).doPositiveClick();
+//                            ((ApplicationsFeedbackFragment)getActivity()).doPositiveClick();
                         }
                     }
                 )
@@ -73,7 +72,7 @@ public class ApplicationFeedbacksConfirmDialog extends DialogFragment
                 	{
                         public void onClick(DialogInterface dialog, int whichButton) 
                         {
-//                            ((ApplicationsFeedbacksFragment)getActivity()).doNegativeClick();
+//                            ((ApplicationsFeedbackFragment)getActivity()).doNegativeClick();
                         }
                     }
                 )
