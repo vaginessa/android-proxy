@@ -5,7 +5,7 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <include layout="@layout/application_list_sectionheader"/>
+    <!--<include layout="@layout/application_list_sectionheader"/>-->
 
     <LinearLayout
             android:id="@+id/rlt_main"
@@ -45,10 +45,10 @@
             </TextView>
         </LinearLayout>
 
-        <View
-                android:id="@+id/list_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@android:drawable/divider_horizontal_dark"/>
+        <!--<View-->
+                <!--android:id="@+id/list_divider"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1px"-->
+                <!--android:background="@android:drawable/divider_horizontal_dark"/>-->
     </LinearLayout>
 </LinearLayout>

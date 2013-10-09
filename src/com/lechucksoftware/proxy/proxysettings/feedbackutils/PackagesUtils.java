@@ -7,29 +7,23 @@ import java.util.List;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 
+import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 public class PackagesUtils
 {
-	private static ArrayList<PInfo> packages;
+    private static final String TAG = PackagesUtils.class.getSimpleName();
+    private static ArrayList<PInfo> packages;
 	
 	public static ArrayList<PInfo> getPackages(Context callerContext)
 	{
 		if (packages == null)
 		{
-			ArrayList<PInfo> apps = getInstalledApps(callerContext, false); /*
-																			 * false
-																			 * = no
-																			 * system
-																			 * packages
-																			 */
-//			final int max = apps.size();
-	
-//			for (int i = 0; i < max; i++)
-//			{
-//				apps.get(i).prettyPrint();
-//			}
-			
+            /* false = no system packages */
+            LogWrapper.startTrace(TAG,"getInstalledApps()", Log.INFO);
+			ArrayList<PInfo> apps = getInstalledApps(callerContext, false);
+            LogWrapper.stopTrace(TAG, "getInstalledApps()", Log.INFO);
 			packages = apps;
 		}
 			
@@ -45,8 +39,10 @@ public class PackagesUtils
 //		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 //		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 //		final List pkgAppsList = callerContext.getPackageManager().queryIntentActivities(mainIntent, 0);
-		
+        LogWrapper.startTrace(TAG,"getInstalledPackages()", Log.INFO);
 		List<PackageInfo> packs = callerContext.getPackageManager().getInstalledPackages(0);
+        LogWrapper.stopTrace(TAG, "getInstalledPackages()", Log.INFO);
+
 		for (int i = 0; i < packs.size(); i++)
 		{
 			PackageInfo p = packs.get(i);
@@ -66,7 +62,8 @@ public class PackagesUtils
 			newInfo.pname = p.packageName;
 			newInfo.versionName = p.versionName;
 			newInfo.versionCode = p.versionCode;
-			newInfo.icon = p.applicationInfo.loadIcon(callerContext.getPackageManager());
+//			newInfo.icon = p.applicationInfo.loadIcon(callerContext.getPackageManager());
+            newInfo.applicationInfo = p.applicationInfo;
 			res.add(newInfo);
 		}
 		

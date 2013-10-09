@@ -57,6 +57,8 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
 
             if (listItem != null)
             {
+                listItem.icon = listItem.applicationInfo.loadIcon(ctx.getPackageManager());
+
                 ((ImageView) view.findViewById(R.id.list_item_app_icon)).setImageDrawable(listItem.icon);
                 ((TextView) view.findViewById(R.id.list_item_app_name)).setText(listItem.appname);
                 ((TextView) view.findViewById(R.id.list_item_app_description)).setText(listItem.pname);
@@ -69,7 +71,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
         return view;
     }
 
-    private static String sections = "abcdefghilmnopqrstuvz";
+    private static String sections = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     @Override
     public Object[] getSections()
@@ -84,27 +86,44 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
     @Override
     public int getPositionForSection(int section)
     {
+        int position = -1;
+        String sectionChar = sections.substring(section,section+1);
+
         for (int i = 0; i < getCount(); i++)
         {
-            String item = this.getItem(i).appname.toLowerCase();
-            if (item.charAt(0) == sections.charAt(section))
-                return i;
+            if (getItem(i).appname.startsWith(sectionChar.toString()))
+            {
+                position = i;
+                break;
+            }
+            else
+                continue;
         }
-        return 0;
+
+        while(position == -1)
+        {
+            position = getPositionForSection(section - 1);
+        }
+
+        LogWrapper.d(TAG,String.format("Section %d (%s) -> Position %d",section, sectionChar,position));
+        return position;
     }
 
     @Override
-    public int getSectionForPosition(int i)
+    public int getSectionForPosition(int position)
     {
-        PInfo item = getItem(i);
-        char c = item.appname.toLowerCase().charAt(0);
+        PInfo item = getItem(position);
+        char c = item.appname.toUpperCase().charAt(0);
         int index = sections.indexOf(c);
+        int section = 0;
+
         if (index < 0)
-            return 0;
+            section = 0;
         else
-            return index;
-//        return sections.indexOf();
-//        return 0;
+            section = index;
+
+        LogWrapper.d(TAG,String.format("Position %d (%c) -> Section %d",position, c,section));
+        return section;
     }
 
 }

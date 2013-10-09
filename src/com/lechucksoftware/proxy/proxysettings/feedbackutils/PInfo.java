@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
 import java.io.Serializable;
 
+import android.content.pm.ApplicationInfo;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,7 @@ public class PInfo implements Serializable
     public String versionName = "";
     public int versionCode = 0;
     public Drawable icon;
+    public ApplicationInfo applicationInfo;
     
     void prettyPrint() 
     {
