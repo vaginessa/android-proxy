@@ -56,13 +56,13 @@ public class ProxyDataSource
 
         if (persistedProxy == null)
         {
-//            LogWrapper.d(TAG,"Insert new Proxy: " + proxyData);
+            LogWrapper.d(TAG,"Insert new Proxy: " + proxyData);
             return createProxy(proxyData);
         }
         else
         {
             // Update
-//            LogWrapper.d(TAG,"Update Proxy: " + proxyData);
+            LogWrapper.d(TAG,"Update Proxy: " + proxyData);
             return updateProxy(proxyData, persistedProxy);
         }
     }

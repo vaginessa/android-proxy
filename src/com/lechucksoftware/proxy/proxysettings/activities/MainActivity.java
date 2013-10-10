@@ -18,6 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment
 import com.lechucksoftware.proxy.proxysettings.fragments.WifiAPDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
+import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -93,6 +94,11 @@ public class MainActivity extends Activity
 
             case R.id.menu_feedbacks:
                 NavigationUtils.GoToAppFeedbacks(getFragmentManager());
+                return true;
+
+            case R.id.menu_developer:
+                final Intent intent = new Intent(this, TestActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

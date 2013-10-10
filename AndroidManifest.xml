@@ -76,6 +76,10 @@
 		<activity android:name=".activities.help.HelpFragmentActivity">
 		</activity>
 
+        <activity android:name=".test.TestActivity"
+                android:exported="false">
+        </activity>
+
 		<activity
 			android:name=".activities.WebViewWithProxyActivity"
 			android:configChanges="orientation">

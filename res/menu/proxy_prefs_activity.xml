@@ -64,6 +64,12 @@
             android:showAsAction="always|withText"
             android:title="@string/pref_send_feedback"/>
 
+    <item
+            android:id="@+id/menu_developer"
+            android:icon="@drawable/ic_action_ic_help"
+            android:showAsAction="always|withText"
+            android:title="@string/pref_developers"/>
+
     <!--<item-->
         <!--android:id="@+id/menu_actions"-->
         <!--android:icon="@drawable/ic_action_valid"-->
