@@ -35,8 +35,20 @@ public class ProxySQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_PROXY_MODIFIED_DATE + " integer not null"
             + ");";
 
+    private static ProxySQLiteOpenHelper instance;
 
-    public ProxySQLiteOpenHelper(Context context)
+
+    public static synchronized ProxySQLiteOpenHelper getInstance(Context context)
+    {
+        if (instance == null)
+        {
+            instance = new ProxySQLiteOpenHelper(context);
+        }
+
+        return instance;
+    }
+
+    private ProxySQLiteOpenHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

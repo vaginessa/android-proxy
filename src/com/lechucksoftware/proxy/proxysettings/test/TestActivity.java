@@ -14,7 +14,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 public class TestActivity extends Activity
 {
     public static final String TAG = "TestActivity";
-    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,29 +30,17 @@ public class TestActivity extends Activity
         addAsyncProxy.execute();
     }
 
-    public void dismissDialog()
-    {
-        dialog.dismiss();
-    }
-
     public class AddAsyncProxy extends AsyncTask<Void, Void, Void>
     {
         @Override
         protected void onPostExecute(Void result)
         {
-            dismissDialog();
-//            getActivity().setProgressBarIndeterminateVisibility(false);
         }
 
         @Override
         protected void onPreExecute()
         {
-            dialog = new ProgressDialog(getApplicationContext());
-            dialog.setTitle("AddAsyncProxy");
-            dialog.setMessage("Inserting lot of proxies");
-            dialog.show();
-//            getActivity().setProgressBarIndeterminate(true);
-//            getActivity().setProgressBarVisibility(true);
+
         }
 
         @Override
