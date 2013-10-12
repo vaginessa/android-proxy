@@ -173,6 +173,25 @@ public class ProxyDataSource
 //        dbHelper.close();
     }
 
+    public int getProxiesCount()
+    {
+        SQLiteDatabase database = ProxySQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        List<ProxyData> proxies = new ArrayList<ProxyData>();
+
+        String query = "SELECT COUNT(*)"
+                + " FROM " + ProxySQLiteOpenHelper.TABLE_PROXIES;
+
+        Cursor cursor = database.rawQuery(query, null);
+        cursor.moveToFirst();
+        int result = cursor.getInt(0);
+
+        // Make sure to close the cursor
+        cursor.close();
+
+        return result;
+    }
+
     public List<ProxyData> getAllProxies()
     {
         SQLiteDatabase database = ProxySQLiteOpenHelper.getInstance(context).getReadableDatabase();

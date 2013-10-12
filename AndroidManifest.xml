@@ -38,25 +38,30 @@
 		android:icon="@drawable/ic_launcher"
 		android:label="@string/app_name">
 
-		<activity
-			android:name=".activities.ProxySettingsMainActivity"
-			android:label="@string/app_name"
-			android:theme="@style/Invisible">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+		<!--<activity-->
+			<!--android:name=".activities.ProxySettingsMainActivity"-->
+			<!--android:label="@string/app_name"-->
+			<!--android:theme="@style/Invisible">-->
+			<!--<intent-filter>-->
+				<!--<action android:name="android.intent.action.MAIN" />-->
+				<!--<category android:name="android.intent.category.LAUNCHER" />-->
+			<!--</intent-filter>-->
+		<!--</activity>-->
 
-		<activity
-			android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity"
-			android:theme="@style/Invisible">
-		</activity>
+		<!--<activity-->
+			<!--android:name="com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity"-->
+			<!--android:theme="@style/Invisible">-->
+		<!--</activity>-->
 
         <activity
             android:name="com.lechucksoftware.proxy.proxysettings.activities.MainActivity"
             android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
             android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
