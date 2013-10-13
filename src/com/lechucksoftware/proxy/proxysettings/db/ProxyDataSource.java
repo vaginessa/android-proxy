@@ -52,6 +52,13 @@ public class ProxyDataSource
         ProxySQLiteOpenHelper.getInstance(context).close();
     }
 
+    public void resetDB()
+    {
+        SQLiteDatabase database =  ProxySQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        ProxySQLiteOpenHelper.getInstance(context).dropDB(database);
+        ProxySQLiteOpenHelper.getInstance(context).createDB(database);
+    }
+
     public ProxyData upsertProxy(ProxyData proxyData)
     {
         ProxyData persistedProxy = findProxy(proxyData);

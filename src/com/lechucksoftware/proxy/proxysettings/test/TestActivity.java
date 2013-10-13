@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
@@ -30,10 +31,15 @@ public class TestActivity extends Activity
         testDBContainer = (LinearLayout) findViewById(R.id.testDBContainer);
     }
 
-    public void testDBClicked(View caller)
+    public void addDBClicked(View caller)
     {
         AddAsyncProxy addAsyncProxy = new AddAsyncProxy(this);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void clearDBClicked(View caller)
+    {
+        ApplicationGlobals.getDBManager().resetDB();
     }
 
     public class AddAsyncProxy extends AsyncTask<Void, Integer, Void>
