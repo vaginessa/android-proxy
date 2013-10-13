@@ -3,31 +3,29 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
-import android.app.ProgressDialog;
 import android.content.Loader;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.lechucksoftware.proxy.proxysettings.*;
-import com.lechucksoftware.proxy.proxysettings.adapters.PInfoAdapter;
-import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
-import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.ActionManager;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.WifiAPSelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
+import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxyConfigurationTaskLoader;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.SecurityType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +40,7 @@ public class AccessPointListFragment extends EnhancedListFragment implements Loa
     private WifiAPSelectorListAdapter apListAdapter;
     private TextView emptyText;
     private Loader<List<ProxyConfiguration>> loader;
+    private RelativeLayout progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -50,6 +49,7 @@ public class AccessPointListFragment extends EnhancedListFragment implements Loa
 
         View v = inflater.inflate(R.layout.ap_list, container, false);
 
+        progress = (RelativeLayout) v.findViewById(R.id.progress);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
 
         LogWrapper.stopTrace(TAG, "onCreateView", Log.INFO);
@@ -85,6 +85,9 @@ public class AccessPointListFragment extends EnhancedListFragment implements Loa
         actionBar.setHomeButtonEnabled(false);
         actionBar.setTitle(getResources().getString(R.string.app_name));
 
+        ActionManager.getInstance().hide();
+        progress.setVisibility(View.VISIBLE);
+
         apListAdapter = new WifiAPSelectorListAdapter(getActivity());
         setListAdapter(apListAdapter);
         loader = getLoaderManager().initLoader(LOADER_PROXYCONFIGURATIONS, new Bundle(), this);
@@ -99,7 +102,9 @@ public class AccessPointListFragment extends EnhancedListFragment implements Loa
         if (isAdded())
         {
             if (loader != null)
+            {
                 loader.forceLoad();
+            }
         }
         else
         {
@@ -143,8 +148,9 @@ public class AccessPointListFragment extends EnhancedListFragment implements Loa
             ActionManager.getInstance().setStatus(StatusFragmentStates.ENABLE_WIFI);
         }
 
-        LogWrapper.stopTrace(TAG,"onLoadFinished",Log.DEBUG);
+        progress.setVisibility(View.GONE);
 
+        LogWrapper.stopTrace(TAG,"onLoadFinished",Log.DEBUG);
         LogWrapper.stopTrace(TAG,"STARTUP", Log.ERROR);
     }
 
