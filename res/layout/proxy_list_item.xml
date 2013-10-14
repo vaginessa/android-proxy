@@ -37,14 +37,26 @@
 
         <TextView
                 android:id="@+id/list_item_proxy_host"
-                android:layout_width="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:singleLine="true"
                 android:lines="1"
                 android:ellipsize="end"
-                android:text="118.0.10.42">
+                android:padding="3dp"
+                android:layout_toLeftOf="@+id/list_item_proxy_port"
+                android:text="255.255.255.255">
         </TextView>
+
+    <View
+            android:id="@+id/list_item_status_color"
+            android:layout_below="@+id/list_item_proxy_port"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:background="@color/Holo_Blue_Light">
+    </View>
     <!--</LinearLayout>-->
 
     <!--<LinearLayout-->
@@ -70,8 +82,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:textSize="20sp"
-                android:text="7808"
+                android:textSize="25sp"
+                android:text="65536"
+                android:padding="3dp"
                 android:paddingRight="10dp">
         </TextView>
     <!--</LinearLayout>-->

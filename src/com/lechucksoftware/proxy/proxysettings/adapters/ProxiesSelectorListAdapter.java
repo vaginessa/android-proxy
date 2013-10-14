@@ -33,7 +33,7 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyData>
     {
         TextView host;
         TextView port;
-        TextView description;
+//        TextView description;
     }
 
     public void setData(List<ProxyData> confList)
@@ -74,7 +74,7 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyData>
         {
             viewHolder.host.setText(listItem.host);
             viewHolder.port.setText(listItem.port.toString());
-            viewHolder.description.setText(listItem.description);
+//            viewHolder.description.setText(listItem.description);
         }
         return view;
     }

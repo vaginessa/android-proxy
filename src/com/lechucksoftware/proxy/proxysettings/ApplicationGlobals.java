@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyDataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -21,7 +21,7 @@ public class ApplicationGlobals extends Application
     private ProxyManager proxyManager;
     private static ProxyConfiguration selectedConfiguration;
     private static ProxyData selectedProxy;
-    private ProxyDataSource dbManager;
+    private DataSource dbManager;
     public AndroidMarket activeMarket;
 
     @Override
@@ -34,7 +34,7 @@ public class ApplicationGlobals extends Application
         mInstance = this;
 
         proxyManager = new ProxyManager(ApplicationGlobals.this);
-        dbManager = new ProxyDataSource(ApplicationGlobals.this);
+        dbManager = new DataSource(ApplicationGlobals.this);
 
         activeMarket = Utils.getInstallerMarket(ApplicationGlobals.this);
 
@@ -68,12 +68,12 @@ public class ApplicationGlobals extends Application
         return getInstance().proxyManager;
     }
 
-    public static ProxyDataSource getDBManager()
+    public static DataSource getDBManager()
     {
         if (getInstance().dbManager == null)
         {
-            BugReportingUtils.sendException(new Exception("Cannot find valid instance of ProxyDataSource, trying to instanciate a new one"));
-            getInstance().dbManager = new ProxyDataSource(getInstance());
+            BugReportingUtils.sendException(new Exception("Cannot find valid instance of DataSource, trying to instanciate a new one"));
+            getInstance().dbManager = new DataSource(getInstance());
         }
 
         return getInstance().dbManager;

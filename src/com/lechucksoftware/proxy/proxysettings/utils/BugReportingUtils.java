@@ -2,8 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.widget.Toast;
 import com.bugsense.trace.BugSenseHandler;
+//import com.google.analytics.tracking.android.Tracker;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 
 import java.io.BufferedReader;
@@ -15,6 +15,7 @@ public class BugReportingUtils
 {
     private static final String TAG = "BugReportingUtils";
     private static Boolean setupDone;
+//    private static Tracker tracker;
 
     static
     {
@@ -24,6 +25,9 @@ public class BugReportingUtils
     public static void setup(Context ctx)
     {
         setupBugSense(ctx);
+
+        // Initialize a tracker using a Google Analytics property ID.
+//        tracker = GoogleAnalytics.getInstance(ctx).getTracker("UA-41504209-1");
     }
 
     private static void setupBugSense(Context ctx)

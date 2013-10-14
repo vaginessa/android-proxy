@@ -7,7 +7,6 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyDataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.*;
@@ -196,7 +195,6 @@ public class ProxyManager
                     pd.host = conf.getProxyHost();
                     pd.port = conf.getProxyPort();
                     pd.exclusion = conf.getProxyExclusionList();
-                    pd.description = null;
 
                     ApplicationGlobals.getDBManager().upsertProxy(pd);
                 }

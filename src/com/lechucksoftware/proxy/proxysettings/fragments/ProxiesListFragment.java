@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
@@ -29,12 +30,16 @@ public class ProxiesListFragment extends EnhancedListFragment
     int mCurCheckPosition = 0;
     private ProxiesSelectorListAdapter proxiesListAdapter;
     private TextView emptyText;
+    private RelativeLayout progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.base_list_fragment, container, false);
+        View v = inflater.inflate(R.layout.proxy_list, container, false);
+
+        progress = (RelativeLayout) v.findViewById(R.id.progress);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
+
         return v;
     }
 
@@ -98,6 +103,8 @@ public class ProxiesListFragment extends EnhancedListFragment
                 proxiesListAdapter.setData(new ArrayList<ProxyData>());
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
             }
+
+            progress.setVisibility(View.GONE);
         }
         else
         {

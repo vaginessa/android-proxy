@@ -27,7 +27,6 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
     private EditTextPreference proxyHostPref;
     private EditTextPreference proxyPortPref;
     private EditTextPreference proxyBypassPref;
-    private EditTextPreference proxyDescriptionPref;
 
     /**
      * Create a new instance of WifiAPDetailsFragment
@@ -44,7 +43,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.proxy_description_preference);
+//        addPreferencesFromResource(R.xml.proxy_description_preference);
         addPreferencesFromResource(R.xml.proxy_settings_preferences);
 
         instance = this;
@@ -62,16 +61,6 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
     private void getUIComponents()
     {
 //		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
-
-        proxyDescriptionPref = (EditTextPreference) findPreference("pref_proxy_description");
-        proxyDescriptionPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-
-                return true;
-            }
-        });
 
         proxyHostPref = (EditTextPreference) findPreference("pref_proxy_host");
         proxyHostPref.setDependency(null);
@@ -142,17 +131,6 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
             {
                 ProxyData proxy = ApplicationGlobals.getSelectedProxy();
 
-                String description = proxy.description;
-                proxyDescriptionPref.setText(description);
-                if (description == null || description.length() == 0)
-                {
-                    proxyDescriptionPref.setSummary(getText(R.string.not_set));
-                }
-                else
-                {
-                    proxyDescriptionPref.setSummary(description);
-                }
-
                 String proxyHost = proxy.host;
                 proxyHostPref.setText(proxyHost);
                 if (proxyHost == null || proxyHost.length() == 0)
@@ -220,7 +198,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
 
         if (selconf != null)
         {
-            actionBar.setTitle(selconf.description);
+//            actionBar.setTitle(selconf.description);
 //            ActionManager.getInstance().refreshUI();
         }
         else

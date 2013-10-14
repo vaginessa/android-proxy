@@ -12,17 +12,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.WifiAPDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.WifiAPDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 
@@ -58,6 +57,8 @@ public class MainActivity extends Activity
 
         // Add the fragment to the 'fragment_container' FrameLayout
         getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
+
+//        EasyTracker.getInstance(this).activityStart(this);
     }
 
 
@@ -68,7 +69,6 @@ public class MainActivity extends Activity
         inflater.inflate(R.menu.proxy_prefs_activity, menu);
         return true;
     }
-
 
     @Override
     protected void onNewIntent(Intent intent)
@@ -167,6 +167,8 @@ public class MainActivity extends Activity
         super.onStop();
         LogWrapper.d(TAG,"Stopping MainActivity");
         active = false;
+
+//        EasyTracker.getInstance(this).activityStop(this);
     }
 
     private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
@@ -203,11 +205,9 @@ public class MainActivity extends Activity
     private void refreshUI()
     {
 //        this.invalidateOptionsMenu();
-
         AccessPointListFragment.getInstance().refreshUI();
         WifiAPDetailsFragment.getInstance().refreshUI();
     }
-
 
     private class Scanner extends Handler
     {

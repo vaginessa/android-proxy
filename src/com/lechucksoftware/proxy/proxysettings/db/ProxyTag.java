@@ -6,19 +6,15 @@ import java.util.Date;
 /**
  * Created by Marco on 13/09/13.
  */
-public class ProxyData
+public class ProxyTag
 {
     private Long id;
-    public String host;
-    public Integer port;
-    public String exclusion;
-
-    private Long creationDate;
-    private Long lastModifiedDate;
+    public String tag;
+    public Integer tagColor;
 
     public Boolean isPersisted;
 
-    public ProxyData()
+    public ProxyTag()
     {
         isPersisted = false;
     }
@@ -33,35 +29,11 @@ public class ProxyData
         this.id = id;
     }
 
-    public void setCreationDate(long date)
-    {
-        creationDate = date;
-    }
-
-    public Date getCreationDate()
-    {
-        Date d = new Date(creationDate);
-        return d;
-    }
-
-    public void setModifiedDate(long date)
-    {
-        lastModifiedDate = date;
-    }
-
-    public Date getModifiedDate()
-    {
-        Date d = new Date(lastModifiedDate);
-        return d;
-    }
-
     @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s:%d", host, port));
-        if (exclusion != null && !exclusion.equals("")) sb.append(String.format(" (%s)",exclusion));
-
+        sb.append(String.format("%s:%d", tag, tagColor));
         return sb.toString();
     }
 
@@ -83,10 +55,5 @@ public class ProxyData
         }
 
         return sb.toString();
-    }
-
-    public static String getAutomaticDescription(ProxyData proxyData)
-    {
-        return String.format("Proxy %s",proxyData.host);
     }
 }
