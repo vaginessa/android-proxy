@@ -60,7 +60,7 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyData>
             viewHolder = new ApViewHolder();
             viewHolder.host = (TextView) view.findViewById(R.id.list_item_proxy_host);
             viewHolder.port = (TextView) view.findViewById(R.id.list_item_proxy_port);
-            viewHolder.description = (TextView) view.findViewById(R.id.list_item_proxy_description);
+//            viewHolder.description = (TextView) view.findViewById(R.id.list_item_proxy_description);
             view.setTag(viewHolder);
         }
         else
