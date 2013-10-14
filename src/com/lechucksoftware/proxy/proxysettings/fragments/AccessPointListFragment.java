@@ -2,46 +2,57 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.lechucksoftware.proxy.proxysettings.*;
+import android.widget.Toast;
+import com.lechucksoftware.proxy.proxysettings.ActionManager;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-import com.lechucksoftware.proxy.proxysettings.adapters.WifiAPSelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.ProxyConfigurationTaskLoader;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.SecurityType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by marco on 17/05/13.
  */
-public class AccessPointListFragment extends EnhancedListFragment
+public class AccessPointListFragment extends EnhancedListFragment implements LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
 {
     private static final String TAG = "AccessPointListFragment";
+    private static final int LOADER_PROXYCONFIGURATIONS = 1;
     private static AccessPointListFragment instance;
     int mCurCheckPosition = 0;
     private WifiAPSelectorListAdapter apListAdapter;
     private TextView emptyText;
+    private Loader<List<ProxyConfiguration>> loader;
+    private RelativeLayout progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        LogWrapper.startTrace(TAG,"onCreateView",Log.INFO);
+
         View v = inflater.inflate(R.layout.ap_list, container, false);
 
+        progress = (RelativeLayout) v.findViewById(R.id.progress);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
 
+        LogWrapper.stopTrace(TAG, "onCreateView", Log.INFO);
         return v;
     }
 
@@ -64,6 +75,8 @@ public class AccessPointListFragment extends EnhancedListFragment
     {
         super.onResume();
 
+        LogWrapper.startTrace(TAG,"onResume",Log.DEBUG);
+
         // Reset selected configuration
         ApplicationGlobals.setSelectedConfiguration(null);
 
@@ -72,40 +85,25 @@ public class AccessPointListFragment extends EnhancedListFragment
         actionBar.setHomeButtonEnabled(false);
         actionBar.setTitle(getResources().getString(R.string.app_name));
 
-        refreshUI();
-    }
+        ActionManager.getInstance().hide();
+        progress.setVisibility(View.VISIBLE);
 
-    @Override
-    public void onPause()
-    {
-        super.onPause();
+        apListAdapter = new WifiAPSelectorListAdapter(getActivity());
+        setListAdapter(apListAdapter);
+        loader = getLoaderManager().initLoader(LOADER_PROXYCONFIGURATIONS, new Bundle(), this);
+
+        refreshUI();
+
+        LogWrapper.stopTrace(TAG,"onResume",Log.DEBUG);
     }
 
     public void refreshUI()
     {
         if (isAdded())
         {
-            if (apListAdapter == null)
+            if (loader != null)
             {
-                apListAdapter = new WifiAPSelectorListAdapter(getActivity());
-                setListAdapter(apListAdapter);
-            }
-
-            if (APL.getWifiManager().isWifiEnabled())
-            {
-                new backgroundLoadListView().execute();
-            }
-            else
-            {
-//                int duration = Toast.LENGTH_SHORT;
-//                Toast toast = Toast.makeText(getActivity(), "Wi-Fi is not enabled", duration);
-//                toast.show();
-
-                // Do not display results when Wi-Fi is not enabled
-                apListAdapter.setData(new ArrayList<ProxyConfiguration>());
-                emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
-
-                ActionManager.getInstance().setStatus(StatusFragmentStates.ENABLE_WIFI);
+                loader.forceLoad();
             }
         }
         else
@@ -114,68 +112,52 @@ public class AccessPointListFragment extends EnhancedListFragment
         }
     }
 
-    public class backgroundLoadListView extends
-            AsyncTask<Void, Void, Void>
+    @Override
+    public Loader<List<ProxyConfiguration>> onCreateLoader(int i, Bundle bundle)
     {
-        private ProgressDialog dialog;
+        LogWrapper.startTrace(TAG,"onCreateLoader",Log.INFO);
 
-        @Override
-        protected void onPostExecute(Void result) {
+        ProxyConfigurationTaskLoader proxyConfigurationTaskLoader = new ProxyConfigurationTaskLoader(getActivity());
+        LogWrapper.stopTrace(TAG, "onCreateLoader", Log.INFO);
 
-            getActivity().setProgressBarIndeterminateVisibility(false);
-        }
-
-        @Override
-        protected void onPreExecute()
-        {
-
-            getActivity().setProgressBarIndeterminate(true);
-            getActivity().setProgressBarVisibility(true);
-//            dialog=new ProgressDialog(getActivity());
-//            dialog.setTitle("Please Wait");
-//            dialog.setMessage("Loading list of stuff");
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            refreshListView();
-            return null;
-        }
-
+        return proxyConfigurationTaskLoader;
     }
 
-    private void refreshListView()
+    @Override
+    public void onLoadFinished(Loader<List<ProxyConfiguration>> listLoader, List<ProxyConfiguration> proxyConfigurations)
     {
-        LogWrapper.startTrace(TAG, "Refresh listview UI", Log.DEBUG);
-        final List<ProxyConfiguration> results = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
-        LogWrapper.stopTrace(TAG, "Refresh listview UI", Log.DEBUG);
-        if (results != null && results.size() > 0)
+        LogWrapper.startTrace(TAG,"onLoadFinished",Log.DEBUG);
+        if (APL.getWifiManager().isWifiEnabled())
         {
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-
-                    apListAdapter.setData(results);
-                    LogWrapper.stopTrace(TAG, "STARTAPP", Log.INFO);
-                    ActionManager.getInstance().hide();
-
-                }
-            });
-
+            if (proxyConfigurations != null && proxyConfigurations.size() > 0)
+            {
+                apListAdapter.setData(proxyConfigurations);
+                ActionManager.getInstance().hide();
+            }
+            else
+            {
+                emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
+                ActionManager.getInstance().setStatus(StatusFragmentStates.CONNECT_TO);
+            }
         }
         else
         {
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-
-                    // Wi-Fi is enabled, but no Wi-Fi access point configured
-                    apListAdapter.setData(new ArrayList<ProxyConfiguration>());
-                    emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
-                    ActionManager.getInstance().setStatus(StatusFragmentStates.CONNECT_TO);
-
-                }
-            });
-
+            // Do not display results when Wi-Fi is not enabled
+//            apListAdapter.setData(new ArrayList<ProxyConfiguration>());
+            emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
+            ActionManager.getInstance().setStatus(StatusFragmentStates.ENABLE_WIFI);
         }
+
+        progress.setVisibility(View.GONE);
+
+        LogWrapper.stopTrace(TAG,"onLoadFinished",Log.DEBUG);
+        LogWrapper.stopTrace(TAG,"STARTUP", Log.ERROR);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<ProxyConfiguration>> listLoader)
+    {
+        Toast.makeText(getActivity(), TAG + " LOADRESET", Toast.LENGTH_SHORT).show();
     }
 
     /**

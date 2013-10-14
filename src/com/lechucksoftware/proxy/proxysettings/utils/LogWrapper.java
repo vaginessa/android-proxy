@@ -95,6 +95,11 @@ public class LogWrapper
 
     public static void startTrace(String tag, String msg, int logLevel)
     {
+        startTrace(tag,msg,logLevel,false);
+    }
+
+    public static void startTrace(String tag, String msg, int logLevel, boolean showStart)
+    {
         if (startTraces == null)
         {
             startTraces = new ConcurrentHashMap<String, Date>();
@@ -103,7 +108,11 @@ public class LogWrapper
 
         Date now = new Date();
         DateFormat df = DateFormat.getDateTimeInstance();
-        log(tag, "START " + msg + " ################## " + df.format(now) + " #####################################################################", logLevel);
+        if (showStart)
+        {
+            log(tag, "START " + msg + " ################## " + df.format(now) + " #####################################################################", logLevel);
+        }
+
         startTraces.put(msg, now);
     }
 
@@ -112,16 +121,16 @@ public class LogWrapper
     {
         if (startTraces != null && startTraces.containsKey(msg))
         {
-            Date start = startTraces.get(msg);
+            Date start = startTraces.remove(msg);
             Date now = new Date();
             Long diff = now.getTime() - start.getTime();
-            log(tag, "STOP " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
+            log(tag, "FINISH " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
         }
-        else
-        {
-            DateFormat df = DateFormat.getDateTimeInstance();
-            log(tag, msg + " ################## " +  df.format(new Date()) + " #####################################################################", logLevel);
-        }
+//        else
+//        {
+//            DateFormat df = DateFormat.getDateTimeInstance();
+//            log(tag, msg + " ################## " +  df.format(new Date()) + " #####################################################################", logLevel);
+//        }
     }
 
     public static void logIntent(String tag, String msg, Intent intent, int logLevel)

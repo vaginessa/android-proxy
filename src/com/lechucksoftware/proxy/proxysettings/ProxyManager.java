@@ -185,6 +185,7 @@ public class ProxyManager
 
     private void upsertFoundProxyConfigurations()
     {
+        LogWrapper.startTrace(TAG,"upsertFoundProxyConfigurations", Log.INFO);
         if (!getSavedConfigurations().isEmpty())
         {
             for (ProxyConfiguration conf : getSavedConfigurations().values())
@@ -201,12 +202,11 @@ public class ProxyManager
                 }
             }
 
-            List<ProxyData> savedProxies = ApplicationGlobals.getDBManager().getAllProxies();
-            for (ProxyData p : savedProxies)
-            {
-                LogWrapper.d(TAG,"Saved proxy: " + p.getDebugInfo());
-            }
+            int proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
+            LogWrapper.d(TAG,"Saved proxy: " + proxiesCount);
         }
+
+        LogWrapper.stopTrace(TAG,"upsertFoundProxyConfigurations", Log.INFO);
     }
 
     private void updateConfigurationsWithWifiScanResults()

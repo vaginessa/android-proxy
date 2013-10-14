@@ -56,7 +56,7 @@ public class ProxySQLiteOpenHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase database)
     {
-        database.execSQL(DATABASE_CREATE);
+        createDB(database);
     }
 
     @Override
@@ -65,7 +65,17 @@ public class ProxySQLiteOpenHelper extends SQLiteOpenHelper
         LogWrapper.w(ProxySQLiteOpenHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
+        dropDB(db);
+        createDB(db);
+    }
+
+    public void createDB(SQLiteDatabase db)
+    {
+        db.execSQL(DATABASE_CREATE);
+    }
+
+    public void dropDB(SQLiteDatabase db)
+    {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXIES);
-        onCreate(db);
     }
 }

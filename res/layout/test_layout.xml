@@ -5,11 +5,34 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <Button
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to DB"
+                android:onClick="addDBClicked"
+                android:id="@+id/button"
+                android:layout_gravity="left|center_vertical"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear DB"
+                android:onClick="clearDBClicked"
+                android:id="@+id/button"
+                android:layout_gravity="left|center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test DB"
-            android:onClick="testDBClicked"
-            android:id="@+id/button"
+            android:id="@+id/testDBContainer"
+            android:orientation="vertical"
             android:layout_gravity="left|center_vertical"/>
+
 </LinearLayout>

@@ -24,7 +24,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 
-        LogWrapper.startTrace(TAG,"STARTAPP", Log.INFO);
+        LogWrapper.startTrace(TAG,"STARTUP", Log.ERROR,true);
 
 //        LogWrapper.d(TAG, "Creating ProxySettingsMainActivity");
 

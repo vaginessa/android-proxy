@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import android.app.Application;
 import android.content.Intent;
+import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
@@ -27,6 +28,8 @@ public class ApplicationGlobals extends Application
     public void onCreate()
     {
         super.onCreate();
+
+        LogWrapper.startTrace(TAG,"STARTUP", Log.ERROR);
 
         mInstance = this;
 
