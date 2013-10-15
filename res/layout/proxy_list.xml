@@ -8,11 +8,16 @@
             android:id="@id/android:list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbarStyle="outsideOverlay"
-            android:paddingRight="20dp"
-            android:paddingLeft="10dp"
             android:layout_weight="1"
-            android:drawSelectorOnTop="false"/>
+            android:drawSelectorOnTop="false"
+            android:fastScrollEnabled="true"
+            android:fastScrollAlwaysVisible="true"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="none"
+            android:smoothScrollbar="true"
+            android:paddingRight="30dp"
+            android:paddingLeft="10dp"
+            />
 
     <include layout="@layout/progress"/>
 
