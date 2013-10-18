@@ -8,4 +8,12 @@
             android:summary="Enable/Disable proxy for the selected Access Point"
             android:title="Proxy"/>
 
+    <com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectPreferenceDialog
+            android:defaultValue="false"
+            android:dependency="pref_proxy_enabled"
+            android:key="pref_proxy_selected"
+            android:persistent="false"
+            android:summary="SELECT PROXY"
+            android:title="PROXY"/>
+
 </PreferenceScreen>
