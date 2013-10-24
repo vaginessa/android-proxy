@@ -114,7 +114,7 @@ public class LogWrapper
         {
             Date start = startTraces.get(msg);
             Date now = new Date();
-            Long diff = now.getTime() - start.getTime();
+            long diff = now.getTime() - start.getTime();
             log(tag, "STOP " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
         }
         else
