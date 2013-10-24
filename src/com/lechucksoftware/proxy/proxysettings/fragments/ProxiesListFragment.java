@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -92,7 +92,7 @@ public class ProxiesListFragment extends EnhancedListFragment
             }
 
             LogWrapper.d(TAG, "Refresh listview UI: get configuration list");
-            List<ProxyData> results = ApplicationGlobals.getDBManager().getAllProxies();
+            List<DBProxy> results = ApplicationGlobals.getDBManager().getAllProxies();
 
             if (results != null && results.size() > 0)
             {
@@ -100,7 +100,7 @@ public class ProxiesListFragment extends EnhancedListFragment
             }
             else
             {
-                proxiesListAdapter.setData(new ArrayList<ProxyData>());
+                proxiesListAdapter.setData(new ArrayList<DBProxy>());
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
             }
 
@@ -128,7 +128,7 @@ public class ProxiesListFragment extends EnhancedListFragment
             // the list to highlight the selected item and show the data.
             getListView().setItemChecked(index, true);
 
-            ProxyData selectedProxy = (ProxyData) getListView().getItemAtPosition(index);
+            DBProxy selectedProxy = (DBProxy) getListView().getItemAtPosition(index);
             ApplicationGlobals.setSelectedProxy(selectedProxy);
 //            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
             NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());

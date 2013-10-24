@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 /**
@@ -12,14 +13,15 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 {
     public static final String TABLE_PROXIES = "proxies";
     public static final String TABLE_TAGS = "tags";
-    public static final String TABLE_TAGGEDPROXIES = "taggedproxies";
+    public static final String TABLE_PROXY_TAG_LINKS = "taggedproxies";
 
     public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_CREATION_DATE = "creationDate";
+    public static final String COLUMN_MODIFIED_DATE = "modifiedDate";
+
     public static final String COLUMN_PROXY_HOST = "host";
     public static final String COLUMN_PROXY_PORT = "port";
     public static final String COLUMN_PROXY_EXCLUSION = "exclusion";
-    public static final String COLUMN_PROXY_CREATION_DATE = "creationDate";
-    public static final String COLUMN_PROXY_MODIFIED_DATE = "modifiedDate";
 
     public static final String COLUMN_TAG = "tag";
     public static final String COLUMN_TAG_COLOR = "color";
@@ -36,28 +38,34 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + TABLE_PROXIES
             + "("
             + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_PROXY_HOST + " text not null,"
-            + COLUMN_PROXY_PORT + " integer not null,"
-            + COLUMN_PROXY_EXCLUSION + " text not null,"
-            + COLUMN_PROXY_CREATION_DATE + " integer not null,"
-            + COLUMN_PROXY_MODIFIED_DATE + " integer not null"
+            + COLUMN_PROXY_HOST + " text not null, "
+            + COLUMN_PROXY_PORT + " integer not null, "
+            + COLUMN_PROXY_EXCLUSION + " text not null, "
+            + COLUMN_CREATION_DATE + " integer not null, "
+            + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
 
     private static final String CREATE_TABLE_TAGS = "create table "
             + TABLE_TAGS
             + "("
             + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_TAG + " text not null,"
-            + COLUMN_TAG_COLOR + " integer not null"
+            + COLUMN_TAG + " text not null, "
+            + COLUMN_TAG_COLOR + " integer not null, "
+            + COLUMN_CREATION_DATE + " integer not null, "
+            + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
 
     private static final String CREATE_TABLE_TAGGED_PROXIES = "create table "
-            + TABLE_TAGGEDPROXIES
+            + TABLE_PROXY_TAG_LINKS
             + "("
             + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_TAG_ID + " integer not null,"
-            + COLUMN_PROXY_ID + " integer not null"
+            + COLUMN_PROXY_ID + " integer not null, "
+            + COLUMN_TAG_ID + " integer not null, "
+            + COLUMN_CREATION_DATE + " integer not null, "
+            + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
+
+    private static final String TAG = DatabaseSQLiteOpenHelper.class.getSimpleName();
 
     private static DatabaseSQLiteOpenHelper instance;
 
@@ -95,15 +103,19 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 
     public void createDB(SQLiteDatabase db)
     {
+        LogWrapper.startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
         db.execSQL(CREATE_TABLE_PROXIES);
         db.execSQL(CREATE_TABLE_TAGS);
         db.execSQL(CREATE_TABLE_TAGGED_PROXIES);
+        LogWrapper.stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
 
     public void dropDB(SQLiteDatabase db)
     {
+        LogWrapper.startTrace(TAG, "DROP DATABASE", Log.DEBUG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXIES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAGS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAGGEDPROXIES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
+        LogWrapper.stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }
 }

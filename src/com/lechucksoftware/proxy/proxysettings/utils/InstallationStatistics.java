@@ -26,7 +26,7 @@ public class InstallationStatistics
         editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, launch_count);
 
         // Get date of first launch
-        Long date_firstLaunch = prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0);
+        long date_firstLaunch = prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0);
         if (date_firstLaunch == 0)
         {
             date_firstLaunch = System.currentTimeMillis();

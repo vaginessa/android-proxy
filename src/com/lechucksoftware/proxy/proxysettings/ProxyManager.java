@@ -6,7 +6,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.*;
@@ -191,7 +191,7 @@ public class ProxyManager
             {
                 if (conf.getProxy() != Proxy.NO_PROXY && conf.isValidProxyConfiguration())
                 {
-                    ProxyData pd = new ProxyData();
+                    DBProxy pd = new DBProxy();
                     pd.host = conf.getProxyHost();
                     pd.port = conf.getProxyPort();
                     pd.exclusion = conf.getProxyExclusionList();
@@ -200,7 +200,7 @@ public class ProxyManager
                 }
             }
 
-            int proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
+            long proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
             LogWrapper.d(TAG,"Saved proxy: " + proxiesCount);
         }
 

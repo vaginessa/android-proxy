@@ -10,96 +10,42 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-    <!--<TextView-->
-            <!--android:id="@+id/list_item_proxy_description"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="20sp"-->
-            <!--android:padding="5sp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:text="PROXY asdfasdf">-->
-    <!--</TextView>-->
+    <TextView
+            android:id="@+id/list_item_proxy_host"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:padding="3dp"
+            android:layout_toLeftOf="@+id/list_item_proxy_port"
+            android:text="255.255.255.255">
+    </TextView>
 
-    <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:id="@+id/list_item_proxy_host_section"-->
-            <!--android:layout_below="@id/list_item_proxy_description"-->
-            <!--android:layout_toLeftOf="@+id/list_item_proxy_port_section"-->
-            <!--android:padding="5sp">-->
+    <TextView
+            android:id="@+id/list_item_proxy_port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="25sp"
+            android:text="65536"
+            android:padding="3dp"
+            android:paddingRight="10dp">
+    </TextView>
 
-        <!--<TextView-->
-                <!--android:id="@+id/list_item_proxy_host_label"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="8sp"-->
-                <!--android:paddingRight="2sp"-->
-                <!--android:text="Host">-->
-        <!--</TextView>-->
-
-        <TextView
-                android:id="@+id/list_item_proxy_host"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:singleLine="true"
-                android:lines="1"
-                android:ellipsize="end"
-                android:padding="3dp"
-                android:layout_toLeftOf="@+id/list_item_proxy_port"
-                android:text="255.255.255.255">
-        </TextView>
-
-    <!--<View-->
-            <!--android:id="@+id/list_item_status_color"-->
-            <!--android:layout_below="@+id/list_item_proxy_port"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:background="@color/Holo_Blue_Light">-->
-    <!--</View>-->
-    <!--</LinearLayout>-->
-
-    <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@id/list_item_proxy_description"-->
-            <!--android:layout_toLeftOf="@+id/proxycolor"-->
-            <!--android:id="@+id/list_item_proxy_port_section"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:padding="5sp">-->
-
-        <!--<TextView-->
-                <!--android:id="@+id/list_item_proxy_port_label"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="8sp"-->
-                <!--android:paddingRight="2sp"-->
-                <!--android:text="Port">-->
-        <!--</TextView>-->
-
-        <TextView
-                android:id="@+id/list_item_proxy_port"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textSize="25sp"
-                android:text="65536"
-                android:padding="3dp"
-                android:paddingRight="10dp">
-        </TextView>
-    <!--</LinearLayout>-->
-
-    <!--<ImageView-->
-            <!--android:id="@+id/proxycolor"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_width="40dp"-->
-            <!--android:padding="5sp"-->
-            <!--android:src="@drawable/square"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_alignParentRight="true">-->
-    <!--</ImageView>-->
+    <TextView
+            android:id="@+id/list_item_proxy_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/list_item_proxy_host"
+            android:textSize="15sp"
+            android:text="Proxy description / exclusion list / sdf asdfasfa sfd asdf asfdasdf as"
+            android:lines="1"
+            android:ellipsize="end"
+            android:padding="3dp"
+            android:paddingRight="10dp">
+    </TextView>
 
 </RelativeLayout>

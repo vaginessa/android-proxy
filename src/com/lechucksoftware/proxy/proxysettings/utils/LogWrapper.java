@@ -116,15 +116,19 @@ public class LogWrapper
         startTraces.put(msg, now);
     }
 
-
-    public static void stopTrace(String tag, String msg, int logLevel)
+    public static void stopTrace(String tag, String key, int logLevel)
     {
-        if (startTraces != null && startTraces.containsKey(msg))
+        stopTrace(tag,key,"",logLevel);
+    }
+
+    public static void stopTrace(String tag, String key, String msg, int logLevel)
+    {
+        if (startTraces != null && startTraces.containsKey(key))
         {
-            Date start = startTraces.remove(msg);
+            Date start = startTraces.remove(key);
             Date now = new Date();
-            Long diff = now.getTime() - start.getTime();
-            log(tag, "FINISH " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
+            long diff = now.getTime() - start.getTime();
+            log(tag, "FINISH " + key + " " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
         }
 //        else
 //        {

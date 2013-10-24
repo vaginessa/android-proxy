@@ -10,7 +10,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.View;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -129,7 +129,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
         {
             if (ApplicationGlobals.getSelectedProxy() != null)
             {
-                ProxyData proxy = ApplicationGlobals.getSelectedProxy();
+                DBProxy proxy = ApplicationGlobals.getSelectedProxy();
 
                 String proxyHost = proxy.host;
                 proxyHostPref.setText(proxyHost);
@@ -194,7 +194,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        ProxyData selconf = ApplicationGlobals.getSelectedProxy();
+        DBProxy selconf = ApplicationGlobals.getSelectedProxy();
 
         if (selconf != null)
         {

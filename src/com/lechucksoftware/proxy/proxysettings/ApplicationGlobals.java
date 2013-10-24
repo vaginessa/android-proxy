@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyData;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -20,7 +20,7 @@ public class ApplicationGlobals extends Application
     private static ApplicationGlobals mInstance;
     private ProxyManager proxyManager;
     private static ProxyConfiguration selectedConfiguration;
-    private static ProxyData selectedProxy;
+    private static DBProxy selectedProxy;
     private DataSource dbManager;
     public AndroidMarket activeMarket;
 
@@ -84,7 +84,7 @@ public class ApplicationGlobals extends Application
         ApplicationGlobals.selectedConfiguration = selectedConfiguration;
     }
 
-    public static void setSelectedProxy(ProxyData selectedProxy)
+    public static void setSelectedProxy(DBProxy selectedProxy)
     {
         ApplicationGlobals.selectedProxy = selectedProxy;
     }
@@ -94,7 +94,7 @@ public class ApplicationGlobals extends Application
         return ApplicationGlobals.selectedConfiguration;
     }
 
-    public static ProxyData getSelectedProxy()
+    public static DBProxy getSelectedProxy()
     {
         return ApplicationGlobals.selectedProxy;
     }

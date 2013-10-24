@@ -1,58 +1,24 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
 import java.lang.reflect.Field;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Marco on 13/09/13.
  */
-public class ProxyData
+public class DBProxy extends DBObject
 {
-    private Long id;
     public String host;
     public Integer port;
     public String exclusion;
 
-    private Long creationDate;
-    private Long lastModifiedDate;
+    public List<DBTag> tags;
 
-    public Boolean isPersisted;
-
-    public ProxyData()
+    public DBProxy()
     {
-        isPersisted = false;
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId(long id)
-    {
-        this.id = id;
-    }
-
-    public void setCreationDate(long date)
-    {
-        creationDate = date;
-    }
-
-    public Date getCreationDate()
-    {
-        Date d = new Date(creationDate);
-        return d;
-    }
-
-    public void setModifiedDate(long date)
-    {
-        lastModifiedDate = date;
-    }
-
-    public Date getModifiedDate()
-    {
-        Date d = new Date(lastModifiedDate);
-        return d;
+        super();
+        tags = new ArrayList<DBTag>();
     }
 
     @Override
@@ -60,6 +26,12 @@ public class ProxyData
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s:%d", host, port));
+        sb.append(" tags: ");
+        for(DBTag tag:tags)
+        {
+            sb.append(tag.toString() + " ");
+        }
+
         if (exclusion != null && !exclusion.equals("")) sb.append(String.format(" (%s)",exclusion));
 
         return sb.toString();
@@ -85,7 +57,7 @@ public class ProxyData
         return sb.toString();
     }
 
-    public static String getAutomaticDescription(ProxyData proxyData)
+    public static String getAutomaticDescription(DBProxy proxyData)
     {
         return String.format("Proxy %s",proxyData.host);
     }

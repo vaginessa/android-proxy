@@ -4,17 +4,16 @@ import java.lang.reflect.Field;
 import java.util.Date;
 
 /**
- * Created by Marco on 13/09/13.
+ * Created by Marco on 23/10/13.
  */
-public class ProxyTag
+public class DBObject
 {
-    private Long id;
-    public String tag;
-    public Integer tagColor;
-
+    private long id;
+    private long creationDate;
+    private long lastModifiedDate;
     public Boolean isPersisted;
 
-    public ProxyTag()
+    public DBObject()
     {
         isPersisted = false;
     }
@@ -29,12 +28,26 @@ public class ProxyTag
         this.id = id;
     }
 
-    @Override
-    public String toString()
+    public void setCreationDate(long date)
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s:%d", tag, tagColor));
-        return sb.toString();
+        creationDate = date;
+    }
+
+    public Date getCreationDate()
+    {
+        Date d = new Date(creationDate);
+        return d;
+    }
+
+    public void setModifiedDate(long date)
+    {
+        lastModifiedDate = date;
+    }
+
+    public Date getModifiedDate()
+    {
+        Date d = new Date(lastModifiedDate);
+        return d;
     }
 
     public String getDebugInfo()
