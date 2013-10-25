@@ -86,10 +86,14 @@ public class AccessPointListFragment extends EnhancedListFragment implements Loa
         actionBar.setTitle(getResources().getString(R.string.app_name));
 
         ActionManager.getInstance().hide();
-        progress.setVisibility(View.VISIBLE);
 
-        apListAdapter = new WifiAPSelectorListAdapter(getActivity());
-        setListAdapter(apListAdapter);
+        progress.setVisibility(View.VISIBLE);
+        if (apListAdapter == null)
+        {
+            apListAdapter = new WifiAPSelectorListAdapter(getActivity());
+            setListAdapter(apListAdapter);
+        }
+
         loader = getLoaderManager().initLoader(LOADER_PROXYCONFIGURATIONS, new Bundle(), this);
 
         refreshUI();

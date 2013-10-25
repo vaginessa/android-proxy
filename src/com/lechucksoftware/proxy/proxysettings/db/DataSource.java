@@ -400,7 +400,7 @@ public class DataSource
         return proxies;
     }
 
-    private List<DBTag> getTagsForProxy(long proxyId)
+    public List<DBTag> getTagsForProxy(long proxyId)
     {
         LogWrapper.startTrace(TAG, "getTagsForProxy", Log.DEBUG);
         List<DBProxyTagLink> links = getProxyTagLinkForProxy(proxyId);

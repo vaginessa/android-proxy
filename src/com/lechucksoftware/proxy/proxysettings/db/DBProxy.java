@@ -1,5 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,6 @@ public class DBProxy extends DBObject
     public String host;
     public Integer port;
     public String exclusion;
-
     public List<DBTag> tags;
 
     public DBProxy()
@@ -61,4 +62,20 @@ public class DBProxy extends DBObject
     {
         return String.format("Proxy %s",proxyData.host);
     }
+
+//    public void setTags(List<DBTag> inTags)
+//    {
+//        tags = inTags;
+//    }
+//
+//    public List<DBTag> getTags()
+//    {
+//        if (tags.size() == 0)
+//        {
+//            if (isPersisted)
+//                tags = ApplicationGlobals.getDBManager().getTagsForProxy(getId());
+//        }
+//
+//        return tags;
+//    }
 }

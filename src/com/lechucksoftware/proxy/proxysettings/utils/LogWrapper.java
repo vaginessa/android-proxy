@@ -105,7 +105,6 @@ public class LogWrapper
             startTraces = new ConcurrentHashMap<String, Date>();
         }
 
-
         Date now = new Date();
         DateFormat df = DateFormat.getDateTimeInstance();
         if (showStart)
@@ -125,7 +124,7 @@ public class LogWrapper
     {
         if (startTraces != null && startTraces.containsKey(key))
         {
-            Date start = startTraces.remove(key);
+            Date start = startTraces.get(key);
             Date now = new Date();
             long diff = now.getTime() - start.getTime();
             log(tag, "FINISH " + key + " " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
