@@ -11,17 +11,42 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.shouldit.proxy.lib.APLConstants;
+import com.shouldit.proxy.lib.ProxyUtils;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.net.URI;
 
 public class Utils
 {
     public static String TAG = "Utils";
     public static String BASE_ASSETS = "file:///android_asset/";
+
+    public static String getProxyCountryCode(DBProxy proxy) throws Exception
+    {
+        String url = String.format("http://freegeoip.net/json/%s",proxy.host);
+
+        String answer = ProxyUtils.getURI(new URI(url),ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), APLConstants.DEFAULT_TIMEOUT);
+
+        String result = null;
+
+        if (answer != null)
+        {
+            JSONObject jsonObject = new JSONObject(answer);
+            if (jsonObject.has("country_code"))
+            {
+                 result = jsonObject.getString("country_code");
+            }
+        }
+
+        return result;
+    }
 
     public static String getAppVersionName(Context ctx)
     {

@@ -166,45 +166,10 @@ public class ProxyManager
         {
             LogWrapper.d(TAG, "Configuration updated -> need to create again the sorted list");
             buildConfigurationsList();
-
-            // Save or update on the DB all the found proxy
-            try
-            {
-                upsertFoundProxyConfigurations();
-            }
-            catch (Exception e)
-            {
-                BugReportingUtils.sendException(new Exception("Exception during upsertFoundProxyConfigurations",e));
-            }
         }
 
         LogWrapper.d(TAG, "Final savedConfigurations list: " + getConfigurationsString());
         LogWrapper.stopTrace(TAG, "updateProxyConfigurationList", Log.ASSERT);
-    }
-
-    private void upsertFoundProxyConfigurations()
-    {
-        LogWrapper.startTrace(TAG,"upsertFoundProxyConfigurations", Log.INFO);
-        if (!getSavedConfigurations().isEmpty())
-        {
-            for (ProxyConfiguration conf : getSavedConfigurations().values())
-            {
-                if (conf.getProxy() != Proxy.NO_PROXY && conf.isValidProxyConfiguration())
-                {
-                    DBProxy pd = new DBProxy();
-                    pd.host = conf.getProxyHost();
-                    pd.port = conf.getProxyPort();
-                    pd.exclusion = conf.getProxyExclusionList();
-
-                    ApplicationGlobals.getDBManager().upsertProxy(pd);
-                }
-            }
-
-            long proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
-            LogWrapper.d(TAG,"Saved proxy: " + proxiesCount);
-        }
-
-        LogWrapper.stopTrace(TAG,"upsertFoundProxyConfigurations", Log.INFO);
     }
 
     private void updateConfigurationsWithWifiScanResults()

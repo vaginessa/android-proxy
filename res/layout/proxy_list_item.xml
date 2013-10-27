@@ -4,18 +4,21 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/list_item_ap_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:layout_height="fill_parent"
+        android:padding="5dp">
+
+    <!--android:paddingBottom="20dp"-->
+    <!--android:paddingTop="20dp"-->
+    <!--android:paddingLeft="10dp"-->
+    <!--android:paddingRight="10dp"-->
 
     <TextView
             android:id="@+id/list_item_proxy_host"
             android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
@@ -29,23 +32,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="25sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:text="65536"
             android:padding="3dp"
             android:paddingRight="10dp">
     </TextView>
 
-    <TextView
-            android:id="@+id/list_item_proxy_description"
+    <com.lechucksoftware.proxy.proxysettings.components.TagsView
+            android:layout_height="30dp"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/list_item_proxy_host"
-            android:textSize="15sp"
-            android:text="Proxy description / exclusion list / sdf asdfasfa sfd asdf asfdasdf as"
-            android:lines="1"
-            android:ellipsize="end"
-            android:padding="3dp"
-            android:paddingRight="10dp">
-    </TextView>
+            android:id="@+id/list_item_proxy_tags"
+            android:layout_below="@id/list_item_proxy_host"/>
 
 </RelativeLayout>

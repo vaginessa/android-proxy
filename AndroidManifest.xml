@@ -108,6 +108,7 @@
 		<!-- </activity> -->
 
 		<service android:name=".services.ProxySettingsCheckerService" />
+        <service android:name=".services.MaintenanceService" />
 		<service android:name=".services.DownloadService" />
 
 		<receiver
@@ -126,6 +127,7 @@
 				<action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_MANUAL_REFRESH" />
 				<action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_STARTED" />
 				<action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_REFRESH_UI" />
+                <action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SAVED" />
 			</intent-filter>
 		</receiver>
 	</application>

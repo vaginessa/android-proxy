@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.receivers;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -22,9 +23,24 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		if (	   
+        if (
+                   intent.getAction().equals(Constants.PROXY_SETTINGS_STARTED)					    // INTERNAL (PS) : Called when Proxy Settings is started
+            )
+        {
+            LogWrapper.logIntent(TAG, intent, Log.INFO);
+            callProxySettingsChecker(context, intent);
+            callMaintenanceService(context, intent);
+        }
+        else if (intent.getAction().equals(Constants.PROXY_SAVED)					                // INTERNAL (PS) : Saved a Proxy configuration on DB
+
+                )
+        {
+            LogWrapper.logIntent(TAG, intent, Log.INFO);
+            callMaintenanceService(context, intent);
+        }
+		else if (
 				   intent.getAction().equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION) 		// INTERNAL (APL): Called when a proxy configuration is written by APL
-				|| intent.getAction().equals(Constants.PROXY_SETTINGS_STARTED) 					// INTERNAL (PS) : Called when Proxy Settings is started
+
 				|| intent.getAction().equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)    		// INTERNAL (PS) : Called when Proxy Settings needs to refreshUI the Proxy status
 				|| intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION) 			// Connection type change (switch between 3G/WiFi)
 				|| intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION) 		// Scan restults available information
@@ -64,9 +80,26 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             }
         }
 
-
 		Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
 		serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
 		context.startService(serviceIntent);
 	}
+
+    private void callMaintenanceService(Context context, Intent intent)
+    {
+        //Call the MaintenanceService for maintenance tasks
+        MaintenanceService instance = MaintenanceService.getInstance();
+        if (instance != null)
+        {
+            if (instance.isHandlingIntent())
+            {
+                LogWrapper.w(TAG,"Already working.. skip another call");
+                return;
+            }
+        }
+
+        Intent serviceIntent = new Intent(context, MaintenanceService.class);
+        serviceIntent.putExtra(MaintenanceService.CALLER_INTENT, intent);
+        context.startService(serviceIntent);
+    }
 }

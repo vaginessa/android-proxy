@@ -22,6 +22,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_PROXY_HOST = "host";
     public static final String COLUMN_PROXY_PORT = "port";
     public static final String COLUMN_PROXY_EXCLUSION = "exclusion";
+    public static final String COLUMN_PROXY_COUNTRY_CODE = "country";
 
     public static final String COLUMN_TAG = "tag";
     public static final String COLUMN_TAG_COLOR = "color";
@@ -41,6 +42,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_PROXY_HOST + " text not null, "
             + COLUMN_PROXY_PORT + " integer not null, "
             + COLUMN_PROXY_EXCLUSION + " text not null, "
+            + COLUMN_PROXY_COUNTRY_CODE + " text, "
             + COLUMN_CREATION_DATE + " integer not null, "
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";

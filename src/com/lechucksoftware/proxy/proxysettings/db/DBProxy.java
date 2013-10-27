@@ -15,6 +15,7 @@ public class DBProxy extends DBObject
     public Integer port;
     public String exclusion;
     public List<DBTag> tags;
+    private String countryCode;
 
     public DBProxy()
     {
@@ -27,6 +28,7 @@ public class DBProxy extends DBObject
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s:%d", host, port));
+
         sb.append(" tags: ");
         for(DBTag tag:tags)
         {
@@ -34,6 +36,7 @@ public class DBProxy extends DBObject
         }
 
         if (exclusion != null && !exclusion.equals("")) sb.append(String.format(" (%s)",exclusion));
+        if (countryCode != null && !countryCode.equals("")) sb.append(String.format(" (%s)",countryCode));
 
         return sb.toString();
     }
@@ -58,24 +61,16 @@ public class DBProxy extends DBObject
         return sb.toString();
     }
 
-    public static String getAutomaticDescription(DBProxy proxyData)
+    public String getCountryCode()
     {
-        return String.format("Proxy %s",proxyData.host);
+        if (countryCode != null)
+            return countryCode;
+        else
+            return "";
     }
 
-//    public void setTags(List<DBTag> inTags)
-//    {
-//        tags = inTags;
-//    }
-//
-//    public List<DBTag> getTags()
-//    {
-//        if (tags.size() == 0)
-//        {
-//            if (isPersisted)
-//                tags = ApplicationGlobals.getDBManager().getTagsForProxy(getId());
-//        }
-//
-//        return tags;
-//    }
+    public void setCountryCode(String code)
+    {
+        countryCode = code;
+    }
 }

@@ -2,9 +2,11 @@ package com.lechucksoftware.proxy.proxysettings.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class DataSource
             DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST,
             DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT,
             DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION,
+            DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE,
             DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
             DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
 
@@ -209,6 +212,7 @@ public class DataSource
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST, proxyData.host);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT,  proxyData.port);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, proxyData.exclusion);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE, proxyData.getCountryCode());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE, currentDate);
@@ -225,6 +229,9 @@ public class DataSource
         }
 
         LogWrapper.stopTrace(TAG, "createProxy", Log.DEBUG);
+
+        context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
+
         return newProxy;
     }
 
@@ -270,21 +277,23 @@ public class DataSource
 
     public DBProxy updateProxy(long proxyId, DBProxy newData)
     {
-        DBProxy persistedProxy = getProxy(proxyId);
-
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST, newData.host);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT,  newData.port);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION,  newData.exclusion);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE,  newData.getCountryCode());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
-        long updatedId = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[] {persistedProxy.getId().toString()});
+        long updatedId = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[] {String.valueOf(proxyId)});
 
         DBProxy updatedProxy = getProxy(updatedId);
+
+        context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
+
         return updatedProxy;
     }
 
@@ -355,7 +364,7 @@ public class DataSource
         return result;
     }
 
-    public List<DBProxy> getAllProxies()
+    public List<DBProxy> getAllProxiesWithTAGs()
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
@@ -376,6 +385,32 @@ public class DataSource
         {
             proxy.tags = getTagsForProxy(proxy.getId());
         }
+
+        return proxies;
+    }
+
+    public List<DBProxy> getProxyWithEmptyCountryCode()
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        List<DBProxy> proxies = new ArrayList<DBProxy>();
+
+        String query = "SELECT *"
+                        + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
+                        + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE + " =?";
+
+        Cursor cursor = database.rawQuery(query, new String[]{""});
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            DBProxy proxy = cursorToProxy(cursor);
+            proxies.add(proxy);
+            cursor.moveToNext();
+        }
+
+        // Make sure to close the cursor
+        cursor.close();
 
         return proxies;
     }
@@ -461,8 +496,9 @@ public class DataSource
         proxy.host = cursor.getString(1);
         proxy.port = cursor.getInt(2);
         proxy.exclusion = cursor.getString(3);
-        proxy.setCreationDate(cursor.getLong(4));
-        proxy.setModifiedDate(cursor.getLong(5));
+        proxy.setCountryCode(cursor.getString(4));
+        proxy.setCreationDate(cursor.getLong(5));
+        proxy.setModifiedDate(cursor.getLong(6));
 
         proxy.isPersisted = true;
 

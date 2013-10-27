@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.components.TagsView;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 
 import java.util.List;
@@ -27,7 +28,8 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
     {
         TextView host;
         TextView port;
-        TextView description;
+        TagsView tags;
+//        TextView description;
     }
 
     public void setData(List<DBProxy> confList)
@@ -54,7 +56,8 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
             viewHolder = new ApViewHolder();
             viewHolder.host = (TextView) view.findViewById(R.id.list_item_proxy_host);
             viewHolder.port = (TextView) view.findViewById(R.id.list_item_proxy_port);
-            viewHolder.description = (TextView) view.findViewById(R.id.list_item_proxy_description);
+            viewHolder.tags = (TagsView) view.findViewById(R.id.list_item_proxy_tags);
+//            viewHolder.description = (TextView) view.findViewById(R.id.list_item_proxy_description);
             view.setTag(viewHolder);
         }
         else
@@ -68,7 +71,8 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
         {
             viewHolder.host.setText(listItem.host);
             viewHolder.port.setText(listItem.port.toString());
-            viewHolder.description.setText(listItem.tags.toString());
+            viewHolder.tags.setTags(listItem.tags);
+//            viewHolder.description.setText(listItem.tags.toString());
         }
         return view;
     }

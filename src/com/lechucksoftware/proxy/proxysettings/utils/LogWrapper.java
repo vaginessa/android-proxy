@@ -124,7 +124,7 @@ public class LogWrapper
     {
         if (startTraces != null && startTraces.containsKey(key))
         {
-            Date start = startTraces.get(key);
+            Date start = startTraces.remove(key);
             Date now = new Date();
             long diff = now.getTime() - start.getTime();
             log(tag, "FINISH " + key + " " + msg + " ################## " + diff + " msec #####################################################################", logLevel);

@@ -50,4 +50,10 @@ public class Constants
 	 * Call a Refresh of the UI after a proxy change
 	 */
 	public static final String PROXY_REFRESH_UI = "com.lechucksoftware.proxy.proxysettings.PROXY_REFRESH_UI";
+
+
+    /*
+	 * Saved a new proxy configuration on DB
+	 */
+    public static final String PROXY_SAVED = "com.lechucksoftware.proxy.proxysettings.PROXY_SAVED";
 }

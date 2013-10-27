@@ -9,7 +9,6 @@ import com.shouldit.proxy.lib.ProxyUtils;
 
 public class ProxySelectorDialog extends DialogPreference
 {
-
 	public ProxySelectorDialog(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
@@ -25,5 +24,4 @@ public class ProxySelectorDialog extends DialogPreference
 		Intent proxyIntent = ProxyUtils.getProxyIntent();
 		getContext().startActivity(proxyIntent);
 	}
-		
 }

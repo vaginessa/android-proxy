@@ -4,7 +4,6 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.List;
 
@@ -24,6 +23,6 @@ public class ProxyDBTaskLoader extends AsyncTaskLoader<List<DBProxy>>
     @Override
     public List<DBProxy> loadInBackground()
     {
-        return ApplicationGlobals.getDBManager().getAllProxies();
+        return ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
     }
 }

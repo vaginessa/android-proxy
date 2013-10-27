@@ -73,7 +73,7 @@ public class TestDB
         {
             DBTag tag = new DBTag();
             tag.tag = getRandomTag();
-            tag.tagColor = 1;
+            tag.tagColor = r.nextInt(10);
             pd.tags.add(tag);
         }
 
