@@ -28,41 +28,41 @@ public class LogWrapper
 
     public static void d(String tag, String msg)
     {
-        if (mLogLevel <= Log.DEBUG)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.DEBUG)
             Log.d(tag, msg);
     }
 
     public static void v(String tag, String msg)
     {
-        if (mLogLevel <= Log.VERBOSE)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.VERBOSE)
             Log.v(tag, msg);
     }
 
     public static void e(String tag, String msg)
     {
-        if (mLogLevel <= Log.ERROR)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.ERROR)
             Log.e(tag, msg);
     }
 
     public static void i(String tag, String msg)
     {
-        if (mLogLevel <= Log.INFO)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.INFO)
             Log.i(tag, msg);
     }
 
     public static void w(String tag, String msg)
     {
-        if (mLogLevel <= Log.WARN)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.WARN)
             Log.w(tag, msg);
     }
 
     public static void a(String tag, String msg)
     {
-        if (mLogLevel <= Log.ASSERT)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.ASSERT)
             Log.println(Log.ASSERT, tag, msg);
     }
 
-    public static void log(String tag, String msg, int logLevel)
+    private static void log(String tag, String msg, int logLevel)
     {
         switch (logLevel)
         {
@@ -87,40 +87,53 @@ public class LogWrapper
         }
     }
 
-    public static void trace(String tag, String msg, int logLevel)
+    public static void startTrace(String tag, String msg, int logLevel)
     {
-        DateFormat df = DateFormat.getTimeInstance ();
-        log(tag, msg + " ################## " + df.format(new Date()) + " #####################################################################", logLevel);
+        startTrace(tag, msg, logLevel, false);
     }
 
-    public static void startTrace(String tag, String msg, int logLevel)
+    public static void startTrace(String tag, String msg, int logLevel, boolean showStart)
     {
         if (startTraces == null)
         {
             startTraces = new ConcurrentHashMap<String, Date>();
         }
 
-
         Date now = new Date();
         DateFormat df = DateFormat.getDateTimeInstance();
-        log(tag, "START " + msg + " ################## " + df.format(now) + " #####################################################################", logLevel);
-        startTraces.put(msg, now);
+        if (showStart)
+        {
+            log(tag, "START " + msg + " ################## " + df.format(now) + " #####################################################################", logLevel);
+        }
+
+        synchronized (startTraces)
+        {
+            startTraces.put(msg, now);
+        }
     }
 
-
-    public static void stopTrace(String tag, String msg, int logLevel)
+    public static void stopTrace(String tag, String key, int logLevel)
     {
-        if (startTraces != null && startTraces.containsKey(msg))
+        stopTrace(tag, key, "", logLevel);
+    }
+
+    public static void stopTrace(String tag, String key, String msg, int logLevel)
+    {
+        synchronized (startTraces)
         {
-            Date start = startTraces.get(msg);
-            Date now = new Date();
-            long diff = now.getTime() - start.getTime();
-            log(tag, "STOP " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
-        }
-        else
-        {
-            DateFormat df = DateFormat.getDateTimeInstance();
-            log(tag, msg + " ################## " +  df.format(new Date()) + " #####################################################################", logLevel);
+            if (startTraces != null && startTraces.containsKey(key))
+            {
+                Date start = startTraces.remove(key);
+                Date now = new Date();
+                long diff = now.getTime() - start.getTime();
+                log(tag, "FINISH " + key + " " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
+            }
+
+//        else
+//        {
+//            DateFormat df = DateFormat.getDateTimeInstance();
+//            log(tag, msg + " ################## " +  df.format(new Date()) + " #####################################################################", logLevel);
+//        }
         }
     }
 
@@ -148,8 +161,10 @@ public class LogWrapper
         else
             sb.append("LOG Intent: " + intent.toString());
 
-        if (intent.getAction() != null) sb.append(intent.getAction() + " ");
-        if (intent.getDataString() != null) sb.append(intent.getDataString() + " ");
+        if (intent.getAction() != null)
+            sb.append(intent.getAction() + " ");
+        if (intent.getDataString() != null)
+            sb.append(intent.getDataString() + " ");
 
         if (logExtras)
         {
@@ -159,7 +174,7 @@ public class LogWrapper
                 for (String key : extras.keySet())
                 {
                     String extra = String.valueOf(extras.get(key));
-                    sb.append("EXTRA [\"" + key + "\"] : " + extra);
+                    sb.append("EXTRA [\"" + key + "\"] : " + extra + " ");
                 }
             }
         }
