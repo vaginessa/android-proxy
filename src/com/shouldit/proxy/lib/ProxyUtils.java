@@ -1,45 +1,32 @@
 package com.shouldit.proxy.lib;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.os.Build;
+import android.provider.Settings;
+import android.util.Log;
+import android.webkit.URLUtil;
+import com.shouldit.proxy.lib.reflection.ReflectionUtils;
+import com.shouldit.proxy.lib.reflection.android.ProxySetting;
+import org.apache.http.HttpHost;
+import org.apache.http.conn.util.InetAddressUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.Proxy;
+import java.net.*;
 import java.net.Proxy.Type;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
 import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
-import android.util.Log;
-import android.webkit.URLUtil;
-import com.shouldit.proxy.lib.reflection.ReflectionUtils;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
-import org.apache.http.HttpHost;
-
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.provider.Settings;
-import org.apache.http.conn.util.InetAddressUtils;
 
 public class ProxyUtils
 {
