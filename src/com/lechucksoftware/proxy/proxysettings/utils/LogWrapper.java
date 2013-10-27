@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import com.shouldit.proxy.lib.BuildConfig;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -28,41 +29,41 @@ public class LogWrapper
 
     public static void d(String tag, String msg)
     {
-        if (mLogLevel <= Log.DEBUG)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.DEBUG)
             Log.d(tag, msg);
     }
 
     public static void v(String tag, String msg)
     {
-        if (mLogLevel <= Log.VERBOSE)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.VERBOSE)
             Log.v(tag, msg);
     }
 
     public static void e(String tag, String msg)
     {
-        if (mLogLevel <= Log.ERROR)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.ERROR)
             Log.e(tag, msg);
     }
 
     public static void i(String tag, String msg)
     {
-        if (mLogLevel <= Log.INFO)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.INFO)
             Log.i(tag, msg);
     }
 
     public static void w(String tag, String msg)
     {
-        if (mLogLevel <= Log.WARN)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.WARN)
             Log.w(tag, msg);
     }
 
     public static void a(String tag, String msg)
     {
-        if (mLogLevel <= Log.ASSERT)
+        if (BuildConfig.DEBUG && mLogLevel <= Log.ASSERT)
             Log.println(Log.ASSERT, tag, msg);
     }
 
-    public static void log(String tag, String msg, int logLevel)
+    private static void log(String tag, String msg, int logLevel)
     {
         switch (logLevel)
         {
@@ -87,15 +88,9 @@ public class LogWrapper
         }
     }
 
-    public static void trace(String tag, String msg, int logLevel)
-    {
-        DateFormat df = DateFormat.getTimeInstance ();
-        log(tag, msg + " ################## " + df.format(new Date()) + " #####################################################################", logLevel);
-    }
-
     public static void startTrace(String tag, String msg, int logLevel)
     {
-        startTrace(tag,msg,logLevel,false);
+        startTrace(tag, msg, logLevel, false);
     }
 
     public static void startTrace(String tag, String msg, int logLevel, boolean showStart)
@@ -112,28 +107,35 @@ public class LogWrapper
             log(tag, "START " + msg + " ################## " + df.format(now) + " #####################################################################", logLevel);
         }
 
-        startTraces.put(msg, now);
+        synchronized (startTraces)
+        {
+            startTraces.put(msg, now);
+        }
     }
 
     public static void stopTrace(String tag, String key, int logLevel)
     {
-        stopTrace(tag,key,"",logLevel);
+        stopTrace(tag, key, "", logLevel);
     }
 
     public static void stopTrace(String tag, String key, String msg, int logLevel)
     {
-        if (startTraces != null && startTraces.containsKey(key))
+        synchronized (startTraces)
         {
-            Date start = startTraces.remove(key);
-            Date now = new Date();
-            long diff = now.getTime() - start.getTime();
-            log(tag, "FINISH " + key + " " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
-        }
+            if (startTraces != null && startTraces.containsKey(key))
+            {
+                Date start = startTraces.remove(key);
+                Date now = new Date();
+                long diff = now.getTime() - start.getTime();
+                log(tag, "FINISH " + key + " " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
+            }
+
 //        else
 //        {
 //            DateFormat df = DateFormat.getDateTimeInstance();
 //            log(tag, msg + " ################## " +  df.format(new Date()) + " #####################################################################", logLevel);
 //        }
+        }
     }
 
     public static void logIntent(String tag, String msg, Intent intent, int logLevel)

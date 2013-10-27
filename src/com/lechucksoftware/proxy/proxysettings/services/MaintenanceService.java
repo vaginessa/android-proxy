@@ -29,7 +29,7 @@ public class MaintenanceService extends IntentService
     public MaintenanceService()
     {
         super("ProxySettingsCheckerService");
-        LogWrapper.log(TAG, "ProxySettingsCheckerService constructor", Log.VERBOSE);
+        LogWrapper.v(TAG, "ProxySettingsCheckerService constructor");
     }
 
     public static MaintenanceService getInstance()

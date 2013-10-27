@@ -26,7 +26,7 @@ public class ProxySettingsCheckerService extends IntentService
     public ProxySettingsCheckerService()
     {
         super("ProxySettingsCheckerService");
-        LogWrapper.log(TAG, "ProxySettingsCheckerService constructor", Log.VERBOSE);
+        LogWrapper.v(TAG, "ProxySettingsCheckerService constructor");
     }
 
     public static ProxySettingsCheckerService getInstance()
