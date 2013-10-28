@@ -49,7 +49,7 @@ public class TestDB
     public static String getRandomTag()
     {
         Random r = new Random();
-        int len = (r.nextInt(100) + MIN_LENGHT) / MAX_LENGHT;
+        int len = (r.nextInt(100) + MIN_LENGHT) % MAX_LENGHT;
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<len; i++)
         {

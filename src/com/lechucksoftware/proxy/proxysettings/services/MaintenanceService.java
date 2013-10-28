@@ -2,21 +2,14 @@ package com.lechucksoftware.proxy.proxysettings.services;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Proxy;
-import android.net.wifi.WifiManager;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.*;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 
-import java.util.Date;
 import java.util.List;
 
 public class MaintenanceService extends IntentService
@@ -28,8 +21,8 @@ public class MaintenanceService extends IntentService
 
     public MaintenanceService()
     {
-        super("ProxySettingsCheckerService");
-        LogWrapper.v(TAG, "ProxySettingsCheckerService constructor");
+        super("MaintenanceService");
+        LogWrapper.v(TAG, "MaintenanceService constructor");
     }
 
     public static MaintenanceService getInstance()
@@ -48,11 +41,11 @@ public class MaintenanceService extends IntentService
         instance = this;
         isHandling = true;
 
-        LogWrapper.startTrace(TAG, "checkProxySettings", Log.ERROR);
+        LogWrapper.startTrace(TAG, "maintenanceService", Log.ERROR);
 
         handleIntentLogic(intent);
 
-        LogWrapper.stopTrace(TAG, "checkProxySettings", Log.ERROR);
+        LogWrapper.stopTrace(TAG, "maintenanceService", Log.ERROR);
         isHandling = false;
     }
 
@@ -64,8 +57,16 @@ public class MaintenanceService extends IntentService
 
             if (callerIntent != null)
             {
-                upsertFoundProxyConfigurations();
-                checkProxiesCountryCodes();
+                try
+                {
+                    upsertFoundProxyConfigurations();
+                    checkProxiesCountryCodes();
+                }
+                catch (Exception e)
+                {
+                    BugReportingUtils.sendException(new Exception("Exception during maintenanceService", e));
+                }
+
             }
         }
 
@@ -85,7 +86,7 @@ public class MaintenanceService extends IntentService
 
     private void upsertFoundProxyConfigurations()
     {
-        LogWrapper.startTrace(TAG,"upsertFoundProxyConfigurations", Log.INFO);
+        LogWrapper.startTrace(TAG, "upsertFoundProxyConfigurations", Log.INFO);
 
         List<ProxyConfiguration> configurations = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
 
@@ -105,44 +106,36 @@ public class MaintenanceService extends IntentService
             }
 
             long proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
-            LogWrapper.d(TAG,"Saved proxy: " + proxiesCount);
+            LogWrapper.d(TAG, "Saved proxy: " + proxiesCount);
         }
 
-        LogWrapper.stopTrace(TAG,"upsertFoundProxyConfigurations", Log.INFO);
+        LogWrapper.stopTrace(TAG, "upsertFoundProxyConfigurations", Log.INFO);
     }
 
     private void checkProxiesCountryCodes()
     {
-        try
-        {
-            List<DBProxy> proxies = ApplicationGlobals.getDBManager().getProxyWithEmptyCountryCode();
+        List<DBProxy> proxies = ApplicationGlobals.getDBManager().getProxyWithEmptyCountryCode();
 
-            for(DBProxy proxy : proxies)
+        for (DBProxy proxy : proxies)
+        {
+            LogWrapper.startTrace(TAG, "Get proxy country code", Log.DEBUG);
+
+            try
             {
-                LogWrapper.startTrace(TAG,"Get proxy country code",Log.DEBUG);
-
-                try
+                String countryCode = Utils.getProxyCountryCode(proxy);
+                if (countryCode != null && countryCode.length() > 0)
                 {
-                    String countryCode = Utils.getProxyCountryCode(proxy);
-                    if (countryCode != null && countryCode.length() > 0)
-                    {
-                        proxy.setCountryCode(countryCode);
-                        ApplicationGlobals.getDBManager().upsertProxy(proxy);
-                    }
+                    proxy.setCountryCode(countryCode);
+                    ApplicationGlobals.getDBManager().upsertProxy(proxy);
                 }
-                catch (Exception e)
-                {
-                    BugReportingUtils.sendException(e);
-                    break;
-                }
-
-                LogWrapper.stopTrace(TAG,"Get proxy country code", proxy.toString() ,Log.DEBUG);
             }
-        }
-        catch (Exception e)
-        {
-            BugReportingUtils.sendException(e);
-            e.printStackTrace();
+            catch (Exception e)
+            {
+                BugReportingUtils.sendException(e);
+                break;
+            }
+
+            LogWrapper.stopTrace(TAG, "Get proxy country code", proxy.toString(), Log.DEBUG);
         }
     }
 }

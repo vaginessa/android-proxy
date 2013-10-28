@@ -44,9 +44,9 @@ public class TagsView extends LinearLayout
             {
                 for (DBTag tag : tags)
                 {
-                    TextView t = new TextView(getContext());
+                    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    TextView t = (TextView) inflater.inflate(R.layout.tag, tagsContainer, false);
                     t.setBackgroundColor(UIUtils.getTagsColor(getContext(), tag.tagColor));
-                    t.setPadding(2,2,2,2);
                     t.setText(tag.tag);
                     tagsContainer.addView(t);
                 }

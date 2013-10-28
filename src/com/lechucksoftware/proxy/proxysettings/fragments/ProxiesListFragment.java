@@ -38,6 +38,7 @@ public class ProxiesListFragment extends EnhancedListFragment implements LoaderM
     private RelativeLayout progress;
     private static final int LOADER_PROXYDB = 1;
     private Loader<List<DBProxy>> loader;
+    private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -47,6 +48,13 @@ public class ProxiesListFragment extends EnhancedListFragment implements LoaderM
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
+        listView = (ListView) v.findViewById(android.R.id.list);
+
+        TextView t = new TextView(getActivity());
+        t.setText("TESTTESTTEST");
+
+        listView.addHeaderView(t);
+        listView.addFooterView(t);
 
         LogWrapper.stopTrace(TAG, "onCreateView", Log.INFO);
         return v;
