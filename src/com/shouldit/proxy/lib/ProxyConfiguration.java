@@ -255,7 +255,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         sb.append(String.format("ID: %s\n", id.toString()));
 
         if (ap != null)
-            sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.ssid.toString()));
+            sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.ssid));
 
         sb.append(String.format("Proxy setting: %s\n", proxySetting.toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
@@ -276,7 +276,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         sb.append(id.toString());
 
         if (ap != null)
-            sb.append(" - " + ap.ssid.toString());
+            sb.append(" - " + ap.ssid);
 
         sb.append(" - " + toStatusString());
         sb.append(getProxyExclusionList());

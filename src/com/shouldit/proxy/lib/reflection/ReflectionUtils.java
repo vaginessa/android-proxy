@@ -91,7 +91,7 @@ public class ReflectionUtils
         }
 
         if (m == null)
-            throw new Exception(new String(methodName + " method not found!"));
+            throw new Exception(methodName + " method not found!");
 
         return m;
     }
@@ -132,7 +132,7 @@ public class ReflectionUtils
         }
 
         if (m == null)
-            throw new Exception(new String(methodName + " method not found!"));
+            throw new Exception(methodName + " method not found!");
 
         return m;
     }
@@ -151,7 +151,7 @@ public class ReflectionUtils
         }
 
         if (ml.size() == 0)
-            throw new Exception(new String(methodName + " method not found!"));
+            throw new Exception(methodName + " method not found!");
 
         return ml;
     }
@@ -171,7 +171,7 @@ public class ReflectionUtils
 		}
 		
 		if (f == null)
-        	throw new Exception(new String(fieldName + " field not found!"));
+        	throw new Exception(fieldName + " field not found!");
 		
 		return f;
 	}
@@ -249,6 +249,6 @@ public class ReflectionUtils
 			fields.addAll(Arrays.asList(getAllFields(klass.getSuperclass())));
 		}
 		
-		return fields.toArray(new Field[] {});
+		return new Field[] {};
 	}
 }

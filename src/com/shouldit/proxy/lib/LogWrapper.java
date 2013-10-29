@@ -157,14 +157,27 @@ public class LogWrapper
         StringBuilder sb = new StringBuilder();
 
         if (msg != null)
-            sb.append(msg + intent.toString());
+        {
+            sb.append(msg);
+            sb.append(intent.toString());
+        }
         else
-            sb.append("LOG Intent: " + intent.toString());
+        {
+            sb.append("LOG Intent: ");
+            sb.append(intent.toString());
+        }
 
         if (intent.getAction() != null)
-            sb.append(intent.getAction() + " ");
+        {
+            sb.append(intent.getAction());
+            sb.append(" ");
+        }
+
         if (intent.getDataString() != null)
-            sb.append(intent.getDataString() + " ");
+        {
+            sb.append(intent.getDataString());
+            sb.append(" ");
+        }
 
         if (logExtras)
         {
@@ -174,7 +187,7 @@ public class LogWrapper
                 for (String key : extras.keySet())
                 {
                     String extra = String.valueOf(extras.get(key));
-                    sb.append("EXTRA [\"" + key + "\"] : " + extra + " ");
+                    sb.append(String.format("EXTRA [\"%s\"]: %s ",key,extra));
                 }
             }
         }
