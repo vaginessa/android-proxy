@@ -32,7 +32,8 @@ public class DBProxy extends DBObject
         sb.append(" tags: ");
         for(DBTag tag:tags)
         {
-            sb.append(tag.toString() + " ");
+            sb.append(tag.toString());
+            sb.append(" ");
         }
 
         if (exclusion != null && !exclusion.equals("")) sb.append(String.format(" (%s)",exclusion));

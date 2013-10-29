@@ -267,7 +267,7 @@
     <!-- HTTP proxy settings. The port number label. -->
     <string name="proxy_port_label">Proxy port</string>
     <!-- HTTP proxy settings. The hint text field for port. -->
-    <string name="proxy_port_hint">1 - 65535 (8080, 3128, &#8230;)</string>
+    <string name="proxy_port_hint">1 &#8211; 65535 (8080, 3128, &#8230;)</string>
         <!-- HTTP proxy settings. The exclusion list label. -->
     <string name="proxy_exclusionlist_title">Bypass list</string>
     <!-- HTTP proxy settings. The exclusion list label. -->
@@ -885,4 +885,5 @@
     <string name="proxy_description">Description</string>
     <string name="pref_developers">Developer options</string>
     <string name="loading">Loading &#8230;</string>
+    <string name="saved_n_proxies">Saved %1$d Proxies</string>
 </resources>

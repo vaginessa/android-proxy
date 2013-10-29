@@ -10,8 +10,8 @@
 
     <RelativeLayout
             android:id="@+id/status_container"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_marginRight="10dp">
 
         <View
@@ -45,9 +45,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/list_item_ap_icon"
                 android:layout_gravity="center"
-                android:text="WPA"
+                android:text="WPA/WPA2"
                 android:textColor="@color/White"
-                android:textSize="10sp">
+                android:textSize="12sp">
         </TextView>
         </LinearLayout>
 

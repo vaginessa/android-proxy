@@ -14,7 +14,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 public class AboutDialog extends DialogPreference
 {
-    private TextView aboutVersion;
     private TextView aboutOpenSource;
 
     public AboutDialog(Context context, AttributeSet attrs)
@@ -35,7 +34,7 @@ public class AboutDialog extends DialogPreference
         LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.about, null);
 
-        aboutVersion = (TextView) v.findViewById(R.id.about_version);
+        TextView aboutVersion = (TextView) v.findViewById(R.id.about_version);
         aboutVersion.setText(Utils.getAppVersionName(getContext()));
 
 //        aboutOpenSource = (TextView) v.findViewById(R.id.about_opensource);

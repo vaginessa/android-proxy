@@ -15,7 +15,7 @@
                 android:layout_height="wrap_content"
                 android:text="Add to DB"
                 android:onClick="addDBClicked"
-                android:id="@+id/button"
+                android:id="@+id/buttonAdd"
                 android:layout_gravity="left|center_vertical"/>
 
         <Button
@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:text="Clear DB"
                 android:onClick="clearDBClicked"
-                android:id="@+id/button"
+                android:id="@+id/buttonClear"
                 android:layout_gravity="left|center_vertical"/>
 
     </LinearLayout>

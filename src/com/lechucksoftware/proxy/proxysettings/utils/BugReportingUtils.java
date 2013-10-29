@@ -100,8 +100,8 @@ public class BugReportingUtils
         else
         {
             setupBugSense(ApplicationGlobals.getInstance().getApplicationContext());
-            LogWrapper.e(TAG, "addCrashExtraData: " + s1.toString());
-            LogWrapper.e(TAG, "addCrashExtraData: " + s2.toString());
+            LogWrapper.e(TAG, "addCrashExtraData: " + s1);
+            LogWrapper.e(TAG, "addCrashExtraData: " + s2);
         }
     }
 

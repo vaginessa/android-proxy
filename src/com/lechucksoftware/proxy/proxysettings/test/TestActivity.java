@@ -67,7 +67,7 @@ public class TestActivity extends Activity
         @Override
         protected void onProgressUpdate(Integer... progress)
         {
-            textViewTest.setText(String.format("Added proxy %d",progress));
+            textViewTest.setText(String.format("Added proxy %d",progress[0]));
         }
 
         @Override

@@ -91,7 +91,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
 
         for (int i = 0; i < getCount(); i++)
         {
-            if (getItem(i).appname.startsWith(sectionChar.toString()))
+            if (getItem(i).appname.startsWith(sectionChar))
             {
                 position = i;
                 break;
