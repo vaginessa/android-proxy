@@ -24,9 +24,9 @@ public class TestDB
         Random r = new Random();
         int maxEx = r.nextInt(10);
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i<maxEx; i++)
+        for (int i = 0; i < maxEx; i++)
         {
-            if (i!=0)
+            if (i != 0)
                 sb.append(",");
             sb.append(getRandomIP());
         }
@@ -49,9 +49,9 @@ public class TestDB
     public static String getRandomTag()
     {
         Random r = new Random();
-        int len = (r.nextInt(100) + MIN_LENGHT) % MAX_LENGHT;
+        int len = r.nextInt(MAX_LENGHT) + MIN_LENGHT;
         StringBuilder sb = new StringBuilder();
-        for (int i=0; i<len; i++)
+        for (int i = 0; i < len; i++)
         {
             int charpos = r.nextInt(ALPHA_NUM.length());
             sb.append(ALPHA_NUM.charAt(charpos));
@@ -69,20 +69,71 @@ public class TestDB
 
         Random r = new Random();
         int tagNum = r.nextInt(MAX_TAGS);
-        for (int i=0; i<tagNum; i++)
+        for (int i = 0; i < tagNum; i++)
         {
             DBTag tag = new DBTag();
             tag.tag = getRandomTag();
-            tag.tagColor = r.nextInt(10);
+            tag.tagColor = r.nextInt(5) + 1;
             pd.tags.add(tag);
         }
 
         return pd;
     }
 
-    public static void AddProxy()
+    public static DBProxy getModifiedExistingProxy()
+    {
+        DBProxy pd = ApplicationGlobals.getDBManager().getRandomProxy();
+
+        if (pd != null)
+        {
+            Random r = new Random();
+            int typeOfModification = r.nextInt(6);
+
+            switch (typeOfModification)
+            {
+                case 0:
+                    pd.host = getRandomIP();
+                    break;
+                case 1:
+                    pd.port = getRandomPort();
+                    break;
+                case 2:
+                    pd.exclusion = getRandomExclusionList();
+                    break;
+                case 3:
+                    DBTag tag = new DBTag();
+                    tag.tag = getRandomTag();
+                    tag.tagColor = r.nextInt(10);
+                    pd.tags.add(tag);
+                    break;
+                case 4:
+                    DBTag tagE = ApplicationGlobals.getDBManager().getRandomTag();
+                    pd.tags.add(tagE);
+                    break;
+                case 5:
+                    if (pd.tags.size() > 0)
+                    {
+                        pd.tags.remove(0);
+                    }
+                    break;
+            }
+        }
+
+        return pd;
+    }
+
+    public static void addProxy()
     {
         DBProxy pd = getRandomProxy();
         ApplicationGlobals.getDBManager().upsertProxy(pd);
+    }
+
+    public static void updateProxy()
+    {
+        DBProxy pd = getModifiedExistingProxy();
+        if (pd != null)
+        {
+            ApplicationGlobals.getDBManager().upsertProxy(pd);
+        }
     }
 }

@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.db.DBTag;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -59,6 +61,7 @@ public class MaintenanceService extends IntentService
             {
                 try
                 {
+                    checkDBstatus();
                     upsertFoundProxyConfigurations();
                     checkProxiesCountryCodes();
                 }
@@ -73,16 +76,21 @@ public class MaintenanceService extends IntentService
         return;
     }
 
-    // Save or update on the DB all the found proxy
-//            try
-//            {
-//                upsertFoundProxyConfigurations();
-//            }
-//            catch (Exception e)
-//            {
-//                BugReportingUtils.sendException(new Exception("Exception during upsertFoundProxyConfigurations",e));
-//            }
+    private void checkDBstatus()
+    {
+        /**
+         * Add IN USE TAG
+         */
+        getInUseProxyTag();
+    }
 
+    private DBTag getInUseProxyTag()
+    {
+        DBTag inUseTag = new DBTag();
+        inUseTag.tag = "IN USE";
+        inUseTag.tagColor = UIUtils.getTagsColor(this, 0);
+        return ApplicationGlobals.getDBManager().upsertTag(inUseTag);
+    }
 
     private void upsertFoundProxyConfigurations()
     {
@@ -100,6 +108,7 @@ public class MaintenanceService extends IntentService
                     pd.host = conf.getProxyHost();
                     pd.port = conf.getProxyPort();
                     pd.exclusion = conf.getProxyExclusionList();
+                    pd.tags.add(getInUseProxyTag());
 
                     ApplicationGlobals.getDBManager().upsertProxy(pd);
                 }

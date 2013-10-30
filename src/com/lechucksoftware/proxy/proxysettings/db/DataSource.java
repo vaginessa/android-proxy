@@ -71,9 +71,9 @@ public class DataSource
         }
     }
 
-    private DBTag upsertTag(DBTag tag)
+    public DBTag upsertTag(DBTag tag)
     {
-        long tagId = findTag(tag);
+        long tagId = findTag(tag.tag);
 
         if (tagId == -1)
         {
@@ -86,6 +86,30 @@ public class DataSource
 //            LogWrapper.d(TAG,"Update TAG: " + tag);
             return updateTag(tagId, tag);
         }
+    }
+
+    public DBProxy getRandomProxy()
+    {
+        LogWrapper.startTrace(TAG,"getRandomProxy", Log.INFO);
+        SQLiteDatabase database =  DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        String query = "SELECT * "
+                        + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
+                        + " ORDER BY Random() LIMIT 1";
+
+        Cursor cursor = database.rawQuery(query, null);
+        cursor.moveToFirst();
+        DBProxy proxyData = null;
+        if (!cursor.isAfterLast())
+        {
+            proxyData = cursorToProxy(cursor);
+        }
+
+        cursor.close();
+
+        proxyData.tags = getTagsForProxy(proxyData.getId());
+        LogWrapper.stopTrace(TAG, "getRandomProxy", proxyData.toString(), Log.INFO);
+        return proxyData;
     }
 
     public DBProxy getProxy(long proxyId)
@@ -110,6 +134,28 @@ public class DataSource
         proxyData.tags = getTagsForProxy(proxyId);
         LogWrapper.stopTrace(TAG, "getProxy", proxyData.toString(), Log.INFO);
         return proxyData;
+    }
+
+    public DBTag getRandomTag()
+    {
+        LogWrapper.startTrace(TAG,"getTag", Log.INFO);
+        SQLiteDatabase database =  DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        String query = "SELECT * "
+                        + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS
+                        + " ORDER BY Random() LIMIT 1";
+
+        Cursor cursor = database.rawQuery(query, null);
+        cursor.moveToFirst();
+        DBTag tag = null;
+        if (!cursor.isAfterLast())
+        {
+            tag = cursorToTag(cursor);
+        }
+
+        cursor.close();
+        LogWrapper.stopTrace(TAG,"getTag", tag.toString(), Log.INFO);
+        return tag;
     }
 
     public DBTag getTag(long tagId)
@@ -180,7 +226,7 @@ public class DataSource
         return proxyId;
     }
 
-    public long findTag(DBTag tag)
+    public long findTag(String tagName)
     {
         LogWrapper.startTrace(TAG,"findTag", Log.ASSERT);
         SQLiteDatabase database =  DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
@@ -189,7 +235,7 @@ public class DataSource
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_TAG + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{tag.tag});
+        Cursor cursor = database.rawQuery(query, new String[]{tagName});
 
         cursor.moveToFirst();
         long tagId = -1;

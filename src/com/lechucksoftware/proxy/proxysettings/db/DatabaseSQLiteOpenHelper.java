@@ -101,7 +101,15 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
                         + newVersion + ", which will destroy all old data");
         dropDB(db);
         createDB(db);
+//        createStaticData(db);
     }
+
+//    public void createStaticData(SQLiteDatabase db)
+//    {
+//        LogWrapper.startTrace(TAG, "CREATE STATIC DATA INTO DATABASE", Log.DEBUG);
+//        db.execSQL(CREATE_TABLE_PROXIES);
+//        LogWrapper.stopTrace(TAG, "CREATE STATIC DATA INTO DATABASE", Log.DEBUG);
+//    }
 
     public void createDB(SQLiteDatabase db)
     {

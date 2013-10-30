@@ -13,9 +13,17 @@
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add to DB"
+                android:text="Add proxies"
                 android:onClick="addDBClicked"
                 android:id="@+id/buttonAdd"
+                android:layout_gravity="left|center_vertical"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update proxies"
+                android:onClick="updateDBClicked"
+                android:id="@+id/buttonUpdate"
                 android:layout_gravity="left|center_vertical"/>
 
         <Button

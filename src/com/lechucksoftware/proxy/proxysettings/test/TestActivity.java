@@ -35,6 +35,12 @@ public class TestActivity extends Activity
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    public void updateDBClicked(View caller)
+    {
+        UpdateAsyncProxy updateAsyncProxy = new UpdateAsyncProxy(this);
+        updateAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     public void clearDBClicked(View caller)
     {
         ApplicationGlobals.getDBManager().resetDB();
@@ -75,7 +81,51 @@ public class TestActivity extends Activity
         {
             for(int i=0; i<10;i++)
             {
-                TestDB.AddProxy();
+                TestDB.addProxy();
+                publishProgress(i);
+            }
+
+            return null;
+        }
+
+    }
+
+    public class UpdateAsyncProxy extends AsyncTask<Void, Integer, Void>
+    {
+        TestActivity _testActivity;
+        TextView textViewTest;
+
+        public UpdateAsyncProxy(TestActivity testActivity)
+        {
+            _testActivity=testActivity;
+        }
+
+        @Override
+        protected void onPostExecute(Void result)
+        {
+            _testActivity.testDBContainer.removeView(textViewTest);
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            textViewTest = new TextView(_testActivity);
+            textViewTest.setText("Started AsyncProxyTest");
+            _testActivity.testDBContainer.addView(textViewTest);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress)
+        {
+            textViewTest.setText(String.format("Updated proxy %d",progress[0]));
+        }
+
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+            for(int i=0; i<10;i++)
+            {
+                TestDB.updateProxy();
                 publishProgress(i);
             }
 

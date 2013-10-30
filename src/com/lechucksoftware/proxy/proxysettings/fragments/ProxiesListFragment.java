@@ -50,11 +50,11 @@ public class ProxiesListFragment extends EnhancedListFragment implements LoaderM
         emptyText = (TextView) v.findViewById(android.R.id.empty);
         listView = (ListView) v.findViewById(android.R.id.list);
 
-        TextView t = new TextView(getActivity());
-        t.setText("TESTTESTTEST");
-
-        listView.addHeaderView(t);
-        listView.addFooterView(t);
+//        TextView t = new TextView(getActivity());
+//        t.setText("TESTTESTTEST");
+//
+//        listView.addHeaderView(t);
+//        listView.addFooterView(t);
 
         LogWrapper.stopTrace(TAG, "onCreateView", Log.INFO);
         return v;
