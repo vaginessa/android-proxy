@@ -98,7 +98,7 @@ public class MaintenanceService extends IntentService
 
         List<ProxyConfiguration> configurations = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
 
-        if (!configurations.isEmpty())
+        if (configurations != null && !configurations.isEmpty())
         {
             for (ProxyConfiguration conf : configurations)
             {
