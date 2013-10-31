@@ -158,7 +158,11 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
     {
         try
         {
-            ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
+            final ProxyConfiguration selectedConfiguration = ApplicationGlobals.getSelectedConfiguration();
+            if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
+            {
+                selectedConfiguration.writeConfigurationToDevice();
+            }
         }
         catch (Exception e)
         {
