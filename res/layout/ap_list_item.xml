@@ -10,8 +10,8 @@
 
     <RelativeLayout
             android:id="@+id/status_container"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginRight="10dp">
 
         <View
@@ -30,25 +30,26 @@
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 >
-        <ImageView
-                android:id="@+id/list_item_ap_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Ap icon"
-                android:layout_gravity="center"
-                android:src="@drawable/wifi_signal">
-        </ImageView>
 
-        <TextView
-                android:id="@+id/list_item_ap_security"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/list_item_ap_icon"
-                android:layout_gravity="center"
-                android:text="WPA/WPA2"
-                android:textColor="@color/White"
-                android:textSize="12sp">
-        </TextView>
+            <ImageView
+                    android:id="@+id/list_item_ap_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Ap icon"
+                    android:layout_gravity="center"
+                    android:src="@drawable/wifi_signal">
+            </ImageView>
+
+            <TextView
+                    android:id="@+id/list_item_ap_security"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/list_item_ap_icon"
+                    android:layout_gravity="center"
+                    android:text="WPA/WPA2"
+                    android:textColor="@color/White"
+                    android:textSize="10sp">
+            </TextView>
         </LinearLayout>
 
     </RelativeLayout>
