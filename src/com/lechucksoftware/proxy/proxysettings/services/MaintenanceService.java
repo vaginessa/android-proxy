@@ -62,7 +62,7 @@ public class MaintenanceService extends IntentService
                 try
                 {
                     checkDBstatus();
-//                    upsertFoundProxyConfigurations();
+                    upsertFoundProxyConfigurations();
                     checkProxiesCountryCodes();
                 }
                 catch (Exception e)

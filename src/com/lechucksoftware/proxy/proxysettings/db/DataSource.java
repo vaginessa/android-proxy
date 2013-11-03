@@ -526,7 +526,7 @@ public class DataSource
 
         List<DBTag> proxies = new ArrayList<DBTag>();
 
-        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_TAGS, tagsTableColumns, null, null, null, null, null);
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_TAGS, tagsTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_TAG + " ASC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())

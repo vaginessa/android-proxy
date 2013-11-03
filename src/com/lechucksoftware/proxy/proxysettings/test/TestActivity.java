@@ -8,7 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.db.DBTag;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+
+import java.util.List;
 
 /**
  * Created by marco on 10/10/13.
@@ -24,6 +28,7 @@ public class TestActivity extends Activity
         ADD_TAGS,
         UPDATE_PROXY,
         UPDATE_TAGS,
+        LIST_TAGS,
         CLEAR_DB
     }
 
@@ -48,6 +53,22 @@ public class TestActivity extends Activity
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_TAGS);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void listDBTags(View caller)
+    {
+        TextView textViewTest = new TextView(this);
+        testDBContainer.addView(textViewTest);
+        List<DBTag> list = ApplicationGlobals.getDBManager().getAllTags();
+        for (DBTag t : list)
+        {
+            textViewTest.append(t.toString() + "\n");
+        }
+    }
+
+    public void clearOutput(View caller)
+    {
+        testDBContainer.removeAllViews();
     }
 
     public void updateDBClicked(View caller)
@@ -124,6 +145,7 @@ public class TestActivity extends Activity
                     publishProgress(i);
                 }
             }
+
 
             return null;
         }

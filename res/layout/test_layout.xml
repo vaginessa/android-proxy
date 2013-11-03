@@ -1,54 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent">
 
     <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add proxies"
-                android:onClick="addDBClicked"
-                android:id="@+id/buttonAdd"
-                android:layout_gravity="left|center_vertical"/>
 
-        <Button
-                android:layout_width="wrap_content"
+        <LinearLayout
                 android:layout_height="wrap_content"
-                android:text="Add tags"
-                android:onClick="addTagsDBClicked"
-                android:id="@+id/buttonAddTags"
-                android:layout_gravity="left|center_vertical"/>
+                android:layout_width="fill_parent"
+                android:columnCount="2">
 
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Update proxies"
-                android:onClick="updateDBClicked"
-                android:id="@+id/buttonUpdate"
-                android:layout_gravity="left|center_vertical"/>
+            <LinearLayout
+                    android:id="@+id/firstColumn"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Clear DB"
-                android:onClick="clearDBClicked"
-                android:id="@+id/buttonClear"
-                android:layout_gravity="left|center_vertical"/>
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Add proxies"
+                        android:onClick="addDBClicked"
+                        android:id="@+id/buttonAdd"/>
+
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Add tags"
+                        android:onClick="addTagsDBClicked"
+                        android:id="@+id/buttonAddTags"/>
+
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Update proxies"
+                        android:onClick="updateDBClicked"
+                        android:id="@+id/buttonUpdate"/>
+
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="List tags"
+                        android:onClick="listDBTags"
+                        android:id="@+id/buttonClear"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_toRightOf="@+id/firstColumn"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Clear Output"
+                        android:onClick="clearOutput"
+                        android:id="@+id/buttonClear"/>
+
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Clear DB"
+                        android:onClick="clearOutput"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/testDBContainer"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="NONE"/>
+        </LinearLayout>
+
 
     </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/testDBContainer"
-            android:orientation="vertical"
-            android:layout_gravity="left|center_vertical"/>
-
-</LinearLayout>
+</ScrollView>
