@@ -62,7 +62,7 @@ public class MaintenanceService extends IntentService
                 try
                 {
                     checkDBstatus();
-                    upsertFoundProxyConfigurations();
+//                    upsertFoundProxyConfigurations();
                     checkProxiesCountryCodes();
                 }
                 catch (Exception e)
@@ -86,10 +86,21 @@ public class MaintenanceService extends IntentService
 
     private DBTag getInUseProxyTag()
     {
-        DBTag inUseTag = new DBTag();
-        inUseTag.tag = "IN USE";
-        inUseTag.tagColor = UIUtils.getTagsColor(this, 0);
-        return ApplicationGlobals.getDBManager().upsertTag(inUseTag);
+        DBTag inUseTag = null;
+        long id  = ApplicationGlobals.getDBManager().findTag("IN USE");
+        if (id != -1)
+        {
+            inUseTag = ApplicationGlobals.getDBManager().getTag(id);
+        }
+        else
+        {
+            inUseTag = new DBTag();
+            inUseTag.tag = "IN USE";
+            inUseTag.tagColor = UIUtils.getTagsColor(this, 0);
+            ApplicationGlobals.getDBManager().upsertTag(inUseTag);
+        }
+
+        return inUseTag;
     }
 
     private void upsertFoundProxyConfigurations()
@@ -108,7 +119,7 @@ public class MaintenanceService extends IntentService
                     pd.host = conf.getProxyHost();
                     pd.port = conf.getProxyPort();
                     pd.exclusion = conf.getProxyExclusionList();
-                    pd.tags.add(getInUseProxyTag());
+                    pd.addTag(getInUseProxyTag());
 
                     ApplicationGlobals.getDBManager().upsertProxy(pd);
                 }

@@ -16,7 +16,7 @@ public class TestDB
     private static final int MIN_LENGHT = 3;
     private static final int MAX_LENGHT = 15;
 
-    private static final int MIN_TAGS = 0;
+    private static final int MIN_TAGS = 2;
     private static final int MAX_TAGS = 6;
 
     public static String getRandomExclusionList()
@@ -68,13 +68,14 @@ public class TestDB
         pd.exclusion = getRandomExclusionList();
 
         Random r = new Random();
-        int tagNum = r.nextInt(MAX_TAGS);
+        int tagNum = r.nextInt(MAX_TAGS) + MIN_TAGS;
         for (int i = 0; i < tagNum; i++)
         {
-            DBTag tag = new DBTag();
-            tag.tag = getRandomTag();
-            tag.tagColor = r.nextInt(5) + 1;
-            pd.tags.add(tag);
+            DBTag tag = ApplicationGlobals.getDBManager().getRandomTag();
+            if (tag != null)
+            {
+                pd.addTag(tag);
+            }
         }
 
         return pd;
@@ -87,7 +88,7 @@ public class TestDB
         if (pd != null)
         {
             Random r = new Random();
-            int typeOfModification = r.nextInt(6);
+            int typeOfModification = r.nextInt(5);
 
             switch (typeOfModification)
             {
@@ -101,19 +102,17 @@ public class TestDB
                     pd.exclusion = getRandomExclusionList();
                     break;
                 case 3:
-                    DBTag tag = new DBTag();
-                    tag.tag = getRandomTag();
-                    tag.tagColor = r.nextInt(10);
-                    pd.tags.add(tag);
+                    DBTag tag = ApplicationGlobals.getDBManager().getRandomTag();
+                    if (tag != null)
+                    {
+                        pd.addTag(tag);
+                    }
                     break;
                 case 4:
-                    DBTag tagE = ApplicationGlobals.getDBManager().getRandomTag();
-                    pd.tags.add(tagE);
-                    break;
-                case 5:
-                    if (pd.tags.size() > 0)
+                    if (pd.getTags().size() > 0)
                     {
-                        pd.tags.remove(0);
+                        DBTag tagToRemove = pd.getTags().get(0);
+                        pd.removeTag(tagToRemove);
                     }
                     break;
             }
@@ -125,7 +124,17 @@ public class TestDB
     public static void addProxy()
     {
         DBProxy pd = getRandomProxy();
-        ApplicationGlobals.getDBManager().upsertProxy(pd);
+
+        DBProxy savedProxy = ApplicationGlobals.getDBManager().upsertProxy(pd);
+
+        if (!savedProxy.equals(pd))
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
     public static void updateProxy()
@@ -133,7 +142,16 @@ public class TestDB
         DBProxy pd = getModifiedExistingProxy();
         if (pd != null)
         {
-            ApplicationGlobals.getDBManager().upsertProxy(pd);
+            ApplicationGlobals.getDBManager().updateProxy(pd.getId(), pd);
         }
+    }
+
+    public static void addTags()
+    {
+        DBTag tag = new DBTag();
+        Random r = new Random();
+        tag.tag = getRandomTag();
+        tag.tagColor = r.nextInt(10);
+        ApplicationGlobals.getDBManager().upsertTag(tag);
     }
 }

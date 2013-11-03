@@ -58,17 +58,21 @@ public class DataSource
     {
         long proxyId = findProxy(proxyData);
 
+        DBProxy result = null;
+
         if (proxyId == -1)
         {
 //            LogWrapper.d(TAG,"Insert new Proxy: " + proxyData);
-            return createProxy(proxyData);
+            result = createProxy(proxyData);
         }
         else
         {
             // Update
 //            LogWrapper.d(TAG,"Update Proxy: " + proxyData);
-            return updateProxy(proxyId, proxyData);
+            result = updateProxy(proxyId, proxyData);
         }
+
+        return result;
     }
 
     public DBTag upsertTag(DBTag tag)
@@ -107,9 +111,14 @@ public class DataSource
 
         cursor.close();
 
-        proxyData.tags = getTagsForProxy(proxyData.getId());
-        LogWrapper.stopTrace(TAG, "getRandomProxy", proxyData.toString(), Log.INFO);
-        return proxyData;
+        if (proxyData == null)
+            return null;
+        else
+        {
+            proxyData.setTags(getTagsForProxy(proxyData.getId()));
+            LogWrapper.stopTrace(TAG, "getRandomProxy", proxyData.toString(), Log.INFO);
+            return proxyData;
+        }
     }
 
     public DBProxy getProxy(long proxyId)
@@ -131,7 +140,7 @@ public class DataSource
 
         cursor.close();
 
-        proxyData.tags = getTagsForProxy(proxyId);
+        proxyData.setTags(getTagsForProxy(proxyId));
         LogWrapper.stopTrace(TAG, "getProxy", proxyData.toString(), Log.INFO);
         return proxyData;
     }
@@ -143,6 +152,7 @@ public class DataSource
 
         String query = "SELECT * "
                         + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS
+                        + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_TAG + " != 'IN USE'"
                         + " ORDER BY Random() LIMIT 1";
 
         Cursor cursor = database.rawQuery(query, null);
@@ -154,8 +164,16 @@ public class DataSource
         }
 
         cursor.close();
-        LogWrapper.stopTrace(TAG,"getTag", tag.toString(), Log.INFO);
-        return tag;
+
+        if (tag == null)
+        {
+            return null;
+        }
+        else
+        {
+            LogWrapper.stopTrace(TAG,"getTag", tag.toString(), Log.INFO);
+            return tag;
+        }
     }
 
     public DBTag getTag(long tagId)
@@ -176,8 +194,15 @@ public class DataSource
         }
 
         cursor.close();
-        LogWrapper.stopTrace(TAG,"getTag", tag.toString(), Log.INFO);
-        return tag;
+        if (tag == null)
+        {
+            return null;
+        }
+        else
+        {
+            LogWrapper.stopTrace(TAG,"getTag", tag.toString(), Log.INFO);
+            return tag;
+        }
     }
 
     public DBProxyTagLink getProxyTagLink(long linkId)
@@ -198,8 +223,16 @@ public class DataSource
         }
 
         cursor.close();
-        LogWrapper.stopTrace(TAG, "getProxyTagLink", link.toString(), Log.INFO);
-        return link;
+
+        if (link == null)
+        {
+            return null;
+        }
+        else
+        {
+            LogWrapper.stopTrace(TAG, "getProxyTagLink", link.toString(), Log.INFO);
+            return link;
+        }
     }
 
     public long findProxy(DBProxy proxyData)
@@ -268,10 +301,9 @@ public class DataSource
         DBProxy newProxy = getProxy(insertId);
 
         // Update or add all the TAGS listed into the DBProxy object
-        for(DBTag tag:proxyData.tags)
+        for(DBTag tag:proxyData.getTags())
         {
-            DBTag updatedTag = upsertTag(tag);
-            createProxyTagLink(newProxy.getId(), updatedTag.getId());
+            createProxyTagLink(newProxy.getId(), tag.getId());
         }
 
         LogWrapper.stopTrace(TAG, "createProxy", Log.DEBUG);
@@ -316,9 +348,9 @@ public class DataSource
 
         long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS, null, values);
 
-        DBProxyTagLink newTag = getProxyTagLink(insertId);
+        DBProxyTagLink newLink = getProxyTagLink(insertId);
         LogWrapper.stopTrace(TAG, "createProxyTagLink", Log.DEBUG);
-        return newTag;
+        return newLink;
     }
 
     public DBProxy updateProxy(long proxyId, DBProxy newData)
@@ -334,9 +366,19 @@ public class DataSource
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
-        long updatedId = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[] {String.valueOf(proxyId)});
+        long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[] {String.valueOf(proxyId)});
 
-        DBProxy updatedProxy = getProxy(updatedId);
+        // TODO: Stupid implementation, delete all links, and add the newer ones
+        deleteProxyTagLinksForProxy(proxyId);
+
+        List<DBTag> currentTags = getTagsForProxy(proxyId);
+
+        for (DBTag newTag: newData.getTags())
+        {
+            createProxyTagLink(proxyId, newTag.getId());
+        }
+
+        DBProxy updatedProxy = getProxy(proxyId);
 
         context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
 
@@ -356,23 +398,39 @@ public class DataSource
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
-        long updateId = database.update(DatabaseSQLiteOpenHelper.TABLE_TAGS, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[] {persistedTag.getId().toString()});
+        long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_TAGS, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[] {persistedTag.getId().toString()});
 
-        DBTag updatedTag = getTag(updateId);
+        DBTag updatedTag = getTag(persistedTag.getId());
         return updatedTag;
     }
 
     public void deleteProxy(long proxyId)
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
-        System.out.println("Comment deleted with id: " + proxyId);
-        database.delete(DatabaseSQLiteOpenHelper.TABLE_PROXIES, DatabaseSQLiteOpenHelper.COLUMN_ID + " = " + proxyId, null);
+        database.delete(DatabaseSQLiteOpenHelper.TABLE_PROXIES, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(proxyId)});
+    }
+
+    public void deleteProxyTagLink(long linkId)
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.delete(DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(linkId)});
+    }
+
+    public void deleteProxyTagLinksForProxy(long proxyId)
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.delete(DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS, DatabaseSQLiteOpenHelper.COLUMN_PROXY_ID + "=?", new String[]{String.valueOf(proxyId)});
+    }
+
+    public void deleteProxyTagLink(long proxyId, long tagId)
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.delete(DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS, DatabaseSQLiteOpenHelper.COLUMN_PROXY_ID + "=? AND " + DatabaseSQLiteOpenHelper.COLUMN_TAG_ID + "=?", new String[]{String.valueOf(proxyId),String.valueOf(tagId)});
     }
 
     public void deleteTag(long tagId)
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
-        System.out.println("Comment deleted with id: " + tagId);
         database.delete(DatabaseSQLiteOpenHelper.TABLE_TAGS, DatabaseSQLiteOpenHelper.COLUMN_ID + " = " + tagId, null);
     }
 
@@ -429,7 +487,7 @@ public class DataSource
 
         for(DBProxy proxy:proxies)
         {
-            proxy.tags = getTagsForProxy(proxy.getId());
+            proxy.setTags(getTagsForProxy(proxy.getId()));
         }
 
         return proxies;
@@ -451,6 +509,7 @@ public class DataSource
         while (!cursor.isAfterLast())
         {
             DBProxy proxy = cursorToProxy(cursor);
+            proxy.setTags(getTagsForProxy(proxy.getId()));
             proxies.add(proxy);
             cursor.moveToNext();
         }

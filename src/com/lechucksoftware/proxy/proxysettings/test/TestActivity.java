@@ -18,6 +18,15 @@ public class TestActivity extends Activity
     public static final String TAG = "TestActivity";
     public LinearLayout testDBContainer;
 
+    public enum TestAction
+    {
+        ADD_PROXY,
+        ADD_TAGS,
+        UPDATE_PROXY,
+        UPDATE_TAGS,
+        CLEAR_DB
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -31,29 +40,38 @@ public class TestActivity extends Activity
 
     public void addDBClicked(View caller)
     {
-        AddAsyncProxy addAsyncProxy = new AddAsyncProxy(this);
+        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_PROXY);
+        addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void addTagsDBClicked(View caller)
+    {
+        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_TAGS);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void updateDBClicked(View caller)
     {
-        UpdateAsyncProxy updateAsyncProxy = new UpdateAsyncProxy(this);
-        updateAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.UPDATE_PROXY);
+        addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void clearDBClicked(View caller)
     {
-        ApplicationGlobals.getDBManager().resetDB();
+        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.CLEAR_DB);
+        addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public class AddAsyncProxy extends AsyncTask<Void, Integer, Void>
+    public class AsyncTest extends AsyncTask<Void, Integer, Void>
     {
         TestActivity _testActivity;
         TextView textViewTest;
+        TestAction _action;
 
-        public AddAsyncProxy(TestActivity testActivity)
+        public AsyncTest(TestActivity testActivity, TestAction action)
         {
-            _testActivity=testActivity;
+            _testActivity = testActivity;
+            _action = action;
         }
 
         @Override
@@ -66,67 +84,45 @@ public class TestActivity extends Activity
         protected void onPreExecute()
         {
             textViewTest = new TextView(_testActivity);
-            textViewTest.setText("Started AsyncProxyTest");
+            textViewTest.setText("Started AsyncTestAction: " + _action);
             _testActivity.testDBContainer.addView(textViewTest);
         }
 
         @Override
         protected void onProgressUpdate(Integer... progress)
         {
-            textViewTest.setText(String.format("Added proxy %d",progress[0]));
+            textViewTest.setText(_action + " " + progress[0]);
         }
 
         @Override
         protected Void doInBackground(Void... params)
         {
-            for(int i=0; i<10;i++)
+            if (_action == TestAction.CLEAR_DB)
             {
-                TestDB.addProxy();
-                publishProgress(i);
+                ApplicationGlobals.getDBManager().resetDB();
             }
-
-            return null;
-        }
-
-    }
-
-    public class UpdateAsyncProxy extends AsyncTask<Void, Integer, Void>
-    {
-        TestActivity _testActivity;
-        TextView textViewTest;
-
-        public UpdateAsyncProxy(TestActivity testActivity)
-        {
-            _testActivity=testActivity;
-        }
-
-        @Override
-        protected void onPostExecute(Void result)
-        {
-            _testActivity.testDBContainer.removeView(textViewTest);
-        }
-
-        @Override
-        protected void onPreExecute()
-        {
-            textViewTest = new TextView(_testActivity);
-            textViewTest.setText("Started AsyncProxyTest");
-            _testActivity.testDBContainer.addView(textViewTest);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... progress)
-        {
-            textViewTest.setText(String.format("Updated proxy %d",progress[0]));
-        }
-
-        @Override
-        protected Void doInBackground(Void... params)
-        {
-            for(int i=0; i<10;i++)
+            else
             {
-                TestDB.updateProxy();
-                publishProgress(i);
+                for (int i = 0; i < 10; i++)
+                {
+                    switch (_action)
+                    {
+                        case ADD_PROXY:
+                            TestDB.addProxy();
+                            break;
+                        case UPDATE_PROXY:
+                            TestDB.updateProxy();
+                            break;
+                        case ADD_TAGS:
+                            TestDB.addTags();
+                            break;
+                        case UPDATE_TAGS:
+//                            TestDB.addProxy();
+                            break;
+                    }
+
+                    publishProgress(i);
+                }
             }
 
             return null;

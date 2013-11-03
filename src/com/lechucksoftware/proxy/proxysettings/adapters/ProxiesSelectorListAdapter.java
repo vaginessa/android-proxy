@@ -71,7 +71,7 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
         {
             viewHolder.host.setText(listItem.host);
             viewHolder.port.setText(listItem.port.toString());
-            viewHolder.tags.setTags(listItem.tags);
+            viewHolder.tags.setTags(listItem.getTags());
 //            viewHolder.description.setText(listItem.tags.toString());
         }
         return view;
