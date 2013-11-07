@@ -29,7 +29,6 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
         TextView host;
         TextView port;
         TagsView tags;
-//        TextView description;
     }
 
     public void setData(List<DBProxy> confList)
@@ -57,7 +56,6 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
             viewHolder.host = (TextView) view.findViewById(R.id.list_item_proxy_host);
             viewHolder.port = (TextView) view.findViewById(R.id.list_item_proxy_port);
             viewHolder.tags = (TagsView) view.findViewById(R.id.list_item_proxy_tags);
-//            viewHolder.description = (TextView) view.findViewById(R.id.list_item_proxy_description);
             view.setTag(viewHolder);
         }
         else
@@ -72,7 +70,6 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
             viewHolder.host.setText(listItem.host);
             viewHolder.port.setText(listItem.port.toString());
             viewHolder.tags.setTags(listItem.getTags());
-//            viewHolder.description.setText(listItem.tags.toString());
         }
         return view;
     }

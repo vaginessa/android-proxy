@@ -8,13 +8,18 @@ import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.View;
-import com.lechucksoftware.proxy.proxysettings.*;
+import com.lechucksoftware.proxy.proxysettings.ActionManager;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.*;
+import com.shouldit.proxy.lib.APL;
+import com.shouldit.proxy.lib.CheckStatusValues;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 
@@ -29,6 +34,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
     private EditTextPreference proxyHostPref;
     private EditTextPreference proxyPortPref;
     private EditTextPreference proxyBypassPref;
+    private TagsPreference proxyTags;
 
     /**
      * Create a new instance of WifiAPDetailsFragment
@@ -149,6 +155,8 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 }
             });
 
+            proxyTags = (TagsPreference) findPreference("pref_proxy_tags");
+
             authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
             if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
         }
@@ -189,11 +197,11 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
             ProxyConfiguration selectedConf = ApplicationGlobals.getSelectedConfiguration();
 
             if (selectedConf != null
-                && selectedConf.isValidConfiguration()
-                && proxyEnablePref != null
-                && proxyHostPref != null
-                && proxyPortPref != null
-                && proxyBypassPref != null)
+                    && selectedConf.isValidConfiguration()
+                    && proxyEnablePref != null
+                    && proxyHostPref != null
+                    && proxyPortPref != null
+                    && proxyBypassPref != null)
             {
                 proxyEnablePref.setEnabled(true);
 
@@ -240,6 +248,14 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                     proxyBypassPref.setSummary(bypassList);
                 }
                 proxyBypassPref.setText(bypassList);
+
+
+                long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedConf.getProxyHost(), selectedConf.getProxyPort());
+                if (proxyId != -1)
+                {
+                    DBProxy selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
+                    proxyTags.setTags(selectedProxy.getTags());
+                }
 
                 if (selectedConf.isCurrentNetwork())
                 {

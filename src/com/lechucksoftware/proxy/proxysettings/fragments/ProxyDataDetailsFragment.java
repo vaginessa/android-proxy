@@ -11,6 +11,7 @@ import android.view.View;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -27,6 +28,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
     private EditTextPreference proxyHostPref;
     private EditTextPreference proxyPortPref;
     private EditTextPreference proxyBypassPref;
+    private TagsPreference proxyTags;
 
     /**
      * Create a new instance of WifiAPDetailsFragment
@@ -96,6 +98,8 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
                 return true;
             }
         });
+
+        proxyTags = (TagsPreference) findPreference("pref_proxy_port");
 
         authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
         if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
