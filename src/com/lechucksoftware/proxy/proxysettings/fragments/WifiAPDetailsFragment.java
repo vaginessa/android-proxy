@@ -163,6 +163,8 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
             {
                 selectedConfiguration.writeConfigurationToDevice();
             }
+
+            //TODO: check here if the configuration has been saved
         }
         catch (Exception e)
         {

@@ -29,10 +29,9 @@ import com.shouldit.proxy.lib.APLConstants;
 /**
  * Created by marco on 17/05/13.
  */
-public class MainActivity extends Activity
+public class MainActivity extends BaseActivity
 {
-    public static final String TAG = "MainActivity";
-    private static boolean active = false;
+    public static String TAG = MainActivity.class.getSimpleName();
 
     // Combo scans can take 5-6s to complete - set to 10s.
     private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
@@ -49,7 +48,6 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
-        LogWrapper.d(TAG, "Creating MainActivity");
 
         setContentView(R.layout.main_layout);
 
@@ -57,8 +55,6 @@ public class MainActivity extends Activity
 
         // Add the fragment to the 'fragment_container' FrameLayout
         getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
-
-//        EasyTracker.getInstance(this).activityStart(this);
     }
 
 
@@ -68,12 +64,6 @@ public class MainActivity extends Activity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.proxy_prefs_activity, menu);
         return true;
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent)
-    {
-        LogWrapper.d(TAG, "onNewIntent MainActivity");
     }
 
     @Override
@@ -107,21 +97,12 @@ public class MainActivity extends Activity
         }
     }
 
-    public void onDestroy()
-    {
-        super.onDestroy();
-        LogWrapper.d(TAG,"Destroying MainActivity");
-        ViewServer.get(this).removeWindow(this);
-    }
-
     @Override
     public void onResume()
     {
         super.onResume();
 
         getScanner().resume();
-
-        LogWrapper.d(TAG,"Resuming MainActivity");
 
         // Start register the status receivers
         IntentFilter ifilt = new IntentFilter();
@@ -151,24 +132,6 @@ public class MainActivity extends Activity
 
         getScanner().pause();
         mScanner = null;
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        LogWrapper.d(TAG,"Starting MainActivity");
-        active = true;
-    }
-
-    @Override
-    public void onStop()
-    {
-        super.onStop();
-        LogWrapper.d(TAG,"Stopping MainActivity");
-        active = false;
-
-//        EasyTracker.getInstance(this).activityStop(this);
     }
 
     private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
