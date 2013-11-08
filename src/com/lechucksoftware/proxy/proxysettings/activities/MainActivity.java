@@ -1,29 +1,29 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.content.*;
+import android.os.*;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.WifiAPDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
+import com.shouldit.proxy.lib.BuildConfig;
+
+import java.util.Calendar;
 
 
 /**
@@ -32,6 +32,8 @@ import com.shouldit.proxy.lib.APLConstants;
 public class MainActivity extends BaseActivity
 {
     public static String TAG = MainActivity.class.getSimpleName();
+
+    AsyncStartupDialogTask asyncStartupDialogTask;
 
     // Combo scans can take 5-6s to complete - set to 10s.
     private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
@@ -112,10 +114,14 @@ public class MainActivity extends BaseActivity
         ifilt.addAction(Constants.PROXY_REFRESH_UI);
         registerReceiver(changeStatusReceiver, ifilt);
 
-        ViewServer.get(this).setFocusedWindow(this);
+        if (BuildConfig.DEBUG)
+        {
+            // ONLY on DEBUG
+            ViewServer.get(this).setFocusedWindow(this);
+        }
 
-        WhatsNewDialog wnd = new WhatsNewDialog(this);
-        wnd.show();
+        asyncStartupDialogTask = new AsyncStartupDialogTask();
+        asyncStartupDialogTask.execute();
 
         refreshUI();
     }
@@ -170,6 +176,132 @@ public class MainActivity extends BaseActivity
 //        this.invalidateOptionsMenu();
         AccessPointListFragment.getInstance().refreshUI();
         WifiAPDetailsFragment.getInstance().refreshUI();
+    }
+
+    private class AsyncStartupDialogTask extends AsyncTask<Void, Void, Boolean>
+    {
+        WhatsNewDialog wnd = null;
+
+        @Override
+        protected void onPostExecute(Boolean showDialog)
+        {
+            super.onPostExecute(showDialog);
+
+            if (wnd != null && showDialog)
+                wnd.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids)
+        {
+            wnd = new WhatsNewDialog(MainActivity.this);
+            return wnd.isToShow();
+        }
+    }
+
+    private class AsyncStartupRateTask extends AsyncTask<Void, Void, Boolean>
+    {
+        @Override
+        protected void onPostExecute(Boolean showDialog)
+        {
+            super.onPostExecute(showDialog);
+
+            if (showDialog)
+            {
+                RateApplicationAlertDialog dialog = RateApplicationAlertDialog.newInstance();
+                dialog.show(MainActivity.this.getFragmentManager(), TAG);
+//		}
+//		else if (showAppBetaTest())
+//        {
+//            BetaTestApplicationAlertDialog dialog = BetaTestApplicationAlertDialog.newInstance();
+//            dialog.show(getSupportFragmentManager(), TAG);
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids)
+        {
+            return  showAppRate();
+        }
+    }
+
+
+    public void dontDisplayAgainAppRate()
+    {
+        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (editor != null)
+        {
+            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
+            editor.commit();
+        }
+    }
+
+    public boolean showAppRate()
+    {
+        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        if (prefs.getBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, false))
+        {
+            return false;
+        }
+
+        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(getApplicationContext());
+
+        // Wait at least N days before opening
+        if (statistics.launchCount >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT)
+        {
+            Calendar c = Calendar.getInstance();
+            c.setTime(statistics.launhcFirstDate);
+            c.add(Calendar.DATE, Constants.APPRATE_DAYS_UNTIL_PROMPT);
+
+            if (System.currentTimeMillis() >= c.getTime().getTime())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void dontDisplayAgainBetaTest()
+    {
+        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (editor != null)
+        {
+            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
+            editor.commit();
+        }
+    }
+
+    public boolean showAppBetaTest()
+    {
+//        return true;
+
+        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        if (prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
+        {
+            return false;
+        }
+
+        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(getApplicationContext());
+
+        // Wait at least N days before opening
+        if (statistics.launchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)
+        {
+            Calendar c = Calendar.getInstance();
+            c.setTime(statistics.launhcFirstDate);
+            c.add(Calendar.DATE, Constants.BETATEST_DAYS_UNTIL_PROMPT);
+
+            if (System.currentTimeMillis() >= c.getTime().getTime())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private class Scanner extends Handler

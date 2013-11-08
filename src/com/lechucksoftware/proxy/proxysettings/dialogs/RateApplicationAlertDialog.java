@@ -2,15 +2,12 @@ package com.lechucksoftware.proxy.proxysettings.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
@@ -29,7 +26,7 @@ public class RateApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
+				((MainActivity) getActivity()).dontDisplayAgainAppRate();
 				LogWrapper.d(TAG, "Starting Market activity");
 
                 Utils.startMarketActivity(getActivity());
@@ -50,8 +47,7 @@ public class RateApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((ProxySettingsCallerActivity) getActivity()).dontDisplayAgainAppRate();
-				((ProxySettingsCallerActivity) getActivity()).GoToProxy();
+				((MainActivity) getActivity()).dontDisplayAgainAppRate();
 			}
 		});
 

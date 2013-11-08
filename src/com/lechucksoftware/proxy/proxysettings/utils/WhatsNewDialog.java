@@ -51,20 +51,31 @@ public class WhatsNewDialog extends ChangeLogDialog {
     @Override
     public void show()
     {
+        show(getAppVersionCode());
+
+        if(mOnDismissListener != null) {
+            mOnDismissListener.onDismiss(null);
+        }
+    }
+
+    public Boolean isToShow()
+    {
         //ToDo check if version is shown
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         final int versionShown = prefs.getInt(WHATS_NEW_LAST_SHOWN, 0);
-        if (versionShown != getAppVersionCode()) {
+
+        if (versionShown != getAppVersionCode())
+        {
             //This version is new, show only the changes from this version (if available)
-            show(getAppVersionCode());
 
             //Update last shown version
             final SharedPreferences.Editor edit = prefs.edit();
             edit.putInt(WHATS_NEW_LAST_SHOWN, getAppVersionCode());
             edit.commit();
+
+            return true;
         }
-        if(mOnDismissListener != null) {
-            mOnDismissListener.onDismiss(null);
-        }
+        else
+            return false;
     }
 }
