@@ -88,6 +88,11 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                         selectedConfiguration.proxySetting = ProxySetting.NONE;
                     }
 
+                    proxyHostPref.setEnabled(isChecked);
+                    proxyPortPref.setEnabled(isChecked);
+                    proxyBypassPref.setEnabled(isChecked);
+                    proxyTags.setEnabled(isChecked);
+
                     saveConfiguration();
                     return true;
                 }

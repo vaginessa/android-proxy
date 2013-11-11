@@ -2,14 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
-            android:dependency="pref_proxy_enabled"
             android:dialogMessage="@string/proxy_hostname_hint"
             android:key="pref_proxy_host"
             android:persistent="false"
             android:title="@string/proxy_hostname_label"/>
 
     <EditTextPreference
-            android:dependency="pref_proxy_enabled"
             android:dialogMessage="@string/proxy_port_hint"
             android:dialogTitle="@string/proxy_port_label"
             android:key="pref_proxy_port"
@@ -18,7 +16,6 @@
             android:title="@string/proxy_port_label"/>
 
     <EditTextPreference
-            android:dependency="pref_proxy_enabled"
             android:dialogMessage="@string/proxy_exclusionlist_hint"
             android:dialogTitle="@string/proxy_exclusionlist_label"
             android:key="pref_proxy_bypass"
@@ -26,7 +23,6 @@
             android:title="@string/proxy_exclusionlist_title"/>
 
     <PreferenceScreen
-            android:dependency="pref_proxy_enabled"
             android:key="pref_proxy_authentication"
             android:summary="@string/preference_proxy_authentication_screen_summary"
             android:title="@string/preference_proxy_authentication_screen_title">
@@ -56,7 +52,6 @@
     </PreferenceScreen>
 
     <com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference
-            android:dependency="pref_proxy_enabled"
             android:key="pref_proxy_tags"
             android:persistent="false"
             android:title="Tags"

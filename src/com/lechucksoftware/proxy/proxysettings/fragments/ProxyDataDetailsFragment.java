@@ -99,7 +99,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
             }
         });
 
-        proxyTags = (TagsPreference) findPreference("pref_proxy_port");
+        proxyTags = (TagsPreference) findPreference("pref_proxy_tags");
 
         authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
         if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
