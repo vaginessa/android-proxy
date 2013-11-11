@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.dialogs.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
@@ -34,6 +35,8 @@ public class MainActivity extends BaseActivity
     public static String TAG = MainActivity.class.getSimpleName();
 
     AsyncStartupDialogTask asyncStartupDialogTask;
+    AsyncStartupRateTask asyncStartupRateTask;
+    AsyncStartupBetaTestTask asyncStartupBetaTestTask;
 
     // Combo scans can take 5-6s to complete - set to 10s.
     private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
@@ -123,6 +126,12 @@ public class MainActivity extends BaseActivity
         asyncStartupDialogTask = new AsyncStartupDialogTask();
         asyncStartupDialogTask.execute();
 
+        asyncStartupRateTask = new AsyncStartupRateTask();
+        asyncStartupRateTask.execute();
+
+        asyncStartupBetaTestTask = new AsyncStartupBetaTestTask();
+        asyncStartupBetaTestTask.execute();
+
         refreshUI();
     }
 
@@ -188,7 +197,14 @@ public class MainActivity extends BaseActivity
             super.onPostExecute(showDialog);
 
             if (wnd != null && showDialog)
+            {
+                LogWrapper.d(TAG,"show AsyncStartupDialogTask");
                 wnd.show();
+            }
+            else
+            {
+                LogWrapper.d(TAG,"NOT show AsyncStartupDialogTask");
+            }
         }
 
         @Override
@@ -210,21 +226,36 @@ public class MainActivity extends BaseActivity
             {
                 RateApplicationAlertDialog dialog = RateApplicationAlertDialog.newInstance();
                 dialog.show(MainActivity.this.getFragmentManager(), TAG);
-//		}
-//		else if (showAppBetaTest())
-//        {
-//            BetaTestApplicationAlertDialog dialog = BetaTestApplicationAlertDialog.newInstance();
-//            dialog.show(getSupportFragmentManager(), TAG);
             }
         }
 
         @Override
         protected Boolean doInBackground(Void... voids)
         {
-            return  showAppRate();
+            return showAppRate();
         }
     }
 
+    private class AsyncStartupBetaTestTask extends AsyncTask<Void, Void, Boolean>
+    {
+        @Override
+        protected void onPostExecute(Boolean showDialog)
+        {
+            super.onPostExecute(showDialog);
+
+            if (showDialog)
+            {
+                BetaTestApplicationAlertDialog dialog = BetaTestApplicationAlertDialog.newInstance();
+                dialog.show(getFragmentManager(), TAG);
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids)
+        {
+            return showAppBetaTest();
+        }
+    }
 
     public void dontDisplayAgainAppRate()
     {
