@@ -55,6 +55,17 @@ public class TestActivity extends Activity
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    public void listDBProxies(View caller)
+    {
+        TextView textViewTest = new TextView(this);
+        testDBContainer.addView(textViewTest);
+        List<DBProxy> list = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+        for (DBProxy p : list)
+        {
+            textViewTest.append(p.toString() + "\n\n");
+        }
+    }
+
     public void listDBTags(View caller)
     {
         TextView textViewTest = new TextView(this);
@@ -62,7 +73,7 @@ public class TestActivity extends Activity
         List<DBTag> list = ApplicationGlobals.getDBManager().getAllTags();
         for (DBTag t : list)
         {
-            textViewTest.append(t.toString() + "\n");
+            textViewTest.append(t.toString() + "\n\n");
         }
     }
 

@@ -88,9 +88,9 @@ public class MainActivity extends BaseActivity
                 NavigationUtils.GoToProxiesList(getFragmentManager());
                 return true;
 
-            case R.id.menu_feedbacks:
-                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
-                return true;
+//            case R.id.menu_feedbacks:
+//                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
+//                return true;
 
             case R.id.menu_developer:
                 final Intent intent = new Intent(this, TestActivity.class);

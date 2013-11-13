@@ -52,6 +52,8 @@ public class DataSource
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         DatabaseSQLiteOpenHelper.getInstance(context).dropDB(database);
         DatabaseSQLiteOpenHelper.getInstance(context).createDB(database);
+
+        context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
     }
 
     public DBProxy upsertProxy(DBProxy proxyData)
@@ -488,7 +490,7 @@ public class DataSource
 
         List<DBProxy> proxies = new ArrayList<DBProxy>();
 
-        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PROXIES, proxyTableColumns, null, null, null, null, null);
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PROXIES, proxyTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " ASC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
