@@ -88,10 +88,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                         selectedConfiguration.proxySetting = ProxySetting.NONE;
                     }
 
-                    proxyHostPref.setEnabled(isChecked);
-                    proxyPortPref.setEnabled(isChecked);
-                    proxyBypassPref.setEnabled(isChecked);
-                    proxyTags.setEnabled(isChecked);
+                    refreshDependencies(isChecked);
 
                     saveConfiguration();
                     return true;
@@ -165,6 +162,14 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
             authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
             if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
         }
+    }
+
+    private void refreshDependencies(Boolean isChecked)
+    {
+        proxyHostPref.setEnabled(isChecked);
+        proxyPortPref.setEnabled(isChecked);
+        proxyBypassPref.setEnabled(isChecked);
+        proxyTags.setEnabled(isChecked);
     }
 
     private void saveConfiguration()
@@ -261,6 +266,8 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                     DBProxy selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
                     proxyTags.setTags(selectedProxy.getTags());
                 }
+
+                refreshDependencies(proxyEnablePref.isChecked());
 
                 if (selectedConf.isCurrentNetwork())
                 {
