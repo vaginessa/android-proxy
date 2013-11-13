@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TagsView extends LinearLayout
 {
-    private LinearLayout tagsContainer;
+    private FlowLayout tagsContainer;
 
     public TagsView(Context context, AttributeSet attrs)
     {
@@ -30,7 +30,7 @@ public class TagsView extends LinearLayout
         if (inflater != null)
         {
             v = inflater.inflate(R.layout.tags, this);
-            tagsContainer = (LinearLayout) v.findViewById(R.id.tags_container);
+            tagsContainer = (FlowLayout) v.findViewById(R.id.tags_container);
         }
     }
 

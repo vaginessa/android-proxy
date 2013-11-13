@@ -5,28 +5,33 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:paddingTop="10dp"
-              android:paddingLeft="8dp"
-              android:paddingRight="8dp"
               android:paddingBottom="10dp">
 
     <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="TITLE"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@android:id/title"/>
 
     <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:text="None"
             android:id="@android:id/summary"/>
 
     <com.lechucksoftware.proxy.proxysettings.components.TagsView
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_width="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
             android:id="@+id/preference_proxy_tags"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_below="@id/list_item_proxy_host"/>
 
 </LinearLayout>

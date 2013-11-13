@@ -170,6 +170,8 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
                 {
                     proxyBypassPref.setSummary(bypassList);
                 }
+
+                proxyTags.setTags(proxy.getTags());
             }
             else
             {
