@@ -46,6 +46,13 @@
                 <Button
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:text="List proxies"
+                        android:onClick="listDBProxies"
+                        android:id="@+id/buttonClear"/>
+
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
                         android:text="List tags"
                         android:onClick="listDBTags"
                         android:id="@+id/buttonClear"/>
@@ -70,7 +77,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="Clear DB"
-                        android:onClick="clearOutput"/>
+                        android:onClick="clearDBClicked"/>
 
 
             </LinearLayout>

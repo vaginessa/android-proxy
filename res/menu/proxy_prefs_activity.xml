@@ -58,16 +58,15 @@
     android:showAsAction="always|withText"
     android:title="@string/proxy"/>
 
-    <item
-            android:id="@+id/menu_feedbacks"
-            android:icon="@drawable/ic_action_notvalid"
-            android:showAsAction="always|withText"
-            android:title="@string/pref_send_feedback"/>
+    <!--<item-->
+            <!--android:id="@+id/menu_feedbacks"-->
+            <!--android:icon="@drawable/ic_action_notvalid"-->
+            <!--android:showAsAction="always|withText"-->
+            <!--android:title="@string/pref_send_feedback"/>-->
 
     <item
             android:id="@+id/menu_developer"
-            android:icon="@drawable/ic_action_ic_help"
-            android:showAsAction="always|withText"
+            android:icon="@drawable/ic_action_ok"
             android:title="@string/pref_developers"/>
 
     <!--<item-->
@@ -77,6 +76,7 @@
 
  	<item
  		android:id="@+id/menu_about"
+        android:icon="@drawable/ic_action_ic_help"
  		android:title="@string/help" />
 
 </menu>
