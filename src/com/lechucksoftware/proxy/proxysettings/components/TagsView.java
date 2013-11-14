@@ -1,9 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.components;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -17,38 +19,74 @@ import java.util.List;
  */
 public class TagsView extends LinearLayout
 {
-    private FlowLayout tagsContainer;
+    private LinearLayout singleLineTagsContainer;
+    private FlowLayout multipleLineTagsContainer;
+
+    private ViewGroup getEnabledContainer()
+    {
+        if (singleLine == true)
+        {
+            return singleLineTagsContainer;
+        }
+        else
+        {
+            return multipleLineTagsContainer;
+        }
+    }
+
+    private boolean singleLine;
 
     public TagsView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        readStyleParameters(context,attrs);
 
-        View v = null;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (inflater != null)
         {
-            v = inflater.inflate(R.layout.tags, this);
-            tagsContainer = (FlowLayout) v.findViewById(R.id.tags_container);
+            if (singleLine == true)
+            {
+                View v = inflater.inflate(R.layout.tags_singleline, this);
+                singleLineTagsContainer = (LinearLayout) v.findViewById(R.id.tags_container);
+            }
+            else
+            {
+                View v = inflater.inflate(R.layout.tags_multiline, this);
+                multipleLineTagsContainer = (FlowLayout) v.findViewById(R.id.tags_container);
+            }
+        }
+    }
+
+    private void readStyleParameters(Context context, AttributeSet attributeSet)
+    {
+        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.TagsView);
+        try
+        {
+            singleLine = a.getBoolean(R.styleable.TagsView_singleLine, false);
+        }
+        finally
+        {
+            a.recycle();
         }
     }
 
     public void setTags(List<DBTag> tags)
     {
-        if (tagsContainer != null)
+        if (getEnabledContainer() != null)
         {
-            tagsContainer.removeAllViews();
+            getEnabledContainer().removeAllViews();
 
             if (tags.size() > 0)
             {
                 for (DBTag tag : tags)
                 {
                     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    TextView t = (TextView) inflater.inflate(R.layout.tag, tagsContainer, false);
+                    TextView t = (TextView) inflater.inflate(R.layout.tag, getEnabledContainer(), false);
                     t.setBackgroundColor(UIUtils.getTagsColor(getContext(), tag.tagColor));
                     t.setText(tag.tag);
-                    tagsContainer.addView(t);
+                    getEnabledContainer().addView(t);
                 }
             }
         }

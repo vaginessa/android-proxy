@@ -25,7 +25,7 @@ public class TagView extends TextView
 //
 //        if(inflater != null)
 //        {
-////            v = inflater.inflate(R.layout.tags, this);
+////            v = inflater.inflate(R.layout.tags_multiline, this);
 //            tagsContainer = (LinearLayout) v.findViewById(R.id.tags_container);
 //        }
     }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
+        android:id="@+id/tags_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:horizontalSpacing="3dp"
+        app:verticalSpacing="3dp"
+        android:orientation="horizontal">
+    <View
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/Aqua">
+    </View>
+</LinearLayout>

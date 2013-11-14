@@ -2,6 +2,7 @@
 
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
         android:id="@+id/list_item_ap_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -43,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:id="@+id/list_item_proxy_tags"
+            app:singleLine="true"
             android:layout_below="@id/list_item_proxy_host"/>
 
 </RelativeLayout>
