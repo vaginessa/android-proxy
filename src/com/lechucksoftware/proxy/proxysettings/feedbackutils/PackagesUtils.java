@@ -9,7 +9,7 @@ import android.content.pm.PackageInfo;
 
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class PackagesUtils
 {

@@ -12,15 +12,15 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyUtils;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 
 /**
  * Created by marco on 21/05/13.
  */
-public class StatusFragment extends EnhancedFragment
+public class StatusFragment extends BaseFragment
 {
     private static final String TAG = "StatusFragment";
     public static StatusFragment instance;

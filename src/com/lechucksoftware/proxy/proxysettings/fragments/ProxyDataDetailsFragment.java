@@ -13,8 +13,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 
 public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
@@ -175,7 +175,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
             }
             else
             {
-                LogWrapper.e(TAG,"NOT VISIBLE");
+                LogWrapper.e(TAG, "NOT VISIBLE");
             }
         }
     }

@@ -5,32 +5,46 @@ import android.content.res.AssetManager;
 import com.bugsense.trace.BugSenseHandler;
 //import com.google.analytics.tracking.android.Tracker;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.shouldit.proxy.lib.log.IExceptionReport;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class BugReportingUtils
+public class BugReportingUtils implements IExceptionReport
 {
     private static final String TAG = "BugReportingUtils";
-    private static Boolean setupDone;
+    private Boolean setupDone;
+    private static BugReportingUtils instance;
+
 //    private static Tracker tracker;
 
-    static
+    private BugReportingUtils()
     {
         setupDone = false;
     }
 
+    public static BugReportingUtils getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new BugReportingUtils();
+        }
+
+        return instance;
+    }
+
     public static void setup(Context ctx)
     {
-        setupBugSense(ctx);
+        getInstance().setupBugSense(ctx);
 
         // Initialize a tracker using a Google Analytics property ID.
 //        tracker = GoogleAnalytics.getInstance(ctx).getTracker("UA-41504209-1");
     }
 
-    private static void setupBugSense(Context ctx)
+    private void setupBugSense(Context ctx)
     {
         String key = null;
         // If you want to use BugSense for your fork, register with
@@ -80,6 +94,11 @@ public class BugReportingUtils
 
     public static void sendException(Exception e)
     {
+        getInstance().send(e);
+    }
+
+    public void send(Exception e)
+    {
         if (setupDone)
         {
             BugSenseHandler.sendException(e);
@@ -91,7 +110,29 @@ public class BugReportingUtils
         }
     }
 
+    public static void sendEvent(String s)
+    {
+        getInstance().send(s);
+    }
+
+    public void send(String s)
+    {
+        if (setupDone)
+        {
+            BugSenseHandler.sendEvent(s);
+        }
+        else
+        {
+            LogWrapper.e(TAG, "sendEvent: " + s);
+        }
+    }
+
     public static void addCrashExtraData(String s1, String s2)
+    {
+        getInstance().addCrashExtraData(s1,s2);
+    }
+
+    public void addExtraData(String s1, String s2)
     {
         if (setupDone)
         {
@@ -105,15 +146,5 @@ public class BugReportingUtils
         }
     }
 
-    public static void sendEvent(String s)
-    {
-        if (setupDone)
-        {
-            BugSenseHandler.sendEvent(s);
-        }
-        else
-        {
-            LogWrapper.e(TAG, "sendEvent: " + s);
-        }
-    }
+
 }

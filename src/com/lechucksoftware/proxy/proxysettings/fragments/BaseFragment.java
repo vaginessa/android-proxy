@@ -1,11 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 
 /**
  * Created by marco on 24/05/13.
  */
-public class EnhancedListFragment extends ListFragment
+public class BaseFragment extends Fragment
 {
     @Override
     public void onResume()
@@ -18,6 +18,6 @@ public class EnhancedListFragment extends ListFragment
     public void onPause()
     {
         super.onPause();
-//        LogWrapper.d(this.getClass().getSimpleName(),"onPause " + this.getClass().getSimpleName());
+//        LogWrapper.d(this.getClass().getSimpleName() ,"onPause " + this.getClass().getSimpleName());
     }
 }

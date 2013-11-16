@@ -4,7 +4,6 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APLConstants;
 
@@ -15,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
 {

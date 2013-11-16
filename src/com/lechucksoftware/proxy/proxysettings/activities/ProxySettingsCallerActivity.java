@@ -1,18 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.dialogs.BetaTestApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
-
-import java.util.Calendar;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class ProxySettingsCallerActivity extends FragmentActivity
 {

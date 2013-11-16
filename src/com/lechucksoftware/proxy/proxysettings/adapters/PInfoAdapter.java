@@ -10,7 +10,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
 
@@ -105,7 +105,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
             position = getPositionForSection(section - 1);
         }
 
-        LogWrapper.d(TAG,String.format("Section %d (%s) -> Position %d",section, sectionChar,position));
+        LogWrapper.d(TAG, String.format("Section %d (%s) -> Position %d", section, sectionChar, position));
         return position;
     }
 

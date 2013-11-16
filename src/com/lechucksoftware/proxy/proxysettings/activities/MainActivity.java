@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import android.app.Activity;
 import android.content.*;
 import android.os.*;
 import android.util.Log;
@@ -17,12 +16,12 @@ import com.lechucksoftware.proxy.proxysettings.fragments.WifiAPDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.BuildConfig;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.Calendar;
 

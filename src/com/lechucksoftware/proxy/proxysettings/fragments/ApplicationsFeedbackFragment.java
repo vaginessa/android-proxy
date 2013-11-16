@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -17,7 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.PInfoTaskLoader;
 
 import java.util.List;
 
-public class ApplicationsFeedbackFragment extends EnhancedListFragment implements LoaderManager.LoaderCallbacks<List<PInfo>>
+public class ApplicationsFeedbackFragment extends BaseListFragment implements LoaderManager.LoaderCallbacks<List<PInfo>>
 {
     public static final String TAG = "ApplicationsFeedbackFragment";
     private static ApplicationsFeedbackFragment instance;

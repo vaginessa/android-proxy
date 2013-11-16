@@ -13,13 +13,14 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectDialog;
 import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 
@@ -35,6 +36,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
     private EditTextPreference proxyPortPref;
     private EditTextPreference proxyBypassPref;
     private TagsPreference proxyTags;
+    private Preference proxySelectionPref;
 
     /**
      * Create a new instance of WifiAPDetailsFragment
@@ -94,6 +96,19 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                     return true;
                 }
             });
+
+            proxySelectionPref = (Preference) findPreference("pref_proxy_selected");
+            proxySelectionPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+            {
+                @Override
+                public boolean onPreferenceClick(Preference preference)
+                {
+                    ProxySelectDialog dialog = ProxySelectDialog.newInstance();
+                    dialog.show(getFragmentManager(), "ProxySelectDialog");
+                    return true;
+                }
+            });
+
 
             proxyHostPref = (EditTextPreference) findPreference("pref_proxy_host");
             proxyHostPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()

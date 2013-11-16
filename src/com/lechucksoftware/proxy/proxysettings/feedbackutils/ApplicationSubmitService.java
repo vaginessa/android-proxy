@@ -6,12 +6,11 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyUtils;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class ApplicationSubmitService extends IntentService 
 {

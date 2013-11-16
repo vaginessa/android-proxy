@@ -8,9 +8,9 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.*;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 
 public class ApplicationGlobals extends Application
@@ -39,8 +39,8 @@ public class ApplicationGlobals extends Application
         activeMarket = Utils.getInstallerMarket(ApplicationGlobals.this);
 
         // SETUP Libraries
-        APL.setup(ApplicationGlobals.this);
         BugReportingUtils.setup(ApplicationGlobals.this);
+        APL.setup(ApplicationGlobals.this, BugReportingUtils.getInstance());
 
         LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));

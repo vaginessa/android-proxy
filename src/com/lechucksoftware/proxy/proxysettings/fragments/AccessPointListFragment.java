@@ -19,19 +19,19 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxyConfigurationTaskLoader;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.SecurityType;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
 
 /**
  * Created by marco on 17/05/13.
  */
-public class AccessPointListFragment extends EnhancedListFragment implements LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
+public class AccessPointListFragment extends BaseListFragment implements LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
 {
     private static final String TAG = "AccessPointListFragment";
     private static final int LOADER_PROXYCONFIGURATIONS = 1;
@@ -98,7 +98,7 @@ public class AccessPointListFragment extends EnhancedListFragment implements Loa
 
         refreshUI();
 
-        LogWrapper.stopTrace(TAG,"onResume",Log.DEBUG);
+        LogWrapper.stopTrace(TAG, "onResume", Log.DEBUG);
     }
 
     public void refreshUI()

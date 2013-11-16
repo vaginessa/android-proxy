@@ -16,11 +16,10 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.LogWrapper;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxyDBTaskLoader;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class ProxiesListFragment extends EnhancedListFragment implements LoaderManager.LoaderCallbacks<List<DBProxy>>
+public class ProxiesListFragment extends BaseListFragment implements LoaderManager.LoaderCallbacks<List<DBProxy>>
 {
     private static final String TAG = ProxiesListFragment.class.getSimpleName();
     private static ProxiesListFragment instance;
@@ -43,14 +42,12 @@ public class ProxiesListFragment extends EnhancedListFragment implements LoaderM
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        LogWrapper.startTrace(TAG,"onCreateView", Log.INFO);
         View v = inflater.inflate(R.layout.proxy_list, container, false);
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
         listView = (ListView) v.findViewById(android.R.id.list);
 
-        LogWrapper.stopTrace(TAG, "onCreateView", Log.INFO);
         return v;
     }
 
@@ -73,7 +70,7 @@ public class ProxiesListFragment extends EnhancedListFragment implements LoaderM
     {
         super.onResume();
 
-        LogWrapper.startTrace(TAG,"onResume",Log.DEBUG);
+        LogWrapper.startTrace(TAG, "onResume", Log.DEBUG);
 
         // Reset selected configuration
         ApplicationGlobals.setSelectedConfiguration(null);
