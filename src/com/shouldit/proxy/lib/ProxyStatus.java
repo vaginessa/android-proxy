@@ -1,5 +1,7 @@
 package com.shouldit.proxy.lib;
 
+import com.shouldit.proxy.lib.log.LogWrapper;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Collections;

@@ -2,8 +2,7 @@ package com.shouldit.proxy.lib.reflection;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.LogWrapper;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            LogWrapper.e(TAG,"Exception during connectToWifi: " + e.toString());
+            LogWrapper.e(TAG, "Exception during connectToWifi: " + e.toString());
         }
 
         if (!internalConnectDone)

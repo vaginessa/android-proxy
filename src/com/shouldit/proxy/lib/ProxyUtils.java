@@ -11,6 +11,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 import android.webkit.URLUtil;
+import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import org.apache.http.HttpHost;
