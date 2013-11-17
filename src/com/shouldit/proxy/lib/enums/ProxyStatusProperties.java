@@ -1,4 +1,4 @@
-package com.shouldit.proxy.lib;
+package com.shouldit.proxy.lib.enums;
 
 /**
  * Created by Marco on 15/09/13.

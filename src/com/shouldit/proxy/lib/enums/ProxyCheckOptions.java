@@ -1,4 +1,4 @@
-package com.shouldit.proxy.lib;
+package com.shouldit.proxy.lib.enums;
 
 import java.util.EnumSet;
 

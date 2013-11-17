@@ -1,5 +1,7 @@
 package com.shouldit.proxy.lib;
 
+import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
+
 import java.util.Comparator;
 
 public class ProxyStatusPropertiesComparator implements Comparator<ProxyStatusProperties>

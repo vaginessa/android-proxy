@@ -351,7 +351,7 @@ public class APL
         }
         catch (Exception e)
         {
-            LogWrapper.e(TAG, e.getMessage());
+            APL.getExceptionReport().send(e);
         }
 
         return proxyHost;

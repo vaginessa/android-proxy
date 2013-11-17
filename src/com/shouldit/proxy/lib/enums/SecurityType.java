@@ -1,4 +1,4 @@
-package com.shouldit.proxy.lib;
+package com.shouldit.proxy.lib.enums;
 
 /**
  * These values are matched in string arrays -- changes must be kept in sync

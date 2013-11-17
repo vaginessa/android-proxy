@@ -1,6 +1,9 @@
-package com.shouldit.proxy.lib;
+package com.shouldit.proxy.lib.utils;
 
 import android.content.Context;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxyStatusItem;
+import com.shouldit.proxy.lib.R;
 
 public class ProxyUIUtils
 {

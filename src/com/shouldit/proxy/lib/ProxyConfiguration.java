@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;

@@ -2,6 +2,7 @@ package com.shouldit.proxy.lib.reflection;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.lang.reflect.*;
@@ -35,7 +36,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            LogWrapper.e(TAG, "Exception during connectToWifi: " + e.toString());
+            APL.getExceptionReport().send(e);
         }
 
         if (!internalConnectDone)
@@ -65,7 +66,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            LogWrapper.e(TAG,"Exception during saveWifiConfiguration: " + e.toString());
+            APL.getExceptionReport().send(new Exception("Exception during saveWifiConfiguration", e));
         }
 
         if (!internalSaveDone)
