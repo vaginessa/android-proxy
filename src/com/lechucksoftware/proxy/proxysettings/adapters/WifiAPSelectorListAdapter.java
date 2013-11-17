@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.shouldit.proxy.lib.AccessPoint;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxyUtils;
-import com.shouldit.proxy.lib.SecurityType;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
+import com.shouldit.proxy.lib.enums.SecurityType;
 
 import java.util.ArrayList;
 import java.util.List;

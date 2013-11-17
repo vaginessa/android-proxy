@@ -12,7 +12,9 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.*;
+import com.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import com.shouldit.proxy.lib.log.LogWrapper;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.Date;
 

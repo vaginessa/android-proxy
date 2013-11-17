@@ -20,9 +20,9 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
-import com.shouldit.proxy.lib.CheckStatusValues;
+import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxyUIUtils;
+import com.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 import java.io.File;
 import java.net.Proxy.Type;

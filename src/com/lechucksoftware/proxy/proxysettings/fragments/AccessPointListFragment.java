@@ -23,7 +23,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxyConfigurationTaskLoader;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.SecurityType;
+import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;

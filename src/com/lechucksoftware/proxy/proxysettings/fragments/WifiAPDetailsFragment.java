@@ -18,7 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.CheckStatusValues;
+import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;

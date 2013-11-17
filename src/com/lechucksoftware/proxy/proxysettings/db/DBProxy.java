@@ -59,7 +59,7 @@ public class DBProxy extends DBObject
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s:%d", host, port));
 
-        sb.append(" tags_multiline: ");
+        sb.append(" tags: ");
         if (getTags() != null)
         {
             for(DBTag tag: getTags())

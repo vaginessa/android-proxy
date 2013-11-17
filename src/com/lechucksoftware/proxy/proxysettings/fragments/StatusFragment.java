@@ -13,7 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyUtils;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 

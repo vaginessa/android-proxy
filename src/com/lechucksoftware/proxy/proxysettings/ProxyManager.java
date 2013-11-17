@@ -8,8 +8,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.*;
+import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.*;
 

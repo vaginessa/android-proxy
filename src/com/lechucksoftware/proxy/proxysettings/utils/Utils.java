@@ -2,7 +2,6 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,7 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.shouldit.proxy.lib.APLConstants;
-import com.shouldit.proxy.lib.ProxyUtils;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
