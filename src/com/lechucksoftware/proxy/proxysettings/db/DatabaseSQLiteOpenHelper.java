@@ -12,7 +12,7 @@ import com.shouldit.proxy.lib.log.LogWrapper;
 public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 {
     public static final String TABLE_PROXIES = "proxies";
-    public static final String TABLE_TAGS = "tags";
+    public static final String TABLE_TAGS = "tags_multiline";
     public static final String TABLE_PROXY_TAG_LINKS = "taggedproxies";
 
     public static final String COLUMN_ID = "_id";
