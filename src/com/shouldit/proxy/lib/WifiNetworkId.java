@@ -1,5 +1,7 @@
 package com.shouldit.proxy.lib;
 
+import com.shouldit.proxy.lib.enums.SecurityType;
+
 /**
  * Created by Marco on 08/06/13.
  */

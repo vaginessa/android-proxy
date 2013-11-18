@@ -1,13 +1,11 @@
 package com.shouldit.proxy.lib;
 
-import android.content.Context;
-import android.net.NetworkInfo.DetailedState;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiConfiguration.KeyMgmt;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
+import com.shouldit.proxy.lib.enums.PskType;
+import com.shouldit.proxy.lib.enums.SecurityType;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class AccessPoint implements Comparable<AccessPoint>
 {

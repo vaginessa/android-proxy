@@ -10,7 +10,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
-import android.util.Log;
+import com.shouldit.proxy.lib.log.DefaultExceptionReport;
+import com.shouldit.proxy.lib.log.IExceptionReport;
+import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
@@ -20,7 +22,6 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,8 +37,14 @@ public class APL
     private static Context gContext;
     private static boolean sSetupCalled;
     private static int deviceVersion;
+    private static IExceptionReport exceptionReport;
 
     public static boolean setup(Context context)
+    {
+        return setup(context, null);
+    }
+
+    public static boolean setup(Context context, IExceptionReport exRep)
     {
         gContext = context;
         deviceVersion = Build.VERSION.SDK_INT;
@@ -49,7 +56,22 @@ public class APL
         }
 
         sSetupCalled = true;
+
+        if (exRep != null)
+        {
+            exceptionReport = exRep;
+        }
+        else
+        {
+            exceptionReport = new DefaultExceptionReport();
+        }
+
         return sSetupCalled;
+    }
+
+    public static IExceptionReport getExceptionReport()
+    {
+        return exceptionReport;
     }
 
     public static Context getContext()
@@ -266,7 +288,7 @@ public class APL
                 }
                 catch (NumberFormatException e)
                 {
-                    LogWrapper.d(TAG, "Port is not a number: " + proxyParts[1]);
+                    APL.getExceptionReport().send(new Exception("Port is not a number: " + proxyParts[1],e));
                 }
             }
         }
@@ -329,7 +351,7 @@ public class APL
         }
         catch (Exception e)
         {
-            LogWrapper.e(TAG, e.getMessage());
+            APL.getExceptionReport().send(e);
         }
 
         return proxyHost;

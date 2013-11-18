@@ -1,5 +1,8 @@
 package com.shouldit.proxy.lib;
 
+import com.shouldit.proxy.lib.enums.CheckStatusValues;
+import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
+
 import java.text.DateFormat;
 import java.util.Date;
 

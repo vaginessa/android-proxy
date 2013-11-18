@@ -1,8 +1,9 @@
-package com.shouldit.proxy.lib;
+package com.shouldit.proxy.lib.log;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import com.shouldit.proxy.lib.BuildConfig;
 
 import java.text.DateFormat;
 import java.util.Date;
