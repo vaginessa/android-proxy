@@ -27,20 +27,6 @@
             android:paddingLeft="10dp"
             />
 
-    <!--<view class="com.lechucksoftware.proxy.proxysettings.components.PinnedHeaderListView"-->
-          <!--android:id="@android:id/list"-->
-          <!--android:layout_width="match_parent"-->
-          <!--android:layout_height="match_parent"-->
-          <!--android:layout_weight="1"-->
-          <!--android:drawSelectorOnTop="false"-->
-          <!--android:fastScrollEnabled="true"-->
-          <!--android:fastScrollAlwaysVisible="true"-->
-          <!--android:scrollbarStyle="outsideOverlay"-->
-          <!--android:scrollbars="none"-->
-          <!--android:smoothScrollbar="true"-->
-          <!--android:paddingRight="30dp"-->
-          <!--android:paddingLeft="10dp"/>-->
-
     <TextView
             android:id="@id/android:empty"
             android:layout_width="match_parent"

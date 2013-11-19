@@ -4,22 +4,21 @@ import android.app.ActionBar;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.utils.ProxyDBTaskLoader;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class ProxiesListFragment extends BaseListFragment implements LoaderManager.LoaderCallbacks<List<DBProxy>>
+public class ProxiesListFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<List<DBProxy>>
 {
     private static final String TAG = ProxiesListFragment.class.getSimpleName();
     private static ProxiesListFragment instance;
@@ -48,30 +47,6 @@ public class ProxiesListFragment extends BaseListFragment implements LoaderManag
         emptyText = (TextView) v.findViewById(android.R.id.empty);
         listView = (ListView) v.findViewById(android.R.id.list);
 
-        return v;
-    }
-
-    public static ProxiesListFragment getInstance()
-    {
-        if (instance == null)
-            instance = new ProxiesListFragment();
-
-        return instance;
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id)
-    {
-        showDetails(position);
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-        LogWrapper.startTrace(TAG, "onResume", Log.DEBUG);
-
         // Reset selected configuration
         ApplicationGlobals.setSelectedConfiguration(null);
 
@@ -83,38 +58,34 @@ public class ProxiesListFragment extends BaseListFragment implements LoaderManag
         ActionManager.getInstance().hide();
 
         progress.setVisibility(View.VISIBLE);
+
         if (proxiesListAdapter == null)
         {
             proxiesListAdapter = new ProxiesSelectorListAdapter(getActivity());
-            setListAdapter(proxiesListAdapter);
         }
+
+        listView.setAdapter(proxiesListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                showDetails(i);
+            }
+        });
 
         loader = getLoaderManager().initLoader(LOADER_PROXYDB, new Bundle(), this);
+        loader.forceLoad();
 
-        refreshUI();
-
-        LogWrapper.stopTrace(TAG,"onResume",Log.DEBUG);
+        return v;
     }
 
-    @Override
-    public void onPause()
+    public static ProxiesListFragment getInstance()
     {
-        super.onPause();
-    }
+        if (instance == null)
+            instance = new ProxiesListFragment();
 
-    public void refreshUI()
-    {
-        if (isAdded())
-        {
-            if (loader != null)
-            {
-                loader.forceLoad();
-            }
-        }
-        else
-        {
-//            LogWrapper.d(TAG,"ProxiesListFragment is not added to activity");
-        }
+        return instance;
     }
 
     @Override
@@ -130,11 +101,13 @@ public class ProxiesListFragment extends BaseListFragment implements LoaderManag
         if (dbProxies != null && dbProxies.size() > 0)
         {
             proxiesListAdapter.setData(dbProxies);
+            emptyText.setVisibility(View.GONE);
         }
         else
         {
             proxiesListAdapter.setData(new ArrayList<DBProxy>());
             emptyText.setText(getResources().getString(R.string.proxy_empty_list));
+            emptyText.setVisibility(View.VISIBLE);
         }
 
         progress.setVisibility(View.GONE);
@@ -160,9 +133,9 @@ public class ProxiesListFragment extends BaseListFragment implements LoaderManag
         {
             // We can display everything in-place with fragments, so update
             // the list to highlight the selected item and show the data.
-            getListView().setItemChecked(index, true);
+            listView.setItemChecked(index, true);
 
-            DBProxy selectedProxy = (DBProxy) getListView().getItemAtPosition(index);
+            DBProxy selectedProxy = (DBProxy) listView.getItemAtPosition(index);
             ApplicationGlobals.setSelectedProxy(selectedProxy);
 //            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
             NavigationUtils.GoToProxyDetailsFragment(getFragmentManager());
