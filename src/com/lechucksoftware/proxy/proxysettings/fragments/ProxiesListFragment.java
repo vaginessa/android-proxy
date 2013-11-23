@@ -38,26 +38,24 @@ public class ProxiesListFragment extends BaseFragment implements LoaderManager.L
     private Loader<List<DBProxy>> loader;
     private ListView listView;
 
+    public static ProxiesListFragment getInstance()
+    {
+        if (instance == null)
+            instance = new ProxiesListFragment();
+
+        return instance;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.proxy_list, container, false);
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
+        progress.setVisibility(View.VISIBLE);
+
         emptyText = (TextView) v.findViewById(android.R.id.empty);
         listView = (ListView) v.findViewById(android.R.id.list);
-
-        // Reset selected configuration
-        ApplicationGlobals.setSelectedConfiguration(null);
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(getActivity().getResources().getString(R.string.proxy_configurations));
-
-        ActionManager.getInstance().hide();
-
-        progress.setVisibility(View.VISIBLE);
 
         if (proxiesListAdapter == null)
         {
@@ -77,16 +75,27 @@ public class ProxiesListFragment extends BaseFragment implements LoaderManager.L
         loader = getLoaderManager().initLoader(LOADER_PROXYDB, new Bundle(), this);
         loader.forceLoad();
 
+        // Reset selected configuration
+        ApplicationGlobals.setSelectedConfiguration(null);
+
+        ActionManager.getInstance().hide();
+
         return v;
     }
 
-    public static ProxiesListFragment getInstance()
+    public void onActivityCreated(Bundle savedInstanceState)
     {
-        if (instance == null)
-            instance = new ProxiesListFragment();
+        super.onActivityCreated(savedInstanceState);
 
-        return instance;
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle(getActivity().getResources().getString(R.string.proxy_configurations));
     }
+
+    /**
+     * LoaderManager Interface methods
+     * */
 
     @Override
     public Loader<List<DBProxy>> onCreateLoader(int i, Bundle bundle)
