@@ -30,8 +30,6 @@ public class RateApplicationAlertDialog extends DialogFragment
 				LogWrapper.d(TAG, "Starting Market activity");
 
                 Utils.startMarketActivity(getActivity());
-
-                getActivity().finish();
 			}
         });
 
@@ -39,7 +37,7 @@ public class RateApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((ProxySettingsCallerActivity) getActivity()).GoToProxy();
+
 			}
 		});
 

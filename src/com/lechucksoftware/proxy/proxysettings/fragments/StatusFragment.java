@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.utils.ProxyUtils;

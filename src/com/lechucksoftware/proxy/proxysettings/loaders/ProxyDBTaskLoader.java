@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.utils;
+package com.lechucksoftware.proxy.proxysettings.loaders;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;

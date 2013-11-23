@@ -77,15 +77,15 @@ public class MainActivity extends BaseActivity
         {
             case android.R.id.home:
                 NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
-                return true;
+                break;
 
             case R.id.menu_about:
                 NavigationUtils.GoToHelpFragment(getFragmentManager());
-                return true;
+                break;
 
             case R.id.menu_proxies:
                 NavigationUtils.GoToProxiesList(getFragmentManager());
-                return true;
+                break;
 
 //            case R.id.menu_feedbacks:
 //                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
@@ -94,11 +94,11 @@ public class MainActivity extends BaseActivity
             case R.id.menu_developer:
                 final Intent intent = new Intent(this, TestActivity.class);
                 startActivity(intent);
-                return true;
+                break;
 
-            default:
-                return super.onOptionsItemSelected(item);
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

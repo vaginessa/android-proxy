@@ -1,11 +1,11 @@
-package com.lechucksoftware.proxy.proxysettings.fragments;
+package com.lechucksoftware.proxy.proxysettings.fragments.base;
 
-import android.app.ListFragment;
+import android.app.DialogFragment;
 
 /**
  * Created by marco on 24/05/13.
  */
-public class BaseListFragment extends ListFragment
+public class BaseDialogFragment extends DialogFragment
 {
     @Override
     public void onResume()
@@ -18,6 +18,6 @@ public class BaseListFragment extends ListFragment
     public void onPause()
     {
         super.onPause();
-//        LogWrapper.d(this.getClass().getSimpleName(),"onPause " + this.getClass().getSimpleName());
+//        LogWrapper.d(this.getClass().getSimpleName() ,"onPause " + this.getClass().getSimpleName());
     }
 }

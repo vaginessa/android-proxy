@@ -1,42 +1,44 @@
 package com.lechucksoftware.proxy.proxysettings.adapters;
 
 import android.content.Context;
+import android.preference.CheckBoxPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.TagsView;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.db.DBTag;
 
 import java.util.List;
 
-public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
+public class TagsListAdapter extends ArrayAdapter<DBTag>
 {
     private final LayoutInflater vi;
     private Context ctx;
 
-    public ProxiesSelectorListAdapter(Context context)
+    public TagsListAdapter(Context context)
     {
-        super(context, R.layout.proxy_list_item);
+        super(context, R.layout.tags_dialog_list_item);
         vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ctx = context;
     }
 
     static class ApViewHolder
     {
-        TextView host;
-        TextView port;
-        TagsView tags;
+        CheckBox checkBox;
     }
 
-    public void setData(List<DBProxy> confList)
+    public void setData(List<DBTag> confList)
     {
         clear();
         if (confList != null)
         {
-            for (DBProxy conf : confList)
+            for (DBTag conf : confList)
             {
                 add(conf);
             }
@@ -50,12 +52,10 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
 
         if (view == null)
         {
-            view = vi.inflate(R.layout.proxy_list_item, null);
+            view = vi.inflate(R.layout.tags_dialog_list_item, null);
 
             viewHolder = new ApViewHolder();
-            viewHolder.host = (TextView) view.findViewById(R.id.list_item_proxy_host);
-            viewHolder.port = (TextView) view.findViewById(R.id.list_item_proxy_port);
-            viewHolder.tags = (TagsView) view.findViewById(R.id.list_item_proxy_tags);
+            viewHolder.checkBox = (CheckBox) view.findViewById(R.id.li_tag_checkbox);
             view.setTag(viewHolder);
         }
         else
@@ -63,13 +63,12 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
             viewHolder = (ApViewHolder) view.getTag();
         }
 
-        DBProxy listItem = getItem(position);
+        DBTag listItem = getItem(position);
 
         if (listItem != null)
         {
-            viewHolder.host.setText(listItem.host);
-            viewHolder.port.setText(listItem.port.toString());
-            viewHolder.tags.setTags(listItem.getTags());
+            viewHolder.checkBox.setText(listItem.tag);
+            viewHolder.checkBox.setChecked(false);
         }
 
         return view;

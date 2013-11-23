@@ -2,16 +2,18 @@ package com.lechucksoftware.proxy.proxysettings.preferences;
 
 import android.content.Context;
 import android.preference.DialogPreference;
+import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.TagsView;
 import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.fragments.TagsListSelectorFragment;
 
 import java.util.List;
 
-public class TagsPreference extends DialogPreference
+public class TagsPreference extends Preference
 {
     private TagsView tagsView;
     private List<DBTag> tags;
@@ -21,9 +23,6 @@ public class TagsPreference extends DialogPreference
     {
         super(context, attrs);
         setLayoutResource(R.layout.tags_preference);
-        setWidgetLayoutResource(android.R.string.ok);
-        setWidgetLayoutResource(android.R.string.cancel);
-        setDialogIcon(null);
     }
 
     @Override

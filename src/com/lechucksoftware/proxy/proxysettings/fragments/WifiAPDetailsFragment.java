@@ -173,6 +173,16 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
             });
 
             proxyTags = (TagsPreference) findPreference("pref_proxy_tags");
+            proxyTags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+            {
+                @Override
+                public boolean onPreferenceClick(Preference preference)
+                {
+                    TagsListSelectorFragment tagsListSelectorFragment = new TagsListSelectorFragment();
+                    tagsListSelectorFragment.show(getFragmentManager(), TAG);
+                    return true;
+                }
+            });
 
             authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
             if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);

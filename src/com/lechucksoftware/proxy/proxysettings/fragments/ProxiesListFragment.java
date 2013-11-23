@@ -16,9 +16,10 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.ProxyDBTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ProxiesListFragment extends BaseFragment implements LoaderManager.L
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.proxy_list, container, false);
+        View v = inflater.inflate(R.layout.standard_list, container, false);
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         progress.setVisibility(View.VISIBLE);

@@ -12,7 +12,8 @@ import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.PInfoAdapter;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
-import com.lechucksoftware.proxy.proxysettings.utils.PInfoTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseListFragment;
+import com.lechucksoftware.proxy.proxysettings.loaders.PInfoTaskLoader;
 
 import java.util.List;
 
