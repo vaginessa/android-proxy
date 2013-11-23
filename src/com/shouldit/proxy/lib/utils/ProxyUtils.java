@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 
 public class ProxyUtils
 {
-	public static final String TAG = "ProxyUtils";
+    public static final String TAG = "ProxyUtils";
 
     public static void startWifiScan()
     {
@@ -50,7 +50,7 @@ public class ProxyUtils
             if (conf != null && conf.ap != null && conf.ap.getLevel() > -1)
             {
                 // Connect to AP only if it's available
-                ReflectionUtils.connectToWifi(APL.getWifiManager(),conf.ap.networkId);
+                ReflectionUtils.connectToWifi(APL.getWifiManager(), conf.ap.networkId);
 
                 APL.getWifiManager().enableNetwork(conf.ap.networkId, true);
             }
@@ -95,104 +95,104 @@ public class ProxyUtils
         }
     }
 
-	public static String cleanUpSSID(String SSID)
-	{
+    public static String cleanUpSSID(String SSID)
+    {
         if (SSID != null)
         {
             if (SSID.startsWith("\""))
-			    return removeDoubleQuotes(SSID);    // Remove double quotes from SSID
+                return removeDoubleQuotes(SSID);    // Remove double quotes from SSID
             else
                 return SSID;
         }
-		else
-			return "";  // For safety return always and empty string
-	}
+        else
+            return "";  // For safety return always and empty string
+    }
 
-	public static String removeDoubleQuotes(String string)
-	{
-		int length = string.length();
-		if ((length > 1) && (string.charAt(0) == '"') && (string.charAt(length - 1) == '"'))
-		{
-			return string.substring(1, length - 1);
-		}
-		return string;
-	}
+    public static String removeDoubleQuotes(String string)
+    {
+        int length = string.length();
+        if ((length > 1) && (string.charAt(0) == '"') && (string.charAt(length - 1) == '"'))
+        {
+            return string.substring(1, length - 1);
+        }
+        return string;
+    }
 
-	public static String convertToQuotedString(String string)
-	{
-		return "\"" + string + "\"";
-	}
+    public static String convertToQuotedString(String string)
+    {
+        return "\"" + string + "\"";
+    }
 
-	public static Intent getProxyIntent()
-	{
-		if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1
-		{
-			return getAPProxyIntent();
-		}
-		else
-		{
-			return getGlobalProxyIntent();
-		}
-	}
+    public static Intent getProxyIntent()
+    {
+        if (Build.VERSION.SDK_INT >= 12) // Honeycomb 3.1
+        {
+            return getAPProxyIntent();
+        }
+        else
+        {
+            return getGlobalProxyIntent();
+        }
+    }
 
-	/**
-	 * For API < 12
-	 * */
-	private static Intent getGlobalProxyIntent()
-	{
-		Intent intent = new Intent();
-		intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.ProxySelector"));
+    /**
+     * For API < 12
+     */
+    private static Intent getGlobalProxyIntent()
+    {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.ProxySelector"));
 
-		return intent;
-	}
+        return intent;
+    }
 
-	/**
-	 * For API >= 12
-	 * */
-	private static Intent getAPProxyIntent()
-	{
-		Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+    /**
+     * For API >= 12
+     */
+    private static Intent getAPProxyIntent()
+    {
+        Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
 
-		return intent;
-	}
+        return intent;
+    }
 
-	// public static Intent getWebViewWithProxy(Context context, URI uri)
-	// {
-	// Intent intent = new Intent(context, );
-	// intent.putExtra("URI", uri);
-	//
-	// return intent;
-	// }
+    // public static Intent getWebViewWithProxy(Context context, URI uri)
+    // {
+    // Intent intent = new Intent(context, );
+    // intent.putExtra("URI", uri);
+    //
+    // return intent;
+    // }
 
-	public static boolean isHostReachable(Proxy proxy)
-	{	
-		Boolean standardResult = standardAPIPingHost(proxy);
-		if (standardResult)
-		{
-			return true;
-		}
-		else
-		{
-			Boolean lowResult = lowLevelPingHost(proxy);
-			return lowResult;
-		}
-	}
+    public static boolean isHostReachable(Proxy proxy)
+    {
+        Boolean standardResult = standardAPIPingHost(proxy);
+        if (standardResult)
+        {
+            return true;
+        }
+        else
+        {
+            Boolean lowResult = lowLevelPingHost(proxy);
+            return lowResult;
+        }
+    }
 
-	public static boolean standardAPIPingHost(Proxy proxy)
-	{
-		try
-		{
-			InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
-			return InetAddress.getByName(proxySocketAddress.toString().split(":")[0]).isReachable(100000);
+    public static boolean standardAPIPingHost(Proxy proxy)
+    {
+        try
+        {
+            InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
+            return InetAddress.getByName(proxySocketAddress.toString().split(":")[0]).isReachable(100000);
 //			return proxySocketAddress.getAddress().isReachable(100000);
-		}
-		catch (Exception e)
-		{
-            APL.getExceptionReport().send(new Exception("ProxyUtils.standardAPIPingHost() Exception",e));
-		}
-		
-		return false;
-	}
+        }
+        catch (Exception e)
+        {
+            APL.getExceptionReport().send(new Exception("ProxyUtils.standardAPIPingHost() Exception", e));
+        }
+
+        return false;
+    }
 
 //	public static void pingMe()
 //	{
@@ -236,326 +236,308 @@ public class ProxyUtils
 //
 //	}
 
-	public static boolean lowLevelPingHost(Proxy proxy)
-	{
-		int exitValue;
-		Runtime runtime = Runtime.getRuntime();
-		Process proc;
+    public static boolean lowLevelPingHost(Proxy proxy)
+    {
+        int exitValue;
+        Runtime runtime = Runtime.getRuntime();
+        Process proc;
 
-		String cmdline = null;
-		String proxyAddress = null;
+        String cmdline = null;
+        String proxyAddress = null;
 
-		try
-		{
-			InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
-			proxyAddress = proxySocketAddress.getAddress().getHostAddress();
-		}
-		catch (Exception e)
-		{
-            APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling getAddress().getHostAddress() on proxySocketAddress : ",e));
-		}
+        try
+        {
+            InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
+            proxyAddress = proxySocketAddress.getAddress().getHostAddress();
+        }
+        catch (Exception e)
+        {
+            APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling getAddress().getHostAddress() on proxySocketAddress : ", e));
+        }
 
-		if (proxyAddress == null)
-		{
-			try
-			{
-				InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
-				proxyAddress = proxySocketAddress.toString();
-			}
-			catch (Exception e)
-			{
-                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling toString() on proxySocketAddress",e));
-			}
-		}
+        if (proxyAddress == null)
+        {
+            try
+            {
+                InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
+                proxyAddress = proxySocketAddress.toString();
+            }
+            catch (Exception e)
+            {
+                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling toString() on proxySocketAddress", e));
+            }
+        }
 
-		if (proxyAddress != null)
-		{
-			cmdline = "ping -c 1 -w 1 " + proxyAddress;
+        if (proxyAddress != null)
+        {
+            cmdline = "ping -c 1 -w 1 " + proxyAddress;
 
-			try
-			{
-				proc = runtime.exec(cmdline);
-				proc.waitFor();
-				exitValue = proc.exitValue();
+            try
+            {
+                proc = runtime.exec(cmdline);
+                proc.waitFor();
+                exitValue = proc.exitValue();
 
-				LogWrapper.d(TAG, "Ping exit value: " + exitValue);
+                LogWrapper.d(TAG, "Ping exit value: " + exitValue);
 
-				if (exitValue == 0)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			catch (IOException e)
-			{
-                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() IOException",e));
-			}
-			catch (InterruptedException e)
-			{
-                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() InterruptedException",e));
-			}
-		}
+                if (exitValue == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (IOException e)
+            {
+                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() IOException", e));
+            }
+            catch (InterruptedException e)
+            {
+                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() InterruptedException", e));
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public static int testHTTPConnection(URI uri, ProxyConfiguration proxyConfiguration, int timeout)
-	{
-		int step = 0;
-		while (step < 5)
-		{
-			try
-			{
-				URL url = uri.toURL();
+    public static int testHTTPConnection(URI uri, ProxyConfiguration proxyConfiguration, int timeout)
+    {
+        int step = 0;
+        while (step < 5)
+        {
+            try
+            {
+                URL url = uri.toURL();
 
-				if (proxyConfiguration != null && proxyConfiguration.getProxyType() == Type.HTTP)
-				{
-					System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
-					System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
-				}
-				else
-				{
-					System.setProperty("http.proxyHost", "");
-					System.setProperty("http.proxyPort", "");
-				}
+                if (proxyConfiguration != null && proxyConfiguration.getProxyType() == Type.HTTP)
+                {
+                    System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
+                    System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
+                }
+                else
+                {
+                    System.setProperty("http.proxyHost", "");
+                    System.setProperty("http.proxyPort", "");
+                }
 
-				HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
-				httpURLConnection.setReadTimeout(timeout);
-				httpURLConnection.setConnectTimeout(timeout);
+                httpURLConnection.setReadTimeout(timeout);
+                httpURLConnection.setConnectTimeout(timeout);
 
-				return httpURLConnection.getResponseCode();
-			}
-			catch (MalformedURLException e)
-			{
+                return httpURLConnection.getResponseCode();
+            }
+            catch (MalformedURLException e)
+            {
                 APL.getExceptionReport().send(e);
-			}
-			catch (UnknownHostException e)
-			{
+            }
+            catch (UnknownHostException e)
+            {
                 APL.getExceptionReport().send(e);
-			}
-			catch (SocketTimeoutException e)
-			{
+            }
+            catch (SocketTimeoutException e)
+            {
                 APL.getExceptionReport().send(e);
-			}
-			catch (SocketException e)
-			{
+            }
+            catch (SocketException e)
+            {
                 APL.getExceptionReport().send(e);
-			}
-			catch (IOException e)
-			{
+            }
+            catch (IOException e)
+            {
                 APL.getExceptionReport().send(e);
-			}
+            }
             catch (Exception e)
             {
                 APL.getExceptionReport().send(e);
             }
 
-			step++;
+            step++;
 
-			try
-			{
-				Thread.sleep(500);
-			}
-			catch (InterruptedException e)
-			{
+            try
+            {
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e)
+            {
                 APL.getExceptionReport().send(e);
-				return -1;
-			}
-		}
+                return -1;
+            }
+        }
 
-		return -1;
-	}
+        return -1;
+    }
 
-	public static String getURI(URI uri, Proxy proxy, int timeout)
-	{
-		try
-		{
-			URL url = uri.toURL();
-			HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
+    public static String getURI(URI uri, Proxy proxy, int timeout) throws IOException
+    {
+        URL url = uri.toURL();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
 
-			httpURLConnection.setReadTimeout(timeout);
-			httpURLConnection.setConnectTimeout(timeout);
+        httpURLConnection.setReadTimeout(timeout);
+        httpURLConnection.setConnectTimeout(timeout);
 
-			int response = httpURLConnection.getResponseCode();
-			if (response == HttpURLConnection.HTTP_OK)
-			{
-				// Response successful
-				InputStream inputStream = httpURLConnection.getInputStream();
+        int response = httpURLConnection.getResponseCode();
+        if (response == HttpURLConnection.HTTP_OK)
+        {
+            // Response successful
+            InputStream inputStream = httpURLConnection.getInputStream();
 
-				// Parse it line by line
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-				String temp;
-				StringBuilder sb = new StringBuilder();
-				while ((temp = bufferedReader.readLine()) != null)
-				{
-					// LogWrapper.d(TAG, temp);
-					sb.append(temp);
-				}
+            // Parse it line by line
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String temp;
+            StringBuilder sb = new StringBuilder();
+            while ((temp = bufferedReader.readLine()) != null)
+            {
+                // LogWrapper.d(TAG, temp);
+                sb.append(temp);
+            }
 
-				return sb.toString();
-			}
-			else
-			{
-				LogWrapper.e(TAG, "INCORRECT RETURN CODE: " + response);
-				return null;
-			}
-		}
-		catch (MalformedURLException e)
-		{
-            APL.getExceptionReport().send(e);
-		}
-		catch (SocketTimeoutException e)
-		{
-            APL.getExceptionReport().send(new Exception("ProxyUtils.getURI() timed out after: " + timeout + " msec",e));
-		}
-		catch (IOException e)
-		{
-            APL.getExceptionReport().send(e);
-		}
+            return sb.toString();
+        }
+        else
+        {
+            throw new IOException("INCORRECT RETURN CODE: " + response);
+        }
+    }
 
-		return null;
-	}
-
-	public static boolean canGetWebResources(ProxyConfiguration proxyConfiguration, int timeout)
-	{
-		try
-		{
-			int result = testHTTPConnection(new URI("http://www.un.org/"), proxyConfiguration, timeout);
+    public static boolean canGetWebResources(ProxyConfiguration proxyConfiguration, int timeout)
+    {
+        try
+        {
+            int result = testHTTPConnection(new URI("http://www.un.org/"), proxyConfiguration, timeout);
 //            int rawresult = testHTTPConnection(new URI("http://157.150.34.32"), proxyConfiguration, timeout);
 
 
             switch (result)
-			{
-				case HttpURLConnection.HTTP_OK:
-				case HttpURLConnection.HTTP_CREATED:
-				case HttpURLConnection.HTTP_NO_CONTENT:
-				case HttpURLConnection.HTTP_NOT_AUTHORITATIVE:
-				case HttpURLConnection.HTTP_ACCEPTED:
-				case HttpURLConnection.HTTP_PARTIAL:
-				case HttpURLConnection.HTTP_RESET:
-					return true;
+            {
+                case HttpURLConnection.HTTP_OK:
+                case HttpURLConnection.HTTP_CREATED:
+                case HttpURLConnection.HTTP_NO_CONTENT:
+                case HttpURLConnection.HTTP_NOT_AUTHORITATIVE:
+                case HttpURLConnection.HTTP_ACCEPTED:
+                case HttpURLConnection.HTTP_PARTIAL:
+                case HttpURLConnection.HTTP_RESET:
+                    return true;
 
-				default:
-					return false;
-			}
-		}
-		catch (URISyntaxException e)
-		{
+                default:
+                    return false;
+            }
+        }
+        catch (URISyntaxException e)
+        {
             APL.getExceptionReport().send(e);
-		}
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public static void setWebViewProxy(Context context, ProxyConfiguration proxyConf)
-	{
-		try
-		{
-			if (proxyConf != null && proxyConf.getProxyType() == Type.HTTP && APL.getDeviceVersion() < 12)
-			{
-				setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
-			}
-			else
-			{
-				resetProxy(context);
-			}
-		}
-		catch (Exception e)
-		{
+    public static void setWebViewProxy(Context context, ProxyConfiguration proxyConf)
+    {
+        try
+        {
+            if (proxyConf != null && proxyConf.getProxyType() == Type.HTTP && APL.getDeviceVersion() < 12)
+            {
+                setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
+            }
+            else
+            {
+                resetProxy(context);
+            }
+        }
+        catch (Exception e)
+        {
             APL.getExceptionReport().send(e);
-		}
-	}
+        }
+    }
 
-	public static void resetProxy(Context ctx) throws Exception
-	{
-		Object requestQueueObject = getRequestQueue(ctx);
-		if (requestQueueObject != null)
-		{
-			setDeclaredField(requestQueueObject, "mProxyHost", null);
-		}
-	}
+    public static void resetProxy(Context ctx) throws Exception
+    {
+        Object requestQueueObject = getRequestQueue(ctx);
+        if (requestQueueObject != null)
+        {
+            setDeclaredField(requestQueueObject, "mProxyHost", null);
+        }
+    }
 
-	private static boolean setProxy(Context ctx, String host, int port)
-	{
-		boolean ret = false;
-		try
-		{
-			Object requestQueueObject = getRequestQueue(ctx);
-			if (requestQueueObject != null)
-			{
-				// Create Proxy config object and set it into request Q
-				HttpHost httpHost = new HttpHost(host, port, "http");
-				setDeclaredField(requestQueueObject, "mProxyHost", httpHost);
-				// LogWrapper.d("Webkit Setted Proxy to: " + host + ":" + port);
-				ret = true;
-			}
-		}
-		catch (Exception e)
-		{
-            APL.getExceptionReport().send(new Exception("Exception setting WebKit proxy settings",e));
-		}
-		return ret;
-	}
+    private static boolean setProxy(Context ctx, String host, int port)
+    {
+        boolean ret = false;
+        try
+        {
+            Object requestQueueObject = getRequestQueue(ctx);
+            if (requestQueueObject != null)
+            {
+                // Create Proxy config object and set it into request Q
+                HttpHost httpHost = new HttpHost(host, port, "http");
+                setDeclaredField(requestQueueObject, "mProxyHost", httpHost);
+                // LogWrapper.d("Webkit Setted Proxy to: " + host + ":" + port);
+                ret = true;
+            }
+        }
+        catch (Exception e)
+        {
+            APL.getExceptionReport().send(new Exception("Exception setting WebKit proxy settings", e));
+        }
+        return ret;
+    }
 
-	@SuppressWarnings("rawtypes")
-	private static Object GetNetworkInstance(Context ctx) throws ClassNotFoundException
-	{
-		Class networkClass = Class.forName("android.webkit.Network");
-		return networkClass;
-	}
+    @SuppressWarnings("rawtypes")
+    private static Object GetNetworkInstance(Context ctx) throws ClassNotFoundException
+    {
+        Class networkClass = Class.forName("android.webkit.Network");
+        return networkClass;
+    }
 
-	private static Object getRequestQueue(Context ctx) throws Exception
-	{
-		Object ret = null;
-		Object networkClass = GetNetworkInstance(ctx);
-		if (networkClass != null)
-		{
-			Object networkObj = invokeMethod(networkClass, "getInstance", new Object[] { ctx }, Context.class);
-			if (networkObj != null)
-			{
-				ret = getDeclaredField(networkObj, "mRequestQueue");
-			}
-		}
-		return ret;
-	}
+    private static Object getRequestQueue(Context ctx) throws Exception
+    {
+        Object ret = null;
+        Object networkClass = GetNetworkInstance(ctx);
+        if (networkClass != null)
+        {
+            Object networkObj = invokeMethod(networkClass, "getInstance", new Object[]{ctx}, Context.class);
+            if (networkObj != null)
+            {
+                ret = getDeclaredField(networkObj, "mRequestQueue");
+            }
+        }
+        return ret;
+    }
 
-	private static Object getDeclaredField(Object obj, String name) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException
-	{
-		Field f = obj.getClass().getDeclaredField(name);
-		f.setAccessible(true);
-		Object out = f.get(obj);
-		return out;
-	}
+    private static Object getDeclaredField(Object obj, String name) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException
+    {
+        Field f = obj.getClass().getDeclaredField(name);
+        f.setAccessible(true);
+        Object out = f.get(obj);
+        return out;
+    }
 
-	private static void setDeclaredField(Object obj, String name, Object value) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException
-	{
-		Field f = obj.getClass().getDeclaredField(name);
-		f.setAccessible(true);
-		f.set(obj, value);
-	}
+    private static void setDeclaredField(Object obj, String name, Object value) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException
+    {
+        Field f = obj.getClass().getDeclaredField(name);
+        f.setAccessible(true);
+        f.set(obj, value);
+    }
 
-	@SuppressWarnings("rawtypes")
-	private static Object invokeMethod(Object object, String methodName, Object[] params, Class... types) throws Exception
-	{
-		Object out = null;
-		Class c = object instanceof Class ? (Class) object : object.getClass();
+    @SuppressWarnings("rawtypes")
+    private static Object invokeMethod(Object object, String methodName, Object[] params, Class... types) throws Exception
+    {
+        Object out = null;
+        Class c = object instanceof Class ? (Class) object : object.getClass();
 
-		if (types != null)
-		{
-			Method method = c.getMethod(methodName, types);
-			out = method.invoke(object, params);
-		}
-		else
-		{
-			Method method = c.getMethod(methodName);
-			out = method.invoke(object);
-		}
-		return out;
-	}
+        if (types != null)
+        {
+            Method method = c.getMethod(methodName, types);
+            out = method.invoke(object, params);
+        }
+        else
+        {
+            Method method = c.getMethod(methodName);
+            out = method.invoke(object);
+        }
+        return out;
+    }
 
     public static SecurityType getSecurity(WifiConfiguration config)
     {
@@ -666,7 +648,7 @@ public class ProxyUtils
 
         if (Build.VERSION.SDK_INT >= 12)
         {
-            acquireProxyStatusSDK12(conf, status,checkOptions);
+            acquireProxyStatusSDK12(conf, status, checkOptions);
         }
         else
         {
@@ -707,8 +689,8 @@ public class ProxyUtils
             broadCastUpdatedStatus();
 
             if (checkOptions.contains(ProxyCheckOptions.ONLINE_CHECK)
-                && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
-                && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
+                    && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
+                    && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
             {
                 LogWrapper.d(TAG, "Checking if proxy is reachable ...");
                 status.set(isProxyReachable(conf));
@@ -755,8 +737,8 @@ public class ProxyUtils
                     broadCastUpdatedStatus();
 
                     if (checkOptions.contains(ProxyCheckOptions.ONLINE_CHECK)
-                        && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
-                        && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
+                            && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
+                            && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
                     {
                         LogWrapper.d(TAG, "Checking if proxy is reachable ...");
                         status.set(isProxyReachable(conf));
