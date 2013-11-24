@@ -37,6 +37,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
     private EditTextPreference proxyBypassPref;
     private TagsPreference proxyTags;
     private Preference proxySelectionPref;
+    private DBProxy selectedProxy;
 
     /**
      * Create a new instance of WifiAPDetailsFragment
@@ -74,6 +75,12 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
 
         if (selectedConfiguration != null && selectedConfiguration.isValidConfiguration())
         {
+            long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedConfiguration.getProxyHost(), selectedConfiguration.getProxyPort());
+            if (proxyId != -1)
+            {
+                selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
+            }
+
             proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
             proxyEnablePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
             {
@@ -178,7 +185,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 @Override
                 public boolean onPreferenceClick(Preference preference)
                 {
-                    TagsListSelectorFragment tagsListSelectorFragment = new TagsListSelectorFragment();
+                    TagsListSelectorFragment tagsListSelectorFragment = TagsListSelectorFragment.newInstance(selectedProxy);
                     tagsListSelectorFragment.show(getFragmentManager(), TAG);
                     return true;
                 }
@@ -284,14 +291,9 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 }
                 proxyBypassPref.setText(bypassList);
 
+                proxyTags.setTags(selectedProxy);
 
-                long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedConf.getProxyHost(), selectedConf.getProxyPort());
-                if (proxyId != -1)
-                {
-                    DBProxy selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
-                    proxyTags.setTags(selectedProxy.getTags());
-                }
-
+                // Refresh all the dependencies
                 refreshDependencies(proxyEnablePref.isChecked());
 
                 if (selectedConf.isCurrentNetwork())

@@ -171,7 +171,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
                     proxyBypassPref.setSummary(bypassList);
                 }
 
-                proxyTags.setTags(proxy.getTags());
+                proxyTags.setTags(proxy);
             }
             else
             {

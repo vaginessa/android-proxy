@@ -5,18 +5,16 @@ import android.preference.CheckBoxPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CheckedTextView;
-import android.widget.TextView;
+import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.components.TagModel;
 import com.lechucksoftware.proxy.proxysettings.components.TagsView;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DBTag;
 
 import java.util.List;
 
-public class TagsListAdapter extends ArrayAdapter<DBTag>
+public class TagsListAdapter extends ArrayAdapter<TagModel>
 {
     private final LayoutInflater vi;
     private Context ctx;
@@ -33,12 +31,12 @@ public class TagsListAdapter extends ArrayAdapter<DBTag>
         CheckBox checkBox;
     }
 
-    public void setData(List<DBTag> confList)
+    public void setData(List<TagModel> confList)
     {
         clear();
         if (confList != null)
         {
-            for (DBTag conf : confList)
+            for (TagModel conf : confList)
             {
                 add(conf);
             }
@@ -48,29 +46,44 @@ public class TagsListAdapter extends ArrayAdapter<DBTag>
     public View getView(int position, View convertView, ViewGroup parent)
     {
         ApViewHolder viewHolder;
-        View view = convertView;
 
-        if (view == null)
+        if (convertView == null)
         {
-            view = vi.inflate(R.layout.tags_dialog_list_item, null);
+            convertView = vi.inflate(R.layout.tags_dialog_list_item, null);
 
             viewHolder = new ApViewHolder();
-            viewHolder.checkBox = (CheckBox) view.findViewById(R.id.li_tag_checkbox);
-            view.setTag(viewHolder);
+            viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.li_tag_checkbox);
+            convertView.setTag(viewHolder);
         }
         else
         {
-            viewHolder = (ApViewHolder) view.getTag();
+            viewHolder = (ApViewHolder) convertView.getTag();
         }
 
-        DBTag listItem = getItem(position);
+        final TagModel listItem = getItem(position);
 
         if (listItem != null)
         {
-            viewHolder.checkBox.setText(listItem.tag);
-            viewHolder.checkBox.setChecked(false);
+            viewHolder.checkBox.setText(listItem.tag.tag);
+            viewHolder.checkBox.setChecked(listItem.isSelected);
+            viewHolder.checkBox.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    CheckBox checkBox = (CheckBox) view;
+                    if (checkBox.isChecked())
+                    {
+                        listItem.isSelected = true;
+                    }
+                    else
+                    {
+                        listItem.isSelected = false;
+                    }
+                }
+            });
         }
 
-        return view;
+        return convertView;
     }
 }

@@ -123,13 +123,13 @@ public class MainActivity extends BaseActivity
         }
 
         asyncStartupDialogTask = new AsyncStartupDialogTask();
-        asyncStartupDialogTask.execute();
+        asyncStartupDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         asyncStartupRateTask = new AsyncStartupRateTask();
-        asyncStartupRateTask.execute();
+        asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         asyncStartupBetaTestTask = new AsyncStartupBetaTestTask();
-        asyncStartupBetaTestTask.execute();
+        asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         refreshUI();
     }

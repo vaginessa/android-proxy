@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import com.lechucksoftware.proxy.proxysettings.components.TagModel;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.shouldit.proxy.lib.log.LogWrapper;
 

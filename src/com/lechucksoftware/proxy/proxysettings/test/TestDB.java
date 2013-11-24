@@ -12,7 +12,7 @@ import java.util.Random;
 public class TestDB
 {
     // "0123456789" + "ABCDE...Z"
-    private static final String ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
     private static final int MIN_LENGHT = 3;
     private static final int MAX_LENGHT = 15;
 

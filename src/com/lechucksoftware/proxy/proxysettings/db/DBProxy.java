@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * Created by Marco on 13/09/13.
  */
-public class DBProxy extends DBObject
+public class DBProxy extends DBObject implements Serializable
 {
     public String host;
     public Integer port;

@@ -1,9 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
+import java.io.Serializable;
+
 /**
  * Created by Marco on 13/09/13.
  */
-public class DBTag extends DBObject
+public class DBTag extends DBObject implements Serializable
 {
     public String tag;
     public Integer tagColor;

@@ -1,21 +1,21 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.TagsListAdapter;
+import com.lechucksoftware.proxy.proxysettings.components.TagModel;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DBTag;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.loaders.TagsDBTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,35 +23,68 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class TagsListSelectorFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<DBTag>>
+public class TagsListSelectorFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<TagModel>>
 {
     private static final String TAG = TagsListSelectorFragment.class.getSimpleName();
+    public static final String DBPROXY_ARG = "DBPROXY_ARG";
     private static TagsListSelectorFragment instance;
     private TextView emptyText;
     private RelativeLayout progress;
     private static final int LOADER_TAGSDB = 1;
-    private Loader<List<DBTag>> loader;
+    private Loader<List<TagModel>> loader;
     private ListView listView;
     private TagsListAdapter tagsListAdapter;
+    private DBProxy proxy;
+    private Button okButton;
+    private Dialog dialog;
 
-    public static TagsListSelectorFragment getInstance()
+    private TagsListSelectorFragment()
+    {}
+
+    public static TagsListSelectorFragment newInstance(DBProxy proxy)
     {
         if (instance == null)
             instance = new TagsListSelectorFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable(DBPROXY_ARG,proxy);
+        instance.setArguments(args  );
 
         return instance;
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        proxy = (DBProxy) getArguments().getSerializable(DBPROXY_ARG);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.standard_list, container, false);
+        dialog = getDialog();
+        if (dialog != null)
+        {
+            dialog.setTitle("AAAAAA");
+        }
+
+        View v = inflater.inflate(R.layout.tags_dialog_list, container, false);
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         progress.setVisibility(View.VISIBLE);
 
         emptyText = (TextView) v.findViewById(android.R.id.empty);
         listView = (ListView) v.findViewById(android.R.id.list);
+        okButton = (Button) v.findViewById(R.id.dialog_ok);
+        okButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                dialog.dismiss();
+            }
+        });
 
         if (tagsListAdapter == null)
         {
@@ -84,23 +117,25 @@ public class TagsListSelectorFragment extends BaseDialogFragment implements Load
      */
 
     @Override
-    public Loader<List<DBTag>> onCreateLoader(int i, Bundle bundle)
+    public Loader<List<TagModel>> onCreateLoader(int i, Bundle bundle)
     {
-        TagsDBTaskLoader tagsDBTaskLoader = new TagsDBTaskLoader(getActivity());
+        TagsTaskLoader tagsDBTaskLoader = new TagsTaskLoader(getActivity(), proxy);
         return tagsDBTaskLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<List<DBTag>> listLoader, List<DBTag> dbTags)
+    public void onLoadFinished(Loader<List<TagModel>> listLoader, List<TagModel> tagModels)
     {
-        if (dbTags != null && dbTags.size() > 0)
+        if (tagModels != null && tagModels.size() > 0)
         {
-            tagsListAdapter.setData(dbTags);
+            tagsListAdapter.setData(tagModels);
+            listView.setVisibility(View.VISIBLE);
             emptyText.setVisibility(View.GONE);
         }
         else
         {
-            tagsListAdapter.setData(new ArrayList<DBTag>());
+            tagsListAdapter.setData(new ArrayList<TagModel>());
+            listView.setVisibility(View.GONE);
             emptyText.setText(getResources().getString(R.string.tags_empty_list));
             emptyText.setVisibility(View.VISIBLE);
         }
@@ -109,7 +144,7 @@ public class TagsListSelectorFragment extends BaseDialogFragment implements Load
     }
 
     @Override
-    public void onLoaderReset(Loader<List<DBTag>> listLoader)
+    public void onLoaderReset(Loader<List<TagModel>> listLoader)
     {
 
     }

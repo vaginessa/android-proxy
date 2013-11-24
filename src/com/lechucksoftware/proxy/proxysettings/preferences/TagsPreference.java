@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.TagsView;
+import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DBTag;
 import com.lechucksoftware.proxy.proxysettings.fragments.TagsListSelectorFragment;
 
@@ -36,9 +37,13 @@ public class TagsPreference extends Preference
         refreshUI();
     }
 
-    public void setTags(List<DBTag> intags)
+    public void setTags(DBProxy proxy)
     {
-        tags = intags;
+        if (proxy != null)
+        {
+            tags = proxy.getTags();
+        }
+
         refreshUI();
     }
 
