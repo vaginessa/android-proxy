@@ -151,7 +151,7 @@ public class TestDB
         DBTag tag = new DBTag();
         Random r = new Random();
         tag.tag = getRandomTag();
-        tag.tagColor = r.nextInt(10);
+        tag.tagColor = r.nextInt(4) + 1;
         ApplicationGlobals.getDBManager().upsertTag(tag);
     }
 }

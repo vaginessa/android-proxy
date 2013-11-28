@@ -5,17 +5,22 @@ import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.TagsListAdapter;
 import com.lechucksoftware.proxy.proxysettings.components.TagModel;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.db.DataSource;
+import com.lechucksoftware.proxy.proxysettings.db.DatabaseSQLiteOpenHelper;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
+import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +87,21 @@ public class TagsListSelectorFragment extends BaseDialogFragment implements Load
             @Override
             public void onClick(View view)
             {
+                for (int i = 0; i<tagsListAdapter.getCount(); i++)
+                {
+                    TagModel m = tagsListAdapter.getItem(i);
+                    if (m.isSelected)
+                    {
+                        proxy.addTag(m.tag);
+                    }
+                    else
+                    {
+                        proxy.removeTag(m.tag);
+                    }
+                }
+
+                ApplicationGlobals.getDBManager().updateProxy(proxy.getId(),proxy);
+
                 dialog.dismiss();
             }
         });
@@ -93,8 +113,6 @@ public class TagsListSelectorFragment extends BaseDialogFragment implements Load
 
         listView.setAdapter(tagsListAdapter);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        listView.setItemChecked(0,true);
-        listView.setItemChecked(1,true);
 
         loader = getLoaderManager().initLoader(LOADER_TAGSDB, new Bundle(), this);
         loader.forceLoad();

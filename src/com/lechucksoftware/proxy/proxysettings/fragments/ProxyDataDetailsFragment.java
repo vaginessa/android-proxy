@@ -100,6 +100,16 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
         });
 
         proxyTags = (TagsPreference) findPreference("pref_proxy_tags");
+        proxyTags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                TagsListSelectorFragment tagsListSelectorFragment = TagsListSelectorFragment.newInstance(ApplicationGlobals.getSelectedProxy());
+                tagsListSelectorFragment.show(getFragmentManager(), TAG);
+                return true;
+            }
+        });
 
         authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
         if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);

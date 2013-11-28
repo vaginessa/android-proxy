@@ -4,14 +4,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingBottom="10dp"
+                android:id="@+id/li_tag_layout">
 
     <CheckBox
             android:id="@+id/li_tag_checkbox"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:padding="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="ASDFASDGASDG"/>
+
 
 </LinearLayout>

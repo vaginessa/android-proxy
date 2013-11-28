@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.components.TagModel;
 import com.lechucksoftware.proxy.proxysettings.components.TagsView;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class TagsListAdapter extends ArrayAdapter<TagModel>
 
     static class ApViewHolder
     {
+        ViewGroup layout;
         CheckBox checkBox;
     }
 
@@ -51,8 +53,11 @@ public class TagsListAdapter extends ArrayAdapter<TagModel>
         {
             convertView = vi.inflate(R.layout.tags_dialog_list_item, null);
 
+
             viewHolder = new ApViewHolder();
             viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.li_tag_checkbox);
+            viewHolder.layout = (LinearLayout) convertView.findViewById(R.id.li_tag_layout);
+
             convertView.setTag(viewHolder);
         }
         else
@@ -82,6 +87,8 @@ public class TagsListAdapter extends ArrayAdapter<TagModel>
                     }
                 }
             });
+
+            viewHolder.checkBox.setBackgroundColor(UIUtils.getTagsColor(getContext(), listItem.tag.tagColor));
         }
 
         return convertView;

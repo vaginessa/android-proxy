@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.dialogs.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDataDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.WifiAPDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
@@ -184,6 +185,7 @@ public class MainActivity extends BaseActivity
 //        this.invalidateOptionsMenu();
         AccessPointListFragment.getInstance().refreshUI();
         WifiAPDetailsFragment.getInstance().refreshUI();
+        ProxyDataDetailsFragment.getInstance().refreshUI();
     }
 
     private class AsyncStartupDialogTask extends AsyncTask<Void, Void, Boolean>
