@@ -16,6 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -27,7 +28,7 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class ProxiesListFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<List<DBProxy>>
+public class ProxiesListFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<DBProxy>>
 {
     private static final String TAG = ProxiesListFragment.class.getSimpleName();
     private static ProxiesListFragment instance;

@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.preferences;
 
 import android.content.Context;
-import android.preference.DialogPreference;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -10,7 +9,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.TagsView;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DBTag;
-import com.lechucksoftware.proxy.proxysettings.fragments.TagsListSelectorFragment;
 
 import java.util.List;
 

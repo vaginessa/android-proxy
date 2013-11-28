@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.TagsListAdapter;
 import com.lechucksoftware.proxy.proxysettings.components.TagModel;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
-import com.lechucksoftware.proxy.proxysettings.db.DataSource;
-import com.lechucksoftware.proxy.proxysettings.db.DatabaseSQLiteOpenHelper;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +23,11 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class TagsListSelectorFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<TagModel>>
+public class TagsListFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<TagModel>>
 {
-    private static final String TAG = TagsListSelectorFragment.class.getSimpleName();
+    private static final String TAG = TagsListFragment.class.getSimpleName();
     public static final String DBPROXY_ARG = "DBPROXY_ARG";
-    private static TagsListSelectorFragment instance;
+    private static TagsListFragment instance;
     private TextView emptyText;
     private RelativeLayout progress;
     private static final int LOADER_TAGSDB = 1;
@@ -43,13 +38,13 @@ public class TagsListSelectorFragment extends BaseDialogFragment implements Load
     private Button okButton;
     private Dialog dialog;
 
-    private TagsListSelectorFragment()
+    private TagsListFragment()
     {}
 
-    public static TagsListSelectorFragment newInstance(DBProxy proxy)
+    public static TagsListFragment newInstance(DBProxy proxy)
     {
         if (instance == null)
-            instance = new TagsListSelectorFragment();
+            instance = new TagsListFragment();
 
         Bundle args = new Bundle();
         args.putSerializable(DBPROXY_ARG,proxy);

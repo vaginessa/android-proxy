@@ -110,8 +110,9 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 @Override
                 public boolean onPreferenceClick(Preference preference)
                 {
-                    ProxySelectDialog dialog = ProxySelectDialog.newInstance();
-                    dialog.show(getFragmentManager(), "ProxySelectDialog");
+
+                    ProxiesListFragment proxiesListFragment = ProxiesListFragment.getInstance();
+                    proxiesListFragment.show(getFragmentManager(), TAG);
                     return true;
                 }
             });
@@ -185,7 +186,7 @@ public class WifiAPDetailsFragment extends PreferenceFragment implements OnShare
                 @Override
                 public boolean onPreferenceClick(Preference preference)
                 {
-                    TagsListSelectorFragment tagsListSelectorFragment = TagsListSelectorFragment.newInstance(selectedProxy);
+                    TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectedProxy);
                     tagsListSelectorFragment.show(getFragmentManager(), TAG);
                     return true;
                 }

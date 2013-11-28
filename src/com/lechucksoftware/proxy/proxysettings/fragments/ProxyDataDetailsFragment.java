@@ -105,7 +105,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSh
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                TagsListSelectorFragment tagsListSelectorFragment = TagsListSelectorFragment.newInstance(ApplicationGlobals.getSelectedProxy());
+                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(ApplicationGlobals.getSelectedProxy());
                 tagsListSelectorFragment.show(getFragmentManager(), TAG);
                 return true;
             }
