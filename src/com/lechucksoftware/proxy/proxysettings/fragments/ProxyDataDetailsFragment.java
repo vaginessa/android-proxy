@@ -11,13 +11,14 @@ import android.view.View;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 
-public class ProxyDataDetailsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
+public class ProxyDataDetailsFragment extends PreferenceFragment implements IBaseFragment, OnSharedPreferenceChangeListener
 {
     public static ProxyDataDetailsFragment instance;
     public static final String TAG = ProxyDataDetailsFragment.class.getSimpleName();

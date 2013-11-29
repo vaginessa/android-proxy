@@ -19,6 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseListFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class AccessPointListFragment extends BaseListFragment implements LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
+public class AccessPointListFragment extends BaseListFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
 {
     private static final String TAG = "AccessPointListFragment";
     private static final int LOADER_PROXYCONFIGURATIONS = 1;
@@ -110,10 +111,6 @@ public class AccessPointListFragment extends BaseListFragment implements LoaderM
             {
                 loader.forceLoad();
             }
-        }
-        else
-        {
-//            LogWrapper.d(TAG,"AccessPointListFragment is not added to activity");
         }
     }
 

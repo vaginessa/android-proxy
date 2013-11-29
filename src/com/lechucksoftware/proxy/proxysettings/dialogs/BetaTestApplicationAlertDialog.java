@@ -4,11 +4,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class BetaTestApplicationAlertDialog extends DialogFragment
@@ -26,7 +28,7 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((MainActivity) getActivity()).dontDisplayAgainBetaTest();
+				dontDisplayAgainBetaTest();
                 UIUtils.openBetaTestProject(getActivity());
 				getActivity().finish();
 			}
@@ -36,7 +38,7 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((MainActivity) getActivity()).dontDisplayAgainBetaTest();
+				dontDisplayAgainBetaTest();
 			}
 		});
 
@@ -49,4 +51,16 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 		BetaTestApplicationAlertDialog frag = new BetaTestApplicationAlertDialog();
 		return frag;
 	}
+
+    public void dontDisplayAgainBetaTest()
+    {
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (editor != null)
+        {
+            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
+            editor.commit();
+        }
+    }
 }

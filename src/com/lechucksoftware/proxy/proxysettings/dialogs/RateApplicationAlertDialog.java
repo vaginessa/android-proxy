@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxySettingsCallerActivity;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -26,7 +28,7 @@ public class RateApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((MainActivity) getActivity()).dontDisplayAgainAppRate();
+				dontDisplayAgainAppRate();
 				LogWrapper.d(TAG, "Starting Market activity");
 
                 Utils.startMarketActivity(getActivity());
@@ -45,13 +47,25 @@ public class RateApplicationAlertDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-				((MainActivity) getActivity()).dontDisplayAgainAppRate();
+				dontDisplayAgainAppRate();
 			}
 		});
 
 		AlertDialog alert = builder.create();
 		return alert;
 	}
+
+    public void dontDisplayAgainAppRate()
+    {
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (editor != null)
+        {
+            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
+            editor.commit();
+        }
+    }
 
 	public static RateApplicationAlertDialog newInstance()
 	{

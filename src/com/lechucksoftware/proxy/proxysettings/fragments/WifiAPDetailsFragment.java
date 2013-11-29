@@ -14,6 +14,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.dialogs.ProxySelectDialog;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -24,7 +25,7 @@ import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 
-public class WifiAPDetailsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
+public class WifiAPDetailsFragment extends PreferenceFragment implements IBaseFragment, OnSharedPreferenceChangeListener
 {
     public static WifiAPDetailsFragment instance;
     public static final String TAG = "WifiAPDetailsFragment";

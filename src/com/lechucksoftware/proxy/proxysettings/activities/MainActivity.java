@@ -8,22 +8,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.dialogs.BetaTestApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.fragments.AccessPointListFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.WifiAPDetailsFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
-import com.shouldit.proxy.lib.APL;
+import com.lechucksoftware.proxy.proxysettings.utils.*;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.BuildConfig;
 import com.shouldit.proxy.lib.log.LogWrapper;
-
-import java.util.Calendar;
 
 
 /**
@@ -37,13 +29,11 @@ public class MainActivity extends BaseActivity
     AsyncStartupRateTask asyncStartupRateTask;
     AsyncStartupBetaTestTask asyncStartupBetaTestTask;
 
-    // Combo scans can take 5-6s to complete - set to 10s.
-    private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
-    private Scanner mScanner;
-    private Scanner getScanner()
+    private WifiScannerHandler mScanner;
+    private WifiScannerHandler getWifiScanner()
     {
         if (mScanner == null)
-            mScanner = new Scanner();
+            mScanner = new WifiScannerHandler(this);
 
         return mScanner;
     }
@@ -59,6 +49,13 @@ public class MainActivity extends BaseActivity
 
         // Add the fragment to the 'fragment_container' FrameLayout
         getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
+
+        asyncStartupDialogTask = new AsyncStartupDialogTask(this);
+        asyncStartupRateTask = new AsyncStartupRateTask(this);
+        asyncStartupBetaTestTask = new AsyncStartupBetaTestTask(this);
+        asyncStartupDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
@@ -106,7 +103,7 @@ public class MainActivity extends BaseActivity
     {
         super.onResume();
 
-        getScanner().resume();
+        getWifiScanner().resume();
 
         // Start register the status receivers
         IntentFilter ifilt = new IntentFilter();
@@ -122,15 +119,6 @@ public class MainActivity extends BaseActivity
             ViewServer.get(this).setFocusedWindow(this);
         }
 
-        asyncStartupDialogTask = new AsyncStartupDialogTask();
-        asyncStartupDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        asyncStartupRateTask = new AsyncStartupRateTask();
-        asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        asyncStartupBetaTestTask = new AsyncStartupBetaTestTask();
-        asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
         refreshUI();
     }
 
@@ -139,12 +127,10 @@ public class MainActivity extends BaseActivity
     {
         super.onPause();
 
-        LogWrapper.d("TAG","Pause MainActivity");
-
         // Stop the registered status receivers
         unregisterReceiver(changeStatusReceiver);
 
-        getScanner().pause();
+        getWifiScanner().pause();
         mScanner = null;
     }
 
@@ -182,201 +168,10 @@ public class MainActivity extends BaseActivity
     private void refreshUI()
     {
 //        this.invalidateOptionsMenu();
-        AccessPointListFragment.getInstance().refreshUI();
-        WifiAPDetailsFragment.getInstance().refreshUI();
-    }
+//        AccessPointListFragment.getInstance().refreshUI();
+//        WifiAPDetailsFragment.getInstance().refreshUI();
 
-    private class AsyncStartupDialogTask extends AsyncTask<Void, Void, Boolean>
-    {
-        WhatsNewDialog wnd = null;
-
-        @Override
-        protected void onPostExecute(Boolean showDialog)
-        {
-            super.onPostExecute(showDialog);
-
-            if (wnd != null && showDialog)
-            {
-                LogWrapper.d(TAG,"show AsyncStartupDialogTask");
-                wnd.show();
-            }
-            else
-            {
-                LogWrapper.d(TAG,"NOT show AsyncStartupDialogTask");
-            }
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids)
-        {
-            wnd = new WhatsNewDialog(MainActivity.this);
-            return wnd.isToShow();
-        }
-    }
-
-    private class AsyncStartupRateTask extends AsyncTask<Void, Void, Boolean>
-    {
-        @Override
-        protected void onPostExecute(Boolean showDialog)
-        {
-            super.onPostExecute(showDialog);
-
-            if (showDialog)
-            {
-                RateApplicationAlertDialog dialog = RateApplicationAlertDialog.newInstance();
-                dialog.show(MainActivity.this.getFragmentManager(), TAG);
-            }
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids)
-        {
-            return showAppRate();
-        }
-    }
-
-    private class AsyncStartupBetaTestTask extends AsyncTask<Void, Void, Boolean>
-    {
-        @Override
-        protected void onPostExecute(Boolean showDialog)
-        {
-            super.onPostExecute(showDialog);
-
-            if (showDialog)
-            {
-                BetaTestApplicationAlertDialog dialog = BetaTestApplicationAlertDialog.newInstance();
-                dialog.show(getFragmentManager(), TAG);
-            }
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids)
-        {
-            return showAppBetaTest();
-        }
-    }
-
-    public void dontDisplayAgainAppRate()
-    {
-        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        if (editor != null)
-        {
-            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
-            editor.commit();
-        }
-    }
-
-    public boolean showAppRate()
-    {
-        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
-        if (prefs.getBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, false))
-        {
-            return false;
-        }
-
-        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(getApplicationContext());
-
-        // Wait at least N days before opening
-        if (statistics.launchCount >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT)
-        {
-            Calendar c = Calendar.getInstance();
-            c.setTime(statistics.launhcFirstDate);
-            c.add(Calendar.DATE, Constants.APPRATE_DAYS_UNTIL_PROMPT);
-
-            if (System.currentTimeMillis() >= c.getTime().getTime())
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public void dontDisplayAgainBetaTest()
-    {
-        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        if (editor != null)
-        {
-            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
-            editor.commit();
-        }
-    }
-
-    public boolean showAppBetaTest()
-    {
-//        return true;
-
-        SharedPreferences prefs = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
-        if (prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
-        {
-            return false;
-        }
-
-        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(getApplicationContext());
-
-        // Wait at least N days before opening
-        if (statistics.launchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)
-        {
-            Calendar c = Calendar.getInstance();
-            c.setTime(statistics.launhcFirstDate);
-            c.add(Calendar.DATE, Constants.BETATEST_DAYS_UNTIL_PROMPT);
-
-            if (System.currentTimeMillis() >= c.getTime().getTime())
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private class Scanner extends Handler
-    {
-        private int mRetry = 0;
-
-        void resume()
-        {
-            if (!hasMessages(0))
-            {
-                LogWrapper.w(TAG, "Resume Wi-Fi scanner");
-                sendEmptyMessage(0);
-            }
-        }
-
-        void forceScan()
-        {
-            LogWrapper.w(TAG, "Force Wi-Fi scanner");
-            removeMessages(0);
-            sendEmptyMessage(0);
-        }
-
-        void pause()
-        {
-            LogWrapper.w(TAG, "Pause Wi-Fi scanner");
-            mRetry = 0;
-            removeMessages(0);
-        }
-
-        @Override
-        public void handleMessage(Message message)
-        {
-            LogWrapper.w(TAG, "Calling Wi-Fi scanner");
-
-            if (APL.getWifiManager().startScan())
-            {
-                mRetry = 0;
-            }
-            else if (++mRetry >= 3)
-            {
-                mRetry = 0;
-                return;
-            }
-
-            sendEmptyMessageDelayed(0, WIFI_RESCAN_INTERVAL_MS);
-        }
+        IBaseFragment f = (IBaseFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+        f.refreshUI();
     }
 }
