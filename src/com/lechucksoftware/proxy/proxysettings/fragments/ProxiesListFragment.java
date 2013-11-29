@@ -158,4 +158,16 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
             BugReportingUtils.sendException(new Exception("Exception during AccessPointListFragment showDetails(" + index + ") " + e.toString()));
         }
     }
+
+    @Override
+    public void refreshUI()
+    {
+        if (isAdded())
+        {
+            if (loader != null)
+            {
+                loader.forceLoad();
+            }
+        }
+    }
 }
