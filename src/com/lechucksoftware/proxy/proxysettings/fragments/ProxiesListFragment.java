@@ -16,6 +16,8 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
@@ -28,7 +30,7 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class ProxiesListFragment extends BaseFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<DBProxy>>
+public class ProxiesListFragment extends BaseDialogFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<DBProxy>>
 {
     private static final String TAG = ProxiesListFragment.class.getSimpleName();
     private static ProxiesListFragment instance;
@@ -154,18 +156,6 @@ public class ProxiesListFragment extends BaseFragment implements IBaseFragment, 
         catch (Exception e)
         {
             BugReportingUtils.sendException(new Exception("Exception during AccessPointListFragment showDetails(" + index + ") " + e.toString()));
-        }
-    }
-
-    @Override
-    public void refreshUI()
-    {
-        if (isAdded())
-        {
-            if (loader != null)
-            {
-                loader.forceLoad();
-            }
         }
     }
 }

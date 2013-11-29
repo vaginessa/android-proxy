@@ -101,6 +101,16 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
         });
 
         proxyTags = (TagsPreference) findPreference("pref_proxy_tags");
+        proxyTags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(ApplicationGlobals.getSelectedProxy());
+                tagsListSelectorFragment.show(getFragmentManager(), TAG);
+                return true;
+            }
+        });
 
         authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
         if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);

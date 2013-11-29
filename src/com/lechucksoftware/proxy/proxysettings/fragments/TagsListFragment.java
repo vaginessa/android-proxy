@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.TagsListAdapter;
 import com.lechucksoftware.proxy.proxysettings.components.TagModel;
 import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
 
@@ -23,11 +23,11 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class TagsListSelectorFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<TagModel>>
+public class TagsListFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<TagModel>>
 {
-    private static final String TAG = TagsListSelectorFragment.class.getSimpleName();
+    private static final String TAG = TagsListFragment.class.getSimpleName();
     public static final String DBPROXY_ARG = "DBPROXY_ARG";
-    private static TagsListSelectorFragment instance;
+    private static TagsListFragment instance;
     private TextView emptyText;
     private RelativeLayout progress;
     private static final int LOADER_TAGSDB = 1;
@@ -38,13 +38,13 @@ public class TagsListSelectorFragment extends BaseDialogFragment implements Load
     private Button okButton;
     private Dialog dialog;
 
-    private TagsListSelectorFragment()
+    private TagsListFragment()
     {}
 
-    public static TagsListSelectorFragment newInstance(DBProxy proxy)
+    public static TagsListFragment newInstance(DBProxy proxy)
     {
         if (instance == null)
-            instance = new TagsListSelectorFragment();
+            instance = new TagsListFragment();
 
         Bundle args = new Bundle();
         args.putSerializable(DBPROXY_ARG,proxy);
@@ -82,6 +82,21 @@ public class TagsListSelectorFragment extends BaseDialogFragment implements Load
             @Override
             public void onClick(View view)
             {
+                for (int i = 0; i<tagsListAdapter.getCount(); i++)
+                {
+                    TagModel m = tagsListAdapter.getItem(i);
+                    if (m.isSelected)
+                    {
+                        proxy.addTag(m.tag);
+                    }
+                    else
+                    {
+                        proxy.removeTag(m.tag);
+                    }
+                }
+
+                ApplicationGlobals.getDBManager().updateProxy(proxy.getId(),proxy);
+
                 dialog.dismiss();
             }
         });
@@ -93,8 +108,6 @@ public class TagsListSelectorFragment extends BaseDialogFragment implements Load
 
         listView.setAdapter(tagsListAdapter);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        listView.setItemChecked(0,true);
-        listView.setItemChecked(1,true);
 
         loader = getLoaderManager().initLoader(LOADER_TAGSDB, new Bundle(), this);
         loader.forceLoad();

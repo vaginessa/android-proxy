@@ -79,7 +79,7 @@ public class DBProxy extends DBObject implements Serializable
     public String getDebugInfo()
     {
         StringBuilder sb = new StringBuilder();
-        for (Field f : this.getClass().getFields())
+        for (Field f : DBProxy.class.getFields())
         {
             try
             {

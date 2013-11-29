@@ -115,11 +115,21 @@ public class MaintenanceService extends IntentService
             {
                 if (conf.getProxy() != java.net.Proxy.NO_PROXY && conf.isValidProxyConfiguration())
                 {
-                    DBProxy pd = new DBProxy();
-                    pd.host = conf.getProxyHost();
-                    pd.port = conf.getProxyPort();
-                    pd.exclusion = conf.getProxyExclusionList();
-                    pd.addTag(getInUseProxyTag());
+                    long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(),conf.getProxyPort());
+                    DBProxy pd = null;
+                    if (proxyId != -1)
+                    {
+                        pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
+                        pd.addTag(getInUseProxyTag());
+                    }
+                    else
+                    {
+                        pd = new DBProxy();
+                        pd.host = conf.getProxyHost();
+                        pd.port = conf.getProxyPort();
+                        pd.exclusion = conf.getProxyExclusionList();
+                        pd.addTag(getInUseProxyTag());
+                    }
 
                     ApplicationGlobals.getDBManager().upsertProxy(pd);
                 }
