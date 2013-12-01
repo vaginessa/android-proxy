@@ -16,4 +16,10 @@
     <declare-styleable name="TagsView">
         <attr name="singleLine" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="InputField">
+        <attr name="title" format="string"/>
+        <attr name="hint" format="string"/>
+        <attr name="value" format="string" />
+        <attr name="readonly" format="boolean" />
+    </declare-styleable>
 </resources>

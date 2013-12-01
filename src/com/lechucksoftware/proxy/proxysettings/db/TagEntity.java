@@ -5,12 +5,12 @@ import java.io.Serializable;
 /**
  * Created by Marco on 13/09/13.
  */
-public class DBTag extends DBObject implements Serializable
+public class TagEntity extends BaseEntity implements Serializable
 {
     public String tag;
     public Integer tagColor;
 
-    public DBTag()
+    public TagEntity()
     {
         super();
     }
@@ -28,9 +28,9 @@ public class DBTag extends DBObject implements Serializable
     {
         Boolean result = false;
 
-        if ((another instanceof DBTag))
+        if ((another instanceof TagEntity))
         {
-            DBTag anotherTag = (DBTag) another;
+            TagEntity anotherTag = (TagEntity) another;
 
             if (this.isPersisted && anotherTag.isPersisted)
             {

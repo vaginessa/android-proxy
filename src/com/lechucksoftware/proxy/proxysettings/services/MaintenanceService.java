@@ -4,8 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -84,9 +84,9 @@ public class MaintenanceService extends IntentService
         getInUseProxyTag();
     }
 
-    private DBTag getInUseProxyTag()
+    private TagEntity getInUseProxyTag()
     {
-        DBTag inUseTag = null;
+        TagEntity inUseTag = null;
         long id  = ApplicationGlobals.getDBManager().findTag("IN USE");
         if (id != -1)
         {
@@ -94,7 +94,7 @@ public class MaintenanceService extends IntentService
         }
         else
         {
-            inUseTag = new DBTag();
+            inUseTag = new TagEntity();
             inUseTag.tag = "IN USE";
             inUseTag.tagColor = UIUtils.getTagsColor(this, 0);
             ApplicationGlobals.getDBManager().upsertTag(inUseTag);
@@ -116,7 +116,7 @@ public class MaintenanceService extends IntentService
                 if (conf.getProxy() != java.net.Proxy.NO_PROXY && conf.isValidProxyConfiguration())
                 {
                     long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(),conf.getProxyPort());
-                    DBProxy pd = null;
+                    ProxyEntity pd = null;
                     if (proxyId != -1)
                     {
                         pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
@@ -124,7 +124,7 @@ public class MaintenanceService extends IntentService
                     }
                     else
                     {
-                        pd = new DBProxy();
+                        pd = new ProxyEntity();
                         pd.host = conf.getProxyHost();
                         pd.port = conf.getProxyPort();
                         pd.exclusion = conf.getProxyExclusionList();
@@ -144,9 +144,9 @@ public class MaintenanceService extends IntentService
 
     private void checkProxiesCountryCodes()
     {
-        List<DBProxy> proxies = ApplicationGlobals.getDBManager().getProxyWithEmptyCountryCode();
+        List<ProxyEntity> proxies = ApplicationGlobals.getDBManager().getProxyWithEmptyCountryCode();
 
-        for (DBProxy proxy : proxies)
+        for (ProxyEntity proxy : proxies)
         {
             LogWrapper.startTrace(TAG, "Get proxy country code", Log.DEBUG);
 

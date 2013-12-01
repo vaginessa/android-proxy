@@ -3,9 +3,8 @@ package com.lechucksoftware.proxy.proxysettings.loaders;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.components.TagModel;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +12,12 @@ import java.util.List;
 /**
  * Created by marco on 04/10/13.
  */
-public class TagsTaskLoader extends AsyncTaskLoader<List<TagModel>>
+public class TagsTaskLoader extends AsyncTaskLoader<List<TagEntity>>
 {
     private final Context ctx;
-    private final DBProxy proxy;
+    private final ProxyEntity proxy;
 
-    public TagsTaskLoader(Context context, DBProxy p)
+    public TagsTaskLoader(Context context, ProxyEntity p)
     {
         super(context);
         ctx = context;
@@ -26,25 +25,22 @@ public class TagsTaskLoader extends AsyncTaskLoader<List<TagModel>>
     }
 
     @Override
-    public List<TagModel> loadInBackground()
+    public List<TagEntity> loadInBackground()
     {
-        List<DBTag> dbTags = ApplicationGlobals.getDBManager().getAllTags();
-        List<TagModel> models = new ArrayList<TagModel>();
+        List<TagEntity> dbTags = ApplicationGlobals.getDBManager().getAllTags();
 
-        List<DBTag> tags = null;
+        List<TagEntity> tags = null;
         if (proxy != null)
             tags = proxy.getTags();
 
-        for(DBTag tag: dbTags)
+        for(TagEntity tag: dbTags)
         {
-            boolean contained = false;
             if (tags != null)
             {
-                contained = tags.contains(tag);
+                tag.isSelected = tags.contains(tag);
             }
-            models.add(new TagModel(tag, contained));
         }
 
-        return models;
+        return dbTags;
     }
 }

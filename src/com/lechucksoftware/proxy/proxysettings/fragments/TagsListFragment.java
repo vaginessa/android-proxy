@@ -12,8 +12,8 @@ import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.TagsListAdapter;
-import com.lechucksoftware.proxy.proxysettings.components.TagModel;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
 
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class TagsListFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<TagModel>>
+public class TagsListFragment extends BaseDialogFragment implements LoaderManager.LoaderCallbacks<List<TagEntity>>
 {
     private static final String TAG = TagsListFragment.class.getSimpleName();
     public static final String DBPROXY_ARG = "DBPROXY_ARG";
@@ -31,17 +31,17 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
     private TextView emptyText;
     private RelativeLayout progress;
     private static final int LOADER_TAGSDB = 1;
-    private Loader<List<TagModel>> loader;
+    private Loader<List<TagEntity>> loader;
     private ListView listView;
     private TagsListAdapter tagsListAdapter;
-    private DBProxy proxy;
+    private ProxyEntity proxy;
     private Button okButton;
     private Dialog dialog;
 
     private TagsListFragment()
     {}
 
-    public static TagsListFragment newInstance(DBProxy proxy)
+    public static TagsListFragment newInstance(ProxyEntity proxy)
     {
         if (instance == null)
             instance = new TagsListFragment();
@@ -57,7 +57,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        proxy = (DBProxy) getArguments().getSerializable(DBPROXY_ARG);
+        proxy = (ProxyEntity) getArguments().getSerializable(DBPROXY_ARG);
     }
 
     @Override
@@ -84,14 +84,14 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
             {
                 for (int i = 0; i<tagsListAdapter.getCount(); i++)
                 {
-                    TagModel m = tagsListAdapter.getItem(i);
-                    if (m.isSelected)
+                    TagEntity t = tagsListAdapter.getItem(i);
+                    if (t.isSelected)
                     {
-                        proxy.addTag(m.tag);
+                        proxy.addTag(t);
                     }
                     else
                     {
-                        proxy.removeTag(m.tag);
+                        proxy.removeTag(t);
                     }
                 }
 
@@ -130,14 +130,14 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
      */
 
     @Override
-    public Loader<List<TagModel>> onCreateLoader(int i, Bundle bundle)
+    public Loader<List<TagEntity>> onCreateLoader(int i, Bundle bundle)
     {
         TagsTaskLoader tagsDBTaskLoader = new TagsTaskLoader(getActivity(), proxy);
         return tagsDBTaskLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<List<TagModel>> listLoader, List<TagModel> tagModels)
+    public void onLoadFinished(Loader<List<TagEntity>> listLoader, List<TagEntity> tagModels)
     {
         if (tagModels != null && tagModels.size() > 0)
         {
@@ -147,7 +147,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
         }
         else
         {
-            tagsListAdapter.setData(new ArrayList<TagModel>());
+            tagsListAdapter.setData(new ArrayList<TagEntity>());
             listView.setVisibility(View.GONE);
             emptyText.setText(getResources().getString(R.string.tags_empty_list));
             emptyText.setVisibility(View.VISIBLE);
@@ -157,7 +157,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
     }
 
     @Override
-    public void onLoaderReset(Loader<List<TagModel>> listLoader)
+    public void onLoaderReset(Loader<List<TagEntity>> listLoader)
     {
 
     }

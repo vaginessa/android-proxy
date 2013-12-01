@@ -7,15 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.TagsView;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 
 import java.util.List;
 
 public class TagsPreference extends Preference
 {
     private TagsView tagsView;
-    private List<DBTag> tags;
+    private List<TagEntity> tags;
     private TextView summary;
 
     public TagsPreference(Context context, AttributeSet attrs)
@@ -35,11 +35,15 @@ public class TagsPreference extends Preference
         refreshUI();
     }
 
-    public void setTags(DBProxy proxy)
+    public void setTags(ProxyEntity proxy)
     {
         if (proxy != null)
         {
             tags = proxy.getTags();
+        }
+        else
+        {
+            tags = null;
         }
 
         refreshUI();
@@ -49,6 +53,9 @@ public class TagsPreference extends Preference
     {
         if (tagsView != null)
         {
+            summary.setEnabled(this.isEnabled());
+            tagsView.setEnabled(this.isEnabled());
+
             if (tags != null)
             {
                 tagsView.setTags(tags);

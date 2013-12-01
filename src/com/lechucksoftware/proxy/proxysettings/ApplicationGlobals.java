@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -19,8 +18,8 @@ public class ApplicationGlobals extends Application
 
     private static ApplicationGlobals mInstance;
     private ProxyManager proxyManager;
-    private static ProxyConfiguration selectedConfiguration;
-    private static DBProxy selectedProxy;
+//    private static ProxyConfiguration selectedConfiguration;
+//    private static ProxyEntity selectedProxy;
     private DataSource dbManager;
     public AndroidMarket activeMarket;
 
@@ -79,23 +78,23 @@ public class ApplicationGlobals extends Application
         return getInstance().dbManager;
     }
 
-    public static void setSelectedConfiguration(ProxyConfiguration selectedConfiguration)
-    {
-        ApplicationGlobals.selectedConfiguration = selectedConfiguration;
-    }
-
-    public static void setSelectedProxy(DBProxy selectedProxy)
-    {
-        ApplicationGlobals.selectedProxy = selectedProxy;
-    }
-
-    public static ProxyConfiguration getSelectedConfiguration()
-    {
-        return ApplicationGlobals.selectedConfiguration;
-    }
-
-    public static DBProxy getSelectedProxy()
-    {
-        return ApplicationGlobals.selectedProxy;
-    }
+//    public static void setSelectedConfiguration(ProxyConfiguration selectedConfiguration)
+//    {
+//        ApplicationGlobals.selectedConfiguration = selectedConfiguration;
+//    }
+//
+//    public static void setSelectedProxy(ProxyEntity selectedProxy)
+//    {
+//        ApplicationGlobals.selectedProxy = selectedProxy;
+//    }
+//
+//    public static ProxyConfiguration getSelectedConfiguration()
+//    {
+//        return ApplicationGlobals.selectedConfiguration;
+//    }
+//
+//    public static ProxyEntity getSelectedProxy()
+//    {
+//        return ApplicationGlobals.selectedProxy;
+//    }
 }

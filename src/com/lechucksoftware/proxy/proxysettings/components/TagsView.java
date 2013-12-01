@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.List;
@@ -72,7 +72,7 @@ public class TagsView extends LinearLayout
         }
     }
 
-    public void setTags(List<DBTag> tags)
+    public void setTags(List<TagEntity> tags)
     {
         if (getEnabledContainer() != null)
         {
@@ -80,7 +80,7 @@ public class TagsView extends LinearLayout
 
             if (tags.size() > 0)
             {
-                for (DBTag tag : tags)
+                for (TagEntity tag : tags)
                 {
                     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     TextView t = (TextView) inflater.inflate(R.layout.tag, getEnabledContainer(), false);

@@ -162,8 +162,8 @@ public class HelpPrefsFragment extends PreferenceFragment
     {
         super.onResume();
 
-        // Reset selected configuration
-        ApplicationGlobals.setSelectedConfiguration(null);
+//        // Reset selected configuration
+//        ApplicationGlobals.setSelectedConfiguration(null);
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

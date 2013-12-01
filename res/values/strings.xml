@@ -274,7 +274,7 @@
     <!-- HTTP proxy settings. The exclusion list label. -->
     <string name="proxy_exclusionlist_label">Bypass proxy for</string>
     <!-- HTTP proxy settings. The hint text for proxy exclusion list. [CHAR LIMIT=50]-->
-    <string name="proxy_exclusionlist_hint">List of comma separated values (example.com,mycomp.test.com,localhost)</string>
+    <string name="proxy_exclusionlist_hint">e.g. example.com,mycomp.test.com,localhost</string>
     <!-- HTTP proxy settings. The button to restore the defaults. -->
     <string name="proxy_defaultView_text">Restore defaults</string>
     <!-- HTTP proxy settings. The button to save. -->

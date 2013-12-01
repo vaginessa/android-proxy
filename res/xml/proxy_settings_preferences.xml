@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory
+            android:title="taetas"
+            android:summary="asdfasdfgasd">
+
     <EditTextPreference
             android:dialogMessage="@string/proxy_hostname_hint"
             android:key="pref_proxy_host"
@@ -57,5 +61,7 @@
             android:title="Tags"
             android:summary="Summary"
             android:layout="@layout/tags_preference"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

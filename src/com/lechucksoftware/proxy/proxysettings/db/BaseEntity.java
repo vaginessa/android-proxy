@@ -6,16 +6,18 @@ import java.util.Date;
 /**
  * Created by Marco on 23/10/13.
  */
-public class DBObject
+public class BaseEntity
 {
     private long id;
     private long creationDate;
     private long lastModifiedDate;
     public Boolean isPersisted;
+    public boolean isSelected;
 
-    public DBObject()
+    public BaseEntity()
     {
         isPersisted = false;
+        isSelected = false;
     }
 
     public Long getId()

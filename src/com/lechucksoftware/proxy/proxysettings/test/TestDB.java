@@ -1,8 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 
 import java.util.Random;
 
@@ -60,9 +60,9 @@ public class TestDB
         return sb.toString();
     }
 
-    public static DBProxy getRandomProxy()
+    public static ProxyEntity getRandomProxy()
     {
-        DBProxy pd = new DBProxy();
+        ProxyEntity pd = new ProxyEntity();
         pd.host = getRandomIP();
         pd.port = getRandomPort();
         pd.exclusion = getRandomExclusionList();
@@ -71,7 +71,7 @@ public class TestDB
         int tagNum = r.nextInt(MAX_TAGS) + MIN_TAGS;
         for (int i = 0; i < tagNum; i++)
         {
-            DBTag tag = ApplicationGlobals.getDBManager().getRandomTag();
+            TagEntity tag = ApplicationGlobals.getDBManager().getRandomTag();
             if (tag != null)
             {
                 pd.addTag(tag);
@@ -81,9 +81,9 @@ public class TestDB
         return pd;
     }
 
-    public static DBProxy getModifiedExistingProxy()
+    public static ProxyEntity getModifiedExistingProxy()
     {
-        DBProxy pd = ApplicationGlobals.getDBManager().getRandomProxy();
+        ProxyEntity pd = ApplicationGlobals.getDBManager().getRandomProxy();
 
         if (pd != null)
         {
@@ -102,7 +102,7 @@ public class TestDB
                     pd.exclusion = getRandomExclusionList();
                     break;
                 case 3:
-                    DBTag tag = ApplicationGlobals.getDBManager().getRandomTag();
+                    TagEntity tag = ApplicationGlobals.getDBManager().getRandomTag();
                     if (tag != null)
                     {
                         pd.addTag(tag);
@@ -111,7 +111,7 @@ public class TestDB
                 case 4:
                     if (pd.getTags().size() > 0)
                     {
-                        DBTag tagToRemove = pd.getTags().get(0);
+                        TagEntity tagToRemove = pd.getTags().get(0);
                         pd.removeTag(tagToRemove);
                     }
                     break;
@@ -123,9 +123,9 @@ public class TestDB
 
     public static void addProxy()
     {
-        DBProxy pd = getRandomProxy();
+        ProxyEntity pd = getRandomProxy();
 
-        DBProxy savedProxy = ApplicationGlobals.getDBManager().upsertProxy(pd);
+        ProxyEntity savedProxy = ApplicationGlobals.getDBManager().upsertProxy(pd);
 
         if (!savedProxy.equals(pd))
         {
@@ -139,7 +139,7 @@ public class TestDB
 
     public static void updateProxy()
     {
-        DBProxy pd = getModifiedExistingProxy();
+        ProxyEntity pd = getModifiedExistingProxy();
         if (pd != null)
         {
             ApplicationGlobals.getDBManager().updateProxy(pd.getId(), pd);
@@ -148,7 +148,7 @@ public class TestDB
 
     public static void addTags()
     {
-        DBTag tag = new DBTag();
+        TagEntity tag = new TagEntity();
         Random r = new Random();
         tag.tag = getRandomTag();
         tag.tagColor = r.nextInt(4) + 1;

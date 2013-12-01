@@ -1,16 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
-import java.lang.reflect.Field;
-
 /**
  * Created by Marco on 13/09/13.
  */
-public class DBProxyTagLink extends DBObject
+public class ProxyTagLinkEntity extends BaseEntity
 {
     public long proxyId;
     public long tagId;
 
-    public DBProxyTagLink()
+    public ProxyTagLinkEntity()
     {
         super();
     }

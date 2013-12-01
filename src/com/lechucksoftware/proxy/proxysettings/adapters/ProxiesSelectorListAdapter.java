@@ -8,11 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.TagsView;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
 import java.util.List;
 
-public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
+public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
 {
     private final LayoutInflater vi;
     private Context ctx;
@@ -31,12 +31,12 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
         TagsView tags;
     }
 
-    public void setData(List<DBProxy> confList)
+    public void setData(List<ProxyEntity> confList)
     {
         clear();
         if (confList != null)
         {
-            for (DBProxy conf : confList)
+            for (ProxyEntity conf : confList)
             {
                 add(conf);
             }
@@ -63,7 +63,7 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<DBProxy>
             viewHolder = (ApViewHolder) view.getTag();
         }
 
-        DBProxy listItem = getItem(position);
+        ProxyEntity listItem = getItem(position);
 
         if (listItem != null)
         {

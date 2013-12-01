@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
@@ -59,8 +59,8 @@ public class TestActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
-        List<DBProxy> list = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
-        for (DBProxy p : list)
+        List<ProxyEntity> list = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+        for (ProxyEntity p : list)
         {
             textViewTest.append(p.toString() + "\n\n");
         }
@@ -70,8 +70,8 @@ public class TestActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
-        List<DBTag> list = ApplicationGlobals.getDBManager().getAllTags();
-        for (DBTag t : list)
+        List<TagEntity> list = ApplicationGlobals.getDBManager().getAllTags();
+        for (TagEntity t : list)
         {
             textViewTest.append(t.toString() + "\n\n");
         }

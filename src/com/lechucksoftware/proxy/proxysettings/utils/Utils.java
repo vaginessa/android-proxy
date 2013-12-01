@@ -10,7 +10,7 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 import org.json.JSONObject;
@@ -27,7 +27,7 @@ public class Utils
     public static String TAG = "Utils";
     public static String BASE_ASSETS = "file:///android_asset/";
 
-    public static String getProxyCountryCode(DBProxy proxy) throws Exception
+    public static String getProxyCountryCode(ProxyEntity proxy) throws Exception
     {
         String url = String.format("http://freegeoip.net/json/%s",proxy.host);
 

@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.*;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by Marco on 22/06/13.
@@ -32,10 +34,6 @@ public class NavigationUtils
 
         // Do NOT add AccessPointListFragment to back stack
         ft.commit();
-
-//        FragmentTransaction fts = fm.beginTransaction();
-//        fts.show(StatusFragment.getInstance());
-//        fts.commit();
     }
 
     public static void GoToHelpFragment(FragmentManager fm)
@@ -46,30 +44,22 @@ public class NavigationUtils
         ft.replace(R.id.fragment_container, HelpPrefsFragment.getInstance());
         ft.addToBackStack(null);
         ft.commit();
-
-//        FragmentTransaction fts = fm.beginTransaction();
-//        fts.hide(StatusFragment.getInstance());
-//        fts.commit();
     }
 
-    public static void GoToAPDetailsFragment(FragmentManager fm)
+    public static void GoToAPDetailsFragment(FragmentManager fm, ProxyConfiguration proxyConfiguration)
     {
-        WifiAPDetailsFragment details = WifiAPDetailsFragment.getInstance();
+        WifiAPDetailsFragment details = WifiAPDetailsFragment.newInstance(proxyConfiguration);
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.replace(R.id.fragment_container, details);
         ft.addToBackStack(null);
         ft.commit();
-
-//        FragmentTransaction fts = fm.beginTransaction();
-//        fts.show(StatusFragment.getInstance());
-//        fts.commit();
     }
 
-    public static void GoToProxyDetailsFragment(FragmentManager fm)
+    public static void GoToProxyDetailsFragment(FragmentManager fm, ProxyEntity selectedProxy)
     {
-        ProxyDataDetailsFragment details = ProxyDataDetailsFragment.getInstance();
+        ProxyDataDetailsFragment details = ProxyDataDetailsFragment.newInstance(selectedProxy);
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -80,7 +70,7 @@ public class NavigationUtils
 
     public static void GoToProxiesList(FragmentManager fm)
     {
-        ProxiesListFragment list = ProxiesListFragment.getInstance();
+        ProxiesListFragment list = ProxiesListFragment.newInstance();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

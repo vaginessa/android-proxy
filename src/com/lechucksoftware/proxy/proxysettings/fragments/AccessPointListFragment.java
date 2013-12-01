@@ -79,8 +79,8 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
 
         LogWrapper.startTrace(TAG,"onResume",Log.DEBUG);
 
-        // Reset selected configuration
-        ApplicationGlobals.setSelectedConfiguration(null);
+//        // Reset selected configuration
+//        ApplicationGlobals.setSelectedConfiguration(null);
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -194,10 +194,10 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
             }
             else
             {
-                ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
+//                ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
                 LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
-                NavigationUtils.GoToAPDetailsFragment(getFragmentManager());
+                NavigationUtils.GoToAPDetailsFragment(getFragmentManager(), selectedConfiguration);
             }
         }
         catch (Exception e)

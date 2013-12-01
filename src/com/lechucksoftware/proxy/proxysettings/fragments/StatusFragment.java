@@ -162,7 +162,8 @@ public class StatusFragment extends BaseFragment
 
             try
             {
-                ProxyUtils.connectToAP(ApplicationGlobals.getSelectedConfiguration());
+                //TODO : Fix this -> need to have the selected configuration
+//                ProxyUtils.connectToAP(ApplicationGlobals.getSelectedConfiguration());
             }
             catch (Exception e)
             {

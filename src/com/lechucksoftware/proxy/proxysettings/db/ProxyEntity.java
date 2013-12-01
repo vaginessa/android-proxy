@@ -8,18 +8,18 @@ import java.util.List;
 /**
  * Created by Marco on 13/09/13.
  */
-public class DBProxy extends DBObject implements Serializable
+public class ProxyEntity extends BaseEntity implements Serializable
 {
     public String host;
     public Integer port;
     public String exclusion;
-    private List<DBTag> tags;
+    private List<TagEntity> tags;
     private String countryCode;
 
-    public DBProxy()
+    public ProxyEntity()
     {
         super();
-        tags = new ArrayList<DBTag>();
+        tags = new ArrayList<TagEntity>();
     }
 
     @Override
@@ -27,9 +27,9 @@ public class DBProxy extends DBObject implements Serializable
     {
         Boolean result = false;
 
-        if ((another instanceof DBProxy))
+        if ((another instanceof ProxyEntity))
         {
-            DBProxy anotherProxy = (DBProxy) another;
+            ProxyEntity anotherProxy = (ProxyEntity) another;
 
             if (this.isPersisted && anotherProxy.isPersisted)
             {
@@ -63,7 +63,7 @@ public class DBProxy extends DBObject implements Serializable
         sb.append(" tags: ");
         if (getTags() != null)
         {
-            for(DBTag tag: getTags())
+            for(TagEntity tag: getTags())
             {
                 sb.append(tag.toString());
                 sb.append(" ");
@@ -79,7 +79,7 @@ public class DBProxy extends DBObject implements Serializable
     public String getDebugInfo()
     {
         StringBuilder sb = new StringBuilder();
-        for (Field f : DBProxy.class.getFields())
+        for (Field f : ProxyEntity.class.getFields())
         {
             try
             {
@@ -109,31 +109,31 @@ public class DBProxy extends DBObject implements Serializable
         countryCode = code;
     }
 
-    public List<DBTag> getTags()
+    public List<TagEntity> getTags()
     {
         return tags;
     }
 
-    public void setTags(List<DBTag> tags)
+    public void setTags(List<TagEntity> tags)
     {
         this.tags = tags;
     }
 
-    public void addTag(DBTag tag)
+    public void addTag(TagEntity tag)
     {
         if (!this.tags.contains(tag))
             this.tags.add(tag);
     }
 
-    public void addTags(List<DBTag> tags)
+    public void addTags(List<TagEntity> tags)
     {
-        for(DBTag tag : tags)
+        for(TagEntity tag : tags)
         {
             addTag(tag);
         }
     }
 
-    public DBTag removeTag(DBTag tag)
+    public TagEntity removeTag(TagEntity tag)
     {
         int indexOf = this.tags.indexOf(tag);
 

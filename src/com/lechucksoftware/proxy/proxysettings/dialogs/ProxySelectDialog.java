@@ -1,19 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.dialogs;
 
 import android.app.DialogFragment;
-import android.app.LoaderManager;
-import android.content.Context;
-import android.content.Loader;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-
-import java.util.List;
 
 public class ProxySelectDialog extends DialogFragment
 {

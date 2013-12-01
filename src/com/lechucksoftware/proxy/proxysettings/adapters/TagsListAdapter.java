@@ -1,21 +1,17 @@
 package com.lechucksoftware.proxy.proxysettings.adapters;
 
 import android.content.Context;
-import android.preference.CheckBoxPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.components.TagModel;
-import com.lechucksoftware.proxy.proxysettings.components.TagsView;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
-import com.lechucksoftware.proxy.proxysettings.db.DBTag;
+import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.List;
 
-public class TagsListAdapter extends ArrayAdapter<TagModel>
+public class TagsListAdapter extends ArrayAdapter<TagEntity>
 {
     private final LayoutInflater vi;
     private Context ctx;
@@ -33,12 +29,12 @@ public class TagsListAdapter extends ArrayAdapter<TagModel>
         CheckBox checkBox;
     }
 
-    public void setData(List<TagModel> confList)
+    public void setData(List<TagEntity> confList)
     {
         clear();
         if (confList != null)
         {
-            for (TagModel conf : confList)
+            for (TagEntity conf : confList)
             {
                 add(conf);
             }
@@ -65,11 +61,11 @@ public class TagsListAdapter extends ArrayAdapter<TagModel>
             viewHolder = (ApViewHolder) convertView.getTag();
         }
 
-        final TagModel listItem = getItem(position);
+        final TagEntity listItem = getItem(position);
 
         if (listItem != null)
         {
-            viewHolder.checkBox.setText(listItem.tag.tag);
+            viewHolder.checkBox.setText(listItem.tag);
             viewHolder.checkBox.setChecked(listItem.isSelected);
             viewHolder.checkBox.setOnClickListener(new View.OnClickListener()
             {
@@ -88,7 +84,7 @@ public class TagsListAdapter extends ArrayAdapter<TagModel>
                 }
             });
 
-            viewHolder.checkBox.setBackgroundColor(UIUtils.getTagsColor(getContext(), listItem.tag.tagColor));
+            viewHolder.checkBox.setBackgroundColor(UIUtils.getTagsColor(getContext(), listItem.tagColor));
         }
 
         return convertView;

@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.view.View;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.db.DBProxy;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
@@ -31,13 +30,20 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
     private EditTextPreference proxyBypassPref;
     private TagsPreference proxyTags;
 
+    // Arguments
+    private static final String SELECTED_PROXY_ARG = "SELECTED_PROXY_ARG";
+    private ProxyEntity selectedProxy;
+
     /**
      * Create a new instance of WifiAPDetailsFragment
      */
-    public static ProxyDataDetailsFragment getInstance()
+    public static ProxyDataDetailsFragment newInstance(ProxyEntity selectedProxy)
     {
-        if (instance == null)
-            instance = new ProxyDataDetailsFragment();
+        ProxyDataDetailsFragment instance = new ProxyDataDetailsFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable(SELECTED_PROXY_ARG, selectedProxy);
+        instance.setArguments(args);
 
         return instance;
     }
@@ -46,6 +52,9 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        selectedProxy = (ProxyEntity) getArguments().getSerializable(SELECTED_PROXY_ARG);
+
 //        addPreferencesFromResource(R.xml.proxy_description_preference);
         addPreferencesFromResource(R.xml.proxy_settings_preferences);
 
@@ -106,7 +115,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(ApplicationGlobals.getSelectedProxy());
+                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectedProxy);
                 tagsListSelectorFragment.show(getFragmentManager(), TAG);
                 return true;
             }
@@ -120,7 +129,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
     {
         try
         {
-            ApplicationGlobals.getSelectedConfiguration().writeConfigurationToDevice();
+//            ApplicationGlobals.getDBManager().up
         }
         catch (Exception e)
         {
@@ -142,11 +151,9 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
     {
         if (isVisible())
         {
-            if (ApplicationGlobals.getSelectedProxy() != null)
+            if (selectedProxy != null)
             {
-                DBProxy proxy = ApplicationGlobals.getSelectedProxy();
-
-                String proxyHost = proxy.host;
+                String proxyHost = selectedProxy.host;
                 proxyHostPref.setText(proxyHost);
                 if (proxyHost == null || proxyHost.length() == 0)
                 {
@@ -157,7 +164,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
                     proxyHostPref.setSummary(proxyHost);
                 }
 
-                Integer proxyPort = proxy.port;
+                Integer proxyPort = selectedProxy.port;
                 String proxyPortString;
                 if (proxyPort == null || proxyPort == 0)
                 {
@@ -172,7 +179,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
 
                 proxyPortPref.setSummary(proxyPortString);
 
-                String bypassList = proxy.exclusion;
+                String bypassList = selectedProxy.exclusion;
                 if (bypassList == null || bypassList.equals(""))
                 {
                     proxyBypassPref.setSummary(getText(R.string.not_set));
@@ -182,7 +189,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
                     proxyBypassPref.setSummary(bypassList);
                 }
 
-                proxyTags.setTags(proxy);
+                proxyTags.setTags(selectedProxy);
             }
             else
             {
@@ -211,9 +218,7 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        DBProxy selconf = ApplicationGlobals.getSelectedProxy();
-
-        if (selconf != null)
+        if (selectedProxy != null)
         {
 //            actionBar.setTitle(selconf.description);
 //            ActionManager.getInstance().refreshUI();
