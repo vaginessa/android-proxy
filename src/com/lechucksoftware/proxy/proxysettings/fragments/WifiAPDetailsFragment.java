@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
@@ -14,6 +15,8 @@ import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+
+import java.util.UUID;
 
 
 public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
@@ -43,7 +46,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
         WifiAPDetailsFragment instance = new WifiAPDetailsFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(SELECTED_AP_CONF_ARG, selectedConf);
+        args.putSerializable(SELECTED_AP_CONF_ARG, selectedConf.id);
         instance.setArguments(args);
 
         return instance;
@@ -54,7 +57,8 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     {
         super.onCreate(savedInstanceState);
 
-        selectedAPConf = (ProxyConfiguration) getArguments().getSerializable(SELECTED_AP_CONF_ARG);
+        UUID confId = (UUID) getArguments().getSerializable(SELECTED_AP_CONF_ARG);
+        selectedAPConf = ApplicationGlobals.getProxyManager().getConfiguration(confId);
 
 //        addPreferencesFromResource(R.xml.proxy_enabled_preference);
 //        addPreferencesFromResource(R.xml.proxy_settings_preferences);

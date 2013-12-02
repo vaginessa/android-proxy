@@ -1,30 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.lechucksoftware.proxy.proxysettings.components.InputField
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/proxy_hostname_label"
-            app:hint="@string/proxy_hostname_hint"
-            app:value="" />
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
 
-    <com.lechucksoftware.proxy.proxysettings.components.InputField
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/proxy_port_label"
-            app:hint="@string/proxy_port_hint"
-            app:value="" />
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/Holo_Blue_Dark"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
 
-    <com.lechucksoftware.proxy.proxysettings.components.InputField
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/proxy_exclusionlist_label"
-            app:hint="@string/proxy_exclusionlist_hint"
-            app:value="" />
+            <TextView
+                    android:id="@+id/wifi_name"
+                    android:layout_toLeftOf="@+id/wifi_signal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/White"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="WIFI NAMEa fasd fasd fasdfasdfadsf asdf sadf sad fsafd dsa f"/>
 
-</LinearLayout>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/wifi_name"
+                    android:textColor="@color/White"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="Connected"/>
+
+            <include layout="@layout/wifi_signal"
+                    android:layout_alignParentRight="true"/>
+
+            <TextView
+                    android:layout_below="@+id/wifi_signal"
+                    android:background="@color/Gray"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:padding="5dp"
+                    android:textColor="@color/White"
+                    android:text="more ..."
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="1dp"/>
+        </RelativeLayout>
+
+        <Switch
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="asdfasdf sadfsa fasdfsadf"/>
+
+        <!--<ImageView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingBottom="2dp"-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:paddingRight="5dp"-->
+        <!--android:paddingTop="2dp"-->
+        <!--android:scaleType="fitXY"-->
+        <!--android:src="?android:attr/listDivider" />-->
+
+        <TextView
+                android:id="@+id/date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Select a Proxy..."
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_margin="5dp"
+                style="@android:style/Widget.Holo.Spinner"/>
+
+        <com.lechucksoftware.proxy.proxysettings.components.InputField
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/proxy_hostname_label"
+                app:hint="@string/proxy_hostname_hint"
+                app:value=""/>
+
+        <com.lechucksoftware.proxy.proxysettings.components.InputField
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/proxy_port_label"
+                app:hint="@string/proxy_port_hint"
+                app:value=""/>
+
+        <com.lechucksoftware.proxy.proxysettings.components.InputField
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/proxy_exclusionlist_label"
+                app:hint="@string/proxy_exclusionlist_hint"
+                app:value=""/>
+
+    </LinearLayout>
+</ScrollView>

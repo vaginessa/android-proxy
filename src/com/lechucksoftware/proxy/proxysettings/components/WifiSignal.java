@@ -11,9 +11,9 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 
 /**
- * Created by Marco on 01/12/13.
+ * Created by marco on 02/12/13.
  */
-public class InputField extends LinearLayout
+public class WifiSignal extends LinearLayout
 {
     private EditText valueEditText;
     private TextView valueReadOnlyTextView;
@@ -24,14 +24,13 @@ public class InputField extends LinearLayout
     private boolean readonly;
     private boolean fullsize;
 
-    public InputField(Context context, AttributeSet attrs)
+    public WifiSignal(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
         readStyleParameters(context,attrs);
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        inflater.from(context).inflate(R.layout.input, this);
 
         View v = inflater.inflate(R.layout.input, this);
 
@@ -86,3 +85,4 @@ public class InputField extends LinearLayout
         }
     }
 }
+

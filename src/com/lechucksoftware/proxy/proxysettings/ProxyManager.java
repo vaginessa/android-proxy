@@ -352,4 +352,14 @@ public class ProxyManager
         return currentConfiguration;
     }
 
+    public ProxyConfiguration getConfiguration(UUID confId)
+    {
+        for (ProxyConfiguration conf : getConfigurationsList())
+        {
+            if (conf.id.equals(confId))
+                return conf;
+        }
+
+        return null;
+    }
 }
