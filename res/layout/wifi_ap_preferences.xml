@@ -21,7 +21,6 @@
 
             <TextView
                     android:id="@+id/wifi_name"
-                    android:layout_toLeftOf="@+id/wifi_signal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -30,8 +29,8 @@
                     android:lines="1"
                     android:ellipsize="end"
                     android:textColor="@color/White"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
                     android:text="WIFI NAMEa fasd fasd fasdfasdfadsf asdf sadf sad fsafd dsa f"/>
 
@@ -41,8 +40,9 @@
                     android:layout_below="@+id/wifi_name"
                     android:textColor="@color/White"
                     android:textSize="18sp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_marginRight="20dp"
                     android:text="Connected"/>
 
@@ -72,8 +72,11 @@
         <Switch
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="asdfasdf sadfsa fasdfsadf"/>
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="12dp"
+                android:textSize="18dp"
+                android:text="Enable proxy"/>
 
         <!--<ImageView-->
         <!--android:layout_width="fill_parent"-->
@@ -89,10 +92,12 @@
                 android:id="@+id/date"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:textSize="18dp"
                 android:text="Select a Proxy..."
+                android:paddingLeft="12dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
                 style="@android:style/Widget.Holo.Spinner"/>
 
         <com.lechucksoftware.proxy.proxysettings.components.InputField
@@ -100,6 +105,7 @@
                 android:layout_height="wrap_content"
                 app:title="@string/proxy_hostname_label"
                 app:hint="@string/proxy_hostname_hint"
+                app:readonly="false"
                 app:value=""/>
 
         <com.lechucksoftware.proxy.proxysettings.components.InputField

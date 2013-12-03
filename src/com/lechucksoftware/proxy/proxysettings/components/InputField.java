@@ -41,7 +41,7 @@ public class InputField extends LinearLayout
             valueReadOnlyTextView = (TextView) v.findViewById(R.id.field_value_readonly);
             valueEditText = (EditText) v.findViewById(R.id.field_value);
 
-            if (fullsize)
+            if (fullsize || readonly)
             {
                 titleTextView.setText(title);
                 titleTextView.setVisibility(VISIBLE);
@@ -51,9 +51,16 @@ public class InputField extends LinearLayout
                 titleTextView.setVisibility(GONE);
             }
 
-            valueReadOnlyTextView.setText(value);
-            valueEditText.setHint(hint);
-            valueEditText.setText(value);
+            if (value != null && value.length() > 0)
+            {
+                valueReadOnlyTextView.setText(value);
+                valueEditText.setText(value);
+            }
+            else
+            {
+                valueEditText.setHint(hint);
+                valueReadOnlyTextView.setText("NOT SET");
+            }
 
             if (readonly)
             {
