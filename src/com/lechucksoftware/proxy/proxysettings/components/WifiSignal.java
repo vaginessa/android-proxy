@@ -5,24 +5,28 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.shouldit.proxy.lib.AccessPoint;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.enums.SecurityType;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by marco on 02/12/13.
  */
 public class WifiSignal extends LinearLayout
 {
-    private EditText valueEditText;
-    private TextView valueReadOnlyTextView;
-    private TextView titleTextView;
-    private String title;
-    private String hint;
-    private String value;
-    private boolean readonly;
-    private boolean fullsize;
+    private ViewGroup layout;
+    private ImageView iconImageView;
+    private TextView securityTextView;
+
+    private String text;
+    private ProxyConfiguration configuration;
 
     public WifiSignal(Context context, AttributeSet attrs)
     {
@@ -32,57 +36,64 @@ public class WifiSignal extends LinearLayout
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View v = inflater.inflate(R.layout.input, this);
+        View v = inflater.inflate(R.layout.wifi_signal, this);
 
         if (inflater != null)
         {
-            titleTextView = (TextView) v.findViewById(R.id.field_title);
-            valueReadOnlyTextView = (TextView) v.findViewById(R.id.field_value_readonly);
-            valueEditText = (EditText) v.findViewById(R.id.field_value);
-
-            if (fullsize)
-            {
-                titleTextView.setText(title);
-                titleTextView.setVisibility(VISIBLE);
-            }
-            else
-            {
-                titleTextView.setVisibility(GONE);
-            }
-
-            valueReadOnlyTextView.setText(value);
-            valueEditText.setHint(hint);
-            valueEditText.setText(value);
-
-            if (readonly)
-            {
-                valueReadOnlyTextView.setVisibility(VISIBLE);
-                valueEditText.setVisibility(GONE);
-            }
-            else
-            {
-                valueEditText.setVisibility(VISIBLE);
-                valueReadOnlyTextView.setVisibility(GONE);
-            }
+            layout = (ViewGroup) v.findViewById(R.id.ap_layout);
+            iconImageView = (ImageView) v.findViewById(R.id.ap_icon);
+            securityTextView = (TextView) v.findViewById(R.id.ap_security);
         }
     }
 
     private void readStyleParameters(Context context, AttributeSet attributeSet)
     {
-        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.InputField);
+        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.WifiSignal);
 
         try
         {
-            title = a.getString(R.styleable.InputField_title);
-            hint = a.getString(R.styleable.InputField_hint);
-            value = a.getString(R.styleable.InputField_value);
-            readonly = a.getBoolean(R.styleable.InputField_readonly, false);
-            fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
+            text = a.getString(R.styleable.WifiSignal_text);
         }
         finally
         {
             a.recycle();
         }
+    }
+
+    private void refreshUI()
+    {
+        String sec = ProxyUtils.getSecurityString(configuration, getContext(), true);
+        if (sec != null && sec.length() > 0)
+            securityTextView.setText(sec);
+        else
+            securityTextView.setText("");
+
+        if (configuration.ap.getLevel() == -1)
+        {
+            iconImageView.setImageResource(R.drawable.ic_action_notvalid);
+            layout.setBackgroundResource(R.color.DarkGrey);
+        }
+        else
+        {
+            iconImageView.setImageLevel(configuration.ap.getLevel());
+            iconImageView.setImageResource(R.drawable.wifi_signal);
+            iconImageView.setImageState((configuration.ap.security != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
+
+            if (configuration.isCurrentNetwork())
+            {
+                layout.setBackgroundResource(R.color.Holo_Blue_Dark);
+            }
+            else
+            {
+                layout.setBackgroundResource(R.color.Holo_Green_Dark);
+            }
+        }
+    }
+
+    public void setConfiguration(ProxyConfiguration configuration)
+    {
+        this.configuration = configuration;
+        refreshUI();
     }
 }
 

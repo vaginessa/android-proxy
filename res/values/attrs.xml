@@ -23,4 +23,7 @@
         <attr name="readonly" format="boolean" />
         <attr name="fullsize" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="WifiSignal">
+        <attr name="text" format="string"/>
+    </declare-styleable>
 </resources>

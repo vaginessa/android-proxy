@@ -8,29 +8,17 @@
         android:layout_height="wrap_content"
         android:padding="5dp">
 
-    <RelativeLayout
-            android:id="@+id/status_container"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginRight="10dp">
-
-        <View
-                android:id="@+id/list_item_status_color"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:background="@color/Holo_Blue_Light">
-        </View>
-
-        <include layout="@layout/wifi_signal"/>
-
-    </RelativeLayout>
+    <com.lechucksoftware.proxy.proxysettings.components.WifiSignal
+            android:id="@+id/list_item_wifi_signal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"/>
 
     <TextView
             android:id="@+id/list_item_ap_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/status_container"
+            android:layout_toRightOf="@+id/list_item_wifi_signal"
             android:textStyle="bold"
             android:textSize="20sp"
             android:singleLine="true"
@@ -44,7 +32,7 @@
             android:id="@+id/list_item_ap_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/status_container"
+            android:layout_toRightOf="@+id/list_item_wifi_signal"
             android:layout_below="@id/list_item_ap_name"
             android:singleLine="true"
             android:lines="1"
