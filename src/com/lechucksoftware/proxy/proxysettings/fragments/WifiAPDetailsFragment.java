@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
+import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.components.WifiSignal;
+import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
@@ -21,7 +25,6 @@ import java.util.UUID;
 
 public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 {
-    public static WifiAPDetailsFragment instance;
     public static final String TAG = "WifiAPDetailsFragment";
 
 //    private PreferenceScreen authPrefScreen;
@@ -37,6 +40,11 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     // Arguments
     private static final String SELECTED_AP_CONF_ARG = "SELECTED_AP_CONF_ARG";
     private ProxyConfiguration selectedAPConf;
+    private TextView wifiName;
+    private TextView wifiStatus;
+    private WifiSignal wifiSignal;
+    private Switch proxySwitch;
+    private TextView proxySelector;
 
     /**
      * Create a new instance of WifiAPDetailsFragment
@@ -59,31 +67,46 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 
         UUID confId = (UUID) getArguments().getSerializable(SELECTED_AP_CONF_ARG);
         selectedAPConf = ApplicationGlobals.getProxyManager().getConfiguration(confId);
-
-//        addPreferencesFromResource(R.xml.proxy_enabled_preference);
-//        addPreferencesFromResource(R.xml.proxy_settings_preferences);
-
-        instance = this;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
+
+        wifiName = (TextView) v.findViewById(R.id.wifi_name);
+        wifiStatus = (TextView) v.findViewById(R.id.wifi_status);
+        wifiSignal = (WifiSignal) v.findViewById(R.id.wifi_signal);
+        proxySwitch = (Switch) v.findViewById(R.id.wifi_proxy_switch);
+        proxySelector = (TextView) v.findViewById(R.id.proxy_selector);
+        proxySelector.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ProxiesListFragment proxiesListFragment = ProxiesListFragment.newInstance(FragmentMode.DIALOG, selectedAPConf);
+                proxiesListFragment.show(getFragmentManager(), TAG);
+            }
+        });
+
+
+
+        refreshUI();
+
         return v;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
-        super.onViewCreated(view, savedInstanceState);
-
-        getUIComponents();
-        refreshUI();
-    }
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState)
+//    {
+//        super.onViewCreated(view, savedInstanceState);
+//        refreshUI();
+//    }
 
     private void getUIComponents()
     {
+
+
 //        if (selectedAPConf != null && selectedAPConf.isValidConfiguration())
 //        {
 //            proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");

@@ -16,6 +16,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/Holo_Blue_Dark"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp">
 
@@ -29,21 +31,21 @@
                     android:lines="1"
                     android:ellipsize="end"
                     android:textColor="@color/White"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="20dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="10dp"
+                    android:layout_toLeftOf="@+id/wifi_signal"
                     android:text="WIFI NAMEa fasd fasd fasdfasdfadsf asdf sadf sad fsafd dsa f"/>
 
             <TextView
+                    android:id="@+id/wifi_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/wifi_name"
                     android:textColor="@color/White"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginRight="20dp"
+                    android:textSize="20sp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
                     android:text="Connected"/>
 
             <com.lechucksoftware.proxy.proxysettings.components.WifiSignal
@@ -70,6 +72,7 @@
         </RelativeLayout>
 
         <Switch
+                android:id="@+id/wifi_proxy_switch"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
@@ -89,7 +92,7 @@
         <!--android:src="?android:attr/listDivider" />-->
 
         <TextView
-                android:id="@+id/date"
+                android:id="@+id/proxy_selector"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18dp"
