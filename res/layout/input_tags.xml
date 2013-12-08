@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingTop="10dp"
+              android:paddingBottom="10dp">
+
+    <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="TITLE"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:id="@+id/field_title"/>-->
+
+    <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:text="None"-->
+            <!--android:id="@android:id/summary"/>-->
+
+    <Button
+            android:id="@+id/field_add_tags"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Add tags..."/>
+
+    <com.lechucksoftware.proxy.proxysettings.components.TagsView
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
+            android:id="@+id/field_tags"
+            android:visibility="visible"
+            app:singleLine="false"/>
+
+</LinearLayout>

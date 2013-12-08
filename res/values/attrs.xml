@@ -1,4 +1,9 @@
 <resources>
+    <attr name="title" format="string"/>
+    <attr name="hint" format="string"/>
+    <attr name="fullsize" format="boolean" />
+    <attr name="readonly" format="boolean" />
+
     <declare-styleable name="FlowLayout">
         <attr name="horizontalSpacing" format="dimension"/>
         <attr name="verticalSpacing" format="dimension"/>
@@ -17,11 +22,21 @@
         <attr name="singleLine" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="InputField">
-        <attr name="title" format="string"/>
-        <attr name="hint" format="string"/>
+        <attr name="title"/>
+        <attr name="hint" />
         <attr name="value" format="string" />
-        <attr name="readonly" format="boolean" />
-        <attr name="fullsize" format="boolean" />
+        <attr name="readonly" />
+        <attr name="fullsize" />
+        <attr name="inputType" format="enum">
+            <enum name="string" value="0" />
+            <enum name="numeric" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="InputFieldTags">
+        <attr name="title" />
+        <attr name="hint" />
+        <attr name="fullsize"/>
+        <attr name="readonly"/>
     </declare-styleable>
     <declare-styleable name="WifiSignal">
         <attr name="text" format="string"/>
