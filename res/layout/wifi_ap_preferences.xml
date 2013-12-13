@@ -13,6 +13,7 @@
             android:paddingRight="12dp">
 
         <RelativeLayout
+                android:id="@+id/wifi_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/Holo_Blue_Dark"
@@ -33,8 +34,9 @@
                     android:textColor="@color/White"
                     android:paddingLeft="12dp"
                     android:paddingTop="10dp"
+                    android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@+id/wifi_signal"
-                    android:text="WIFI NAMEa fasd fasd fasdfasdfadsf asdf sadf sad fsafd dsa f"/>
+                    android:text="WIFI sa f asdf asdfa sdfas dfasdfas dfasdf asdfasdf"/>
 
             <TextView
                     android:id="@+id/wifi_status"

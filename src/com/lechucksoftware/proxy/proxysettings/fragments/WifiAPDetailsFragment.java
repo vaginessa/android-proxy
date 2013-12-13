@@ -19,6 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.UUID;
 
@@ -45,6 +46,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     private WifiSignal wifiSignal;
     private Switch proxySwitch;
     private TextView proxySelector;
+    private ViewGroup wifiLayout;
 
     /**
      * Create a new instance of WifiAPDetailsFragment
@@ -74,6 +76,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     {
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
 
+        wifiLayout = (ViewGroup) v.findViewById(R.id.wifi_layout);
         wifiName = (TextView) v.findViewById(R.id.wifi_name);
         wifiStatus = (TextView) v.findViewById(R.id.wifi_status);
         wifiSignal = (WifiSignal) v.findViewById(R.id.wifi_signal);
@@ -88,8 +91,6 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
                 proxiesListFragment.show(getFragmentManager(), TAG);
             }
         });
-
-
 
         refreshUI();
 
@@ -272,6 +273,19 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 
     public void refreshUI()
     {
+        if (selectedAPConf.isCurrentNetwork())
+        {
+            wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
+        }
+        else
+        {
+            wifiLayout.setBackgroundResource(R.color.Holo_Green_Dark);
+        }
+
+        wifiName.setText(ProxyUtils.cleanUpSSID(selectedAPConf.getSSID()));
+        wifiStatus.setText(selectedAPConf.toStatusString());
+        wifiSignal.setConfiguration(selectedAPConf);
+
 //        if (isVisible())
 //        {
 //            if (selectedAPConf != null

@@ -97,7 +97,7 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
         if (listItem != null)
         {
             viewHolder.security.setConfiguration(listItem);
-            viewHolder.ssid.setText(String.format("%s", ProxyUtils.cleanUpSSID(listItem.getSSID())));
+            viewHolder.ssid.setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
             viewHolder.status.setText(listItem.toStatusString());
         }
 
