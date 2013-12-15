@@ -80,6 +80,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     }
 
+    public void setProxySetting(ProxySetting setting)
+    {
+        proxySetting = setting;
+    }
+
     public void setProxyHost(String host)
     {
         proxyHost = host;
@@ -473,6 +478,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //            mHttpProxy = mHttpProxyField.get(linkProperties);
 
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
+
+            ProxyConfiguration updatedConf = APL.getProxySdk12(newConf);
+            if (!this.isSameConfiguration(updatedConf))
+            {
+                LogWrapper.e(TAG,"Error saving configuration");
+            }
 
             this.status.clear();
             LogWrapper.d(TAG, "Succesfully updated configuration on device: " + this.toShortString());

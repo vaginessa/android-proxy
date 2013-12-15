@@ -26,7 +26,7 @@
     <string name="status_wifi_not_selected">Connected to another Wi-Fi Access point</string>
 	
 	<string name="status_proxy_mobile_disabled">Proxy cannot be configured for Mobile connectivity</string>
-	<string name="status_proxy_disabled">Proxy disabled for the selected Wi-Fi network</string>
+	<string name="status_proxy_disabled">Proxy disabled</string>
 	<string name="status_proxy_enabled">Proxy enabled</string>
 	
 	<string name="status_hostname_empty">Proxy IP/hostname cannot be empty</string>
