@@ -354,12 +354,17 @@ public class ProxyManager
 
     public ProxyConfiguration getConfiguration(UUID confId)
     {
+        ProxyConfiguration selected = null;
+
         for (ProxyConfiguration conf : getConfigurationsList())
         {
             if (conf.id.equals(confId))
-                return conf;
+            {
+                selected = conf;
+                break;
+            }
         }
 
-        return null;
+        return selected;
     }
 }

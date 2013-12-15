@@ -40,4 +40,10 @@
                 android:hint="e.g. 123.123.123.123" />
     </LinearLayout>
 
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/field_validation"></LinearLayout>
+
 </LinearLayout>

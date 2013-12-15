@@ -18,11 +18,10 @@ import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +29,9 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class ProxiesListFragment extends BaseDialogFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyEntity>>
+public class ActionsListFragment extends BaseDialogFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyEntity>>
 {
-    private static final String TAG = ProxiesListFragment.class.getSimpleName();
+    private static final String TAG = ActionsListFragment.class.getSimpleName();
 //    private static ProxiesListFragment instance;
     int mCurCheckPosition = 0;
     private ProxiesSelectorListAdapter proxiesListAdapter;
@@ -53,14 +52,14 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
     private ProxyConfiguration apConf;
 
 
-    public static ProxiesListFragment newInstance()
+    public static ActionsListFragment newInstance()
     {
         return newInstance(FragmentMode.FULLSIZE, null);
     }
 
-    public static ProxiesListFragment newInstance(FragmentMode mode, ProxyConfiguration apConf)
+    public static ActionsListFragment newInstance(FragmentMode mode, ProxyConfiguration apConf)
     {
-        ProxiesListFragment instance = new ProxiesListFragment();
+        ActionsListFragment instance = new ActionsListFragment();
 
         Bundle args = new Bundle();
         args.putSerializable(FRAGMENT_MODE_ARG, mode);
@@ -199,6 +198,7 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
     {
         mCurCheckPosition = index;
 
+
         try
         {
             // We can display everything in-place with fragments, so update
@@ -206,7 +206,6 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
             listView.setItemChecked(index, true);
             ProxyEntity proxy = (ProxyEntity) listView.getItemAtPosition(index);
 
-            apConf.setProxySetting(ProxySetting.STATIC);
             apConf.setProxyHost(proxy.host);
             apConf.setProxyPort(proxy.port);
             apConf.setProxyExclusionList(proxy.exclusion);

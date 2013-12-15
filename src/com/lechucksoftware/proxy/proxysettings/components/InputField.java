@@ -1,21 +1,29 @@
 package com.lechucksoftware.proxy.proxysettings.components;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by Marco on 01/12/13.
  */
 public class InputField extends LinearLayout
 {
+    private ViewGroup validationLayout;
     private EditText valueEditText;
     private TextView valueReadOnlyTextView;
     private TextView titleTextView;
@@ -33,7 +41,6 @@ public class InputField extends LinearLayout
         readStyleParameters(context,attrs);
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        inflater.from(context).inflate(R.layout.input, this);
 
         View v = inflater.inflate(R.layout.input, this);
 
@@ -42,6 +49,7 @@ public class InputField extends LinearLayout
             titleTextView = (TextView) v.findViewById(R.id.field_title);
             valueReadOnlyTextView = (TextView) v.findViewById(R.id.field_value_readonly);
             valueEditText = (EditText) v.findViewById(R.id.field_value);
+            validationLayout = (ViewGroup) v.findViewById(R.id.field_validation);
 
             refreshUI();
         }
@@ -64,6 +72,41 @@ public class InputField extends LinearLayout
         {
             a.recycle();
         }
+    }
+
+    @Override
+    public void setEnabled(boolean enabled)
+    {
+        super.setEnabled(enabled);
+
+        readonly = !enabled;
+        refreshUI();
+    }
+
+    public void setValue(Object text)
+    {
+        String newValue = text.toString();
+        if (newValue.equals(value))
+        {
+
+        }
+        else
+        {
+            value = newValue;
+            refreshUI();
+        }
+    }
+
+    public void setError(java.lang.CharSequence error)
+    {
+        Crouton c = Crouton.makeText((Activity)getContext(), error, Style.ALERT, validationLayout);
+        c.setConfiguration(new Configuration.Builder().setDuration(2000).build());
+        c.show();
+    }
+
+    public void addTextChangedListener(TextWatcher watcher)
+    {
+        valueEditText.addTextChangedListener(watcher);
     }
 
     public void refreshUI()
