@@ -37,14 +37,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 {
     public static final String TAG = "WifiAPDetailsFragment";
 
-//    private PreferenceScreen authPrefScreen;
-//    private SwitchPreference proxyEnablePref;
-//
-//    private EditTextPreference proxyHostPref;
-//    private EditTextPreference proxyPortPref;
-//    private EditTextPreference proxyBypassPref;
-//    private TagsPreference proxyTags;
-//    private Preference proxySelectionPref;
+    private ProxyConfiguration selectedWiFiAP;
     private ProxyEntity selectedProxy;
 
     // Arguments
@@ -81,6 +74,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
         super.onCreate(savedInstanceState);
 
         confId = (UUID) getArguments().getSerializable(SELECTED_AP_CONF_ARG);
+        selectedWiFiAP = ApplicationGlobals.getProxyManager().getConfiguration(confId);
     }
 
     @Override
@@ -95,8 +89,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             @Override
             public void onClick(View view)
             {
-                ProxyConfiguration selectedAPConf = ApplicationGlobals.getProxyManager().getConfiguration(confId);
-                ActionsListFragment actionsListFragment = ActionsListFragment.newInstance(FragmentMode.DIALOG, selectedAPConf);
+                ActionsListFragment actionsListFragment = ActionsListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
                 actionsListFragment.show(getFragmentManager(), TAG);
             }
         });
@@ -113,14 +106,12 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 
                 if (proxySwitch.isChecked())
                 {
-                    ProxyConfiguration selectedAPConf = ApplicationGlobals.getProxyManager().getConfiguration(confId);
-                    selectedAPConf.setProxySetting(ProxySetting.STATIC);
-                    saveConfiguration();
+                    selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+//                    saveConfiguration();
                 }
                 else
                 {
-                    ProxyConfiguration selectedAPConf = ApplicationGlobals.getProxyManager().getConfiguration(confId);
-                    selectedAPConf.setProxySetting(ProxySetting.NONE);
+                    selectedWiFiAP.setProxySetting(ProxySetting.NONE);
                     saveConfiguration();
                 }
 
@@ -134,8 +125,8 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             @Override
             public void onClick(View v)
             {
-                ProxyConfiguration selectedAPConf = ApplicationGlobals.getProxyManager().getConfiguration(confId);
-                ProxiesListFragment proxiesListFragment = ProxiesListFragment.newInstance(FragmentMode.DIALOG, selectedAPConf);
+
+                ProxiesListFragment proxiesListFragment = ProxiesListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
                 proxiesListFragment.show(getFragmentManager(), TAG);
             }
         });
@@ -166,7 +157,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
         proxyBypass = (InputField) v.findViewById(R.id.proxy_bypass);
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
 
-        refreshUI();
+        initUI();
 
         return v;
     }
@@ -344,10 +335,9 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     {
         try
         {
-            ProxyConfiguration selectedAPConf = ApplicationGlobals.getProxyManager().getConfiguration(confId);
-            if (selectedAPConf != null && selectedAPConf.isValidConfiguration())
+            if (selectedWiFiAP != null && selectedWiFiAP.isValidConfiguration())
             {
-                selectedAPConf.writeConfigurationToDevice();
+                selectedWiFiAP.writeConfigurationToDevice();
             }
         }
         catch (Exception e)
@@ -366,42 +356,35 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
                 .show();
     }
 
-    public void refreshUI()
+    private void initUI()
     {
-        ProxyConfiguration selectedAPConf = ApplicationGlobals.getProxyManager().getConfiguration(confId);
-
-        if (selectedAPConf.proxySetting == ProxySetting.STATIC)
+        if(selectedWiFiAP.proxySetting == ProxySetting.STATIC)
         {
             proxySwitch.setChecked(true);
-
-            long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedAPConf.getProxyHost(), selectedAPConf.getProxyPort());
-            if (proxyId != -1)
-            {
-                selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
-                proxyHost.setValue(selectedProxy.host);
-                proxyPort.setValue(selectedProxy.port);
-                proxyBypass.setValue(selectedProxy.exclusion);
-            }
-            else
-            {
-                selectedProxy = null;
-                proxyHost.setValue("");
-                proxyPort.setValue("");
-                proxyBypass.setValue("");
-            }
+            refreshFieldsValues();
         }
         else
         {
             proxySwitch.setChecked(false);
         }
 
-        if (selectedAPConf.ap.getLevel() == -1)
+        refreshVisibility();
+    }
+
+    public void refreshUI()
+    {
+        if(selectedWiFiAP.proxySetting == ProxySetting.STATIC)
+        {
+            refreshFieldsValues();
+        }
+
+        if (selectedWiFiAP.ap.getLevel() == -1)
         {
             wifiLayout.setBackgroundResource(R.color.DarkGrey);
         }
         else
         {
-            if (selectedAPConf.isCurrentNetwork())
+            if (selectedWiFiAP.isCurrentNetwork())
             {
                 wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
             }
@@ -411,9 +394,9 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             }
         }
 
-        wifiName.setText(ProxyUtils.cleanUpSSID(selectedAPConf.getSSID()));
-        wifiStatus.setText(selectedAPConf.toStatusString());
-        wifiSignal.setConfiguration(selectedAPConf);
+        wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
+        wifiStatus.setText(selectedWiFiAP.toStatusString());
+        wifiSignal.setConfiguration(selectedWiFiAP);
 
         refreshVisibility();
 
@@ -529,6 +512,27 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 //                proxyEnablePref.setEnabled(false);
 //            }
 //        }
+    }
+
+    private void refreshFieldsValues()
+    {
+        long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedWiFiAP.getProxyHost(), selectedWiFiAP.getProxyPort());
+        if (proxyId != -1)
+        {
+            selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
+            proxyHost.setValue(selectedProxy.host);
+            proxyPort.setValue(selectedProxy.port);
+            proxyBypass.setValue(selectedProxy.exclusion);
+            proxyTags.setTags(selectedProxy.getTags());
+        }
+        else
+        {
+            selectedProxy = null;
+            proxyHost.setValue("");
+            proxyPort.setValue("");
+            proxyBypass.setValue("");
+            proxyTags.setTags(null);
+        }
     }
 
     @Override

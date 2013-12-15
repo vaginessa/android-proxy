@@ -57,6 +57,14 @@
                         android:onClick="listDBTags"
                         android:id="@+id/buttonClear"/>
 
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Assign proxy"
+                        android:onClick="assignProxy"
+                        android:id="@+id/buttonAssignProxy"/>
+
+
             </LinearLayout>
 
             <LinearLayout

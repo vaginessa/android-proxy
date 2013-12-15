@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,9 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
+import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.List;
 
@@ -29,7 +32,8 @@ public class TestActivity extends Activity
         UPDATE_PROXY,
         UPDATE_TAGS,
         LIST_TAGS,
-        CLEAR_DB
+        CLEAR_DB,
+        ASSIGN_PROXY
     }
 
     @Override
@@ -52,6 +56,12 @@ public class TestActivity extends Activity
     public void addTagsDBClicked(View caller)
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_TAGS);
+        addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void assignProxy(View view)
+    {
+        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ASSIGN_PROXY);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -94,7 +104,7 @@ public class TestActivity extends Activity
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public class AsyncTest extends AsyncTask<Void, Integer, Void>
+    public class AsyncTest extends AsyncTask<Void, String, Void>
     {
         TestActivity _testActivity;
         TextView textViewTest;
@@ -121,7 +131,7 @@ public class TestActivity extends Activity
         }
 
         @Override
-        protected void onProgressUpdate(Integer... progress)
+        protected void onProgressUpdate(String... progress)
         {
             textViewTest.setText(_action + " " + progress[0]);
         }
@@ -133,6 +143,23 @@ public class TestActivity extends Activity
             {
                 ApplicationGlobals.getDBManager().resetDB();
             }
+            else if(_action == TestAction.ASSIGN_PROXY)
+            {
+                try
+                {
+                    ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCurrentConfiguration();
+                    List<ProxyEntity> proxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+                    for (ProxyEntity p : proxies)
+                    {
+                        TestUtils.assignProxies(conf, p);
+                        publishProgress(p.toString());
+                    }
+                }
+                catch (Exception e)
+                {
+                    publishProgress(e.toString());
+                }
+            }
             else
             {
                 for (int i = 0; i < 10; i++)
@@ -140,20 +167,20 @@ public class TestActivity extends Activity
                     switch (_action)
                     {
                         case ADD_PROXY:
-                            TestDB.addProxy();
+                            TestUtils.addProxy();
                             break;
                         case UPDATE_PROXY:
-                            TestDB.updateProxy();
+                            TestUtils.updateProxy();
                             break;
                         case ADD_TAGS:
-                            TestDB.addTags();
+                            TestUtils.addTags();
                             break;
                         case UPDATE_TAGS:
-//                            TestDB.addProxy();
+//                            TestUtils.addProxy();
                             break;
                     }
 
-                    publishProgress(i);
+                    publishProgress(String.valueOf(i));
                 }
             }
 

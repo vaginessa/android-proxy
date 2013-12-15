@@ -78,7 +78,7 @@ public class TagsView extends LinearLayout
         {
             getEnabledContainer().removeAllViews();
 
-            if (tags.size() > 0)
+            if (tags != null && tags.size() > 0)
             {
                 for (TagEntity tag : tags)
                 {
