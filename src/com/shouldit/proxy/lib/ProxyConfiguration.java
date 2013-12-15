@@ -287,7 +287,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             sb.append(" - " + ap.ssid);
 
         sb.append(" - " + toStatusString());
-        sb.append(getProxyExclusionList());
+        sb.append(" " + getProxyExclusionList());
 
         if (status != null)
             sb.append(" - " + status.toShortString());
@@ -478,12 +478,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //            mHttpProxy = mHttpProxyField.get(linkProperties);
 
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
-
-            ProxyConfiguration updatedConf = APL.getProxySdk12(newConf);
-            if (!this.isSameConfiguration(updatedConf))
-            {
-                LogWrapper.e(TAG,"Error saving configuration");
-            }
 
             this.status.clear();
             LogWrapper.d(TAG, "Succesfully updated configuration on device: " + this.toShortString());
