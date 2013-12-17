@@ -867,10 +867,14 @@ public class ProxyUtils
 
     public static ProxyStatusItem isProxyValidHostname(ProxyConfiguration conf)
     {
+        String proxyHost = conf.getProxyHostString();
+        return isProxyValidHostname(proxyHost);
+    }
+
+    public static ProxyStatusItem isProxyValidHostname(String proxyHost)
+    {
         try
         {
-            String proxyHost = conf.getProxyHostString();
-
             if (proxyHost == null || proxyHost.length() == 0)
             {
                 return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_empty));
