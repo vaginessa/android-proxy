@@ -88,7 +88,7 @@ public class InputField extends LinearLayout
         String newValue = text.toString();
         if (newValue.equals(value))
         {
-
+            // DO NOTHING
         }
         else
         {
@@ -113,7 +113,7 @@ public class InputField extends LinearLayout
     {
         if (fullsize || readonly)
         {
-            titleTextView.setText(title);
+            titleTextView.setText(title.toUpperCase());
             titleTextView.setVisibility(VISIBLE);
         }
         else

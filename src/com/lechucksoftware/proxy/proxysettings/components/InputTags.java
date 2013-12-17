@@ -20,10 +20,11 @@ public class InputTags extends LinearLayout
 {
     private Button addTagsButton;
     private TagsView tagsView;
-//    private TextView titleTextView;
+    private TextView titleTextView;
     private String title;
     private boolean fullsize;
     private List<TagEntity> tags;
+    private boolean readonly;
 
     public InputTags(Context context, AttributeSet attrs)
     {
@@ -37,11 +38,8 @@ public class InputTags extends LinearLayout
 
         if (v != null)
         {
-//            titleTextView = (TextView) v.findViewById(R.id.field_title);
+            titleTextView = (TextView) v.findViewById(R.id.field_title);
             addTagsButton = (Button) v.findViewById(R.id.field_add_tags);
-
-
-
             tagsView = (TagsView) v.findViewById(R.id.field_tags);
         }
     }
@@ -54,7 +52,7 @@ public class InputTags extends LinearLayout
 
     private void refreshUI()
     {
-//        titleTextView.setText(title);
+        titleTextView.setText(title);
 
         tagsView.setTags(tags);
         if (tags != null && tags.size() > 0)
@@ -75,8 +73,9 @@ public class InputTags extends LinearLayout
 
         try
         {
-            title = a.getString(R.styleable.InputField_title);
-            fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
+            title = a.getString(R.styleable.InputFieldTags_readonly);
+            fullsize = a.getBoolean(R.styleable.InputFieldTags_readonly, false);
+            readonly = a.getBoolean(R.styleable.InputFieldTags_readonly, false);
         }
         finally
         {

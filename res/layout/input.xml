@@ -5,15 +5,29 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:paddingTop="10dp"
-              android:paddingBottom="10dp">
+              android:paddingBottom="10dp"
+              android:clickable="true"
+              android:focusable="true"
+              android:background="?android:attr/listChoiceBackgroundIndicator">
 
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingLeft="12dp"
             android:id="@+id/field_title"
-            android:visibility="gone"
+            android:visibility="visible"
             android:text="TITLE"/>
+
+    <!--<ImageView-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingBottom="2dp"-->
+            <!--android:paddingLeft="5dp"-->
+            <!--android:paddingRight="5dp"-->
+            <!--android:paddingTop="2dp"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="?android:attr/listDivider" />-->
 
     <LinearLayout
             android:orientation="vertical"
@@ -24,11 +38,12 @@
                 android:id="@+id/field_value_readonly"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingLeft="12dp"
                 android:textSize="18dp"
-                android:text="e.g. 123.123.123.123"/>
+                android:text="123.123.123.123"
+                android:textColor="@color/White"
+                />
 
         <EditText
                 android:id="@+id/field_value"
@@ -37,7 +52,8 @@
                 android:singleLine="true"
                 android:text=""
                 android:textSize="18dp"
-                android:hint="e.g. 123.123.123.123" />
+                android:hint="e.g. 123.123.123.123"
+                android:textColor="@color/White"/>
     </LinearLayout>
 
     <LinearLayout

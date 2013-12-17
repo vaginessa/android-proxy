@@ -105,7 +105,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:text="Select a Proxy..."
-                android:paddingLeft="12dp"
+                android:layout_marginLeft="8dp"
+                android:paddingLeft="4dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:layout_marginTop="10dp"
@@ -114,7 +115,7 @@
         <LinearLayout
                 android:id="@+id/proxy_input_fields"
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
             <com.lechucksoftware.proxy.proxysettings.components.InputField
@@ -123,7 +124,7 @@
                     android:layout_height="wrap_content"
                     app:title="@string/proxy_hostname_label"
                     app:hint="@string/proxy_hostname_hint"
-                    app:readonly="false"
+                    app:readonly="true"
                     app:value=""/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputField
@@ -133,6 +134,7 @@
                     app:title="@string/proxy_port_label"
                     app:hint="@string/proxy_port_hint"
                     app:inputType="numeric"
+                    app:readonly="true"
                     app:value=""/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputField
@@ -141,13 +143,15 @@
                     android:layout_height="wrap_content"
                     app:title="@string/proxy_exclusionlist_label"
                     app:hint="@string/proxy_exclusionlist_hint"
+                    app:readonly="true"
                     app:value=""/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputTags
                     android:id="@+id/proxy_tags"
                     app:title="Tags"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    app:readonly="true"/>
 
         </LinearLayout>
 

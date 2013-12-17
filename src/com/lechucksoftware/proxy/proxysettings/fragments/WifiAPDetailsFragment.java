@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.InputField;
@@ -23,6 +24,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -107,14 +109,13 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
                 if (proxySwitch.isChecked())
                 {
                     selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
-//                    saveConfiguration();
                 }
                 else
                 {
                     selectedWiFiAP.setProxySetting(ProxySetting.NONE);
-                    saveConfiguration();
                 }
 
+                saveConfiguration();
                 refreshUI();
             }
         });
@@ -132,147 +133,55 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
         });
 
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
-        proxyHost.addTextChangedListener(new TextWatcher()
+        proxyHost.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
+            public void onClick(View v)
             {
-                LogWrapper.d(TAG,"beforeTextChanged " + charSequence.toString());
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
-            {
-                LogWrapper.d(TAG,"onTextChanged " + charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable)
-            {
-                LogWrapper.d(TAG,"afterTextChanged " + editable.toString());
+                Toast.makeText(getActivity(),"asdfasdfasdfads", 1000);
             }
         });
+//        proxyHost.addTextChangedListener(new TextWatcher()
+//        {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
+//            {
+//                LogWrapper.d(TAG,"beforeTextChanged " + charSequence.toString());
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
+//            {
+//                LogWrapper.d(TAG,"onTextChanged " + charSequence.toString());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable)
+//            {
+//                LogWrapper.d(TAG,"afterTextChanged " + editable.toString());
+//                ProxyStatusItem result = ProxyUtils.isProxyValidHostname(editable.toString());
+//                if (result.result)
+//                {
+//                    saveConfiguration();
+//                }
+//                else
+//                {
+//                    proxyHost.setError(result.message);
+//                }
+//            }
+//        });
 
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
         proxyBypass = (InputField) v.findViewById(R.id.proxy_bypass);
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
 
-        initUI();
+        refreshUI();
 
         return v;
     }
 
-//    @Override
-//    public void onViewCreated(View view, Bundle savedInstanceState)
-//    {
-//        super.onViewCreated(view, savedInstanceState);
-//        refreshUI();
-//    }
-
     private void getUIComponents()
     {
-
-
-//        if (selectedAPConf != null && selectedAPConf.isValidConfiguration())
-//        {
-//            proxyEnablePref = (SwitchPreference) findPreference("pref_proxy_enabled");
-//            proxyEnablePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-//            {
-//                public boolean onPreferenceChange(Preference preference, Object newValue)
-//                {
-//                    Boolean isChecked = (Boolean) newValue;
-//
-//                    if (isChecked)
-//                    {
-//                        selectedAPConf.proxySetting = ProxySetting.STATIC;
-//                    }
-//                    else
-//                    {
-//                        selectedAPConf.proxySetting = ProxySetting.NONE;
-//                    }
-//
-//                    refreshVisibility(isChecked);
-//
-//                    saveConfiguration();
-//                    return true;
-//                }
-//            });
-//
-//            proxySelectionPref = (Preference) findPreference("pref_proxy_selected");
-//            proxySelectionPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-//            {
-//                @Override
-//                public boolean onPreferenceClick(Preference preference)
-//                {
-//
-//                    ProxiesListFragment proxiesListFragment = ProxiesListFragment.newInstance(FragmentMode.DIALOG, selectedAPConf);
-//                    proxiesListFragment.show(getFragmentManager(), TAG);
-//                    return true;
-//                }
-//            });
-//
-//
-//            proxyHostPref = (EditTextPreference) findPreference("pref_proxy_host");
-//            proxyHostPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-//            {
-//
-//                public boolean onPreferenceChange(Preference preference, Object newValue)
-//                {
-//                    String proxyHost = (String) newValue;
-//
-//                    selectedAPConf.setProxyHost(proxyHost);
-//                    saveConfiguration();
-//
-//                    return true;
-//                }
-//            });
-//
-//            proxyPortPref = (EditTextPreference) findPreference("pref_proxy_port");
-//            proxyPortPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-//            {
-//                public boolean onPreferenceChange(Preference preference, Object newValue)
-//                {
-//                    String portString = (String) newValue;
-//                    Integer proxyPort;
-//
-//                    try
-//                    {
-//                        proxyPort = Integer.parseInt(portString);
-//                    }
-//                    catch (NumberFormatException ex)
-//                    {
-//                        proxyPort = 0; // Equivalent to NOT SET
-//                        showError(R.string.proxy_error_invalid_port);
-//                        return false;
-//                    }
-//
-//                    if (proxyPort <= 0 || proxyPort > 0xFFFF)
-//                    {
-//                        showError(R.string.proxy_error_invalid_port);
-//                        return false;
-//                    }
-//
-//                    selectedAPConf.setProxyPort(proxyPort);
-//                    saveConfiguration();
-//
-//                    return true;
-//                }
-//            });
-//
-//            proxyBypassPref = (EditTextPreference) findPreference("pref_proxy_bypass");
-//            proxyBypassPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-//            {
-//
-//                public boolean onPreferenceChange(Preference preference, Object newValue)
-//                {
-//                    String proxyExclusionList = (String) newValue;
-//
-//                    selectedAPConf.setProxyExclusionList(proxyExclusionList);
-//                    saveConfiguration();
-//
-//                    return true;
-//                }
-//            });
 //
 //            proxyTags = (TagsPreference) findPreference("pref_proxy_tags");
 //            proxyTags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -294,9 +203,6 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 //                }
 //            });
 //
-//            authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
-//            if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
-//        }
     }
 
     private void refreshVisibility()
@@ -356,7 +262,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
                 .show();
     }
 
-    private void initUI()
+    public void refreshUI()
     {
         if(selectedWiFiAP.proxySetting == ProxySetting.STATIC)
         {
@@ -366,16 +272,6 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
         else
         {
             proxySwitch.setChecked(false);
-        }
-
-        refreshVisibility();
-    }
-
-    public void refreshUI()
-    {
-        if(selectedWiFiAP.proxySetting == ProxySetting.STATIC)
-        {
-            refreshFieldsValues();
         }
 
         if (selectedWiFiAP.ap.getLevel() == -1)
