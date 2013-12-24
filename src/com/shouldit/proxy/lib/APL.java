@@ -10,6 +10,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
 import com.shouldit.proxy.lib.log.DefaultExceptionReport;
 import com.shouldit.proxy.lib.log.IExceptionReport;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -275,7 +276,7 @@ public class APL
         ContentResolver contentResolver = gContext.getContentResolver();
         String proxyString = Settings.Secure.getString(contentResolver, Settings.Secure.HTTP_PROXY);
 
-        if (proxyString != null && proxyString != "" && proxyString.contains(":"))
+        if (!TextUtils.isEmpty(proxyString) && proxyString.contains(":"))
         {
             String[] proxyParts = proxyString.split(":");
             if (proxyParts.length == 2)

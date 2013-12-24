@@ -9,6 +9,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.URLUtil;
 import com.shouldit.proxy.lib.*;
@@ -943,6 +944,33 @@ public class ProxyUtils
         {
             return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_not_valid_informations));
         }
+    }
+
+    public static String[] parseExclusionList(String exclusionList)
+    {
+        String[] exList = null;
+
+        if (TextUtils.isEmpty(exclusionList))
+        {
+            exList = new String[0];
+        }
+        else
+        {
+            String splitExclusionList[] = exclusionList.toLowerCase().split(",");
+//            exList = new String[splitExclusionList.length * 2];
+            exList = new String[splitExclusionList.length];
+            for (int i = 0; i < splitExclusionList.length; i++)
+            {
+                String s = splitExclusionList[i].trim();
+                if (s.startsWith("."))
+                    s = s.substring(1);
+                exList[i] = s;
+//                exList[i * 2] = s;
+//                exList[(i * 2) + 1] = "." + s;
+            }
+        }
+
+        return exList;
     }
 
     protected ProxyStatusItem isWebReachable(ProxyConfiguration conf)

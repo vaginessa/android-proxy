@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.text.TextUtils;
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
@@ -97,29 +98,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public void setProxyExclusionList(String exList)
     {
-        parseExclusionList(exList);
-    }
-
-    private void parseExclusionList(String exclusionList)
-    {
-        stringProxyExclusionList = exclusionList;
-        if (stringProxyExclusionList == null)
-        {
-            parsedProxyExclusionList = new String[0];
-        }
-        else
-        {
-            String splitExclusionList[] = exclusionList.toLowerCase().split(",");
-            parsedProxyExclusionList = new String[splitExclusionList.length * 2];
-            for (int i = 0; i < splitExclusionList.length; i++)
-            {
-                String s = splitExclusionList[i].trim();
-                if (s.startsWith("."))
-                    s = s.substring(1);
-                parsedProxyExclusionList[i * 2] = s;
-                parsedProxyExclusionList[(i * 2) + 1] = "." + s;
-            }
-        }
+        stringProxyExclusionList = exList;
+        parsedProxyExclusionList = ProxyUtils.parseExclusionList(exList);
     }
 
     public boolean isSameConfiguration(Object another)
@@ -241,7 +221,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
             stringProxyExclusionList = updated.stringProxyExclusionList;
-            parseExclusionList(stringProxyExclusionList);
+            parsedProxyExclusionList = ProxyUtils.parseExclusionList(stringProxyExclusionList);
 
             status.clear();
 
@@ -304,7 +284,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         else
         {
             StringBuilder sb = new StringBuilder();
-            if (proxyHost != null && proxyHost.length() > 0 && proxyPort != null && proxyPort > 0)
+            if (!TextUtils.isEmpty(proxyHost) && proxyPort != null && proxyPort > 0)
                 sb.append(String.format("%s:%s", proxyHost, proxyPort));
             else
             {
