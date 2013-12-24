@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
         {
             startCheckPref.setEnabled(false);
             String checkedDate = conf.status.getCheckedDateString();
-            if (checkedDate != null && checkedDate.length() > 0)
+            if (!TextUtils.isEmpty(checkedDate))
                 startCheckPref.setSummary("Start checking on: " + checkedDate);
         }
         else

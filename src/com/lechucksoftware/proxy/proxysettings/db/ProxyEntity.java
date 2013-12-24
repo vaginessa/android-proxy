@@ -1,5 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -70,8 +72,8 @@ public class ProxyEntity extends BaseEntity implements Serializable
             }
         }
 
-        if (exclusion != null && !exclusion.equals("")) sb.append(String.format(" (%s)",exclusion));
-        if (countryCode != null && !countryCode.equals("")) sb.append(String.format(" (%s)",countryCode));
+        if (!TextUtils.isEmpty(exclusion)) sb.append(String.format(" (%s)",exclusion));
+        if (!TextUtils.isEmpty(countryCode)) sb.append(String.format(" (%s)",countryCode));
 
         return sb.toString();
     }

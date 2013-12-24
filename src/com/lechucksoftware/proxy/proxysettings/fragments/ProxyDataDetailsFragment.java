@@ -2,37 +2,35 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.*;
-import android.preference.Preference.OnPreferenceChangeListener;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.components.InputBypass;
+import com.lechucksoftware.proxy.proxysettings.components.InputField;
+import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.preferences.TagsPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 
-public class ProxyDataDetailsFragment extends PreferenceFragment implements IBaseFragment, OnSharedPreferenceChangeListener
+public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFragment
 {
     public static ProxyDataDetailsFragment instance;
     public static final String TAG = ProxyDataDetailsFragment.class.getSimpleName();
 
-    private PreferenceScreen authPrefScreen;
-    private SwitchPreference proxyEnablePref;
-
-    private EditTextPreference proxyHostPref;
-    private EditTextPreference proxyPortPref;
-    private EditTextPreference proxyBypassPref;
-    private TagsPreference proxyTags;
-
     // Arguments
     private static final String SELECTED_PROXY_ARG = "SELECTED_PROXY_ARG";
     private ProxyEntity selectedProxy;
+    private InputField proxyHost;
+    private InputField proxyPort;
+    private InputBypass proxyBypass;
+    private InputTags proxyTags;
 
     /**
      * Create a new instance of WifiAPDetailsFragment
@@ -54,75 +52,28 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
         super.onCreate(savedInstanceState);
 
         selectedProxy = (ProxyEntity) getArguments().getSerializable(SELECTED_PROXY_ARG);
-
-//        addPreferencesFromResource(R.xml.proxy_description_preference);
-        addPreferencesFromResource(R.xml.proxy_settings_preferences);
-
         instance = this;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onViewCreated(view, savedInstanceState);
+        View v = inflater.inflate(R.layout.proxy_preferences, container, false);
 
-        getUIComponents();
+        getUIComponents(v);
+
+        initUI();
         refreshUI();
+
+        return v;
     }
 
-    private void getUIComponents()
+    private void getUIComponents(View v)
     {
-//		apSelectorPref = (ApSelectorDialogPreference) findPreference("pref_ap_selector_dialog");
-
-        proxyHostPref = (EditTextPreference) findPreference("pref_proxy_host");
-        proxyHostPref.setDependency(null);
-        proxyHostPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-        {
-
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-
-                return true;
-            }
-        });
-
-        proxyPortPref = (EditTextPreference) findPreference("pref_proxy_port");
-        proxyPortPref.setDependency(null);
-        proxyPortPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                return true;
-            }
-        });
-
-        proxyBypassPref = (EditTextPreference) findPreference("pref_proxy_bypass");
-        proxyBypassPref.setDependency(null);
-        proxyBypassPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
-        {
-
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-
-
-                return true;
-            }
-        });
-
-        proxyTags = (TagsPreference) findPreference("pref_proxy_tags");
-        proxyTags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-        {
-            @Override
-            public boolean onPreferenceClick(Preference preference)
-            {
-                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectedProxy);
-                tagsListSelectorFragment.show(getFragmentManager(), TAG);
-                return true;
-            }
-        });
-
-        authPrefScreen = (PreferenceScreen) findPreference("pref_proxy_authentication");
-        if (authPrefScreen != null) getPreferenceScreen().removePreference(authPrefScreen);
+        proxyHost = (InputField) v.findViewById(R.id.proxy_host);
+        proxyPort = (InputField) v.findViewById(R.id.proxy_port);
+        proxyBypass = (InputBypass) v.findViewById(R.id.proxy_bypass);
+        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
     }
 
     private void saveConfiguration()
@@ -147,55 +98,36 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
                 .show();
     }
 
-    public void refreshUI()
+    public void initUI()
     {
-        if (isVisible())
+        if (selectedProxy != null)
         {
-            if (selectedProxy != null)
+            if (selectedProxy.host == null || selectedProxy.host.length() == 0)
             {
-                String proxyHost = selectedProxy.host;
-                proxyHostPref.setText(proxyHost);
-                if (proxyHost == null || proxyHost.length() == 0)
-                {
-                    proxyHostPref.setSummary(getText(R.string.not_set));
-                }
-                else
-                {
-                    proxyHostPref.setSummary(proxyHost);
-                }
-
-                Integer proxyPort = selectedProxy.port;
-                String proxyPortString;
-                if (proxyPort == null || proxyPort == 0)
-                {
-                    proxyPortString = getText(R.string.not_set).toString();
-                    proxyPortPref.setText(null);
-                }
-                else
-                {
-                    proxyPortString = proxyPort.toString();
-                    proxyPortPref.setText(proxyPortString);
-                }
-
-                proxyPortPref.setSummary(proxyPortString);
-
-                String bypassList = selectedProxy.exclusion;
-                if (bypassList == null || bypassList.equals(""))
-                {
-                    proxyBypassPref.setSummary(getText(R.string.not_set));
-                }
-                else
-                {
-                    proxyBypassPref.setSummary(bypassList);
-                }
-
-                proxyTags.setTags(selectedProxy);
+                proxyHost.setValue(getText(R.string.proxy_hostname_hint));
             }
             else
             {
-                LogWrapper.e(TAG, "NOT VISIBLE");
+                proxyHost.setValue(selectedProxy.host);
             }
+
+            if (selectedProxy.port == null || selectedProxy.port == 0)
+            {
+                proxyPort.setValue(getText(R.string.proxy_port_hint));
+            }
+            else
+            {
+                proxyPort.setValue(selectedProxy.port);
+            }
+
+            proxyBypass.setExclusionString(selectedProxy.exclusion);
+            proxyTags.setTags(selectedProxy.getTags());
         }
+    }
+
+    public void refreshUI()
+    {
+
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
@@ -212,7 +144,6 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
     public void onResume()
     {
         super.onResume();
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -227,12 +158,5 @@ public class ProxyDataDetailsFragment extends PreferenceFragment implements IBas
         {
             NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
         }
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 }

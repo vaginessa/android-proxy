@@ -103,6 +103,9 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
         LogWrapper.stopTrace(TAG, "onResume", Log.DEBUG);
     }
 
+    public void initUI()
+    {}
+
     public void refreshUI()
     {
         if (isAdded())

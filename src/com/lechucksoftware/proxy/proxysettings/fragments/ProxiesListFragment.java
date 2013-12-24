@@ -218,6 +218,10 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
         }
     }
 
+    public void initUI()
+    {
+
+    }
 
     @Override
     public void refreshUI()

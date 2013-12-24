@@ -96,7 +96,7 @@
                 android:paddingLeft="12dp"
                 android:textSize="18dp"
                 android:text="@string/status_proxy_disabled"
-
+                android:background="?android:attr/listChoiceBackgroundIndicator"
                 />
 
         <Button
@@ -104,10 +104,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
-                android:singleLine="true"
                 android:paddingRight="4dp"
+                android:paddingLeft="12dp"
                 android:layout_marginRight="0dp"
                 android:text="Select a Proxy..."
+                android:textSize="18dp"
                 style="@android:style/Widget.Holo.Spinner" />
 
         <LinearLayout
@@ -120,35 +121,55 @@
                     android:id="@+id/proxy_host"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="12dp"
+                    android:background="?android:attr/listChoiceBackgroundIndicator"
                     app:title="@string/proxy_hostname_label"
                     app:hint="@string/proxy_hostname_hint"
                     app:readonly="true"
+                    app:fullsize="true"
                     app:value=""/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputField
                     android:id="@+id/proxy_port"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="12dp"
+                    android:background="?android:attr/listChoiceBackgroundIndicator"
                     app:title="@string/proxy_port_label"
                     app:hint="@string/proxy_port_hint"
                     app:inputType="numeric"
                     app:readonly="true"
+                    app:fullsize="true"
                     app:value=""/>
 
-            <com.lechucksoftware.proxy.proxysettings.components.InputField
+            <com.lechucksoftware.proxy.proxysettings.components.InputBypass
                     android:id="@+id/proxy_bypass"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="12dp"
+                    android:background="?android:attr/listChoiceBackgroundIndicator"
                     app:title="@string/proxy_exclusionlist_label"
                     app:hint="@string/proxy_exclusionlist_hint"
                     app:readonly="true"
+                    app:fullsize="true"
                     app:value=""/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputTags
                     android:id="@+id/proxy_tags"
-                    app:title="Tags"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="12dp"
+                    android:background="?android:attr/listChoiceBackgroundIndicator"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    app:title="Tags"
+                    app:fullsize="true"
                     app:readonly="true"/>
 
         </LinearLayout>

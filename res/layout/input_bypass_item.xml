@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lechucksoftware.proxy.proxysettings.components.InputField
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
+        android:id="@+id/input_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/input_delete"
+        app:readonly="true"
+        app:hint="Add bypass address"
+        app:fullsize="false"/>

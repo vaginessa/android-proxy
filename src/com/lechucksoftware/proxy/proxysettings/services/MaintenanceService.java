@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
@@ -153,7 +154,7 @@ public class MaintenanceService extends IntentService
             try
             {
                 String countryCode = Utils.getProxyCountryCode(proxy);
-                if (countryCode != null && countryCode.length() > 0)
+                if (!TextUtils.isEmpty(countryCode))
                 {
                     proxy.setCountryCode(countryCode);
                     ApplicationGlobals.getDBManager().upsertProxy(proxy);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.preference.Preference;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -81,7 +82,7 @@ public class ValidationPreference extends Preference
 			setSummary(getContext().getResources().getString(R.string.not_available));
 		}
 
-		if (st.message != null && st.message.length() > 0)
+		if (!TextUtils.isEmpty(st.message))
 		{
 			setSummary(st.message);
 		}

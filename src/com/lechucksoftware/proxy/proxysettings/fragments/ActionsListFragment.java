@@ -217,6 +217,11 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         }
     }
 
+    @Override
+    public void initUI()
+    {
+
+    }
 
     @Override
     public void refreshUI()

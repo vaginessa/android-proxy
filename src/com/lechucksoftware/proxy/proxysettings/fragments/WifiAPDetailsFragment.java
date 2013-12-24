@@ -3,16 +3,14 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.components.InputBypass;
 import com.lechucksoftware.proxy.proxysettings.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.components.WifiSignal;
@@ -21,16 +19,9 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxyStatusItem;
-import com.shouldit.proxy.lib.enums.CheckStatusValues;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.UUID;
 
@@ -52,7 +43,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     private ViewGroup wifiLayout;
     private InputField proxyHost;
     private InputField proxyPort;
-    private InputField proxyBypass;
+    private InputBypass proxyBypass;
     private InputTags proxyTags;
     private UUID confId;
 
@@ -126,9 +117,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             @Override
             public void onClick(View v)
             {
-
-                ProxiesListFragment proxiesListFragment = ProxiesListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
-                proxiesListFragment.show(getFragmentManager(), TAG);
+                openProxySelectorDialog();
             }
         });
 
@@ -138,46 +127,56 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(getActivity(),"asdfasdfasdfads", 1000);
+                openProxyEditorDialog();
             }
         });
-//        proxyHost.addTextChangedListener(new TextWatcher()
-//        {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
-//            {
-//                LogWrapper.d(TAG,"beforeTextChanged " + charSequence.toString());
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
-//            {
-//                LogWrapper.d(TAG,"onTextChanged " + charSequence.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable)
-//            {
-//                LogWrapper.d(TAG,"afterTextChanged " + editable.toString());
-//                ProxyStatusItem result = ProxyUtils.isProxyValidHostname(editable.toString());
-//                if (result.result)
-//                {
-//                    saveConfiguration();
-//                }
-//                else
-//                {
-//                    proxyHost.setError(result.message);
-//                }
-//            }
-//        });
+
 
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
-        proxyBypass = (InputField) v.findViewById(R.id.proxy_bypass);
+        proxyPort.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                openProxyEditorDialog();
+            }
+        });
+
+        proxyBypass = (InputBypass) v.findViewById(R.id.proxy_bypass);
+        proxyBypass.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                openProxyEditorDialog();
+            }
+        });
+
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
+        proxyTags.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                openProxyEditorDialog();
+            }
+        });
 
         refreshUI();
 
         return v;
+    }
+
+    private void openProxyEditorDialog()
+    {
+        ProxyDataDetailsFragment dialog = ProxyDataDetailsFragment.newInstance(selectedProxy);
+        dialog.show(getFragmentManager(),TAG);
+    }
+
+    private void openProxySelectorDialog()
+    {
+        ProxiesListFragment proxiesListFragment = ProxiesListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
+        proxiesListFragment.show(getFragmentManager(), TAG);
     }
 
     private void getUIComponents()
@@ -262,9 +261,14 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
                 .show();
     }
 
+    public void initUI()
+    {
+
+    }
+
     public void refreshUI()
     {
-        if(selectedWiFiAP.proxySetting == ProxySetting.STATIC)
+        if (selectedWiFiAP.proxySetting == ProxySetting.STATIC)
         {
             proxySwitch.setChecked(true);
             refreshFieldsValues();
@@ -418,7 +422,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
             proxyHost.setValue(selectedProxy.host);
             proxyPort.setValue(selectedProxy.port);
-            proxyBypass.setValue(selectedProxy.exclusion);
+            proxyBypass.setExclusionString(selectedProxy.exclusion);
             proxyTags.setTags(selectedProxy.getTags());
         }
         else
@@ -426,7 +430,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             selectedProxy = null;
             proxyHost.setValue("");
             proxyPort.setValue("");
-            proxyBypass.setValue("");
+            proxyBypass.setExclusionString("");
             proxyTags.setTags(null);
         }
     }

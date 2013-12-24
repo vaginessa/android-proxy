@@ -180,7 +180,7 @@ public class DataSource
 
     public TagEntity getTag(long tagId)
     {
-        LogWrapper.startTrace(TAG, "getTag", Log.INFO);
+//        LogWrapper.startTrace(TAG, "getTag", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -202,7 +202,7 @@ public class DataSource
         }
         else
         {
-            LogWrapper.stopTrace(TAG, "getTag", tag.toString(), Log.INFO);
+//            LogWrapper.stopTrace(TAG, "getTag", tag.toString(), Log.INFO);
             return tag;
         }
     }
@@ -558,7 +558,7 @@ public class DataSource
 
     public List<TagEntity> getTagsForProxy(long proxyId)
     {
-        LogWrapper.startTrace(TAG, "getTagsForProxy", Log.DEBUG);
+//        LogWrapper.startTrace(TAG, "getTagsForProxy", Log.DEBUG);
         List<ProxyTagLinkEntity> links = getProxyTagLinkForProxy(proxyId);
         List<TagEntity> tags = new ArrayList<TagEntity>();
         for (ProxyTagLinkEntity link : links)
@@ -566,7 +566,7 @@ public class DataSource
             tags.add(getTag(link.tagId));
         }
 
-        LogWrapper.stopTrace(TAG, "getTagsForProxy", String.valueOf(proxyId), Log.DEBUG);
+//        LogWrapper.stopTrace(TAG, "getTagsForProxy", String.valueOf(proxyId), Log.DEBUG);
         return tags;
     }
 

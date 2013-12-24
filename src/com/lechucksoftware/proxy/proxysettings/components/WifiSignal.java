@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +64,7 @@ public class WifiSignal extends LinearLayout
     private void refreshUI()
     {
         String sec = ProxyUtils.getSecurityString(configuration, getContext(), true);
-        if (sec != null && sec.length() > 0)
+        if (!TextUtils.isEmpty(sec))
             securityTextView.setText(sec);
         else
             securityTextView.setText("");

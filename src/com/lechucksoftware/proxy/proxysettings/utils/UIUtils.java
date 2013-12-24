@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -33,6 +34,18 @@ public class UIUtils
 
     public static int PROXY_NOTIFICATION_ID = 1;
     public static int URL_DOWNLOADER_COMPLETED_ID = 2;
+
+    public static int booleanToVisibility(boolean b)
+    {
+        if (b)
+        {
+            return View.VISIBLE;
+        }
+        else
+        {
+            return View.GONE;
+        }
+    }
 
     public static int getTagsColor(Context ctx, int i)
     {

@@ -3,6 +3,7 @@
     <attr name="hint" format="string"/>
     <attr name="fullsize" format="boolean" />
     <attr name="readonly" format="boolean" />
+    <attr name="singleLine" format="boolean" />
 
     <declare-styleable name="FlowLayout">
         <attr name="horizontalSpacing" format="dimension"/>
@@ -19,7 +20,7 @@
         <attr name="layout_verticalSpacing" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="TagsView">
-        <attr name="singleLine" format="boolean"/>
+        <attr name="singleLine"/>
     </declare-styleable>
     <declare-styleable name="InputField">
         <attr name="title"/>
