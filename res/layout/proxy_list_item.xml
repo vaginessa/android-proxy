@@ -5,13 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
         android:id="@+id/list_item_ap_layout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="80dp"
         android:padding="5dp">
-
-    <!--android:paddingBottom="20dp"-->
-    <!--android:paddingTop="20dp"-->
-    <!--android:paddingLeft="10dp"-->
-    <!--android:paddingRight="10dp"-->
 
     <TextView
             android:id="@+id/list_item_proxy_host"
@@ -46,5 +41,14 @@
             android:id="@+id/list_item_proxy_tags"
             app:singleLine="true"
             android:layout_below="@id/list_item_proxy_host"/>
+
+    <ImageView
+            android:id="@+id/li_proxy_used"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_locked"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/list_item_proxy_port"
+            />
 
 </RelativeLayout>

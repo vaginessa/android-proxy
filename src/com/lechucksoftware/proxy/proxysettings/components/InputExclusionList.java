@@ -4,16 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
-import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +18,7 @@ import java.util.List;
 /**
  * Created by Marco on 08/12/13.
  */
-public class InputBypass extends LinearLayout
+public class InputExclusionList extends LinearLayout
 {
     private LinearLayout bypassContainer;
     private TextView titleTextView;
@@ -31,7 +27,7 @@ public class InputBypass extends LinearLayout
     private boolean readonly;
     private List<String> exclusionList;
 
-    public InputBypass(Context context, AttributeSet attrs)
+    public InputExclusionList(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
@@ -39,25 +35,24 @@ public class InputBypass extends LinearLayout
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View v = inflater.inflate(R.layout.input_bypass, this);
+        View v = inflater.inflate(R.layout.input_exclusion, this);
 
         if (v != null)
         {
             titleTextView = (TextView) v.findViewById(R.id.field_title);
             bypassContainer = (LinearLayout) v.findViewById(R.id.bypass_container);
 
-            refreshUI();
+            initUI();
         }
     }
 
-    private void refreshUI()
+    private void initUI()
     {
         if (!TextUtils.isEmpty(title))
         {
             titleTextView.setText(title.toUpperCase());
         }
 
-        bypassContainer.removeAllViews();
         if (exclusionList != null && exclusionList.size() > 0)
         {
             for(String bypass : exclusionList)
@@ -84,6 +79,9 @@ public class InputBypass extends LinearLayout
         i.setReadonly(false);
         bypassContainer.addView(i);
     }
+
+    private void refreshUI()
+    {}
 
     protected void readStyleParameters(Context context, AttributeSet attributeSet)
     {
@@ -114,5 +112,11 @@ public class InputBypass extends LinearLayout
         }
 
         refreshUI();
+    }
+
+    public String getExclusionList()
+    {
+        String result = TextUtils.join(",",exclusionList);
+        return result;
     }
 }

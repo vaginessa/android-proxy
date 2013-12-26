@@ -146,7 +146,7 @@
                     app:fullsize="true"
                     app:value=""/>
 
-            <com.lechucksoftware.proxy.proxysettings.components.InputBypass
+            <com.lechucksoftware.proxy.proxysettings.components.InputExclusionList
                     android:id="@+id/proxy_bypass"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

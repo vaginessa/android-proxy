@@ -17,11 +17,28 @@ public class ProxyEntity extends BaseEntity implements Serializable
     public String exclusion;
     private List<TagEntity> tags;
     private String countryCode;
+    private boolean inUse;
 
     public ProxyEntity()
     {
         super();
         tags = new ArrayList<TagEntity>();
+    }
+
+    public ProxyEntity(ProxyEntity proxy)
+    {
+        super();
+        this.host = proxy.host;
+        this.port = proxy.port;
+        this.exclusion = proxy.exclusion;
+        this.countryCode = proxy.countryCode;
+        this.tags = new ArrayList<TagEntity>();
+        this.inUse = proxy.inUse;
+
+        for(TagEntity t : proxy.tags)
+        {
+            this.tags.add(new TagEntity(t));
+        }
     }
 
     @Override
@@ -61,6 +78,7 @@ public class ProxyEntity extends BaseEntity implements Serializable
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s:%d", host, port));
+        sb.append(String.format(" %s", inUse));
 
         sb.append(" tags: ");
         if (getTags() != null)
@@ -145,5 +163,15 @@ public class ProxyEntity extends BaseEntity implements Serializable
         }
         else
             return null;
+    }
+
+    public void setInUse(boolean inUse)
+    {
+        this.inUse = inUse;
+    }
+
+    public boolean getInUse()
+    {
+        return inUse;
     }
 }

@@ -10,7 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.components.InputBypass;
+import com.lechucksoftware.proxy.proxysettings.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.components.WifiSignal;
@@ -43,7 +43,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     private ViewGroup wifiLayout;
     private InputField proxyHost;
     private InputField proxyPort;
-    private InputBypass proxyBypass;
+    private InputExclusionList proxyBypass;
     private InputTags proxyTags;
     private UUID confId;
 
@@ -142,7 +142,7 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             }
         });
 
-        proxyBypass = (InputBypass) v.findViewById(R.id.proxy_bypass);
+        proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
         proxyBypass.setOnClickListener(new View.OnClickListener()
         {
             @Override

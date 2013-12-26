@@ -23,6 +23,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_PROXY_PORT = "port";
     public static final String COLUMN_PROXY_EXCLUSION = "exclusion";
     public static final String COLUMN_PROXY_COUNTRY_CODE = "country";
+    public static final String COLUMN_PROXY_IN_USE = "used";
 
     public static final String COLUMN_TAG = "tag";
     public static final String COLUMN_TAG_COLOR = "color";
@@ -43,6 +44,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_PROXY_PORT + " integer not null, "
             + COLUMN_PROXY_EXCLUSION + " text not null, "
             + COLUMN_PROXY_COUNTRY_CODE + " text, "
+            + COLUMN_PROXY_IN_USE + " integer not null, "
             + COLUMN_CREATION_DATE + " integer not null, "
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
@@ -101,15 +103,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
                         + newVersion + ", which will destroy all old data");
         dropDB(db);
         createDB(db);
-//        createStaticData(db);
     }
-
-//    public void createStaticData(SQLiteDatabase db)
-//    {
-//        LogWrapper.startTrace(TAG, "CREATE STATIC DATA INTO DATABASE", Log.DEBUG);
-//        db.execSQL(CREATE_TABLE_PROXIES);
-//        LogWrapper.stopTrace(TAG, "CREATE STATIC DATA INTO DATABASE", Log.DEBUG);
-//    }
 
     public void createDB(SQLiteDatabase db)
     {

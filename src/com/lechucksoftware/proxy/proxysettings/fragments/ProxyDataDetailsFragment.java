@@ -3,20 +3,20 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.components.InputBypass;
+import com.lechucksoftware.proxy.proxysettings.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 
 public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFragment
@@ -29,7 +29,7 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
     private ProxyEntity selectedProxy;
     private InputField proxyHost;
     private InputField proxyPort;
-    private InputBypass proxyBypass;
+    private InputExclusionList proxyBypass;
     private InputTags proxyTags;
 
     /**
@@ -53,6 +53,42 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
 
         selectedProxy = (ProxyEntity) getArguments().getSerializable(SELECTED_PROXY_ARG);
         instance = this;
+
+        setHasOptionsMenu(true);
+        setMenuVisibility(true);
+        createCancelSaveActionBar();
+    }
+
+    private void createCancelSaveActionBar()
+    {
+        final ActionBar actionBar = getActivity().getActionBar();
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        final View customActionBarView = inflater.inflate(R.layout.save_cancel, null);
+        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        // "Done"
+                        saveConfiguration();
+                        NavigationUtils.GoToProxiesList(getFragmentManager());
+                    }
+                });
+        customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        // "Cancel"
+                        NavigationUtils.GoToProxiesList(getFragmentManager());
+                    }
+                });
+
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     @Override
@@ -72,7 +108,7 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
     {
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
-        proxyBypass = (InputBypass) v.findViewById(R.id.proxy_bypass);
+        proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
     }
 
@@ -80,7 +116,13 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
     {
         try
         {
-//            ApplicationGlobals.getDBManager().up
+            ProxyEntity newProxy = new ProxyEntity(selectedProxy);
+            newProxy.host = proxyHost.getValue();
+            newProxy.port = Integer.parseInt(proxyPort.getValue());
+            newProxy.exclusion = proxyBypass.getExclusionList();
+
+            ApplicationGlobals.getDBManager().updateProxy(selectedProxy.getId(),selectedProxy);
+//            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectedProxy, newProxy);
         }
         catch (Exception e)
         {
@@ -130,31 +172,12 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
 
     }
 
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
-    {
-        // Only persistant preferences
-        LogWrapper.d(TAG, "Changed preference: " + key);
-
-//		if (key == "pref name bla bla")
-//		{}
-    }
-
-
     @Override
     public void onResume()
     {
         super.onResume();
 
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-
-        if (selectedProxy != null)
-        {
-//            actionBar.setTitle(selconf.description);
-//            ActionManager.getInstance().refreshUI();
-        }
-        else
+        if (selectedProxy == null)
         {
             NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
         }

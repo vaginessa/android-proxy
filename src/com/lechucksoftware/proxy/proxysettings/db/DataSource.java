@@ -27,6 +27,7 @@ public class DataSource
             DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT,
             DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION,
             DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE,
+            DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE,
             DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
             DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
 
@@ -308,6 +309,7 @@ public class DataSource
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT, proxyData.port);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, proxyData.exclusion);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE, proxyData.getCountryCode());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, proxyData.getInUse());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE, currentDate);
@@ -378,6 +380,7 @@ public class DataSource
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT, newData.port);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, newData.exclusion);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE, newData.getCountryCode());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, newData.getInUse());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
@@ -387,7 +390,7 @@ public class DataSource
         // TODO: Stupid implementation, delete all links, and add the newer ones
         deleteProxyTagLinksForProxy(proxyId);
 
-        List<TagEntity> currentTags = getTagsForProxy(proxyId);
+//        List<TagEntity> currentTags = getTagsForProxy(proxyId);
 
         for (TagEntity newTag : newData.getTags())
         {
@@ -617,9 +620,10 @@ public class DataSource
         proxy.host = cursor.getString(1);
         proxy.port = cursor.getInt(2);
         proxy.exclusion = cursor.getString(3);
-        proxy.setCountryCode(cursor.getString(4));
-        proxy.setCreationDate(cursor.getLong(5));
-        proxy.setModifiedDate(cursor.getLong(6));
+        proxy.setInUse(cursor.getInt(4) > 0);
+        proxy.setCountryCode(cursor.getString(5));
+        proxy.setCreationDate(cursor.getLong(6));
+        proxy.setModifiedDate(cursor.getLong(7));
 
         proxy.isPersisted = true;
 

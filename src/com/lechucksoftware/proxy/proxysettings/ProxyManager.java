@@ -6,6 +6,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.enums.SecurityType;
@@ -367,4 +368,9 @@ public class ProxyManager
 
         return selected;
     }
+
+//    public void updateWifiConfiguration(ProxyEntity selectedProxy, ProxyEntity newProxy)
+//    {
+//
+//    }
 }

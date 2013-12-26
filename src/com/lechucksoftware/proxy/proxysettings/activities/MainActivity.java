@@ -38,6 +38,12 @@ public class MainActivity extends BaseActivity
         return mScanner;
     }
 
+    private static MainActivity instance;
+    public static MainActivity getInstance()
+    {
+        return instance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -56,46 +62,8 @@ public class MainActivity extends BaseActivity
         asyncStartupDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.proxy_prefs_activity, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
-                break;
-
-            case R.id.menu_about:
-                NavigationUtils.GoToHelpFragment(getFragmentManager());
-                break;
-
-            case R.id.menu_proxies:
-                NavigationUtils.GoToProxiesList(getFragmentManager());
-                break;
-
-//            case R.id.menu_feedbacks:
-//                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
-//                return true;
-
-            case R.id.menu_developer:
-                final Intent intent = new Intent(this, TestActivity.class);
-                startActivity(intent);
-                break;
-
-        }
-
-        return super.onOptionsItemSelected(item);
+        instance = this;
     }
 
     @Override
@@ -167,10 +135,6 @@ public class MainActivity extends BaseActivity
 
     private void refreshUI()
     {
-//        this.invalidateOptionsMenu();
-//        AccessPointListFragment.getInstance().refreshUI();
-//        WifiAPDetailsFragment.getInstance().refreshUI();
-
         IBaseFragment f = (IBaseFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
         f.refreshUI();
     }

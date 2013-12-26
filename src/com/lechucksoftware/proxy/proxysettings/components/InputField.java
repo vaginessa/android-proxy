@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.components;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -142,16 +144,16 @@ public class InputField extends LinearLayout
             {
                 if (b && !TextUtils.isEmpty(value))
                 {
-                    fieldActionButton.setOnClickListener(new OnClickListener()
-                    {
-                        @Override
-                        public void onClick(View view)
-                        {
-                            value = null;
-                            valueActionButton.setOnClickListener(null);
-                            refreshUI();
-                        }
-                    });
+//                    fieldActionButton.setOnClickListener(new OnClickListener()
+//                    {
+//                        @Override
+//                        public void onClick(View view)
+//                        {
+//                            value = null;
+//                            valueActionButton.setOnClickListener(null);
+//                            refreshUI();
+//                        }
+//                    });
 
                 }
                 else
@@ -160,6 +162,26 @@ public class InputField extends LinearLayout
                 }
 
                 refreshUI();
+            }
+        });
+        valueEditText.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
+            {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                value = editable.toString();
             }
         });
 

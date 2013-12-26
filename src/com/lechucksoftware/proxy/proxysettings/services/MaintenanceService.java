@@ -82,27 +82,27 @@ public class MaintenanceService extends IntentService
         /**
          * Add IN USE TAG
          */
-        getInUseProxyTag();
+//        getInUseProxyTag();
     }
 
-    private TagEntity getInUseProxyTag()
-    {
-        TagEntity inUseTag = null;
-        long id  = ApplicationGlobals.getDBManager().findTag("IN USE");
-        if (id != -1)
-        {
-            inUseTag = ApplicationGlobals.getDBManager().getTag(id);
-        }
-        else
-        {
-            inUseTag = new TagEntity();
-            inUseTag.tag = "IN USE";
-            inUseTag.tagColor = UIUtils.getTagsColor(this, 0);
-            ApplicationGlobals.getDBManager().upsertTag(inUseTag);
-        }
-
-        return inUseTag;
-    }
+//    private TagEntity getInUseProxyTag()
+//    {
+//        TagEntity inUseTag = null;
+//        long id  = ApplicationGlobals.getDBManager().findTag("IN USE");
+//        if (id != -1)
+//        {
+//            inUseTag = ApplicationGlobals.getDBManager().getTag(id);
+//        }
+//        else
+//        {
+//            inUseTag = new TagEntity();
+//            inUseTag.tag = "IN USE";
+//            inUseTag.tagColor = UIUtils.getTagsColor(this, 0);
+//            ApplicationGlobals.getDBManager().upsertTag(inUseTag);
+//        }
+//
+//        return inUseTag;
+//    }
 
     private void upsertFoundProxyConfigurations()
     {
@@ -120,16 +120,18 @@ public class MaintenanceService extends IntentService
                     ProxyEntity pd = null;
                     if (proxyId != -1)
                     {
+                        // Proxy already saved into DB
                         pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
-                        pd.addTag(getInUseProxyTag());
+                        pd.setInUse(true);
                     }
                     else
                     {
+                        // Found new proxy
                         pd = new ProxyEntity();
                         pd.host = conf.getProxyHost();
                         pd.port = conf.getProxyPort();
                         pd.exclusion = conf.getProxyExclusionList();
-                        pd.addTag(getInUseProxyTag());
+                        pd.setInUse(true);
                     }
 
                     ApplicationGlobals.getDBManager().upsertProxy(pd);

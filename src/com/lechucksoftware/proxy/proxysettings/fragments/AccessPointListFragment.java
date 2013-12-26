@@ -3,12 +3,11 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,8 +17,10 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
@@ -43,6 +44,14 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
     private TextView emptyText;
     private Loader<List<ProxyConfiguration>> loader;
     private RelativeLayout progress;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        setMenuVisibility(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -79,13 +88,11 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
 
         LogWrapper.startTrace(TAG,"onResume",Log.DEBUG);
 
-//        // Reset selected configuration
-//        ApplicationGlobals.setSelectedConfiguration(null);
-
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setTitle(getResources().getString(R.string.app_name));
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
 
         ActionManager.getInstance().hide();
 
@@ -101,6 +108,50 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
         refreshUI();
 
         LogWrapper.stopTrace(TAG, "onResume", Log.DEBUG);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.proxy_prefs_activity, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
+                break;
+
+            case R.id.menu_about:
+                NavigationUtils.GoToHelpFragment(getFragmentManager());
+                break;
+
+            case R.id.menu_proxies:
+                NavigationUtils.GoToProxiesList(getFragmentManager());
+                break;
+
+//            case R.id.menu_feedbacks:
+//                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
+//                return true;
+
+            case R.id.menu_developer:
+                final Intent intent = new Intent(getActivity(), TestActivity.class);
+                startActivity(intent);
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void initUI()

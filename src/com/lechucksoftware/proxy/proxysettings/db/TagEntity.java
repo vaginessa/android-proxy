@@ -15,6 +15,13 @@ public class TagEntity extends BaseEntity implements Serializable
         super();
     }
 
+    public TagEntity(TagEntity t)
+    {
+        super();
+        this.tag = t.tag;
+        this.tagColor = t.tagColor;
+    }
+
     @Override
     public String toString()
     {
