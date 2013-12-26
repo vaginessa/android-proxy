@@ -45,6 +45,14 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
     private Loader<List<ProxyConfiguration>> loader;
     private RelativeLayout progress;
 
+    public static AccessPointListFragment getInstance()
+    {
+        if (instance == null)
+            instance = new AccessPointListFragment();
+
+        return instance;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -67,12 +75,16 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
         return v;
     }
 
-    public static AccessPointListFragment getInstance()
+    public void onActivityCreated(Bundle savedInstanceState)
     {
-        if (instance == null)
-            instance = new AccessPointListFragment();
+        super.onActivityCreated(savedInstanceState);
 
-        return instance;
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE,
+                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE |    // ENABLE
+                                    ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM);  // DISABLE
+
     }
 
     @Override
@@ -85,12 +97,6 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
     public void onResume()
     {
         super.onResume();
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setTitle(getResources().getString(R.string.app_name));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
 
         ActionManager.getInstance().hide();
 

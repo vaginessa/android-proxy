@@ -5,9 +5,7 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.InputExclusionList;
@@ -59,12 +57,25 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
         createCancelSaveActionBar();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.proxy_details_menu, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+    }
+
     private void createCancelSaveActionBar()
     {
         final ActionBar actionBar = getActivity().getActionBar();
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final View customActionBarView = inflater.inflate(R.layout.save_cancel, null);
+        final View customActionBarView = inflater.inflate(R.layout.save, null);
         customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
                 new View.OnClickListener()
                 {
@@ -75,21 +86,17 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
                         saveConfiguration();
                         NavigationUtils.GoToProxiesList(getFragmentManager());
                     }
-                });
-        customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        // "Cancel"
-                        NavigationUtils.GoToProxiesList(getFragmentManager());
-                    }
-                });
+                }); 
 
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        // Show the custom action bar view and hide the normal Home icon and title.
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
+                                    ActionBar.DISPLAY_SHOW_CUSTOM |
+                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+
+        actionBar.setCustomView(customActionBarView);
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -121,7 +128,7 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
             newProxy.port = Integer.parseInt(proxyPort.getValue());
             newProxy.exclusion = proxyBypass.getExclusionList();
 
-            ApplicationGlobals.getDBManager().updateProxy(selectedProxy.getId(),selectedProxy);
+            ApplicationGlobals.getDBManager().updateProxy(selectedProxy.getId(), selectedProxy);
 //            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectedProxy, newProxy);
         }
         catch (Exception e)

@@ -128,9 +128,10 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
         super.onActivityCreated(savedInstanceState);
 
         ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(getActivity().getResources().getString(R.string.proxy_configurations));
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP,
+                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP   // ENABLE
+                                     | ActionBar.DISPLAY_SHOW_CUSTOM);  // DISABLE
     }
 
     /**
