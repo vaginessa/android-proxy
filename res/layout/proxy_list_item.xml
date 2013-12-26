@@ -40,7 +40,8 @@
             android:layout_width="fill_parent"
             android:id="@+id/list_item_proxy_tags"
             app:singleLine="true"
-            android:layout_below="@id/list_item_proxy_host"/>
+            android:layout_below="@id/list_item_proxy_host"
+            android:layout_toLeftOf="@+id/li_proxy_used"/>
 
     <ImageView
             android:id="@+id/li_proxy_used"
