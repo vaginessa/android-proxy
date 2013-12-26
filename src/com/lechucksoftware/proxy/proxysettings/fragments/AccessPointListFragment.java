@@ -86,8 +86,6 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
     {
         super.onResume();
 
-        LogWrapper.startTrace(TAG,"onResume",Log.DEBUG);
-
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
@@ -106,8 +104,6 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
         loader = getLoaderManager().initLoader(LOADER_PROXYCONFIGURATIONS, new Bundle(), this);
 
         refreshUI();
-
-        LogWrapper.stopTrace(TAG, "onResume", Log.DEBUG);
     }
 
     @Override
