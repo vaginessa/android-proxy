@@ -1,8 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.os.AsyncTask;
-import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
 
 /**
  * Created by Marco on 29/11/13.
@@ -10,11 +9,11 @@ import com.shouldit.proxy.lib.log.LogWrapper;
 public class AsyncStartupDialogTask extends AsyncTask<Void, Void, Boolean>
 {
     WhatsNewDialog wnd = null;
-    MainActivity mainActivity;
+    WiFiApListActivity wiFiApListActivity;
 
-    public AsyncStartupDialogTask(MainActivity activity)
+    public AsyncStartupDialogTask(WiFiApListActivity activity)
     {
-        mainActivity = activity;
+        wiFiApListActivity = activity;
     }
 
     @Override
@@ -31,7 +30,7 @@ public class AsyncStartupDialogTask extends AsyncTask<Void, Void, Boolean>
     @Override
     protected Boolean doInBackground(Void... voids)
     {
-        wnd = new WhatsNewDialog(mainActivity);
+        wnd = new WhatsNewDialog(wiFiApListActivity);
         return wnd.isToShow();
     }
 }

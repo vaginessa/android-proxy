@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.activities;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

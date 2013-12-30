@@ -1,8 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
-import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -15,13 +15,7 @@ public class WifiScannerHandler extends Handler
     private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
 
     private static final String TAG = WifiScannerHandler.class.getSimpleName();
-    private final MainActivity mainActivity;
     private int mRetry = 0;
-
-    public WifiScannerHandler(MainActivity activity)
-    {
-        mainActivity = activity;
-    }
 
     public void resume()
     {

@@ -1,17 +1,17 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import android.content.*;
-import android.os.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
-import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.*;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.BuildConfig;
@@ -21,25 +21,12 @@ import com.shouldit.proxy.lib.log.LogWrapper;
 /**
  * Created by marco on 17/05/13.
  */
-public class MainActivity extends BaseActivity
+public class WiFiApDetailActivity extends BaseWifiActivity
 {
-    public static String TAG = MainActivity.class.getSimpleName();
+    public static String TAG = WiFiApDetailActivity.class.getSimpleName();
 
-    AsyncStartupDialogTask asyncStartupDialogTask;
-    AsyncStartupRateTask asyncStartupRateTask;
-    AsyncStartupBetaTestTask asyncStartupBetaTestTask;
-
-    private WifiScannerHandler mScanner;
-    private WifiScannerHandler getWifiScanner()
-    {
-        if (mScanner == null)
-            mScanner = new WifiScannerHandler(this);
-
-        return mScanner;
-    }
-
-    private static MainActivity instance;
-    public static MainActivity getInstance()
+    private static WiFiApDetailActivity instance;
+    public static WiFiApDetailActivity getInstance()
     {
         return instance;
     }
@@ -55,13 +42,6 @@ public class MainActivity extends BaseActivity
 
         // Add the fragment to the 'fragment_container' FrameLayout
         getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
-
-        asyncStartupDialogTask = new AsyncStartupDialogTask(this);
-        asyncStartupRateTask = new AsyncStartupRateTask(this);
-        asyncStartupBetaTestTask = new AsyncStartupBetaTestTask(this);
-        asyncStartupDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         instance = this;
     }
@@ -97,9 +77,6 @@ public class MainActivity extends BaseActivity
 
         // Stop the registered status receivers
         unregisterReceiver(changeStatusReceiver);
-
-        getWifiScanner().pause();
-        mScanner = null;
     }
 
     private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()

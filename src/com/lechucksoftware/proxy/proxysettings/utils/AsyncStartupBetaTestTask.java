@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import com.lechucksoftware.proxy.proxysettings.activities.MainActivity;
+import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.dialogs.BetaTestApplicationAlertDialog;
 
@@ -13,11 +13,11 @@ import java.util.Calendar;
  */
 public class AsyncStartupBetaTestTask extends AsyncTask<Void, Void, Boolean>
 {
-    MainActivity mainActivity;
+    WiFiApListActivity wiFiApListActivity;
 
-    public AsyncStartupBetaTestTask(MainActivity activity)
+    public AsyncStartupBetaTestTask(WiFiApListActivity activity)
     {
-        mainActivity = activity;
+        wiFiApListActivity = activity;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class AsyncStartupBetaTestTask extends AsyncTask<Void, Void, Boolean>
         if (showDialog)
         {
             BetaTestApplicationAlertDialog dialog = BetaTestApplicationAlertDialog.newInstance();
-            dialog.show(mainActivity.getFragmentManager(), "AsyncStartupBetaTestTask");
+            dialog.show(wiFiApListActivity.getFragmentManager(), "AsyncStartupBetaTestTask");
         }
     }
 
@@ -40,13 +40,13 @@ public class AsyncStartupBetaTestTask extends AsyncTask<Void, Void, Boolean>
 
     public boolean showAppBetaTest()
     {
-        SharedPreferences prefs = mainActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences prefs = wiFiApListActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
         if (prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
         {
             return false;
         }
 
-        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(mainActivity.getApplicationContext());
+        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(wiFiApListActivity.getApplicationContext());
 
         // Wait at least N days before opening
         if (statistics.launchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)
