@@ -451,7 +451,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 else
                 {
                     Constructor constr;
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                         constr = ProxyPropertiesClass.getConstructors()[1];
                     } else {
                         constr = ProxyPropertiesClass.getConstructors()[3];
