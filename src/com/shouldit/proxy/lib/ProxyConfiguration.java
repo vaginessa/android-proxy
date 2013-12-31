@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.text.TextUtils;
+
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
@@ -448,10 +450,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 }
                 else
                 {
-                    Constructor constr = ProxyPropertiesClass.getConstructors()[1];
-                    Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
-                    mHttpProxyField.set(linkProperties, ProxyProperties);
-                }
+                    Constructor constr;
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                        constr = ProxyPropertiesClass.getConstructors()[1];
+                    } else {
+                        constr = ProxyPropertiesClass.getConstructors()[3];
+                    }
             }
 
 //            Object mHttpProxy = mHttpProxyField.get(linkProperties);
