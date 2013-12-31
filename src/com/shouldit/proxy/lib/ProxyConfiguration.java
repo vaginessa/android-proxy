@@ -456,6 +456,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                     } else {
                         constr = ProxyPropertiesClass.getConstructors()[3];
                     }
+                    Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
+                    mHttpProxyField.set(linkProperties, ProxyProperties);
+                }
             }
 
 //            Object mHttpProxy = mHttpProxyField.get(linkProperties);
