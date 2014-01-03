@@ -113,6 +113,21 @@ public class LogWrapper
         }
     }
 
+
+    public static void getPartial(String tag, String key, int logLevel)
+    {
+        synchronized (startTraces)
+        {
+            if (startTraces != null && startTraces.containsKey(key))
+            {
+                Date start = startTraces.get(key);
+                Date now = new Date();
+                long diff = now.getTime() - start.getTime();
+                log(tag, "PARTIAL " + key + " " + " %%%%%%%%%%%%% " + diff + " msec %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
+            }
+        }
+    }
+
     public static void stopTrace(String tag, String key, int logLevel)
     {
         stopTrace(tag, key, "", logLevel);
@@ -195,6 +210,4 @@ public class LogWrapper
 
         log(tag, sb.toString(), logLevel);
     }
-
-
 }
