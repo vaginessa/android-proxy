@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
+import com.shouldit.proxy.lib.BuildConfig;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 /**
@@ -42,6 +43,13 @@ public class BaseActivity extends Activity
     public void onResume()
     {
         super.onResume();
+
+        if (BuildConfig.DEBUG)
+        {
+            // ONLY on DEBUG
+            ViewServer.get(this).setFocusedWindow(this);
+        }
+
         LogWrapper.d(this.getClass().getSimpleName(),"onResume");
     }
 

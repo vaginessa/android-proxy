@@ -1,21 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
-import com.lechucksoftware.proxy.proxysettings.utils.*;
-import com.shouldit.proxy.lib.APLConstants;
-import com.shouldit.proxy.lib.BuildConfig;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApDetailFragment;
+
+import java.util.UUID;
 
 
 /**
@@ -36,83 +30,26 @@ public class WiFiApDetailActivity extends BaseWifiActivity
     {
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
 
+        instance = this;
         setContentView(R.layout.main_layout);
 
-        NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
+        FragmentManager fm = getFragmentManager();
 
-        // Add the fragment to the 'fragment_container' FrameLayout
-        getFragmentManager().beginTransaction().add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
+        // Add the StatusFragment to the status_fragment_container
+        fm.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
 
-        instance = this;
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-        getWifiScanner().resume();
-
-        // Start register the status receivers
-        IntentFilter ifilt = new IntentFilter();
-
-        ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-        ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-        ifilt.addAction(Constants.PROXY_REFRESH_UI);
-        registerReceiver(changeStatusReceiver, ifilt);
-
-        if (BuildConfig.DEBUG)
+        Intent callerIntent = getIntent();
+        if (callerIntent != null)
         {
-            // ONLY on DEBUG
-            ViewServer.get(this).setFocusedWindow(this);
+            UUID selectedId = (UUID) callerIntent.getExtras().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+
+            // Add the WiFiApListFragment to the main fragment_container
+            WiFiApDetailFragment details = WiFiApDetailFragment.newInstance(selectedId);
+            fm.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .add(R.id.fragment_container, details).commit();
         }
-
-        refreshUI();
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-
-        // Stop the registered status receivers
-        unregisterReceiver(changeStatusReceiver);
-    }
-
-    private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            String action = intent.getAction();
-
-            LogWrapper.logIntent(TAG, intent, Log.INFO, true);
-
-            if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
-            {
-                LogWrapper.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
-                refreshUI();
-            }
-            else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
-            {
-                LogWrapper.d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
-                refreshUI();
-            }
-            else if (action.equals(Constants.PROXY_REFRESH_UI))
-            {
-                LogWrapper.d(TAG, "Received broadcast for update the Proxy Settings UI - RefreshUI");
-                refreshUI();
-            }
-            else
-            {
-                LogWrapper.e(TAG, "Received intent not handled: " + intent.getAction());
-            }
-        }
-    };
-
-    private void refreshUI()
-    {
-        IBaseFragment f = (IBaseFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-        f.refreshUI();
     }
 }

@@ -47,11 +47,11 @@ public class ProxySettingsCheckerService extends IntentService
         instance = this;
         isHandling = true;
 
-        LogWrapper.startTrace(TAG, "checkProxySettings", Log.ERROR);
+        LogWrapper.startTrace(TAG, "checkProxySettings", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        LogWrapper.stopTrace(TAG, "checkProxySettings", Log.ERROR);
+        LogWrapper.stopTrace(TAG, "checkProxySettings", Log.DEBUG);
         isHandling = false;
     }
 
@@ -133,7 +133,7 @@ public class ProxySettingsCheckerService extends IntentService
                 boolean checkNewConf = false;
                 if (conf != null)
                 {
-                    LogWrapper.i(TAG, "Checking configuration: " + conf.toShortString());
+                    LogWrapper.d(TAG, "Checking configuration: " + conf.toShortString());
 
                     if (conf.status != null
                             && conf.status.checkedDate != null)
@@ -164,19 +164,19 @@ public class ProxySettingsCheckerService extends IntentService
 
                 if (checkNewConf)
                 {
-                    LogWrapper.i(TAG, "Changed current proxy configuration: calling refresh of proxy status");
+                    LogWrapper.d(TAG, "Changed current proxy configuration: calling refresh of proxy status");
                     ProxyUtils.acquireProxyStatus(conf, conf.status, ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
-                    LogWrapper.i(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
+                    LogWrapper.d(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
                 }
                 else
                 {
                     // Skip check when configuration is the same
-                    LogWrapper.i(TAG, "No need to check the configuration. Skip...");
+                    LogWrapper.d(TAG, "No need to check the configuration. Skip...");
                 }
             }
             else
             {
-                LogWrapper.w(TAG, "Network is not available, cannot check proxy settings");
+                LogWrapper.d(TAG, "Network is not available, cannot check proxy settings");
             }
 
             CallRefreshApplicationStatus();
@@ -194,7 +194,7 @@ public class ProxySettingsCheckerService extends IntentService
         /**
          * Call the update of the UI
          * */
-        LogWrapper.i(TAG, "Sending broadcast intent " + Constants.PROXY_REFRESH_UI);
+        LogWrapper.d(TAG, "Sending broadcast intent " + Constants.PROXY_REFRESH_UI);
         Intent intent = new Intent(Constants.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 

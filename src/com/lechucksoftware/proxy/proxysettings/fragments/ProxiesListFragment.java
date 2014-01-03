@@ -192,7 +192,7 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(new Exception("Exception during AccessPointListFragment showDetails(" + index + ") " + e.toString()));
+            BugReportingUtils.sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
         }
     }
 
@@ -215,7 +215,7 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(new Exception("Exception during AccessPointListFragment selectedProxy(" + index + ") " + e.toString()));
+            BugReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectedProxy(" + index + ") " + e.toString()));
         }
     }
 

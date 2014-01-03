@@ -13,11 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.WiFiApDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.adapters.WifiAPSelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
@@ -34,21 +34,21 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class AccessPointListFragment extends BaseListFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
+public class WiFiApListFragment extends BaseListFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
 {
-    private static final String TAG = "AccessPointListFragment";
+    private static final String TAG = "WiFiApListFragment";
     private static final int LOADER_PROXYCONFIGURATIONS = 1;
-    private static AccessPointListFragment instance;
+    private static WiFiApListFragment instance;
     int mCurCheckPosition = 0;
     private WifiAPSelectorListAdapter apListAdapter;
     private TextView emptyText;
     private Loader<List<ProxyConfiguration>> loader;
     private RelativeLayout progress;
 
-    public static AccessPointListFragment getInstance()
+    public static WiFiApListFragment getInstance()
     {
         if (instance == null)
-            instance = new AccessPointListFragment();
+            instance = new WiFiApListFragment();
 
         return instance;
     }
@@ -64,14 +64,14 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        LogWrapper.startTrace(TAG,"onCreateView",Log.INFO);
+        LogWrapper.startTrace(TAG,"onCreateView",Log.DEBUG);
 
         View v = inflater.inflate(R.layout.ap_list, container, false);
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
 
-        LogWrapper.stopTrace(TAG, "onCreateView", Log.INFO);
+        LogWrapper.stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -173,10 +173,10 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
     @Override
     public Loader<List<ProxyConfiguration>> onCreateLoader(int i, Bundle bundle)
     {
-        LogWrapper.startTrace(TAG,"onCreateLoader",Log.INFO);
+        LogWrapper.startTrace(TAG,"onCreateLoader",Log.DEBUG);
 
         ProxyConfigurationTaskLoader proxyConfigurationTaskLoader = new ProxyConfigurationTaskLoader(getActivity());
-        LogWrapper.stopTrace(TAG, "onCreateLoader", Log.INFO);
+        LogWrapper.stopTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         return proxyConfigurationTaskLoader;
     }
@@ -209,7 +209,7 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
         progress.setVisibility(View.GONE);
 
         LogWrapper.stopTrace(TAG,"onLoadFinished",Log.DEBUG);
-        LogWrapper.stopTrace(TAG,"STARTUP", Log.ERROR);
+        LogWrapper.stopTrace(TAG,"STARTUP", Log.DEBUG);
     }
 
     @Override
@@ -245,20 +245,22 @@ public class AccessPointListFragment extends BaseListFragment implements IBaseFr
                         .show();
 
 
-
                 BugReportingUtils.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
             }
             else
             {
-//                ApplicationGlobals.setSelectedConfiguration(selectedConfiguration);
                 LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
-                NavigationUtils.GoToAPDetailsFragment(getFragmentManager(), selectedConfiguration);
+                Intent i = new Intent(getActivity(), WiFiApDetailActivity.class);
+                i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.id);
+                startActivity(i);
+
+//                NavigationUtils.GoToAPDetailsFragment(getFragmentManager(), selectedConfiguration);
             }
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(new Exception("Exception during AccessPointListFragment showDetails("+ index + ") " + e.toString()));
+            BugReportingUtils.sendException(new Exception("Exception during WiFiApListFragment showDetails("+ index + ") " + e.toString()));
         }
     }
 }

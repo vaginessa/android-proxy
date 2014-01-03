@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.*;
-import com.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by Marco on 22/06/13.
@@ -24,15 +23,15 @@ public class NavigationUtils
         if (f != null)
         {
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-            ft.replace(R.id.fragment_container, AccessPointListFragment.getInstance());
+            ft.replace(R.id.fragment_container, WiFiApListFragment.getInstance());
         }
         else
         {
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.add(R.id.fragment_container, AccessPointListFragment.getInstance());
+            ft.add(R.id.fragment_container, WiFiApListFragment.getInstance());
         }
 
-        // Do NOT add AccessPointListFragment to back stack
+        // Do NOT add WiFiApListFragment to back stack
         ft.commit();
     }
 
@@ -46,16 +45,16 @@ public class NavigationUtils
         ft.commit();
     }
 
-    public static void GoToAPDetailsFragment(FragmentManager fm, ProxyConfiguration proxyConfiguration)
-    {
-        WifiAPDetailsFragment details = WifiAPDetailsFragment.newInstance(proxyConfiguration);
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.replace(R.id.fragment_container, details);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
+//    public static void GoToAPDetailsFragment(FragmentManager fm, ProxyConfiguration proxyConfiguration)
+//    {
+//        WiFiApDetailFragment details = WiFiApDetailFragment.newInstance(proxyConfiguration);
+//
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        ft.replace(R.id.fragment_container, details);
+//        ft.addToBackStack(null);
+//        ft.commit();
+//    }
 
     public static void GoToProxyDetailsFragment(FragmentManager fm, ProxyEntity selectedProxy)
     {

@@ -21,21 +21,21 @@ public class WifiScannerHandler extends Handler
     {
         if (!hasMessages(0))
         {
-            LogWrapper.w(TAG, "Resume Wi-Fi scanner");
+            LogWrapper.d(TAG, "Resume Wi-Fi scanner");
             sendEmptyMessage(0);
         }
     }
 
     public void forceScan()
     {
-        LogWrapper.w(TAG, "Force Wi-Fi scanner");
+        LogWrapper.d(TAG, "Force Wi-Fi scanner");
         removeMessages(0);
         sendEmptyMessage(0);
     }
 
     public void pause()
     {
-        LogWrapper.w(TAG, "Pause Wi-Fi scanner");
+        LogWrapper.d(TAG, "Pause Wi-Fi scanner");
         mRetry = 0;
         removeMessages(0);
     }
@@ -43,7 +43,7 @@ public class WifiScannerHandler extends Handler
     @Override
     public void handleMessage(Message message)
     {
-        LogWrapper.w(TAG, "Calling Wi-Fi scanner");
+        LogWrapper.d(TAG, "Calling Wi-Fi scanner");
 
         if (APL.getWifiManager().startScan())
         {

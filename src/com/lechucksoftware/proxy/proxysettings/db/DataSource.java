@@ -126,7 +126,7 @@ public class DataSource
 
     public ProxyEntity getProxy(long proxyId)
     {
-        LogWrapper.startTrace(TAG, "getProxy", Log.INFO);
+        LogWrapper.startTrace(TAG, "getProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -144,7 +144,7 @@ public class DataSource
         cursor.close();
 
         proxyData.setTags(getTagsForProxy(proxyId));
-        LogWrapper.stopTrace(TAG, "getProxy", proxyData.toString(), Log.INFO);
+        LogWrapper.stopTrace(TAG, "getProxy", proxyData.toString(), Log.DEBUG);
         return proxyData;
     }
 
@@ -254,7 +254,7 @@ public class DataSource
 
     public long findProxy(ProxyEntity proxyData)
     {
-        LogWrapper.startTrace(TAG, "findProxy", Log.ASSERT);
+        LogWrapper.startTrace(TAG, "findProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
@@ -272,13 +272,13 @@ public class DataSource
         }
 
         cursor.close();
-        LogWrapper.stopTrace(TAG, "findProxy", Log.ASSERT);
+        LogWrapper.stopTrace(TAG, "findProxy", Log.DEBUG);
         return proxyId;
     }
 
     public long findTag(String tagName)
     {
-        LogWrapper.startTrace(TAG, "findTag", Log.ASSERT);
+        LogWrapper.startTrace(TAG, "findTag", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
@@ -295,7 +295,7 @@ public class DataSource
         }
 
         cursor.close();
-        LogWrapper.stopTrace(TAG, "findTag", Log.ASSERT);
+        LogWrapper.stopTrace(TAG, "findTag", Log.DEBUG);
         return tagId;
     }
 

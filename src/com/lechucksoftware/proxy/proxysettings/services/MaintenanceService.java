@@ -44,11 +44,11 @@ public class MaintenanceService extends IntentService
         instance = this;
         isHandling = true;
 
-        LogWrapper.startTrace(TAG, "maintenanceService", Log.ERROR);
+        LogWrapper.startTrace(TAG, "maintenanceService", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        LogWrapper.stopTrace(TAG, "maintenanceService", Log.ERROR);
+        LogWrapper.stopTrace(TAG, "maintenanceService", Log.DEBUG);
         isHandling = false;
     }
 
@@ -106,7 +106,7 @@ public class MaintenanceService extends IntentService
 
     private void upsertFoundProxyConfigurations()
     {
-        LogWrapper.startTrace(TAG, "upsertFoundProxyConfigurations", Log.INFO);
+        LogWrapper.startTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);
 
         List<ProxyConfiguration> configurations = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
 
@@ -142,7 +142,7 @@ public class MaintenanceService extends IntentService
             LogWrapper.d(TAG, "Saved proxy: " + proxiesCount);
         }
 
-        LogWrapper.stopTrace(TAG, "upsertFoundProxyConfigurations", Log.INFO);
+        LogWrapper.stopTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);
     }
 
     private void checkProxiesCountryCodes()

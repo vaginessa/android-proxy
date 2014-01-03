@@ -13,45 +13,45 @@ import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class RateApplicationAlertDialog extends DialogFragment
 {
-	public static String TAG = "RateApplicationAlertDialog";
+    public static String TAG = "RateApplicationAlertDialog";
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState)
-	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-		builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
-		builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
-		builder.setCancelable(false);
-		builder.setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener() 
-		{
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
-				dontDisplayAgainAppRate();
-				LogWrapper.d(TAG, "Starting Market activity");
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
+        builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
+        builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
+        builder.setCancelable(false);
+        builder.setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+            {
+                dontDisplayAgainAppRate();
+                LogWrapper.d(TAG, "Starting Market activity");
 
                 Utils.startMarketActivity(getActivity());
-			}
+            }
         });
 
-		builder.setNeutralButton(getResources().getText(R.string.app_rater_dialog_button_remind), new DialogInterface.OnClickListener() 
-		{
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
+        builder.setNeutralButton(getResources().getText(R.string.app_rater_dialog_button_remind), new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+            {
 
-			}
-		});
+            }
+        });
 
-		builder.setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener() 
-		{
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
-				dontDisplayAgainAppRate();
-			}
-		});
+        builder.setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+            {
+                dontDisplayAgainAppRate();
+            }
+        });
 
-		AlertDialog alert = builder.create();
-		return alert;
-	}
+        AlertDialog alert = builder.create();
+        return alert;
+    }
 
     public void dontDisplayAgainAppRate()
     {
@@ -65,9 +65,9 @@ public class RateApplicationAlertDialog extends DialogFragment
         }
     }
 
-	public static RateApplicationAlertDialog newInstance()
-	{
-		RateApplicationAlertDialog frag = new RateApplicationAlertDialog();
-		return frag;
-	}
+    public static RateApplicationAlertDialog newInstance()
+    {
+        RateApplicationAlertDialog frag = new RateApplicationAlertDialog();
+        return frag;
+    }
 }

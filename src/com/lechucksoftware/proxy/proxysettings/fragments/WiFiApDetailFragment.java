@@ -3,6 +3,8 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,27 +16,27 @@ import com.lechucksoftware.proxy.proxysettings.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.components.WifiSignal;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.UUID;
 
 
-public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
+public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 {
-    public static final String TAG = "WifiAPDetailsFragment";
+    public static final String TAG = "WiFiApDetailFragment";
 
     private ProxyConfiguration selectedWiFiAP;
     private ProxyEntity selectedProxy;
 
-    // Arguments
-    private static final String SELECTED_AP_CONF_ARG = "SELECTED_AP_CONF_ARG";
     private TextView wifiName;
     private TextView wifiStatus;
     private WifiSignal wifiSignal;
@@ -48,14 +50,14 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     private UUID confId;
 
     /**
-     * Create a new instance of WifiAPDetailsFragment
+     * Create a new instance of WiFiApDetailFragment
      */
-    public static WifiAPDetailsFragment newInstance(ProxyConfiguration selectedConf)
+    public static WiFiApDetailFragment newInstance(UUID selectedId)
     {
-        WifiAPDetailsFragment instance = new WifiAPDetailsFragment();
+        WiFiApDetailFragment instance = new WiFiApDetailFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(SELECTED_AP_CONF_ARG, selectedConf.id);
+        args.putSerializable(Constants.SELECTED_AP_CONF_ARG, selectedId);
         instance.setArguments(args);
 
         return instance;
@@ -66,14 +68,18 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
     {
         super.onCreate(savedInstanceState);
 
-        confId = (UUID) getArguments().getSerializable(SELECTED_AP_CONF_ARG);
+        confId = (UUID) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
         selectedWiFiAP = ApplicationGlobals.getProxyManager().getConfiguration(confId);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+//        LogWrapper.startTrace(TAG, "onCreateView", Log.DEBUG);
+
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
+
+//        LogWrapper.getPartial(TAG, "onCreateView", Log.DEBUG);
 
         wifiLayout = (ViewGroup) v.findViewById(R.id.wifi_layout);
 
@@ -162,8 +168,11 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
             }
         });
 
+//        LogWrapper.getPartial(TAG, "onCreateView", Log.DEBUG);
+
         refreshUI();
 
+//        LogWrapper.stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -268,6 +277,8 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 
     public void refreshUI()
     {
+//        LogWrapper.startTrace(TAG, "refreshUI", Log.DEBUG);
+
         if (selectedWiFiAP.proxySetting == ProxySetting.STATIC)
         {
             proxySwitch.setChecked(true);
@@ -412,6 +423,8 @@ public class WifiAPDetailsFragment extends BaseFragment implements IBaseFragment
 //                proxyEnablePref.setEnabled(false);
 //            }
 //        }
+
+//        LogWrapper.stopTrace(TAG, "refreshUI", Log.DEBUG);
     }
 
     private void refreshFieldsValues()

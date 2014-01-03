@@ -148,7 +148,7 @@ public class ProxyManager
      */
     public synchronized void updateProxyConfigurationList()
     {
-        LogWrapper.startTrace(TAG, "updateProxyConfigurationList", Log.ASSERT);
+        LogWrapper.startTrace(TAG, "updateProxyConfigurationList", Log.DEBUG);
 
         //Get information regarding current saved configuration
         List<WifiNetworkId> internalSavedSSID = getInternalSavedWifiConfigurations();
@@ -170,7 +170,7 @@ public class ProxyManager
         }
 
         LogWrapper.d(TAG, "Final savedConfigurations list: " + getConfigurationsString());
-        LogWrapper.stopTrace(TAG, "updateProxyConfigurationList", Log.ASSERT);
+        LogWrapper.stopTrace(TAG, "updateProxyConfigurationList", Log.DEBUG);
     }
 
     private void updateConfigurationsWithWifiScanResults()

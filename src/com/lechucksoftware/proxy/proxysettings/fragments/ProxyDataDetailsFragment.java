@@ -31,7 +31,7 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
     private InputTags proxyTags;
 
     /**
-     * Create a new instance of WifiAPDetailsFragment
+     * Create a new instance of WiFiApDetailFragment
      */
     public static ProxyDataDetailsFragment newInstance(ProxyEntity selectedProxy)
     {
