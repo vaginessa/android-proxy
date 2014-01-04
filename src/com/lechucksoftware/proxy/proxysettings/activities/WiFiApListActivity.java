@@ -68,7 +68,7 @@ public class WiFiApListActivity extends BaseWifiActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.proxy_prefs_activity, menu);
+        inflater.inflate(R.menu.ap_wifi_list, menu);
         return true;
     }
 

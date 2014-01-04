@@ -889,4 +889,6 @@
     <string name="saved_n_proxies">Saved %1$d Proxies</string>
     <string name="save">Save</string>
     <string name="undo">undo</string>
+    <string name="proxy_list">Proxies list</string>
+    <string name="add_new_proxy">Add new proxy</string>
 </resources>

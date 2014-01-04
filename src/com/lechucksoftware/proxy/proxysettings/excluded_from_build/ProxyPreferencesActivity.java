@@ -105,7 +105,7 @@ public class ProxyPreferencesActivity extends Activity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.proxy_prefs_activity, menu);
+		inflater.inflate(R.menu.proxy_list, menu);
 		return true;
 	}
 
