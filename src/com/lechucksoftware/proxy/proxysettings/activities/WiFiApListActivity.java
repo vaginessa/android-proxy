@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.AsyncStartupBetaTestTask;
