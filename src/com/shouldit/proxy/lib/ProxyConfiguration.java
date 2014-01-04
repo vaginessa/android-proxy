@@ -8,7 +8,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.text.TextUtils;
-
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
@@ -73,8 +72,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         ProxyStatusItem hostStatus = ProxyUtils.isProxyValidHostname(this);
         ProxyStatusItem portStatus = ProxyUtils.isProxyValidPort(this);
 
-        if (    hostStatus.effective && hostStatus.status == CheckStatusValues.CHECKED && hostStatus.result
-             && portStatus.effective && portStatus.status == CheckStatusValues.CHECKED && portStatus.result)
+        if (hostStatus.effective && hostStatus.status == CheckStatusValues.CHECKED && hostStatus.result
+                && portStatus.effective && portStatus.status == CheckStatusValues.CHECKED && portStatus.result)
         {
             return true;
         }
@@ -451,14 +450,20 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 else
                 {
                     Constructor constr;
+
+                    // TODO: Test again on KitKat Device
                     // NOTE: Hardcoded sdk version number.
                     // Instead of comparing against Build.VERSION_CODES.KITKAT, we directly compare against the version
                     // number to allow devs to compile with an older version of the sdk.
-                    if (Build.VERSION.SDK_INT < 19) {
+                    if (Build.VERSION.SDK_INT < 19)
+                    {
                         constr = ProxyPropertiesClass.getConstructors()[1];
-                    } else {
+                    }
+                    else
+                    {
                         constr = ProxyPropertiesClass.getConstructors()[3];
                     }
+
                     Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
                     mHttpProxyField.set(linkProperties, ProxyProperties);
                 }

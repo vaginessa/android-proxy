@@ -1,15 +1,36 @@
-package com.shouldit.proxy.lib.reflection.android;
-
-import android.net.Uri;
-import android.text.TextUtils;
-import java.net.InetSocketAddress;
-
-/**
- * A container class for the http proxy info 
- * @hide
+/*
+ * Copyright (C) 2010 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-public class ProxyProperties {
+package android.net;
+
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
+import android.util.Log;
+
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
+
+/**
+ * A container class for the http proxy info
+ * @hide
+ */
+public class ProxyProperties implements Parcelable {
 
     private String mHost;
     private int mPort;
@@ -114,11 +135,10 @@ public class ProxyProperties {
             sb.append("] ");
             sb.append(Integer.toString(mPort));
             if (mExclusionList != null) {
-                    sb.append(" xl=").append(mExclusionList);
+                sb.append(" xl=").append(mExclusionList);
             }
-        } else 
-        {
-            sb.append("[RProxyProperties.mHost == null]");
+        } else {
+            sb.append("[ProxyProperties.mHost == null]");
         }
         return sb.toString();
     }
@@ -136,4 +156,63 @@ public class ProxyProperties {
         if (mPort != p.mPort) return false;
         return true;
     }
+
+    /**
+     * Implement the Parcelable interface
+     * @hide
+     */
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    /*
+     * generate hashcode based on significant fields
+     */
+    public int hashCode() {
+        return ((null == mHost) ? 0 : mHost.hashCode())
+                + ((null == mExclusionList) ? 0 : mExclusionList.hashCode())
+                + mPort;
+    }
+
+    /**
+     * Implement the Parcelable interface.
+     * @hide
+     */
+    public void writeToParcel(Parcel dest, int flags) {
+        if (mHost != null) {
+            dest.writeByte((byte)1);
+            dest.writeString(mHost);
+            dest.writeInt(mPort);
+        } else {
+            dest.writeByte((byte)0);
+        }
+        dest.writeString(mExclusionList);
+        dest.writeStringArray(mParsedExclusionList);
+    }
+
+    /**
+     * Implement the Parcelable interface.
+     * @hide
+     */
+    public static final Creator<ProxyProperties> CREATOR =
+            new Creator<ProxyProperties>() {
+                public ProxyProperties createFromParcel(Parcel in) {
+                    String host = null;
+                    int port = 0;
+                    if (in.readByte() == 1) {
+                        host = in.readString();
+                        port = in.readInt();
+                    }
+                    String exclList = in.readString();
+                    String[] parsedExclList = in.readStringArray();
+                    ProxyProperties proxyProperties =
+                            new ProxyProperties(host, port, exclList, parsedExclList);
+                    return proxyProperties;
+                }
+
+                public ProxyProperties[] newArray(int size) {
+                    return new ProxyProperties[size];
+                }
+            };
 }
