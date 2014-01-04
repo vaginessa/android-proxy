@@ -58,7 +58,7 @@ public class NavigationUtils
 
     public static void GoToProxyDetailsFragment(FragmentManager fm, ProxyEntity selectedProxy)
     {
-        ProxyDataDetailsFragment details = ProxyDataDetailsFragment.newInstance(selectedProxy);
+        ProxyDetailFragment details = ProxyDetailFragment.newInstance(selectedProxy);
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -69,7 +69,7 @@ public class NavigationUtils
 
     public static void GoToProxiesList(FragmentManager fm)
     {
-        ProxiesListFragment list = ProxiesListFragment.newInstance();
+        ProxyListFragment list = ProxyListFragment.newInstance();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

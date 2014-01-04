@@ -7,6 +7,8 @@ import android.os.Bundle;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApDetailFragment;
 
@@ -16,12 +18,12 @@ import java.util.UUID;
 /**
  * Created by marco on 17/05/13.
  */
-public class WiFiApDetailActivity extends BaseWifiActivity
+public class ProxyDetailActivity extends BaseWifiActivity
 {
-    public static String TAG = WiFiApDetailActivity.class.getSimpleName();
+    public static String TAG = ProxyDetailActivity.class.getSimpleName();
 
-    private static WiFiApDetailActivity instance;
-    public static WiFiApDetailActivity getInstance()
+    private static ProxyDetailActivity instance;
+    public static ProxyDetailActivity getInstance()
     {
         return instance;
     }
@@ -44,10 +46,10 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         Intent callerIntent = getIntent();
         if (callerIntent != null)
         {
-            UUID selectedId = (UUID) callerIntent.getExtras().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+            ProxyEntity selectedProxy = (ProxyEntity) callerIntent.getExtras().getSerializable(Constants.SELECTED_PROXY_CONF_ARG);
 
             // Add the WiFiApListFragment to the main fragment_container
-            WiFiApDetailFragment detail = WiFiApDetailFragment.newInstance(selectedId);
+            ProxyDetailFragment detail = ProxyDetailFragment.newInstance(selectedProxy);
             fm.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.fragment_container, detail).commit();

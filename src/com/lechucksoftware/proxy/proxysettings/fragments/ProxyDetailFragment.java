@@ -17,10 +17,10 @@ import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 
-public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFragment
+public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
 {
-    public static ProxyDataDetailsFragment instance;
-    public static final String TAG = ProxyDataDetailsFragment.class.getSimpleName();
+    public static ProxyDetailFragment instance;
+    public static final String TAG = ProxyDetailFragment.class.getSimpleName();
 
     // Arguments
     private static final String SELECTED_PROXY_ARG = "SELECTED_PROXY_ARG";
@@ -33,9 +33,9 @@ public class ProxyDataDetailsFragment extends DialogFragment implements IBaseFra
     /**
      * Create a new instance of WiFiApDetailFragment
      */
-    public static ProxyDataDetailsFragment newInstance(ProxyEntity selectedProxy)
+    public static ProxyDetailFragment newInstance(ProxyEntity selectedProxy)
     {
-        ProxyDataDetailsFragment instance = new ProxyDataDetailsFragment();
+        ProxyDetailFragment instance = new ProxyDetailFragment();
 
         Bundle args = new Bundle();
         args.putSerializable(SELECTED_PROXY_ARG, selectedProxy);

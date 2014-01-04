@@ -32,7 +32,7 @@ import java.util.List;
 public class ActionsListFragment extends BaseDialogFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyEntity>>
 {
     private static final String TAG = ActionsListFragment.class.getSimpleName();
-//    private static ProxiesListFragment instance;
+//    private static ProxyListFragment instance;
     int mCurCheckPosition = 0;
     private ProxiesSelectorListAdapter proxiesListAdapter;
     private TextView emptyText;

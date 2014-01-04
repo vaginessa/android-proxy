@@ -3,8 +3,6 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -178,13 +175,13 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void openProxyEditorDialog()
     {
-        ProxyDataDetailsFragment dialog = ProxyDataDetailsFragment.newInstance(selectedProxy);
+        ProxyDetailFragment dialog = ProxyDetailFragment.newInstance(selectedProxy);
         dialog.show(getFragmentManager(),TAG);
     }
 
     private void openProxySelectorDialog()
     {
-        ProxiesListFragment proxiesListFragment = ProxiesListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
+        ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
         proxiesListFragment.show(getFragmentManager(), TAG);
     }
 

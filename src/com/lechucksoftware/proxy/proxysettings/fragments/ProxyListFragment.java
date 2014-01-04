@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 
 import android.app.ActionBar;
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.ProxyDetailActivity;
+import com.lechucksoftware.proxy.proxysettings.activities.WiFiApDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
@@ -22,6 +26,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.ArrayList;
@@ -30,10 +35,10 @@ import java.util.List;
 /**
  * Created by marco on 17/05/13.
  */
-public class ProxiesListFragment extends BaseDialogFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyEntity>>
+public class ProxyListFragment extends BaseDialogFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyEntity>>
 {
-    private static final String TAG = ProxiesListFragment.class.getSimpleName();
-//    private static ProxiesListFragment instance;
+    private static final String TAG = ProxyListFragment.class.getSimpleName();
+//    private static ProxyListFragment instance;
     int mCurCheckPosition = 0;
     private ProxiesSelectorListAdapter proxiesListAdapter;
     private TextView emptyText;
@@ -53,14 +58,14 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
     private ProxyConfiguration apConf;
 
 
-    public static ProxiesListFragment newInstance()
+    public static ProxyListFragment newInstance()
     {
         return newInstance(FragmentMode.FULLSIZE, null);
     }
 
-    public static ProxiesListFragment newInstance(FragmentMode mode, ProxyConfiguration apConf)
+    public static ProxyListFragment newInstance(FragmentMode mode, ProxyConfiguration apConf)
     {
-        ProxiesListFragment instance = new ProxiesListFragment();
+        ProxyListFragment instance = new ProxyListFragment();
 
         Bundle args = new Bundle();
         args.putSerializable(FRAGMENT_MODE_ARG, mode);
@@ -186,9 +191,11 @@ public class ProxiesListFragment extends BaseDialogFragment implements IBaseFrag
             listView.setItemChecked(index, true);
 
             ProxyEntity selectedProxy = (ProxyEntity) listView.getItemAtPosition(index);
-//            ApplicationGlobals.setSelectedProxy(selectedProxy);
-//            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
-            NavigationUtils.GoToProxyDetailsFragment(getFragmentManager(), selectedProxy);
+            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedProxy.toString());
+
+            Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
+            i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy);
+            startActivity(i);
         }
         catch (Exception e)
         {

@@ -112,50 +112,6 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         refreshUI();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.proxy_prefs_activity, menu);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu)
-    {
-        super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
-                break;
-
-            case R.id.menu_about:
-                NavigationUtils.GoToHelpFragment(getFragmentManager());
-                break;
-
-            case R.id.menu_proxies:
-                NavigationUtils.GoToProxiesList(getFragmentManager());
-                break;
-
-//            case R.id.menu_feedbacks:
-//                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
-//                return true;
-
-            case R.id.menu_developer:
-                final Intent intent = new Intent(getActivity(), TestActivity.class);
-                startActivity(intent);
-                break;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void initUI()
     {}
 
@@ -244,7 +200,6 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                         .setPositiveButton(R.string.proxy_error_dismiss, null)
                         .show();
 
-
                 BugReportingUtils.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
             }
             else
@@ -254,8 +209,6 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                 Intent i = new Intent(getActivity(), WiFiApDetailActivity.class);
                 i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.id);
                 startActivity(i);
-
-//                NavigationUtils.GoToAPDetailsFragment(getFragmentManager(), selectedConfiguration);
             }
         }
         catch (Exception e)

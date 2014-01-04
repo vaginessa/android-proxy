@@ -25,6 +25,7 @@ public class Constants
 
     // Extra arguments
     public static final String SELECTED_AP_CONF_ARG = "SELECTED_AP_CONF_ARG";
+    public static final String SELECTED_PROXY_CONF_ARG = "SELECTED_PROXY_CONF_ARG";
 
 
     public static final String AMAZON_MARKET_PACKAGE = "com.amazon.venezia";

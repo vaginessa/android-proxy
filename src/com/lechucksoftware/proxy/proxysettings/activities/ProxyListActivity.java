@@ -10,8 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
-import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApListFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
+import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApListFragment;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.AsyncStartupBetaTestTask;
 import com.lechucksoftware.proxy.proxysettings.utils.AsyncStartupDialogTask;
@@ -22,16 +23,11 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 /**
  * Created by marco on 17/05/13.
  */
-public class WiFiApListActivity extends BaseWifiActivity
+public class ProxyListActivity extends BaseWifiActivity
 {
-    public static String TAG = WiFiApListActivity.class.getSimpleName();
-
-    AsyncStartupDialogTask asyncStartupDialogTask;
-    AsyncStartupRateTask asyncStartupRateTask;
-    AsyncStartupBetaTestTask asyncStartupBetaTestTask;
-
-    private static WiFiApListActivity instance;
-    public static WiFiApListActivity getInstance()
+    public static String TAG = ProxyListActivity.class.getSimpleName();
+    private static ProxyListActivity instance;
+    public static ProxyListActivity getInstance()
     {
         return instance;
     }
@@ -39,8 +35,10 @@ public class WiFiApListActivity extends BaseWifiActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
+        // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
+        super.onCreate(null);
         instance = this;
+
         setContentView(R.layout.main_layout);
 
         FragmentManager fm = getFragmentManager();
@@ -53,15 +51,7 @@ public class WiFiApListActivity extends BaseWifiActivity
         // Add the WiFiApListFragment to the main fragment_container
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.fragment_container, WiFiApListFragment.getInstance()).commit();
-
-
-        asyncStartupDialogTask = new AsyncStartupDialogTask(this);
-        asyncStartupRateTask = new AsyncStartupRateTask(this);
-        asyncStartupBetaTestTask = new AsyncStartupBetaTestTask(this);
-        asyncStartupDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                .add(R.id.fragment_container, ProxyListFragment.newInstance()).commit();
     }
 
     @Override
@@ -93,10 +83,9 @@ public class WiFiApListActivity extends BaseWifiActivity
                 break;
 
             case R.id.menu_proxies:
-                Intent proxyIntent = new Intent(getApplicationContext(), ProxyListActivity.class);
+                Intent proxyIntent = new Intent(getApplicationContext(), TestActivity.class);
                 startActivity(proxyIntent);
                 break;
-
 //            case R.id.menu_feedbacks:
 //                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
 //                return true;
