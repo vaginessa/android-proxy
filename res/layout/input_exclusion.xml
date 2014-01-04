@@ -23,15 +23,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-
-        <com.lechucksoftware.proxy.proxysettings.components.InputField
-                android:id="@+id/input_field"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/input_delete"
-                app:hint="Add bypass address"
-                app:fullsize="false"/>
-
         <com.lechucksoftware.proxy.proxysettings.components.InputField
                 android:id="@+id/input_field"
                 android:layout_width="wrap_content"
@@ -41,5 +32,14 @@
                 app:fullsize="false"/>
 
     </LinearLayout>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/field_empty"
+            android:visibility="visible"
+            android:paddingBottom="4dp"
+            android:text="No bypass defined"/>
 
 </LinearLayout>

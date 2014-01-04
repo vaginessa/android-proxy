@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class InputExclusionList extends LinearLayout
 {
+    private TextView emptyTextView;
     private LinearLayout bypassContainer;
     private TextView titleTextView;
     private String title;
@@ -40,7 +42,11 @@ public class InputExclusionList extends LinearLayout
         if (v != null)
         {
             titleTextView = (TextView) v.findViewById(R.id.field_title);
+
             bypassContainer = (LinearLayout) v.findViewById(R.id.bypass_container);
+            bypassContainer.removeAllViews();
+
+            emptyTextView = (TextView) v.findViewById(R.id.field_empty);
 
             initUI();
         }
@@ -71,13 +77,21 @@ public class InputExclusionList extends LinearLayout
                 i.setValue(bypass);
                 bypassContainer.addView(i);
             }
+
+            // Always add the new empty field
+            InputField i = new InputField(getContext());
+            i.setHint("Add bypass address");
+            i.setReadonly(readonly);
+            bypassContainer.addView(i);
+
+            emptyTextView.setVisibility(UIUtils.booleanToVisibility(false));
+        }
+        else
+        {
+            emptyTextView.setVisibility(UIUtils.booleanToVisibility(true));
         }
 
-        // Always add the new empty field
-        InputField i = new InputField(getContext());
-        i.setHint("Add bypass address");
-        i.setReadonly(false);
-        bypassContainer.addView(i);
+
     }
 
     private void refreshUI()
