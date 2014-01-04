@@ -451,7 +451,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 else
                 {
                     Constructor constr;
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                    // NOTE: Hardcoded sdk version number.
+                    // Instead of comparing against Build.VERSION_CODES.KITKAT, we directly compare against the version
+                    // number to allow devs to compile with an older version of the sdk.
+                    if (Build.VERSION.SDK_INT < 19) {
                         constr = ProxyPropertiesClass.getConstructors()[1];
                     } else {
                         constr = ProxyPropertiesClass.getConstructors()[3];
