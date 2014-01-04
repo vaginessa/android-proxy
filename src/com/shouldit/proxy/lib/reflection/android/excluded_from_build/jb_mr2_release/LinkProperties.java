@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package android.net;
+package com.shouldit.proxy.lib.reflection.android.excluded_from_build.jb_mr2_release;
 
-import android.net.ProxyProperties;
-import android.os.Parcelable;
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import java.net.InetAddress;
@@ -77,7 +76,7 @@ public class LinkProperties implements Parcelable {
     }
 
     // copy constructor instead of clone
-    public LinkProperties(LinkProperties source) {
+    public LinkProperties(android.net.LinkProperties source) {
         if (source != null) {
             mIfaceName = source.getInterfaceName();
             for (LinkAddress l : source.getLinkAddresses()) mLinkAddresses.add(l);
@@ -176,7 +175,7 @@ public class LinkProperties implements Parcelable {
      * @param target LinkProperties to compare.
      * @return {@code true} if both are identical, {@code false} otherwise.
      */
-    public boolean isIdenticalInterfaceName(LinkProperties target) {
+    public boolean isIdenticalInterfaceName(android.net.LinkProperties target) {
         return TextUtils.equals(getInterfaceName(), target.getInterfaceName());
     }
 
@@ -186,7 +185,7 @@ public class LinkProperties implements Parcelable {
      * @param target LinkProperties to compare.
      * @return {@code true} if both are identical, {@code false} otherwise.
      */
-    public boolean isIdenticalAddresses(LinkProperties target) {
+    public boolean isIdenticalAddresses(android.net.LinkProperties target) {
         Collection<InetAddress> targetAddresses = target.getAddresses();
         Collection<InetAddress> sourceAddresses = getAddresses();
         return (sourceAddresses.size() == targetAddresses.size()) ?
@@ -199,7 +198,7 @@ public class LinkProperties implements Parcelable {
      * @param target LinkProperties to compare.
      * @return {@code true} if both are identical, {@code false} otherwise.
      */
-    public boolean isIdenticalDnses(LinkProperties target) {
+    public boolean isIdenticalDnses(android.net.LinkProperties target) {
         Collection<InetAddress> targetDnses = target.getDnses();
         return (mDnses.size() == targetDnses.size()) ?
                 mDnses.containsAll(targetDnses) : false;
@@ -211,7 +210,7 @@ public class LinkProperties implements Parcelable {
      * @param target LinkProperties to compare.
      * @return {@code true} if both are identical, {@code false} otherwise.
      */
-    public boolean isIdenticalRoutes(LinkProperties target) {
+    public boolean isIdenticalRoutes(android.net.LinkProperties target) {
         Collection<RouteInfo> targetRoutes = target.getRoutes();
         return (mRoutes.size() == targetRoutes.size()) ?
                 mRoutes.containsAll(targetRoutes) : false;
@@ -223,7 +222,7 @@ public class LinkProperties implements Parcelable {
      * @param target LinkProperties to compare.
      * @return {@code true} if both are identical, {@code false} otherwise.
      */
-    public boolean isIdenticalHttpProxy(LinkProperties target) {
+    public boolean isIdenticalHttpProxy(android.net.LinkProperties target) {
         return getHttpProxy() == null ? target.getHttpProxy() == null :
                 getHttpProxy().equals(target.getHttpProxy());
     }
@@ -246,9 +245,9 @@ public class LinkProperties implements Parcelable {
     public boolean equals(Object obj) {
         if (this == obj) return true;
 
-        if (!(obj instanceof LinkProperties)) return false;
+        if (!(obj instanceof android.net.LinkProperties)) return false;
 
-        LinkProperties target = (LinkProperties) obj;
+        android.net.LinkProperties target = (android.net.LinkProperties) obj;
 
         return isIdenticalInterfaceName(target) &&
                 isIdenticalAddresses(target) &&
@@ -266,7 +265,7 @@ public class LinkProperties implements Parcelable {
      * @param target is a LinkProperties with the new list of addresses
      * @return the removed and added lists.
      */
-    public CompareResult<LinkAddress> compareAddresses(LinkProperties target) {
+    public CompareResult<LinkAddress> compareAddresses(android.net.LinkProperties target) {
         /*
          * Duplicate the LinkAddresses into removed, we will be removing
          * address which are common between mLinkAddresses and target
@@ -296,7 +295,7 @@ public class LinkProperties implements Parcelable {
      * @param target is a LinkProperties with the new list of dns addresses
      * @return the removed and added lists.
      */
-    public CompareResult<InetAddress> compareDnses(LinkProperties target) {
+    public CompareResult<InetAddress> compareDnses(android.net.LinkProperties target) {
         /*
          * Duplicate the InetAddresses into removed, we will be removing
          * dns address which are common between mDnses and target
@@ -327,7 +326,7 @@ public class LinkProperties implements Parcelable {
      * @param target is a LinkProperties with the new list of routes
      * @return the removed and added lists.
      */
-    public CompareResult<RouteInfo> compareRoutes(LinkProperties target) {
+    public CompareResult<RouteInfo> compareRoutes(android.net.LinkProperties target) {
         /*
          * Duplicate the RouteInfos into removed, we will be removing
          * routes which are common between mDnses and target
@@ -396,10 +395,10 @@ public class LinkProperties implements Parcelable {
      * Implement the Parcelable interface.
      * @hide
      */
-    public static final Creator<LinkProperties> CREATOR =
-            new Creator<LinkProperties>() {
-                public LinkProperties createFromParcel(Parcel in) {
-                    LinkProperties netProp = new LinkProperties();
+    public static final Creator<android.net.LinkProperties> CREATOR =
+            new Creator<android.net.LinkProperties>() {
+                public android.net.LinkProperties createFromParcel(Parcel in) {
+                    android.net.LinkProperties netProp = new android.net.LinkProperties();
                     String iface = in.readString();
                     if (iface != null) {
                         try {
@@ -428,8 +427,8 @@ public class LinkProperties implements Parcelable {
                     return netProp;
                 }
 
-                public LinkProperties[] newArray(int size) {
-                    return new LinkProperties[size];
+                public android.net.LinkProperties[] newArray(int size) {
+                    return new android.net.LinkProperties[size];
                 }
             };
 }
