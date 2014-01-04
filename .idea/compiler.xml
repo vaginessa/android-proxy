@@ -3,14 +3,8 @@
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
     <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/../android-proxy-library/src/com/shouldit/proxy/lib/reflection/android/excluded_from_build" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/excluded_from_build" includeSubdirectories="true" />
-      <file url="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/excluded_from_build/DownloadReceiver.java" />
-      <file url="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/excluded_from_build/ProxyPreferencesActivity.java" />
-      <file url="file://$PROJECT_DIR$/src/com/lechucksoftware/proxy/proxysettings/excluded_from_build/UrlDownloaderDialogPreference.java" />
-      <directory url="file://$PROJECT_DIR$/gen" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/../android-proxy-library/gen" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/../android-utils/gen" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/../Crouton/library/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
