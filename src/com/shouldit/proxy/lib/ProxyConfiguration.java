@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.text.TextUtils;
+
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
@@ -448,7 +450,15 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 }
                 else
                 {
-                    Constructor constr = ProxyPropertiesClass.getConstructors()[1];
+                    Constructor constr;
+                    // NOTE: Hardcoded sdk version number.
+                    // Instead of comparing against Build.VERSION_CODES.KITKAT, we directly compare against the version
+                    // number to allow devs to compile with an older version of the sdk.
+                    if (Build.VERSION.SDK_INT < 19) {
+                        constr = ProxyPropertiesClass.getConstructors()[1];
+                    } else {
+                        constr = ProxyPropertiesClass.getConstructors()[3];
+                    }
                     Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
                     mHttpProxyField.set(linkProperties, ProxyProperties);
                 }
