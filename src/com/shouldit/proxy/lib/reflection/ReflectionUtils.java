@@ -52,6 +52,8 @@ public class ReflectionUtils
 
         try
         {
+            // TODO: Needs to support also ICS saveNetwork(...) method
+
             Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
             if (internalSave != null)
             {
