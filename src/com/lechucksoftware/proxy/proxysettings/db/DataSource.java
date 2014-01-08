@@ -620,8 +620,8 @@ public class DataSource
         proxy.host = cursor.getString(1);
         proxy.port = cursor.getInt(2);
         proxy.exclusion = cursor.getString(3);
-        proxy.setInUse(cursor.getInt(4) > 0);
-        proxy.setCountryCode(cursor.getString(5));
+        proxy.setCountryCode(cursor.getString(4));
+        proxy.setInUse(cursor.getInt(5) > 0);
         proxy.setCreationDate(cursor.getLong(6));
         proxy.setModifiedDate(cursor.getLong(7));
 
