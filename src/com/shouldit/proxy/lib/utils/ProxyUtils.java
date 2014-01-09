@@ -434,22 +434,33 @@ public class ProxyUtils
         return false;
     }
 
+    /**
+     * Try to set the Proxy Settings for active WebViews. This works only for devices with API version < 12.
+     */
     public static void setWebViewProxy(Context context, ProxyConfiguration proxyConf)
     {
-        try
+        if (Build.VERSION.SDK_INT >= 12)
         {
-            if (proxyConf != null && proxyConf.getProxyType() == Type.HTTP && APL.getDeviceVersion() < 12)
-            {
-                setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
-            }
-            else
-            {
-                resetProxy(context);
-            }
+            // On newer devices do nothing!
         }
-        catch (Exception e)
+        else
         {
-            APL.getExceptionReport().send(e);
+            // On older devices try to set or clear the proxy settings, depending on the argument configuration
+            try
+            {
+                if (proxyConf != null && proxyConf.getProxyType() == Type.HTTP && APL.getDeviceVersion() < 12)
+                {
+                    setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
+                }
+                else
+                {
+                    resetProxy(context);
+                }
+            }
+            catch (Exception e)
+            {
+                APL.getExceptionReport().send(e);
+            }
         }
     }
 
