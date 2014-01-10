@@ -27,6 +27,7 @@ public class InputExclusionList extends LinearLayout
     private String title;
     private boolean fullsize;
     private boolean readonly;
+    private String exclusionListString = "";
     private List<String> exclusionList;
 
     public InputExclusionList(Context context, AttributeSet attrs)
@@ -48,11 +49,11 @@ public class InputExclusionList extends LinearLayout
 
             emptyTextView = (TextView) v.findViewById(R.id.field_empty);
 
-            initUI();
+            refreshUI();
         }
     }
 
-    private void initUI()
+    private void refreshUI()
     {
         if (!TextUtils.isEmpty(title))
         {
@@ -61,6 +62,7 @@ public class InputExclusionList extends LinearLayout
 
         if (exclusionList != null && exclusionList.size() > 0)
         {
+            bypassContainer.removeAllViews();
             for(String bypass : exclusionList)
             {
                 InputField i = new InputField(getContext());
@@ -78,24 +80,24 @@ public class InputExclusionList extends LinearLayout
                 bypassContainer.addView(i);
             }
 
-            // Always add the new empty field
-            InputField i = new InputField(getContext());
-            i.setHint("Add bypass address");
-            i.setReadonly(readonly);
-            bypassContainer.addView(i);
+            if (!readonly)
+            {
+                // Always add the new empty field
+                InputField i = new InputField(getContext());
+                i.setHint("Add bypass address");
+                i.setReadonly(readonly);
+                bypassContainer.addView(i);
+            }
 
-            emptyTextView.setVisibility(UIUtils.booleanToVisibility(false));
+            bypassContainer.setVisibility(VISIBLE);
+            emptyTextView.setVisibility(GONE);
         }
         else
         {
-            emptyTextView.setVisibility(UIUtils.booleanToVisibility(true));
+            bypassContainer.setVisibility(GONE);
+            emptyTextView.setVisibility(VISIBLE);
         }
-
-
     }
-
-    private void refreshUI()
-    {}
 
     protected void readStyleParameters(Context context, AttributeSet attributeSet)
     {
@@ -115,17 +117,26 @@ public class InputExclusionList extends LinearLayout
 
     public void setExclusionString(String exclusionString)
     {
-        if (TextUtils.isEmpty(exclusionString))
+        if (!exclusionListString.equals(exclusionString))
         {
+            exclusionListString = exclusionString;
 
+            if (!TextUtils.isEmpty(exclusionListString))
+            {
+                exclusionList = new ArrayList<String>();
+                exclusionList.addAll(Arrays.asList(ProxyUtils.parseExclusionList(exclusionListString)));
+            }
+            else
+            {
+                exclusionList = null;
+            }
+
+            refreshUI();
         }
         else
         {
-            exclusionList = new ArrayList<String>();
-            exclusionList.addAll(Arrays.asList(ProxyUtils.parseExclusionList(exclusionString)));
+            // DO Nothing: No need to update UI
         }
-
-        refreshUI();
     }
 
     public String getExclusionList()
