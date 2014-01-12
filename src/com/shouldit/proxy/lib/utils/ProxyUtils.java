@@ -371,7 +371,7 @@ public class ProxyUtils
         return -1;
     }
 
-    public static String getURI(URI uri, Proxy proxy, int timeout) throws IOException
+    public static HttpAnswer getHttpAnswerURI(URI uri, Proxy proxy, int timeout) throws IOException
     {
         URL url = uri.toURL();
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
@@ -379,27 +379,21 @@ public class ProxyUtils
         httpURLConnection.setReadTimeout(timeout);
         httpURLConnection.setConnectTimeout(timeout);
 
-        int response = httpURLConnection.getResponseCode();
-        if (response == HttpURLConnection.HTTP_OK)
+        HttpAnswer answer = new HttpAnswer(httpURLConnection);
+        return answer;
+    }
+
+    public static String getURI(URI uri, Proxy proxy, int timeout) throws IOException
+    {
+        HttpAnswer answer = getHttpAnswerURI(uri, proxy, timeout);
+
+        if (answer.getStatus() == HttpURLConnection.HTTP_OK)
         {
-            // Response successful
-            InputStream inputStream = httpURLConnection.getInputStream();
-
-            // Parse it line by line
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String temp;
-            StringBuilder sb = new StringBuilder();
-            while ((temp = bufferedReader.readLine()) != null)
-            {
-                // LogWrapper.d(TAG, temp);
-                sb.append(temp);
-            }
-
-            return sb.toString();
+            return answer.getBody();
         }
         else
         {
-            throw new IOException("INCORRECT RETURN CODE: " + response);
+            throw new IOException("INCORRECT RETURN CODE: " + answer.getStatus());
         }
     }
 
