@@ -46,8 +46,16 @@ public class InputTags extends LinearLayout
 
     public void setTags(List<TagEntity> intags)
     {
-        tags = intags;
-        refreshUI();
+        if (tags == null || !tags.equals(intags))
+        {
+            tags = intags;
+            refreshUI();
+        }
+        else
+        {
+            // DO Nothings: tags list already updated
+        }
+
     }
 
     private void refreshUI()
@@ -73,9 +81,9 @@ public class InputTags extends LinearLayout
 
         try
         {
-            title = a.getString(R.styleable.InputFieldTags_readonly);
-            fullsize = a.getBoolean(R.styleable.InputFieldTags_readonly, false);
-            readonly = a.getBoolean(R.styleable.InputFieldTags_readonly, false);
+            title = a.getString(R.styleable.InputField_title);
+            fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
+            readonly = a.getBoolean(R.styleable.InputField_readonly, false);
         }
         finally
         {
