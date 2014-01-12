@@ -63,29 +63,40 @@ public class InputExclusionList extends LinearLayout
         if (exclusionList != null && exclusionList.size() > 0)
         {
             bypassContainer.removeAllViews();
-            for(String bypass : exclusionList)
+
+            if (fullsize)
             {
-                InputField i = new InputField(getContext());
-                i.setOnClickListener(new OnClickListener()
+                for(String bypass : exclusionList)
                 {
-                    @Override
-                    public void onClick(View view)
+                    InputField i = new InputField(getContext());
+                    i.setOnClickListener(new OnClickListener()
                     {
-                        ((InputField)view).setEnabled(true);
-                    }
-                });
+                        @Override
+                        public void onClick(View view)
+                        {
+                            ((InputField)view).setEnabled(true);
+                        }
+                    });
 
-                i.setReadonly(true);
-                i.setValue(bypass);
-                bypassContainer.addView(i);
+                    i.setReadonly(true);
+                    i.setValue(bypass);
+                    bypassContainer.addView(i);
+                }
+
+                if (!readonly)
+                {
+                    // Always add the new empty field
+                    InputField i = new InputField(getContext());
+                    i.setHint("Add bypass address");
+                    i.setReadonly(readonly);
+                    bypassContainer.addView(i);
+                }
             }
-
-            if (!readonly)
+            else
             {
-                // Always add the new empty field
                 InputField i = new InputField(getContext());
-                i.setHint("Add bypass address");
-                i.setReadonly(readonly);
+                i.setReadonly(true);
+                i.setValue(exclusionListString);
                 bypassContainer.addView(i);
             }
 

@@ -157,7 +157,7 @@
                     app:title="@string/proxy_exclusionlist_label"
                     app:hint="@string/proxy_exclusionlist_hint"
                     app:readonly="true"
-                    app:fullsize="true"
+                    app:fullsize="false"
                     app:value=""/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputTags

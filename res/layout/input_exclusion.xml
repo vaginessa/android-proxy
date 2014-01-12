@@ -40,6 +40,8 @@
             android:id="@+id/field_empty"
             android:visibility="visible"
             android:paddingBottom="4dp"
-            android:text="No bypass defined"/>
+            android:textSize="18dp"
+            android:textColor="@color/White"
+            android:text="@string/not_set"/>
 
 </LinearLayout>
