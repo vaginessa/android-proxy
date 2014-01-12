@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.text.TextUtils;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -12,32 +13,38 @@ import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.shouldit.proxy.lib.APLConstants;
+import com.shouldit.proxy.lib.utils.HttpAnswer;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
+import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URI;
 
 public class Utils
 {
+    public static final String HTTP_FREEGEOIP_NET_JSON_STRING = "http://freegeoip.net/json/%s";
     public static String TAG = "Utils";
     public static String BASE_ASSETS = "file:///android_asset/";
 
     public static String getProxyCountryCode(ProxyEntity proxy) throws Exception
     {
-        String url = String.format("http://freegeoip.net/json/%s",proxy.host);
+        String url = String.format(HTTP_FREEGEOIP_NET_JSON_STRING,proxy.host);
+        URI uri = new URI(url);
 
-        String answer = ProxyUtils.getURI(new URI(url),ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), APLConstants.DEFAULT_TIMEOUT);
+        HttpAnswer answer = ProxyUtils.getHttpAnswerURI(uri, ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), APLConstants.DEFAULT_TIMEOUT);
 
         String result = null;
+        String answerBody = answer.getBody();
 
-        if (answer != null)
+        if (TextUtils.isEmpty(answerBody))
         {
-            JSONObject jsonObject = new JSONObject(answer);
+            JSONObject jsonObject = new JSONObject(answerBody);
             if (jsonObject.has("country_code"))
             {
                  result = jsonObject.getString("country_code");
