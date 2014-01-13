@@ -58,15 +58,12 @@ public class ReflectionUtils
             if (internalSave != null)
             {
                 Class<?>[] paramsTypes = internalSave.getParameterTypes();
-                if (paramsTypes.length == 2) 
-                {
+                if (paramsTypes.length == 2)
                     internalSave.invoke(wifiManager,configuration,null);
-                    internalSaveDone = true;
-                } else if (paramsTypes.length == 1) 
-                {
-                    internalSave.invoke(wifiManager, configuration);
-                    internalSaveDone = true;
-                }
+                else if (paramsTypes.length == 1)
+                    internalSave.invoke(wifiManager,configuration);
+
+                internalSaveDone = true;
             }
         }
         catch (Exception e)
