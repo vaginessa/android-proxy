@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import com.bugsense.trace.BugSenseHandler;
 //import com.google.analytics.tracking.android.Tracker;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.StandardExceptionParser;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.shouldit.proxy.lib.log.IExceptionReport;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -12,12 +15,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 public class BugReportingUtils implements IExceptionReport
 {
     private static final String TAG = "BugReportingUtils";
     private Boolean setupDone;
     private static BugReportingUtils instance;
+    private Context context;
 
 //    private static Tracker tracker;
 
@@ -38,6 +43,7 @@ public class BugReportingUtils implements IExceptionReport
 
     public static void setup(Context ctx)
     {
+        getInstance().context = ctx;
         getInstance().setupBugSense(ctx);
 
         // Initialize a tracker using a Google Analytics property ID.
@@ -102,6 +108,11 @@ public class BugReportingUtils implements IExceptionReport
         if (setupDone)
         {
             BugSenseHandler.sendException(e);
+
+            StandardExceptionParser sep = new StandardExceptionParser(getInstance().context, null);
+            String exceptionDescription = sep.getDescription(Thread.currentThread().getName(),e);
+            Map<String, String> map = MapBuilder.createException(exceptionDescription, false).build();
+            EasyTracker.getInstance(getInstance().context).send(map);
         }
         else
         {
@@ -120,6 +131,13 @@ public class BugReportingUtils implements IExceptionReport
         if (setupDone)
         {
             BugSenseHandler.sendEvent(s);
+
+            MapBuilder mapBuilder = MapBuilder.createEvent("ui_action",     // Event category (required)
+                                                           "button_press",  // Event action (required)
+                                                           "play_button",   // Event label
+                                                            null);          // Event value
+            Map<String, String> map = mapBuilder.build();
+            EasyTracker.getInstance(getInstance().context).send(map);
         }
         else
         {
