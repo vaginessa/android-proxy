@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 public class InputTags extends LinearLayout
 {
+    private TextView noTagsTextView;
     private Button addTagsButton;
     private TagsView tagsView;
     private TextView titleTextView;
@@ -39,6 +41,7 @@ public class InputTags extends LinearLayout
         if (v != null)
         {
             titleTextView = (TextView) v.findViewById(R.id.field_title);
+            noTagsTextView = (TextView) v.findViewById(R.id.field_no_tags);
             addTagsButton = (Button) v.findViewById(R.id.field_add_tags);
             tagsView = (TagsView) v.findViewById(R.id.field_tags);
         }
@@ -60,17 +63,29 @@ public class InputTags extends LinearLayout
 
     private void refreshUI()
     {
-        titleTextView.setText(title);
+        if (!TextUtils.isEmpty(title))
+        {
+            titleTextView.setText(title.toUpperCase());
+        }
 
         tagsView.setTags(tags);
         if (tags != null && tags.size() > 0)
         {
             tagsView.setVisibility(VISIBLE);
-            addTagsButton.setVisibility(GONE);
+            noTagsTextView.setVisibility(GONE);
         }
         else
         {
             tagsView.setVisibility(GONE);
+            noTagsTextView.setVisibility(VISIBLE);
+        }
+
+        if (readonly)
+        {
+            addTagsButton.setVisibility(GONE);
+        }
+        else
+        {
             addTagsButton.setVisibility(VISIBLE);
         }
     }
