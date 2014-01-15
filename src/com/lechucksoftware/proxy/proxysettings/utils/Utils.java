@@ -42,7 +42,7 @@ public class Utils
         String result = null;
         String answerBody = answer.getBody();
 
-        if (answer.getStatus() == HttpURLConnection.HTTP_OK && TextUtils.isEmpty(answerBody))
+        if (answer.getStatus() == HttpURLConnection.HTTP_OK && !TextUtils.isEmpty(answerBody))
         {
             JSONObject jsonObject = new JSONObject(answerBody);
             if (jsonObject.has("country_code"))
