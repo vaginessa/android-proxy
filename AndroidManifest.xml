@@ -117,6 +117,7 @@
         <service android:name=".services.MaintenanceService" />
 		<service android:name=".services.DownloadService" />
 
+        <!-- Receiver used to track all the network changes -->
 		<receiver
 			android:name="com.lechucksoftware.proxy.proxysettings.receivers.ProxyChangeReceiver">
 			<intent-filter>			
@@ -136,6 +137,16 @@
                 <action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SAVED" />
 			</intent-filter>
 		</receiver>
+
+        <!-- Used for Google Play Store Campaign Measurement-->;
+        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
+        <receiver android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver" android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+
 	</application>
 
 </manifest>
