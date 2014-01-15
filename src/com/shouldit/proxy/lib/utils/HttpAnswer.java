@@ -50,6 +50,8 @@ public class HttpAnswer
                 // LogWrapper.d(TAG, temp);
                 sb.append(temp);
             }
+
+            body = sb.toString();
         }
     }
 
