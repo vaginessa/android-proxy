@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.google.analytics.tracking.android.GAServiceManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
+import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -63,6 +65,14 @@ public class TestActivity extends Activity
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ASSIGN_PROXY);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void testBugReporting(View caller)
+    {
+        BugReportingUtils.sendException(new Exception("EXCEPTION ONLY FOR TEST"));
+        BugReportingUtils.sendEvent("EVENT ONLY FOR TEST");
+
+        GAServiceManager.getInstance().dispatchLocalHits();
     }
 
     public void listDBProxies(View caller)

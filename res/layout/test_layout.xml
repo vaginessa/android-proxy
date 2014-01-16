@@ -1,97 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
             android:layout_height="fill_parent"
             android:layout_width="fill_parent">
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
+        <com.lechucksoftware.proxy.proxysettings.components.FlowLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:horizontalSpacing="5dp"
+                app:verticalSpacing="5dp"
+                app:debugDraw="true">
 
-        <LinearLayout
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:columnCount="2">
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add proxies"
+                    android:onClick="addDBClicked"/>
 
-            <LinearLayout
-                    android:id="@+id/firstColumn"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add tags"
+                    android:onClick="addTagsDBClicked"/>
 
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Add proxies"
-                        android:onClick="addDBClicked"
-                        android:id="@+id/buttonAdd"/>
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Update proxies"
+                    android:onClick="updateDBClicked"
+                    app:layout_newLine="true"/>
 
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Add tags"
-                        android:onClick="addTagsDBClicked"
-                        android:id="@+id/buttonAddTags"/>
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Assign proxy"
+                    android:onClick="assignProxy"/>
 
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Update proxies"
-                        android:onClick="updateDBClicked"
-                        android:id="@+id/buttonUpdate"/>
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test bug reporting"
+                    android:onClick="testBugReporting"
+                    android:id="@+id/buttonClear"
+                    app:layout_newLine="true"/>
 
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="List proxies"
-                        android:onClick="listDBProxies"
-                        android:id="@+id/buttonClear"/>
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="List proxies"
+                    android:onClick="listDBProxies"
+                    android:id="@+id/buttonClear"
+                    app:layout_newLine="true"/>
 
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="List tags"
-                        android:onClick="listDBTags"
-                        android:id="@+id/buttonClear"/>
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="List tags"
+                    android:onClick="listDBTags"/>
 
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Assign proxy"
-                        android:onClick="assignProxy"
-                        android:id="@+id/buttonAssignProxy"/>
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Clear Output"
+                    android:onClick="clearOutput"
+                    app:layout_newLine="true"/>
 
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Clear DB"
+                    android:onClick="clearDBClicked"/>
 
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_toRightOf="@+id/firstColumn"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Clear Output"
-                        android:onClick="clearOutput"
-                        android:id="@+id/buttonClear"/>
-
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Clear DB"
-                        android:onClick="clearDBClicked"/>
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
+        </com.lechucksoftware.proxy.proxysettings.components.FlowLayout>
 
         <LinearLayout
                 android:layout_width="fill_parent"
@@ -104,7 +91,6 @@
                     android:layout_width="wrap_content"
                     android:text="NONE"/>
         </LinearLayout>
-
 
     </LinearLayout>
 </ScrollView>
