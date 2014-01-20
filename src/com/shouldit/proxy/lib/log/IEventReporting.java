@@ -6,6 +6,5 @@ package com.shouldit.proxy.lib.log;
 public interface IEventReporting
 {
     public void send(Exception e);
-    public void addExtraData(String s1, String s2);
     public void send(String s);
 }

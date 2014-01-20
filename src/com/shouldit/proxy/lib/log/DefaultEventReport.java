@@ -14,13 +14,6 @@ public class DefaultEventReport implements IEventReporting
     }
 
     @Override
-    public void addExtraData(String s1, String s2)
-    {
-        LogWrapper.e(TAG, s1);
-        LogWrapper.e(TAG, s2);
-    }
-
-    @Override
     public void send(String s)
     {
         LogWrapper.e(TAG, s);
