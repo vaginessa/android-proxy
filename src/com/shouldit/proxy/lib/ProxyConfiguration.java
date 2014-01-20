@@ -265,7 +265,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         sb.append(id.toString());
 
         if (ap != null)
-            sb.append(" - " + ap.ssid);
+        {
+            sb.append(" - " + ap.toShortString());
+        }
+        else
+        {
+            sb.append(" - NO AP ASSOCIATED");
+        }
 
         sb.append(" - " + toStatusString());
         sb.append(" " + getProxyExclusionList());

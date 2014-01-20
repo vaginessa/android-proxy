@@ -70,6 +70,7 @@ public class AccessPoint implements Comparable<AccessPoint>
 //		{
 //			return (mInfo != null) ? -1 : 1;
 //		}
+
 		// Reachable one goes before unreachable one.
 		if ((mRssi ^ other.mRssi) < 0)
 		{
@@ -89,6 +90,15 @@ public class AccessPoint implements Comparable<AccessPoint>
 		// Sort by ssid.
 		return ssid.compareToIgnoreCase(other.ssid);
 	}
+
+    public String toShortString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d",ssid, mRssi, getLevel(), networkId));
+
+        return sb.toString();
+    }
 
     public void clearScanStatus()
     {
