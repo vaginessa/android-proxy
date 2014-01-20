@@ -124,7 +124,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:paddingLeft="12dp"
-                    android:background="?android:attr/listChoiceBackgroundIndicator"
+                    android:background="@drawable/border"
                     app:title="@string/proxy_hostname_label"
                     app:hint="@string/proxy_hostname_hint"
                     app:readonly="true"
