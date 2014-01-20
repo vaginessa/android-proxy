@@ -13,7 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 
@@ -133,7 +133,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(e);
+            EventReportingUtils.sendException(e);
             showError(R.string.exception_apl_writeconfig_error_message);
         }
     }

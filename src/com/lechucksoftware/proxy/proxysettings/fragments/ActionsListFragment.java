@@ -19,7 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -190,7 +190,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
+            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
         }
     }
 
@@ -213,7 +213,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectedProxy(" + index + ") " + e.toString()));
+            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectedProxy(" + index + ") " + e.toString()));
         }
     }
 

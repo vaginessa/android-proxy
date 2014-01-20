@@ -6,7 +6,7 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -38,8 +38,8 @@ public class ApplicationGlobals extends Application
         activeMarket = Utils.getInstallerMarket(ApplicationGlobals.this);
 
         // SETUP Libraries
-        BugReportingUtils.setup(ApplicationGlobals.this);
-        APL.setup(ApplicationGlobals.this, BugReportingUtils.getInstance());
+        EventReportingUtils.setup(ApplicationGlobals.this);
+        APL.setup(ApplicationGlobals.this, EventReportingUtils.getInstance());
 
         LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
@@ -49,7 +49,7 @@ public class ApplicationGlobals extends Application
     {
         if (mInstance == null)
         {
-            BugReportingUtils.sendException(new Exception("Cannot find valid instance of ApplicationGlobals, trying to instanciate a new one"));
+            EventReportingUtils.sendException(new Exception("Cannot find valid instance of ApplicationGlobals, trying to instanciate a new one"));
             mInstance = new ApplicationGlobals();
         }
 
@@ -60,7 +60,7 @@ public class ApplicationGlobals extends Application
     {
         if (getInstance().proxyManager == null)
         {
-            BugReportingUtils.sendException(new Exception("Cannot find valid instance of ProxyManager, trying to instanciate a new one"));
+            EventReportingUtils.sendException(new Exception("Cannot find valid instance of ProxyManager, trying to instanciate a new one"));
             getInstance().proxyManager = new ProxyManager(getInstance());
         }
 
@@ -71,7 +71,7 @@ public class ApplicationGlobals extends Application
     {
         if (getInstance().dbManager == null)
         {
-            BugReportingUtils.sendException(new Exception("Cannot find valid instance of DataSource, trying to instanciate a new one"));
+            EventReportingUtils.sendException(new Exception("Cannot find valid instance of DataSource, trying to instanciate a new one"));
             getInstance().dbManager = new DataSource(getInstance());
         }
 

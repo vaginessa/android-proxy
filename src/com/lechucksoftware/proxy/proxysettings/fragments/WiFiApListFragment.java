@@ -20,9 +20,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -200,7 +198,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                         .setPositiveButton(R.string.proxy_error_dismiss, null)
                         .show();
 
-                BugReportingUtils.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
+                EventReportingUtils.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
             }
             else
             {
@@ -213,7 +211,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(new Exception("Exception during WiFiApListFragment showDetails("+ index + ") " + e.toString()));
+            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
         }
     }
 }

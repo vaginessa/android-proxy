@@ -8,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 
@@ -145,7 +143,7 @@ public class StatusFragment extends BaseFragment
             }
             catch (Exception e)
             {
-                BugReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action", e));
+                EventReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action", e));
             }
 
             setStatus(StatusFragmentStates.CHECKING);
@@ -167,7 +165,7 @@ public class StatusFragment extends BaseFragment
             }
             catch (Exception e)
             {
-                BugReportingUtils.sendException(new Exception("Exception during StatusFragment connectToWifi action", e));
+                EventReportingUtils.sendException(new Exception("Exception during StatusFragment connectToWifi action", e));
             }
 
             setStatus(StatusFragmentStates.CHECKING);

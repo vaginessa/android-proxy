@@ -244,7 +244,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(e);
+            EventReportingUtils.sendException(e);
             return;
         }
     }
@@ -325,7 +325,7 @@ public class UIUtils
     {
         if (conf == null)
         {
-            BugReportingUtils.sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
+            EventReportingUtils.sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
             return;
         }
 

@@ -19,7 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
@@ -201,7 +201,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //                    }
 //                    else
 //                    {
-//                        BugReportingUtils.sendException(new Exception("Found null selectedProxy"));
+//                        EventReportingUtils.sendException(new Exception("Found null selectedProxy"));
 //                    }
 //
 //                    return true;
@@ -253,7 +253,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(e);
+            EventReportingUtils.sendException(e);
             showError(R.string.exception_apl_writeconfig_error_message);
         }
     }

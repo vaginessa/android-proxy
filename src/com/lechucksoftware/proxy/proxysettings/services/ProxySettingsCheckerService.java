@@ -9,7 +9,7 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.enums.ProxyCheckOptions;
@@ -159,7 +159,7 @@ public class ProxySettingsCheckerService extends IntentService
                 {
                     // newconf cannot be null!!
                     LogWrapper.d(TAG, "Not found new configuration -> needs to check the proxy status");
-                    BugReportingUtils.sendException(new Exception("Cannot have a null ProxyConfiguration"));
+                    EventReportingUtils.sendException(new Exception("Cannot have a null ProxyConfiguration"));
                 }
 
                 if (checkNewConf)
@@ -183,7 +183,7 @@ public class ProxySettingsCheckerService extends IntentService
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(e);
+            EventReportingUtils.sendException(e);
             UIUtils.DisableProxyNotification(ApplicationGlobals.getInstance());
             e.printStackTrace();
         }

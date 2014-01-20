@@ -8,7 +8,10 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.StandardExceptionParser;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.shouldit.proxy.lib.log.IExceptionReport;
+import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
+import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
+import com.lechucksoftware.proxy.proxysettings.exception.DetailedExceptionParser;
+import com.shouldit.proxy.lib.log.IEventReporting;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.io.BufferedReader;
@@ -17,25 +20,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
 
-public class BugReportingUtils implements IExceptionReport
+public class EventReportingUtils implements IEventReporting
 {
-    private static final String TAG = "BugReportingUtils";
+    private static final String TAG = "EventReportingUtils";
     private Boolean setupDone;
-    private static BugReportingUtils instance;
+    private static EventReportingUtils instance;
     private Context context;
 
 //    private static Tracker tracker;
 
-    private BugReportingUtils()
+    private EventReportingUtils()
     {
         setupDone = false;
     }
 
-    public static BugReportingUtils getInstance()
+    public static EventReportingUtils getInstance()
     {
         if (instance == null)
         {
-            instance = new BugReportingUtils();
+            instance = new EventReportingUtils();
         }
 
         return instance;
@@ -45,14 +48,12 @@ public class BugReportingUtils implements IExceptionReport
     {
         getInstance().context = ctx;
         getInstance().setupBugSense(ctx);
-
-        // Initialize a tracker using a Google Analytics property ID.
-//        tracker = GoogleAnalytics.getInstance(ctx).getTracker("UA-41504209-1");
     }
 
     private void setupBugSense(Context ctx)
     {
         String key = null;
+
         // If you want to use BugSense for your fork, register with
         // them and place your API key in /assets/bugsense.txt
         // (This prevents me receiving reports of crashes from forked
@@ -107,12 +108,14 @@ public class BugReportingUtils implements IExceptionReport
     {
         if (setupDone)
         {
+            // Bugsense
             BugSenseHandler.sendException(e);
 
-            StandardExceptionParser sep = new StandardExceptionParser(getInstance().context, null);
-            String exceptionDescription = sep.getDescription(Thread.currentThread().getName(),e);
-            Map<String, String> map = MapBuilder.createException(exceptionDescription, false).build();
-            EasyTracker.getInstance(getInstance().context).send(map);
+            // Google Analytics
+//            DetailedExceptionParser sep = new DetailedExceptionParser();
+//            String exceptionDescription = sep.getDescription(Thread.currentThread().getName(),e);
+//            Map<String, String> map = MapBuilder.createException(exceptionDescription, false).build();
+//            EasyTracker.getInstance(getInstance().context).send(map);
         }
         else
         {
@@ -126,43 +129,33 @@ public class BugReportingUtils implements IExceptionReport
         getInstance().send(s);
     }
 
-    public void send(String s)
+    public static void sendEvent(EventCategories eventCategory, BaseActions eventAction, String eventLabel, Long eventValue)
+    {
+        getInstance().send(eventCategory, eventAction, eventLabel, eventValue);
+    }
+
+    public void send(EventCategories eventCategory, BaseActions eventAction, String eventLabel, Long eventValue)
     {
         if (setupDone)
         {
-            BugSenseHandler.sendEvent(s);
+            MapBuilder mapBuilder = MapBuilder.createEvent(
+                                        eventCategory.toString(),   // Event category (required)
+                                        eventAction.toString(),     // Event action (required)
+                                        eventLabel,                 // Event label
+                                        eventValue);                // Event value
 
-            MapBuilder mapBuilder = MapBuilder.createEvent("ui_action",     // Event category (required)
-                                                           "button_press",  // Event action (required)
-                                                           "play_button",   // Event label
-                                                            null);          // Event value
             Map<String, String> map = mapBuilder.build();
             EasyTracker.getInstance(getInstance().context).send(map);
         }
         else
         {
-            LogWrapper.e(TAG, "sendEvent: " + s);
+            String msg = String.format("sendEvent: %s %s %s %d", eventCategory, eventAction, eventLabel, eventValue);
+            LogWrapper.e(TAG, msg);
         }
     }
 
-    public static void addCrashExtraData(String s1, String s2)
+    public void send(String s)
     {
-        getInstance().addCrashExtraData(s1,s2);
+        send(EventCategories.BASE, BaseActions.BASE, s, null);
     }
-
-    public void addExtraData(String s1, String s2)
-    {
-        if (setupDone)
-        {
-            BugSenseHandler.addCrashExtraData(s1,s2);
-        }
-        else
-        {
-            setupBugSense(ApplicationGlobals.getInstance().getApplicationContext());
-            LogWrapper.e(TAG, "addCrashExtraData: " + s1);
-            LogWrapper.e(TAG, "addCrashExtraData: " + s2);
-        }
-    }
-
-
 }

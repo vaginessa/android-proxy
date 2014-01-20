@@ -18,7 +18,6 @@ import com.shouldit.proxy.lib.utils.ProxyUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
@@ -80,7 +79,7 @@ public class Utils
         }
         catch (PackageManager.NameNotFoundException e)
         {
-            BugReportingUtils.sendException(e);
+            EventReportingUtils.sendException(e);
         }
 
         return pInfo;
@@ -129,7 +128,7 @@ public class Utils
             res = AndroidMarket.OTHER;
 
             if (!BuildConfig.DEBUG)
-                BugReportingUtils.sendException(new Exception("No InstallerPackageName recognized: " + market));
+                EventReportingUtils.sendException(new Exception("No InstallerPackageName recognized: " + market));
             else
                 res = AndroidMarket.PLAY;
         }
@@ -168,7 +167,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            BugReportingUtils.sendException(e);
+            EventReportingUtils.sendException(e);
         }
 
         return text;

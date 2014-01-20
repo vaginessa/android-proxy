@@ -6,9 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -68,7 +66,7 @@ public class MaintenanceService extends IntentService
                 }
                 catch (Exception e)
                 {
-                    BugReportingUtils.sendException(new Exception("Exception during maintenanceService", e));
+                    EventReportingUtils.sendException(new Exception("Exception during maintenanceService", e));
                 }
 
             }
@@ -164,7 +162,7 @@ public class MaintenanceService extends IntentService
             }
             catch (Exception e)
             {
-                BugReportingUtils.sendException(e);
+                EventReportingUtils.sendException(e);
                 break;
             }
 

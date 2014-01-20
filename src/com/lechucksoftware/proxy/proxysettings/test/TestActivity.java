@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -9,13 +8,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.GAServiceManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.ProxyManager;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.List;
 
@@ -69,8 +69,9 @@ public class TestActivity extends Activity
 
     public void testBugReporting(View caller)
     {
-        BugReportingUtils.sendException(new Exception("EXCEPTION ONLY FOR TEST"));
-        BugReportingUtils.sendEvent("EVENT ONLY FOR TEST");
+        EventReportingUtils.sendException(new Exception("EXCEPTION ONLY FOR TEST"));
+        EventReportingUtils.sendException(new ProxyException(ApplicationGlobals.getProxyManager().getSortedConfigurationsList()));
+        EventReportingUtils.sendEvent("EVENT ONLY FOR TEST");
 
         GAServiceManager.getInstance().dispatchLocalHits();
     }

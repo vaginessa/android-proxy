@@ -6,8 +6,9 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.utils.BugReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
+import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -316,19 +317,7 @@ public class ProxyManager
                 }
                 catch (IllegalArgumentException e)
                 {
-                    try
-                    {
-                        for (ProxyConfiguration conf : sortedConfigurationsList)
-                        {
-                            BugReportingUtils.addCrashExtraData(conf.getSSID(), conf.toString());
-                        }
-                    }
-                    catch (Exception innerexception)
-                    {
-                        BugReportingUtils.sendException(innerexception);
-                    }
-
-                    BugReportingUtils.sendException(e);
+                    EventReportingUtils.sendException(new ProxyException(sortedConfigurationsList));
                 }
 
                 StringBuilder sb = new StringBuilder();
