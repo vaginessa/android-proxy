@@ -36,7 +36,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            APL.getExceptionReport().send(e);
+            APL.getEventReport().send(e);
         }
 
         if (!internalConnectDone)
@@ -71,7 +71,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            APL.getExceptionReport().send(new Exception("Exception during saveWifiConfiguration", e));
+            APL.getEventReport().send(new Exception("Exception during saveWifiConfiguration", e));
         }
 
         if (!internalSaveDone)

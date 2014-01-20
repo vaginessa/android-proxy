@@ -20,10 +20,7 @@ import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import org.apache.http.HttpHost;
 import org.apache.http.conn.util.InetAddressUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.*;
@@ -189,7 +186,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getExceptionReport().send(new Exception("ProxyUtils.standardAPIPingHost() Exception", e));
+            APL.getEventReport().send(new Exception("ProxyUtils.standardAPIPingHost() Exception", e));
         }
 
         return false;
@@ -253,7 +250,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling getAddress().getHostAddress() on proxySocketAddress : ", e));
+            APL.getEventReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling getAddress().getHostAddress() on proxySocketAddress : ", e));
         }
 
         if (proxyAddress == null)
@@ -265,7 +262,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling toString() on proxySocketAddress", e));
+                APL.getEventReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling toString() on proxySocketAddress", e));
             }
         }
 
@@ -292,11 +289,11 @@ public class ProxyUtils
             }
             catch (IOException e)
             {
-                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() IOException", e));
+                APL.getEventReport().send(new Exception("ProxyUtils.lowLevelPingHost() IOException", e));
             }
             catch (InterruptedException e)
             {
-                APL.getExceptionReport().send(new Exception("ProxyUtils.lowLevelPingHost() InterruptedException", e));
+                APL.getEventReport().send(new Exception("ProxyUtils.lowLevelPingHost() InterruptedException", e));
             }
         }
 
@@ -332,27 +329,27 @@ public class ProxyUtils
             }
             catch (MalformedURLException e)
             {
-                APL.getExceptionReport().send(e);
+                APL.getEventReport().send(e);
             }
             catch (UnknownHostException e)
             {
-                APL.getExceptionReport().send(e);
+                APL.getEventReport().send(e);
             }
             catch (SocketTimeoutException e)
             {
-                APL.getExceptionReport().send(e);
+                APL.getEventReport().send(e);
             }
             catch (SocketException e)
             {
-                APL.getExceptionReport().send(e);
+                APL.getEventReport().send(e);
             }
             catch (IOException e)
             {
-                APL.getExceptionReport().send(e);
+                APL.getEventReport().send(e);
             }
             catch (Exception e)
             {
-                APL.getExceptionReport().send(e);
+                APL.getEventReport().send(e);
             }
 
             step++;
@@ -363,7 +360,7 @@ public class ProxyUtils
             }
             catch (InterruptedException e)
             {
-                APL.getExceptionReport().send(e);
+                APL.getEventReport().send(e);
                 return -1;
             }
         }
@@ -422,7 +419,7 @@ public class ProxyUtils
         }
         catch (URISyntaxException e)
         {
-            APL.getExceptionReport().send(e);
+            APL.getEventReport().send(e);
         }
 
         return false;
@@ -453,7 +450,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getExceptionReport().send(e);
+                APL.getEventReport().send(e);
             }
         }
     }
@@ -484,7 +481,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getExceptionReport().send(new Exception("Exception setting WebKit proxy settings", e));
+            APL.getEventReport().send(new Exception("Exception setting WebKit proxy settings", e));
         }
         return ret;
     }
@@ -909,7 +906,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getExceptionReport().send(e);
+            APL.getEventReport().send(e);
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));

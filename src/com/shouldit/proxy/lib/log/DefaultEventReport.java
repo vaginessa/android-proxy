@@ -3,9 +3,9 @@ package com.shouldit.proxy.lib.log;
 /**
  * Created by Marco on 16/11/13.
  */
-public class DefaultExceptionReport implements IExceptionReport
+public class DefaultEventReport implements IEventReporting
 {
-    private static String TAG = DefaultExceptionReport.class.getSimpleName();
+    private static String TAG = DefaultEventReport.class.getSimpleName();
 
     @Override
     public void send(Exception e)

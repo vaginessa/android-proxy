@@ -11,8 +11,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
-import com.shouldit.proxy.lib.log.DefaultExceptionReport;
-import com.shouldit.proxy.lib.log.IExceptionReport;
+import com.shouldit.proxy.lib.log.DefaultEventReport;
+import com.shouldit.proxy.lib.log.IEventReporting;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -38,14 +38,14 @@ public class APL
     private static Context gContext;
     private static boolean sSetupCalled;
     private static int deviceVersion;
-    private static IExceptionReport exceptionReport;
+    private static IEventReporting eventReport;
 
     public static boolean setup(Context context)
     {
         return setup(context, null);
     }
 
-    public static boolean setup(Context context, IExceptionReport exRep)
+    public static boolean setup(Context context, IEventReporting eRep)
     {
         gContext = context;
         deviceVersion = Build.VERSION.SDK_INT;
@@ -58,21 +58,21 @@ public class APL
 
         sSetupCalled = true;
 
-        if (exRep != null)
+        if (eRep != null)
         {
-            exceptionReport = exRep;
+            eventReport = eRep;
         }
         else
         {
-            exceptionReport = new DefaultExceptionReport();
+            eventReport = new DefaultEventReport();
         }
 
         return sSetupCalled;
     }
 
-    public static IExceptionReport getExceptionReport()
+    public static IEventReporting getEventReport()
     {
-        return exceptionReport;
+        return eventReport;
     }
 
     public static Context getContext()
@@ -289,7 +289,7 @@ public class APL
                 }
                 catch (NumberFormatException e)
                 {
-                    APL.getExceptionReport().send(new Exception("Port is not a number: " + proxyParts[1],e));
+                    APL.getEventReport().send(new Exception("Port is not a number: " + proxyParts[1],e));
                 }
             }
         }
@@ -352,7 +352,7 @@ public class APL
         }
         catch (Exception e)
         {
-            APL.getExceptionReport().send(e);
+            APL.getEventReport().send(e);
         }
 
         return proxyHost;
