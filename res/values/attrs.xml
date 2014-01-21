@@ -28,6 +28,7 @@
         <attr name="value" format="string" />
         <attr name="readonly" />
         <attr name="fullsize" />
+        <attr name="singleLine" />
         <attr name="inputType" format="enum">
             <enum name="string" value="0" />
             <enum name="numeric" value="1"/>

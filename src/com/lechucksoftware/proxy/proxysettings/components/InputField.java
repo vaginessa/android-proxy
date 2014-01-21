@@ -24,6 +24,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
  */
 public class InputField extends LinearLayout
 {
+    private LinearLayout fieldMainLayout;
     private ImageButton valueActionButton;
     private ImageView fieldActionButton;
     private ViewGroup validationLayout;
@@ -37,6 +38,8 @@ public class InputField extends LinearLayout
     private boolean readonly;
     private boolean fullsize;
     private int type;
+    private boolean singleLine;
+
 
     public String getHint()
     {
@@ -133,6 +136,7 @@ public class InputField extends LinearLayout
 
     private void getUIComponents(View v)
     {
+        fieldMainLayout = (LinearLayout) v.findViewById(R.id.field_main_layout);
         titleTextView = (TextView) v.findViewById(R.id.field_title);
         valueReadOnlyTextView = (TextView) v.findViewById(R.id.field_value_readonly);
         valueEditText = (EditText) v.findViewById(R.id.field_value);
@@ -204,6 +208,7 @@ public class InputField extends LinearLayout
             readonly = a.getBoolean(R.styleable.InputField_readonly, false);
             fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
             type = a.getInt(R.styleable.InputField_inputType, 0);
+            singleLine = a.getBoolean(R.styleable.InputField_singleLine, false);
         }
         finally
         {
@@ -248,6 +253,15 @@ public class InputField extends LinearLayout
 
     public void refreshUI()
     {
+        if (singleLine)
+        {
+            fieldMainLayout.setOrientation(HORIZONTAL);
+        }
+        else
+        {
+            fieldMainLayout.setOrientation(VERTICAL);
+        }
+
         if (!TextUtils.isEmpty(title))
         {
             titleTextView.setText(title.toUpperCase());
