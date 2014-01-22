@@ -125,16 +125,22 @@
                     android:id="@+id/proxy_host"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="12dp"
-                    android:background="@drawable/border"
+                    android:background="?android:attr/listChoiceBackgroundIndicator"
                     app:title="@string/proxy_hostname_label"
                     app:hint="@string/proxy_hostname_hint"
                     app:readonly="true"
                     app:fullsize="true"
-                    app:singleLine="true"
+                    app:textSize="20dp"
                     app:value=""/>
+
+            <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:drawable/dialog_holo_dark_frame"/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputField
                     android:id="@+id/proxy_port"
@@ -143,13 +149,12 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:paddingLeft="12dp"
-                    android:background="@drawable/border"
+                    android:background="?android:attr/listChoiceBackgroundIndicator"
                     app:title="@string/proxy_port_label"
                     app:hint="@string/proxy_port_hint"
                     app:inputType="numeric"
                     app:readonly="true"
                     app:fullsize="true"
-                    app:singleLine="true"
                     app:value=""/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputExclusionList
@@ -157,13 +162,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     android:paddingLeft="12dp"
                     android:background="?android:attr/listChoiceBackgroundIndicator"
                     app:title="@string/proxy_exclusionlist_label"
                     app:hint="@string/proxy_exclusionlist_hint"
                     app:readonly="true"
-                    app:fullsize="false"
+                    app:fullsize="true"
                     app:singleLine="true"
                     app:value=""/>
 

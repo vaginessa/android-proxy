@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold"
+
             android:id="@+id/field_title"
             android:visibility="visible"
             android:paddingBottom="4dp"
@@ -27,7 +27,6 @@
                 android:id="@+id/field_value_readonly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="123.123.123.123"
                 android:textColor="@color/White"/>
@@ -39,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text=""
-                android:textSize="14dp"
                 android:hint="e.g. 123.123.123.123"
                 android:layout_toLeftOf="@+id/field_action"
                 android:textColor="@color/White"
@@ -50,7 +48,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_notvalid"
-                android:paddingRight="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:scaleType="fitCenter"

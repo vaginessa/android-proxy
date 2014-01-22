@@ -39,6 +39,7 @@ public class InputField extends LinearLayout
     private boolean fullsize;
     private int type;
     private boolean singleLine;
+    private int textSize;
 
 
     public String getHint()
@@ -209,6 +210,7 @@ public class InputField extends LinearLayout
             fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
             type = a.getInt(R.styleable.InputField_inputType, 0);
             singleLine = a.getBoolean(R.styleable.InputField_singleLine, false);
+            textSize = a.getInt(R.styleable.InputField_textSize, 14);
         }
         finally
         {
@@ -301,5 +303,10 @@ public class InputField extends LinearLayout
         }
 
         valueEditText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+
+
+        titleTextView.setTextSize(textSize);
+        valueReadOnlyTextView.setTextSize(textSize);
+        valueEditText.setTextSize(textSize);
     }
 }

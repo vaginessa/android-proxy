@@ -4,6 +4,7 @@
     <attr name="fullsize" format="boolean" />
     <attr name="readonly" format="boolean" />
     <attr name="singleLine" format="boolean" />
+    <attr name="textSize" format="dimension" />
 
     <declare-styleable name="FlowLayout">
         <attr name="horizontalSpacing" format="dimension"/>
@@ -29,6 +30,7 @@
         <attr name="readonly" />
         <attr name="fullsize" />
         <attr name="singleLine" />
+        <attr name="textSize" />
         <attr name="inputType" format="enum">
             <enum name="string" value="0" />
             <enum name="numeric" value="1"/>
