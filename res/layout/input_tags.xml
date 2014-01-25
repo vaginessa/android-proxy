@@ -23,6 +23,8 @@
     <com.lechucksoftware.proxy.proxysettings.components.TagsView
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="2dp"
             android:id="@+id/field_tags"
             android:visibility="visible"
             app:singleLine="false"/>
