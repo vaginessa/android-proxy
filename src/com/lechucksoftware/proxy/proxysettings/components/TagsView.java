@@ -97,7 +97,7 @@ public class TagsView extends LinearLayout
 
     public void setTags(List<TagEntity> intags)
     {
-        if (tags == null || tags.equals(intags))
+        if (tags == null || !tags.equals(intags))
         {
             tags = intags;
             refreshUI();

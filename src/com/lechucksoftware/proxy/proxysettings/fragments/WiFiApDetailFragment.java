@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
@@ -46,6 +47,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private InputField proxyBypass;
     private InputTags proxyTags;
     private UUID confId;
+    private LinearLayout proxyFieldsLayout;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -124,19 +126,10 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             }
         });
 
+        proxyFieldsLayout = (LinearLayout) v.findViewById(R.id.proxy_input_fields);
+
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
-        proxyHost.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                openProxyEditorDialog();
-            }
-        });
-
-
-        proxyPort = (InputField) v.findViewById(R.id.proxy_port);
-//        proxyPort.setOnClickListener(new View.OnClickListener()
+//        proxyHost.setOnClickListener(new View.OnClickListener()
 //        {
 //            @Override
 //            public void onClick(View v)
@@ -145,6 +138,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //            }
 //        });
 
+
+        proxyPort = (InputField) v.findViewById(R.id.proxy_port);
         proxyBypass = (InputField) v.findViewById(R.id.proxy_bypass);
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
 
@@ -191,33 +186,23 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void refreshVisibility()
     {
-        int visibility;
         if (proxySwitch.isChecked())
         {
             proxySelector.setVisibility(View.VISIBLE);
 
             if (selectedProxy == null)
             {
-                proxyHost.setVisibility(View.GONE);
-                proxyPort.setVisibility(View.GONE);
-                proxyBypass.setVisibility(View.GONE);
-                proxyTags.setVisibility(View.GONE);
+                proxyFieldsLayout.setVisibility(View.GONE);
             }
             else
             {
-                proxyHost.setVisibility(View.VISIBLE);
-                proxyPort.setVisibility(View.VISIBLE);
-                proxyBypass.setVisibility(View.VISIBLE);
-                proxyTags.setVisibility(View.VISIBLE);
+                proxyFieldsLayout.setVisibility(View.VISIBLE);
             }
         }
         else
         {
             proxySelector.setVisibility(View.GONE);
-            proxyHost.setVisibility(View.GONE);
-            proxyPort.setVisibility(View.GONE);
-            proxyBypass.setVisibility(View.GONE);
-            proxyTags.setVisibility(View.GONE);
+            proxyFieldsLayout.setVisibility(View.GONE);
         }
     }
 
@@ -286,119 +271,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         wifiSignal.setConfiguration(selectedWiFiAP);
 
         refreshVisibility();
-
-//        if (isVisible())
-//        {
-//            if (selectedAPConf != null
-//                    && selectedAPConf.isValidConfiguration()
-//                    && proxyEnablePref != null
-//                    && proxyHostPref != null
-//                    && proxyPortPref != null
-//                    && proxyBypassPref != null)
-//            {
-//                long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedAPConf.getProxyHost(), selectedAPConf.getProxyPort());
-//                if (proxyId != -1)
-//                {
-//                    selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
-//                }
-//                else
-//                {
-//                    selectedProxy = null;
-//                }
-//
-//                proxyEnablePref.setEnabled(true);
-//
-//                if (selectedAPConf.proxySetting == ProxySetting.NONE || selectedAPConf.proxySetting == ProxySetting.UNASSIGNED)
-//                {
-//                    proxyEnablePref.setChecked(false);
-//                }
-//                else
-//                {
-//                    proxyEnablePref.setChecked(true);
-//                }
-//
-//                String proxyHost = selectedAPConf.getProxyHost();
-//                if (proxyHost == null || proxyHost.length() == 0)
-//                {
-//                    proxyHostPref.setSummary(getText(R.string.not_set));
-//                }
-//                else
-//                {
-//                    proxyHostPref.setSummary(proxyHost);
-//                }
-//                proxyHostPref.setText(proxyHost);
-//
-//                Integer proxyPort = selectedAPConf.getProxyPort();
-//                if (proxyPort == null || proxyPort == 0)
-//                {
-//                    proxyPortPref.setSummary(R.string.not_set);
-//                    proxyPortPref.setText(null);
-//                }
-//                else
-//                {
-//                    String proxyPortString = proxyPort.toString();
-//                    proxyPortPref.setSummary(proxyPortString);
-//                    proxyPortPref.setText(proxyPortString);
-//                }
-//
-//                String bypassList = selectedAPConf.getProxyExclusionList();
-//                if (bypassList == null || bypassList.equals(""))
-//                {
-//                    proxyBypassPref.setSummary(getText(R.string.not_set));
-//                }
-//                else
-//                {
-//                    proxyBypassPref.setSummary(bypassList);
-//                }
-//                proxyBypassPref.setText(bypassList);
-//
-//                proxyTags.setTags(selectedProxy);
-//
-//                // Refresh all the dependencies
-//                refreshVisibility(proxyEnablePref.isChecked());
-//
-//                if (selectedAPConf.isCurrentNetwork())
-//                {
-//                    if (selectedAPConf.status != null)
-//                    {
-//                        if (selectedAPConf.status.getCheckingStatus() == CheckStatusValues.CHECKED)
-//                        {
-//                            ActionManager.getInstance().setStatus(StatusFragmentStates.CONNECTED, selectedAPConf.getAPConnectionStatus());
-//                        }
-//                        else
-//                        {
-//                            ActionManager.getInstance().setStatus(StatusFragmentStates.CHECKING);
-//                        }
-//                    }
-//                    else
-//                    {
-//                        ActionManager.getInstance().setStatus(StatusFragmentStates.CHECKING);
-//                    }
-//                }
-//                else if (selectedAPConf.ap.getLevel() > -1)
-//                {
-//                    ActionManager.getInstance().setStatus(StatusFragmentStates.CONNECT_TO, getResources().getString(R.string.connect_to_wifi_action, selectedAPConf.ap.ssid));
-//                }
-//                else
-//                {
-//                    ActionManager.getInstance().setStatus(StatusFragmentStates.NOT_AVAILABLE, selectedAPConf.getAPConnectionStatus());
-//                }
-//
-//            }
-//            else
-//            {
-//                if (APL.getWifiManager().isWifiEnabled())
-//                {
-////				apSelectorPref.setSummary(getResources().getString(R.string.no_ap_active));
-//                }
-//                else
-//                {
-////				apSelectorPref.setTitle(getResources().getString(R.string.wifi_disabled));
-//                }
-//
-//                proxyEnablePref.setEnabled(false);
-//            }
-//        }
 
 //        LogWrapper.stopTrace(TAG, "refreshUI", Log.DEBUG);
     }
