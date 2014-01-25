@@ -137,6 +137,8 @@
                     app:singleLine="true"
                     app:value=""/>
 
+            <include layout="@layout/separator"/>
+
             <com.lechucksoftware.proxy.proxysettings.components.InputField
                     android:id="@+id/proxy_port"
                     android:layout_width="fill_parent"
@@ -153,6 +155,8 @@
                     app:singleLine="true"
                     app:value=""/>
 
+            <include layout="@layout/separator"/>
+
             <com.lechucksoftware.proxy.proxysettings.components.InputField
                     android:id="@+id/proxy_bypass"
                     android:layout_width="fill_parent"
@@ -166,6 +170,8 @@
                     app:fullsize="true"
                     app:singleLine="true"
                     app:value=""/>
+
+            <include layout="@layout/separator"/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputTags
                     android:id="@+id/proxy_tags"

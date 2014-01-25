@@ -21,6 +21,8 @@ public class TagsView extends LinearLayout
 {
     private LinearLayout singleLineTagsContainer;
     private FlowLayout multipleLineTagsContainer;
+    private List<TagEntity> tags;
+    private float textSize = 12;
 
     private ViewGroup getEnabledContainer()
     {
@@ -59,20 +61,7 @@ public class TagsView extends LinearLayout
         }
     }
 
-    private void readStyleParameters(Context context, AttributeSet attributeSet)
-    {
-        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.TagsView);
-        try
-        {
-            singleLine = a.getBoolean(R.styleable.TagsView_singleLine, false);
-        }
-        finally
-        {
-            a.recycle();
-        }
-    }
-
-    public void setTags(List<TagEntity> tags)
+    public void refreshUI()
     {
         if (getEnabledContainer() != null)
         {
@@ -86,9 +75,41 @@ public class TagsView extends LinearLayout
                     TextView t = (TextView) inflater.inflate(R.layout.tag, getEnabledContainer(), false);
                     t.setBackgroundColor(UIUtils.getTagsColor(getContext(), tag.tagColor));
                     t.setText(tag.tag);
+                    t.setTextSize(textSize);
                     getEnabledContainer().addView(t);
                 }
             }
+        }
+    }
+
+    private void readStyleParameters(Context context, AttributeSet attributeSet)
+    {
+        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.TagsView);
+        try
+        {
+            singleLine = a.getBoolean(R.styleable.TagsView_singleLine, false);
+        }
+        finally
+        {
+            a.recycle();
+        }
+    }
+
+    public void setTags(List<TagEntity> intags)
+    {
+        if (tags == null || tags.equals(intags))
+        {
+            tags = intags;
+            refreshUI();
+        }
+    }
+
+    public void setTextSize(float size)
+    {
+        if (textSize != size)
+        {
+            textSize = size;
+            refreshUI();
         }
     }
 }

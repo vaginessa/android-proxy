@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class InputTags extends LinearLayout
 {
+    private LinearLayout fieldMainLayout;
     private TextView noTagsTextView;
     private Button addTagsButton;
     private TagsView tagsView;
@@ -27,6 +28,9 @@ public class InputTags extends LinearLayout
     private boolean fullsize;
     private List<TagEntity> tags;
     private boolean readonly;
+    private boolean singleLine;
+    private float titleSize;
+    private float textSize;
 
     public InputTags(Context context, AttributeSet attrs)
     {
@@ -40,6 +44,7 @@ public class InputTags extends LinearLayout
 
         if (v != null)
         {
+            fieldMainLayout = (LinearLayout) v.findViewById(R.id.field_main_layout);
             titleTextView = (TextView) v.findViewById(R.id.field_title);
             noTagsTextView = (TextView) v.findViewById(R.id.field_no_tags);
             addTagsButton = (Button) v.findViewById(R.id.field_add_tags);
@@ -58,11 +63,19 @@ public class InputTags extends LinearLayout
         {
             // DO Nothings: tags list already updated
         }
-
     }
 
     private void refreshUI()
     {
+        if (singleLine)
+        {
+            fieldMainLayout.setOrientation(HORIZONTAL);
+        }
+        else
+        {
+            fieldMainLayout.setOrientation(VERTICAL);
+        }
+
         if (!TextUtils.isEmpty(title))
         {
             titleTextView.setText(title.toUpperCase());
@@ -88,6 +101,9 @@ public class InputTags extends LinearLayout
         {
             addTagsButton.setVisibility(VISIBLE);
         }
+
+        titleTextView.setTextSize(titleSize);
+        tagsView.setTextSize(textSize);
     }
 
     protected void readStyleParameters(Context context, AttributeSet attributeSet)
@@ -96,9 +112,12 @@ public class InputTags extends LinearLayout
 
         try
         {
-            title = a.getString(R.styleable.InputField_title);
-            fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
-            readonly = a.getBoolean(R.styleable.InputField_readonly, false);
+            title = a.getString(R.styleable.InputFieldTags_title);
+            fullsize = a.getBoolean(R.styleable.InputFieldTags_fullsize, false);
+            readonly = a.getBoolean(R.styleable.InputFieldTags_readonly, false);
+            singleLine = a.getBoolean(R.styleable.InputFieldTags_singleLine, false);
+            titleSize = a.getDimension(R.styleable.InputFieldTags_titleSize, (float) 16.0);
+            textSize = a.getDimension(R.styleable.InputFieldTags_textSize, (float) 12.0);
         }
         finally
         {

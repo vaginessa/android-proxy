@@ -9,13 +9,13 @@
               android:id="@+id/field_main_layout">
 
     <TextView
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-
             android:id="@+id/field_title"
             android:visibility="visible"
             android:paddingBottom="4dp"
+            android:textStyle="bold"
             android:layout_marginRight="10dp"
             android:text="TITLE"/>
 

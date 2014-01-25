@@ -2,40 +2,23 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
-              android:orientation="vertical"
+              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingTop="10dp"
-              android:paddingBottom="10dp">
+              android:paddingTop="4dp"
+              android:paddingBottom="4dp"
+              android:id="@+id/field_main_layout">
 
     <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/field_title"
             android:visibility="visible"
             android:paddingBottom="4dp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
             android:text="TITLE"/>
-
-    <!--<TextView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_marginLeft="8dp"-->
-            <!--android:layout_marginRight="8dp"-->
-            <!--android:text="None"-->
-            <!--android:id="@android:id/summary"/>-->
-
-    <Button
-            android:id="@+id/field_add_tags"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Add tags..."/>
-
-    <TextView
-            android:id="@+id/field_no_tags"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="NO TAGS SELECTED"/>
 
     <com.lechucksoftware.proxy.proxysettings.components.TagsView
             android:layout_height="wrap_content"
@@ -46,5 +29,20 @@
             android:id="@+id/field_tags"
             android:visibility="visible"
             app:singleLine="false"/>
+
+    <TextView
+            android:id="@+id/field_no_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/White"
+            android:text="NO TAGS SELECTED"
+            android:visibility="gone"/>
+
+    <Button
+            android:id="@+id/field_add_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add tags..."
+            android:visibility="visible"/>
 
 </LinearLayout>

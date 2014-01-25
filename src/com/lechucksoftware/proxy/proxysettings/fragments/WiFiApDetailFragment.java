@@ -80,16 +80,15 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        LogWrapper.getPartial(TAG, "onCreateView", Log.DEBUG);
 
         wifiLayout = (ViewGroup) v.findViewById(R.id.wifi_layout);
-
-        wifiLayout.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                ActionsListFragment actionsListFragment = ActionsListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
-                actionsListFragment.show(getFragmentManager(), TAG);
-            }
-        });
+//        wifiLayout.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                ActionsListFragment actionsListFragment = ActionsListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
+//                actionsListFragment.show(getFragmentManager(), TAG);
+//            }
+//        });
 
         wifiName = (TextView) v.findViewById(R.id.wifi_name);
         wifiStatus = (TextView) v.findViewById(R.id.wifi_status);
@@ -137,40 +136,19 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
 
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
-        proxyPort.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                openProxyEditorDialog();
-            }
-        });
+//        proxyPort.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                openProxyEditorDialog();
+//            }
+//        });
 
         proxyBypass = (InputField) v.findViewById(R.id.proxy_bypass);
-        proxyBypass.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                openProxyEditorDialog();
-            }
-        });
-
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
-        proxyTags.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                openProxyEditorDialog();
-            }
-        });
-
-//        LogWrapper.getPartial(TAG, "onCreateView", Log.DEBUG);
 
         refreshUI();
-
-//        LogWrapper.stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
