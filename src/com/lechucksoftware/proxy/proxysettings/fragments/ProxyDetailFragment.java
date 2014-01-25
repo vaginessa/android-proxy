@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.*;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -27,7 +28,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     private ProxyEntity selectedProxy;
     private InputField proxyHost;
     private InputField proxyPort;
-    private InputExclusionList proxyBypass;
+    private InputField proxyBypass;
     private InputTags proxyTags;
 
     /**
@@ -115,7 +116,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     {
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
-        proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
+        proxyBypass = (InputField) v.findViewById(R.id.proxy_bypass);
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
     }
 
@@ -126,7 +127,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
             ProxyEntity newProxy = new ProxyEntity(selectedProxy);
             newProxy.host = proxyHost.getValue();
             newProxy.port = Integer.parseInt(proxyPort.getValue());
-            newProxy.exclusion = proxyBypass.getExclusionList();
+            newProxy.exclusion = proxyBypass.getValue();
 
             ApplicationGlobals.getDBManager().updateProxy(selectedProxy.getId(), selectedProxy);
 //            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectedProxy, newProxy);
@@ -151,7 +152,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     {
         if (selectedProxy != null)
         {
-            if (selectedProxy.host == null || selectedProxy.host.length() == 0)
+            if (TextUtils.isEmpty(selectedProxy.host))
             {
                 proxyHost.setValue(getText(R.string.proxy_hostname_hint));
             }
@@ -169,7 +170,16 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
                 proxyPort.setValue(selectedProxy.port);
             }
 
-            proxyBypass.setExclusionString(selectedProxy.exclusion);
+            if (TextUtils.isEmpty(selectedProxy.exclusion))
+            {
+                proxyBypass.setValue(getText(R.string.proxy_exclusionlist_hint));
+            }
+            else
+            {
+                proxyBypass.setValue(selectedProxy.exclusion);
+            }
+
+//            proxyBypass.setExclusionString(selectedProxy.exclusion);
             proxyTags.setTags(selectedProxy.getTags());
         }
     }

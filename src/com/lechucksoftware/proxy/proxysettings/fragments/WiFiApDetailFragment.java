@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.fragments;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private ViewGroup wifiLayout;
     private InputField proxyHost;
     private InputField proxyPort;
-    private InputExclusionList proxyBypass;
+    private InputField proxyBypass;
     private InputTags proxyTags;
     private UUID confId;
 
@@ -145,7 +146,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             }
         });
 
-        proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
+        proxyBypass = (InputField) v.findViewById(R.id.proxy_bypass);
         proxyBypass.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -432,7 +433,10 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
             proxyHost.setValue(selectedProxy.host);
             proxyPort.setValue(selectedProxy.port);
-            proxyBypass.setExclusionString(selectedProxy.exclusion);
+
+            String[] exclusionList = ProxyUtils.parseExclusionList(selectedProxy.exclusion);
+            proxyBypass.setValue(TextUtils.join("\n",exclusionList));
+
             proxyTags.setTags(selectedProxy.getTags());
         }
         else
@@ -440,7 +444,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             selectedProxy = null;
             proxyHost.setValue("");
             proxyPort.setValue("");
-            proxyBypass.setExclusionString("");
+            proxyBypass.setValue("");
             proxyTags.setTags(null);
         }
     }

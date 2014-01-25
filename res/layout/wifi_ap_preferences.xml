@@ -118,6 +118,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:background="@drawable/border"
                 >
 
@@ -129,18 +130,12 @@
                     android:paddingBottom="2dp"
                     android:paddingLeft="12dp"
                     android:background="?android:attr/listChoiceBackgroundIndicator"
-                    app:title="@string/proxy_hostname_label"
+                    app:title="Host"
                     app:hint="@string/proxy_hostname_hint"
                     app:readonly="true"
                     app:fullsize="true"
-                    app:textSize="20dp"
+                    app:singleLine="true"
                     app:value=""/>
-
-            <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="5dp"
-                    android:scaleType="fitXY"
-                    android:src="@android:drawable/dialog_holo_dark_frame"/>
 
             <com.lechucksoftware.proxy.proxysettings.components.InputField
                     android:id="@+id/proxy_port"
@@ -150,21 +145,22 @@
                     android:paddingBottom="5dp"
                     android:paddingLeft="12dp"
                     android:background="?android:attr/listChoiceBackgroundIndicator"
-                    app:title="@string/proxy_port_label"
+                    app:title="Port"
                     app:hint="@string/proxy_port_hint"
                     app:inputType="numeric"
                     app:readonly="true"
                     app:fullsize="true"
+                    app:singleLine="true"
                     app:value=""/>
 
-            <com.lechucksoftware.proxy.proxysettings.components.InputExclusionList
+            <com.lechucksoftware.proxy.proxysettings.components.InputField
                     android:id="@+id/proxy_bypass"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:paddingLeft="12dp"
                     android:background="?android:attr/listChoiceBackgroundIndicator"
-                    app:title="@string/proxy_exclusionlist_label"
+                    app:title="Bypass"
                     app:hint="@string/proxy_exclusionlist_hint"
                     app:readonly="true"
                     app:fullsize="true"
