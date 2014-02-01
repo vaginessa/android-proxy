@@ -107,7 +107,7 @@
                 android:paddingRight="4dp"
                 android:paddingLeft="12dp"
                 android:layout_marginRight="0dp"
-                android:text="Select a Proxy..."
+                android:text="@string/select_proxy_clickable"
                 android:textSize="18sp"
                 style="@android:style/Widget.Holo.Spinner"/>
 

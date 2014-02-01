@@ -891,4 +891,6 @@
     <string name="undo">undo</string>
     <string name="proxy_list">Proxies list</string>
     <string name="add_new_proxy">Add new proxy</string>
+    <string name="select_proxy_clickable">Select a Proxy ...</string>
+    <string name="select_proxy">Select a Proxy</string>
 </resources>

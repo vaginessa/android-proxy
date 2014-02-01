@@ -86,6 +86,11 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     {
         View v = inflater.inflate(R.layout.standard_list, container, false);
 
+        if (fragmentMode == FragmentMode.DIALOG)
+        {
+            getDialog().setTitle(R.string.select_proxy);
+        }
+
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         progress.setVisibility(View.VISIBLE);
 
