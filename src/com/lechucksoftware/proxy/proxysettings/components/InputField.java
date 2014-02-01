@@ -260,10 +260,12 @@ public class InputField extends LinearLayout
         if (singleLine)
         {
             fieldMainLayout.setOrientation(HORIZONTAL);
+            titleTextView.setWidth((int) UIUtils.convertDpToPixel(80, getContext()));
         }
         else
         {
             fieldMainLayout.setOrientation(VERTICAL);
+            titleTextView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
         if (!TextUtils.isEmpty(title))

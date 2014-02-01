@@ -28,7 +28,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     private ProxyEntity selectedProxy;
     private InputField proxyHost;
     private InputField proxyPort;
-    private InputField proxyBypass;
+    private InputExclusionList proxyBypass;
     private InputTags proxyTags;
 
     /**
@@ -116,7 +116,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     {
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
-        proxyBypass = (InputField) v.findViewById(R.id.proxy_bypass);
+        proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
     }
 
@@ -127,7 +127,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
             ProxyEntity newProxy = new ProxyEntity(selectedProxy);
             newProxy.host = proxyHost.getValue();
             newProxy.port = Integer.parseInt(proxyPort.getValue());
-            newProxy.exclusion = proxyBypass.getValue();
+            newProxy.exclusion = proxyBypass.getExclusionList();
 
             ApplicationGlobals.getDBManager().updateProxy(selectedProxy.getId(), selectedProxy);
 //            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectedProxy, newProxy);
@@ -170,16 +170,16 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
                 proxyPort.setValue(selectedProxy.port);
             }
 
-            if (TextUtils.isEmpty(selectedProxy.exclusion))
-            {
-                proxyBypass.setValue(getText(R.string.proxy_exclusionlist_hint));
-            }
-            else
-            {
-                proxyBypass.setValue(selectedProxy.exclusion);
-            }
+//            if (TextUtils.isEmpty(selectedProxy.exclusion))
+//            {
+//                proxyBypass.setValue(getText(R.string.proxy_exclusionlist_hint));
+//            }
+//            else
+//            {
+//                proxyBypass.setValue(selectedProxy.exclusion);
+//            }
 
-//            proxyBypass.setExclusionString(selectedProxy.exclusion);
+            proxyBypass.setExclusionString(selectedProxy.exclusion);
             proxyTags.setTags(selectedProxy.getTags());
         }
     }
