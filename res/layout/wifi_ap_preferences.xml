@@ -62,27 +62,27 @@
                     android:layout_height="wrap_content"/>
 
             <!--<LinearLayout-->
-                    <!--android:id="@+id/available_actions"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_below="@+id/wifi_signal"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentBottom="true"-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:layout_marginRight="1dp"-->
-                    <!--android:layout_marginBottom="1dp">-->
+            <!--android:id="@+id/available_actions"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/wifi_signal"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_marginRight="1dp"-->
+            <!--android:layout_marginBottom="1dp">-->
 
-                <!--<TextView-->
-                        <!--android:background="@color/Gray"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textSize="15sp"-->
-                        <!--android:paddingBottom="10dp"-->
-                        <!--android:paddingTop="0dp"-->
-                        <!--android:paddingLeft="10dp"-->
-                        <!--android:paddingRight="10dp"-->
-                        <!--android:textColor="@android:color/primary_text_dark"-->
-                        <!--android:text="..."/>-->
+            <!--<TextView-->
+            <!--android:background="@color/Gray"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="15sp"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:paddingTop="0dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:textColor="@android:color/primary_text_dark"-->
+            <!--android:text="..."/>-->
             <!--</LinearLayout>-->
 
         </RelativeLayout>
@@ -109,18 +109,19 @@
                 android:layout_marginRight="0dp"
                 android:text="Select a Proxy..."
                 android:textSize="18sp"
-                style="@android:style/Widget.Holo.Spinner" />
+                style="@android:style/Widget.Holo.Spinner"/>
 
         <LinearLayout
                 android:id="@+id/proxy_input_fields"
                 android:orientation="vertical"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-
-                >
+                android:background="@color/GreyTransparent"
+                android:padding="5dp">
 
             <com.lechucksoftware.proxy.proxysettings.components.InputField
                     android:id="@+id/proxy_host"
@@ -135,6 +136,7 @@
                     app:readonly="true"
                     app:fullsize="true"
                     app:singleLine="true"
+
                     app:value=""/>
 
             <include layout="@layout/separator"/>
