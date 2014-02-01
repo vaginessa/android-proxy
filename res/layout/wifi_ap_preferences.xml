@@ -30,7 +30,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:ellipsize="end"
-                    android:textColor="@color/White"
+                    android:textColor="@android:color/primary_text_dark"
                     android:paddingLeft="12dp"
                     android:paddingTop="10dp"
                     android:layout_alignParentLeft="true"
@@ -44,7 +44,7 @@
                     android:layout_below="@+id/wifi_name"
                     android:layout_toLeftOf="@+id/wifi_signal"
                     android:layout_alignParentLeft="true"
-                    android:textColor="@color/White"
+                    android:textColor="@android:color/primary_text_dark"
                     android:textSize="18sp"
                     android:singleLine="true"
                     android:lines="1"
@@ -81,7 +81,7 @@
                         <!--android:paddingTop="0dp"-->
                         <!--android:paddingLeft="10dp"-->
                         <!--android:paddingRight="10dp"-->
-                        <!--android:textColor="@color/White"-->
+                        <!--android:textColor="@android:color/primary_text_dark"-->
                         <!--android:text="..."/>-->
             <!--</LinearLayout>-->
 
@@ -119,7 +119,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:background="@drawable/border"
+
                 >
 
             <com.lechucksoftware.proxy.proxysettings.components.InputField
