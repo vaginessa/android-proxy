@@ -8,9 +8,7 @@
         app:horizontalSpacing="3dp"
         app:verticalSpacing="3dp"
         android:orientation="horizontal">
-    <View
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/Aqua">
-    </View>
+
+    <include layout="@layout/tag"></include>
+
 </com.lechucksoftware.proxy.proxysettings.components.FlowLayout>

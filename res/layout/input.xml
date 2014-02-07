@@ -28,6 +28,7 @@
                 android:id="@+id/field_value_readonly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="123.123.123.123"
                 android:textColor="@android:color/primary_text_dark"/>
@@ -37,6 +38,7 @@
                 android:layout_below="@+id/field_value_readonly"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:singleLine="true"
                 android:text=""
                 android:hint="e.g. 123.123.123.123"
