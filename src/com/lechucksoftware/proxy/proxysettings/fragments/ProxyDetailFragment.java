@@ -17,6 +17,8 @@ import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
+import java.lang.reflect.Proxy;
+
 
 public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
 {
@@ -25,11 +27,12 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
 
     // Arguments
     private static final String SELECTED_PROXY_ARG = "SELECTED_PROXY_ARG";
-    private ProxyEntity selectedProxy;
+
     private InputField proxyHost;
     private InputField proxyPort;
     private InputExclusionList proxyBypass;
     private InputTags proxyTags;
+    private Long selectedProxyID;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -39,7 +42,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
         ProxyDetailFragment instance = new ProxyDetailFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(SELECTED_PROXY_ARG, selectedProxy);
+        args.putSerializable(SELECTED_PROXY_ARG, selectedProxy.getId());
         instance.setArguments(args);
 
         return instance;
@@ -50,7 +53,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     {
         super.onCreate(savedInstanceState);
 
-        selectedProxy = (ProxyEntity) getArguments().getSerializable(SELECTED_PROXY_ARG);
+        selectedProxyID = (Long) getArguments().getSerializable(SELECTED_PROXY_ARG);
         instance = this;
 
         setHasOptionsMenu(true);
@@ -98,7 +101,6 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -118,18 +120,27 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
         proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
+        proxyTags.setTagsViewOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectedProxyID);
+                tagsListSelectorFragment.show(getFragmentManager(), TAG);
+            }
+        });
     }
 
     private void saveConfiguration()
     {
         try
         {
-            ProxyEntity newProxy = new ProxyEntity(selectedProxy);
+            ProxyEntity newProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
             newProxy.host = proxyHost.getValue();
             newProxy.port = Integer.parseInt(proxyPort.getValue());
             newProxy.exclusion = proxyBypass.getExclusionList();
 
-            ApplicationGlobals.getDBManager().updateProxy(selectedProxy.getId(), selectedProxy);
+            ApplicationGlobals.getDBManager().updateProxy(selectedProxyID, newProxy);
 //            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectedProxy, newProxy);
         }
         catch (Exception e)
@@ -150,6 +161,13 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
 
     public void initUI()
     {
+
+    }
+
+    public void refreshUI()
+    {
+        ProxyEntity selectedProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
+
         if (selectedProxy != null)
         {
             if (TextUtils.isEmpty(selectedProxy.host))
@@ -170,23 +188,9 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
                 proxyPort.setValue(selectedProxy.port);
             }
 
-//            if (TextUtils.isEmpty(selectedProxy.exclusion))
-//            {
-//                proxyBypass.setValue(getText(R.string.proxy_exclusionlist_hint));
-//            }
-//            else
-//            {
-//                proxyBypass.setValue(selectedProxy.exclusion);
-//            }
-
             proxyBypass.setExclusionString(selectedProxy.exclusion);
             proxyTags.setTags(selectedProxy.getTags());
         }
-    }
-
-    public void refreshUI()
-    {
-
     }
 
     @Override
@@ -194,7 +198,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     {
         super.onResume();
 
-        if (selectedProxy == null)
+        if (selectedProxyID == null)
         {
             NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
         }

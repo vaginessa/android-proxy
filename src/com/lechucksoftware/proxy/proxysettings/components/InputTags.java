@@ -36,9 +36,9 @@ public class InputTags extends LinearLayout
     {
         super(context, attrs);
 
-        readStyleParameters(context,attrs);
+        readStyleParameters(context, attrs);
 
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View v = inflater.inflate(R.layout.input_tags, this);
 
@@ -50,6 +50,12 @@ public class InputTags extends LinearLayout
             addTagsButton = (Button) v.findViewById(R.id.field_add_tags);
             tagsView = (TagsView) v.findViewById(R.id.field_tags);
         }
+    }
+
+    public void setTagsViewOnClickListener(OnClickListener onClickListener)
+    {
+        if (tagsView != null)
+            tagsView.setOnClickListener(onClickListener);
     }
 
     public void setTags(List<TagEntity> intags)
@@ -81,14 +87,15 @@ public class InputTags extends LinearLayout
             titleTextView.setText(title.toUpperCase());
         }
 
-        tagsView.setTags(tags);
         if (tags != null && tags.size() > 0)
         {
+            tagsView.setTags(tags);
             tagsView.setVisibility(VISIBLE);
             noTagsTextView.setVisibility(GONE);
         }
         else
         {
+            tagsView.setTags(null);
             tagsView.setVisibility(GONE);
             noTagsTextView.setVisibility(VISIBLE);
         }
@@ -99,7 +106,10 @@ public class InputTags extends LinearLayout
         }
         else
         {
-            addTagsButton.setVisibility(VISIBLE);
+            if (tags != null && tags.size() > 0)
+                addTagsButton.setVisibility(GONE);
+            else
+                addTagsButton.setVisibility(VISIBLE);
         }
 
         titleTextView.setTextSize(titleSize);

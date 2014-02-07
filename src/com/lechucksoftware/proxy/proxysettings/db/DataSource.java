@@ -54,7 +54,7 @@ public class DataSource
         DatabaseSQLiteOpenHelper.getInstance(context).dropDB(database);
         DatabaseSQLiteOpenHelper.getInstance(context).createDB(database);
 
-        context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
+        notifyProxyChange();
     }
 
     public ProxyEntity upsertProxy(ProxyEntity proxyData)
@@ -326,7 +326,7 @@ public class DataSource
 
         LogWrapper.stopTrace(TAG, "createProxy", Log.DEBUG);
 
-        context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
+        notifyProxyChange();
 
         return newProxy;
     }
@@ -399,9 +399,15 @@ public class DataSource
 
         ProxyEntity updatedProxy = getProxy(proxyId);
 
-        context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
+        notifyProxyChange();
 
         return updatedProxy;
+    }
+
+    private void notifyProxyChange()
+    {
+        context.sendBroadcast(new Intent(Constants.PROXY_REFRESH_UI));
+        context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
     }
 
     public TagEntity updateTag(long tagId, TagEntity newData)

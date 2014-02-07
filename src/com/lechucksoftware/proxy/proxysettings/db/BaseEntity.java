@@ -1,17 +1,18 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
 
 /**
  * Created by Marco on 23/10/13.
  */
-public class BaseEntity
+public class BaseEntity implements Serializable
 {
     private long id;
     private long creationDate;
     private long lastModifiedDate;
-    public Boolean isPersisted;
+    public boolean isPersisted;
     public boolean isSelected;
 
     public BaseEntity()
