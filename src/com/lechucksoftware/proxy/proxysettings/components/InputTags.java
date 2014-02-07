@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.List;
 
@@ -91,25 +92,17 @@ public class InputTags extends LinearLayout
         {
             tagsView.setTags(tags);
             tagsView.setVisibility(VISIBLE);
+
+            addTagsButton.setVisibility(GONE);
             noTagsTextView.setVisibility(GONE);
         }
         else
         {
             tagsView.setTags(null);
             tagsView.setVisibility(GONE);
-            noTagsTextView.setVisibility(VISIBLE);
-        }
 
-        if (readonly)
-        {
-            addTagsButton.setVisibility(GONE);
-        }
-        else
-        {
-            if (tags != null && tags.size() > 0)
-                addTagsButton.setVisibility(GONE);
-            else
-                addTagsButton.setVisibility(VISIBLE);
+            noTagsTextView.setVisibility(UIUtils.booleanToVisibility(readonly));
+            addTagsButton.setVisibility(UIUtils.booleanToVisibility(!readonly));
         }
 
         titleTextView.setTextSize(titleSize);
