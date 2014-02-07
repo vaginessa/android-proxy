@@ -57,7 +57,7 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 
         if (editor != null)
         {
-            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
+            editor.putBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, true);
             editor.commit();
         }
     }
