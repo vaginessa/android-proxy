@@ -22,7 +22,7 @@ public class TagsView extends LinearLayout
     private LinearLayout singleLineTagsContainer;
     private FlowLayout multipleLineTagsContainer;
     private List<TagEntity> tags;
-    private float textSize = 12;
+    private float textSize = 16;
 
     private ViewGroup getEnabledContainer()
     {

@@ -56,7 +56,14 @@ public class InputTags extends LinearLayout
     public void setTagsViewOnClickListener(OnClickListener onClickListener)
     {
         if (tagsView != null)
+        {
             tagsView.setOnClickListener(onClickListener);
+        }
+
+        if (addTagsButton != null)
+        {
+            addTagsButton.setOnClickListener(onClickListener);
+        }
     }
 
     public void setTags(List<TagEntity> intags)
@@ -92,8 +99,7 @@ public class InputTags extends LinearLayout
         {
             tagsView.setTags(tags);
             tagsView.setVisibility(VISIBLE);
-
-            addTagsButton.setVisibility(GONE);
+//            addTagsButton.setVisibility(GONE);
             noTagsTextView.setVisibility(GONE);
         }
         else
@@ -102,9 +108,10 @@ public class InputTags extends LinearLayout
             tagsView.setVisibility(GONE);
 
             noTagsTextView.setVisibility(UIUtils.booleanToVisibility(readonly));
-            addTagsButton.setVisibility(UIUtils.booleanToVisibility(!readonly));
+//            addTagsButton.setVisibility(UIUtils.booleanToVisibility(!readonly));
         }
 
+        addTagsButton.setVisibility(UIUtils.booleanToVisibility(!readonly));
         titleTextView.setTextSize(titleSize);
         tagsView.setTextSize(textSize);
     }
@@ -120,7 +127,7 @@ public class InputTags extends LinearLayout
             readonly = a.getBoolean(R.styleable.InputFieldTags_readonly, false);
             singleLine = a.getBoolean(R.styleable.InputFieldTags_singleLine, false);
             titleSize = a.getDimension(R.styleable.InputFieldTags_titleSize, (float) 16.0);
-            textSize = a.getDimension(R.styleable.InputFieldTags_textSize, (float) 12.0);
+            textSize = a.getDimension(R.styleable.InputFieldTags_textSize, (float) 16.0);
         }
         finally
         {
