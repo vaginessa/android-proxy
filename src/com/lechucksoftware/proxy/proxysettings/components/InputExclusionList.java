@@ -6,9 +6,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -21,33 +24,36 @@ import java.util.List;
  */
 public class InputExclusionList extends LinearLayout
 {
-    private TextView emptyTextView;
+    private LinearLayout fieldMainLayout;
+    private TextView readonlyValueTextView;
     private LinearLayout bypassContainer;
     private TextView titleTextView;
     private String title;
-    private boolean fullsize;
+    //    private boolean fullsize;
     private boolean readonly;
     private String exclusionListString = "";
     private List<String> exclusionList;
+    private boolean singleLine;
+    private float textSize;
+    private float titleSize;
 
     public InputExclusionList(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
-        readStyleParameters(context,attrs);
+        readStyleParameters(context, attrs);
 
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View v = inflater.inflate(R.layout.input_exclusion, this);
 
         if (v != null)
         {
+            fieldMainLayout = (LinearLayout) v.findViewById(R.id.field_main_layout);
             titleTextView = (TextView) v.findViewById(R.id.field_title);
-
             bypassContainer = (LinearLayout) v.findViewById(R.id.bypass_container);
             bypassContainer.removeAllViews();
-
-            emptyTextView = (TextView) v.findViewById(R.id.field_empty);
+            readonlyValueTextView = (TextView) v.findViewById(R.id.field_value_readonly);
 
             refreshUI();
         }
@@ -55,18 +61,48 @@ public class InputExclusionList extends LinearLayout
 
     private void refreshUI()
     {
+
+        // Layout
+        if (singleLine)
+        {
+            fieldMainLayout.setOrientation(HORIZONTAL);
+            titleTextView.setWidth((int) UIUtils.convertDpToPixel(80, getContext()));
+        }
+        else
+        {
+            fieldMainLayout.setOrientation(VERTICAL);
+            titleTextView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+
+        // Title
         if (!TextUtils.isEmpty(title))
         {
             titleTextView.setText(title.toUpperCase());
         }
 
-        if (exclusionList != null && exclusionList.size() > 0)
+        if (readonly)
         {
-            bypassContainer.removeAllViews();
+            readonlyValueTextView.setVisibility(VISIBLE);
+            bypassContainer.setVisibility(GONE);
 
-            if (fullsize)
+            if (exclusionList != null && exclusionList.size() > 0)
             {
-                for(String bypass : exclusionList)
+                readonlyValueTextView.setText(TextUtils.join("\n", exclusionList));
+            }
+            else
+            {
+                readonlyValueTextView.setText(R.string.not_set);
+            }
+        }
+        else
+        {
+//            readonlyValueTextView.setVisibility(GONE);
+            bypassContainer.setVisibility(VISIBLE);
+
+            bypassContainer.removeAllViews();
+            if (exclusionList != null && exclusionList.size() > 0)
+            {
+                for (String bypass : exclusionList)
                 {
                     InputField i = new InputField(getContext());
                     i.setOnClickListener(new OnClickListener()
@@ -74,11 +110,13 @@ public class InputExclusionList extends LinearLayout
                         @Override
                         public void onClick(View view)
                         {
-                            ((InputField)view).setEnabled(true);
+
                         }
                     });
 
-                    i.setReadonly(true);
+                    i.setFullsize(false);
+                    i.setReadonly(false);
+                    i.setVisibility(VISIBLE);
                     i.setValue(bypass);
                     bypassContainer.addView(i);
                 }
@@ -92,22 +130,10 @@ public class InputExclusionList extends LinearLayout
                     bypassContainer.addView(i);
                 }
             }
-            else
-            {
-                InputField i = new InputField(getContext());
-                i.setReadonly(true);
-                i.setValue(exclusionListString);
-                bypassContainer.addView(i);
-            }
+        }
 
-            bypassContainer.setVisibility(VISIBLE);
-            emptyTextView.setVisibility(GONE);
-        }
-        else
-        {
-            bypassContainer.setVisibility(GONE);
-            emptyTextView.setVisibility(VISIBLE);
-        }
+        titleTextView.setTextSize(titleSize);
+        readonlyValueTextView.setTextSize(textSize);
     }
 
     protected void readStyleParameters(Context context, AttributeSet attributeSet)
@@ -117,8 +143,11 @@ public class InputExclusionList extends LinearLayout
         try
         {
             title = a.getString(R.styleable.InputField_title);
-            fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
+            singleLine = a.getBoolean(R.styleable.InputField_singleLine, false);
+//            fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
             readonly = a.getBoolean(R.styleable.InputField_readonly, false);
+            titleSize = a.getDimension(R.styleable.InputField_titleSize, Measures.DefaultTitleSize);
+            textSize = a.getDimension(R.styleable.InputField_textSize, Measures.DefaultTextFontSize);
         }
         finally
         {
@@ -152,7 +181,7 @@ public class InputExclusionList extends LinearLayout
 
     public String getExclusionList()
     {
-        String result = TextUtils.join(",",exclusionList);
+        String result = TextUtils.join(",", exclusionList);
         return result;
     }
 }

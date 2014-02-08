@@ -159,7 +159,7 @@
 
             <include layout="@layout/separator"/>
 
-            <com.lechucksoftware.proxy.proxysettings.components.InputField
+            <com.lechucksoftware.proxy.proxysettings.components.InputExclusionList
                     android:id="@+id/proxy_bypass"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -41,7 +42,6 @@ public class InputField extends LinearLayout
     private boolean singleLine;
     private float textSize;
     private float titleSize;
-
 
     public String getHint()
     {
@@ -113,12 +113,15 @@ public class InputField extends LinearLayout
         readonly = false;
         fullsize = false;
         type = 0;
+        titleSize = Measures.DefaultTitleSize;
+        textSize = Measures.DefaultTextFontSize;
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.input, this);
         if (v != null)
         {
             getUIComponents(v);
+            refreshUI();
         }
     }
 
@@ -133,6 +136,7 @@ public class InputField extends LinearLayout
         if (v != null)
         {
             getUIComponents(v);
+            refreshUI();
         }
     }
 
@@ -194,8 +198,6 @@ public class InputField extends LinearLayout
 
         valueActionButton = (ImageButton) v.findViewById(R.id.field_input_action);
         fieldActionButton = (ImageButton) v.findViewById(R.id.field_action);
-
-        refreshUI();
     }
 
     protected void readStyleParameters(Context context, AttributeSet attributeSet)
@@ -211,8 +213,8 @@ public class InputField extends LinearLayout
             fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
             type = a.getInt(R.styleable.InputField_inputType, 0);
             singleLine = a.getBoolean(R.styleable.InputField_singleLine, false);
-            titleSize = a.getDimension(R.styleable.InputField_titleSize, (float) 16.0);
-            textSize = a.getDimension(R.styleable.InputField_textSize, (float) 16.0);
+            titleSize = a.getDimension(R.styleable.InputField_titleSize, Measures.DefaultTitleSize);
+            textSize = a.getDimension(R.styleable.InputField_textSize, Measures.DefaultTextFontSize);
         }
         finally
         {
