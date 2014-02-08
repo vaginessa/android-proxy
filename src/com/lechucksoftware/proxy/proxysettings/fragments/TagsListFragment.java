@@ -67,7 +67,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
         dialog = getDialog();
         if (dialog != null)
         {
-            dialog.setTitle("AAAAAA");
+            dialog.setTitle("Select Proxy TAGs");
         }
 
         View v = inflater.inflate(R.layout.tags_dialog_list, container, false);
