@@ -61,7 +61,6 @@ public class InputExclusionList extends LinearLayout
 
     private void refreshUI()
     {
-
         // Layout
         if (singleLine)
         {
@@ -104,20 +103,33 @@ public class InputExclusionList extends LinearLayout
             {
                 for (String bypass : exclusionList)
                 {
-                    InputField i = new InputField(getContext());
-                    i.setOnClickListener(new OnClickListener()
-                    {
-                        @Override
-                        public void onClick(View view)
-                        {
+                    final InputField i = new InputField(getContext());
 
-                        }
-                    });
+                    // TODO: Show inputfield readonly and enable the edit only on click
+//                    i.setOnClickListener(new OnClickListener()
+//                    {
+//                        @Override
+//                        public void onClick(View view)
+//                        {
+//
+//                        }
+//                    });
 
                     i.setFullsize(false);
                     i.setReadonly(false);
                     i.setVisibility(VISIBLE);
                     i.setValue(bypass);
+                    i.setFieldAction(new OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View view)
+                        {
+                            String addressToRemove = i.getValue();
+                            exclusionList.remove(addressToRemove);
+                            refreshUI();
+                        }
+                    });
+
                     bypassContainer.addView(i);
                 }
 

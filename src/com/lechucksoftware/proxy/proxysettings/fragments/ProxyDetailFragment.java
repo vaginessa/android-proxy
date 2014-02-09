@@ -33,6 +33,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     private InputExclusionList proxyBypass;
     private InputTags proxyTags;
     private Long selectedProxyID;
+    private ProxyEntity selectedProxy;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -54,52 +55,50 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
         super.onCreate(savedInstanceState);
 
         selectedProxyID = (Long) getArguments().getSerializable(SELECTED_PROXY_ARG);
+        selectedProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
+
         instance = this;
-
-        setHasOptionsMenu(true);
-        setMenuVisibility(true);
-        createCancelSaveActionBar();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.proxy_details_menu, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+//    {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.proxy_details_menu, menu);
+//    }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu)
-    {
-        super.onPrepareOptionsMenu(menu);
-    }
+//    @Override
+//    public void onPrepareOptionsMenu(Menu menu)
+//    {
+//        super.onPrepareOptionsMenu(menu);
+//    }
 
-    private void createCancelSaveActionBar()
-    {
-        final ActionBar actionBar = getActivity().getActionBar();
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        final View customActionBarView = inflater.inflate(R.layout.save, null);
-        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        // "Done"
-                        saveConfiguration();
-                        NavigationUtils.GoToProxiesList(getFragmentManager());
-                    }
-                }); 
-
-        // Show the custom action bar view and hide the normal Home icon and title.
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
-                                    ActionBar.DISPLAY_SHOW_CUSTOM |
-                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-
-        actionBar.setCustomView(customActionBarView);
-
-    }
+//    private void createCancelSaveActionBar()
+//    {
+//        final ActionBar actionBar = getActivity().getActionBar();
+//        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//        final View customActionBarView = inflater.inflate(R.layout.save, null);
+//        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
+//                new View.OnClickListener()
+//                {
+//                    @Override
+//                    public void onClick(View v)
+//                    {
+//                        // "Done"
+//                        saveConfiguration();
+//                        NavigationUtils.GoToProxiesList(getFragmentManager());
+//                    }
+//                });
+//
+//        // Show the custom action bar view and hide the normal Home icon and title.
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
+//                                    ActionBar.DISPLAY_SHOW_CUSTOM |
+//                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+//
+//        actionBar.setCustomView(customActionBarView);
+//
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -161,36 +160,25 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
 
     public void initUI()
     {
-
-    }
-
-    public void refreshUI()
-    {
-        ProxyEntity selectedProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
-
         if (selectedProxy != null)
         {
-            if (TextUtils.isEmpty(selectedProxy.host))
-            {
-                proxyHost.setValue(getText(R.string.proxy_hostname_hint));
-            }
-            else
-            {
-                proxyHost.setValue(selectedProxy.host);
-            }
+            proxyHost.setValue(selectedProxy.host);
+            proxyHost.setHint(getText(R.string.proxy_hostname_hint));
 
-            if (selectedProxy.port == null || selectedProxy.port == 0)
-            {
-                proxyPort.setValue(getText(R.string.proxy_port_hint));
-            }
-            else
+            if (selectedProxy.port != null && selectedProxy.port != 0)
             {
                 proxyPort.setValue(selectedProxy.port);
             }
+            proxyPort.setHint(getText(R.string.proxy_port_hint));
 
             proxyBypass.setExclusionString(selectedProxy.exclusion);
             proxyTags.setTags(selectedProxy.getTags());
         }
+    }
+
+    public void refreshUI()
+    {
+
     }
 
     @Override

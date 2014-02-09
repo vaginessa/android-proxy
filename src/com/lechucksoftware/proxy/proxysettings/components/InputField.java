@@ -26,7 +26,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class InputField extends LinearLayout
 {
     private LinearLayout fieldMainLayout;
-    private ImageButton valueActionButton;
+//    private ImageButton valueActionButton;
     private ImageView fieldActionButton;
     private ViewGroup validationLayout;
     private EditText valueEditText;
@@ -42,15 +42,16 @@ public class InputField extends LinearLayout
     private boolean singleLine;
     private float textSize;
     private float titleSize;
+    private CharSequence emptyMessage;
 
     public String getHint()
     {
         return hint;
     }
 
-    public void setHint(String hint)
+    public void setHint(CharSequence hint)
     {
-        this.hint = hint;
+        this.hint = hint.toString();
         refreshUI();
     }
 
@@ -103,6 +104,12 @@ public class InputField extends LinearLayout
         refreshUI();
     }
 
+    public void setFieldAction(OnClickListener fieldAction)
+    {
+        fieldActionButton.setOnClickListener(fieldAction);
+        refreshUI();
+    }
+
     public InputField(Context context)
     {
         super(context);
@@ -142,37 +149,42 @@ public class InputField extends LinearLayout
 
     private void getUIComponents(View v)
     {
+//        valueActionButton = (ImageButton) v.findViewById(R.id.field_input_action);
+        fieldActionButton = (ImageButton) v.findViewById(R.id.field_action);
+
         fieldMainLayout = (LinearLayout) v.findViewById(R.id.field_main_layout);
         titleTextView = (TextView) v.findViewById(R.id.field_title);
         valueReadOnlyTextView = (TextView) v.findViewById(R.id.field_value_readonly);
         valueEditText = (EditText) v.findViewById(R.id.field_value);
-        valueEditText.setOnFocusChangeListener(new OnFocusChangeListener()
-        {
-            @Override
-            public void onFocusChange(View view, boolean b)
-            {
-                if (b && !TextUtils.isEmpty(value))
-                {
-//                    fieldActionButton.setOnClickListener(new OnClickListener()
-//                    {
-//                        @Override
-//                        public void onClick(View view)
-//                        {
-//                            value = null;
-//                            valueActionButton.setOnClickListener(null);
-//                            refreshUI();
-//                        }
-//                    });
 
-                }
-                else
-                {
-                    fieldActionButton.setOnClickListener(null);
-                }
-
-                refreshUI();
-            }
-        });
+        // TODO: Re eneable field action button with visibility triggered by focus change on EditText
+//        valueEditText.setOnFocusChangeListener(new OnFocusChangeListener()
+//        {
+//            @Override
+//            public void onFocusChange(View view, boolean b)
+//            {
+//                if (b && !TextUtils.isEmpty(value))
+//                {
+////                    fieldActionButton.setOnClickListener(new OnClickListener()
+////                    {
+////                        @Override
+////                        public void onClick(View view)
+////                        {
+////                            value = null;
+////                            valueActionButton.setOnClickListener(null);
+////                            refreshUI();
+////                        }
+////                    });
+//
+//                }
+//                else
+//                {
+//                    fieldActionButton.setOnClickListener(null);
+//                }
+//
+//                refreshUI();
+//            }
+//        });
         valueEditText.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -195,9 +207,6 @@ public class InputField extends LinearLayout
         });
 
         validationLayout = (ViewGroup) v.findViewById(R.id.field_validation);
-
-        valueActionButton = (ImageButton) v.findViewById(R.id.field_input_action);
-        fieldActionButton = (ImageButton) v.findViewById(R.id.field_action);
     }
 
     protected void readStyleParameters(Context context, AttributeSet attributeSet)
@@ -243,6 +252,23 @@ public class InputField extends LinearLayout
             value = newValue;
             refreshUI();
         }
+
+//        if (!TextUtils.isEmpty(value))
+//        {
+//            valueActionButton.setOnClickListener(new OnClickListener()
+//            {
+//                @Override
+//                public void onClick(View view)
+//                {
+//                    value = "";
+//                    refreshUI();
+//                }
+//            });
+//        }
+//        else
+//        {
+//            valueActionButton.setOnClickListener(null);
+//        }
     }
 
     public void setError(java.lang.CharSequence error)
@@ -293,7 +319,7 @@ public class InputField extends LinearLayout
         valueEditText.setVisibility(UIUtils.booleanToVisibility(!readonly));
 
         fieldActionButton.setVisibility(UIUtils.booleanToVisibility(fieldActionButton.hasOnClickListeners()));
-        valueActionButton.setVisibility(UIUtils.booleanToVisibility(valueActionButton.hasOnClickListeners()));
+//        valueActionButton.setVisibility(UIUtils.booleanToVisibility(valueActionButton.hasOnClickListeners()));
 
         switch (type)
         {

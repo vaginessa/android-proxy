@@ -4,6 +4,7 @@
     <item
             android:id="@+id/menu_proxies"
             android:icon="@drawable/ic_action_shuffle"
+            android:showAsAction="always|withText"
             android:title="@string/proxy_list"/>
 
     <!--<item-->

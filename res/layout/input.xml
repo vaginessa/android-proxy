@@ -46,25 +46,25 @@
                 android:textColor="@android:color/primary_text_dark"
                 />
 
-        <ImageButton
-                android:id="@+id/field_input_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_notvalid"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:scaleType="fitCenter"
-                android:layout_alignRight="@+id/field_value"
-                android:layout_alignTop="@+id/field_value"
-                android:layout_alignBottom="@+id/field_value"
-                style="?android:attr/borderlessButtonStyle"/>
+        <!--<ImageButton-->
+                <!--android:id="@+id/field_input_action"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/ic_action_notvalid"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:layout_alignRight="@+id/field_value"-->
+                <!--android:layout_alignTop="@+id/field_value"-->
+                <!--android:layout_alignBottom="@+id/field_value"-->
+                <!--style="?android:attr/borderlessButtonStyle"/>-->
 
 
         <ImageButton
                 android:id="@+id/field_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_save"
+                android:src="@drawable/ic_action_discard"
                 android:paddingRight="5dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/field_value"
