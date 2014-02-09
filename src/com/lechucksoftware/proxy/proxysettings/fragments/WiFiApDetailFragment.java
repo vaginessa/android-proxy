@@ -291,7 +291,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             selectedProxy = null;
             proxyHost.setValue("");
             proxyPort.setValue("");
-            proxyBypass.setExclusionString(null);
+            proxyBypass.setExclusionString("");
             proxyTags.setTags(null);
         }
     }
