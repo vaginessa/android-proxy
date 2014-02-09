@@ -137,7 +137,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
             @Override
             public void onClick(View view)
             {
-                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectedProxyID);
+                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectedProxy);
                 tagsListSelectorFragment.show(getFragmentManager(), TAG);
             }
         });

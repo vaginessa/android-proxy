@@ -15,13 +15,13 @@ import java.util.List;
 public class TagsTaskLoader extends AsyncTaskLoader<List<TagEntity>>
 {
     private final Context ctx;
-    private final Long proxyID;
+    private final ProxyEntity selectedProxy;
 
-    public TagsTaskLoader(Context context, Long pID)
+    public TagsTaskLoader(Context context, ProxyEntity proxy)
     {
         super(context);
         ctx = context;
-        proxyID = pID;
+        selectedProxy = proxy;
     }
 
     @Override
@@ -30,7 +30,11 @@ public class TagsTaskLoader extends AsyncTaskLoader<List<TagEntity>>
         List<TagEntity> dbTags = ApplicationGlobals.getDBManager().getAllTags();
 
         List<TagEntity> tags = null;
-        tags = ApplicationGlobals.getDBManager().getTagsForProxy(proxyID);
+
+        if (selectedProxy.isPersisted)
+        {
+            tags = ApplicationGlobals.getDBManager().getTagsForProxy(selectedProxy.getId());
+        }
 
         for(TagEntity tag: dbTags)
         {
