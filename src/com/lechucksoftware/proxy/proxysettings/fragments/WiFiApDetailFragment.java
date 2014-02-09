@@ -168,14 +168,14 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //                @Override
 //                public boolean onPreferenceClick(Preference preference)
 //                {
-//                    if (selectedProxy != null)
+//                    if (selectProxy != null)
 //                    {
-//                        TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectedProxy);
+//                        TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectProxy);
 //                        tagsListSelectorFragment.show(getFragmentManager(), TAG);
 //                    }
 //                    else
 //                    {
-//                        EventReportingUtils.sendException(new Exception("Found null selectedProxy"));
+//                        EventReportingUtils.sendException(new Exception("Found null selectProxy"));
 //                    }
 //
 //                    return true;

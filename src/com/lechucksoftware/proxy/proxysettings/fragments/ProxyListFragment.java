@@ -114,7 +114,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
                 }
                 else if (fragmentMode == FragmentMode.DIALOG)
                 {
-                    selectedProxy(i);
+                    selectProxy(i);
                     dismiss();
                 }
             }
@@ -206,7 +206,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         }
     }
 
-    void selectedProxy(int index)
+    void selectProxy(int index)
     {
         mCurCheckPosition = index;
 
@@ -225,7 +225,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectedProxy(" + index + ") " + e.toString()));
+            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectProxy(" + index + ") " + e.toString()));
         }
     }
 

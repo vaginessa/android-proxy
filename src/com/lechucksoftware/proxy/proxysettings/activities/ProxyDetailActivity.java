@@ -46,10 +46,20 @@ public class ProxyDetailActivity extends BaseWifiActivity
         Intent callerIntent = getIntent();
         if (callerIntent != null)
         {
-            ProxyEntity selectedProxy = (ProxyEntity) callerIntent.getExtras().getSerializable(Constants.SELECTED_PROXY_CONF_ARG);
+            Bundle extras = callerIntent.getExtras();
+            ProxyDetailFragment detail;
+            if (extras != null && extras.containsKey(Constants.SELECTED_PROXY_CONF_ARG))
+            {
+                ProxyEntity selectedProxy = (ProxyEntity) extras.getSerializable(Constants.SELECTED_PROXY_CONF_ARG);
 
-            // Add the WiFiApListFragment to the main fragment_container
-            ProxyDetailFragment detail = ProxyDetailFragment.newInstance(selectedProxy);
+                // Add the WiFiApListFragment to the main fragment_container
+                detail = ProxyDetailFragment.newInstance(selectedProxy);
+            }
+            else
+            {
+                detail = ProxyDetailFragment.newInstance();
+            }
+
             fm.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.fragment_container, detail).commit();

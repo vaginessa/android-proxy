@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
@@ -71,6 +72,11 @@ public class ProxyListActivity extends BaseWifiActivity
         {
             case android.R.id.home:
                 finish();
+                break;
+
+            case R.id.menu_add_new_proxy:
+                Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
+                startActivity(i);
                 break;
 
             case R.id.menu_about:

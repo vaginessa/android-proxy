@@ -106,6 +106,7 @@ public class InputExclusionList extends LinearLayout
                     final InputField i = new InputField(getContext());
 
                     // TODO: Show inputfield readonly and enable the edit only on click
+
 //                    i.setOnClickListener(new OnClickListener()
 //                    {
 //                        @Override

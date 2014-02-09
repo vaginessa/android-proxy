@@ -184,7 +184,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
             listView.setItemChecked(index, true);
 
             ProxyEntity selectedProxy = (ProxyEntity) listView.getItemAtPosition(index);
-//            ApplicationGlobals.setSelectedProxy(selectedProxy);
+//            ApplicationGlobals.setSelectedProxy(selectProxy);
 //            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
             NavigationUtils.GoToProxyDetailsFragment(getFragmentManager(), selectedProxy);
         }
@@ -213,7 +213,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectedProxy(" + index + ") " + e.toString()));
+            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectProxy(" + index + ") " + e.toString()));
         }
     }
 

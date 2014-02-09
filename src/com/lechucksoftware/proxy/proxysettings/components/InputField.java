@@ -26,7 +26,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class InputField extends LinearLayout
 {
     private LinearLayout fieldMainLayout;
-//    private ImageButton valueActionButton;
+    //    private ImageButton valueActionButton;
     private ImageView fieldActionButton;
     private ViewGroup validationLayout;
     private EditText valueEditText;
@@ -242,6 +242,11 @@ public class InputField extends LinearLayout
 
     public void setValue(Object text)
     {
+        if (text == null)
+        {
+            text = "";
+        }
+
         String newValue = text.toString();
         if (newValue.equals(value))
         {

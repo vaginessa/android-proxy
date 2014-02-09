@@ -35,9 +35,13 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     private Long selectedProxyID;
     private ProxyEntity selectedProxy;
 
-    /**
-     * Create a new instance of WiFiApDetailFragment
-     */
+    public static ProxyDetailFragment newInstance()
+    {
+        // No proxy selected -> Create new proxy
+        ProxyDetailFragment instance = new ProxyDetailFragment();
+        return instance;
+    }
+
     public static ProxyDetailFragment newInstance(ProxyEntity selectedProxy)
     {
         ProxyDetailFragment instance = new ProxyDetailFragment();
@@ -53,9 +57,18 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
 
-        selectedProxyID = (Long) getArguments().getSerializable(SELECTED_PROXY_ARG);
-        selectedProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
+        if (args != null && args.containsKey(SELECTED_PROXY_ARG))
+        {
+            selectedProxyID = (Long) getArguments().getSerializable(SELECTED_PROXY_ARG);
+            selectedProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
+        }
+        else
+        {
+            selectedProxyID = -1L;
+            selectedProxy = new ProxyEntity();
+        }
 
         instance = this;
     }
@@ -140,7 +153,7 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
             newProxy.exclusion = proxyBypass.getExclusionList();
 
             ApplicationGlobals.getDBManager().updateProxy(selectedProxyID, newProxy);
-//            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectedProxy, newProxy);
+//            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectProxy, newProxy);
         }
         catch (Exception e)
         {
