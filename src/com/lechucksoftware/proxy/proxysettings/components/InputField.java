@@ -20,11 +20,14 @@ import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
+import java.util.UUID;
+
 /**
  * Created by Marco on 01/12/13.
  */
 public class InputField extends LinearLayout
 {
+    private UUID id;
     private LinearLayout fieldMainLayout;
     //    private ImageButton valueActionButton;
     private ImageView fieldActionButton;
@@ -42,7 +45,34 @@ public class InputField extends LinearLayout
     private boolean singleLine;
     private float textSize;
     private float titleSize;
-    private CharSequence emptyMessage;
+    public boolean enableTextListener;
+//    private CharSequence emptyMessage;
+
+    @Override
+    public void setTag(Object obj)
+    {
+        super.setTag(obj);
+
+        fieldMainLayout.setTag(obj);
+        fieldActionButton.setTag(obj);
+        validationLayout.setTag(obj);
+        valueEditText.setTag(obj);
+        valueReadOnlyTextView.setTag(obj);
+        titleTextView.setTag(obj);
+    }
+
+    @Override
+    public void setTag(int key, Object obj)
+    {
+        super.setTag(key, obj);
+
+        fieldMainLayout.setTag(key, obj);
+        fieldActionButton.setTag(key, obj);
+        validationLayout.setTag(key, obj);
+        valueEditText.setTag(key, obj);
+        valueReadOnlyTextView.setTag(key, obj);
+        titleTextView.setTag(key, obj);
+    }
 
     public String getHint()
     {
@@ -122,6 +152,8 @@ public class InputField extends LinearLayout
         type = 0;
         titleSize = Measures.DefaultTitleSize;
         textSize = Measures.DefaultTextFontSize;
+        id = UUID.randomUUID();
+        enableTextListener = true;
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.input, this);
@@ -135,6 +167,9 @@ public class InputField extends LinearLayout
     public InputField(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+
+        id = UUID.randomUUID();
+        enableTextListener = true;
 
         readStyleParameters(context, attrs);
 
@@ -185,6 +220,7 @@ public class InputField extends LinearLayout
 //                refreshUI();
 //            }
 //        });
+
         valueEditText.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -242,6 +278,8 @@ public class InputField extends LinearLayout
 
     public void setValue(Object text)
     {
+        enableTextListener = false;
+
         if (text == null)
         {
             text = "";
@@ -257,7 +295,6 @@ public class InputField extends LinearLayout
             value = newValue;
             refreshUI();
         }
-
 //        if (!TextUtils.isEmpty(value))
 //        {
 //            valueActionButton.setOnClickListener(new OnClickListener()
@@ -274,6 +311,8 @@ public class InputField extends LinearLayout
 //        {
 //            valueActionButton.setOnClickListener(null);
 //        }
+
+        enableTextListener = true;
     }
 
     public void setError(java.lang.CharSequence error)
@@ -323,7 +362,8 @@ public class InputField extends LinearLayout
         valueReadOnlyTextView.setVisibility(UIUtils.booleanToVisibility(readonly));
         valueEditText.setVisibility(UIUtils.booleanToVisibility(!readonly));
 
-        fieldActionButton.setVisibility(UIUtils.booleanToVisibility(fieldActionButton.hasOnClickListeners()));
+        // Show actions button only when not in READONLY
+        fieldActionButton.setVisibility(UIUtils.booleanToVisibility(!readonly && fieldActionButton.hasOnClickListeners()));
 //        valueActionButton.setVisibility(UIUtils.booleanToVisibility(valueActionButton.hasOnClickListeners()));
 
         switch (type)
@@ -345,5 +385,10 @@ public class InputField extends LinearLayout
 
         valueReadOnlyTextView.setTextSize(textSize);
         valueEditText.setTextSize(textSize);
+    }
+
+    public UUID getUUID()
+    {
+        return id;
     }
 }
