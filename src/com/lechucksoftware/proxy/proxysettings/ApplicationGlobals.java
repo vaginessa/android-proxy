@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -41,8 +41,8 @@ public class ApplicationGlobals extends Application
         EventReportingUtils.setup(ApplicationGlobals.this);
         APL.setup(ApplicationGlobals.this, EventReportingUtils.getInstance());
 
-        LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_STARTED);
-        sendBroadcast(new Intent(Constants.PROXY_SETTINGS_STARTED));
+        LogWrapper.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
+        sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
 
     public static ApplicationGlobals getInstance()

@@ -8,7 +8,7 @@ import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.*;
@@ -67,8 +67,8 @@ public class ProxySettingsCheckerService extends IntentService
                 String callerAction = callerIntent.getAction();
                 LogWrapper.logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
 
-                if (callerAction.equals(Constants.PROXY_SETTINGS_STARTED)
-                        || callerAction.equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
+                if (callerAction.equals(Intents.PROXY_SETTINGS_STARTED)
+                        || callerAction.equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
                         || callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
                         || callerAction.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)
                         || callerAction.equals(Proxy.PROXY_CHANGE_ACTION)
@@ -194,8 +194,8 @@ public class ProxySettingsCheckerService extends IntentService
         /**
          * Call the update of the UI
          * */
-        LogWrapper.d(TAG, "Sending broadcast intent " + Constants.PROXY_REFRESH_UI);
-        Intent intent = new Intent(Constants.PROXY_REFRESH_UI);
+        LogWrapper.d(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
+        Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 
         UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getProxyManager().getCachedConfiguration(), getApplicationContext());

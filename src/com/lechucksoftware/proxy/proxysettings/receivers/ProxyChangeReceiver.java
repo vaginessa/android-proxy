@@ -1,7 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.receivers;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -23,7 +23,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        if (intent.getAction().equals(Constants.PROXY_SETTINGS_STARTED))
+        if (intent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
         {
             // INTERNAL (PS) : Called when Proxy Settings is started
 
@@ -31,7 +31,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             callProxySettingsChecker(context, intent);
             callMaintenanceService(context, intent);
         }
-        else if (intent.getAction().equals(Constants.PROXY_SAVED))
+        else if (intent.getAction().equals(Intents.PROXY_SAVED))
         {
             // INTERNAL (PS) : Saved a Proxy configuration on DB
             LogWrapper.logIntent(TAG, intent, Log.DEBUG);
@@ -42,7 +42,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                  intent.getAction().equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)
 
                  // INTERNAL (PS) : Called when Proxy Settings needs to refreshUI the Proxy status
-                 || intent.getAction().equals(Constants.PROXY_SETTINGS_MANUAL_REFRESH)
+                 || intent.getAction().equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
 
                  // Connection type change (switch between 3G/WiFi)
                  || intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -61,7 +61,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else if (
                  // INTERNAL (PS) : Called to refreshUI the UI of Proxy Settings
-                 intent.getAction().equals(Constants.PROXY_REFRESH_UI)
+                 intent.getAction().equals(Intents.PROXY_REFRESH_UI)
 
                  // INTERNAL (APL): Called when an updated status on the check of a configuration is available
                  || intent.getAction().equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK)

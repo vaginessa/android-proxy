@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.ArrayList;
@@ -407,8 +407,8 @@ public class DataSource
 
     private void notifyProxyChange()
     {
-        context.sendBroadcast(new Intent(Constants.PROXY_REFRESH_UI));
-        context.sendBroadcast(new Intent(Constants.PROXY_SAVED));
+        context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
+        context.sendBroadcast(new Intent(Intents.PROXY_SAVED));
     }
 
     public TagEntity updateTag(long tagId, TagEntity newData)

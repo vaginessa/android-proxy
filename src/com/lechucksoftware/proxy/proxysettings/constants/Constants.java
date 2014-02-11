@@ -27,36 +27,9 @@ public class Constants
     public static final String SELECTED_AP_CONF_ARG = "SELECTED_AP_CONF_ARG";
     public static final String SELECTED_PROXY_CONF_ARG = "SELECTED_PROXY_CONF_ARG";
 
-
     public static final String AMAZON_MARKET_PACKAGE = "com.amazon.venezia";
     public static final String PLAY_MARKET_PACKAGE = "com.android.vending";
 
     public static final Uri AMAZON_MARKET_URL = Uri.parse("http://www.amazon.com/gp/mas/dl/android?p=com.lechucksoftware.proxy.proxysettings");
     public static final Uri PLAY_MARKET_URL = Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings");
-
-    /**
-     * ************************************************************************
-     * Intent
-     */
-
-	/* 
-     * Started Proxy Settings app
-	 */
-    public static final String PROXY_SETTINGS_STARTED = "com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_STARTED";
-
-    /*
-	 * Call a manual refresh of Proxy Settings app
-	 */
-	public static final String PROXY_SETTINGS_MANUAL_REFRESH = "com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_MANUAL_REFRESH";
-
-
-	/*
-     * Call a Refresh of the UI after a proxy change
-     */
-    public static final String PROXY_REFRESH_UI = "com.lechucksoftware.proxy.proxysettings.PROXY_REFRESH_UI";
-
-    /*
-	 * Saved a new proxy configuration on DB
-	 */
-    public static final String PROXY_SAVED = "com.lechucksoftware.proxy.proxysettings.PROXY_SAVED";
 }

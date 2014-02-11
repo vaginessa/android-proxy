@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -59,8 +59,8 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
         {
             public boolean onPreferenceClick(Preference preference)
             {
-                LogWrapper.d(TAG, "Calling broadcast intent " + Constants.PROXY_SETTINGS_MANUAL_REFRESH);
-                getActivity().sendBroadcast(new Intent(Constants.PROXY_SETTINGS_MANUAL_REFRESH));
+                LogWrapper.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
+                getActivity().sendBroadcast(new Intent(Intents.PROXY_SETTINGS_MANUAL_REFRESH));
                 return true;
             }
         });

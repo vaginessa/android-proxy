@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
 import com.shouldit.proxy.lib.APLConstants;
@@ -39,7 +40,7 @@ public class BaseWifiActivity extends BaseActivity
 
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
         ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-        ifilt.addAction(Constants.PROXY_REFRESH_UI);
+        ifilt.addAction(Intents.PROXY_REFRESH_UI);
         registerReceiver(changeStatusReceiver, ifilt);
 
         refreshUI();
@@ -75,7 +76,7 @@ public class BaseWifiActivity extends BaseActivity
                 LogWrapper.d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();
             }
-            else if (action.equals(Constants.PROXY_REFRESH_UI))
+            else if (action.equals(Intents.PROXY_REFRESH_UI))
             {
                 LogWrapper.d(TAG, "Received broadcast for update the Proxy Settings UI - RefreshUI");
                 refreshUI();

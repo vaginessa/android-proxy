@@ -1,26 +1,23 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
-import java.lang.reflect.Proxy;
 
-
-public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
+public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFragment
 {
     public static ProxyDetailFragment instance;
     public static final String TAG = ProxyDetailFragment.class.getSimpleName();
@@ -143,33 +140,24 @@ public class ProxyDetailFragment extends DialogFragment implements IBaseFragment
         });
     }
 
-    private void saveConfiguration()
-    {
-        try
-        {
-            ProxyEntity newProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
-            newProxy.host = proxyHost.getValue();
-            newProxy.port = Integer.parseInt(proxyPort.getValue());
-            newProxy.exclusion = proxyBypass.getExclusionList();
-
-            ApplicationGlobals.getDBManager().updateProxy(selectedProxyID, newProxy);
-//            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectProxy, newProxy);
-        }
-        catch (Exception e)
-        {
-            EventReportingUtils.sendException(e);
-            showError(R.string.exception_apl_writeconfig_error_message);
-        }
-    }
-
-    protected void showError(int error)
-    {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.proxy_error)
-                .setMessage(error)
-                .setPositiveButton(R.string.proxy_error_dismiss, null)
-                .show();
-    }
+//    private void saveConfiguration()
+//    {
+//        try
+//        {
+//            ProxyEntity newProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
+//            newProxy.host = proxyHost.getValue();
+//            newProxy.port = Integer.parseInt(proxyPort.getValue());
+//            newProxy.exclusion = proxyBypass.getExclusionList();
+//
+//            ApplicationGlobals.getDBManager().updateProxy(selectedProxyID, newProxy);
+////            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectProxy, newProxy);
+//        }
+//        catch (Exception e)
+//        {
+//            EventReportingUtils.sendException(e);
+//            showError(R.string.exception_apl_writeconfig_error_message);
+//        }
+//    }
 
     public void initUI()
     {
