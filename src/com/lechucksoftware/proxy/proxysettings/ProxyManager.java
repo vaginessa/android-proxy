@@ -7,6 +7,7 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.*;
@@ -25,8 +26,8 @@ public class ProxyManager
     private static final String TAG = "ProxyManager";
     private final Context context;
     private ProxyConfiguration currentConfiguration;
-    //    private List<WifiNetworkId> internalSavedSSID;
-    Boolean updatedConfiguration;
+    private Boolean updatedConfiguration;
+    private Map<Long, ProxyEntity> savedProxies;
 
     public ProxyManager(Context ctx)
     {
@@ -358,8 +359,16 @@ public class ProxyManager
         return selected;
     }
 
-//    public void updateWifiConfiguration(ProxyEntity selectedProxy, ProxyEntity newProxy)
-//    {
-//
-//    }
+    public List<ProxyEntity> getAllProxiesList()
+    {
+        return new ArrayList<ProxyEntity>(getAllProxies().values());
+    }
+
+    private Map<Long,ProxyEntity> getAllProxies()
+    {
+        if (savedProxies == null)
+            savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+
+        return savedProxies;
+    }
 }

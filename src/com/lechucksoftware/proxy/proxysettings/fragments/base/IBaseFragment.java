@@ -5,6 +5,5 @@ package com.lechucksoftware.proxy.proxysettings.fragments.base;
  */
 public interface IBaseFragment
 {
-    public void initUI();
     public void refreshUI();
 }

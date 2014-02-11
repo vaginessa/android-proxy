@@ -12,6 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -99,7 +100,11 @@ public class TagsView extends LinearLayout
     {
         if (tags == null || !tags.equals(intags))
         {
-            tags = intags;
+            if (intags != null)
+                tags = new ArrayList<TagEntity>(intags);
+            else
+                tags = null;
+
             refreshUI();
         }
     }

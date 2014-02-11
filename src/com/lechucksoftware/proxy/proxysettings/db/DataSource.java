@@ -10,7 +10,9 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Marco on 13/09/13.
@@ -494,11 +496,11 @@ public class DataSource
         return result;
     }
 
-    public List<ProxyEntity> getAllProxiesWithTAGs()
+    public Map<Long, ProxyEntity> getAllProxiesWithTAGs()
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        List<ProxyEntity> proxies = new ArrayList<ProxyEntity>();
+        Map<Long,ProxyEntity> proxies = new HashMap<Long, ProxyEntity>();
 
         Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PROXIES, proxyTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " ASC");
 
@@ -506,13 +508,14 @@ public class DataSource
         while (!cursor.isAfterLast())
         {
             ProxyEntity proxy = cursorToProxy(cursor);
-            proxies.add(proxy);
+            proxies.put(proxy.getId(),proxy);
             cursor.moveToNext();
         }
         cursor.close();
 
-        for (ProxyEntity proxy : proxies)
+        for (long proxyId : proxies.keySet())
         {
+            ProxyEntity proxy = proxies.get(proxyId);
             proxy.setTags(getTagsForProxy(proxy.getId()));
         }
 

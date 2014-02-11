@@ -48,6 +48,7 @@ public class InputExclusionList extends LinearLayout
         super(context, attrs);
 
         exclusionInputFieldsMap = new HashMap<UUID, InputField>();
+
         uiHandler = new UIHandler();
 
         readStyleParameters(context, attrs);

@@ -10,8 +10,9 @@ import java.util.List;
 /**
  * Created by Marco on 13/09/13.
  */
-public class ProxyEntity extends BaseEntity implements Serializable
+public class ProxyEntity extends BaseEntity implements Serializable, Comparable<ProxyEntity>
 {
+
     public String host;
     public Integer port;
     public String exclusion;
@@ -23,6 +24,9 @@ public class ProxyEntity extends BaseEntity implements Serializable
     {
         super();
         tags = new ArrayList<TagEntity>();
+        exclusion = "";
+        countryCode = null;
+        inUse = false;
     }
 
     public ProxyEntity(ProxyEntity proxy)
@@ -173,5 +177,12 @@ public class ProxyEntity extends BaseEntity implements Serializable
     public boolean getInUse()
     {
         return inUse;
+    }
+
+    @Override
+    public int compareTo(ProxyEntity proxyEntity)
+    {
+        int result = this.host.compareTo(proxyEntity.host);
+        return result;
     }
 }

@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.GAServiceManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.ProxyManager;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
@@ -80,7 +79,7 @@ public class TestActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
-        List<ProxyEntity> list = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+        List<ProxyEntity> list = ApplicationGlobals.getProxyManager().getAllProxiesList();
         for (ProxyEntity p : list)
         {
             textViewTest.append(p.toString() + "\n\n");
@@ -159,7 +158,7 @@ public class TestActivity extends Activity
                 try
                 {
                     ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCurrentConfiguration();
-                    List<ProxyEntity> proxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+                    List<ProxyEntity> proxies = ApplicationGlobals.getProxyManager().getAllProxiesList();
                     for (ProxyEntity p : proxies)
                     {
                         TestUtils.assignProxies(conf, p);

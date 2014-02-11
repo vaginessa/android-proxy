@@ -17,9 +17,11 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by marco on 17/05/13.
@@ -38,17 +40,18 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
     private Button okButton;
     private Dialog dialog;
     private ProxyEntity selectedProxy;
+    private UUID cachedObjId;
 
     private TagsListFragment()
     {}
 
-    public static TagsListFragment newInstance(ProxyEntity proxy)
+    public static TagsListFragment newInstance(UUID cachedProxyUUID)
     {
         if (instance == null)
             instance = new TagsListFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(DBPROXY_ARG,proxy);
+        args.putSerializable(DBPROXY_ARG,cachedProxyUUID);
         instance.setArguments(args);
 
         return instance;
@@ -58,7 +61,18 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        selectedProxy = (ProxyEntity) getArguments().getSerializable(DBPROXY_ARG);
+        Bundle args = getArguments();
+
+        if (args != null && args.containsKey(DBPROXY_ARG))
+        {
+            cachedObjId = (UUID) getArguments().getSerializable(DBPROXY_ARG);
+            selectedProxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedObjId);
+        }
+        else
+        {
+            // TODO: Add handling here
+            EventReportingUtils.sendException(new Exception("NO PROXY RECEIVED"));
+        }
     }
 
     @Override
@@ -97,6 +111,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
                     }
                 }
 
+//                ((BaseActivity) getActivity()).refreshUI();
                 dialog.dismiss();
             }
         });
@@ -132,7 +147,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
     @Override
     public Loader<List<TagEntity>> onCreateLoader(int i, Bundle bundle)
     {
-        TagsTaskLoader tagsDBTaskLoader = new TagsTaskLoader(getActivity(), selectedProxy);
+        TagsTaskLoader tagsDBTaskLoader = new TagsTaskLoader(getActivity(), cachedObjId);
         return tagsDBTaskLoader;
     }
 

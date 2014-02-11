@@ -3,12 +3,14 @@ package com.lechucksoftware.proxy.proxysettings.db;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Marco on 23/10/13.
  */
 public class BaseEntity implements Serializable
 {
+    private UUID uuid;
     private long id;
     private long creationDate;
     private long lastModifiedDate;
@@ -19,6 +21,12 @@ public class BaseEntity implements Serializable
     {
         isPersisted = false;
         isSelected = false;
+        uuid = UUID.randomUUID();
+    }
+
+    public UUID getUUID()
+    {
+        return uuid;
     }
 
     public Long getId()

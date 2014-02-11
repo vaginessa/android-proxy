@@ -5,6 +5,7 @@ import android.content.Context;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ public class ProxyDBTaskLoader extends AsyncTaskLoader<List<ProxyEntity>>
     @Override
     public List<ProxyEntity> loadInBackground()
     {
-        return ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+        List<ProxyEntity> proxyEntityList = ApplicationGlobals.getProxyManager().getAllProxiesList();
+        Collections.sort(proxyEntityList);
+        return  proxyEntityList;
     }
 }

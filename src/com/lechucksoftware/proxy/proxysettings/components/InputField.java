@@ -46,6 +46,7 @@ public class InputField extends LinearLayout
     private float textSize;
     private float titleSize;
     public boolean enableTextListener;
+    private Object linkedObj;
 //    private CharSequence emptyMessage;
 
     @Override
@@ -276,16 +277,19 @@ public class InputField extends LinearLayout
         refreshUI();
     }
 
-    public void setValue(Object text)
+    public void setValue(Object obj)
     {
         enableTextListener = false;
 
-        if (text == null)
+        linkedObj = obj;
+
+        String newValue = "";
+
+        if (obj != null)
         {
-            text = "";
+             newValue = obj.toString();
         }
 
-        String newValue = text.toString();
         if (newValue.equals(value))
         {
             // DO NOTHING

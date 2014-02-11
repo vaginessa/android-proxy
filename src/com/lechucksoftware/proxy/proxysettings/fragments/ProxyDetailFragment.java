@@ -1,7 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,9 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.shouldit.proxy.lib.log.LogWrapper;
+
+import java.util.UUID;
 
 
 public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFragment
@@ -29,22 +34,16 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
     private InputField proxyPort;
     private InputExclusionList proxyBypass;
     private InputTags proxyTags;
-    private Long selectedProxyID;
     private ProxyEntity selectedProxy;
+    private UUID cachedObjId;
+    private UIHandler uiHandler;
 
-    public static ProxyDetailFragment newInstance()
-    {
-        // No proxy selected -> Create new proxy
-        ProxyDetailFragment instance = new ProxyDetailFragment();
-        return instance;
-    }
-
-    public static ProxyDetailFragment newInstance(ProxyEntity selectedProxy)
+    public static ProxyDetailFragment newInstance(UUID cachedObjId)
     {
         ProxyDetailFragment instance = new ProxyDetailFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(SELECTED_PROXY_ARG, selectedProxy.getId());
+        args.putSerializable(SELECTED_PROXY_ARG, cachedObjId);
         instance.setArguments(args);
 
         return instance;
@@ -55,60 +54,21 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
     {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
+        uiHandler = new UIHandler();
 
         if (args != null && args.containsKey(SELECTED_PROXY_ARG))
         {
-            selectedProxyID = (Long) getArguments().getSerializable(SELECTED_PROXY_ARG);
-            selectedProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
+            cachedObjId = (UUID) getArguments().getSerializable(SELECTED_PROXY_ARG);
+            selectedProxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedObjId);
         }
         else
         {
-            selectedProxyID = -1L;
-            selectedProxy = new ProxyEntity();
+            // TODO: Add handling here
+            EventReportingUtils.sendException(new Exception("NO PROXY RECEIVED"));
         }
 
         instance = this;
     }
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-//    {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.proxy_details_menu, menu);
-//    }
-
-//    @Override
-//    public void onPrepareOptionsMenu(Menu menu)
-//    {
-//        super.onPrepareOptionsMenu(menu);
-//    }
-
-//    private void createCancelSaveActionBar()
-//    {
-//        final ActionBar actionBar = getActivity().getActionBar();
-//        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//        final View customActionBarView = inflater.inflate(R.layout.save, null);
-//        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
-//                new View.OnClickListener()
-//                {
-//                    @Override
-//                    public void onClick(View v)
-//                    {
-//                        // "Done"
-//                        saveConfiguration();
-//                        NavigationUtils.GoToProxiesList(getFragmentManager());
-//                    }
-//                });
-//
-//        // Show the custom action bar view and hide the normal Home icon and title.
-//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
-//                                    ActionBar.DISPLAY_SHOW_CUSTOM |
-//                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-//
-//        actionBar.setCustomView(customActionBarView);
-//
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -116,9 +76,7 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
         View v = inflater.inflate(R.layout.proxy_preferences, container, false);
 
         getUIComponents(v);
-
-        initUI();
-        refreshUI();
+        uiHandler.refreshUI();
 
         return v;
     }
@@ -126,70 +84,93 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
     private void getUIComponents(View v)
     {
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
+        proxyHost.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {  }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                selectedProxy.host = editable.toString();
+            }
+        });
+
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
+        proxyPort.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
+            {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                selectedProxy.port = Integer.parseInt(editable.toString());
+            }
+        });
+
         proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
+
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
         proxyTags.setTagsViewOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectedProxy);
+                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(cachedObjId);
                 tagsListSelectorFragment.show(getFragmentManager(), TAG);
             }
         });
     }
 
-//    private void saveConfiguration()
-//    {
-//        try
-//        {
-//            ProxyEntity newProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
-//            newProxy.host = proxyHost.getValue();
-//            newProxy.port = Integer.parseInt(proxyPort.getValue());
-//            newProxy.exclusion = proxyBypass.getExclusionList();
-//
-//            ApplicationGlobals.getDBManager().updateProxy(selectedProxyID, newProxy);
-////            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectProxy, newProxy);
-//        }
-//        catch (Exception e)
-//        {
-//            EventReportingUtils.sendException(e);
-//            showError(R.string.exception_apl_writeconfig_error_message);
-//        }
-//    }
-
-    public void initUI()
-    {
-        if (selectedProxy != null)
-        {
-            proxyHost.setValue(selectedProxy.host);
-            proxyHost.setHint(getText(R.string.proxy_hostname_hint));
-
-            if (selectedProxy.port != null && selectedProxy.port != 0)
-            {
-                proxyPort.setValue(selectedProxy.port);
-            }
-            proxyPort.setHint(getText(R.string.proxy_port_hint));
-
-            proxyBypass.setExclusionString(selectedProxy.exclusion);
-            proxyTags.setTags(selectedProxy.getTags());
-        }
-    }
-
+    @Override
     public void refreshUI()
     {
-
+        uiHandler.callRefreshUI();
     }
 
-    @Override
-    public void onResume()
+    private class UIHandler extends Handler
     {
-        super.onResume();
-
-        if (selectedProxyID == null)
+        @Override
+        public void handleMessage(Message message)
         {
-            NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
+            Bundle b = message.getData();
+
+            LogWrapper.w(TAG, "handleMessage: " + b.toString());
+
+            refreshUI();
+        }
+
+        public void callRefreshUI()
+        {
+            sendEmptyMessage(0);
+        }
+
+        private void refreshUI()
+        {
+            if (selectedProxy != null)
+            {
+                proxyHost.setValue(selectedProxy.host);
+                if (selectedProxy.port != null && selectedProxy.port != 0)
+                {
+                    proxyPort.setValue(selectedProxy.port);
+                }
+
+                proxyBypass.setExclusionString(selectedProxy.exclusion);
+                proxyTags.setTags(selectedProxy.getTags());
+            }
         }
     }
 }

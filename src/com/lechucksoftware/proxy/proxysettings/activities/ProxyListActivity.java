@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
@@ -44,7 +46,6 @@ public class ProxyListActivity extends BaseWifiActivity
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
 
-        // Add the WiFiApListFragment to the main fragment_container
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.fragment_container, ProxyListFragment.newInstance()).commit();
@@ -76,6 +77,9 @@ public class ProxyListActivity extends BaseWifiActivity
 
             case R.id.menu_add_new_proxy:
                 Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
+                ProxyEntity emptyProxy = new ProxyEntity();
+                ApplicationGlobals.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
+                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
                 break;
 

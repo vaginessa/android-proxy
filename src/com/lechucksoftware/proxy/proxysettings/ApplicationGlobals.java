@@ -8,7 +8,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.*;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 
@@ -18,22 +18,22 @@ public class ApplicationGlobals extends Application
 
     private static ApplicationGlobals mInstance;
     private ProxyManager proxyManager;
-//    private static ProxyConfiguration selectedConfiguration;
-//    private static ProxyEntity selectedProxy;
     private DataSource dbManager;
     public AndroidMarket activeMarket;
+    private CacheManager cacheManager;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
 
-        LogWrapper.startTrace(TAG,"STARTUP", Log.ERROR);
+        LogWrapper.startTrace(TAG, "STARTUP", Log.ERROR);
 
         mInstance = this;
 
         proxyManager = new ProxyManager(ApplicationGlobals.this);
         dbManager = new DataSource(ApplicationGlobals.this);
+        cacheManager = new CacheManager(ApplicationGlobals.this);
 
         activeMarket = Utils.getInstallerMarket(ApplicationGlobals.this);
 
@@ -78,23 +78,14 @@ public class ApplicationGlobals extends Application
         return getInstance().dbManager;
     }
 
-//    public static void setSelectedConfiguration(ProxyConfiguration selectedConfiguration)
-//    {
-//        ApplicationGlobals.selectedConfiguration = selectedConfiguration;
-//    }
-//
-//    public static void setSelectedProxy(ProxyEntity selectedProxy)
-//    {
-//        ApplicationGlobals.selectedProxy = selectedProxy;
-//    }
-//
-//    public static ProxyConfiguration getSelectedConfiguration()
-//    {
-//        return ApplicationGlobals.selectedConfiguration;
-//    }
-//
-//    public static ProxyEntity getSelectedProxy()
-//    {
-//        return ApplicationGlobals.selectedProxy;
-//    }
+    public static CacheManager getCacheManager()
+    {
+        if (getInstance().cacheManager == null)
+        {
+            EventReportingUtils.sendException(new Exception("Cannot find valid instance of CacheManager, trying to instanciate a new one"));
+            getInstance().cacheManager = new CacheManager(getInstance());
+        }
+
+        return getInstance().cacheManager;
+    }
 }

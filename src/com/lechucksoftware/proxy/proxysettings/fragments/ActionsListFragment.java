@@ -20,7 +20,6 @@ import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.ArrayList;
@@ -186,7 +185,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
             ProxyEntity selectedProxy = (ProxyEntity) listView.getItemAtPosition(index);
 //            ApplicationGlobals.setSelectedProxy(selectProxy);
 //            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
-            NavigationUtils.GoToProxyDetailsFragment(getFragmentManager(), selectedProxy);
+//            NavigationUtils.GoToProxyDetailsFragment(getFragmentManager(), selectedProxy);
         }
         catch (Exception e)
         {
@@ -215,12 +214,6 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         {
             EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectProxy(" + index + ") " + e.toString()));
         }
-    }
-
-    @Override
-    public void initUI()
-    {
-
     }
 
     @Override

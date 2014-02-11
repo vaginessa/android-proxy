@@ -56,16 +56,16 @@ public class NavigationUtils
 //        ft.commit();
 //    }
 
-    public static void GoToProxyDetailsFragment(FragmentManager fm, ProxyEntity selectedProxy)
-    {
-        ProxyDetailFragment details = ProxyDetailFragment.newInstance(selectedProxy);
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.replace(R.id.fragment_container, details);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
+//    public static void GoToProxyDetailsFragment(FragmentManager fm, ProxyEntity selectedProxy)
+//    {
+//        ProxyDetailFragment details = ProxyDetailFragment.newInstance(selectedProxy);
+//
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        ft.replace(R.id.fragment_container, details);
+//        ft.addToBackStack(null);
+//        ft.commit();
+//    }
 
     public static void GoToProxiesList(FragmentManager fm)
     {

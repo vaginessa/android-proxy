@@ -46,7 +46,6 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         {
             UUID selectedId = (UUID) callerIntent.getExtras().getSerializable(Constants.SELECTED_AP_CONF_ARG);
 
-            // Add the WiFiApListFragment to the main fragment_container
             WiFiApDetailFragment detail = WiFiApDetailFragment.newInstance(selectedId);
             fm.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

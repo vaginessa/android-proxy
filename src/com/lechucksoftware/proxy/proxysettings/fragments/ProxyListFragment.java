@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.adapters.ProxiesSelectorListAdapter;
@@ -21,8 +22,8 @@ import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -197,7 +198,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             LogWrapper.d(TAG, "Selected proxy configuration: " + selectedProxy.toString());
 
             Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
-            i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy);
+            ApplicationGlobals.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
+            i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getUUID());
             startActivity(i);
         }
         catch (Exception e)
@@ -229,12 +231,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         }
     }
 
-    public void initUI()
-    {
-
-    }
-
-    @Override
     public void refreshUI()
     {
         if (isAdded())
