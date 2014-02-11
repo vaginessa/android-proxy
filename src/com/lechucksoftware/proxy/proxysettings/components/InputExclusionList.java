@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,7 @@ public class InputExclusionList extends LinearLayout
         //                        }
         //                    });
 
+        inputField.setPadding(0,0,0,0);
         inputField.setTag(inputField.getUUID());
         inputField.setFullsize(false);
         inputField.setReadonly(readonly);
@@ -95,13 +97,18 @@ public class InputExclusionList extends LinearLayout
             public void onClick(View view)
             {
                 UUID idToRemove = (UUID) view.getTag();
-                InputField i = (InputField) exclusionInputFieldsMap.remove(idToRemove);
+                InputField i = exclusionInputFieldsMap.remove(idToRemove);
                 bypassContainer.removeView(i);
                 uiHandler.refreshUI();
             }
         });
 
         inputField.addTextChangedListener(new BypassTextWatcher(inputField));
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0, 0, 0, 0);
+
+        bypassContainer.addView(inputField, layoutParams);
 
         return inputField;
     }
@@ -188,7 +195,7 @@ public class InputExclusionList extends LinearLayout
             Bundle b = new Bundle();
             b.putString(ADD_EMPTY_ITEM_ACTION,"");
             message.setData(b);
-            sendMessageDelayed(message,10);
+            sendMessageDelayed(message,0);
         }
 
         public void callSetExclusionList(String exclusionString)
@@ -202,15 +209,19 @@ public class InputExclusionList extends LinearLayout
 
         private void addEmptyItem()
         {
-            // Always add the new empty field
+            LogWrapper.startTrace(TAG, "addEmptyItem", Log.ASSERT, true);
+
             InputField i = createExclusionInputField();
             i.setValue("");
             exclusionInputFieldsMap.put(i.getUUID(), i);
-            bypassContainer.addView(i);
+
+            LogWrapper.stopTrace(TAG, "addEmptyItem", Log.ASSERT);
         }
 
         private void refreshExclusionList()
         {
+            LogWrapper.startTrace(TAG,"refreshExclusionList", Log.ASSERT, true);
+
             List<UUID> toRemove = new ArrayList<UUID>();
 
             for (UUID uuid : exclusionInputFieldsMap.keySet())
@@ -232,11 +243,36 @@ public class InputExclusionList extends LinearLayout
                 bypassContainer.removeView(inputField);
             }
 
-            addEmptyItem();
+            if (readonly)
+            {
+                if (exclusionInputFieldsMap != null && exclusionInputFieldsMap.size() > 0)
+                {
+                    readonlyValueTextView.setVisibility(GONE);
+
+                    bypassContainer.setVisibility(VISIBLE);
+                }
+                else
+                {
+                    readonlyValueTextView.setVisibility(VISIBLE);
+                    readonlyValueTextView.setText(R.string.not_set);
+
+                    bypassContainer.setVisibility(GONE);
+                }
+            }
+            else
+            {
+                readonlyValueTextView.setVisibility(GONE);
+
+                bypassContainer.setVisibility(VISIBLE);
+                addEmptyItem();
+            }
+
+            LogWrapper.stopTrace(TAG, "refreshExclusionList", Log.ASSERT);
         }
 
         private void refreshUI()
         {
+            LogWrapper.startTrace(TAG,"refreshUI", Log.ASSERT, true);
             // Layout
             if (singleLine)
             {
@@ -255,40 +291,17 @@ public class InputExclusionList extends LinearLayout
                 titleTextView.setText(title.toUpperCase());
             }
 
-            if (readonly)
-            {
-                if (exclusionInputFieldsMap != null && exclusionInputFieldsMap.size() > 0)
-                {
-                    readonlyValueTextView.setVisibility(GONE);
-
-                    bypassContainer.setVisibility(VISIBLE);
-                    refreshExclusionList();
-                }
-                else
-                {
-                    readonlyValueTextView.setVisibility(VISIBLE);
-                    readonlyValueTextView.setText(R.string.not_set);
-
-                    bypassContainer.setVisibility(GONE);
-                }
-            }
-            else
-            {
-                readonlyValueTextView.setVisibility(GONE);
-
-                bypassContainer.setVisibility(VISIBLE);
-                if (exclusionInputFieldsMap != null)
-                {
-                    refreshExclusionList();
-                }
-            }
+            refreshExclusionList();
 
             titleTextView.setTextSize(titleSize);
             readonlyValueTextView.setTextSize(textSize);
+
+            LogWrapper.stopTrace(TAG, "refreshUI", Log.ASSERT);
         }
 
         private void setExclusionString(String exclusionString)
         {
+            LogWrapper.startTrace(TAG,"setExclusionString", Log.ASSERT, true);
             String[] exclusion = null;
             exclusionListString = exclusionString;
 
@@ -309,10 +322,11 @@ public class InputExclusionList extends LinearLayout
                 InputField inputField = createExclusionInputField();
                 inputField.setValue(bypass);
                 exclusionInputFieldsMap.put(inputField.getUUID(), inputField);
-                bypassContainer.addView(inputField);
             }
 
-            refreshUI();
+            refreshExclusionList();
+
+            LogWrapper.stopTrace(TAG, "setExclusionString", Log.ASSERT);
         }
     }
 
@@ -331,12 +345,12 @@ public class InputExclusionList extends LinearLayout
         @Override
         public void onTextChanged(CharSequence charSequence, int start, int before, int count)
         {
-            if (inputField.enableTextListener)
+            if (!readonly && inputField.enableTextListener)
             {
                 if (start == 0 && before == 0 && count >= 1)
                 {
                     uiHandler.callAddEmptyItem();
-                    uiHandler.refreshUI();
+//                    uiHandler.refreshExclusionList();
                 }
             }
         }
