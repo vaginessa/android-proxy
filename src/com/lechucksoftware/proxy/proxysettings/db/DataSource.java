@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -411,6 +412,7 @@ public class DataSource
     {
         context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
         context.sendBroadcast(new Intent(Intents.PROXY_SAVED));
+        ApplicationGlobals.getCacheManager().clear();
     }
 
     public TagEntity updateTag(long tagId, TagEntity newData)
@@ -508,7 +510,7 @@ public class DataSource
         while (!cursor.isAfterLast())
         {
             ProxyEntity proxy = cursorToProxy(cursor);
-            proxies.put(proxy.getId(),proxy);
+            proxies.put(proxy.getId(), proxy);
             cursor.moveToNext();
         }
         cursor.close();

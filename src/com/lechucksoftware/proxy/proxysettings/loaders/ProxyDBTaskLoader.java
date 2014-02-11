@@ -24,7 +24,7 @@ public class ProxyDBTaskLoader extends AsyncTaskLoader<List<ProxyEntity>>
     @Override
     public List<ProxyEntity> loadInBackground()
     {
-        List<ProxyEntity> proxyEntityList = ApplicationGlobals.getProxyManager().getAllProxiesList();
+        List<ProxyEntity> proxyEntityList = ApplicationGlobals.getCacheManager().getAllProxiesList();
         Collections.sort(proxyEntityList);
         return  proxyEntityList;
     }

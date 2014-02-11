@@ -79,7 +79,7 @@ public class TestActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
-        List<ProxyEntity> list = ApplicationGlobals.getProxyManager().getAllProxiesList();
+        List<ProxyEntity> list = ApplicationGlobals.getCacheManager().getAllProxiesList();
         for (ProxyEntity p : list)
         {
             textViewTest.append(p.toString() + "\n\n");
@@ -158,7 +158,7 @@ public class TestActivity extends Activity
                 try
                 {
                     ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCurrentConfiguration();
-                    List<ProxyEntity> proxies = ApplicationGlobals.getProxyManager().getAllProxiesList();
+                    List<ProxyEntity> proxies = ApplicationGlobals.getCacheManager().getAllProxiesList();
                     for (ProxyEntity p : proxies)
                     {
                         TestUtils.assignProxies(conf, p);

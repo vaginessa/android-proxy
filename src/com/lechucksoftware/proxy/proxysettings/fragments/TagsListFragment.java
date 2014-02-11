@@ -111,7 +111,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
                     }
                 }
 
-//                ((BaseActivity) getActivity()).refreshUI();
+                ((BaseActivity) getActivity()).refreshUI();
                 dialog.dismiss();
             }
         });

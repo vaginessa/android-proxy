@@ -27,7 +27,6 @@ public class ProxyManager
     private final Context context;
     private ProxyConfiguration currentConfiguration;
     private Boolean updatedConfiguration;
-    private Map<Long, ProxyEntity> savedProxies;
 
     public ProxyManager(Context ctx)
     {
@@ -357,18 +356,5 @@ public class ProxyManager
         }
 
         return selected;
-    }
-
-    public List<ProxyEntity> getAllProxiesList()
-    {
-        return new ArrayList<ProxyEntity>(getAllProxies().values());
-    }
-
-    private Map<Long,ProxyEntity> getAllProxies()
-    {
-        if (savedProxies == null)
-            savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
-
-        return savedProxies;
     }
 }

@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
@@ -66,65 +67,6 @@ public class ProxyDetailActivity extends BaseWifiActivity
         }
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu)
-//    {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.proxy_details_menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu)
-//    {
-//        super.onPrepareOptionsMenu(menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item)
-//    {
-//        switch (item.getItemId())
-//        {
-//            case android.R.id.home:
-//                // Do nothing
-//                break;
-//
-//            case R.id.menu_about:
-//                NavigationUtils.GoToHelpFragment(getFragmentManager());
-//                break;
-//
-//            case R.id.menu_proxies:
-//                Intent proxyIntent = new Intent(getApplicationContext(), ProxyListActivity.class);
-//                startActivity(proxyIntent);
-//                break;
-//
-////            case R.id.menu_feedbacks:
-////                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
-////                return true;
-//
-//            case R.id.menu_developer:
-//                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-//                startActivity(testIntent);
-//                break;
-//
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-//    {
-//        super.onCreateOptionsMenu(menu);
-//        inflater.inflate(R.menu.proxy_details_menu, menu);
-//    }
-
-//    @Override
-//    public void onPrepareOptionsMenu(Menu menu)
-//    {
-//        super.onPrepareOptionsMenu(menu);
-//    }
-
     private void createCancelSaveActionBar()
     {
         final ActionBar actionBar = getActionBar();
@@ -158,15 +100,14 @@ public class ProxyDetailActivity extends BaseWifiActivity
         // Show the custom action bar view and hide the normal Home icon and title.
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
                                     ActionBar.DISPLAY_SHOW_CUSTOM |
-                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+                                    ActionBar.DISPLAY_HOME_AS_UP |
+                                    ActionBar.DISPLAY_SHOW_HOME |
+                                    ActionBar.DISPLAY_SHOW_TITLE);
 
         actionBar.setCustomView(customActionBarView,
                 new ActionBar.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
-
-
-//        actionBar.setCustomView(customActionBarView);
     }
 
 
@@ -175,13 +116,10 @@ public class ProxyDetailActivity extends BaseWifiActivity
     {
         try
         {
+            ProxyEntity proxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedProxyId);
 //            ProxyEntity newProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
-//            newProxy.host = proxyHost.getValue();
-//            newProxy.port = Integer.parseInt(proxyPort.getValue());
-//            newProxy.exclusion = proxyBypass.getExclusionList();
-//
-//            ApplicationGlobals.getDBManager().updateProxy(selectedProxyID, newProxy);
-////            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectProxy, newProxy);
+            ApplicationGlobals.getDBManager().upsertProxy(proxy);
+//            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectProxy, newProxy);
         }
         catch (Exception e)
         {

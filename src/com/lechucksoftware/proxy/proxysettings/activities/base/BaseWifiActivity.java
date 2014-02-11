@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
-import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -20,6 +17,7 @@ public class BaseWifiActivity extends BaseActivity
 {
     private static final String TAG = BaseWifiActivity.class.getSimpleName();
     private WifiScannerHandler mScanner;
+
     protected WifiScannerHandler getWifiScanner()
     {
         if (mScanner == null)
@@ -87,10 +85,4 @@ public class BaseWifiActivity extends BaseActivity
             }
         }
     };
-
-    protected void refreshUI()
-    {
-        IBaseFragment f = (IBaseFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-        f.refreshUI();
-    }
 }

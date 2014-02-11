@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.shouldit.proxy.lib.BuildConfig;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -50,7 +52,7 @@ public class BaseActivity extends Activity
             ViewServer.get(this).setFocusedWindow(this);
         }
 
-        LogWrapper.d(this.getClass().getSimpleName(),"onResume");
+        LogWrapper.d(this.getClass().getSimpleName(), "onResume");
     }
 
     @Override
@@ -64,7 +66,7 @@ public class BaseActivity extends Activity
     public void onStart()
     {
         super.onStart();
-        LogWrapper.d(this.getClass().getSimpleName(),"onStart");
+        LogWrapper.d(this.getClass().getSimpleName(), "onStart");
         active = true;
     }
 
@@ -76,5 +78,11 @@ public class BaseActivity extends Activity
         active = false;
 
         EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    public void refreshUI()
+    {
+        IBaseFragment f = (IBaseFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+        f.refreshUI();
     }
 }

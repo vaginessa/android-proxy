@@ -27,11 +27,26 @@ public class CacheManager
     private static final String TAG = "CacheManager";
     private final Context context;
     private final Map<UUID, Object> cachedObjects;
+    private Map<Long, ProxyEntity> savedProxies;
 
     public CacheManager(Context ctx)
     {
         context = ctx;
         cachedObjects = Collections.synchronizedMap(new HashMap<UUID, Object>());
+    }
+
+    public List<ProxyEntity> getAllProxiesList()
+    {
+        List<ProxyEntity> proxies = new ArrayList<ProxyEntity>(getAllProxies().values());
+        return proxies;
+    }
+
+    private Map<Long,ProxyEntity> getAllProxies()
+    {
+        if (savedProxies == null)
+            savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+
+        return savedProxies;
     }
 
     public void put(UUID key, Object obj)
@@ -52,5 +67,13 @@ public class CacheManager
     public void release(UUID key)
     {
         cachedObjects.remove(key);
+    }
+
+    public void clear()
+    {
+        cachedObjects.clear();
+
+        savedProxies.clear();
+        savedProxies = null;
     }
 }
