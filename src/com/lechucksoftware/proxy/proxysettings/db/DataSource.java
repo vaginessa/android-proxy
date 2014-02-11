@@ -210,7 +210,7 @@ public class DataSource
 
     public ProxyTagLinkEntity getProxyTagLink(long linkId)
     {
-        LogWrapper.startTrace(TAG, "getProxyTagLink", Log.INFO);
+        LogWrapper.startTrace(TAG, "getProxyTagLink", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -229,11 +229,12 @@ public class DataSource
 
         if (link == null)
         {
+            LogWrapper.stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
             return null;
         }
         else
         {
-            LogWrapper.stopTrace(TAG, "getProxyTagLink", link.toString(), Log.INFO);
+            LogWrapper.stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
             return link;
         }
     }
