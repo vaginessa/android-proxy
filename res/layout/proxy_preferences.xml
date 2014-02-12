@@ -68,6 +68,7 @@
                 app:inputType="numeric"
                 app:readonly="false"
                 app:fullsize="true"
+                app:maxLength="5"
                 app:value=""/>
 
         <com.lechucksoftware.proxy.proxysettings.components.InputExclusionList

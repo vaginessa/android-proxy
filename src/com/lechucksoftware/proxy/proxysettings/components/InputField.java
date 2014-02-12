@@ -3,10 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.components;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextUtils;
-import android.text.TextWatcher;
+import android.text.*;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +44,7 @@ public class InputField extends LinearLayout
     private float titleSize;
     public boolean enableTextListener;
     private Object linkedObj;
+    private int maxLength;
 //    private CharSequence emptyMessage;
 
     @Override
@@ -155,6 +153,7 @@ public class InputField extends LinearLayout
         textSize = Measures.DefaultTextFontSize;
         id = UUID.randomUUID();
         enableTextListener = true;
+        maxLength = -1;
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.input, this);
@@ -261,6 +260,8 @@ public class InputField extends LinearLayout
             singleLine = a.getBoolean(R.styleable.InputField_singleLine, false);
             titleSize = a.getDimension(R.styleable.InputField_titleSize, Measures.DefaultTitleSize);
             textSize = a.getDimension(R.styleable.InputField_textSize, Measures.DefaultTextFontSize);
+            textSize = a.getDimension(R.styleable.InputField_textSize, Measures.DefaultTextFontSize);
+            maxLength = a.getInt(R.styleable.InputField_maxLength, -1);
         }
         finally
         {
@@ -321,9 +322,10 @@ public class InputField extends LinearLayout
 
     public void setError(java.lang.CharSequence error)
     {
-        Crouton c = Crouton.makeText((Activity) getContext(), error, Style.ALERT, validationLayout);
-        c.setConfiguration(new Configuration.Builder().setDuration(2000).build());
-        c.show();
+        valueEditText.setError(error);
+//        Crouton c = Crouton.makeText((Activity) getContext(), error, Style.ALERT, validationLayout);
+//        c.setConfiguration(new Configuration.Builder().setDuration().build());
+//        c.show();
     }
 
     public void addTextChangedListener(TextWatcher watcher)
@@ -389,6 +391,9 @@ public class InputField extends LinearLayout
 
         valueReadOnlyTextView.setTextSize(textSize);
         valueEditText.setTextSize(textSize);
+
+        if (maxLength != -1)
+            valueEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
     }
 
     public UUID getUUID()

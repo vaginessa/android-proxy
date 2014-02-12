@@ -17,9 +17,12 @@ import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.log.LogWrapper;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.UUID;
 
@@ -100,7 +103,13 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
             @Override
             public void afterTextChanged(Editable editable)
             {
-                selectedProxy.host = editable.toString();
+                String value = editable.toString();
+                selectedProxy.host = value;
+                ProxyStatusItem item = ProxyUtils.isProxyValidHostname(value);
+                if (!item.result)
+                {
+                    proxyHost.setError(item.message);
+                }
             }
         });
 
@@ -122,7 +131,21 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
             @Override
             public void afterTextChanged(Editable editable)
             {
-                selectedProxy.port = Integer.parseInt(editable.toString());
+                Integer value = null;
+                try
+                {
+                    value = Integer.parseInt(editable.toString());
+                }
+                catch (NumberFormatException e)
+                {}
+
+                ProxyStatusItem item = ProxyUtils.isProxyValidPort(value);
+                if (!item.result)
+                {
+                    proxyPort.setError(item.message);
+                }
+
+                selectedProxy.port = value;
             }
         });
 
