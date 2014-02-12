@@ -914,9 +914,15 @@ public class ProxyUtils
 
     public static ProxyStatusItem isProxyValidPort(ProxyConfiguration conf)
     {
-        if ((conf.getProxyPort() != null) && (conf.getProxyPort() >= 1) && (conf.getProxyPort() <= 65535))
+        Integer proxyPort = conf.getProxyPort();
+        return isProxyValidPort(proxyPort);
+    }
+
+    public static ProxyStatusItem isProxyValidPort(Integer proxyPort)
+    {
+        if ((proxyPort != null) && (proxyPort >= 1) && (proxyPort <= 65535))
         {
-            String msg = String.format("%s %d", APL.getContext().getString(R.string.status_port_valid), conf.getProxyPort());
+            String msg = String.format("%s %d", APL.getContext().getString(R.string.status_port_valid), proxyPort);
             return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT, CheckStatusValues.CHECKED, true, msg);
         }
         else
