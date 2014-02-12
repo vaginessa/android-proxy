@@ -110,8 +110,6 @@ public class ProxyDetailActivity extends BaseWifiActivity
                         ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
-
-
     private void saveConfiguration()
     {
         try

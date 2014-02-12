@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.InputExclusionList;
@@ -17,6 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.UUID;
@@ -37,6 +39,7 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
     private ProxyEntity selectedProxy;
     private UUID cachedObjId;
     private UIHandler uiHandler;
+    private RelativeLayout proxyInUseBanner;
 
     public static ProxyDetailFragment newInstance(UUID cachedObjId)
     {
@@ -83,6 +86,8 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
 
     private void getUIComponents(View v)
     {
+        proxyInUseBanner = (RelativeLayout) v.findViewById(R.id.proxy_in_use_banner);
+
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
         proxyHost.addTextChangedListener(new TextWatcher()
         {
@@ -162,6 +167,8 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
         {
             if (selectedProxy != null)
             {
+                proxyInUseBanner.setVisibility(UIUtils.booleanToVisibility(selectedProxy.getInUse()));
+
                 proxyHost.setValue(selectedProxy.host);
                 if (selectedProxy.port != null && selectedProxy.port != 0)
                 {
