@@ -121,16 +121,6 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         return v;
     }
 
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(getActivity().getResources().getString(R.string.proxy_configurations));
-    }
-
     /**
      * LoaderManager Interface methods
      * */

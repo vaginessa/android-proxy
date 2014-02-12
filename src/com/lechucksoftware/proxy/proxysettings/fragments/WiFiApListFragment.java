@@ -169,7 +169,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     @Override
     public void onLoaderReset(Loader<List<ProxyConfiguration>> listLoader)
     {
-        Toast.makeText(getActivity(), TAG + " LOADRESET", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), TAG + " LOADRESET", Toast.LENGTH_SHORT).show();
     }
 
     /**

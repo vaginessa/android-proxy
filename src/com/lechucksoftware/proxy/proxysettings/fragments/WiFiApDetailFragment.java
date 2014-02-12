@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.components.InputField;
-import com.lechucksoftware.proxy.proxysettings.components.InputTags;
 import com.lechucksoftware.proxy.proxysettings.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
@@ -167,31 +165,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         }
     }
 
-    private void getUIComponents()
-    {
-//
-//            proxyTags = (TagsPreference) findPreference("pref_proxy_tags");
-//            proxyTags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-//            {
-//                @Override
-//                public boolean onPreferenceClick(Preference preference)
-//                {
-//                    if (selectProxy != null)
-//                    {
-//                        TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(selectProxy);
-//                        tagsListSelectorFragment.show(getFragmentManager(), TAG);
-//                    }
-//                    else
-//                    {
-//                        EventReportingUtils.sendException(new Exception("Found null selectProxy"));
-//                    }
-//
-//                    return true;
-//                }
-//            });
-//
-    }
-
     private void refreshVisibility()
     {
         if (proxySwitch.isChecked())
@@ -241,11 +214,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 .show();
     }
 
-    public void initUI()
-    {
-
-    }
-
     public void refreshUI()
     {
 //        LogWrapper.startTrace(TAG, "refreshUI", Log.DEBUG);
@@ -253,11 +221,13 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         if (selectedWiFiAP.proxySetting == ProxySetting.STATIC)
         {
             proxySwitch.setChecked(true);
+            proxySwitch.setText(R.string.status_proxy_enabled);
             refreshFieldsValues();
         }
         else
         {
             proxySwitch.setChecked(false);
+            proxySwitch.setText(R.string.status_proxy_disabled);
         }
 
         if (selectedWiFiAP.ap.getLevel() == -1)
@@ -310,10 +280,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     public void onResume()
     {
         super.onResume();
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
 
 //        if (APL.getWifiManager().isWifiEnabled()
 //                && selectedAPConf != null

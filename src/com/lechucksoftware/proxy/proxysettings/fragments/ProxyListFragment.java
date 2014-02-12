@@ -132,17 +132,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         return v;
     }
 
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setTitle(getActivity().getResources().getString(R.string.proxy_configurations));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP,
-                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP   // ENABLE
-                                     | ActionBar.DISPLAY_SHOW_CUSTOM);  // DISABLE
-    }
-
     /**
      * LoaderManager Interface methods
      * */

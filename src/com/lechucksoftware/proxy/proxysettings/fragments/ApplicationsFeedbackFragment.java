@@ -74,6 +74,6 @@ public class ApplicationsFeedbackFragment extends BaseListFragment implements Lo
     @Override
     public void onLoaderReset(Loader<List<PInfo>> loader)
     {
-        Toast.makeText(getActivity(), "LOADRESET", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "LOADRESET", Toast.LENGTH_SHORT).show();
     }
 }

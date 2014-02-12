@@ -71,36 +71,4 @@ public class WiFiApListActivity extends BaseWifiActivity
         inflater.inflate(R.menu.ap_wifi_list, menu);
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.menu_proxies:
-                Intent proxyIntent = new Intent(getApplicationContext(), ProxyListActivity.class);
-                startActivity(proxyIntent);
-                break;
-
-//            case R.id.menu_feedbacks:
-//                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
-//                return true;
-
-//            case android.R.id.home:
-//                // Do nothing
-//                break;
-//
-//            case R.id.menu_about:
-//                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
-//                startActivity(helpIntent);
-//                break;
-//
-//            case R.id.menu_developer:
-//                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-//                startActivity(testIntent);
-//                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
