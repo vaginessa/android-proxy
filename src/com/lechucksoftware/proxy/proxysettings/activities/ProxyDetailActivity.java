@@ -67,6 +67,14 @@ public class ProxyDetailActivity extends BaseWifiActivity
         }
     }
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu)
+//    {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.proxy_list, menu);
+//        return true;
+//    }
+
     private void createCancelSaveActionBar()
     {
         final ActionBar actionBar = getActionBar();
@@ -104,6 +112,10 @@ public class ProxyDetailActivity extends BaseWifiActivity
                                     ActionBar.DISPLAY_SHOW_HOME |
                                     ActionBar.DISPLAY_SHOW_TITLE);
 
+
+//        actionBar.setCustomView(customActionBarView);
+
+        // Full size CANCEL-SAVE
         actionBar.setCustomView(customActionBarView,
                 new ActionBar.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,

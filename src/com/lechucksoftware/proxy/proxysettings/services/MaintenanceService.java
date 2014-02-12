@@ -68,7 +68,6 @@ public class MaintenanceService extends IntentService
                 {
                     EventReportingUtils.sendException(new Exception("Exception during maintenanceService", e));
                 }
-
             }
         }
 

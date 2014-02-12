@@ -412,7 +412,6 @@ public class DataSource
     {
         context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
         context.sendBroadcast(new Intent(Intents.PROXY_SAVED));
-        ApplicationGlobals.getCacheManager().clear();
     }
 
     public TagEntity updateTag(long tagId, TagEntity newData)

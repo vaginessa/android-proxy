@@ -35,6 +35,9 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             // INTERNAL (PS) : Saved a Proxy configuration on DB
             LogWrapper.logIntent(TAG, intent, Log.DEBUG);
+
+            ApplicationGlobals.getCacheManager().clear();
+
             callMaintenanceService(context, intent);
         }
         else if (

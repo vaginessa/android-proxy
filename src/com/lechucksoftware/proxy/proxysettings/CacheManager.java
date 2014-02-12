@@ -33,6 +33,7 @@ public class CacheManager
     {
         context = ctx;
         cachedObjects = Collections.synchronizedMap(new HashMap<UUID, Object>());
+        savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
     }
 
     public List<ProxyEntity> getAllProxiesList()
@@ -71,9 +72,15 @@ public class CacheManager
 
     public void clear()
     {
-        cachedObjects.clear();
+        if (cachedObjects != null)
+        {
+            cachedObjects.clear();
+        }
 
-        savedProxies.clear();
-        savedProxies = null;
+        if (savedProxies != null)
+        {
+            savedProxies.clear();
+            savedProxies = null;
+        }
     }
 }
