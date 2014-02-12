@@ -16,6 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.ChangeLogDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -103,6 +104,11 @@ public class HelpPrefsFragment extends PreferenceFragment
             }
         });
 
+        if (ApplicationGlobals.getInstance().activeMarket != AndroidMarket.PLAY)
+        {
+            getPreferenceScreen().removePreference(betaTestPref);
+        }
+
         appRatePref = findPreference("pref_rate_app");
         appRatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
@@ -126,9 +132,6 @@ public class HelpPrefsFragment extends PreferenceFragment
 //
 //            }
 //        });
-
-
-
 
 
 //        sendFeedbackPref = findPreference("pref_send_feedback");
@@ -156,21 +159,4 @@ public class HelpPrefsFragment extends PreferenceFragment
         AlertDialog dialog = UIUtils.getBetaTestDialog(getActivity());
         dialog.show();
     }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-//        // Reset selected configuration
-//        ApplicationGlobals.setSelectedConfiguration(null);
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(getResources().getString(R.string.help));
-
-        ActionManager.getInstance().hide();
-    }
-
 }

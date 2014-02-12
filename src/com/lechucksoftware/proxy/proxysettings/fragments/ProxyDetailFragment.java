@@ -38,7 +38,7 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
     private InputField proxyHost;
     private InputField proxyPort;
     private InputExclusionList proxyBypass;
-    private InputTags proxyTags;
+//    private InputTags proxyTags;
     private ProxyEntity selectedProxy;
     private UUID cachedObjId;
     private UIHandler uiHandler;
@@ -159,16 +159,16 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
             }
         });
 
-        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
-        proxyTags.setTagsViewOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(cachedObjId);
-                tagsListSelectorFragment.show(getFragmentManager(), TAG);
-            }
-        });
+//        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
+//        proxyTags.setTagsViewOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                TagsListFragment tagsListSelectorFragment = TagsListFragment.newInstance(cachedObjId);
+//                tagsListSelectorFragment.show(getFragmentManager(), TAG);
+//            }
+//        });
     }
 
     @Override
@@ -207,7 +207,7 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
                 }
 
                 proxyBypass.setExclusionString(selectedProxy.exclusion);
-                proxyTags.setTags(selectedProxy.getTags());
+//                proxyTags.setTags(selectedProxy.getTags());
             }
         }
     }

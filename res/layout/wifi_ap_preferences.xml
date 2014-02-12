@@ -174,20 +174,20 @@
                     app:singleLine="true"
                     app:value=""/>
 
-            <include layout="@layout/separator"/>
+            <!--<include layout="@layout/separator"/>-->
 
-            <com.lechucksoftware.proxy.proxysettings.components.InputTags
-                    android:id="@+id/proxy_tags"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="12dp"
-                    android:background="?android:attr/listChoiceBackgroundIndicator"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    app:singleLine="true"
-                    app:title="Tags"
-                    app:fullsize="true"
-                    app:readonly="true"/>
+            <!--<com.lechucksoftware.proxy.proxysettings.components.InputTags-->
+                    <!--android:id="@+id/proxy_tags"-->
+                    <!--android:paddingTop="2dp"-->
+                    <!--android:paddingBottom="2dp"-->
+                    <!--android:paddingLeft="12dp"-->
+                    <!--android:background="?android:attr/listChoiceBackgroundIndicator"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--app:singleLine="true"-->
+                    <!--app:title="Tags"-->
+                    <!--app:fullsize="true"-->
+                    <!--app:readonly="true"/>-->
 
         </LinearLayout>
 

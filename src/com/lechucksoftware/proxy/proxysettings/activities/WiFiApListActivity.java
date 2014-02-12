@@ -73,25 +73,10 @@ public class WiFiApListActivity extends BaseWifiActivity
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        super.onPrepareOptionsMenu(menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
         {
-            case android.R.id.home:
-                // Do nothing
-                break;
-
-            case R.id.menu_about:
-                NavigationUtils.GoToHelpFragment(getFragmentManager());
-                break;
-
             case R.id.menu_proxies:
                 Intent proxyIntent = new Intent(getApplicationContext(), ProxyListActivity.class);
                 startActivity(proxyIntent);
@@ -101,11 +86,19 @@ public class WiFiApListActivity extends BaseWifiActivity
 //                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
 //                return true;
 
-            case R.id.menu_developer:
-                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-                startActivity(testIntent);
-                break;
-
+//            case android.R.id.home:
+//                // Do nothing
+//                break;
+//
+//            case R.id.menu_about:
+//                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
+//                startActivity(helpIntent);
+//                break;
+//
+//            case R.id.menu_developer:
+//                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
+//                startActivity(testIntent);
+//                break;
         }
 
         return super.onOptionsItemSelected(item);

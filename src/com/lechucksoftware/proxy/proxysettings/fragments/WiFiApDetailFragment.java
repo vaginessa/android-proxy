@@ -44,7 +44,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private InputField proxyHost;
     private InputField proxyPort;
     private InputExclusionList proxyBypass;
-    private InputTags proxyTags;
+//    private InputTags proxyTags;
     private UUID confId;
     private LinearLayout proxyFieldsLayout;
 
@@ -140,7 +140,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
         proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
-        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
+//        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
 
         refreshUI();
         return v;
@@ -283,7 +283,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             proxyHost.setValue(selectedProxy.host);
             proxyPort.setValue(selectedProxy.port);
             proxyBypass.setExclusionString(selectedProxy.exclusion);
-            proxyTags.setTags(selectedProxy.getTags());
+//            proxyTags.setTags(selectedProxy.getTags());
         }
         else
         {
@@ -291,7 +291,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             proxyHost.setValue("");
             proxyPort.setValue("");
             proxyBypass.setExclusionString("");
-            proxyTags.setTags(null);
+//            proxyTags.setTags(null);
         }
     }
 

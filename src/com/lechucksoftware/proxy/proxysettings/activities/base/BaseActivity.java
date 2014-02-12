@@ -3,10 +3,15 @@ package com.lechucksoftware.proxy.proxysettings.activities.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.HelpActivity;
+import com.lechucksoftware.proxy.proxysettings.activities.ProxyListActivity;
+import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
+import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.shouldit.proxy.lib.BuildConfig;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -80,9 +85,43 @@ public class BaseActivity extends Activity
         EasyTracker.getInstance(this).activityStop(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                Intent mainIntent = new Intent(getApplicationContext(), WiFiApListActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(mainIntent);
+                break;
+
+            case R.id.menu_about:
+                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(helpIntent);
+                break;
+
+            case R.id.menu_developer:
+                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
+                startActivity(testIntent);
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void refreshUI()
     {
-        IBaseFragment f = (IBaseFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-        f.refreshUI();
+        try
+        {
+            IBaseFragment f = (IBaseFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+            f.refreshUI();
+        }
+        catch (Exception e)
+        {
+            LogWrapper.e(this.getClass().getSimpleName(),"cannot call refresh fragment");
+        }
     }
 }
