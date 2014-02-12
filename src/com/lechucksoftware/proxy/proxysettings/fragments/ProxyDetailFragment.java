@@ -127,6 +127,14 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
         });
 
         proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
+        proxyBypass.addValueChangedListener(new InputExclusionList.ValueChangedListener()
+        {
+            @Override
+            public void onExclusionListChanged(String result)
+            {
+                selectedProxy.exclusion = result;
+            }
+        });
 
         proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
         proxyTags.setTagsViewOnClickListener(new View.OnClickListener()
