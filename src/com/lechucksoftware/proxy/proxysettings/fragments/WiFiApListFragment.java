@@ -108,6 +108,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         }
 
         loader = getLoaderManager().initLoader(LOADER_PROXYCONFIGURATIONS, new Bundle(), this);
+        loader.forceLoad();
 
         refreshUI();
     }
@@ -117,13 +118,10 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
     public void refreshUI()
     {
-        if (isAdded())
-        {
-            if (loader != null)
-            {
-                loader.forceLoad();
-            }
-        }
+        if (apListAdapter != null)
+            apListAdapter.notifyDataSetChanged();
+
+//        Toast.makeText(getActivity(), TAG + " REFRESHUI ", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -171,7 +169,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     @Override
     public void onLoaderReset(Loader<List<ProxyConfiguration>> listLoader)
     {
-//        Toast.makeText(getActivity(), TAG + " LOADRESET", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), TAG + " LOADRESET", Toast.LENGTH_SHORT).show();
     }
 
     /**
