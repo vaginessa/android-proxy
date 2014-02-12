@@ -5,13 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.HelpActivity;
+import com.lechucksoftware.proxy.proxysettings.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxyListActivity;
 import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.BuildConfig;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -95,6 +100,14 @@ public class BaseActivity extends Activity
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(mainIntent);
+                break;
+
+            case R.id.menu_add_new_proxy:
+                Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
+                ProxyEntity emptyProxy = new ProxyEntity();
+                ApplicationGlobals.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
+                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
+                startActivity(i);
                 break;
 
             case R.id.menu_about:

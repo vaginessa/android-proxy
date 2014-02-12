@@ -58,46 +58,4 @@ public class ProxyListActivity extends BaseWifiActivity
         inflater.inflate(R.menu.proxy_list, menu);
         return true;
     }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        super.onPrepareOptionsMenu(menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                finish();
-                break;
-
-            case R.id.menu_add_new_proxy:
-                Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
-                ProxyEntity emptyProxy = new ProxyEntity();
-                ApplicationGlobals.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
-                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
-                startActivity(i);
-                break;
-
-            case R.id.menu_about:
-                NavigationUtils.GoToHelpFragment(getFragmentManager());
-                break;
-
-//            case R.id.menu_feedbacks:
-//                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
-//                return true;
-
-            case R.id.menu_developer:
-                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-                startActivity(testIntent);
-                break;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

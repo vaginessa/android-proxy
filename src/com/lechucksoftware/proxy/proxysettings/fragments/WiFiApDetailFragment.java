@@ -25,6 +25,7 @@ import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -154,8 +155,16 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void openProxySelectorDialog()
     {
-        ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
-        proxiesListFragment.show(getFragmentManager(), TAG);
+        List<ProxyEntity> availableProxies = ApplicationGlobals.getCacheManager().getAllProxiesList();
+        if (availableProxies != null && availableProxies.size() > 0)
+        {
+            ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
+            proxiesListFragment.show(getFragmentManager(), TAG);
+        }
+        else
+        {
+            showError(R.string.no_proxy_defined);
+        }
     }
 
     private void getUIComponents()
@@ -192,10 +201,12 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             if (selectedProxy == null)
             {
                 proxyFieldsLayout.setVisibility(View.GONE);
+//                proxySelector.setError("SELECT A PROXY");
             }
             else
             {
                 proxyFieldsLayout.setVisibility(View.VISIBLE);
+//                proxySelector.setError(null);
             }
         }
         else
