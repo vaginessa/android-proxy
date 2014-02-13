@@ -12,6 +12,8 @@ import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApDetailFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.shouldit.proxy.lib.APL;
 
 import java.util.UUID;
 
@@ -59,6 +61,17 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(getResources().getString(R.string.help));
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        if (!APL.getWifiManager().isWifiEnabled())
+        {
+            NavigationUtils.GoToMainActivity(getApplicationContext());
+        }
     }
 
     @Override

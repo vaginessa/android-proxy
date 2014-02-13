@@ -96,10 +96,7 @@ public class BaseActivity extends Activity
         switch (item.getItemId())
         {
             case android.R.id.home:
-                Intent mainIntent = new Intent(getApplicationContext(), WiFiApListActivity.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(mainIntent);
+                NavigationUtils.GoToMainActivity(getApplicationContext());
                 break;
 
             case R.id.menu_proxies:

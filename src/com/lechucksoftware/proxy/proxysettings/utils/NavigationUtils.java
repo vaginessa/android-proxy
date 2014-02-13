@@ -3,7 +3,11 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.*;
 
@@ -12,6 +16,14 @@ import com.lechucksoftware.proxy.proxysettings.fragments.*;
  */
 public class NavigationUtils
 {
+    public static void GoToMainActivity(Context context)
+    {
+        Intent mainIntent = new Intent(context, WiFiApListActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(mainIntent);
+    }
+
     public static void GoToAccessPointListFragment(FragmentManager fm)
     {
         fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // Clean-up the backstack when going back to home
