@@ -19,6 +19,8 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
@@ -218,6 +220,11 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     {
 //        LogWrapper.startTrace(TAG, "refreshUI", Log.DEBUG);
 
+        if (!APL.getWifiManager().isWifiEnabled())
+        {
+            NavigationUtils.GoToMainActivity(getActivity());
+        }
+
         if (selectedWiFiAP.proxySetting == ProxySetting.STATIC)
         {
             proxySwitch.setChecked(true);
@@ -280,17 +287,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     public void onResume()
     {
         super.onResume();
-
-//        if (APL.getWifiManager().isWifiEnabled()
-//                && selectedAPConf != null
-//                && selectedAPConf.ap != null)
-//        {
-////            actionBar.setTitle(selectedAPConf.ap.ssid);
-////            ActionManager.getInstance().refreshUI();
-//        }
-//        else
-//        {
-//            NavigationUtils.GoToAccessPointListFragment(getFragmentManager());
-//        }
+        refreshUI();
     }
 }

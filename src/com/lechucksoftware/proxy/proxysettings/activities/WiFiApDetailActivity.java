@@ -64,17 +64,6 @@ public class WiFiApDetailActivity extends BaseWifiActivity
     }
 
     @Override
-    public void onResume()
-    {
-        super.onResume();
-
-        if (!APL.getWifiManager().isWifiEnabled())
-        {
-            NavigationUtils.GoToMainActivity(getApplicationContext());
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
