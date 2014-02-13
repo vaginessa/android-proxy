@@ -121,6 +121,23 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         if (apListAdapter != null)
             apListAdapter.notifyDataSetChanged();
 
+        if (APL.getWifiManager().isWifiEnabled())
+        {
+            getListView().setVisibility(View.VISIBLE);
+            emptyText.setVisibility(View.GONE);
+            loader.forceLoad();
+        }
+        else
+        {
+            // Do not display results when Wi-Fi is not enabled
+//            apListAdapter.setData(new ArrayList<ProxyConfiguration>());
+            getListView().setVisibility(View.GONE);
+
+            emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
+            ActionManager.getInstance().setStatus(StatusFragmentStates.ENABLE_WIFI);
+        }
+
 //        Toast.makeText(getActivity(), TAG + " REFRESHUI ", Toast.LENGTH_SHORT).show();
     }
 
