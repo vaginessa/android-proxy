@@ -203,9 +203,27 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         if (another.isCurrentNetwork())
             return +1;
 
-        if (ap != null && another.ap != null)
+        if (ap != null)
         {
-            result = ap.compareTo(another.ap);
+            if (another.ap != null)
+            {
+                result = ap.compareTo(another.ap);
+            }
+            else
+            {
+                result = -1;
+            }
+        }
+        else
+        {
+            if (another.ap != null)
+            {
+                result = +1;
+            }
+            else
+            {
+                result = 0;
+            }
         }
 
         return result;
