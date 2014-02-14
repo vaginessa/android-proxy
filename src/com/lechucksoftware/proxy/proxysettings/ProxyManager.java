@@ -6,8 +6,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+
 import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.*;
@@ -27,6 +26,9 @@ public class ProxyManager
     private final Context context;
     private ProxyConfiguration currentConfiguration;
     private Boolean updatedConfiguration;
+    private Map<WifiNetworkId, ProxyConfiguration> savedConfigurations;
+    private List<ProxyConfiguration> sortedConfigurationsList;
+    private Map<WifiNetworkId, ScanResult> notConfiguredWifi; // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
 
     public ProxyManager(Context ctx)
     {
@@ -37,8 +39,6 @@ public class ProxyManager
         notConfiguredWifi = Collections.synchronizedMap(new HashMap<WifiNetworkId, ScanResult>());
     }
 
-    private Map<WifiNetworkId, ProxyConfiguration> savedConfigurations;
-
     private Map<WifiNetworkId, ProxyConfiguration> getSavedConfigurations()
     {
         if (savedConfigurations == null)
@@ -47,9 +47,6 @@ public class ProxyManager
         return savedConfigurations;
     }
 
-    // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
-    private Map<WifiNetworkId, ScanResult> notConfiguredWifi;
-
     public Map<WifiNetworkId, ScanResult> getNotConfiguredWifi()
     {
         if (notConfiguredWifi == null)
@@ -57,8 +54,6 @@ public class ProxyManager
 
         return notConfiguredWifi;
     }
-
-    private List<ProxyConfiguration> sortedConfigurationsList;
 
     public List<ProxyConfiguration> getSortedConfigurationsList()
     {
@@ -139,7 +134,7 @@ public class ProxyManager
         if (getSavedConfigurations().isEmpty())
             updateProxyConfigurationList();
 
-        buildConfigurationsList();
+        buildSortedConfigurationsList();
 
         return sortedConfigurationsList;
     }
@@ -167,7 +162,7 @@ public class ProxyManager
         if (updatedConfiguration && !getSavedConfigurations().isEmpty())
         {
             LogWrapper.d(TAG, "Configuration updated -> need to create again the sorted list");
-            buildConfigurationsList();
+            buildSortedConfigurationsList();
         }
 
         LogWrapper.d(TAG, "Final savedConfigurations list: " + getConfigurationsString());
@@ -192,9 +187,10 @@ public class ProxyManager
                 }
             }
 
+            List<String> scanResultsStrings = new ArrayList<String>();
             for (ScanResult res : scanResults)
             {
-                LogWrapper.d(TAG, "Updating from scanresult: " + res.SSID + " level: " + res.level);
+                scanResultsStrings.add(res.SSID + " level: " + res.level);
                 String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
                 SecurityType security = ProxyUtils.getSecurity(res);
                 WifiNetworkId currWifiNet = new WifiNetworkId(currSSID, security);
@@ -217,6 +213,8 @@ public class ProxyManager
                     getNotConfiguredWifi().put(currWifiNet, res);
                 }
             }
+
+            LogWrapper.d(TAG, "Updating from scanresult: " + TextUtils.join(", ", scanResultsStrings.toArray()));
         }
 
 //        LogWrapper.stopTrace(TAG,"updateAfterScanResults", Log.DEBUG);
@@ -300,7 +298,7 @@ public class ProxyManager
         return internalSavedSSID;
     }
 
-    private void buildConfigurationsList()
+    private void buildSortedConfigurationsList()
     {
         if (!getSavedConfigurations().isEmpty())
         {

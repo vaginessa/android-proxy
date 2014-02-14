@@ -250,6 +250,7 @@ public class InputExclusionList extends LinearLayout
         InputField i = createExclusionInputField();
         i.setValue("");
         exclusionInputFieldsMap.put(i.getUUID(), i);
+        uiHandler.callRefreshExclusionList();
 
         LogWrapper.stopTrace(TAG, "addEmptyItem", Log.ASSERT);
     }
@@ -283,6 +284,15 @@ public class InputExclusionList extends LinearLayout
             Message message = this.obtainMessage();
             Bundle b = new Bundle();
             b.putString(REFRESH_UI_ACTION, "");
+            message.setData(b);
+            sendMessageDelayed(message, 0);
+        }
+
+        public void callRefreshExclusionList()
+        {
+            Message message = this.obtainMessage();
+            Bundle b = new Bundle();
+            b.putString(REFRESH_EXCLUSION_LIST_ACTION, "");
             message.setData(b);
             sendMessageDelayed(message, 0);
         }

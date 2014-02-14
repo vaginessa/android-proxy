@@ -155,6 +155,7 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
             @Override
             public void onExclusionListChanged(String result)
             {
+                LogWrapper.d(TAG,"Exclusion list updated: " + result);
                 selectedProxy.exclusion = result;
             }
         });

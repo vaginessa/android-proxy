@@ -119,6 +119,8 @@ public class ProxySettingsCheckerService extends IntentService
 
     private void checkProxySettings()
     {
+        LogWrapper.startTrace(TAG,"checkProxySettings", Log.DEBUG);
+
         try
         {
 //            CallRefreshApplicationStatus();
@@ -187,6 +189,8 @@ public class ProxySettingsCheckerService extends IntentService
             UIUtils.DisableProxyNotification(ApplicationGlobals.getInstance());
             e.printStackTrace();
         }
+
+        LogWrapper.stopTrace(TAG,"checkProxySettings", Log.DEBUG);
     }
 
     public void CallRefreshApplicationStatus()

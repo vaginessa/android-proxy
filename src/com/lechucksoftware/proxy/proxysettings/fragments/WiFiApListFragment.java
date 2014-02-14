@@ -169,13 +169,6 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                 ActionManager.getInstance().setStatus(StatusFragmentStates.CONNECT_TO);
             }
         }
-        else
-        {
-            // Do not display results when Wi-Fi is not enabled
-//            apListAdapter.setData(new ArrayList<ProxyConfiguration>());
-            emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
-            ActionManager.getInstance().setStatus(StatusFragmentStates.ENABLE_WIFI);
-        }
 
         progress.setVisibility(View.GONE);
 
