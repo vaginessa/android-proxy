@@ -12,7 +12,7 @@ import com.shouldit.proxy.lib.log.LogWrapper;
 public class WifiScannerHandler extends Handler
 {
     // Combo scans can take 5-6s to complete - set to 10s.
-    private static final int WIFI_RESCAN_INTERVAL_MS = 30 * 1000;
+    private static final int WIFI_RESCAN_INTERVAL_MS = 10 * 1000;
 
     private static final String TAG = WifiScannerHandler.class.getSimpleName();
     private int mRetry = 0;
