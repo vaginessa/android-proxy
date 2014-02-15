@@ -250,7 +250,7 @@ public class InputExclusionList extends LinearLayout
         InputField i = createExclusionInputField();
         i.setValue("");
         exclusionInputFieldsMap.put(i.getUUID(), i);
-        uiHandler.callRefreshExclusionList();
+//        uiHandler.callRefreshExclusionList();
 
         LogWrapper.stopTrace(TAG, "addEmptyItem", Log.ASSERT);
     }

@@ -237,5 +237,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     {
         if (proxiesListAdapter != null)
             proxiesListAdapter.notifyDataSetChanged();
+
+        if (loader != null)
+            loader.forceLoad();
     }
 }

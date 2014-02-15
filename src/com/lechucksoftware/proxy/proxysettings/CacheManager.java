@@ -13,35 +13,37 @@ public class CacheManager
     private static final String TAG = "CacheManager";
     private final Context context;
     private final Map<UUID, Object> cachedObjects;
-    private Map<Long, ProxyEntity> savedProxies;
-    private Object proxyLock = new Object();
+//    private Map<Long, ProxyEntity> savedProxies;
+//    private Object proxyLock = new Object();
 
     public CacheManager(Context ctx)
     {
         context = ctx;
 
         cachedObjects = Collections.synchronizedMap(new HashMap<UUID, Object>());
-        savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+//        savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
     }
 
     public List<ProxyEntity> getAllProxiesList()
     {
         List<ProxyEntity> proxies;
-        proxies = new ArrayList<ProxyEntity>(getAllProxies().values());
+
+        Map<Long, ProxyEntity> savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+        proxies = new ArrayList<ProxyEntity>(savedProxies.values());
 
         return proxies;
     }
 
-    private Map<Long, ProxyEntity> getAllProxies()
-    {
-        synchronized (proxyLock)
-        {
-            if (savedProxies == null)
-                savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
-        }
-
-        return savedProxies;
-    }
+//    private Map<Long, ProxyEntity> getAllProxies()
+//    {
+//        synchronized (proxyLock)
+//        {
+//            if (savedProxies == null)
+//                savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+//        }
+//
+//        return savedProxies;
+//    }
 
     public void put(UUID key, Object obj)
     {
@@ -70,14 +72,14 @@ public class CacheManager
             cachedObjects.clear();
         }
 
-        synchronized (proxyLock)
-        {
-            if (savedProxies != null)
-            {
-                savedProxies.clear();
-                savedProxies = null;
-            }
-        }
+//        synchronized (proxyLock)
+//        {
+//            if (savedProxies != null)
+//            {
+//                savedProxies.clear();
+//                savedProxies = null;
+//            }
+//        }
     }
 }
 
