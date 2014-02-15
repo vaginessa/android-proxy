@@ -150,6 +150,19 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         {
             proxiesListAdapter.setData(dbProxies);
             emptyText.setVisibility(View.GONE);
+
+//            if (dbProxies.size() > 10)
+//            {
+//                listView.setFastScrollEnabled(true);
+//                listView.setFastScrollAlwaysVisible(true);
+//                listView.setSmoothScrollbarEnabled(true);
+//            }
+//            else
+//            {
+//                listView.setFastScrollEnabled(false);
+//                listView.setFastScrollAlwaysVisible(false);
+//                listView.setSmoothScrollbarEnabled(false);
+//            }
         }
         else
         {

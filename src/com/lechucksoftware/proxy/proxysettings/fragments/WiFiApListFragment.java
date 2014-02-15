@@ -66,7 +66,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     {
         LogWrapper.startTrace(TAG,"onCreateView",Log.DEBUG);
 
-        View v = inflater.inflate(R.layout.ap_list, container, false);
+        View v = inflater.inflate(R.layout.standard_list, container, false);
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
@@ -156,12 +156,26 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     public void onLoadFinished(Loader<List<ProxyConfiguration>> listLoader, List<ProxyConfiguration> proxyConfigurations)
     {
         LogWrapper.startTrace(TAG,"onLoadFinished",Log.DEBUG);
+
         if (APL.getWifiManager().isWifiEnabled())
         {
             if (proxyConfigurations != null && proxyConfigurations.size() > 0)
             {
                 apListAdapter.setData(proxyConfigurations);
                 ActionManager.getInstance().hide();
+
+//                if (proxyConfigurations.size() > 10)
+//                {
+//                    getListView().setFastScrollEnabled(true);
+//                    getListView().setFastScrollAlwaysVisible(true);
+//                    getListView().setSmoothScrollbarEnabled(true);
+//                }
+//                else
+//                {
+//                    getListView().setFastScrollEnabled(false);
+//                    getListView().setFastScrollAlwaysVisible(false);
+//                    getListView().setSmoothScrollbarEnabled(false);
+//                }
             }
             else
             {
