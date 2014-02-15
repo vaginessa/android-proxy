@@ -44,25 +44,25 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
     {
         Boolean needsRefresh = false;
 
-        if (this.getCount() == confList.size())
-        {
-            for (int i = 0; i < this.getCount(); i++)
-            {
-                ProxyConfiguration conf = this.getItem(i);
-                if (!conf.isSameConfiguration(confList.get(i)))
-                {
-                    needsRefresh = true;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            needsRefresh = true;
-        }
-
-        if (needsRefresh)
-        {
+//        if (this.getCount() == confList.size())
+//        {
+//            for (int i = 0; i < this.getCount(); i++)
+//            {
+//                ProxyConfiguration conf = this.getItem(i);
+//                if (!conf.isSameConfiguration(confList.get(i)))
+//                {
+//                    needsRefresh = true;
+//                    break;
+//                }
+//            }
+//        }
+//        else
+//        {
+//            needsRefresh = true;
+//        }
+//
+//        if (needsRefresh)
+//        {
             clear();
             if (confList != null)
             {
@@ -71,7 +71,7 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
                     add(conf);
                 }
             }
-        }
+//        }
     }
 
     public View getView(int position, View view, ViewGroup parent)
