@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.activities;
 
+import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -55,6 +56,10 @@ public class WiFiApListActivity extends BaseWifiActivity
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.fragment_container, WiFiApListFragment.getInstance()).commit();
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle(getResources().getString(R.string.app_name));
 
         asyncStartupDialogTask = new AsyncStartupDialogTask(this);
         asyncStartupRateTask = new AsyncStartupRateTask(this);

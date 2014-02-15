@@ -53,13 +53,13 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         return instance;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        setMenuVisibility(true);
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState)
+//    {
+//        super.onCreate(savedInstanceState);
+//        setHasOptionsMenu(true);
+//        setMenuVisibility(true);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

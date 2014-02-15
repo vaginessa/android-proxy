@@ -60,7 +60,7 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(getResources().getString(R.string.help));
+        actionBar.setTitle(getResources().getString(R.string.app_name));
     }
 
     @Override
