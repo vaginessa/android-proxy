@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -60,9 +61,20 @@ public class MaintenanceService extends IntentService
             {
                 try
                 {
-                    checkDBstatus();
-                    upsertFoundProxyConfigurations();
-                    checkProxiesCountryCodes();
+                    if (callerIntent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
+                    {
+                        checkDBstatus();
+                        upsertFoundProxyConfigurations();
+                        checkProxiesCountryCodes();
+                    }
+                    else if (callerIntent.getAction().equals(Intents.PROXY_SAVED))
+                    {
+                        checkProxiesCountryCodes();
+                    }
+                    else
+                    {
+                        LogWrapper.e(TAG,"Intent not handled: " +callerIntent.toString());
+                    }
                 }
                 catch (Exception e)
                 {

@@ -235,12 +235,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
     public void refreshUI()
     {
-        if (isAdded())
-        {
-            if (loader != null)
-            {
-                loader.forceLoad();
-            }
-        }
+        if (proxiesListAdapter != null)
+            proxiesListAdapter.notifyDataSetChanged();
     }
 }
