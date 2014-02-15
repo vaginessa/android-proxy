@@ -113,34 +113,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         ProxyConfiguration anotherConf = (ProxyConfiguration) another;
 
-//        if (this.ap != null && anotherConf.ap != null)
-//        {
-//            // Both not null
-//            if (!this.ap.ssid.equalsIgnoreCase(anotherConf.ap.ssid))
-//            {
-//                // Different SSID -> Different configurations!
-//                return false;
-//            }
-//            else
-//            {
-//                if(this.ap.mInfo != anotherConf.ap.mInfo)
-//                {
-//                    // One AP is connected and one not
-//                    return false;
-//                }
-//
-//                if(this.ap.mRssi != anotherConf.ap.mRssi)
-//                {
-//                    return false;
-//                }No need to update proxy
-//            }
-//        }
-//        else if (this.ap != anotherConf.ap)
-//        {
-//            // At least one is null
-//            return false;
-//        }
-
         if (!this.proxySetting.equals(anotherConf.proxySetting))
         {
             LogWrapper.d(TAG, "Different proxy settings toggle status");
@@ -199,15 +171,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         int result = 0;
 
         if (this.isCurrentNetwork())
-            return -1;
-        if (another.isCurrentNetwork())
-            return +1;
-
-        if (ap != null)
         {
-            if (another.ap != null)
+            if (another.isCurrentNetwork())
             {
-                result = ap.compareTo(another.ap);
+                result = 0;
             }
             else
             {
@@ -216,13 +183,39 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         }
         else
         {
-            if (another.ap != null)
+            if (another.isCurrentNetwork())
             {
                 result = +1;
             }
             else
             {
                 result = 0;
+            }
+        }
+
+        if (result == 0)
+        {
+            if (ap != null)
+            {
+                if (another.ap != null)
+                {
+                    result = ap.compareTo(another.ap);
+                }
+                else
+                {
+                    result = -1;
+                }
+            }
+            else
+            {
+                if (another.ap != null)
+                {
+                    result = +1;
+                }
+                else
+                {
+                    result = 0;
+                }
             }
         }
 
