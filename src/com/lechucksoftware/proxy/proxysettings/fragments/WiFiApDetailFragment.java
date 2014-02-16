@@ -20,6 +20,7 @@ import com.lechucksoftware.proxy.proxysettings.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -163,7 +164,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         }
         else
         {
-            showError(R.string.no_proxy_defined);
+            UIUtils.showError(getActivity(), R.string.no_proxy_defined);
         }
     }
 
@@ -203,17 +204,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         catch (Exception e)
         {
             EventReportingUtils.sendException(e);
-            showError(R.string.exception_apl_writeconfig_error_message);
+            UIUtils.showError(getActivity(), R.string.exception_apl_writeconfig_error_message);
         }
-    }
-
-    protected void showError(int error)
-    {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.proxy_error)
-                .setMessage(error)
-                .setPositiveButton(R.string.proxy_error_dismiss, null)
-                .show();
     }
 
     public void refreshUI()

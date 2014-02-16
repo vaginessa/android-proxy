@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
+import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
@@ -14,9 +15,8 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
-import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.UUID;
 
@@ -44,11 +44,6 @@ public class ProxyDetailActivity extends BaseWifiActivity
 
         createCancelSaveActionBar();
 
-        // Add the StatusFragment to the status_fragment_container
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
-
         Intent callerIntent = getIntent();
         if (callerIntent != null)
         {
@@ -64,16 +59,18 @@ public class ProxyDetailActivity extends BaseWifiActivity
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .add(R.id.fragment_container, detail).commit();
             }
+            else
+            {
+                // TODO : only for DEBUG
+                UIUtils.showError(getApplicationContext(), "DEBUG - No extras");
+            }
+        }
+        else
+        {
+            // TODO : only for DEBUG
+            UIUtils.showError(getApplicationContext(), "DEBUG - No caller intent");
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu)
-//    {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.proxy_list, menu);
-//        return true;
-//    }
 
     private void createCancelSaveActionBar()
     {
@@ -127,9 +124,7 @@ public class ProxyDetailActivity extends BaseWifiActivity
         try
         {
             ProxyEntity proxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedProxyId);
-//            ProxyEntity newProxy = ApplicationGlobals.getDBManager().getProxy(selectedProxyID);
             ApplicationGlobals.getDBManager().upsertProxy(proxy);
-//            ApplicationGlobals.getProxyManager().updateWifiConfiguration(selectProxy, newProxy);
         }
         catch (Exception e)
         {

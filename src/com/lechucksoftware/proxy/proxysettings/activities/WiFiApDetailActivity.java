@@ -12,8 +12,6 @@ import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApDetailFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.APL;
 
 import java.util.UUID;
 
@@ -37,7 +35,7 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
 
         instance = this;
-        setContentView(R.layout.main_layout);
+        setContentView(R.layout.main_layout_with_status);
 
         FragmentManager fm = getFragmentManager();
 

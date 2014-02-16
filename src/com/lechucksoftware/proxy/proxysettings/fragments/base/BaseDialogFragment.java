@@ -25,13 +25,4 @@ public class BaseDialogFragment extends DialogFragment
         super.onPause();
         LogWrapper.d(this.getClass().getSimpleName(), "onPause " + this.getClass().getSimpleName());
     }
-
-    protected void showErrorDialog(int error)
-    {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.proxy_error)
-                .setMessage(error)
-                .setPositiveButton(R.string.proxy_error_dismiss, null)
-                .show();
-    }
 }

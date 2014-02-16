@@ -31,11 +31,6 @@ public class HelpActivity extends BaseWifiActivity
 
         FragmentManager fm = getFragmentManager();
 
-        // Add the StatusFragment to the status_fragment_container
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
-
         HelpPrefsFragment helpPrefsFragment = HelpPrefsFragment.getInstance();
 
         fm.beginTransaction()

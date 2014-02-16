@@ -37,6 +37,20 @@ public class UIUtils
     public static int PROXY_NOTIFICATION_ID = 1;
     public static int URL_DOWNLOADER_COMPLETED_ID = 2;
 
+    public static void showError(Context ctx, String errorMessage)
+    {
+        new AlertDialog.Builder(ctx)
+                .setTitle(R.string.proxy_error)
+                .setMessage(errorMessage)
+                .setPositiveButton(R.string.proxy_error_dismiss, null)
+                .show();
+    }
+
+    public static void showError(Context ctx, int error)
+    {
+        showError(ctx, ctx.getResources().getString(error));
+    }
+
     /**
      * This method converts dp unit to equivalent pixels, depending on device density.
      *

@@ -122,15 +122,6 @@ public class StatusFragment extends BaseFragment
         show();
     }
 
-    protected void showError(int error)
-    {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.proxy_error)
-                .setMessage(error)
-                .setPositiveButton(R.string.proxy_error_dismiss, null)
-                .show();
-    }
-
     View.OnClickListener enableWifi = new View.OnClickListener()
     {
         @Override
@@ -184,22 +175,6 @@ public class StatusFragment extends BaseFragment
             clickedStatus = StatusFragmentStates.CHECKING;
         }
     };
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-//        clickedStatus = null;
-
-//        refreshUI();
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-//        clickedStatus = null;
-    }
 
     public void hide()
     {
