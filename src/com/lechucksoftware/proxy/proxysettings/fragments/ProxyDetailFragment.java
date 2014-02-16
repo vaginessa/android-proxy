@@ -27,7 +27,7 @@ import com.shouldit.proxy.lib.utils.ProxyUtils;
 import java.util.UUID;
 
 
-public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFragment
+public class ProxyDetailFragment extends BaseDialogFragment
 {
     public static ProxyDetailFragment instance;
     public static final String TAG = ProxyDetailFragment.class.getSimpleName();
@@ -82,7 +82,7 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
         View v = inflater.inflate(R.layout.proxy_preferences, container, false);
 
         getUIComponents(v);
-        uiHandler.refreshUI();
+        uiHandler.callRefreshUI();
 
         return v;
     }
@@ -172,10 +172,21 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
 //        });
     }
 
-    @Override
-    public void refreshUI()
+    private void refreshUI()
     {
-        uiHandler.callRefreshUI();
+        if (selectedProxy != null)
+        {
+            proxyInUseBanner.setVisibility(UIUtils.booleanToVisibility(selectedProxy.getInUse()));
+
+            proxyHost.setValue(selectedProxy.host);
+            if (selectedProxy.port != null && selectedProxy.port != 0)
+            {
+                proxyPort.setValue(selectedProxy.port);
+            }
+
+            proxyBypass.setExclusionString(selectedProxy.exclusion);
+//                proxyTags.setTags(selectedProxy.getTags());
+        }
     }
 
     private class UIHandler extends Handler
@@ -193,23 +204,6 @@ public class ProxyDetailFragment extends BaseDialogFragment implements IBaseFrag
         public void callRefreshUI()
         {
             sendEmptyMessage(0);
-        }
-
-        private void refreshUI()
-        {
-            if (selectedProxy != null)
-            {
-                proxyInUseBanner.setVisibility(UIUtils.booleanToVisibility(selectedProxy.getInUse()));
-
-                proxyHost.setValue(selectedProxy.host);
-                if (selectedProxy.port != null && selectedProxy.port != 0)
-                {
-                    proxyPort.setValue(selectedProxy.port);
-                }
-
-                proxyBypass.setExclusionString(selectedProxy.exclusion);
-//                proxyTags.setTags(selectedProxy.getTags());
-            }
         }
     }
 }

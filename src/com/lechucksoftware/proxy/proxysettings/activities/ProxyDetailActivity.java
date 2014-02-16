@@ -10,6 +10,7 @@ import android.view.*;
 import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
@@ -20,7 +21,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.UUID;
 
-public class ProxyDetailActivity extends BaseWifiActivity
+public class ProxyDetailActivity extends BaseActivity
 {
     public static String TAG = ProxyDetailActivity.class.getSimpleName();
 
