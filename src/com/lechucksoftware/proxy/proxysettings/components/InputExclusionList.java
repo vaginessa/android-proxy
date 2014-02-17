@@ -248,9 +248,16 @@ public class InputExclusionList extends LinearLayout
 
             Collection<InputField> collection = exclusionInputFieldsMap.values();
             List<InputField> fields = new ArrayList<InputField>(collection);
-            if (TextUtils.isEmpty(fields.get(fields.size() - 1).getValue()))
+            if (fields.size() > 0)
             {
-                // DO NOTHIN
+                if (TextUtils.isEmpty(fields.get(fields.size() - 1).getValue()))
+                {
+                    // DO NOTHIN
+                }
+                else
+                {
+                    addEmptyItem();
+                }
             }
             else
             {

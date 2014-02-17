@@ -32,32 +32,34 @@
                     android:ellipsize="end"
                     android:textColor="@android:color/primary_text_dark"
                     android:paddingLeft="12dp"
-                    android:paddingTop="10dp"
+                    android:paddingRight="12dp"
+                    android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@+id/wifi_signal"
                     android:text="WIFI sa f asdf asdfa sdfas dfasdfas dfasdf asdfasdf"/>
 
-            <TextView
-                    android:id="@+id/wifi_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/wifi_name"
-                    android:layout_toLeftOf="@+id/wifi_signal"
-                    android:layout_alignParentLeft="true"
-                    android:textColor="@android:color/primary_text_dark"
-                    android:textSize="18sp"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:paddingLeft="12dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="10dp"
-                    android:text="Connected asdf asdf sdf asdf asdf asdf asdf asdf asdf"/>
+            <!--<TextView-->
+                    <!--android:id="@+id/wifi_status"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/wifi_name"-->
+                    <!--android:layout_toLeftOf="@+id/wifi_signal"-->
+                    <!--android:layout_alignParentLeft="true"-->
+                    <!--android:textColor="@android:color/primary_text_dark"-->
+                    <!--android:textSize="18sp"-->
+                    <!--android:singleLine="true"-->
+                    <!--android:lines="1"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:paddingLeft="12dp"-->
+                    <!--android:paddingTop="8dp"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--android:text="Connected asdf asdf sdf asdf asdf asdf asdf asdf asdf"/>-->
 
             <com.lechucksoftware.proxy.proxysettings.components.WifiSignal
                     android:id="@+id/wifi_signal"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="5dp"
+                    android:paddingRight="12dp"
+                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

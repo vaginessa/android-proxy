@@ -38,7 +38,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private ProxyEntity selectedProxy;
 
     private TextView wifiName;
-    private TextView wifiStatus;
+//    private TextView wifiStatus;
     private WifiSignal wifiSignal;
     private Switch proxySwitch;
     private TextView proxySelector;
@@ -94,7 +94,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        });
 
         wifiName = (TextView) v.findViewById(R.id.wifi_name);
-        wifiStatus = (TextView) v.findViewById(R.id.wifi_status);
+//        wifiStatus = (TextView) v.findViewById(R.id.wifi_status);
         wifiSignal = (WifiSignal) v.findViewById(R.id.wifi_signal);
         proxySwitch = (Switch) v.findViewById(R.id.wifi_proxy_switch);
         proxySwitch.setOnClickListener(new View.OnClickListener()
@@ -246,7 +246,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         }
 
         wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
-        wifiStatus.setText(selectedWiFiAP.toStatusString());
+//        wifiStatus.setText(selectedWiFiAP.toStatusString());
         wifiSignal.setConfiguration(selectedWiFiAP);
 
         refreshVisibility();

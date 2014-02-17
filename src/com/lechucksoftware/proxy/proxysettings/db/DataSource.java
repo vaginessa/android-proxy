@@ -57,7 +57,7 @@ public class DataSource
         DatabaseSQLiteOpenHelper.getInstance(context).dropDB(database);
         DatabaseSQLiteOpenHelper.getInstance(context).createDB(database);
 
-        notifyProxyChange();
+        notifyDBReset();
     }
 
     public ProxyEntity upsertProxy(ProxyEntity proxyData)
@@ -412,6 +412,12 @@ public class DataSource
     {
         context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
         context.sendBroadcast(new Intent(Intents.PROXY_SAVED));
+    }
+
+    private void notifyDBReset()
+    {
+        context.sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
+        context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
     }
 
     public TagEntity updateTag(long tagId, TagEntity newData)
