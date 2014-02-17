@@ -45,7 +45,7 @@ public class InputExclusionList extends LinearLayout
     {
         super(context, attrs);
 
-        exclusionInputFieldsMap = new HashMap<UUID, InputField>();
+        exclusionInputFieldsMap = new LinkedHashMap<UUID, InputField>();
 
         uiHandler = new UIHandler();
 
@@ -98,7 +98,7 @@ public class InputExclusionList extends LinearLayout
                 UUID idToRemove = (UUID) view.getTag();
                 InputField i = exclusionInputFieldsMap.remove(idToRemove);
                 bypassContainer.removeView(i);
-                uiHandler.callRefreshUI();
+                uiHandler.callRefreshExclusionList();
             }
         });
 
@@ -135,7 +135,7 @@ public class InputExclusionList extends LinearLayout
     {
         LogWrapper.startTrace(TAG, "setExclusionString", Log.ASSERT, true);
 
-        if (exclusionString == null || !exclusionString.equals(exclusionString))
+        if (exclusionString == null || !exclusionString.equals(value))
         {
             exclusionString = value;
 
@@ -152,6 +152,8 @@ public class InputExclusionList extends LinearLayout
                 exclusionInputFieldsMap.put(inputField.getUUID(), inputField);
             }
         }
+
+        refreshExclusionList();
 
         LogWrapper.stopTrace(TAG, "setExclusionString", Log.ASSERT);
     }
@@ -189,7 +191,7 @@ public class InputExclusionList extends LinearLayout
             titleTextView.setText(title.toUpperCase());
         }
 
-        refreshExclusionList();
+//        refreshExclusionList();
 
         titleTextView.setTextSize(titleSize);
         readonlyValueTextView.setTextSize(textSize);
@@ -201,33 +203,26 @@ public class InputExclusionList extends LinearLayout
     {
         LogWrapper.startTrace(TAG, "refreshExclusionList", Log.ASSERT, true);
 
-        List<UUID> toRemove = new ArrayList<UUID>();
+//        List<UUID> toRemove = new ArrayList<UUID>();
 
-        for (UUID uuid : exclusionInputFieldsMap.keySet())
-        {
-            if (exclusionInputFieldsMap.containsKey(uuid))
-            {
-                InputField inputField = exclusionInputFieldsMap.get(uuid);
-                String value = inputField.getValue();
-                if (TextUtils.isEmpty(value))
-                {
-                    toRemove.add(inputField.getUUID());
-                }
-            }
-        }
+//        for (UUID uuid : exclusionInputFieldsMap.keySet())
+//        {
+//            if (exclusionInputFieldsMap.containsKey(uuid))
+//            {
+//                InputField inputField = exclusionInputFieldsMap.get(uuid);
+//                String value = inputField.getValue();
+//                if (TextUtils.isEmpty(value))
+//                {
+////                    toRemove.add(inputField.getUUID());
+//                }
+//            }
+//        }
 
-        for (UUID uuid : toRemove)
-        {
-            InputField inputField = exclusionInputFieldsMap.remove(uuid);
-            bypassContainer.removeView(inputField);
-        }
-
-        String updatedExclusionString = getExclusionString();
-        if (!exclusionString.equals(updatedExclusionString))
-        {
-            exclusionString = updatedExclusionString;
-            sendOnValueChanged(exclusionString);
-        }
+//        for (UUID uuid : toRemove)
+//        {
+//            InputField inputField = exclusionInputFieldsMap.remove(uuid);
+//            bypassContainer.removeView(inputField);
+//        }
 
         if (readonly)
         {
@@ -250,7 +245,17 @@ public class InputExclusionList extends LinearLayout
             readonlyValueTextView.setVisibility(GONE);
 
             bypassContainer.setVisibility(VISIBLE);
-            addEmptyItem();
+
+            Collection<InputField> collection = exclusionInputFieldsMap.values();
+            List<InputField> fields = new ArrayList<InputField>(collection);
+            if (TextUtils.isEmpty(fields.get(fields.size() - 1).getValue()))
+            {
+                // DO NOTHIN
+            }
+            else
+            {
+                addEmptyItem();
+            }
         }
 
         LogWrapper.stopTrace(TAG, "refreshExclusionList", Log.ASSERT);
@@ -336,10 +341,17 @@ public class InputExclusionList extends LinearLayout
         {
             if (!readonly && inputField.enableTextListener)
             {
+                String updatedExclusionString = getExclusionString();
+                if (!exclusionString.equals(updatedExclusionString))
+                {
+                    exclusionString = updatedExclusionString;
+                    sendOnValueChanged(exclusionString);
+                }
+
                 if (start == 0 && before == 0 && count >= 1)
                 {
                     uiHandler.callAddEmptyItem();
-//                    uiHandler.refreshExclusionList();
+                    uiHandler.callRefreshExclusionList();
                 }
             }
         }
