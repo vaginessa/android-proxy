@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.text.TextUtils;
 import com.bugsense.trace.BugSenseHandler;
 //import com.google.analytics.tracking.android.Tracker;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -106,6 +107,9 @@ public class EventReportingUtils implements IEventReporting
 
     public void send(Exception e)
     {
+        LogWrapper.e(TAG, "Handled exception message: " + e.getMessage());
+        LogWrapper.e(TAG, "Handled exception stack trace: " + TextUtils.join("\n",e.getStackTrace()));
+
         if (setupDone)
         {
             // Bugsense
@@ -120,7 +124,6 @@ public class EventReportingUtils implements IEventReporting
         else
         {
             setupBugSense(ApplicationGlobals.getInstance().getApplicationContext());
-            LogWrapper.e(TAG, "sendException: " + e.toString());
         }
     }
 

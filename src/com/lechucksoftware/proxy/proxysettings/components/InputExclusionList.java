@@ -203,27 +203,6 @@ public class InputExclusionList extends LinearLayout
     {
         LogWrapper.startTrace(TAG, "refreshExclusionList", Log.ASSERT, true);
 
-//        List<UUID> toRemove = new ArrayList<UUID>();
-
-//        for (UUID uuid : exclusionInputFieldsMap.keySet())
-//        {
-//            if (exclusionInputFieldsMap.containsKey(uuid))
-//            {
-//                InputField inputField = exclusionInputFieldsMap.get(uuid);
-//                String value = inputField.getValue();
-//                if (TextUtils.isEmpty(value))
-//                {
-////                    toRemove.add(inputField.getUUID());
-//                }
-//            }
-//        }
-
-//        for (UUID uuid : toRemove)
-//        {
-//            InputField inputField = exclusionInputFieldsMap.remove(uuid);
-//            bypassContainer.removeView(inputField);
-//        }
-
         if (readonly)
         {
             if (exclusionInputFieldsMap != null && exclusionInputFieldsMap.size() > 0)
@@ -252,7 +231,7 @@ public class InputExclusionList extends LinearLayout
             {
                 if (TextUtils.isEmpty(fields.get(fields.size() - 1).getValue()))
                 {
-                    // DO NOTHIN
+                    // DO NOTHING
                 }
                 else
                 {
@@ -263,6 +242,8 @@ public class InputExclusionList extends LinearLayout
             {
                 addEmptyItem();
             }
+
+            updateExclusionStringValue();
         }
 
         LogWrapper.stopTrace(TAG, "refreshExclusionList", Log.ASSERT);
@@ -348,12 +329,7 @@ public class InputExclusionList extends LinearLayout
         {
             if (!readonly && inputField.enableTextListener)
             {
-                String updatedExclusionString = getExclusionString();
-                if (!exclusionString.equals(updatedExclusionString))
-                {
-                    exclusionString = updatedExclusionString;
-                    sendOnValueChanged(exclusionString);
-                }
+                updateExclusionStringValue();
 
                 if (start == 0 && before == 0 && count >= 1)
                 {
@@ -366,6 +342,16 @@ public class InputExclusionList extends LinearLayout
         @Override
         public void afterTextChanged(Editable editable)
         {
+        }
+    }
+
+    private void updateExclusionStringValue()
+    {
+        String updatedExclusionString = getExclusionString();
+        if (!exclusionString.equals(updatedExclusionString))
+        {
+            exclusionString = updatedExclusionString;
+            sendOnValueChanged(exclusionString);
         }
     }
 
