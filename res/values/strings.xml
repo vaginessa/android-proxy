@@ -34,7 +34,7 @@
 	<string name="status_hostname_valid">Proxy IP/Hostname is: </string>
 	
 	<string name="status_port_empty">Proxy port cannot be empty</string>
-	<string name="status_port_notvalid">Proxy port seems not valid</string>
+	<string name="status_port_notvalid">Proxy port number must be a number between 1 and 65535</string>
 	<string name="status_port_valid">Proxy port is: </string>
 	
 	<string name="status_proxy_not_reachable">Proxy seems not reachable</string>
