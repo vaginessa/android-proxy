@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,8 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
     {
         TextView host;
         TextView port;
-        TagsView tags;
+        TextView bypass;
+//        TagsView tags;
         ImageView used;
     }
 
@@ -58,7 +60,8 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
             viewHolder = new ApViewHolder();
             viewHolder.host = (TextView) view.findViewById(R.id.list_item_proxy_host);
             viewHolder.port = (TextView) view.findViewById(R.id.list_item_proxy_port);
-            viewHolder.tags = (TagsView) view.findViewById(R.id.list_item_proxy_tags);
+            viewHolder.bypass = (TextView) view.findViewById(R.id.list_item_proxy_bypass);
+//            viewHolder.tags = (TagsView) view.findViewById(R.id.list_item_proxy_tags);
             viewHolder.used = (ImageView) view.findViewById(R.id.li_proxy_used);
 
             view.setTag(viewHolder);
@@ -74,7 +77,10 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
         {
             viewHolder.host.setText(listItem.host);
             viewHolder.port.setText(listItem.port.toString());
-            viewHolder.tags.setTags(listItem.getTags());
+
+            viewHolder.bypass.setText(getContext().getString(R.string.bypass_for) + " " +  listItem.exclusion);
+            viewHolder.bypass.setVisibility(UIUtils.booleanToVisibility(!TextUtils.isEmpty(listItem.exclusion)));
+//            viewHolder.tags.setTags(listItem.getTags());
             viewHolder.used.setVisibility(UIUtils.booleanToVisibility(listItem.getInUse()));
         }
 

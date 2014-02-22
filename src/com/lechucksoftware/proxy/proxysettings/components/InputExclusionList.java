@@ -163,10 +163,12 @@ public class InputExclusionList extends LinearLayout
         List<String> values = new ArrayList<String>();
         for (InputField i : exclusionInputFieldsMap.values())
         {
-            values.add(i.getValue());
+            String value = i.getValue();
+            if (!TextUtils.isEmpty(value))
+                values.add(i.getValue());
         }
 
-        String result = TextUtils.join(",", values);
+        String result = TextUtils.join(", ", values);
         return result;
     }
 
