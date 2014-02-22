@@ -105,6 +105,8 @@ public class ProxyDetailFragment extends BaseDialogFragment
             {
                 String value = editable.toString();
                 selectedProxy.host = value;
+
+                proxyHost.setError(null);
                 ProxyStatusItem item = ProxyUtils.isProxyValidHostname(value);
                 if (!item.result)
                 {
@@ -137,7 +139,11 @@ public class ProxyDetailFragment extends BaseDialogFragment
                     value = Integer.parseInt(editable.toString());
                 }
                 catch (NumberFormatException e)
-                {}
+                {
+                    value = Integer.MAX_VALUE;
+                }
+
+                proxyPort.setError(null);
 
                 ProxyStatusItem item = ProxyUtils.isProxyValidPort(value);
                 if (!item.result)
