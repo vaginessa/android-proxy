@@ -62,7 +62,15 @@ public class DataSource
 
     public ProxyEntity upsertProxy(ProxyEntity proxyData)
     {
-        long proxyId = findProxy(proxyData);
+        long proxyId = -1;
+        if (proxyData.isPersisted)
+        {
+            proxyId = proxyData.getId();
+        }
+        else
+        {
+            proxyId = findProxy(proxyData);
+        }
 
         ProxyEntity result = null;
 
