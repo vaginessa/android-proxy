@@ -19,6 +19,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.SocketAddress;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,9 +63,27 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public Proxy getProxy()
     {
         if (proxySetting == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
-            return new Proxy(Proxy.Type.HTTP, InetSocketAddress.createUnresolved(proxyHost, proxyPort));
+        {
+            SocketAddress sa = null;
+
+            try
+            {
+                sa = InetSocketAddress.createUnresolved(proxyHost, proxyPort);
+            }
+            catch (IllegalArgumentException	e)
+            {
+                APL.getEventReport().send(new Exception("Failed creating unresolved", e));
+            }
+
+            if (sa != null)
+                return new Proxy(Proxy.Type.HTTP, sa);
+            else
+                return Proxy.NO_PROXY;
+        }
         else
+        {
             return Proxy.NO_PROXY;
+        }
     }
 
     public boolean isValidProxyConfiguration()
