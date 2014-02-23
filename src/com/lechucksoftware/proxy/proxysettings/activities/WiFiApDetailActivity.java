@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 

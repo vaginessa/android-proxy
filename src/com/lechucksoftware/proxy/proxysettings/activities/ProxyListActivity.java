@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyListFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 
 
 /**
@@ -31,14 +30,14 @@ public class ProxyListActivity extends BaseWifiActivity
         super.onCreate(null);
         instance = this;
 
-        setContentView(R.layout.main_layout_with_status);
+        setContentView(R.layout.main_layout);
 
         FragmentManager fm = getFragmentManager();
 
         // Add the StatusFragment to the status_fragment_container
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
+//        fm.beginTransaction()
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

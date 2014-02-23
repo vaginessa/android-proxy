@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.fragments.HelpPrefsFragment;
-import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 
 public class HelpActivity extends BaseWifiActivity
 {
