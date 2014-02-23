@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -331,8 +332,6 @@ public class InputExclusionList extends LinearLayout
         {
             if (!readonly && inputField.enableTextListener)
             {
-                updateExclusionStringValue();
-
                 if (start == 0 && before == 0 && count >= 1)
                 {
                     uiHandler.callAddEmptyItem();
@@ -344,6 +343,15 @@ public class InputExclusionList extends LinearLayout
         @Override
         public void afterTextChanged(Editable editable)
         {
+            updateExclusionStringValue();
+
+//            String value = editable.toString();
+//            inputField.setError(null);
+//            ProxyStatusItem item = ProxyUtils.isProxyValidHostname(value);
+//            if (!item.result)
+//            {
+//                inputField.setError(item.message);
+//            }
         }
     }
 
