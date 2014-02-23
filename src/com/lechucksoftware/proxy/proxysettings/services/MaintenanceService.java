@@ -13,6 +13,7 @@ import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
+import java.util.Map;
 
 public class MaintenanceService extends IntentService
 {
@@ -117,7 +118,14 @@ public class MaintenanceService extends IntentService
     {
         LogWrapper.startTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);
 
+        ApplicationGlobals.getDBManager().clearInUseFlagForAllProxies();
+
+        LogWrapper.getPartial(TAG,"upsertFoundProxyConfigurations", Log.DEBUG);
+
         List<ProxyConfiguration> configurations = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
+
+        int foundNew = 0;
+        int foundUpdate = 0;
 
         if (configurations != null && !configurations.isEmpty())
         {
@@ -132,6 +140,7 @@ public class MaintenanceService extends IntentService
                         // Proxy already saved into DB
                         pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
                         pd.setInUse(true);
+                        foundUpdate++;
                     }
                     else
                     {
@@ -141,6 +150,7 @@ public class MaintenanceService extends IntentService
                         pd.port = conf.getProxyPort();
                         pd.exclusion = conf.getProxyExclusionList();
                         pd.setInUse(true);
+                        foundNew++;
                     }
 
                     ApplicationGlobals.getDBManager().upsertProxy(pd);
@@ -148,7 +158,7 @@ public class MaintenanceService extends IntentService
             }
 
             long proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
-            LogWrapper.d(TAG, "Saved proxy: " + proxiesCount);
+            LogWrapper.d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
         }
 
         LogWrapper.stopTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);

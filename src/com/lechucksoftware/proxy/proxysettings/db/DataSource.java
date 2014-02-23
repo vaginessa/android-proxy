@@ -416,6 +416,17 @@ public class DataSource
         return updatedProxy;
     }
 
+    public void clearInUseFlagForAllProxies()
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
+
+        long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, null, null);
+
+        LogWrapper.d(TAG, "Cleared in use flag for : " + updatedRows + " proxies");
+    }
+
     private void notifyProxyChange()
     {
         context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));

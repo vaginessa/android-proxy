@@ -226,6 +226,9 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             apConf.setProxyPort(proxy.port);
             apConf.setProxyExclusionList(proxy.exclusion);
             apConf.writeConfigurationToDevice();
+
+            proxy.setInUse(true);
+            ApplicationGlobals.getDBManager().upsertProxy(proxy);
         }
         catch (Exception e)
         {
