@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
@@ -416,13 +417,25 @@ public class DataSource
         return updatedProxy;
     }
 
-    public void clearInUseFlagForAllProxies()
+    public void clearInUseFlag(Long ... proxyIDs)
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
 
-        long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, null, null);
+        long updatedRows = 0;
+        if (proxyIDs == null)
+        {
+            updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, null, null);
+        }
+        else
+        {
+            String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 0 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",",proxyIDs) + ")";
+
+            Cursor cursor = database.rawQuery(query, null);
+            updatedRows = cursor.getCount();
+            cursor.close();
+        }
 
         LogWrapper.d(TAG, "Cleared in use flag for : " + updatedRows + " proxies");
     }

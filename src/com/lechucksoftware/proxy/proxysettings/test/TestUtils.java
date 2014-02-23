@@ -236,5 +236,19 @@ public class TestUtils
         conf.writeConfigurationToDevice();
         Thread.sleep(5000);
     }
+
+    public static void clearInUse()
+    {
+        ProxyEntity pd = ApplicationGlobals.getDBManager().getRandomProxy();
+        ApplicationGlobals.getDBManager().clearInUseFlag(pd.getId());
+
+        ProxyEntity pd1 = ApplicationGlobals.getDBManager().getRandomProxy();
+        ProxyEntity pd2 = ApplicationGlobals.getDBManager().getRandomProxy();
+        ProxyEntity pd3 = ApplicationGlobals.getDBManager().getRandomProxy();
+
+        ApplicationGlobals.getDBManager().clearInUseFlag(pd1.getId(), pd2.getId(), pd3.getId());
+
+        ApplicationGlobals.getDBManager().clearInUseFlag();
+    }
 }
 

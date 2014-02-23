@@ -118,7 +118,7 @@ public class MaintenanceService extends IntentService
     {
         LogWrapper.startTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);
 
-        ApplicationGlobals.getDBManager().clearInUseFlagForAllProxies();
+        ApplicationGlobals.getDBManager().clearInUseFlag(null);
 
         LogWrapper.getPartial(TAG,"upsertFoundProxyConfigurations", Log.DEBUG);
 
@@ -129,8 +129,12 @@ public class MaintenanceService extends IntentService
 
         if (configurations != null && !configurations.isEmpty())
         {
+            LogWrapper.d(TAG, String.format("Analyzing %d Wi-Fi AP configurations",configurations.size()));
+
             for (ProxyConfiguration conf : configurations)
             {
+                LogWrapper.d(TAG,conf.toShortString());
+
                 if (conf.getProxy() != java.net.Proxy.NO_PROXY && conf.isValidProxyConfiguration())
                 {
                     long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(),conf.getProxyPort());
@@ -154,6 +158,10 @@ public class MaintenanceService extends IntentService
                     }
 
                     ApplicationGlobals.getDBManager().upsertProxy(pd);
+                }
+                else
+                {
+
                 }
             }
 

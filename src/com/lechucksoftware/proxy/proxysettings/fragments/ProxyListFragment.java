@@ -28,6 +28,7 @@ import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,6 +221,15 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             // the list to highlight the selected item and show the data.
             listView.setItemChecked(index, true);
             ProxyEntity proxy = (ProxyEntity) listView.getItemAtPosition(index);
+
+            if (apConf.proxySetting == ProxySetting.STATIC)
+            {
+                long proxyId = ApplicationGlobals.getDBManager().findProxy(apConf.getProxyHost(), apConf.getProxyPort());
+                if (proxyId != -1)
+                {
+                    ApplicationGlobals.getDBManager().clearInUseFlag(proxyId);
+                }
+            }
 
             apConf.setProxySetting(ProxySetting.STATIC);
             apConf.setProxyHost(proxy.host);

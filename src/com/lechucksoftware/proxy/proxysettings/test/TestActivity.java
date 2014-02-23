@@ -30,6 +30,7 @@ public class TestActivity extends Activity
     {
         ADD_PROXY,
         ADD_TAGS,
+        CLEAR_IN_USE,
         UPDATE_PROXY,
         UPDATE_TAGS,
         LIST_TAGS,
@@ -64,6 +65,12 @@ public class TestActivity extends Activity
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ASSIGN_PROXY);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void clearProxyInUse(View view)
+    {
+        AsyncTest clearInUseAsync = new AsyncTest(this, TestAction.CLEAR_IN_USE);
+        clearInUseAsync.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void testBugReporting(View caller)
@@ -152,6 +159,10 @@ public class TestActivity extends Activity
             if (_action == TestAction.CLEAR_DB)
             {
                 ApplicationGlobals.getDBManager().resetDB();
+            }
+            else if (_action == TestAction.CLEAR_IN_USE)
+            {
+                TestUtils.clearInUse();
             }
             else if(_action == TestAction.ASSIGN_PROXY)
             {

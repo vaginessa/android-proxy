@@ -109,6 +109,15 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 }
                 else
                 {
+                    if (selectedWiFiAP.proxySetting == ProxySetting.STATIC)
+                    {
+                        long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedWiFiAP.getProxyHost(), selectedWiFiAP.getProxyPort());
+                        if (proxyId != -1)
+                        {
+                            ApplicationGlobals.getDBManager().clearInUseFlag(proxyId);
+                        }
+                    }
+
                     selectedWiFiAP.setProxySetting(ProxySetting.NONE);
                 }
 
