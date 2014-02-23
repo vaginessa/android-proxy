@@ -12,6 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.activities.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.fragments.WiFiApDetailFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.util.UUID;
 
@@ -35,14 +36,14 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
 
         instance = this;
-        setContentView(R.layout.main_layout_with_status);
+        setContentView(R.layout.main_layout);
 
         FragmentManager fm = getFragmentManager();
 
         // Add the StatusFragment to the status_fragment_container
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
+//        fm.beginTransaction()
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
 
         Intent callerIntent = getIntent();
         if (callerIntent != null)
@@ -53,6 +54,10 @@ public class WiFiApDetailActivity extends BaseWifiActivity
             fm.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.fragment_container, detail).commit();
+        }
+        else
+        {
+            EventReportingUtils.sendException(new Exception("Intent not received"));
         }
 
         ActionBar actionBar = getActionBar();
