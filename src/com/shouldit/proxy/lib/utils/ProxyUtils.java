@@ -847,7 +847,7 @@ public class ProxyUtils
             }
         }
 
-        if (conf.proxySetting == ProxySetting.UNASSIGNED || conf.proxySetting == ProxySetting.NONE)
+        if (conf.getProxySettings() == ProxySetting.UNASSIGNED || conf.getProxySettings() == ProxySetting.NONE)
         {
             result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_disabled));
         }

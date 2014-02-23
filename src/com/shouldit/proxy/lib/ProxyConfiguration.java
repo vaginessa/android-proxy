@@ -32,17 +32,17 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public ProxyStatus status;
     public AccessPoint ap;
 
-    public ProxySetting proxySetting;
+    private ProxySetting proxySetting;
     private String proxyHost;
     private Integer proxyPort;
     private String stringProxyExclusionList;
     private String[] parsedProxyExclusionList;
 
-    public ProxyConfiguration(ProxySetting proxyEnabled, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
+    public ProxyConfiguration(ProxySetting setting, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
     {
         id = UUID.randomUUID();
 
-        proxySetting = proxyEnabled;
+        setProxySetting(setting);
         proxyHost = host;
         proxyPort = port;
         setProxyExclusionList(exclusionList);
@@ -62,7 +62,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public Proxy getProxy()
     {
-        if (proxySetting == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
+        if (getProxySettings() == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
         {
             SocketAddress sa = null;
 
@@ -103,7 +103,18 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public void setProxySetting(ProxySetting setting)
     {
-        proxySetting = setting;
+        synchronized (id)
+        {
+            proxySetting = setting;
+        }
+    }
+
+    public ProxySetting getProxySettings()
+    {
+        synchronized (id)
+        {
+            return proxySetting;
+        }
     }
 
     public void setProxyHost(String host)
@@ -248,7 +259,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             LogWrapper.d(TAG, "Updating proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
 
-            proxySetting = updated.proxySetting;
+            setProxySetting(updated.getProxySettings());
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
             stringProxyExclusionList = updated.stringProxyExclusionList;
@@ -276,7 +287,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         if (ap != null)
             sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.ssid));
 
-        sb.append(String.format("Proxy setting: %s\n", proxySetting.toString()));
+        sb.append(String.format("Proxy setting: %s\n", getProxySettings().toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
         sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
         sb.append(String.format("Proxy status checker results: %s\n", status.toString()));
@@ -314,7 +325,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public String toStatusString()
     {
-        if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
+        if (getProxySettings() == ProxySetting.NONE || getProxySettings() == ProxySetting.UNASSIGNED)
         {
             return APL.getContext().getResources().getString(R.string.direct_connection);
         }
@@ -457,10 +468,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance((Object) selectedConfiguration);
 
             Field proxySettingsField = newConf.getClass().getField("proxySettings");
-            proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[proxySetting.ordinal()]);
+            proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[getProxySettings().ordinal()]);
             Object proxySettings = proxySettingsField.get(newConf);
             int ordinal = ((Enum) proxySettings).ordinal();
-            if (ordinal != proxySetting.ordinal())
+            if (ordinal != getProxySettings().ordinal())
                 throw new Exception("Cannot set proxySettings variable");
 
             Field linkPropertiesField = newConf.getClass().getField("linkProperties");
@@ -468,11 +479,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
             mHttpProxyField.setAccessible(true);
 
-            if (proxySetting == ProxySetting.NONE || proxySetting == ProxySetting.UNASSIGNED)
+            if (getProxySettings() == ProxySetting.NONE || getProxySettings() == ProxySetting.UNASSIGNED)
             {
                 mHttpProxyField.set(linkProperties, null);
             }
-            else if (proxySetting == ProxySetting.STATIC)
+            else if (getProxySettings() == ProxySetting.STATIC)
             {
                 Class ProxyPropertiesClass = mHttpProxyField.getType();
                 Integer port = getProxyPort();
