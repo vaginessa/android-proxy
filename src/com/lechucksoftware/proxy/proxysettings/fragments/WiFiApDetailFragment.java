@@ -23,6 +23,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -105,11 +106,12 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
                 if (proxySwitch.isChecked())
                 {
+                    LogWrapper.d(TAG,"Set proxy settings = STATIC");
                     selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
                 }
                 else
                 {
-                    if (selectedWiFiAP.proxySetting == ProxySetting.STATIC)
+                    if (selectedWiFiAP.getProxySettings() == ProxySetting.STATIC)
                     {
                         long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedWiFiAP.getProxyHost(), selectedWiFiAP.getProxyPort());
                         if (proxyId != -1)
@@ -118,6 +120,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                         }
                     }
 
+                    LogWrapper.d(TAG,"Set proxy settings = NONE");
                     selectedWiFiAP.setProxySetting(ProxySetting.NONE);
                 }
 
@@ -226,14 +229,16 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             NavigationUtils.GoToMainActivity(getActivity());
         }
 
-        if (selectedWiFiAP.proxySetting == ProxySetting.STATIC)
+        if (selectedWiFiAP.getProxySettings() == ProxySetting.STATIC)
         {
+            LogWrapper.d(TAG,"Set proxy switch = ON");
             proxySwitch.setChecked(true);
             proxySwitch.setText(R.string.status_proxy_enabled);
             refreshFieldsValues();
         }
         else
         {
+            LogWrapper.d(TAG,"Set proxy switch = OFF");
             proxySwitch.setChecked(false);
             proxySwitch.setText(R.string.status_proxy_disabled);
         }

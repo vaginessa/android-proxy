@@ -161,7 +161,7 @@ public class TestUtils
 
     public static void assignProxies(ProxyConfiguration conf, ProxyEntity proxy) throws Exception
     {
-        ProxySetting originalSettings = conf.proxySetting;
+        ProxySetting originalSettings = conf.getProxySettings();
         ProxyEntity originalData = new ProxyEntity();
 
         if (originalSettings == ProxySetting.STATIC)
@@ -186,7 +186,7 @@ public class TestUtils
 
             ProxyConfiguration updatedConf = ApplicationGlobals.getProxyManager().getConfiguration(conf.id);
 
-            if (updatedConf.proxySetting == ProxySetting.STATIC &&
+            if (updatedConf.getProxySettings() == ProxySetting.STATIC &&
                     updatedConf.getProxyHost() == proxy.host &&
                     updatedConf.getProxyPort() == proxy.port &&
                     updatedConf.getProxyExclusionList() == proxy.exclusion)
@@ -213,7 +213,7 @@ public class TestUtils
 
             ProxyConfiguration updatedConf = ApplicationGlobals.getProxyManager().getConfiguration(conf.id);
 
-            if (updatedConf.proxySetting == ProxySetting.NONE &&
+            if (updatedConf.getProxySettings() == ProxySetting.NONE &&
                     (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
                     (updatedConf.getProxyPort() == null || updatedConf.getProxyPort() == -1) &&
                     (updatedConf.getProxyExclusionList() == null || updatedConf.getProxyExclusionList() == ""))

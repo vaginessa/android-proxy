@@ -222,7 +222,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             listView.setItemChecked(index, true);
             ProxyEntity proxy = (ProxyEntity) listView.getItemAtPosition(index);
 
-            if (apConf.proxySetting == ProxySetting.STATIC)
+            if (apConf.getProxySettings() == ProxySetting.STATIC)
             {
                 long proxyId = ApplicationGlobals.getDBManager().findProxy(apConf.getProxyHost(), apConf.getProxyPort());
                 if (proxyId != -1)
