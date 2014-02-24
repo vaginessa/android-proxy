@@ -169,7 +169,7 @@ public class InputExclusionList extends LinearLayout
                 values.add(i.getValue());
         }
 
-        String result = TextUtils.join(", ", values);
+        String result = TextUtils.join(",", values); // Android ProxyProperties class requires that there are no space between exclusion items
         return result;
     }
 
@@ -345,13 +345,13 @@ public class InputExclusionList extends LinearLayout
         {
             updateExclusionStringValue();
 
-//            String value = editable.toString();
-//            inputField.setError(null);
-//            ProxyStatusItem item = ProxyUtils.isProxyValidHostname(value);
-//            if (!item.result)
-//            {
-//                inputField.setError(item.message);
-//            }
+            String value = editable.toString();
+            inputField.setError(null);
+            ProxyStatusItem item = ProxyUtils.isProxyValidExclusionAddress(value);
+            if (!item.result)
+            {
+                inputField.setError(item.message);
+            }
         }
     }
 

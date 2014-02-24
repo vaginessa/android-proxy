@@ -4,8 +4,10 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
+import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.Random;
 
@@ -249,6 +251,15 @@ public class TestUtils
         ApplicationGlobals.getDBManager().clearInUseFlag(pd1.getId(), pd2.getId(), pd3.getId());
 
         ApplicationGlobals.getDBManager().clearInUseFlag();
+    }
+
+    public static void testValidation()
+    {
+        ProxyStatusItem result = ProxyUtils.isProxyValidExclusionAddress("shouldit.it");
+        result = ProxyUtils.isProxyValidExclusionAddress("localhost");
+        result = ProxyUtils.isProxyValidExclusionAddress("DEV-*");
+        result = ProxyUtils.isProxyValidExclusionAddress("*.local");
+        result = ProxyUtils.isProxyValidExclusionAddress("*.shouldit.it");
     }
 }
 

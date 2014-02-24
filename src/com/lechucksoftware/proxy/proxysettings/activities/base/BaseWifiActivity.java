@@ -8,6 +8,7 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
 import com.shouldit.proxy.lib.APLConstants;
+import com.shouldit.proxy.lib.APLIntents;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 /**
@@ -36,8 +37,8 @@ public class BaseWifiActivity extends BaseActivity
         // Start register the status receivers
         IntentFilter ifilt = new IntentFilter();
 
-        ifilt.addAction(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-        ifilt.addAction(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+        ifilt.addAction(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
+        ifilt.addAction(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK);
         ifilt.addAction(Intents.PROXY_REFRESH_UI);
         registerReceiver(changeStatusReceiver, ifilt);
 
@@ -64,12 +65,12 @@ public class BaseWifiActivity extends BaseActivity
 
             LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
 
-            if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
+            if (action.equals(APLIntents.APL_UPDATED_PROXY_CONFIGURATION))
             {
                 LogWrapper.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
                 refreshUI();
             }
-            else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
+            else if (action.equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK))
             {
                 LogWrapper.d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();

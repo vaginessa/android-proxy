@@ -50,6 +50,12 @@
                     android:onClick="clearProxyInUse"/>
 
             <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Test proxy validations"
+                android:onClick="testProxyValidations"/>
+
+            <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Test bug reporting"

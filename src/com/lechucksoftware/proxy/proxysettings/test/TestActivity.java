@@ -31,6 +31,7 @@ public class TestActivity extends Activity
         ADD_PROXY,
         ADD_TAGS,
         CLEAR_IN_USE,
+        TEST_VALIDATION,
         UPDATE_PROXY,
         UPDATE_TAGS,
         LIST_TAGS,
@@ -65,6 +66,12 @@ public class TestActivity extends Activity
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ASSIGN_PROXY);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void testProxyValidations(View view)
+    {
+        AsyncTest testValidation = new AsyncTest(this, TestAction.TEST_VALIDATION);
+        testValidation.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void clearProxyInUse(View view)
@@ -163,6 +170,10 @@ public class TestActivity extends Activity
             else if (_action == TestAction.CLEAR_IN_USE)
             {
                 TestUtils.clearInUse();
+            }
+            else if (_action == TestAction.TEST_VALIDATION)
+            {
+                TestUtils.testValidation();
             }
             else if(_action == TestAction.ASSIGN_PROXY)
             {

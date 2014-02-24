@@ -14,6 +14,8 @@ import android.net.ConnectivityManager;
 import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+
+import com.shouldit.proxy.lib.APLIntents;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
@@ -42,7 +44,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else if (
                  // INTERNAL (APL): Called when a proxy configuration is written by APL
-                 intent.getAction().equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION)
+                 intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_CONFIGURATION)
 
                  // INTERNAL (PS) : Called when Proxy Settings needs to refreshUI the Proxy status
                  || intent.getAction().equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
@@ -67,7 +69,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                  intent.getAction().equals(Intents.PROXY_REFRESH_UI)
 
                  // INTERNAL (APL): Called when an updated status on the check of a configuration is available
-                 || intent.getAction().equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK)
+                 || intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK)
                 )
         {
             LogWrapper.logIntent(TAG, intent, Log.DEBUG);
