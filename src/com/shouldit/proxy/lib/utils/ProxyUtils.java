@@ -11,14 +11,13 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-import android.webkit.URLUtil;
+
 import com.shouldit.proxy.lib.*;
 import com.shouldit.proxy.lib.enums.*;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import org.apache.http.HttpHost;
-import org.apache.http.conn.util.InetAddressUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -27,7 +26,6 @@ import java.net.*;
 import java.net.Proxy.Type;
 import java.util.EnumSet;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ProxyUtils
 {
@@ -781,7 +779,7 @@ public class ProxyUtils
     private static void broadCastUpdatedStatus()
     {
 //        LogWrapper.d(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
-        Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK);
+        Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK);
         // intent.putExtra(APLConstants.ProxyStatus, status);
         APL.getContext().sendBroadcast(intent);
     }
@@ -878,26 +876,14 @@ public class ProxyUtils
     {
         try
         {
-            if (proxyHost == null || proxyHost.length() == 0)
+            if (TextUtils.isEmpty(proxyHost))
             {
                 return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_empty));
             }
             else
             {
-                // Test REGEX for Hostname validation
-                // http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
-                //
-                String ValidHostnameRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
-                Pattern pattern = Pattern.compile(ValidHostnameRegex);
-                Matcher matcher = pattern.matcher(proxyHost);
-
-                if (InetAddressUtils.isIPv4Address(proxyHost)
-                        || InetAddressUtils.isIPv6Address(proxyHost)
-                        || InetAddressUtils.isIPv6HexCompressedAddress(proxyHost)
-                        || InetAddressUtils.isIPv6StdAddress(proxyHost)
-                        || URLUtil.isNetworkUrl(proxyHost)
-                        || URLUtil.isValidUrl(proxyHost)
-                        || matcher.find())
+                Matcher match = APLConstants.HOSTNAME_PATTERN.matcher(proxyHost);
+                if (match.matches())
                 {
                     String msg = String.format("%s %s", APL.getContext().getString(R.string.status_hostname_valid), proxyHost);
                     return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true, msg);
@@ -910,6 +896,32 @@ public class ProxyUtils
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));
+    }
+
+    public static ProxyStatusItem isProxyValidExclusionAddress(String proxyExclusionAddress)
+    {
+        try
+        {
+            if (TextUtils.isEmpty(proxyExclusionAddress))
+            {
+                return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_empty));
+            }
+            else
+            {
+                Matcher match = APLConstants.EXCLUSION_PATTERN.matcher(proxyExclusionAddress);
+                if (match.matches())
+                {
+                    String msg = String.format("%s %s", APL.getContext().getString(R.string.status_exclusion_item_valid), proxyExclusionAddress);
+                    return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, true, msg);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            APL.getEventReport().send(e);
+        }
+
+        return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_valid));
     }
 
     public static ProxyStatusItem isProxyValidPort(ProxyConfiguration conf)

@@ -524,8 +524,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             this.status.clear();
             LogWrapper.d(TAG, "Succesfully updated configuration on device: " + this.toShortString());
 
-            LogWrapper.i(TAG, "Sending broadcast intent: " + APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
-            Intent intent = new Intent(APLConstants.APL_UPDATED_PROXY_CONFIGURATION);
+            LogWrapper.i(TAG, "Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
+            Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             APL.getContext().sendBroadcast(intent);
         }
         else

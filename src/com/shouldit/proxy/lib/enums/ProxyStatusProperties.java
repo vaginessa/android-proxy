@@ -11,7 +11,9 @@ public enum ProxyStatusProperties
     WEB_REACHABLE(3),
     PROXY_VALID_HOSTNAME(4),
     PROXY_VALID_PORT(5),
-    PROXY_REACHABLE(6);
+    PROXY_REACHABLE(6),
+    PROXY_VALID_EXCLUSION_LIST(7),
+    PROXY_VALID_EXCLUSION_ITEM(8);
 
     private final Integer priority;
 
