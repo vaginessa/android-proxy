@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseActivity;
@@ -26,6 +28,8 @@ public class ProxyDetailActivity extends BaseActivity
 
     private static ProxyDetailActivity instance;
     private UUID cachedProxyId;
+    private View saveButton;
+    private View cancelButton;
 
     public static ProxyDetailActivity getInstance()
     {
@@ -78,36 +82,36 @@ public class ProxyDetailActivity extends BaseActivity
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         final View customActionBarView = inflater.inflate(R.layout.save_cancel, null);
-        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        // "Done"
-                        saveConfiguration();
-                        ApplicationGlobals.getCacheManager().release(cachedProxyId);
-                        finish();
-                    }
-                });
-        customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        // "Done"
-                        ApplicationGlobals.getCacheManager().release(cachedProxyId);
-                        finish();
-                    }
-                });
+        saveButton = customActionBarView.findViewById(R.id.actionbar_done);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                // "Done"
+                saveConfiguration();
+                ApplicationGlobals.getCacheManager().release(cachedProxyId);
+                finish();
+            }
+        });
+
+        cancelButton = customActionBarView.findViewById(R.id.actionbar_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                // "Done"
+                ApplicationGlobals.getCacheManager().release(cachedProxyId);
+                finish();
+            }
+        });
 
         // Show the custom action bar view and hide the normal Home icon and title.
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
-                                    ActionBar.DISPLAY_SHOW_CUSTOM |
-                                    ActionBar.DISPLAY_HOME_AS_UP |
-                                    ActionBar.DISPLAY_SHOW_HOME |
-                                    ActionBar.DISPLAY_SHOW_TITLE);
+                ActionBar.DISPLAY_SHOW_CUSTOM |
+                        ActionBar.DISPLAY_HOME_AS_UP |
+                        ActionBar.DISPLAY_SHOW_HOME |
+                        ActionBar.DISPLAY_SHOW_TITLE);
 
 
 //        actionBar.setCustomView(customActionBarView);
@@ -117,6 +121,18 @@ public class ProxyDetailActivity extends BaseActivity
                 new ActionBar.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
+    public void enableSave()
+    {
+        if (saveButton != null)
+            saveButton.setEnabled(true);
+    }
+
+    public void disableSave()
+    {
+        if (saveButton != null)
+            saveButton.setEnabled(false);
     }
 
     private void saveConfiguration()

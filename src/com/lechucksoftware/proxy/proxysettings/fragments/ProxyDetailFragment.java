@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.components.InputTags;
@@ -21,9 +24,14 @@ import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyStatusItem;
+import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -43,6 +51,8 @@ public class ProxyDetailFragment extends BaseDialogFragment
     private UUID cachedObjId;
     private UIHandler uiHandler;
     private RelativeLayout proxyInUseBanner;
+    private ScrollView proxyScrollView;
+    private Map<ProxyStatusProperties,CharSequence> validationErrors;
 
     public static ProxyDetailFragment newInstance(UUID cachedObjId)
     {
@@ -61,6 +71,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         uiHandler = new UIHandler();
+        validationErrors = new HashMap<ProxyStatusProperties, CharSequence>();
 
         if (args != null && args.containsKey(SELECTED_PROXY_ARG))
         {
@@ -89,6 +100,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
 
     private void getUIComponents(View v)
     {
+        proxyScrollView = (ScrollView) v.findViewById(R.id.proxy_scrollview);
         proxyInUseBanner = (RelativeLayout) v.findViewById(R.id.proxy_in_use_banner);
 
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
@@ -108,10 +120,15 @@ public class ProxyDetailFragment extends BaseDialogFragment
 
                 proxyHost.setError(null);
                 ProxyStatusItem item = ProxyUtils.isProxyValidHostname(value);
+                validationErrors.remove(item.statusCode);
+
                 if (!item.result)
                 {
                     proxyHost.setError(item.message);
+                    validationErrors.put(item.statusCode, item.message);
                 }
+
+                checkValidation();
             }
         });
 
@@ -143,15 +160,18 @@ public class ProxyDetailFragment extends BaseDialogFragment
                     value = Integer.MAX_VALUE;
                 }
 
-                proxyPort.setError(null);
-
                 ProxyStatusItem item = ProxyUtils.isProxyValidPort(value);
+                validationErrors.remove(item.statusCode);
+
+                proxyPort.setError(null);
                 if (!item.result)
                 {
                     proxyPort.setError(item.message);
+                    validationErrors.put(item.statusCode, item.message);
                 }
 
                 selectedProxy.port = value;
+                checkValidation();
             }
         });
 
@@ -163,6 +183,16 @@ public class ProxyDetailFragment extends BaseDialogFragment
             {
                 LogWrapper.d(TAG,"Exclusion list updated: " + result);
                 selectedProxy.exclusion = result;
+                proxyScrollView.scrollTo(0,proxyScrollView.getBottom());
+
+                ProxyStatusItem item = ProxyUtils.isProxyValidExclusionList(selectedProxy.exclusion);
+                validationErrors.remove(item.statusCode);
+                if (!item.result)
+                {
+                    validationErrors.put(item.statusCode,item.message);
+                }
+
+                checkValidation();
             }
         });
 
@@ -176,6 +206,18 @@ public class ProxyDetailFragment extends BaseDialogFragment
 //                tagsListSelectorFragment.show(getFragmentManager(), TAG);
 //            }
 //        });
+    }
+
+    private void checkValidation()
+    {
+        if(validationErrors.isEmpty())
+        {
+            ((ProxyDetailActivity)getActivity()).enableSave();
+        }
+        else
+        {
+            ((ProxyDetailActivity)getActivity()).disableSave();
+        }
     }
 
     private void refreshUI()

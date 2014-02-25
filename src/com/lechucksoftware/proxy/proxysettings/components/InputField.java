@@ -323,9 +323,16 @@ public class InputField extends LinearLayout
     public void setError(java.lang.CharSequence error)
     {
         valueEditText.setError(error);
+
+        // TODO: evaluate introduction of Crouton instead of standard input error handling
 //        Crouton c = Crouton.makeText((Activity) getContext(), error, Style.ALERT, validationLayout);
 //        c.setConfiguration(new Configuration.Builder().setDuration().build());
 //        c.show();
+    }
+
+    public CharSequence getError()
+    {
+        return valueEditText.getError();
     }
 
     public void addTextChangedListener(TextWatcher watcher)
