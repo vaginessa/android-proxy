@@ -17,7 +17,9 @@ import com.shouldit.proxy.lib.enums.*;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
+
 import org.apache.http.HttpHost;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -898,30 +900,61 @@ public class ProxyUtils
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));
     }
 
-    public static ProxyStatusItem isProxyValidExclusionAddress(String proxyExclusionAddress)
+    public static ProxyStatusItem isProxyValidExclusionList(String proxyExclusionList)
+    {
+        return isProxyValidExclusionList(proxyExclusionList.toLowerCase().split(","));
+    }
+
+    public static ProxyStatusItem isProxyValidExclusionList(String[] proxyExclusionList)
     {
         try
         {
-            if (TextUtils.isEmpty(proxyExclusionAddress))
+            for (int i = 0; i < proxyExclusionList.length; i++)
             {
-                return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_empty));
-            }
-            else
-            {
-                Matcher match = APLConstants.EXCLUSION_PATTERN.matcher(proxyExclusionAddress);
-                if (match.matches())
+                String s = proxyExclusionList[i].trim();
+                ProxyStatusItem status = isProxyValidExclusionAddress(s);
+
+                if (!status.result)
                 {
-                    String msg = String.format("%s %s", APL.getContext().getString(R.string.status_exclusion_item_valid), proxyExclusionAddress);
-                    return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, true, msg);
+                    return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_LIST, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_exclusion_list_notvalid));
                 }
             }
+
+            String msg = String.format("%s %s", APL.getContext().getString(R.string.status_exclusion_item_valid), TextUtils.join(",",proxyExclusionList));
+            return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, true, msg);
         }
         catch (Exception e)
         {
             APL.getEventReport().send(e);
         }
 
-        return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_valid));
+        return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_notvalid));
+    }
+
+    public static ProxyStatusItem isProxyValidExclusionAddress(String proxyExclusionAddress)
+    {
+        try
+        {
+//            if (TextUtils.isEmpty(proxyExclusionAddress))
+//            {
+//                return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_empty));
+//            }
+//            else
+//            {
+            Matcher match = APLConstants.EXCLUSION_PATTERN.matcher(proxyExclusionAddress);
+            if (match.matches())
+            {
+                String msg = String.format("%s %s", APL.getContext().getString(R.string.status_exclusion_item_valid), proxyExclusionAddress);
+                return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, true, msg);
+            }
+//            }
+        }
+        catch (Exception e)
+        {
+            APL.getEventReport().send(e);
+        }
+
+        return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_notvalid));
     }
 
     public static ProxyStatusItem isProxyValidPort(ProxyConfiguration conf)
