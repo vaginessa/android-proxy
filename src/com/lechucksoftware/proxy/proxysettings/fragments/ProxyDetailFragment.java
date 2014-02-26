@@ -115,20 +115,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
             @Override
             public void afterTextChanged(Editable editable)
             {
-                String value = editable.toString();
-                selectedProxy.host = value;
-
-                proxyHost.setError(null);
-                ProxyStatusItem item = ProxyUtils.isProxyValidHostname(value);
-                validationErrors.remove(item.statusCode);
-
-                if (!item.result)
-                {
-                    proxyHost.setError(item.message);
-                    validationErrors.put(item.statusCode, item.message);
-                }
-
-                checkValidation();
+                validateHost();
             }
         });
 
@@ -150,28 +137,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
             @Override
             public void afterTextChanged(Editable editable)
             {
-                Integer value = null;
-                try
-                {
-                    value = Integer.parseInt(editable.toString());
-                }
-                catch (NumberFormatException e)
-                {
-                    value = Integer.MAX_VALUE;
-                }
-
-                ProxyStatusItem item = ProxyUtils.isProxyValidPort(value);
-                validationErrors.remove(item.statusCode);
-
-                proxyPort.setError(null);
-                if (!item.result)
-                {
-                    proxyPort.setError(item.message);
-                    validationErrors.put(item.statusCode, item.message);
-                }
-
-                selectedProxy.port = value;
-                checkValidation();
+                validatePort();
             }
         });
 
@@ -181,18 +147,10 @@ public class ProxyDetailFragment extends BaseDialogFragment
             @Override
             public void onExclusionListChanged(String result)
             {
-                LogWrapper.d(TAG,"Exclusion list updated: " + result);
-                selectedProxy.exclusion = result;
+
                 proxyScrollView.scrollTo(0,proxyScrollView.getBottom());
 
-                ProxyStatusItem item = ProxyUtils.isProxyValidExclusionList(selectedProxy.exclusion);
-                validationErrors.remove(item.statusCode);
-                if (!item.result)
-                {
-                    validationErrors.put(item.statusCode,item.message);
-                }
-
-                checkValidation();
+                validateBypass();
             }
         });
 
@@ -206,6 +164,60 @@ public class ProxyDetailFragment extends BaseDialogFragment
 //                tagsListSelectorFragment.show(getFragmentManager(), TAG);
 //            }
 //        });
+    }
+
+    private void validateBypass()
+    {
+        LogWrapper.d(TAG, "Exclusion list updated: " + proxyBypass.getExclusionString());
+        selectedProxy.exclusion = proxyBypass.getExclusionString();
+
+        ProxyStatusItem item = ProxyUtils.isProxyValidExclusionList(selectedProxy.exclusion);
+        validationErrors.remove(item.statusCode);
+        if (!item.result)
+        {
+            validationErrors.put(item.statusCode,item.message);
+        }
+    }
+
+    private void validateHost()
+    {
+        String value = proxyHost.getValue();
+        selectedProxy.host = value;
+
+        proxyHost.setError(null);
+        ProxyStatusItem item = ProxyUtils.isProxyValidHostname(value);
+        validationErrors.remove(item.statusCode);
+
+        if (!item.result)
+        {
+            proxyHost.setError(item.message);
+            validationErrors.put(item.statusCode, item.message);
+        }
+    }
+
+    private void validatePort()
+    {
+        Integer value = null;
+        try
+        {
+            value = Integer.parseInt(proxyPort.getValue());
+        }
+        catch (NumberFormatException e)
+        {
+            value = Integer.MAX_VALUE;
+        }
+
+        ProxyStatusItem item = ProxyUtils.isProxyValidPort(value);
+        validationErrors.remove(item.statusCode);
+
+        proxyPort.setError(null);
+        if (!item.result)
+        {
+            proxyPort.setError(item.message);
+            validationErrors.put(item.statusCode, item.message);
+        }
+
+        selectedProxy.port = value;
     }
 
     private void checkValidation()
@@ -234,6 +246,10 @@ public class ProxyDetailFragment extends BaseDialogFragment
 
             proxyBypass.setExclusionString(selectedProxy.exclusion);
 //                proxyTags.setTags(selectedProxy.getTags());
+
+            validateHost();
+            validatePort();
+            validateBypass();
         }
     }
 
