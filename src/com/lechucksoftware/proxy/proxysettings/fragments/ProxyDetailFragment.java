@@ -251,6 +251,11 @@ public class ProxyDetailFragment extends BaseDialogFragment
             validatePort();
             validateBypass();
         }
+        else
+        {
+            // TODO: Add handling here
+            EventReportingUtils.sendException(new Exception("NO PROXY SELECTED"));
+        }
     }
 
     private class UIHandler extends Handler

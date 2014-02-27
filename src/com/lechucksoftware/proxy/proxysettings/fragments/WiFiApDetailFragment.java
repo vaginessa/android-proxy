@@ -229,41 +229,49 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             NavigationUtils.GoToMainActivity(getActivity());
         }
 
-        if (selectedWiFiAP.getProxySettings() == ProxySetting.STATIC)
+        if (selectedWiFiAP != null)
         {
-            LogWrapper.d(TAG,"Set proxy switch = ON");
-            proxySwitch.setChecked(true);
-            proxySwitch.setText(R.string.status_proxy_enabled);
-            refreshFieldsValues();
-        }
-        else
-        {
-            LogWrapper.d(TAG,"Set proxy switch = OFF");
-            proxySwitch.setChecked(false);
-            proxySwitch.setText(R.string.status_proxy_disabled);
-        }
-
-        if (selectedWiFiAP.ap.getLevel() == -1)
-        {
-            wifiLayout.setBackgroundResource(R.color.DarkGrey);
-        }
-        else
-        {
-            if (selectedWiFiAP.isCurrentNetwork())
+            if (selectedWiFiAP.getProxySettings() == ProxySetting.STATIC)
             {
-                wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
+                LogWrapper.d(TAG,"Set proxy switch = ON");
+                proxySwitch.setChecked(true);
+                proxySwitch.setText(R.string.status_proxy_enabled);
+                refreshFieldsValues();
             }
             else
             {
-                wifiLayout.setBackgroundResource(R.color.Holo_Green_Dark);
+                LogWrapper.d(TAG,"Set proxy switch = OFF");
+                proxySwitch.setChecked(false);
+                proxySwitch.setText(R.string.status_proxy_disabled);
             }
+
+            if (selectedWiFiAP.ap.getLevel() == -1)
+            {
+                wifiLayout.setBackgroundResource(R.color.DarkGrey);
+            }
+            else
+            {
+                if (selectedWiFiAP.isCurrentNetwork())
+                {
+                    wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
+                }
+                else
+                {
+                    wifiLayout.setBackgroundResource(R.color.Holo_Green_Dark);
+                }
+            }
+
+            wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
+    //        wifiStatus.setText(selectedWiFiAP.toStatusString());
+            wifiSignal.setConfiguration(selectedWiFiAP);
+
+            refreshVisibility();
         }
-
-        wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
-//        wifiStatus.setText(selectedWiFiAP.toStatusString());
-        wifiSignal.setConfiguration(selectedWiFiAP);
-
-        refreshVisibility();
+        else
+        {
+            // TODO: Add handling here
+            EventReportingUtils.sendException(new Exception("NO WIFI AP SELECTED"));
+        }
 
 //        LogWrapper.stopTrace(TAG, "refreshUI", Log.DEBUG);
     }

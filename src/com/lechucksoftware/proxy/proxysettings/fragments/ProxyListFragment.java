@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.fragments;
 
-import android.app.ActionBar;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
@@ -12,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.lechucksoftware.proxy.proxysettings.ActionManager;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.ProxyDetailActivity;
@@ -28,7 +27,6 @@ import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
-import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,8 +125,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
 //        // Reset selected configuration
 //        ApplicationGlobals.setSelectedConfiguration(null);
-
-        ActionManager.getInstance().hide();
 
         return v;
     }
