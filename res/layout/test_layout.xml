@@ -56,6 +56,12 @@
                 android:onClick="testProxyValidations"/>
 
             <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Toggle DEMO mode"
+                android:onClick="toggleDemoModeClicked"/>
+
+            <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Test bug reporting"

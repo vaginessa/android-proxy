@@ -21,6 +21,7 @@ public class ApplicationGlobals extends Application
     private DataSource dbManager;
     public AndroidMarket activeMarket;
     private CacheManager cacheManager;
+    public Boolean demoMode;
 
     @Override
     public void onCreate()
@@ -36,6 +37,8 @@ public class ApplicationGlobals extends Application
         cacheManager = new CacheManager(ApplicationGlobals.this);
 
         activeMarket = Utils.getInstallerMarket(ApplicationGlobals.this);
+
+        demoMode = false;
 
         // SETUP Libraries
         EventReportingUtils.setup(ApplicationGlobals.this);

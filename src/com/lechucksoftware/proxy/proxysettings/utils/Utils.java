@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -171,5 +172,27 @@ public class Utils
         }
 
         return text;
+    }
+
+    public static void checkDemoMode(Context ctx)
+    {
+        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        if (prefs.getBoolean(Constants.PREFERENCES_DEMO_MODE, false))
+        {
+            ApplicationGlobals.getInstance().demoMode = true;
+        }
+        else
+        {
+            ApplicationGlobals.getInstance().demoMode = false;
+        }
+    }
+
+    public static void setDemoMode(Context ctx, boolean enabled)
+    {
+        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putBoolean(Constants.PREFERENCES_DEMO_MODE, enabled);
+        editor.commit();
     }
 }

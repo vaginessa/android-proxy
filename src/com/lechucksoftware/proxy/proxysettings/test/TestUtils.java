@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -16,6 +17,7 @@ import java.util.Random;
  */
 public class TestUtils
 {
+
     // "0123456789" + "ABCDE...Z"
     private static final String ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
     private static final int MIN_LENGHT = 3;

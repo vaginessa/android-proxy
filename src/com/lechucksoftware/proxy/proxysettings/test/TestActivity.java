@@ -13,6 +13,8 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -36,6 +38,7 @@ public class TestActivity extends Activity
         UPDATE_TAGS,
         LIST_TAGS,
         CLEAR_DB,
+        TOGGLE_DEMO_MODE,
         ASSIGN_PROXY
     }
 
@@ -54,6 +57,12 @@ public class TestActivity extends Activity
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_PROXY);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void toggleDemoModeClicked(View caller)
+    {
+        AsyncTest toggleDemoMode = new AsyncTest(this, TestAction.TOGGLE_DEMO_MODE);
+        toggleDemoMode.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void addTagsDBClicked(View caller)
@@ -170,6 +179,21 @@ public class TestActivity extends Activity
             else if (_action == TestAction.CLEAR_IN_USE)
             {
                 TestUtils.clearInUse();
+            }
+            else if (_action == TestAction.TOGGLE_DEMO_MODE)
+            {
+                // TODO: improve handling of preference cache
+                Utils.checkDemoMode(_testActivity);
+                Utils.setDemoMode(_testActivity, !ApplicationGlobals.getInstance().demoMode);
+                Utils.checkDemoMode(_testActivity);
+
+                for (ProxyConfiguration conf : ApplicationGlobals.getProxyManager().getSortedConfigurationsList())
+                {
+                    if (ApplicationGlobals.getInstance().demoMode)
+                        conf.setAPDescription(UIUtils.getRandomCodeName().toString());
+                    else
+                        conf.setAPDescription(null);
+                }
             }
             else if (_action == TestAction.TEST_VALIDATION)
             {

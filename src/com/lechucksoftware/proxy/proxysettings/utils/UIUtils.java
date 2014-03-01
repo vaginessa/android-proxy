@@ -23,12 +23,14 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 import java.io.File;
 import java.net.Proxy.Type;
+import java.util.Random;
 
 public class UIUtils
 {
@@ -497,5 +499,11 @@ public class UIUtils
                 manager.cancel(PROXY_NOTIFICATION_ID);
             }
         }
+    }
+
+    public static CodeNames getRandomCodeName()
+    {
+        int pick = new Random().nextInt(CodeNames.values().length);
+        return CodeNames.values()[pick];
     }
 }

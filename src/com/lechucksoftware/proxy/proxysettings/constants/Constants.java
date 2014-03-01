@@ -17,6 +17,8 @@ public class Constants
 
     public static final String PREFERENCES_CACHED_URLS = "CachedUrls";
 
+    public static final String PREFERENCES_DEMO_MODE = "DemoMode";
+
     public final static int APPRATE_DAYS_UNTIL_PROMPT = 7;
     public final static int APPRATE_LAUNCHES_UNTIL_PROMPT = 10;
 

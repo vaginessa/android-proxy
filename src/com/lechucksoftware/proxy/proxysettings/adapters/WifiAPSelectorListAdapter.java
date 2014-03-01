@@ -5,16 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.components.WifiSignal;
-import com.shouldit.proxy.lib.AccessPoint;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.shouldit.proxy.lib.BuildConfig;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
-import com.shouldit.proxy.lib.enums.SecurityType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
@@ -97,7 +97,7 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
         if (listItem != null)
         {
             viewHolder.security.setConfiguration(listItem);
-            viewHolder.ssid.setText(ProxyUtils.cleanUpSSID(listItem.getSSID()));
+            viewHolder.ssid.setText(listItem.getAPDescription());
             viewHolder.status.setText(listItem.toStatusString());
         }
 

@@ -1,10 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
@@ -13,7 +16,6 @@ import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
-import java.util.Map;
 
 public class MaintenanceService extends IntentService
 {
@@ -67,6 +69,7 @@ public class MaintenanceService extends IntentService
                         checkDBstatus();
                         upsertFoundProxyConfigurations();
                         checkProxiesCountryCodes();
+                        Utils.checkDemoMode(getApplicationContext());
                     }
                     else if (callerIntent.getAction().equals(Intents.PROXY_SAVED))
                     {
