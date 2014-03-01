@@ -14,6 +14,8 @@ import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -27,10 +29,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 {
     public static final String TAG = "ProxyConfiguration";
 
-    public UUID id;
-    public WifiNetworkId internalWifiNetworkId;
+    public final UUID id;
+    public final WifiNetworkId internalWifiNetworkId;
+
     public ProxyStatus status;
     public AccessPoint ap;
+    private String apDescription;
 
     private ProxySetting proxySetting;
     private String proxyHost;
@@ -54,7 +58,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         }
         else
         {
-
+            ap = null;
+            internalWifiNetworkId = null;
         }
 
         status = new ProxyStatus();
@@ -353,7 +358,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             return false;
     }
 
-
     public Proxy.Type getProxyType()
     {
         return getProxy().type();
@@ -392,18 +396,19 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         return status.getCheckingStatus();
     }
 
-    public String getAPDescription(Context ctx)
+    public void setAPDescription(String value)
     {
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(ap.ssid);
-//		sb.append(" - ");
-//		sb.append(ap.getSecurityString(ctx, false));
-//		sb.append(" - ");
-//		sb.append(toStatusString());
-//
-//		return sb.toString();
+        apDescription = value;
+    }
 
-        return String.format("%s (%s)", ap.ssid, ProxyUtils.getSecurityString(ap.security, ap.pskType, ctx, false));
+    public String getAPDescription()
+    {
+        if (!TextUtils.isEmpty(apDescription))
+            return apDescription;
+        else
+        {
+            return ProxyUtils.cleanUpSSID(getSSID());
+        }
     }
 
     public String getSSID()
@@ -550,5 +555,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             return APL.getContext().getString(R.string.not_available);
         }
     }
+
 
 }
