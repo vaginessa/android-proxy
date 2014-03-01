@@ -1,16 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             style="?android:actionButtonStyle"
-             android:layout_width="0dp"
-             android:layout_height="match_parent"
-             android:layout_weight="1">
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
 
-    <TextView style="?android:actionBarTabTextStyle"
-              android:id="@+id/actionbar_done"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:paddingRight="20dp"
-              android:gravity="center_vertical"
-              android:enabled="false"
-              android:text="@string/save" />
+    <Button
+        style="?android:actionButtonStyle"
+        android:id="@+id/actionbar_done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:enabled="false"
+        android:text="@string/save" />
 </FrameLayout>
