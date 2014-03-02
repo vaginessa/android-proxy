@@ -16,6 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.activities.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.dialogs.UpdateLinkedWifiAPAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.fragments.ProxyDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -90,8 +91,6 @@ public class ProxyDetailActivity extends BaseActivity
             {
                 // "Done"
                 saveConfiguration();
-                ApplicationGlobals.getCacheManager().release(cachedProxyId);
-                finish();
             }
         });
 
@@ -141,6 +140,16 @@ public class ProxyDetailActivity extends BaseActivity
         {
             ProxyEntity proxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedProxyId);
             ApplicationGlobals.getDBManager().upsertProxy(proxy);
+            if (proxy.getInUse())
+            {
+                UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
+                updateDialog.show(getFragmentManager(), "UpdateLinkedWifiAPAlertDialog");
+            }
+            else
+            {
+                ApplicationGlobals.getCacheManager().release(cachedProxyId);
+                finish();
+            }
         }
         catch (Exception e)
         {

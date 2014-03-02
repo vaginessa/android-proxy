@@ -894,4 +894,5 @@
     <string name="add_new_proxy">Add new proxy</string>
     <string name="select_proxy_clickable">Select a Proxy ...</string>
     <string name="select_proxy">Select a Proxy</string>
+    <string name="already_used_proxy_warning">This proxy is currently in use in one or more of your Wi-Fi access points</string>
 </resources>

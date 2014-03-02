@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@+id/proxy_locked_img"
-                    android:text="This proxy is currently in use in one of your Wi-Fi access points"/>
+                    android:text="@string/already_used_proxy_warning"/>
 
             <ImageView
                     android:id="@+id/proxy_locked_img"
