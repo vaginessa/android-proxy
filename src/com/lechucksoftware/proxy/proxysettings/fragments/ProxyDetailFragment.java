@@ -148,7 +148,8 @@ public class ProxyDetailFragment extends BaseDialogFragment
             public void onExclusionListChanged(String result)
             {
 
-                proxyScrollView.scrollTo(0,proxyScrollView.getBottom());
+                // TODO: Improve scrolling to focused bypass item -> Temporary disabled
+//                proxyScrollView.scrollTo(0,proxyScrollView.getBottom());
 
                 checkValidation();
             }
