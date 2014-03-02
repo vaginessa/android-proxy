@@ -31,6 +31,7 @@ public class TestActivity extends Activity
     public enum TestAction
     {
         ADD_PROXY,
+        ADD_EXAMPLE_PROXIES,
         ADD_TAGS,
         CLEAR_IN_USE,
         TEST_VALIDATION,
@@ -56,6 +57,12 @@ public class TestActivity extends Activity
     public void addDBClicked(View caller)
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_PROXY);
+        addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void addExampleProxyClicked(View caller)
+    {
+        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_EXAMPLE_PROXIES);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -179,6 +186,10 @@ public class TestActivity extends Activity
             else if (_action == TestAction.CLEAR_IN_USE)
             {
                 TestUtils.clearInUse();
+            }
+            else if (_action == TestAction.ADD_EXAMPLE_PROXIES)
+            {
+                TestUtils.addProxyExamples(_testActivity);
             }
             else if (_action == TestAction.TOGGLE_DEMO_MODE)
             {

@@ -1,15 +1,26 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+
+import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -25,12 +36,14 @@ public class TestUtils
 
     private static final int MIN_TAGS = 2;
     private static final int MAX_TAGS = 6;
+    private static final int MAX_EXCLUSION = 10;
+
     private static final String TAG = TestUtils.class.getSimpleName();
 
     public static String getRandomExclusionList()
     {
         Random r = new Random();
-        int maxEx = r.nextInt(10);
+        int maxEx = r.nextInt(MAX_EXCLUSION);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < maxEx; i++)
         {
@@ -66,6 +79,48 @@ public class TestUtils
         }
 
         return sb.toString();
+    }
+
+    public static List<ProxyEntity> readProxyExamples(Context ctx)
+    {
+        String line = null;
+        List<ProxyEntity> proxies = new ArrayList<ProxyEntity>();
+
+        try
+        {
+            AssetManager am = ctx.getAssets();
+            if (am != null)
+            {
+                InputStream inputStream = am.open("proxy_examples.csv");
+                if (inputStream != null)
+                {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                    while ((line = br.readLine()) != null)
+                    {
+                        if (line.contains(":"))
+                        {
+                            ProxyEntity p = new ProxyEntity();
+                            String [] host_port = line.split(":");
+                            p.host = host_port[0];
+                            p.port = Integer.parseInt(host_port[1]);
+                            proxies.add(p);
+                        }
+                    }
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            LogWrapper.e(TAG, "No proxy examples found");
+            return null;
+        }
+        catch (Exception e)
+        {
+            LogWrapper.e(TAG, "Generic exception during read of proxy examples: " + e.toString());
+            return null;
+        }
+
+        return proxies;
     }
 
     public static ProxyEntity getRandomProxy()
@@ -142,6 +197,16 @@ public class TestUtils
         else
         {
 
+        }
+    }
+
+    public static void addProxyExamples(Context ctx)
+    {
+        List<ProxyEntity> proxies = readProxyExamples(ctx);
+
+        for (ProxyEntity p : proxies)
+        {
+            ApplicationGlobals.getDBManager().upsertProxy(p);
         }
     }
 

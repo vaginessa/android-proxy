@@ -14,11 +14,13 @@ import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.shouldit.proxy.lib.APLConstants;
+import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.HttpAnswer;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
@@ -29,6 +31,10 @@ import java.net.URI;
 public class Utils
 {
     public static final String HTTP_FREEGEOIP_NET_JSON_STRING = "http://freegeoip.net/json/%s";
+
+    // TODO: add fallback on telize
+    public static final String HTTP_TELIZE_NET_JSON_STRING = "http://www.telize.com/geoip/%s";
+
     public static String TAG = "Utils";
     public static String BASE_ASSETS = "file:///android_asset/";
 
@@ -37,17 +43,32 @@ public class Utils
         String url = String.format(HTTP_FREEGEOIP_NET_JSON_STRING,proxy.host);
         URI uri = new URI(url);
 
-        HttpAnswer answer = ProxyUtils.getHttpAnswerURI(uri, ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), APLConstants.DEFAULT_TIMEOUT);
+        int timeout = 1000 * 60;
+
+        HttpAnswer answer = null;
+
+        try
+        {
+            answer = ProxyUtils.getHttpAnswerURI(uri, ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
+        }
+        catch (IOException e)
+        {
+            LogWrapper.w(TAG,"Exception on getProxyCountryCode: " + e.toString());
+        }
 
         String result = null;
-        String answerBody = answer.getBody();
 
-        if (answer.getStatus() == HttpURLConnection.HTTP_OK && !TextUtils.isEmpty(answerBody))
+        if (answer != null)
         {
-            JSONObject jsonObject = new JSONObject(answerBody);
-            if (jsonObject.has("country_code"))
+            String answerBody = answer.getBody();
+
+            if (answer.getStatus() == HttpURLConnection.HTTP_OK && !TextUtils.isEmpty(answerBody))
             {
-                 result = jsonObject.getString("country_code");
+                JSONObject jsonObject = new JSONObject(answerBody);
+                if (jsonObject.has("country_code"))
+                {
+                     result = jsonObject.getString("country_code");
+                }
             }
         }
 

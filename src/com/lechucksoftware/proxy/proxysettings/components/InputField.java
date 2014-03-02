@@ -1,22 +1,28 @@
 package com.lechucksoftware.proxy.proxysettings.components;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.*;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import de.keyboardsurfer.android.widget.crouton.Configuration;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -45,6 +51,8 @@ public class InputField extends LinearLayout
     public boolean enableTextListener;
     private Object linkedObj;
     private int maxLength;
+
+    private ArrayList<TextWatcher> mListeners;
 //    private CharSequence emptyMessage;
 
     @Override
@@ -243,6 +251,44 @@ public class InputField extends LinearLayout
         });
 
         validationLayout = (ViewGroup) v.findViewById(R.id.field_validation);
+
+        valueEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
+            {
+                if (enableTextListener && mListeners != null)
+                {
+                    for (TextWatcher w : mListeners)
+                    {
+                        w.beforeTextChanged(charSequence, i, i2, i3);
+                    }
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
+            {
+                if (enableTextListener && mListeners != null)
+                {
+                    for (TextWatcher w : mListeners)
+                    {
+                        w.onTextChanged(charSequence, i, i2, i3);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                if (enableTextListener && mListeners != null)
+                {
+                    for (TextWatcher w : mListeners)
+                    {
+                        w.afterTextChanged(editable);
+                    }
+                }
+            }
+        });
     }
 
     protected void readStyleParameters(Context context, AttributeSet attributeSet)
@@ -300,22 +346,6 @@ public class InputField extends LinearLayout
             value = newValue;
             refreshUI();
         }
-//        if (!TextUtils.isEmpty(value))
-//        {
-//            valueActionButton.setOnClickListener(new OnClickListener()
-//            {
-//                @Override
-//                public void onClick(View view)
-//                {
-//                    value = "";
-//                    refreshUI();
-//                }
-//            });
-//        }
-//        else
-//        {
-//            valueActionButton.setOnClickListener(null);
-//        }
 
         enableTextListener = true;
     }
@@ -337,7 +367,14 @@ public class InputField extends LinearLayout
 
     public void addTextChangedListener(TextWatcher watcher)
     {
-        valueEditText.addTextChangedListener(watcher);
+//        valueEditText.addTextChangedListener(watcher);
+
+        if (mListeners == null)
+        {
+            mListeners = new ArrayList<TextWatcher>();
+        }
+
+        mListeners.add(watcher);
     }
 
     public void refreshUI()

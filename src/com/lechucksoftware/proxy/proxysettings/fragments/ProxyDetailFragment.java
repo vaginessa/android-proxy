@@ -168,10 +168,10 @@ public class ProxyDetailFragment extends BaseDialogFragment
 
     private boolean validateBypass()
     {
-        LogWrapper.d(TAG, "Exclusion list updated: " + proxyBypass.getExclusionString());
-        selectedProxy.exclusion = proxyBypass.getExclusionString();
+        String value = proxyBypass.getExclusionString();
+        LogWrapper.d(TAG, "Exclusion list updated: " + value);
 
-        ProxyStatusItem item = ProxyUtils.isProxyValidExclusionList(selectedProxy.exclusion);
+        ProxyStatusItem item = ProxyUtils.isProxyValidExclusionList(value);
         validationErrors.remove(item.statusCode);
         if (!item.result)
         {
@@ -180,6 +180,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         else
         {
+            selectedProxy.exclusion = value;
             return true;
         }
     }
@@ -187,7 +188,6 @@ public class ProxyDetailFragment extends BaseDialogFragment
     private boolean validateHost()
     {
         String value = proxyHost.getValue();
-        selectedProxy.host = value;
 
         proxyHost.setError(null);
         ProxyStatusItem item = ProxyUtils.isProxyValidHostname(value);
@@ -201,6 +201,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         else
         {
+            selectedProxy.host = value;
             return true;
         }
     }
@@ -208,6 +209,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
     private boolean validatePort()
     {
         Integer value = null;
+
         try
         {
             value = Integer.parseInt(proxyPort.getValue());
@@ -216,8 +218,6 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             value = Integer.MAX_VALUE;
         }
-
-        selectedProxy.port = value;
 
         ProxyStatusItem item = ProxyUtils.isProxyValidPort(value);
         validationErrors.remove(item.statusCode);
@@ -231,6 +231,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         else
         {
+            selectedProxy.port = value;
             return true;
         }
     }

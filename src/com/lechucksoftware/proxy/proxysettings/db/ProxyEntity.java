@@ -84,9 +84,9 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         sb.append(String.format("%s:%d", host, port));
         sb.append(String.format(" %s", inUse));
 
-        sb.append(" tags: ");
         if (getTags() != null)
         {
+            sb.append(" TAGS: ");
             for(TagEntity tag: getTags())
             {
                 sb.append(tag.toString());
@@ -94,8 +94,8 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
             }
         }
 
-        if (!TextUtils.isEmpty(exclusion)) sb.append(String.format(" (%s)",exclusion));
-        if (!TextUtils.isEmpty(countryCode)) sb.append(String.format(" (%s)",countryCode));
+        if (!TextUtils.isEmpty(exclusion)) sb.append(String.format(" (EX: %s)",exclusion));
+        if (!TextUtils.isEmpty(countryCode)) sb.append(String.format(" (COUNTRY: %s)",countryCode));
 
         return sb.toString();
     }
