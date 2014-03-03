@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp">
 
-    <com.lechucksoftware.proxy.proxysettings.components.WifiSignal
+    <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
             android:id="@+id/list_item_wifi_signal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

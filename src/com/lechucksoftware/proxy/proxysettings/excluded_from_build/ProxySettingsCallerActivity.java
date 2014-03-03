@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
-import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class ProxySettingsCallerActivity extends FragmentActivity

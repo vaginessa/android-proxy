@@ -1,7 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.os.AsyncTask;
-import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 
 /**
  * Created by Marco on 29/11/13.

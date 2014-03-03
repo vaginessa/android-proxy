@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.activities;
+package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -19,7 +19,6 @@ import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.fragments.*;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APLConstants;
@@ -31,7 +30,7 @@ import com.shouldit.proxy.lib.ProxyStatusItem;
 public class ProxyPreferencesActivity extends Activity
 {
 	public static final String TAG = "ProxyPreferencesActivity";
-	public static final String CALLING_EXTRA = "com.lechucksoftware.proxy.proxysettings.activities.ProxyPreferencesActivity.CALLING_EXTRA";
+	public static final String CALLING_EXTRA = "com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyPreferencesActivity.CALLING_EXTRA";
 
 	public static ProxyPreferencesActivity instance;
 

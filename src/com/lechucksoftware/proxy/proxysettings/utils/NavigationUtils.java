@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.fragments.*;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 
 /**
  * Created by Marco on 22/06/13.
@@ -24,38 +22,38 @@ public class NavigationUtils
         context.startActivity(mainIntent);
     }
 
-    public static void GoToAccessPointListFragment(FragmentManager fm)
-    {
-        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // Clean-up the backstack when going back to home
+//    public static void GoToAccessPointListFragment(FragmentManager fm)
+//    {
+//        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE); // Clean-up the backstack when going back to home
+//
+//        FragmentTransaction ft = fm.beginTransaction();
+//
+//        Fragment f = fm.findFragmentById(R.id.fragment_container);
+//
+//        if (f != null)
+//        {
+//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+//            ft.replace(R.id.fragment_container, WiFiApListFragment.getInstance());
+//        }
+//        else
+//        {
+//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//            ft.add(R.id.fragment_container, WiFiApListFragment.getInstance());
+//        }
+//
+//        // Do NOT add WiFiApListFragment to back stack
+//        ft.commit();
+//    }
 
-        FragmentTransaction ft = fm.beginTransaction();
-
-        Fragment f = fm.findFragmentById(R.id.fragment_container);
-
-        if (f != null)
-        {
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-            ft.replace(R.id.fragment_container, WiFiApListFragment.getInstance());
-        }
-        else
-        {
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.add(R.id.fragment_container, WiFiApListFragment.getInstance());
-        }
-
-        // Do NOT add WiFiApListFragment to back stack
-        ft.commit();
-    }
-
-    public static void GoToHelpFragment(FragmentManager fm)
-    {
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-        ft.replace(R.id.fragment_container, HelpPrefsFragment.getInstance());
-        ft.addToBackStack(null);
-        ft.commit();
-    }
+//    public static void GoToHelpFragment(FragmentManager fm)
+//    {
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//
+//        ft.replace(R.id.fragment_container, HelpPrefsFragment.getInstance());
+//        ft.addToBackStack(null);
+//        ft.commit();
+//    }
 
 //    public static void GoToAPDetailsFragment(FragmentManager fm, ProxyConfiguration proxyConfiguration)
 //    {
@@ -79,25 +77,25 @@ public class NavigationUtils
 //        ft.commit();
 //    }
 
-    public static void GoToProxiesList(FragmentManager fm)
-    {
-        ProxyListFragment list = ProxyListFragment.newInstance();
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.replace(R.id.fragment_container, list);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
-
-    public static void GoToAppFeedbacks(FragmentManager fm)
-    {
-        ApplicationsFeedbackFragment list = ApplicationsFeedbackFragment.getInstance();
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.replace(R.id.fragment_container, list);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
+//    public static void GoToProxiesList(FragmentManager fm)
+//    {
+//        ProxyListFragment list = ProxyListFragment.newInstance();
+//
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        ft.replace(R.id.fragment_container, list);
+//        ft.addToBackStack(null);
+//        ft.commit();
+//    }
+//
+//    public static void GoToAppFeedbacks(FragmentManager fm)
+//    {
+//        ApplicationsFeedbackFragment list = ApplicationsFeedbackFragment.getInstance();
+//
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        ft.replace(R.id.fragment_container, list);
+//        ft.addToBackStack(null);
+//        ft.commit();
+//    }
 }

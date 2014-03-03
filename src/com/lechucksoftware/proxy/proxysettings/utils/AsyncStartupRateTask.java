@@ -2,9 +2,9 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import com.lechucksoftware.proxy.proxysettings.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.dialogs.RateApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.RateApplicationAlertDialog;
 
 import java.util.Calendar;
 

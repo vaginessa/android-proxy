@@ -55,7 +55,7 @@
                     <!--android:paddingBottom="10dp"-->
                     <!--android:text="Connected asdf asdf sdf asdf asdf asdf asdf asdf asdf"/>-->
 
-            <com.lechucksoftware.proxy.proxysettings.components.WifiSignal
+            <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
                     android:id="@+id/wifi_signal"
                     android:layout_alignParentRight="true"
                     android:paddingRight="12dp"
@@ -125,7 +125,7 @@
                 android:background="@color/GreyTransparent"
                 android:padding="5dp">
 
-            <com.lechucksoftware.proxy.proxysettings.components.InputField
+            <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                     android:id="@+id/proxy_host"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
 
             <include layout="@layout/separator"/>
 
-            <com.lechucksoftware.proxy.proxysettings.components.InputField
+            <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                     android:id="@+id/proxy_port"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
 
             <include layout="@layout/separator"/>
 
-            <com.lechucksoftware.proxy.proxysettings.components.InputExclusionList
+            <com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList
                     android:id="@+id/proxy_bypass"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
 
             <!--<include layout="@layout/separator"/>-->
 
-            <!--<com.lechucksoftware.proxy.proxysettings.components.InputTags-->
+            <!--<com.lechucksoftware.proxy.proxysettings.ui.components.InputTags-->
                     <!--android:id="@+id/proxy_tags"-->
                     <!--android:paddingTop="2dp"-->
                     <!--android:paddingBottom="2dp"-->

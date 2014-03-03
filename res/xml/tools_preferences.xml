@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <com.lechucksoftware.proxy.proxysettings.fragments.UrlDownloaderDialogPreference
+    <com.lechucksoftware.proxy.proxysettings.ui.fragments.UrlDownloaderDialogPreference
         android:enabled="true"
         android:key="preference_url_downloader"
         android:summary="@string/preference_test_proxy_urlretriever_summary"
         android:title="@string/preference_test_proxy_urlretriever_title" />
 
-    <com.lechucksoftware.proxy.proxysettings.fragments.UrlBrowserDialogPreference
+    <com.lechucksoftware.proxy.proxysettings.ui.fragments.UrlBrowserDialogPreference
         android:enabled="true"
         android:key="preference_browser_intowebview"
         android:summary="@string/preference_test_proxy_webview_summary"

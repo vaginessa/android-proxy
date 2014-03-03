@@ -25,7 +25,7 @@
             android:text="None"
             android:id="@android:id/summary"/>
 
-    <com.lechucksoftware.proxy.proxysettings.components.TagsView
+    <com.lechucksoftware.proxy.proxysettings.ui.components.TagsView
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_marginTop="5dp"

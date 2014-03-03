@@ -14,7 +14,7 @@
                 android:layout_height="match_parent"
                 android:padding="10dp"
 
-                class="com.lechucksoftware.proxy.proxysettings.fragments.ProxyListFragment"/>
+                class="com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment"/>
 
     </LinearLayout>
 

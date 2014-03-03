@@ -10,7 +10,7 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
-        <com.lechucksoftware.proxy.proxysettings.components.FlowLayout
+        <com.lechucksoftware.proxy.proxysettings.ui.components.FlowLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -102,7 +102,7 @@
                     android:text="Clear DB"
                     android:onClick="clearDBClicked"/>
 
-        </com.lechucksoftware.proxy.proxysettings.components.FlowLayout>
+        </com.lechucksoftware.proxy.proxysettings.ui.components.FlowLayout>
 
         <LinearLayout
                 android:layout_width="fill_parent"

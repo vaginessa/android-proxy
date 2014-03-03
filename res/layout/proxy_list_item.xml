@@ -35,7 +35,7 @@
             android:paddingRight="10dp">
     </TextView>
 
-    <!--<com.lechucksoftware.proxy.proxysettings.components.TagsView-->
+    <!--<com.lechucksoftware.proxy.proxysettings.ui.components.TagsView-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_width="fill_parent"-->
             <!--android:id="@+id/list_item_proxy_tags"-->

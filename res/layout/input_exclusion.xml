@@ -28,14 +28,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-        <com.lechucksoftware.proxy.proxysettings.components.InputField
+        <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                 android:id="@+id/input_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/input_delete"
                 app:hint="Add bypass address"
                 app:fullsize="false"/>
-        <com.lechucksoftware.proxy.proxysettings.components.InputField
+        <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                 android:id="@+id/input_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
