@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.dialogs;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -7,8 +8,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.constants.Requests;
+import com.lechucksoftware.proxy.proxysettings.ui.BaseActivity;
 
 public class UpdateLinkedWifiAPAlertDialog extends DialogFragment
 {
@@ -18,29 +19,42 @@ public class UpdateLinkedWifiAPAlertDialog extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-        builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
-        builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
-        builder.setCancelable(false);
-        builder.setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener()
+        builder.setTitle(getActivity().getString(R.string.warning));
+        builder.setMessage(getActivity().getString(R.string.wifi_ap_will_be_updated));
+        builder.setPositiveButton(getResources().getText(R.string.ok), new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
-
-                LogWrapper.d(TAG, "Starting Market activity");
-                Utils.startMarketActivity(getActivity());
+                onResult(Activity.RESULT_OK);
             }
         });
 
-        builder.setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
-            {
-
-            }
-        });
+//        builder.setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener()
+//        {
+//            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+//            {
+//                onResult(Activity.RESULT_CANCELED);
+//            }
+//        });
 
         AlertDialog alert = builder.create();
         return alert;
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog)
+    {
+        super.onCancel(dialog);
+        onResult(Activity.RESULT_CANCELED);
+    }
+
+    protected void onResult(final int resultCode)
+    {
+        final BaseActivity activity = (BaseActivity) getActivity();
+        if (activity != null)
+        {
+            activity.onDialogResult(Requests.UPDATE_LINKED_WIFI_AP, resultCode, null);
+        }
     }
 
     public static UpdateLinkedWifiAPAlertDialog newInstance()

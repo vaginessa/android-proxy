@@ -11,9 +11,9 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.StatusFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.AsyncStartupBetaTestTask;
-import com.lechucksoftware.proxy.proxysettings.utils.AsyncStartupDialogTask;
-import com.lechucksoftware.proxy.proxysettings.utils.AsyncStartupRateTask;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupBetaTestTask;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupDialogTask;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupRateTask;
 
 
 /**

@@ -9,4 +9,9 @@ public interface Requests
      * Request to update a proxy's TAGs
      */
     int PROXY_TAGS_UPDATE = 1;
+
+    /**
+     * Request to update Wi-Fi access points after change on Proxy in use
+     */
+    int UPDATE_LINKED_WIFI_AP = 2;
 }
