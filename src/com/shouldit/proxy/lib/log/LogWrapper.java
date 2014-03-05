@@ -24,7 +24,7 @@ public class LogWrapper
      */
 
 //	private static int mLogLevel = Integer.MAX_VALUE;
-    private static int mLogLevel = Log.VERBOSE;
+    private static int mLogLevel = Integer.MIN_VALUE;
     private static Map<String, Date> startTraces;
 
     public static void d(String tag, String msg)

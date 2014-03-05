@@ -150,7 +150,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
         {
-            LogWrapper.d(TAG, "Different proxy settings toggle status");
+            LogWrapper.d(TAG, String.format("Different proxy settings toggle status: '%s' - '%s'",this.proxySetting, anotherConf.proxySetting));
             return false;
         }
 
@@ -158,13 +158,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost))
             {
-                LogWrapper.d(TAG, "Different proxy host value");
+                LogWrapper.d(TAG, String.format("Different proxy host value: '%s' - '%s'", this.proxyHost, anotherConf.proxyHost));
                 return false;
             }
         }
         else if (this.proxyHost != anotherConf.proxyHost)
         {
-            LogWrapper.d(TAG, "Different proxy host set");
+            LogWrapper.d(TAG, String.format("Different proxy host set"));
             return false;
         }
 
@@ -172,28 +172,46 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.proxyPort.equals(anotherConf.proxyPort))
             {
-                LogWrapper.d(TAG, "Different proxy port value");
+                LogWrapper.d(TAG, String.format("Different proxy port value: '%d' - '%d'", this.proxyPort, anotherConf.proxyPort));
                 return false;
             }
         }
         else if (this.proxyPort != anotherConf.proxyPort)
         {
-            LogWrapper.d(TAG, "Different proxy port set");
-            return false;
+            if ((this.proxyPort == null || this.proxyPort == 0) && (anotherConf.proxyPort == null || anotherConf.proxyPort == 0))
+            {
+                /** Can happen when a partial configuration is written on the device:
+                 *  - ProxySettings enabled but no proxyHost and proxyPort are filled
+                 */
+            }
+            else
+            {
+                LogWrapper.d(TAG, "Different proxy port set");
+                return false;
+            }
         }
 
         if (this.stringProxyExclusionList != null && anotherConf.stringProxyExclusionList != null)
         {
             if (!this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
             {
-                LogWrapper.d(TAG, "Different proxy exclusion list value");
+                LogWrapper.d(TAG, String.format("Different proxy exclusion list value: '%s' - '%s'",this.stringProxyExclusionList, anotherConf.stringProxyExclusionList));
                 return false;
             }
         }
         else if (this.stringProxyExclusionList != anotherConf.stringProxyExclusionList)
         {
-            LogWrapper.d(TAG, "Different proxy exclusion list set");
-            return false;
+            if (TextUtils.isEmpty(this.stringProxyExclusionList) && TextUtils.isEmpty(anotherConf.stringProxyExclusionList))
+            {
+                /** Can happen when a partial configuration is written on the device:
+                 *  - ProxySettings enabled but no proxyHost and proxyPort are filled
+                 */
+            }
+            else
+            {
+                LogWrapper.d(TAG, "Different proxy exclusion list set");
+                return false;
+            }
         }
 
 //        LogWrapper.d(TAG,"Same proxy configuration: \n" +  this.toShortString() + "\n" +  anotherConf.toShortString());
@@ -503,7 +521,6 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 {
                     Constructor constr;
 
-                    // TODO: Test again on KitKat Device
                     // NOTE: Hardcoded sdk version number.
                     // Instead of comparing against Build.VERSION_CODES.KITKAT, we directly compare against the version
                     // number to allow devs to compile with an older version of the sdk.
@@ -526,7 +543,28 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
 
+            /***************************************************************************************
+             * TODO: improve method adding callback in order to return the result of the operation
+              */
+            try
+            {
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+
+            ProxyConfiguration savedConf = APL.getProxySdk12(newConf);
+
+            if (!this.isSameConfiguration(savedConf))
+            {
+                throw new Exception("Cannot save proxy configuration");
+            }
+            /**************************************************************************************/
+
             this.status.clear();
+
             LogWrapper.d(TAG, "Succesfully updated configuration on device: " + this.toShortString());
 
             LogWrapper.i(TAG, "Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);

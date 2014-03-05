@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ReflectionUtils
 {
-	public static final String TAG = "ReflectionUtils";
+    public static final String TAG = "ReflectionUtils";
 
     public static void connectToWifi(WifiManager wifiManager, Integer networkId) throws Exception
     {
@@ -20,16 +20,16 @@ public class ReflectionUtils
 
         try
         {
-            Class [] knownParam = new Class[1];
+            Class[] knownParam = new Class[1];
             knownParam[0] = int.class;
-            Method internalConnect = getMethod(WifiManager.class.getMethods(), "connect",knownParam);
+            Method internalConnect = getMethod(WifiManager.class.getMethods(), "connect", knownParam);
             if (internalConnect != null)
             {
                 Class<?>[] paramsTypes = internalConnect.getParameterTypes();
                 if (paramsTypes.length == 2)
-                    internalConnect.invoke(wifiManager,networkId,null);
+                    internalConnect.invoke(wifiManager, networkId, null);
                 else if (paramsTypes.length == 1)
-                    internalConnect.invoke(wifiManager,networkId);
+                    internalConnect.invoke(wifiManager, networkId);
 
                 internalConnectDone = true;
             }
@@ -58,14 +58,22 @@ public class ReflectionUtils
             if (internalSave != null)
             {
                 Class<?>[] paramsTypes = internalSave.getParameterTypes();
-                if (paramsTypes.length == 2) 
+                if (paramsTypes.length == 2)
                 {
+                    /**
+                     * TODO: needs pass an instance of the interface WifiManager.ActionListener, in order to receive the status of the call
+                    */
                     internalSave.invoke(wifiManager, configuration, null);
                     internalSaveDone = true;
-                } else if (paramsTypes.length == 1) 
+                }
+                else if (paramsTypes.length == 1)
                 {
                     internalSave.invoke(wifiManager, configuration);
                     internalSaveDone = true;
+                }
+                else
+                {
+                    APL.getEventReport().send(new Exception("Not handled WifiManager.save method. Found params: " + paramsTypes.length));
                 }
             }
         }
@@ -81,11 +89,11 @@ public class ReflectionUtils
         }
     }
 
-    public static Method getMethod(Method [] methods, String methodName) throws Exception
+    public static Method getMethod(Method[] methods, String methodName) throws Exception
     {
         Method m = null;
 
-        for (Method lm:methods)
+        for (Method lm : methods)
         {
             String currentMethodName = lm.getName();
             if (currentMethodName.equals(methodName))
@@ -101,23 +109,23 @@ public class ReflectionUtils
         return m;
     }
 
-    public static Method getMethod(Method [] methods, String methodName, Class [] knownParameters) throws Exception
+    public static Method getMethod(Method[] methods, String methodName, Class[] knownParameters) throws Exception
     {
         Method m = null;
 
-        for (Method lm:methods)
+        for (Method lm : methods)
         {
             String currentMethodName = lm.getName();
             if (currentMethodName.equals(methodName))
             {
                 Boolean found = false;
 
-                for (Class knowParam:knownParameters)
+                for (Class knowParam : knownParameters)
                 {
                     found = false;
-                    for(Class param : lm.getParameterTypes())
+                    for (Class param : lm.getParameterTypes())
                     {
-                        if(param.getName().equals(knowParam.getName()))
+                        if (param.getName().equals(knowParam.getName()))
                         {
                             found = true;
                             break;
@@ -142,11 +150,11 @@ public class ReflectionUtils
         return m;
     }
 
-    public static List<Method> getMethods(Method [] methods, String methodName) throws Exception
+    public static List<Method> getMethods(Method[] methods, String methodName) throws Exception
     {
         ArrayList<Method> ml = new ArrayList<Method>();
 
-        for (Method lm:methods)
+        for (Method lm : methods)
         {
             String currentMethodName = lm.getName();
             if (currentMethodName.equals(methodName))
@@ -161,99 +169,119 @@ public class ReflectionUtils
         return ml;
     }
 
-	public static Field getField(Field [] fields, String fieldName) throws Exception
-	{
-		Field f = null;
-		
-		for (Field lf:fields)
-		{
-			String currentFieldName = lf.getName(); 
-			if(currentFieldName.equals(fieldName))
-			{
-				f = lf;
-				break;
-			}
-		}
-		
-		if (f == null)
-        	throw new Exception(fieldName + " field not found!");
-		
-		return f;
-	}
+    public static Field getField(Field[] fields, String fieldName) throws Exception
+    {
+        Field f = null;
 
-	static void describeClassOrInterface(Class className, String name)
-	{
-		displayModifiers(className.getModifiers());
-		displayFields(className.getDeclaredFields());
-		displayMethods(className.getDeclaredMethods());
+        for (Field lf : fields)
+        {
+            String currentFieldName = lf.getName();
+            if (currentFieldName.equals(fieldName))
+            {
+                f = lf;
+                break;
+            }
+        }
 
-		if (className.isInterface()) 
-		{
-			LogWrapper.d(TAG, "Interface: " + name);
-		} 
-		else 
-		{
-			LogWrapper.d(TAG, "Class: " + name);
-			displayInterfaces(className.getInterfaces());
-			displayConstructors(className.getDeclaredConstructors());
-		}
-	}
+        if (f == null)
+            throw new Exception(fieldName + " field not found!");
 
-	static void displayModifiers(int m)
-	{
-		LogWrapper.d(TAG, "Modifiers: " + Modifier.toString(m));
-	}
+        return f;
+    }
 
-	static void displayInterfaces(Class[] interfaces)
-	{
-		if (interfaces.length > 0) 
-		{
-			LogWrapper.d(TAG, "Interfaces: ");
-			for (int i = 0; i < interfaces.length; ++i)
-				LogWrapper.d("", interfaces[i].getName());
-		}
-	}
+    public static Class getDeclaredClass(Class[] classes, String className) throws Exception
+    {
+        Class c = null;
 
-	static void displayFields(Field[] fields)
-	{
-		if (fields.length > 0) 
-		{
-			LogWrapper.d(TAG, "Fields: ");
-			for (int i = 0; i < fields.length; ++i)
-				LogWrapper.d(TAG, fields[i].toString());
-		}
-	}
+        for (Class lc : classes)
+        {
+            String currentFieldName = lc.getName();
+            if (currentFieldName.equals(className))
+            {
+                c = lc;
+                break;
+            }
+        }
 
-	static void displayConstructors(Constructor[] constructors)
-	{
-		if (constructors.length > 0) 
-		{
-			LogWrapper.d(TAG, "Constructors: ");
-			for (int i = 0; i < constructors.length; ++i)
-				LogWrapper.d(TAG, constructors[i].toString());
-		}
-	}
+        if (c == null)
+            throw new Exception(className + " class not found!");
 
-	static void displayMethods(Method[] methods)
-	{
-		if (methods.length > 0) 
-		{
-			LogWrapper.d(TAG, "Methods: ");
-			for (int i = 0; i < methods.length; ++i)
-				LogWrapper.d(TAG, methods[i].toString());
-		}
-	}
+        return c;
+    }
 
-	public static Field[] getAllFields(Class klass)
-	{
-		List<Field> fields = new ArrayList<Field>();
-		fields.addAll(Arrays.asList(klass.getDeclaredFields()));
-		
-		if (klass.getSuperclass() != null) 
-		{
-			fields.addAll(Arrays.asList(getAllFields(klass.getSuperclass())));
-		}
-		
-		return new Field[] {};
-	}
+    static void describeClassOrInterface(Class className, String name)
+    {
+        displayModifiers(className.getModifiers());
+        displayFields(className.getDeclaredFields());
+        displayMethods(className.getDeclaredMethods());
+
+        if (className.isInterface())
+        {
+            LogWrapper.d(TAG, "Interface: " + name);
+        }
+        else
+        {
+            LogWrapper.d(TAG, "Class: " + name);
+            displayInterfaces(className.getInterfaces());
+            displayConstructors(className.getDeclaredConstructors());
+        }
+    }
+
+    static void displayModifiers(int m)
+    {
+        LogWrapper.d(TAG, "Modifiers: " + Modifier.toString(m));
+    }
+
+    static void displayInterfaces(Class[] interfaces)
+    {
+        if (interfaces.length > 0)
+        {
+            LogWrapper.d(TAG, "Interfaces: ");
+            for (int i = 0; i < interfaces.length; ++i)
+                LogWrapper.d("", interfaces[i].getName());
+        }
+    }
+
+    static void displayFields(Field[] fields)
+    {
+        if (fields.length > 0)
+        {
+            LogWrapper.d(TAG, "Fields: ");
+            for (int i = 0; i < fields.length; ++i)
+                LogWrapper.d(TAG, fields[i].toString());
+        }
+    }
+
+    static void displayConstructors(Constructor[] constructors)
+    {
+        if (constructors.length > 0)
+        {
+            LogWrapper.d(TAG, "Constructors: ");
+            for (int i = 0; i < constructors.length; ++i)
+                LogWrapper.d(TAG, constructors[i].toString());
+        }
+    }
+
+    static void displayMethods(Method[] methods)
+    {
+        if (methods.length > 0)
+        {
+            LogWrapper.d(TAG, "Methods: ");
+            for (int i = 0; i < methods.length; ++i)
+                LogWrapper.d(TAG, methods[i].toString());
+        }
+    }
+
+    public static Field[] getAllFields(Class klass)
+    {
+        List<Field> fields = new ArrayList<Field>();
+        fields.addAll(Arrays.asList(klass.getDeclaredFields()));
+
+        if (klass.getSuperclass() != null)
+        {
+            fields.addAll(Arrays.asList(getAllFields(klass.getSuperclass())));
+        }
+
+        return new Field[]{};
+    }
 }

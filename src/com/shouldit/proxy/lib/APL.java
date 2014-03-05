@@ -57,6 +57,7 @@ public class APL
         }
 
         sSetupCalled = true;
+        LogWrapper.d(TAG,"APL setup executed");
 
         if (eRep != null)
         {
