@@ -9,6 +9,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.text.TextUtils;
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
+import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -469,6 +470,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     @TargetApi(12)
     public void writeConfigurationToDevice() throws Exception
     {
+        if (ap.security == SecurityType.SECURITY_EAP)
+            throw new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
+
         WifiManager wifiManager = (WifiManager) APL.getContext().getSystemService(Context.WIFI_SERVICE);
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
 
