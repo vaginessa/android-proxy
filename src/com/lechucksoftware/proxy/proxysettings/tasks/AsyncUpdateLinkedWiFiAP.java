@@ -76,9 +76,10 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             if (conf.getProxySettings() == ProxySetting.STATIC)
             {
                 LogWrapper.d(TAG, "Checking AP: " + conf.toShortString());
-                long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(), conf.getProxyPort());
 
-                if (proxyId == currentProxy.getId())
+                if (conf.getProxyHost().equalsIgnoreCase(currentProxy.host)
+                    && conf.getProxyPort().equals(currentProxy.port)
+                    && conf.getProxyExclusionList().equalsIgnoreCase(currentProxy.exclusion))
                 {
                     conf.setProxyHost(updatedProxy.host);
                     conf.setProxyPort(updatedProxy.port);
@@ -112,7 +113,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
         LogWrapper.d(TAG, "Current proxy: " + currentProxy.toString());
         LogWrapper.d(TAG, "Updated proxy: " + updatedProxy.toString());
 
-        ApplicationGlobals.getDBManager().upsertProxy(updatedProxy);
+//        ApplicationGlobals.getDBManager().upsertProxy(updatedProxy);
 
         return updatedWiFiAP;
     }

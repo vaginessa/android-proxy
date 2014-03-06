@@ -167,6 +167,8 @@ public class ProxyDetailActivity extends BaseActivity
             ProxyEntity current = (ProxyEntity) ApplicationGlobals.getDBManager().getProxy(updated.getId());
             AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(this, current, updated);
             asyncUpdateLinkedWiFiAP.execute();
+
+            ApplicationGlobals.getDBManager().upsertProxy(updated);
             finish();
         }
     }
