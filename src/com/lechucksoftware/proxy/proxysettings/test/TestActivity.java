@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.google.analytics.tracking.android.GAServiceManager;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -33,6 +34,8 @@ public class TestActivity extends Activity
         ADD_PROXY,
         ADD_EXAMPLE_PROXIES,
         ADD_TAGS,
+        SET_ALL_PROXIES,
+        CLEAR_ALL_PROXIES,
         CLEAR_IN_USE,
         TEST_VALIDATION,
         UPDATE_PROXY,
@@ -82,6 +85,18 @@ public class TestActivity extends Activity
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ASSIGN_PROXY);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void setProxyForAllAp(View view)
+    {
+        AsyncTest setAllProxies = new AsyncTest(this, TestAction.SET_ALL_PROXIES);
+        setAllProxies.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void clearProxyForAllAp(View view)
+    {
+        AsyncTest clearAsyncProxy = new AsyncTest(this, TestAction.CLEAR_ALL_PROXIES);
+        clearAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void testProxyValidations(View view)
@@ -206,11 +221,19 @@ public class TestActivity extends Activity
                         conf.setAPDescription(null);
                 }
             }
+            else if (_action == TestAction.SET_ALL_PROXIES)
+            {
+                TestUtils.setAllProxies(_testActivity);
+            }
+            else if (_action == TestAction.CLEAR_IN_USE)
+            {
+                TestUtils.clearAllProxies(_testActivity);
+            }
             else if (_action == TestAction.TEST_VALIDATION)
             {
                 TestUtils.testValidation();
             }
-            else if(_action == TestAction.ASSIGN_PROXY)
+            else if (_action == TestAction.ASSIGN_PROXY)
             {
                 try
                 {

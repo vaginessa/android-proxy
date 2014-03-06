@@ -37,6 +37,18 @@
                     android:onClick="addTagsDBClicked"/>
 
             <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Set proxy for all AP"
+                android:onClick="setProxyForAllAp"/>
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear proxy for all AP"
+                android:onClick="clearProxyForAllAp"/>
+
+            <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Update proxies"

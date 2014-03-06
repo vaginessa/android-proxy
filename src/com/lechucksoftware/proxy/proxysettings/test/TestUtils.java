@@ -8,6 +8,7 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyStatusItem;
@@ -327,6 +328,46 @@ public class TestUtils
         result = ProxyUtils.isProxyValidExclusionAddress("DEV-*");
         result = ProxyUtils.isProxyValidExclusionAddress("*.local");
         result = ProxyUtils.isProxyValidExclusionAddress("*.shouldit.it");
+    }
+
+    public static void clearAllProxies(Context ctx)
+    {
+        for (ProxyConfiguration configuration : ApplicationGlobals.getProxyManager().getSortedConfigurationsList())
+        {
+            try
+            {
+                configuration.setProxySetting(ProxySetting.NONE);
+                configuration.setProxyHost("");
+                configuration.setProxyPort(0);
+                configuration.setProxyExclusionList("");
+                configuration.writeConfigurationToDevice();
+            }
+            catch (Exception e)
+            {
+                UIUtils.showError(ctx, "Exception during clear of proxy: " + e.toString());
+            }
+        }
+    }
+
+    public static void setAllProxies(Context ctx)
+    {
+        ProxyEntity p = getRandomProxy();
+
+        for (ProxyConfiguration configuration : ApplicationGlobals.getProxyManager().getSortedConfigurationsList())
+        {
+            try
+            {
+                configuration.setProxySetting(ProxySetting.STATIC);
+                configuration.setProxyHost(p.host);
+                configuration.setProxyPort(p.port);
+                configuration.setProxyExclusionList(p.exclusion);
+                configuration.writeConfigurationToDevice();
+            }
+            catch (Exception e)
+            {
+                UIUtils.showError(ctx, "Exception during clear of proxy: " + e.toString());
+            }
+        }
     }
 }
 
