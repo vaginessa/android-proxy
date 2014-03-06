@@ -546,18 +546,32 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             /***************************************************************************************
              * TODO: improve method adding callback in order to return the result of the operation
               */
-            try
+            boolean succesfullySaved = false;
+            int tries = 0;
+            while (tries < 50)
             {
-                Thread.sleep(100);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
+                try
+                {
+                    Thread.sleep(50);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+
+                ProxyConfiguration savedConf = APL.getProxySdk12(newConf);
+                succesfullySaved = this.isSameConfiguration(savedConf);
+
+                if (succesfullySaved)
+                {
+                    this.updateConfiguration(savedConf);
+                    break;
+                }
+
+                tries++;
             }
 
-            ProxyConfiguration savedConf = APL.getProxySdk12(newConf);
-
-            if (!this.isSameConfiguration(savedConf))
+            if (!succesfullySaved)
             {
                 throw new Exception("Cannot save proxy configuration");
             }
