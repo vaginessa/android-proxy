@@ -2,16 +2,19 @@ package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyStatusItem;
+import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
@@ -332,8 +335,16 @@ public class TestUtils
 
     public static void clearAllProxies(Context ctx)
     {
+        ApplicationGlobals.getInstance().wifiActionEnabled = false;
+
         for (ProxyConfiguration configuration : ApplicationGlobals.getProxyManager().getSortedConfigurationsList())
         {
+            if (configuration.ap.security == SecurityType.SECURITY_EAP)
+            {
+                // skip 802.1x security networks
+                continue;
+            }
+
             try
             {
                 configuration.setProxySetting(ProxySetting.NONE);
@@ -344,30 +355,42 @@ public class TestUtils
             }
             catch (Exception e)
             {
-                UIUtils.showError(ctx, "Exception during clear of proxy: " + e.toString());
+                EventReportingUtils.sendException(e);
             }
         }
+
+        ApplicationGlobals.getInstance().wifiActionEnabled = true;
     }
 
     public static void setAllProxies(Context ctx)
     {
         ProxyEntity p = getRandomProxy();
 
+        ApplicationGlobals.getInstance().wifiActionEnabled = false;
+
         for (ProxyConfiguration configuration : ApplicationGlobals.getProxyManager().getSortedConfigurationsList())
         {
+            if (configuration.ap.security == SecurityType.SECURITY_EAP)
+            {
+                // skip 802.1x security networks
+                continue;
+            }
+
+            configuration.setProxySetting(ProxySetting.STATIC);
+            configuration.setProxyHost(p.host);
+            configuration.setProxyPort(p.port);
+            configuration.setProxyExclusionList(p.exclusion);
             try
             {
-                configuration.setProxySetting(ProxySetting.STATIC);
-                configuration.setProxyHost(p.host);
-                configuration.setProxyPort(p.port);
-                configuration.setProxyExclusionList(p.exclusion);
                 configuration.writeConfigurationToDevice();
             }
             catch (Exception e)
             {
-                UIUtils.showError(ctx, "Exception during clear of proxy: " + e.toString());
+                EventReportingUtils.sendException(e);
             }
         }
+
+        ApplicationGlobals.getInstance().wifiActionEnabled = true;
     }
 }
 

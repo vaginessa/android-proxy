@@ -22,6 +22,7 @@ public class ApplicationGlobals extends Application
     public AndroidMarket activeMarket;
     private CacheManager cacheManager;
     public Boolean demoMode;
+    public Boolean wifiActionEnabled;
 
     @Override
     public void onCreate()
@@ -39,6 +40,7 @@ public class ApplicationGlobals extends Application
         activeMarket = Utils.getInstallerMarket(ApplicationGlobals.this);
 
         demoMode = false;
+        wifiActionEnabled = true;
 
         // SETUP Libraries
         EventReportingUtils.setup(ApplicationGlobals.this);

@@ -225,7 +225,7 @@ public class TestActivity extends Activity
             {
                 TestUtils.setAllProxies(_testActivity);
             }
-            else if (_action == TestAction.CLEAR_IN_USE)
+            else if (_action == TestAction.CLEAR_ALL_PROXIES)
             {
                 TestUtils.clearAllProxies(_testActivity);
             }

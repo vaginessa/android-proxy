@@ -3,6 +3,8 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -43,16 +45,23 @@ public class WifiScannerHandler extends Handler
     @Override
     public void handleMessage(Message message)
     {
-        LogWrapper.d(TAG, "Calling Wi-Fi scanner");
+        if (ApplicationGlobals.getInstance().wifiActionEnabled)
+        {
+            LogWrapper.d(TAG, "Calling Wi-Fi scanner");
 
-        if (APL.getWifiManager().startScan())
-        {
-            mRetry = 0;
+            if (APL.getWifiManager().startScan())
+            {
+                mRetry = 0;
+            }
+            else if (++mRetry >= 3)
+            {
+                mRetry = 0;
+                return;
+            }
         }
-        else if (++mRetry >= 3)
+        else
         {
-            mRetry = 0;
-            return;
+            LogWrapper.d(TAG, "Wi-Fi scanner disabled");
         }
 
         sendEmptyMessageDelayed(0, WIFI_RESCAN_INTERVAL_MS);
