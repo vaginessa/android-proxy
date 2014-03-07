@@ -327,29 +327,9 @@ public class ProxyUtils
 
                 return httpURLConnection.getResponseCode();
             }
-            catch (MalformedURLException e)
-            {
-                APL.getEventReport().send(e);
-            }
-            catch (UnknownHostException e)
-            {
-                APL.getEventReport().send(e);
-            }
-            catch (SocketTimeoutException e)
-            {
-                APL.getEventReport().send(e);
-            }
-            catch (SocketException e)
-            {
-                APL.getEventReport().send(e);
-            }
-            catch (IOException e)
-            {
-                APL.getEventReport().send(e);
-            }
             catch (Exception e)
             {
-                APL.getEventReport().send(e);
+                LogWrapper.w(TAG,e.toString());
             }
 
             step++;
@@ -401,7 +381,6 @@ public class ProxyUtils
             int result = testHTTPConnection(new URI("http://www.un.org/"), proxyConfiguration, timeout);
 //            int rawresult = testHTTPConnection(new URI("http://157.150.34.32"), proxyConfiguration, timeout);
 
-
             switch (result)
             {
                 case HttpURLConnection.HTTP_OK:
@@ -419,7 +398,8 @@ public class ProxyUtils
         }
         catch (URISyntaxException e)
         {
-            APL.getEventReport().send(e);
+            LogWrapper.w(TAG,e.toString());
+//            APL.getEventReport().send(e);
         }
 
         return false;

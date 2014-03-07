@@ -8,14 +8,13 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.text.TextUtils;
+
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
-
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -165,8 +164,17 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         }
         else if (this.proxyHost != anotherConf.proxyHost)
         {
-            LogWrapper.d(TAG, String.format("Different proxy host set"));
-            return false;
+            if ((this.proxyHost == null || this.proxyHost.equals("") && (anotherConf.proxyHost == null || anotherConf.proxyHost.equals(""))))
+            {
+                /** Can happen when a partial configuration is written on the device:
+                 *  - ProxySettings enabled but no proxyHost and proxyPort are filled
+                 */
+            }
+            else
+            {
+                LogWrapper.d(TAG, String.format("Different proxy host set"));
+                return false;
+            }
         }
 
         if (this.proxyPort != null && anotherConf.proxyPort != null)
@@ -471,7 +479,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     public void writeConfigurationToDevice() throws Exception
     {
         if (ap.security == SecurityType.SECURITY_EAP)
-            throw new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
+        {
+            Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
+            throw e;
+        }
 
         WifiManager wifiManager = (WifiManager) APL.getContext().getSystemService(Context.WIFI_SERVICE);
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
@@ -552,11 +563,11 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
               */
             boolean succesfullySaved = false;
             int tries = 0;
-            while (tries < 50)
+            while (tries < 100)
             {
                 try
                 {
-                    Thread.sleep(50);
+                    Thread.sleep(100);
                 }
                 catch (InterruptedException e)
                 {
@@ -577,13 +588,13 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
             if (!succesfullySaved)
             {
-                throw new Exception("Cannot save proxy configuration");
+                throw new Exception(String.format("Cannot save proxy configuration after %s tries", tries));
             }
             /**************************************************************************************/
 
             this.status.clear();
 
-            LogWrapper.d(TAG, "Succesfully updated configuration on device: " + this.toShortString());
+            LogWrapper.d(TAG, String.format("Succesfully updated configuration %s, after %d tries", this.toShortString(),tries));
 
             LogWrapper.i(TAG, "Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
