@@ -67,7 +67,6 @@ public class MaintenanceService extends IntentService
                     if (callerIntent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
                     {
                         checkDBstatus();
-                        upsertFoundProxyConfigurations();
                         checkProxiesCountryCodes();
                         Utils.checkDemoMode(getApplicationContext());
                     }
@@ -116,64 +115,6 @@ public class MaintenanceService extends IntentService
 //
 //        return inUseTag;
 //    }
-
-    private void upsertFoundProxyConfigurations()
-    {
-        LogWrapper.startTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);
-
-        ApplicationGlobals.getDBManager().clearInUseFlag(null);
-
-        LogWrapper.getPartial(TAG,"upsertFoundProxyConfigurations", Log.DEBUG);
-
-        List<ProxyConfiguration> configurations = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
-
-        int foundNew = 0;
-        int foundUpdate = 0;
-
-        if (configurations != null && !configurations.isEmpty())
-        {
-            LogWrapper.d(TAG, String.format("Analyzing %d Wi-Fi AP configurations",configurations.size()));
-
-            for (ProxyConfiguration conf : configurations)
-            {
-                LogWrapper.d(TAG,conf.toShortString());
-
-                if (conf.getProxy() != java.net.Proxy.NO_PROXY && conf.isValidProxyConfiguration())
-                {
-                    long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(),conf.getProxyPort());
-                    ProxyEntity pd = null;
-                    if (proxyId != -1)
-                    {
-                        // Proxy already saved into DB
-                        pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
-                        pd.setInUse(true);
-                        foundUpdate++;
-                    }
-                    else
-                    {
-                        // Found new proxy
-                        pd = new ProxyEntity();
-                        pd.host = conf.getProxyHost();
-                        pd.port = conf.getProxyPort();
-                        pd.exclusion = conf.getProxyExclusionList();
-                        pd.setInUse(true);
-                        foundNew++;
-                    }
-
-                    ApplicationGlobals.getDBManager().upsertProxy(pd);
-                }
-                else
-                {
-
-                }
-            }
-
-            long proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
-            LogWrapper.d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
-        }
-
-        LogWrapper.stopTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);
-    }
 
     private void checkProxiesCountryCodes()
     {

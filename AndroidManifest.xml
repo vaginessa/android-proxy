@@ -122,6 +122,7 @@
 		<!-- </activity> -->
 
 		<service android:name=".services.ProxySettingsCheckerService" />
+        <service android:name=".services.ProxySyncService" />
         <service android:name=".services.MaintenanceService" />
 		<service android:name=".services.DownloadService" />
 
