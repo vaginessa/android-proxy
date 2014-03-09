@@ -43,18 +43,19 @@ public class ProxySyncService extends IntentService
         instance = this;
         isHandling = true;
 
-        upsertFoundProxyConfigurations();
+        syncProxyConfigurations();
 
         isHandling = false;
     }
 
-    private void upsertFoundProxyConfigurations()
+    private void syncProxyConfigurations()
     {
-        LogWrapper.startTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);
+        LogWrapper.startTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
 
+        // TODO : improve the clear and set of in use flag, adding to a single sql transaction
         ApplicationGlobals.getDBManager().clearInUseFlag(null);
 
-        LogWrapper.getPartial(TAG,"upsertFoundProxyConfigurations", Log.DEBUG);
+        LogWrapper.getPartial(TAG,"syncProxyConfigurations", Log.DEBUG);
 
         List<ProxyConfiguration> configurations = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
 
@@ -103,6 +104,6 @@ public class ProxySyncService extends IntentService
             LogWrapper.d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
         }
 
-        LogWrapper.stopTrace(TAG, "upsertFoundProxyConfigurations", Log.DEBUG);
+        LogWrapper.stopTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
     }
 }
