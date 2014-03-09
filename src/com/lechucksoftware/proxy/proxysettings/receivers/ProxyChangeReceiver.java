@@ -1,12 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.receivers;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
-import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.shouldit.proxy.lib.APLConstants;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +8,11 @@ import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
+import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APLIntents;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -43,33 +41,33 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             callMaintenanceService(context, intent);
         }
         else if (
-                 // INTERNAL (APL): Called when a proxy configuration is written by APL
-                 intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_CONFIGURATION)
+            // INTERNAL (PS): Called when a proxy configuration is written
+                intent.getAction().equals(Intents.WIFI_AP_UPDATED)
 
-                 // INTERNAL (PS) : Called when Proxy Settings needs to refreshUI the Proxy status
-                 || intent.getAction().equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
+                        // INTERNAL (PS) : Called when Proxy Settings needs to refreshUI the Proxy status
+                        || intent.getAction().equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
 
-                 // Connection type change (switch between 3G/WiFi)
-                 || intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
+                        // Connection type change (switch between 3G/WiFi)
+                        || intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
 
-                 // Scan results available information
-                 || intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+                        // Scan results available information
+                        || intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
 
-                 // Called when a Proxy Configuration is changed
-                 || intent.getAction().equals(Proxy.PROXY_CHANGE_ACTION)
+                        // Called when a Proxy Configuration is changed
+                        || intent.getAction().equals(Proxy.PROXY_CHANGE_ACTION)
 
-                 || intent.getAction().equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE")
+                        || intent.getAction().equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE")
                 )
         {
             LogWrapper.logIntent(TAG, intent, Log.DEBUG);
             callProxySettingsChecker(context, intent);
         }
         else if (
-                 // INTERNAL (PS) : Called to refreshUI the UI of Proxy Settings
-                 intent.getAction().equals(Intents.PROXY_REFRESH_UI)
+            // INTERNAL (PS) : Called to refreshUI the UI of Proxy Settings
+                intent.getAction().equals(Intents.PROXY_REFRESH_UI)
 
-                 // INTERNAL (APL): Called when an updated status on the check of a configuration is available
-                 || intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK)
+                        // INTERNAL (APL): Called when an updated status on the check of a configuration is available
+                        || intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK)
                 )
         {
             LogWrapper.logIntent(TAG, intent, Log.DEBUG);
@@ -95,9 +93,12 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             }
         }
 
-        Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
-        serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
-        context.startService(serviceIntent);
+        if (ApplicationGlobals.getInstance().wifiActionEnabled)
+        {
+            Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
+            serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
+            context.startService(serviceIntent);
+        }
     }
 
     private void callMaintenanceService(Context context, Intent intent)

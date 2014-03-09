@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.fragments;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 import android.app.ActionBar;
 import android.content.Intent;

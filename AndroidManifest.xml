@@ -137,7 +137,7 @@
 				<action android:name="android.net.wifi.SCAN_RESULTS" />  	
 <!-- 				<action android:name="android.net.wifi.supplicant.STATE_CHANGE" />   -->
 				
-				<action android:name="com.shouldit.proxy.lib.PROXY_CONFIGURATION_UPDATED" />
+				<action android:name="com.lechucksoftware.proxy.proxysettings.WIFI_AP_UPDATED" />
 				<action android:name="com.shouldit.proxy.lib.PROXY_CHECK_STATUS_UPDATE" />
 				<action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_MANUAL_REFRESH" />
 				<action	android:name="com.lechucksoftware.proxy.proxysettings.PROXY_SETTINGS_STARTED" />

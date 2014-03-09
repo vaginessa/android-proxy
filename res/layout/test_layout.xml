@@ -58,12 +58,6 @@
             <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Assign proxy"
-                    android:onClick="assignProxy"/>
-
-            <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
                     android:text="Clear proxy in use"
                     android:onClick="clearProxyInUse"/>
 

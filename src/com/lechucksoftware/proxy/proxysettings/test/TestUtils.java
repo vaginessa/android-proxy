@@ -1,17 +1,20 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.enums.SecurityType;
@@ -232,83 +235,83 @@ public class TestUtils
         ApplicationGlobals.getDBManager().upsertTag(tag);
     }
 
-    public static void assignProxies(ProxyConfiguration conf, ProxyEntity proxy) throws Exception
-    {
-        ProxySetting originalSettings = conf.getProxySettings();
-        ProxyEntity originalData = new ProxyEntity();
-
-        if (originalSettings == ProxySetting.STATIC)
-        {
-            originalData.host = conf.getProxyHost();
-            originalData.port = conf.getProxyPort();
-            originalData.exclusion = conf.getProxyExclusionList();
-        }
-
-        conf.setProxySetting(ProxySetting.STATIC);
-        conf.setProxyHost(proxy.host);
-        conf.setProxyPort(proxy.port);
-        conf.setProxyExclusionList(proxy.exclusion);
-
-        conf.writeConfigurationToDevice();
-
-        Thread.sleep(5000);
-
-        for (int i = 0; i < 20; i++)
-        {
-            Thread.sleep(1000);
-
-            ProxyConfiguration updatedConf = ApplicationGlobals.getProxyManager().getConfiguration(conf.id);
-
-            if (updatedConf.getProxySettings() == ProxySetting.STATIC &&
-                    updatedConf.getProxyHost() == proxy.host &&
-                    updatedConf.getProxyPort() == proxy.port &&
-                    updatedConf.getProxyExclusionList() == proxy.exclusion)
-            {
-                LogWrapper.d(TAG, updatedConf.toShortString());
-            }
-            else
-            {
-                throw new Exception("ERROR ASSIGNING PROXY");
-            }
-        }
-
-        conf.setProxySetting(ProxySetting.NONE);
-        conf.setProxyHost(null);
-        conf.setProxyPort(null);
-        conf.setProxyExclusionList(null);
-        conf.writeConfigurationToDevice();
-
-        Thread.sleep(5000);
-
-        for (int i = 0; i < 20; i++)
-        {
-            Thread.sleep(1000);
-
-            ProxyConfiguration updatedConf = ApplicationGlobals.getProxyManager().getConfiguration(conf.id);
-
-            if (updatedConf.getProxySettings() == ProxySetting.NONE &&
-                    (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
-                    (updatedConf.getProxyPort() == null || updatedConf.getProxyPort() == -1) &&
-                    (updatedConf.getProxyExclusionList() == null || updatedConf.getProxyExclusionList() == ""))
-            {
-                LogWrapper.d(TAG, updatedConf.toShortString());
-            }
-            else
-            {
-                throw new Exception("ERROR ASSIGNING PROXY");
-            }
-        }
-
-        conf.setProxySetting(originalSettings);
-        if (originalSettings == ProxySetting.STATIC)
-        {
-            conf.setProxyHost(originalData.host);
-            conf.setProxyPort(originalData.port);
-            conf.setProxyExclusionList(originalData.exclusion);
-        }
-        conf.writeConfigurationToDevice();
-        Thread.sleep(5000);
-    }
+//    public static void assignProxies(ProxyConfiguration conf, ProxyEntity proxy) throws Exception
+//    {
+//        ProxySetting originalSettings = conf.getProxySettings();
+//        ProxyEntity originalData = new ProxyEntity();
+//
+//        if (originalSettings == ProxySetting.STATIC)
+//        {
+//            originalData.host = conf.getProxyHost();
+//            originalData.port = conf.getProxyPort();
+//            originalData.exclusion = conf.getProxyExclusionList();
+//        }
+//
+//        conf.setProxySetting(ProxySetting.STATIC);
+//        conf.setProxyHost(proxy.host);
+//        conf.setProxyPort(proxy.port);
+//        conf.setProxyExclusionList(proxy.exclusion);
+//
+//        conf.writeConfigurationToDevice();
+//
+//        Thread.sleep(5000);
+//
+//        for (int i = 0; i < 20; i++)
+//        {
+//            Thread.sleep(1000);
+//
+//            ProxyConfiguration updatedConf = ApplicationGlobals.getProxyManager().getConfiguration(conf.id);
+//
+//            if (updatedConf.getProxySettings() == ProxySetting.STATIC &&
+//                    updatedConf.getProxyHost() == proxy.host &&
+//                    updatedConf.getProxyPort() == proxy.port &&
+//                    updatedConf.getProxyExclusionList() == proxy.exclusion)
+//            {
+//                LogWrapper.d(TAG, updatedConf.toShortString());
+//            }
+//            else
+//            {
+//                throw new Exception("ERROR ASSIGNING PROXY");
+//            }
+//        }
+//
+//        conf.setProxySetting(ProxySetting.NONE);
+//        conf.setProxyHost(null);
+//        conf.setProxyPort(null);
+//        conf.setProxyExclusionList(null);
+//        conf.writeConfigurationToDevice();
+//
+//        Thread.sleep(5000);
+//
+//        for (int i = 0; i < 20; i++)
+//        {
+//            Thread.sleep(1000);
+//
+//            ProxyConfiguration updatedConf = ApplicationGlobals.getProxyManager().getConfiguration(conf.id);
+//
+//            if (updatedConf.getProxySettings() == ProxySetting.NONE &&
+//                    (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
+//                    (updatedConf.getProxyPort() == null || updatedConf.getProxyPort() == -1) &&
+//                    (updatedConf.getProxyExclusionList() == null || updatedConf.getProxyExclusionList() == ""))
+//            {
+//                LogWrapper.d(TAG, updatedConf.toShortString());
+//            }
+//            else
+//            {
+//                throw new Exception("ERROR ASSIGNING PROXY");
+//            }
+//        }
+//
+//        conf.setProxySetting(originalSettings);
+//        if (originalSettings == ProxySetting.STATIC)
+//        {
+//            conf.setProxyHost(originalData.host);
+//            conf.setProxyPort(originalData.port);
+//            conf.setProxyExclusionList(originalData.exclusion);
+//        }
+//        conf.writeConfigurationToDevice();
+//        Thread.sleep(5000);
+//    }
 
     public static void clearInUse()
     {
@@ -360,6 +363,11 @@ public class TestUtils
         }
 
         ApplicationGlobals.getInstance().wifiActionEnabled = true;
+
+        // Calling refresh intent only after save of all AP configurations
+        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+        APL.getContext().sendBroadcast(intent);
     }
 
     public static void setAllProxies(Context ctx)
@@ -391,6 +399,11 @@ public class TestUtils
         }
 
         ApplicationGlobals.getInstance().wifiActionEnabled = true;
+
+        // Calling refresh intent only after save of all AP configurations
+        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+        APL.getContext().sendBroadcast(intent);
     }
 }
 

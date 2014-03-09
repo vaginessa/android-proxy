@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
 import com.shouldit.proxy.lib.APLIntents;
@@ -36,7 +38,7 @@ public class BaseWifiActivity extends BaseActivity
         // Start register the status receivers
         IntentFilter ifilt = new IntentFilter();
 
-        ifilt.addAction(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
+        ifilt.addAction(Intents.WIFI_AP_UPDATED);
         ifilt.addAction(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK);
         ifilt.addAction(Intents.PROXY_REFRESH_UI);
         registerReceiver(changeStatusReceiver, ifilt);
@@ -64,10 +66,13 @@ public class BaseWifiActivity extends BaseActivity
 
             LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
 
-            if (action.equals(APLIntents.APL_UPDATED_PROXY_CONFIGURATION))
+            if (action.equals(Intents.WIFI_AP_UPDATED))
             {
-                LogWrapper.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
-                refreshUI();
+                if (ApplicationGlobals.getInstance().wifiActionEnabled)
+                {
+                    LogWrapper.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
+                    refreshUI();
+                }
             }
             else if (action.equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK))
             {

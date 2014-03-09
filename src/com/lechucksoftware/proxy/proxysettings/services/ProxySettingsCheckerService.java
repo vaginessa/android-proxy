@@ -70,7 +70,7 @@ public class ProxySettingsCheckerService extends IntentService
                 if (callerAction.equals(Intents.PROXY_SETTINGS_STARTED)
                         || callerAction.equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
                         || callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-                        || callerAction.equals(APLIntents.APL_UPDATED_PROXY_CONFIGURATION)
+                        || callerAction.equals(Intents.WIFI_AP_UPDATED)
                         || callerAction.equals(Proxy.PROXY_CHANGE_ACTION)
                         || callerAction.equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE"))
                 {

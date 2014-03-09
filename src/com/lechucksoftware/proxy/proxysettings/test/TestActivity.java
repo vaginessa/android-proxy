@@ -81,12 +81,6 @@ public class TestActivity extends Activity
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void assignProxy(View view)
-    {
-        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ASSIGN_PROXY);
-        addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
     public void setProxyForAllAp(View view)
     {
         AsyncTest setAllProxies = new AsyncTest(this, TestAction.SET_ALL_PROXIES);
@@ -232,23 +226,6 @@ public class TestActivity extends Activity
             else if (_action == TestAction.TEST_VALIDATION)
             {
                 TestUtils.testValidation();
-            }
-            else if (_action == TestAction.ASSIGN_PROXY)
-            {
-                try
-                {
-                    ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCurrentConfiguration();
-                    List<ProxyEntity> proxies = ApplicationGlobals.getCacheManager().getAllProxiesList();
-                    for (ProxyEntity p : proxies)
-                    {
-                        TestUtils.assignProxies(conf, p);
-                        publishProgress(p.toString());
-                    }
-                }
-                catch (Exception e)
-                {
-                    publishProgress(e.toString());
-                }
             }
             else
             {

@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
@@ -217,6 +219,11 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             EventReportingUtils.sendException(e);
             UIUtils.showError(getActivity(), R.string.exception_apl_writeconfig_error_message);
         }
+
+        // Calling refresh intent only after save of all configuration
+        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+        APL.getContext().sendBroadcast(intent);
     }
 
     public void refreshUI()

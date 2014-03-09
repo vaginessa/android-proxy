@@ -21,6 +21,11 @@ public class Intents
     public static final String PROXY_SETTINGS_MANUAL_REFRESH = INTENT_PREFIX + "PROXY_SETTINGS_MANUAL_REFRESH";
 
     /**
+     * Updated a Wi-Fi access point configuration
+     */
+    public static final String WIFI_AP_UPDATED = INTENT_PREFIX + "WIFI_AP_UPDATED";
+
+    /**
      * Call a Refresh of the UI after a proxy change
      */
     public static final String PROXY_REFRESH_UI = INTENT_PREFIX + "PROXY_REFRESH_UI";

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -23,6 +24,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragm
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -232,6 +234,11 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             apConf.setProxyPort(proxy.port);
             apConf.setProxyExclusionList(proxy.exclusion);
             apConf.writeConfigurationToDevice();
+
+            // Calling refresh intent only after save of the AP configuration
+            LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+            Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+            APL.getContext().sendBroadcast(intent);
 
             proxy.setInUse(true);
             ApplicationGlobals.getDBManager().upsertProxy(proxy);

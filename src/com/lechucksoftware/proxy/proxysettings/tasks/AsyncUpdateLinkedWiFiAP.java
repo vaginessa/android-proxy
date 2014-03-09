@@ -2,15 +2,19 @@ package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
+import com.shouldit.proxy.lib.APL;
+import com.shouldit.proxy.lib.APLIntents;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -71,6 +75,8 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
         LogWrapper.d(TAG, "Current proxy: " + currentProxy.toString());
         LogWrapper.d(TAG, "Updated proxy: " + updatedProxy.toString());
 
+        ApplicationGlobals.getInstance().wifiActionEnabled = false;
+
         for (ProxyConfiguration conf : configurations)
         {
             if (conf.getProxySettings() == ProxySetting.STATIC)
@@ -106,9 +112,16 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                     {
                         e.printStackTrace();
                     }
+
+                    // Calling refresh intent only after save of all AP configurations
+                    LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+                    Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+                    APL.getContext().sendBroadcast(intent);
                 }
             }
         }
+
+        ApplicationGlobals.getInstance().wifiActionEnabled = true;
 
         LogWrapper.d(TAG, "Current proxy: " + currentProxy.toString());
         LogWrapper.d(TAG, "Updated proxy: " + updatedProxy.toString());
