@@ -563,7 +563,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
               */
             boolean succesfullySaved = false;
             int tries = 0;
-            while (tries < 100)
+            while (tries < 10)
             {
                 try
                 {
