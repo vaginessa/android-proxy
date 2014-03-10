@@ -7,7 +7,9 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
+import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.List;
 
@@ -68,31 +70,38 @@ public class ProxySyncService extends IntentService
 
             for (ProxyConfiguration conf : configurations)
             {
-                LogWrapper.d(TAG,conf.toShortString());
-
-                if (conf.getProxy() != java.net.Proxy.NO_PROXY && conf.isValidProxyConfiguration())
+                if (conf.getProxySettings() == ProxySetting.STATIC && conf.ap.security != SecurityType.SECURITY_EAP)
                 {
-                    long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(),conf.getProxyPort());
-                    ProxyEntity pd = null;
-                    if (proxyId != -1)
+                    if (conf.isValidProxyConfiguration())
                     {
-                        // Proxy already saved into DB
-                        pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
-                        pd.setInUse(true);
-                        foundUpdate++;
+                        LogWrapper.d(TAG, "Found proxy: " + conf.toShortString());
+
+                        long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(), conf.getProxyPort());
+                        ProxyEntity pd = null;
+                        if (proxyId != -1)
+                        {
+                            // Proxy already saved into DB
+                            pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
+                            pd.setInUse(true);
+                            foundUpdate++;
+                        }
+                        else
+                        {
+                            // Found new proxy
+                            pd = new ProxyEntity();
+                            pd.host = conf.getProxyHost();
+                            pd.port = conf.getProxyPort();
+                            pd.exclusion = conf.getProxyExclusionList();
+                            pd.setInUse(true);
+                            foundNew++;
+                        }
+
+                        ApplicationGlobals.getDBManager().upsertProxy(pd);
                     }
                     else
                     {
-                        // Found new proxy
-                        pd = new ProxyEntity();
-                        pd.host = conf.getProxyHost();
-                        pd.port = conf.getProxyPort();
-                        pd.exclusion = conf.getProxyExclusionList();
-                        pd.setInUse(true);
-                        foundNew++;
+                        LogWrapper.d(TAG, "Found not valid proxy: " + conf.toShortString());
                     }
-
-                    ApplicationGlobals.getDBManager().upsertProxy(pd);
                 }
                 else
                 {
