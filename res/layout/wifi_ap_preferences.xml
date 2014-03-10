@@ -6,13 +6,21 @@
             android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/progress"/>
+
+        <LinearLayout
+            android:id="@+id/content"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="12dp"
             android:paddingRight="12dp">
 
-        <RelativeLayout
+
+            <RelativeLayout
                 android:id="@+id/wifi_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -21,7 +29,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp">
 
-            <TextView
+                <TextView
                     android:id="@+id/wifi_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -38,24 +46,24 @@
                     android:layout_toLeftOf="@+id/wifi_signal"
                     android:text="WIFI sa f asdf asdfa sdfas dfasdfas dfasdf asdfasdf"/>
 
-            <!--<TextView-->
-                    <!--android:id="@+id/wifi_status"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_below="@+id/wifi_name"-->
-                    <!--android:layout_toLeftOf="@+id/wifi_signal"-->
-                    <!--android:layout_alignParentLeft="true"-->
-                    <!--android:textColor="@android:color/primary_text_dark"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:lines="1"-->
-                    <!--android:ellipsize="end"-->
-                    <!--android:paddingLeft="12dp"-->
-                    <!--android:paddingTop="8dp"-->
-                    <!--android:paddingBottom="10dp"-->
-                    <!--android:text="Connected asdf asdf sdf asdf asdf asdf asdf asdf asdf"/>-->
+                <!--<TextView-->
+                <!--android:id="@+id/wifi_status"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/wifi_name"-->
+                <!--android:layout_toLeftOf="@+id/wifi_signal"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:textColor="@android:color/primary_text_dark"-->
+                <!--android:textSize="18sp"-->
+                <!--android:singleLine="true"-->
+                <!--android:lines="1"-->
+                <!--android:ellipsize="end"-->
+                <!--android:paddingLeft="12dp"-->
+                <!--android:paddingTop="8dp"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:text="Connected asdf asdf sdf asdf asdf asdf asdf asdf asdf"/>-->
 
-            <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
+                <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
                     android:id="@+id/wifi_signal"
                     android:layout_alignParentRight="true"
                     android:paddingRight="12dp"
@@ -63,33 +71,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            <!--<LinearLayout-->
-            <!--android:id="@+id/available_actions"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/wifi_signal"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginRight="1dp"-->
-            <!--android:layout_marginBottom="1dp">-->
+                <!--<LinearLayout-->
+                <!--android:id="@+id/available_actions"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/wifi_signal"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginRight="1dp"-->
+                <!--android:layout_marginBottom="1dp">-->
 
-            <!--<TextView-->
-            <!--android:background="@color/Gray"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="15sp"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:paddingTop="0dp"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="10dp"-->
-            <!--android:textColor="@android:color/primary_text_dark"-->
-            <!--android:text="..."/>-->
-            <!--</LinearLayout>-->
+                <!--<TextView-->
+                <!--android:background="@color/Gray"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="15sp"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:paddingTop="0dp"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:textColor="@android:color/primary_text_dark"-->
+                <!--android:text="..."/>-->
+                <!--</LinearLayout>-->
 
-        </RelativeLayout>
+            </RelativeLayout>
 
-        <Switch
+            <Switch
                 android:id="@+id/wifi_proxy_switch"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -101,7 +109,7 @@
                 android:background="?android:attr/listChoiceBackgroundIndicator"
                 />
 
-        <Button
+            <Button
                 android:id="@+id/proxy_selector"
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -113,7 +121,7 @@
                 android:textSize="18sp"
                 style="@android:style/Widget.Holo.Spinner"/>
 
-        <LinearLayout
+            <LinearLayout
                 android:id="@+id/proxy_input_fields"
                 android:orientation="vertical"
                 android:layout_marginRight="5dp"
@@ -125,7 +133,7 @@
                 android:background="@color/GreyTransparent"
                 android:padding="5dp">
 
-            <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
+                <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                     android:id="@+id/proxy_host"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -141,9 +149,9 @@
 
                     app:value=""/>
 
-            <include layout="@layout/separator"/>
+                <include layout="@layout/separator"/>
 
-            <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
+                <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                     android:id="@+id/proxy_port"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -159,9 +167,9 @@
                     app:singleLine="true"
                     app:value=""/>
 
-            <include layout="@layout/separator"/>
+                <include layout="@layout/separator"/>
 
-            <com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList
+                <com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList
                     android:id="@+id/proxy_bypass"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -176,22 +184,26 @@
                     app:singleLine="true"
                     app:value=""/>
 
-            <!--<include layout="@layout/separator"/>-->
+                <!--<include layout="@layout/separator"/>-->
 
-            <!--<com.lechucksoftware.proxy.proxysettings.ui.components.InputTags-->
-                    <!--android:id="@+id/proxy_tags"-->
-                    <!--android:paddingTop="2dp"-->
-                    <!--android:paddingBottom="2dp"-->
-                    <!--android:paddingLeft="12dp"-->
-                    <!--android:background="?android:attr/listChoiceBackgroundIndicator"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--app:singleLine="true"-->
-                    <!--app:title="Tags"-->
-                    <!--app:fullsize="true"-->
-                    <!--app:readonly="true"/>-->
+                <!--<com.lechucksoftware.proxy.proxysettings.ui.components.InputTags-->
+                <!--android:id="@+id/proxy_tags"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:paddingLeft="12dp"-->
+                <!--android:background="?android:attr/listChoiceBackgroundIndicator"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:singleLine="true"-->
+                <!--app:title="Tags"-->
+                <!--app:fullsize="true"-->
+                <!--app:readonly="true"/>-->
+
+            </LinearLayout>
 
         </LinearLayout>
 
+
     </LinearLayout>
+
 </ScrollView>

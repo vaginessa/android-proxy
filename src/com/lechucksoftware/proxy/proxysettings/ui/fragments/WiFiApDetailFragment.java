@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
@@ -51,6 +52,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //    private InputTags proxyTags;
     private UUID confId;
     private LinearLayout proxyFieldsLayout;
+    private RelativeLayout progress;
+    private LinearLayout content;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -83,6 +86,10 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
 
 //        LogWrapper.getPartial(TAG, "onCreateView", Log.DEBUG);
+
+        progress = (RelativeLayout) v.findViewById(R.id.progress);
+        content = (LinearLayout) v.findViewById(R.id.content);
+        progress.setVisibility(View.GONE);
 
         wifiLayout = (ViewGroup) v.findViewById(R.id.wifi_layout);
 //        wifiLayout.setOnClickListener(new View.OnClickListener()
@@ -201,6 +208,9 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void saveConfiguration()
     {
+        progress.setVisibility(View.VISIBLE);
+        content.setVisibility(View.GONE);
+
         try
         {
             if (selectedWiFiAP != null && selectedWiFiAP.isValidConfiguration())
@@ -215,6 +225,9 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             EventReportingUtils.sendException(e);
             UIUtils.showError(getActivity(), R.string.exception_apl_writeconfig_error_message);
         }
+
+        content.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.GONE);
 
         // Calling refresh intent only after save of all configuration
         LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
