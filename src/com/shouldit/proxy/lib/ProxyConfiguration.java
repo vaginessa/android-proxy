@@ -8,6 +8,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.enums.SecurityType;
@@ -173,6 +174,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             else
             {
                 LogWrapper.d(TAG, String.format("Different proxy host set"));
+                LogWrapper.d(TAG, TextUtils.isEmpty(this.proxyHost) ? "":this.proxyHost);
+                LogWrapper.d(TAG, TextUtils.isEmpty(anotherConf.proxyHost) ? "":anotherConf.proxyHost);
                 return false;
             }
         }
@@ -556,8 +559,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //            Object mHttpProxy = mHttpProxyField.get(linkProperties);
 //            mHttpProxy = mHttpProxyField.get(linkProperties);
 
+            LogWrapper.startTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
-
+            LogWrapper.getPartial(TAG,"saveWifiConfiguration", Log.DEBUG);
             /***************************************************************************************
              * TODO: improve method adding callback in order to return the result of the operation
               */
@@ -592,6 +596,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             }
             /**************************************************************************************/
 
+            LogWrapper.stopTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
             this.status.clear();
 
             LogWrapper.d(TAG, String.format("Succesfully updated configuration %s, after %d tries", this.toShortString(),tries));
