@@ -54,14 +54,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
         if (updatedWifi > 0)
         {
-            callerActivity.runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(callerActivity, String.format("Updated %d Wi-Fi access point configuration", updatedWifi), Toast.LENGTH_SHORT);
-                }
-            });
+            Toast.makeText(callerActivity, String.format("Updated %d Wi-Fi access point configuration", updatedWifi), Toast.LENGTH_SHORT).show();
         }
     }
 

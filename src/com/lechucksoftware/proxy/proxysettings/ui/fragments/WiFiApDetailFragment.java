@@ -112,17 +112,11 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 }
                 else
                 {
-                    if (selectedWiFiAP.getProxySettings() == ProxySetting.STATIC)
-                    {
-                        long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedWiFiAP.getProxyHost(), selectedWiFiAP.getProxyPort());
-                        if (proxyId != -1)
-                        {
-                            ApplicationGlobals.getDBManager().clearInUseFlag(proxyId);
-                        }
-                    }
-
                     LogWrapper.d(TAG,"Set proxy settings = NONE");
                     selectedWiFiAP.setProxySetting(ProxySetting.NONE);
+                    selectedWiFiAP.setProxyHost(null);
+                    selectedWiFiAP.setProxyPort(0);
+                    selectedWiFiAP.setProxyExclusionList(null);
                 }
 
                 saveConfiguration();
@@ -211,7 +205,9 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         {
             if (selectedWiFiAP != null && selectedWiFiAP.isValidConfiguration())
             {
+                ApplicationGlobals.getInstance().wifiActionEnabled = false;
                 selectedWiFiAP.writeConfigurationToDevice();
+                ApplicationGlobals.getInstance().wifiActionEnabled = true;
             }
         }
         catch (Exception e)
