@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,8 +89,10 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        LogWrapper.getPartial(TAG, "onCreateView", Log.DEBUG);
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
-        content = (LinearLayout) v.findViewById(R.id.content);
         progress.setVisibility(View.GONE);
+        content = (LinearLayout) v.findViewById(R.id.content);
+        content.setVisibility(View.VISIBLE);
+
 
         wifiLayout = (ViewGroup) v.findViewById(R.id.wifi_layout);
 //        wifiLayout.setOnClickListener(new View.OnClickListener()
@@ -208,6 +211,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void saveConfiguration()
     {
+        LogWrapper.startTrace(TAG,"saveConfiguration", Log.DEBUG);
+        // TODO: add to async task so that the progress bar is shown
         progress.setVisibility(View.VISIBLE);
         content.setVisibility(View.GONE);
 
@@ -228,6 +233,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         content.setVisibility(View.VISIBLE);
         progress.setVisibility(View.GONE);
+
+        LogWrapper.stopTrace(TAG,"saveConfiguration", Log.DEBUG);
 
         // Calling refresh intent only after save of all configuration
         LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);

@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <include layout="@layout/progress"/>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-        <include layout="@layout/progress"/>
 
         <LinearLayout
             android:id="@+id/content"
+            android:visibility="visible"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingLeft="12dp"
             android:paddingRight="12dp">
-
 
             <RelativeLayout
                 android:id="@+id/wifi_layout"
@@ -203,7 +204,6 @@
 
         </LinearLayout>
 
+    </ScrollView>
 
-    </LinearLayout>
-
-</ScrollView>
+</RelativeLayout>
