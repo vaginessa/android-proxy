@@ -1,6 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments.base;
 
 import android.app.Fragment;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 /**
@@ -8,6 +12,9 @@ import com.shouldit.proxy.lib.log.LogWrapper;
  */
 public class BaseFragment extends Fragment
 {
+    public View progress;
+    public View content;
+
     @Override
     public void onResume()
     {

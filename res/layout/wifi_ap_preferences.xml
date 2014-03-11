@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     >
 
-    <include layout="@layout/progress"/>
-
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -185,7 +183,7 @@
                     app:singleLine="true"
                     app:value=""/>
 
-                <!--<include layout="@layout/separator"/>-->
+                <!--<include layout="@layout/separator.xml"/>-->
 
                 <!--<com.lechucksoftware.proxy.proxysettings.ui.components.InputTags-->
                 <!--android:id="@+id/proxy_tags"-->
@@ -205,5 +203,7 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <include layout="@layout/progress"/>
 
 </RelativeLayout>

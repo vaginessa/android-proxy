@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
@@ -53,8 +54,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //    private InputTags proxyTags;
     private UUID confId;
     private LinearLayout proxyFieldsLayout;
-    private RelativeLayout progress;
-    private LinearLayout content;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -88,9 +87,9 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
 //        LogWrapper.getPartial(TAG, "onCreateView", Log.DEBUG);
 
-        progress = (RelativeLayout) v.findViewById(R.id.progress);
+        progress = v.findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
-        content = (LinearLayout) v.findViewById(R.id.content);
+        content =  v.findViewById(R.id.content);
         content.setVisibility(View.VISIBLE);
 
 
@@ -211,35 +210,11 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void saveConfiguration()
     {
-        LogWrapper.startTrace(TAG,"saveConfiguration", Log.DEBUG);
-        // TODO: add to async task so that the progress bar is shown
-        progress.setVisibility(View.VISIBLE);
-        content.setVisibility(View.GONE);
+        // TODO: handle into async task ProgressVisibility
+//        progress.setVisibility(View.VISIBLE);
 
-        try
-        {
-            if (selectedWiFiAP != null && selectedWiFiAP.isValidConfiguration())
-            {
-                ApplicationGlobals.getInstance().wifiActionEnabled = false;
-                selectedWiFiAP.writeConfigurationToDevice();
-                ApplicationGlobals.getInstance().wifiActionEnabled = true;
-            }
-        }
-        catch (Exception e)
-        {
-            EventReportingUtils.sendException(e);
-            UIUtils.showError(getActivity(), R.string.exception_apl_writeconfig_error_message);
-        }
-
-        content.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-
-        LogWrapper.stopTrace(TAG,"saveConfiguration", Log.DEBUG);
-
-        // Calling refresh intent only after save of all configuration
-        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-        APL.getContext().sendBroadcast(intent);
+        AsyncSaveProxyConfiguration asyncSaveProxyConfiguration = new AsyncSaveProxyConfiguration(this, selectedWiFiAP);
+        asyncSaveProxyConfiguration.execute();
     }
 
     public void refreshUI()

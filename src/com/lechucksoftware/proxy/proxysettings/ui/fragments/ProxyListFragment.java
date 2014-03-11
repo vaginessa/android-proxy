@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -226,13 +227,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             apConf.setProxyExclusionList(proxy.exclusion);
             apConf.writeConfigurationToDevice();
 
-            // Calling refresh intent only after save of the AP configuration
-            LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-            Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-            APL.getContext().sendBroadcast(intent);
-
-            proxy.setInUse(true);
-            ApplicationGlobals.getDBManager().upsertProxy(proxy);
+            AsyncSaveProxyConfiguration asyncSaveProxyConfiguration = new AsyncSaveProxyConfiguration(this, apConf);
+            asyncSaveProxyConfiguration.execute();
         }
         catch (Exception e)
         {

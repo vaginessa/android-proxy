@@ -2,6 +2,7 @@
 <resources>
 
     <color name="GreyTransparent">#33777777</color>
+    <color name="GreyDisable">#99222222</color>
     <color name="RedTransparent">#99CC0000</color>
 
     <color name="Holo_Red_Light">#FF4444</color>
