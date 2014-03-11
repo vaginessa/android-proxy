@@ -63,7 +63,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     {
         int updatedWiFiAP = 0;
 
-        List<ProxyConfiguration> configurations = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
+        List<ProxyConfiguration> configurations = new ArrayList<ProxyConfiguration>(ApplicationGlobals.getProxyManager().getSortedConfigurationsList());
 
         LogWrapper.d(TAG, "Current proxy: " + currentProxy.toString());
         LogWrapper.d(TAG, "Updated proxy: " + updatedProxy.toString());

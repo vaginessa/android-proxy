@@ -424,11 +424,7 @@ public class DataSource
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
 
         long updatedRows = 0;
-        if (proxyIDs == null)
-        {
-            updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, null, null);
-        }
-        else
+        if (proxyIDs != null && proxyIDs.length > 0)
         {
             String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 0 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",",proxyIDs) + ")";
 
@@ -436,8 +432,37 @@ public class DataSource
             updatedRows = cursor.getCount();
             cursor.close();
         }
+        else
+        {
+            updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, null, null);
+        }
 
         LogWrapper.d(TAG, "Cleared in use flag for : " + updatedRows + " proxies");
+    }
+
+    public void setInUseFlag(Long ... inUseProxies)
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.beginTransaction();
+
+        clearInUseFlag();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
+
+        long updatedRows = 0;
+        if (inUseProxies != null && inUseProxies.length > 0)
+        {
+            String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 1 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",",inUseProxies) + ")";
+
+            Cursor cursor = database.rawQuery(query, null);
+            updatedRows = cursor.getCount();
+            cursor.close();
+        }
+
+        LogWrapper.d(TAG, "Set in use flag for : " + updatedRows + " proxies");
+        database.setTransactionSuccessful();
+        database.endTransaction();
     }
 
     private void notifyProxyChange()

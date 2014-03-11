@@ -6,11 +6,14 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +29,7 @@ public class ProxySyncService extends IntentService
     public ProxySyncService()
     {
         super("ProxySyncService");
-        LogWrapper.v(TAG, "ProxySyncService constructor");
+//        LogWrapper.v(TAG, "ProxySyncService constructor");
     }
 
     public static ProxySyncService getInstance()
@@ -54,12 +57,8 @@ public class ProxySyncService extends IntentService
     {
         LogWrapper.startTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
 
-        // TODO : improve the clear and set of in use flag, adding to a single sql transaction
-        ApplicationGlobals.getDBManager().clearInUseFlag(null);
-
-        LogWrapper.getPartial(TAG,"syncProxyConfigurations", Log.DEBUG);
-
-        List<ProxyConfiguration> configurations = ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
+        List<ProxyConfiguration> configurations =  ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
+        List<Long> inUseProxies = new ArrayList<Long>();
 
         int foundNew = 0;
         int foundUpdate = 0;
@@ -70,44 +69,54 @@ public class ProxySyncService extends IntentService
 
             for (ProxyConfiguration conf : configurations)
             {
-                if (conf.getProxySettings() == ProxySetting.STATIC && conf.ap.security != SecurityType.SECURITY_EAP)
+                try
                 {
-                    if (conf.isValidProxyConfiguration())
-                    {
-                        LogWrapper.d(TAG, "Found proxy: " + conf.toShortString());
+                    LogWrapper.d(TAG,"Checking Wi-Fi AP: " + conf.getSSID());
 
-                        long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(), conf.getProxyPort());
-                        ProxyEntity pd = null;
-                        if (proxyId != -1)
+                    if (conf.getProxySettings() == ProxySetting.STATIC && conf.ap.security != SecurityType.SECURITY_EAP)
+                    {
+                        if (conf.isValidProxyConfiguration())
                         {
-                            // Proxy already saved into DB
-                            pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
-                            pd.setInUse(true);
-                            foundUpdate++;
+                            LogWrapper.d(TAG, "Found proxy: " + conf.toShortString());
+
+                            long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(), conf.getProxyPort());
+                            ProxyEntity pd = null;
+                            if (proxyId != -1)
+                            {
+                                // Proxy already saved into DB
+                                pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
+                                inUseProxies.add(pd.getId());
+                                foundUpdate++;
+                            }
+                            else
+                            {
+                                // Found new proxy
+                                pd = new ProxyEntity();
+                                pd.host = conf.getProxyHost();
+                                pd.port = conf.getProxyPort();
+                                pd.exclusion = conf.getProxyExclusionList();
+                                pd.setInUse(true);
+                                foundNew++;
+                                ApplicationGlobals.getDBManager().upsertProxy(pd);
+                            }
                         }
                         else
                         {
-                            // Found new proxy
-                            pd = new ProxyEntity();
-                            pd.host = conf.getProxyHost();
-                            pd.port = conf.getProxyPort();
-                            pd.exclusion = conf.getProxyExclusionList();
-                            pd.setInUse(true);
-                            foundNew++;
+                            LogWrapper.d(TAG, "Found not valid proxy: " + conf.toShortString());
                         }
-
-                        ApplicationGlobals.getDBManager().upsertProxy(pd);
                     }
                     else
                     {
-                        LogWrapper.d(TAG, "Found not valid proxy: " + conf.toShortString());
+                        LogWrapper.d(TAG, "Proxy not enabled or cannot be read: " + conf.toShortString());
                     }
                 }
-                else
+                catch (Exception e)
                 {
-
+                    EventReportingUtils.sendException(e);
                 }
             }
+
+            ApplicationGlobals.getDBManager().setInUseFlag(inUseProxies.toArray(new Long[inUseProxies.size()]));
 
             long proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
             LogWrapper.d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));

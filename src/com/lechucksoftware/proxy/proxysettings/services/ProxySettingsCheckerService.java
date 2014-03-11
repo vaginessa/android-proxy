@@ -28,7 +28,7 @@ public class ProxySettingsCheckerService extends IntentService
     public ProxySettingsCheckerService()
     {
         super("ProxySettingsCheckerService");
-        LogWrapper.v(TAG, "ProxySettingsCheckerService constructor");
+//        LogWrapper.v(TAG, "ProxySettingsCheckerService constructor");
     }
 
     public static ProxySettingsCheckerService getInstance()
@@ -123,7 +123,7 @@ public class ProxySettingsCheckerService extends IntentService
 
         try
         {
-//            CallRefreshApplicationStatus();
+//            callRefreshApplicationStatus();
 
             ApplicationGlobals.getProxyManager().updateProxyConfigurationList();
             ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCurrentConfiguration();
@@ -181,7 +181,7 @@ public class ProxySettingsCheckerService extends IntentService
                 LogWrapper.d(TAG, "Network is not available, cannot check proxy settings");
             }
 
-            CallRefreshApplicationStatus();
+            callRefreshApplicationStatus();
         }
         catch (Exception e)
         {
@@ -193,7 +193,7 @@ public class ProxySettingsCheckerService extends IntentService
         LogWrapper.stopTrace(TAG,"checkProxySettings", Log.DEBUG);
     }
 
-    public void CallRefreshApplicationStatus()
+    public void callRefreshApplicationStatus()
     {
         /**
          * Call the update of the UI
