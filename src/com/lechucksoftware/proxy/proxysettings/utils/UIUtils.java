@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,6 +27,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 import java.io.File;
@@ -236,6 +238,8 @@ public class UIUtils
     {
         String BASE_URL = "file:///android_asset/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
 
+        LogWrapper.startTrace(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+
         try
         {
             //Create web view and load html
@@ -253,7 +257,11 @@ public class UIUtils
 
             });
 
+            LogWrapper.getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+
             webView.loadUrl(BASE_URL + filename);
+
+            LogWrapper.getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                     .setTitle(title)
@@ -274,6 +282,9 @@ public class UIUtils
                             dialog.dismiss();
                         }
                     });
+
+            LogWrapper.getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+
             AlertDialog dialog = builder.create();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
             {
@@ -286,6 +297,9 @@ public class UIUtils
                     }
                 }
             });
+
+            LogWrapper.getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+
             dialog.show();
         }
         catch (Exception e)
@@ -293,6 +307,8 @@ public class UIUtils
             EventReportingUtils.sendException(e);
             return;
         }
+
+        LogWrapper.stopTrace(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
     }
 
     public static void showHTMLAlertDialog(final Context ctx, String title, String htmlText, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
