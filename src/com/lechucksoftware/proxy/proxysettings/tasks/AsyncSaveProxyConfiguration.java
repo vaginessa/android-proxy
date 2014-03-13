@@ -48,13 +48,21 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
     {
         super.onPostExecute(result);
 
+        if (result)
+        {
+
 //        callerFragment.progress.setVisibility(View.GONE);
 //        Toast.makeText(callerFragment.getActivity(), String.format("Updated %s Wi-Fi access point configuration", result.toString()), Toast.LENGTH_SHORT).show();
 
-        // Calling refresh intent only after save of all configuration
-        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-        APL.getContext().sendBroadcast(intent);
+            // Calling refresh intent only after save of all configuration
+            LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+            Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+            APL.getContext().sendBroadcast(intent);
+        }
+        else
+        {
+            UIUtils.showError(callerFragment.getActivity(), R.string.exception_apl_writeconfig_error_message);
+        }
     }
 
     @Override
@@ -70,15 +78,14 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
                 configuration.writeConfigurationToDevice();
                 ApplicationGlobals.getInstance().wifiActionEnabled = true;
             }
+
+            LogWrapper.stopTrace(TAG,"saveConfiguration", Log.DEBUG);
+            return true;
         }
         catch (Exception e)
         {
             EventReportingUtils.sendException(e);
-            UIUtils.showError(callerFragment.getActivity(), R.string.exception_apl_writeconfig_error_message);
+            return false;
         }
-
-        LogWrapper.stopTrace(TAG,"saveConfiguration", Log.DEBUG);
-
-        return true;
     }
 }
