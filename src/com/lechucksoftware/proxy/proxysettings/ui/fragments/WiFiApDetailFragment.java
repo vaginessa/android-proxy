@@ -180,6 +180,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         }
         else
         {
+//            DialogHTMLFragment dialogHTMLFragment = DialogHTMLFragment.newInstance("AAA","no_proxy_defined.html","CCCCC",null);
+//            dialogHTMLFragment.show(getFragmentManager(), "dialogHTMLFragment");
             UIUtils.showError(getActivity(), R.string.no_proxy_defined);
         }
     }

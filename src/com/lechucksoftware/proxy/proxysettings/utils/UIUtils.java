@@ -236,7 +236,7 @@ public class UIUtils
 
     public static void showHTMLAssetsAlertDialog(final Context ctx, String title, String filename, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
     {
-        String BASE_URL = "file:///android_asset/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
+        String BASE_URL = "file:///android_asset/www/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
 
         LogWrapper.startTrace(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
 

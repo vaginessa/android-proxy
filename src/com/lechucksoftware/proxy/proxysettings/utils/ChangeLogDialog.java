@@ -55,7 +55,7 @@ public class ChangeLogDialog
         mContext = context;
 
         // Check if exist an override of the base style
-        String overrideBaseStyle = Utils.getFullAsset(context, "style.css");
+        String overrideBaseStyle = Utils.getFullAsset(context, "www/style.css");
         if (overrideBaseStyle != null) mStyle = overrideBaseStyle;
     }
 
