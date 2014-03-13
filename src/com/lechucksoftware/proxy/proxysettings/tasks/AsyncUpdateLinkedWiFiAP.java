@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
@@ -52,9 +53,13 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
         final int updatedWifi = updatedWiFiAP;
 
-        if (updatedWifi > 0)
+        if (updatedWifi == 1)
         {
-            Toast.makeText(callerActivity, String.format("Updated %d Wi-Fi access point configuration", updatedWifi), Toast.LENGTH_SHORT).show();
+            Toast.makeText(callerActivity, String.format(callerActivity.getString(R.string.updated_wifi_access_point), updatedWifi), Toast.LENGTH_SHORT).show();
+        }
+        else if (updatedWifi > 1)
+        {
+            Toast.makeText(callerActivity, String.format(callerActivity.getString(R.string.updated_wifi_access_points), updatedWifi), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -77,8 +82,8 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                 LogWrapper.d(TAG, "Checking AP: " + conf.toShortString());
 
                 if (conf.getProxyHost().equalsIgnoreCase(currentProxy.host)
-                    && conf.getProxyPort().equals(currentProxy.port)
-                    && conf.getProxyExclusionList().equalsIgnoreCase(currentProxy.exclusion))
+                        && conf.getProxyPort().equals(currentProxy.port)
+                        && conf.getProxyExclusionList().equalsIgnoreCase(currentProxy.exclusion))
                 {
                     conf.setProxyHost(updatedProxy.host);
                     conf.setProxyPort(updatedProxy.port);

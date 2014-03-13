@@ -29,14 +29,6 @@ public class UpdateLinkedWifiAPAlertDialog extends DialogFragment
             }
         });
 
-//        builder.setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener()
-//        {
-//            public void onClick(DialogInterface paramDialogInterface, int paramInt)
-//            {
-//                onResult(Activity.RESULT_CANCELED);
-//            }
-//        });
-
         AlertDialog alert = builder.create();
         return alert;
     }

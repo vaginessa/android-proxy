@@ -894,7 +894,9 @@
     <string name="add_new_proxy">Add new proxy</string>
     <string name="select_proxy_clickable">Select a Proxy ...</string>
     <string name="select_proxy">Select a Proxy</string>
-    <string name="already_used_proxy_warning">This proxy is currently in use in one or more of your Wi-Fi access points</string>
+    <string name="already_used_proxy_warning">This proxy configuration is currently in use in one or more of your Wi-Fi access points</string>
     <string name="warning">Warning</string>
-    <string name="wifi_ap_will_be_updated">The new proxy configuration will be applied to the Wi-Fi access points that used the previous version of the configuration</string>
+    <string name="wifi_ap_will_be_updated">The updated proxy configuration will be applied to the Wi-Fi access points that used the previous version of the configuration</string>
+    <string name="updated_wifi_access_point">Updated %d Wi-Fi access point configuration</string>
+    <string name="updated_wifi_access_points">Updated %d Wi-Fi access points configurations</string>
 </resources>
