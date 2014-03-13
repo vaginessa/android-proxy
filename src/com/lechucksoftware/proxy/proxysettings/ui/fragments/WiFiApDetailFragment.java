@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,18 +67,27 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public void onResume()
     {
-        super.onCreate(savedInstanceState);
+        super.onResume();
 
         confId = (UUID) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+//        LogWrapper.d(TAG,"confId: " + String.valueOf(confId));
         selectedWiFiAP = ApplicationGlobals.getProxyManager().getConfiguration(confId);
+        if (selectedWiFiAP == null)
+        {
+            // TODO: after resuming app, the UUID of a selected proxy configuration is not more the same -> Try to use some persisted ID (WifiNetworkId??)
+            NavigationUtils.GoToMainActivity(getActivity());
+        }
+
+
+        refreshUI();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-//        LogWrapper.startTrace(TAG, "onCreateView", Log.DEBUG);
+        LogWrapper.startTrace(TAG, "onCreateView", Log.DEBUG);
 
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
 
@@ -157,6 +167,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
 
         refreshUI();
+
+        LogWrapper.stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -261,11 +273,12 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
             refreshVisibility();
         }
-        else
-        {
-            // TODO: Add handling here
-            EventReportingUtils.sendException(new Exception("NO WIFI AP SELECTED"));
-        }
+//        else
+//        {
+//            LogWrapper.d(TAG,"selectedWiFiAP is NULL: " + String.valueOf(confId));
+////            NavigationUtils.GoToMainActivity(getActivity());
+//            EventReportingUtils.sendException(new Exception("NO WIFI AP SELECTED"));
+//        }
 
 //        LogWrapper.stopTrace(TAG, "refreshUI", Log.DEBUG);
     }
@@ -289,12 +302,5 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             proxyBypass.setExclusionString("");
 //            proxyTags.setTags(null);
         }
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        refreshUI();
     }
 }
