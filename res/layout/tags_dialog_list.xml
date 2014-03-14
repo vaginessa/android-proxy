@@ -13,7 +13,7 @@
 
         <ListView
                 android:id="@id/android:list"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawSelectorOnTop="false"
@@ -38,7 +38,7 @@
     </LinearLayout>
 
     <Button
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:id="@+id/dialog_ok"

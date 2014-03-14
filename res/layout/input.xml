@@ -36,7 +36,7 @@
         <EditText
                 android:id="@+id/field_value"
                 android:layout_below="@+id/field_value_readonly"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:singleLine="true"
@@ -73,7 +73,7 @@
 
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/field_validation"/>
 

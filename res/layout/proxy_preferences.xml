@@ -11,12 +11,12 @@
             android:orientation="vertical"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <RelativeLayout
                 android:id="@+id/proxy_in_use_banner"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingTop="5dp"
@@ -44,7 +44,7 @@
 
         <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                 android:id="@+id/proxy_host"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -58,7 +58,7 @@
 
         <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                 android:id="@+id/proxy_port"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -73,7 +73,7 @@
 
         <com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList
                 android:id="@+id/proxy_bypass"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:title="@string/proxy_exclusionlist_label"
                 app:hint="@string/proxy_exclusionlist_hint"
@@ -92,7 +92,7 @@
                 <!--android:paddingBottom="5dp"-->
                 <!--android:paddingLeft="12dp"-->
                 <!--android:background="?android:attr/listChoiceBackgroundIndicator"-->
-                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--app:title="Tags"-->
                 <!--app:fullsize="true"-->

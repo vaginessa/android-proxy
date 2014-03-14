@@ -4,7 +4,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
         android:id="@+id/list_item_ap_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
         android:padding="5dp">
 
@@ -37,7 +37,7 @@
 
     <!--<com.lechucksoftware.proxy.proxysettings.ui.components.TagsView-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_width="match_parent"-->
             <!--android:id="@+id/list_item_proxy_tags"-->
             <!--android:layout_marginTop="5dp"-->
             <!--app:singleLine="true"-->
@@ -57,7 +57,7 @@
 
     <TextView
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:id="@+id/list_item_proxy_bypass"
             android:layout_marginTop="11dp"
             android:padding="3dp"

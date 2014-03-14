@@ -10,7 +10,7 @@
     <CheckBox
             android:id="@+id/li_tag_checkbox"
             android:padding="10dp"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ASDFASDGASDG"/>
 

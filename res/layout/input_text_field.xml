@@ -8,7 +8,7 @@
     <TextView
             android:id="@+id/field_title"
             android:text="Field Title"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_alignParentLeft="true"
             android:textSize="15dp"
             android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
     <EditText
             android:id="@+id/field_input"
             android:text="text here..."
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_below="@id/field_title"
             android:textSize="15dp"
             android:layout_height="wrap_content"

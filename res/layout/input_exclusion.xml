@@ -25,7 +25,7 @@
             android:id="@+id/bypass_container"
             android:layout_marginTop="-5dp"
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
@@ -46,7 +46,7 @@
     </LinearLayout>
 
     <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/field_value_readonly"
