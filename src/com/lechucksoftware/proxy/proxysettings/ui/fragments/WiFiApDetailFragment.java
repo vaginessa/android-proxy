@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
@@ -50,7 +51,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private InputExclusionList proxyBypass;
 //    private InputTags proxyTags;
     private UUID confId;
-    private LinearLayout proxyFieldsLayout;
+    private RelativeLayout proxyFieldsLayout;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -149,7 +150,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             }
         });
 
-        proxyFieldsLayout = (LinearLayout) v.findViewById(R.id.proxy_input_fields);
+        proxyFieldsLayout = (RelativeLayout) v.findViewById(R.id.proxy_input_fields);
 
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
 //        proxyHost.setOnClickListener(new View.OnClickListener()
