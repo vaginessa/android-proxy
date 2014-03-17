@@ -134,7 +134,7 @@ public class InputExclusionList extends LinearLayout
 
     public void setExclusionString(String value)
     {
-        LogWrapper.startTrace(TAG, "setExclusionString", Log.ASSERT, true);
+        LogWrapper.startTrace(TAG, "setExclusionString", Log.DEBUG);
 
         if (exclusionString == null || !exclusionString.equals(value))
         {
@@ -156,7 +156,7 @@ public class InputExclusionList extends LinearLayout
 
         refreshExclusionList();
 
-        LogWrapper.stopTrace(TAG, "setExclusionString", Log.ASSERT);
+        LogWrapper.stopTrace(TAG, "setExclusionString", Log.DEBUG);
     }
 
     public String getExclusionString()
@@ -204,7 +204,7 @@ public class InputExclusionList extends LinearLayout
 
     private void refreshExclusionList()
     {
-        LogWrapper.startTrace(TAG, "refreshExclusionList", Log.ASSERT, true);
+        LogWrapper.startTrace(TAG, "refreshExclusionList", Log.DEBUG);
 
         if (readonly)
         {
@@ -249,7 +249,7 @@ public class InputExclusionList extends LinearLayout
             updateExclusionStringValue();
         }
 
-        LogWrapper.stopTrace(TAG, "refreshExclusionList", Log.ASSERT);
+        LogWrapper.stopTrace(TAG, "refreshExclusionList", Log.DEBUG);
     }
 
     private void addEmptyItem()

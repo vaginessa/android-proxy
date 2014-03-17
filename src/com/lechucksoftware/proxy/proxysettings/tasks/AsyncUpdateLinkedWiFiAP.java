@@ -81,9 +81,13 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             {
                 LogWrapper.d(TAG, "Checking AP: " + conf.toShortString());
 
-                if (conf.getProxyHost().equalsIgnoreCase(currentProxy.host)
-                        && conf.getProxyPort().equals(currentProxy.port)
-                        && conf.getProxyExclusionList().equalsIgnoreCase(currentProxy.exclusion))
+                String host = conf.getProxyHost();
+                Integer port = conf.getProxyPort();
+                String exclusion = conf.getProxyExclusionList();
+
+                if (host.equalsIgnoreCase(currentProxy.host)
+                        && port.equals(currentProxy.port)
+                        && exclusion.equalsIgnoreCase(currentProxy.exclusion))
                 {
                     conf.setProxyHost(updatedProxy.host);
                     conf.setProxyPort(updatedProxy.port);

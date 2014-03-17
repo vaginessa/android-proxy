@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-         <LinearLayout
+        <LinearLayout
             android:id="@+id/content"
             android:visibility="visible"
             android:orientation="vertical"
@@ -119,23 +119,24 @@
                 android:textSize="18sp"
                 style="@android:style/Widget.Holo.Spinner"/>
 
-             <RelativeLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:id="@+id/proxy_input_fields"
-                 android:background="@color/GreyTransparent"
-                 android:layout_marginRight="5dp"
-                 android:layout_marginLeft="5dp"
-                 android:layout_marginTop="10dp"
-                 android:layout_marginBottom="10dp"
-                 android:padding="5dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/proxy_input_fields"
+                android:background="@color/GreyTransparent"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp">
 
                 <LinearLayout
                     android:paddingTop="10dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/edit_proxy_button">
+                    android:layout_toLeftOf="@+id/edit_proxy_button"
+                    android:layout_below="@+id/proxy_config_title">
 
                     <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                         android:id="@+id/proxy_host"
@@ -190,48 +191,54 @@
 
                     <!--<include layout="@layout/separator.xml"/>-->
 
-                <!--<com.lechucksoftware.proxy.proxysettings.ui.components.InputTags-->
-                <!--android:id="@+id/proxy_tags"-->
-                <!--android:paddingTop="2dp"-->
-                <!--android:paddingBottom="2dp"-->
-                <!--android:paddingLeft="12dp"-->
-                <!--android:background="?android:attr/listChoiceBackgroundIndicator"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--app:singleLine="true"-->
-                <!--app:title="Tags"-->
-                <!--app:fullsize="true"-->
-                <!--app:readonly="true"/>-->
+                    <!--<com.lechucksoftware.proxy.proxysettings.ui.components.InputTags-->
+                    <!--android:id="@+id/proxy_tags"-->
+                    <!--android:paddingTop="2dp"-->
+                    <!--android:paddingBottom="2dp"-->
+                    <!--android:paddingLeft="12dp"-->
+                    <!--android:background="?android:attr/listChoiceBackgroundIndicator"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--app:singleLine="true"-->
+                    <!--app:title="Tags"-->
+                    <!--app:fullsize="true"-->
+                    <!--app:readonly="true"/>-->
 
-            </LinearLayout>
+                </LinearLayout>
 
-                 <!--<TextView-->
-                 <!--android:layout_width="wrap_content"-->
-                 <!--android:layout_height="wrap_content"-->
-                 <!--android:layout_alignParentLeft="true"-->
-                 <!--android:layout_centerVertical="true"-->
-                 <!--android:paddingLeft="12dp"-->
-                 <!--android:textSize="18sp"-->
-                 <!--android:textColor="@android:color/primary_text_dark"-->
-                 <!--android:textStyle="bold"-->
-                 <!--android:text="Proxy Configuration"/>-->
+                <TextView
+                    android:id="@+id/proxy_config_title"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textStyle="bold"
+                    android:text="PROXY CONFIGURATION"/>
 
-                 <ImageButton
-                     style="?android:actionButtonStyle"
-                     android:layout_alignParentRight="true"
-                     android:layout_width="48dp"
-                     android:layout_height="48dp"
-                     android:layout_margin="2dp"
-                     android:scaleType="centerInside"
-                     android:layout_gravity="right"
-                     android:padding="8dp"
-                     android:id="@+id/edit_proxy_button"
-                     android:src="@drawable/ic_action_core_overflow"/>
+                <!--<ImageButton-->
+                    <!--style="?android:actionButtonStyle"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:layout_gravity="right"-->
+                    <!--android:paddingRight="8dp"-->
+                    <!--android:paddingLeft="2dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:paddingBottom="8dp"-->
+                    <!--android:id="@+id/edit_proxy_button"-->
+                    <!--android:src="@drawable/ic_action_core_overflow"/>-->
 
-             </RelativeLayout>
+            </RelativeLayout>
 
 
-         </LinearLayout>
+        </LinearLayout>
 
     </ScrollView>
 

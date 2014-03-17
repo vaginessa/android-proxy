@@ -1,10 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
@@ -52,6 +55,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //    private InputTags proxyTags;
     private UUID confId;
     private RelativeLayout proxyFieldsLayout;
+    private ImageButton proxyEditButton;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -166,6 +170,19 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         proxyPort = (InputField) v.findViewById(R.id.proxy_port);
         proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
 //        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
+
+//        proxyEditButton = (ImageButton) v.findViewById(R.id.edit_proxy_button);
+//        proxyEditButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view)
+//            {
+//                Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
+//                ApplicationGlobals.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
+//                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getUUID());
+//                startActivity(i);
+//            }
+//        });
 
         refreshUI();
 
