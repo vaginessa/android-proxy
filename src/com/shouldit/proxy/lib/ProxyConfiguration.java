@@ -94,17 +94,19 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public boolean isValidProxyConfiguration()
     {
+        boolean result = false;
         ProxyStatusItem hostStatus = ProxyUtils.isProxyValidHostname(this);
         ProxyStatusItem portStatus = ProxyUtils.isProxyValidPort(this);
+        ProxyStatusItem exclStatus = ProxyUtils.isProxyValidExclusionList(this);
 
-        if (hostStatus.effective && hostStatus.status == CheckStatusValues.CHECKED && hostStatus.result
-                && portStatus.effective && portStatus.status == CheckStatusValues.CHECKED && portStatus.result)
+        if (   hostStatus.effective && hostStatus.status == CheckStatusValues.CHECKED && hostStatus.result
+            && portStatus.effective && portStatus.status == CheckStatusValues.CHECKED && portStatus.result
+            && exclStatus.effective && exclStatus.status == CheckStatusValues.CHECKED && exclStatus.result )
         {
-            return true;
+            result = true;
         }
-        else
-            return false;
 
+        return result;
     }
 
     public void setProxySetting(ProxySetting setting)

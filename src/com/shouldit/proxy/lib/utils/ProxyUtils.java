@@ -867,7 +867,8 @@ public class ProxyUtils
                 Matcher match = APLConstants.HOSTNAME_PATTERN.matcher(proxyHost);
                 if (match.matches())
                 {
-                    String msg = String.format("%s %s", APL.getContext().getString(R.string.status_hostname_valid), proxyHost);
+                    String hostnameValidMsg = APL.getContext().getString(R.string.status_hostname_valid);
+                    String msg = String.format("%s %s", hostnameValidMsg, proxyHost);
                     return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, true, msg);
                 }
             }
@@ -878,6 +879,12 @@ public class ProxyUtils
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));
+    }
+
+    public static ProxyStatusItem isProxyValidExclusionList(ProxyConfiguration conf)
+    {
+        String proxyExclusionList = conf.getProxyExclusionList();
+        return isProxyValidExclusionList(proxyExclusionList);
     }
 
     public static ProxyStatusItem isProxyValidExclusionList(String proxyExclusionList)
