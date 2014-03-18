@@ -154,7 +154,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             }
         });
 
-        proxyFieldsLayout = (RelativeLayout) v.findViewById(R.id.proxy_input_fields);
+        proxyFieldsLayout = (RelativeLayout) v.findViewById(R.id.wifi_proxy_input_fields);
 
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
 //        proxyHost.setOnClickListener(new View.OnClickListener()
@@ -303,7 +303,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void refreshFieldsValues()
     {
-        long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedWiFiAP.getProxyHost(), selectedWiFiAP.getProxyPort());
+        long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedWiFiAP);
         if (proxyId != -1)
         {
             selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);

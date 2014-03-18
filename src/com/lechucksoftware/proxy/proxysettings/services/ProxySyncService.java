@@ -75,11 +75,11 @@ public class ProxySyncService extends IntentService
 
                     if (conf.getProxySettings() == ProxySetting.STATIC && conf.ap.security != SecurityType.SECURITY_EAP)
                     {
-                        if (conf.isValidProxyConfiguration())
-                        {
+//                        if (conf.isValidProxyConfiguration())
+//                        {
                             LogWrapper.d(TAG, "Found proxy: " + conf.toShortString());
 
-                            long proxyId = ApplicationGlobals.getDBManager().findProxy(conf.getProxyHost(), conf.getProxyPort());
+                            long proxyId = ApplicationGlobals.getDBManager().findProxy(conf);
                             ProxyEntity pd = null;
                             if (proxyId != -1)
                             {
@@ -99,11 +99,11 @@ public class ProxySyncService extends IntentService
                                 foundNew++;
                                 ApplicationGlobals.getDBManager().upsertProxy(pd);
                             }
-                        }
-                        else
-                        {
-                            LogWrapper.d(TAG, "Found not valid proxy: " + conf.toShortString());
-                        }
+//                        }
+//                        else
+//                        {
+//                            LogWrapper.d(TAG, "Found not valid proxy: " + conf.toShortString());
+//                        }
                     }
                     else
                     {

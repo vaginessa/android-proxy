@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.ArrayList;
@@ -251,13 +252,34 @@ public class DataSource
         }
     }
 
-    public long findProxy(String proxyHost, Integer proxyPort)
+    public long findProxy(ProxyConfiguration configuration)
+    {
+        long result = -1;
+
+        if (configuration != null)
+        {
+            if (configuration.isValidProxyConfiguration())
+            {
+                ProxyEntity proxy = new ProxyEntity();
+                proxy.host = configuration.getProxyHost();
+                proxy.port = configuration.getProxyPort();
+                proxy.exclusion = configuration.getProxyExclusionList();
+
+                result = findProxy(proxy);
+            }
+        }
+
+        return result;
+    }
+
+    public long findProxy(String proxyHost, Integer proxyPort, String proxyExclusion)
     {
         if (proxyHost != null && proxyPort != null)
         {
             ProxyEntity proxy = new ProxyEntity();
             proxy.host = proxyHost;
             proxy.port = proxyPort;
+            proxy.exclusion = proxyExclusion;
 
             return findProxy(proxy);
         }
@@ -273,9 +295,11 @@ public class DataSource
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " =?"
-                + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT + "=?";
+                + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT + "=?"
+                + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION + "=?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{proxyData.host, Integer.toString(proxyData.port)});
+        String[] selectionArgs = {proxyData.host, Integer.toString(proxyData.port), proxyData.exclusion};
+        Cursor cursor = database.rawQuery(query, selectionArgs);
 
         cursor.moveToFirst();
         long proxyId = -1;
