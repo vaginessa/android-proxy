@@ -287,7 +287,7 @@ public class DataSource
             return -1;
     }
 
-    public long findDuplicatedProxy(ProxyEntity proxyData)
+    public long findDuplicatedProxy(String proxyHost, Integer proxyPort)
     {
         LogWrapper.startTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
@@ -297,7 +297,7 @@ public class DataSource
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " =?"
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT + "=?";
 
-        String[] selectionArgs = {proxyData.host, Integer.toString(proxyData.port)};
+        String[] selectionArgs = {proxyHost, Integer.toString(proxyPort)};
         Cursor cursor = database.rawQuery(query, selectionArgs);
 
         cursor.moveToFirst();

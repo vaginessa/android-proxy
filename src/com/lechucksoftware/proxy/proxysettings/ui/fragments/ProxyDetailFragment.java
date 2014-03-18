@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -250,8 +251,17 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
 
         // TODO: Add check for duplicated configuration to Async handler
-        boolean isProxyDuplicated = ApplicationGlobals.getDBManager().findDuplicatedProxy(selectedProxy) != -1;
-        proxyDuplicatedBanner.setVisibility(UIUtils.booleanToVisibility(isProxyDuplicated));
+        String host = selectedProxy.host;
+        Integer port = selectedProxy.port;
+        if (host != null && port != null)
+        {
+            boolean isProxyDuplicated = ApplicationGlobals.getDBManager().findDuplicatedProxy(host, port) != -1;
+            proxyDuplicatedBanner.setVisibility(UIUtils.booleanToVisibility(isProxyDuplicated));
+        }
+        else
+        {
+            proxyDuplicatedBanner.setVisibility(View.GONE);
+        }
     }
 
     private void refreshUI()
