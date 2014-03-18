@@ -895,6 +895,7 @@
     <string name="select_proxy_clickable">Select a Proxy ...</string>
     <string name="select_proxy">Select a Proxy</string>
     <string name="already_used_proxy_warning">This proxy configuration is currently in use in one or more of your Wi-Fi access points</string>
+    <string name="duplicated_proxy_warning">A proxy configuration with same HOSTNAME and PORT has already been defined</string>
     <string name="warning">Warning</string>
     <string name="wifi_ap_will_be_updated">The updated proxy configuration will be applied to the Wi-Fi access points that used the previous version of the configuration</string>
     <string name="updated_wifi_access_point">Updated %d Wi-Fi access point configuration</string>

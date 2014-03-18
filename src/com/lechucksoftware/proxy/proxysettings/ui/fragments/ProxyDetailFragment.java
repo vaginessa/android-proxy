@@ -46,8 +46,11 @@ public class ProxyDetailFragment extends BaseDialogFragment
     private UUID cachedObjId;
     private UIHandler uiHandler;
     private RelativeLayout proxyInUseBanner;
+    private RelativeLayout proxyDuplicatedBanner;
+
     private ScrollView proxyScrollView;
     private Map<ProxyStatusProperties,CharSequence> validationErrors;
+
 
     public static ProxyDetailFragment newInstance(UUID cachedObjId)
     {
@@ -97,6 +100,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
     {
         proxyScrollView = (ScrollView) v.findViewById(R.id.proxy_scrollview);
         proxyInUseBanner = (RelativeLayout) v.findViewById(R.id.proxy_in_use_banner);
+        proxyDuplicatedBanner = (RelativeLayout) v.findViewById(R.id.proxy_duplicated_banner);
 
         proxyHost = (InputField) v.findViewById(R.id.proxy_host);
         proxyHost.addTextChangedListener(new TextWatcher()
@@ -244,6 +248,10 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             ((ProxyDetailActivity)getActivity()).disableSave();
         }
+
+        // TODO: Add check for duplicated configuration to Async handler
+        boolean isProxyDuplicated = ApplicationGlobals.getDBManager().findDuplicatedProxy(selectedProxy) != -1;
+        proxyDuplicatedBanner.setVisibility(UIUtils.booleanToVisibility(isProxyDuplicated));
     }
 
     private void refreshUI()

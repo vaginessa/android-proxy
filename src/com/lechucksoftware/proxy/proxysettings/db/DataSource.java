@@ -287,6 +287,31 @@ public class DataSource
             return -1;
     }
 
+    public long findDuplicatedProxy(ProxyEntity proxyData)
+    {
+        LogWrapper.startTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
+                + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " =?"
+                + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT + "=?";
+
+        String[] selectionArgs = {proxyData.host, Integer.toString(proxyData.port)};
+        Cursor cursor = database.rawQuery(query, selectionArgs);
+
+        cursor.moveToFirst();
+        long proxyId = -1;
+        if (!cursor.isAfterLast())
+        {
+            proxyId = cursor.getLong(0);
+        }
+
+        cursor.close();
+        LogWrapper.stopTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
+        return proxyId;
+    }
+
     public long findProxy(ProxyEntity proxyData)
     {
         LogWrapper.startTrace(TAG, "findProxy", Log.DEBUG);
