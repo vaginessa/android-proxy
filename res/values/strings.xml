@@ -22,6 +22,7 @@
     <string name="advanced">Advanced</string>
     <string name="about">About</string>
     <string name="oops">Oops</string>
+    <string name="create_new">Create new</string>
     <string name="wifi_disabled">Wi-Fi disabled: no Access Point can be selected</string>
     <string name="wifi_enabled">Wi-Fi enabled</string>
     <string name="no_ap_active">Not connected to any Wi-Fi Access Point</string>
@@ -36,7 +37,7 @@
     <string name="ap_selection_title">Select the Wi-Fi access point:</string>
     <string name="connected_to">%1$s &#8230;</string>
 
-    <string name="no_proxy_defined">No proxies defined. Please go to proxies section and create a new one!</string>
+    <string name="no_proxy_defined">No proxies defined!</string>
     <string name="enable_wifi_action">Enable Wi-Fi</string>
     <string name="setupap_wifi_action">Connect to available Wi-Fi</string>
     <string name="connect_to_wifi_action">Connect to %1$s</string>

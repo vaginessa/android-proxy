@@ -14,4 +14,9 @@ public interface Requests
      * Request to update Wi-Fi access points after change on Proxy in use
      */
     int UPDATE_LINKED_WIFI_AP = 2;
+
+    /**
+     * Request to create a new proxy configuration after showing dialog that no proxies are defined
+     * */
+    int CREATE_NEW_PROXY = 3;
 }

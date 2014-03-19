@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -71,5 +73,16 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.ap_wifi_list, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        if (!BuildConfig.DEBUG)
+        {
+            menu.removeItem(R.id.menu_developer);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
     }
 }

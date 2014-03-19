@@ -1,5 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -57,6 +60,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     private static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
     private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
     private ProxyConfiguration apConf;
+    private Button cancelDialogButton;
 
 
     public static ProxyListFragment newInstance()
@@ -92,7 +96,16 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         if (fragmentMode == FragmentMode.DIALOG)
         {
             getDialog().setTitle(R.string.select_proxy);
-            v = inflater.inflate(R.layout.standard_list, container, false);
+            v = inflater.inflate(R.layout.proxy_list_dialog, container, false);
+
+            cancelDialogButton = (Button) v.findViewById(R.id.dialog_cancel);
+            cancelDialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    dismiss();
+                }
+            });
         }
         else
         {

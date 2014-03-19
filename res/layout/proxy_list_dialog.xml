@@ -1,21 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/dialog_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_above="@+id/dialog_ok"-->
+        <!--android:orientation="vertical">-->
 
-        <fragment
-                android:id="@+id/proxy_list_fragment_select_dialog"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp"
+        <!--<ListView-->
+            <!--android:id="@id/android:list"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawSelectorOnTop="false"-->
+            <!--android:fastScrollEnabled="true"-->
+            <!--android:fastScrollAlwaysVisible="true"-->
+            <!--android:scrollbarStyle="outsideOverlay"-->
+            <!--android:scrollbars="none"-->
+            <!--android:smoothScrollbar="true"-->
+            <!--android:paddingRight="30dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--/>-->
 
-                class="com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment"/>
+        <!--<include layout="@layout/progress"/>-->
 
-    </LinearLayout>
+        <!--<TextView-->
+            <!--android:id="@id/android:empty"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="No data available"-->
+            <!--android:visibility="gone"/>-->
+    <!--</LinearLayout>-->
 
-</LinearLayout>
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:divider="?android:attr/dividerVertical"-->
+    <!--android:showDividers="middle"-->
+    <!--android:dividerPadding="12dp">-->
+
+    <include layout="@layout/standard_list"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/dialog_cancel"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/dialog_cancel"
+        android:text="@string/cancel"/>
+
+    <!--<Button-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:id="@+id/dialog_create_new"-->
+    <!--android:text="@string/ok"/>-->
+
+    <!--</LinearLayout>-->
+
+</RelativeLayout>
