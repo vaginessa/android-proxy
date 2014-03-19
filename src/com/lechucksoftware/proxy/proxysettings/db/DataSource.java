@@ -287,10 +287,12 @@ public class DataSource
             return -1;
     }
 
-    public long findDuplicatedProxy(String proxyHost, Integer proxyPort)
+    public List<Long> findDuplicatedProxy(String proxyHost, Integer proxyPort)
     {
         LogWrapper.startTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        List<Long> duplicatedProxiesID = new ArrayList<Long>();
 
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
@@ -307,9 +309,18 @@ public class DataSource
             proxyId = cursor.getLong(0);
         }
 
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Long id = cursor.getLong(0);
+            duplicatedProxiesID.add(id);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
         cursor.close();
         LogWrapper.stopTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
-        return proxyId;
+        return duplicatedProxiesID;
     }
 
     public long findProxy(ProxyEntity proxyData)

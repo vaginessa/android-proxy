@@ -27,6 +27,7 @@ import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -250,17 +251,22 @@ public class ProxyDetailFragment extends BaseDialogFragment
             ((ProxyDetailActivity)getActivity()).disableSave();
         }
 
+
         // TODO: Add check for duplicated configuration to Async handler
+        proxyDuplicatedBanner.setVisibility(View.GONE);
         String host = selectedProxy.host;
         Integer port = selectedProxy.port;
         if (host != null && port != null)
         {
-            boolean isProxyDuplicated = ApplicationGlobals.getDBManager().findDuplicatedProxy(host, port) != -1;
-            proxyDuplicatedBanner.setVisibility(UIUtils.booleanToVisibility(isProxyDuplicated));
-        }
-        else
-        {
-            proxyDuplicatedBanner.setVisibility(View.GONE);
+            List<Long> duplicatedIDs = ApplicationGlobals.getDBManager().findDuplicatedProxy(host, port);
+            if (selectedProxy.isPersisted)
+            {
+                proxyDuplicatedBanner.setVisibility(UIUtils.booleanToVisibility(duplicatedIDs.size() > 1));
+            }
+            else
+            {
+                proxyDuplicatedBanner.setVisibility(UIUtils.booleanToVisibility(duplicatedIDs.size() > 0));
+            }
         }
     }
 
