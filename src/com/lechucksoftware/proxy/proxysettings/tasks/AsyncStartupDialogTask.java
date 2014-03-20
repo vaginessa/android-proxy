@@ -22,7 +22,7 @@ public class AsyncStartupDialogTask extends AsyncTask<Void, Void, Boolean>
     {
         super.onPostExecute(showDialog);
 
-//        if (wnd != null && showDialog)
+        if (wnd != null && showDialog)
         {
             wnd.show();
         }

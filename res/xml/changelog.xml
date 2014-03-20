@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.13" versioncode="12003136" date="03/20/2013">
+    <release version="2.13" versioncode="13002136" date="03/20/2013">
         <change>Added support for saving proxy configurations</change>
 		<change>Updated to latest version of APL with support for Android 4.4 devices</change>
     </release>
