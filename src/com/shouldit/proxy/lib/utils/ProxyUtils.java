@@ -12,20 +12,35 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.shouldit.proxy.lib.*;
-import com.shouldit.proxy.lib.enums.*;
+import com.shouldit.proxy.lib.APL;
+import com.shouldit.proxy.lib.APLConstants;
+import com.shouldit.proxy.lib.APLIntents;
+import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.ProxyStatus;
+import com.shouldit.proxy.lib.ProxyStatusItem;
+import com.shouldit.proxy.lib.R;
+import com.shouldit.proxy.lib.enums.CheckStatusValues;
+import com.shouldit.proxy.lib.enums.ProxyCheckOptions;
+import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
+import com.shouldit.proxy.lib.enums.PskType;
+import com.shouldit.proxy.lib.enums.SecurityType;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.ReflectionUtils;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import org.apache.http.HttpHost;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.Proxy.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.EnumSet;
 import java.util.regex.Matcher;
 
@@ -325,7 +340,8 @@ public class ProxyUtils
                 httpURLConnection.setReadTimeout(timeout);
                 httpURLConnection.setConnectTimeout(timeout);
 
-                return httpURLConnection.getResponseCode();
+                int result = httpURLConnection.getResponseCode();
+                return result;
             }
             catch (Exception e)
             {
@@ -378,6 +394,7 @@ public class ProxyUtils
     {
         try
         {
+            // TODO: add better method to check web resources
             int result = testHTTPConnection(new URI("http://www.un.org/"), proxyConfiguration, timeout);
 //            int rawresult = testHTTPConnection(new URI("http://157.150.34.32"), proxyConfiguration, timeout);
 
