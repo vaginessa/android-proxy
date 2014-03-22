@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
+import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.HelpActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyListActivity;
@@ -16,6 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.BuildConfig;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -118,6 +121,7 @@ public class BaseActivity extends Activity
                 ApplicationGlobals.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
                 i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
+                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "create_new_proxy", null);
                 break;
 
             case R.id.menu_about:

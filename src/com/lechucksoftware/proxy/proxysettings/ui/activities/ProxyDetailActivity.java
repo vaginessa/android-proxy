@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
+import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
 import com.lechucksoftware.proxy.proxysettings.ui.BaseActivity;
@@ -87,23 +89,28 @@ public class ProxyDetailActivity extends BaseActivity
         saveButton = customActionBarView.findViewById(R.id.actionbar_done);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v)
             {
-                // "Done"
+                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "save_proxy", null);
                 saveConfiguration();
             }
+
         });
 
         cancelButton = customActionBarView.findViewById(R.id.actionbar_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view)
             {
-                // "Done"
+
+                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "cancel_save_proxy", null);
                 ApplicationGlobals.getCacheManager().release(cachedProxyId);
                 finish();
             }
+
         });
 
         // Show the custom action bar view and hide the normal Home icon and title.

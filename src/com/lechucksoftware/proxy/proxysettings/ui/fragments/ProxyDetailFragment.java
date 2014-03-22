@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +13,13 @@ import android.widget.ScrollView;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
@@ -66,9 +66,19 @@ public class ProxyDetailFragment extends BaseDialogFragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
+        View v = inflater.inflate(R.layout.proxy_preferences, container, false);
+
+        getUIComponents(v);
+        return v;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
         Bundle args = getArguments();
         uiHandler = new UIHandler();
         validationErrors = new HashMap<ProxyStatusProperties, CharSequence>();
@@ -78,24 +88,14 @@ public class ProxyDetailFragment extends BaseDialogFragment
             cachedObjId = (UUID) getArguments().getSerializable(SELECTED_PROXY_ARG);
             selectedProxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedObjId);
         }
-        else
+
+        if (selectedProxy == null)
         {
-            // TODO: Add handling here
-            EventReportingUtils.sendException(new Exception("NO PROXY RECEIVED"));
+            // TODO: temporary fix. needs improvements. remove cachemanager!
+            NavigationUtils.GoToMainActivity(getActivity());
         }
 
-        instance = this;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View v = inflater.inflate(R.layout.proxy_preferences, container, false);
-
-        getUIComponents(v);
         uiHandler.callRefreshUI();
-
-        return v;
     }
 
     private void getUIComponents(View v)
@@ -240,7 +240,8 @@ public class ProxyDetailFragment extends BaseDialogFragment
 
     private void checkValidation()
     {
-        if (validateHost() &&
+        if (
+            validateHost() &&
             validatePort() &&
             validateBypass())
         {
