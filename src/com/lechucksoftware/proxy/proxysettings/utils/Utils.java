@@ -7,16 +7,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.HttpAnswer;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -27,47 +28,63 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 public class Utils
 {
-    public static final String HTTP_FREEGEOIP_NET_JSON_STRING = "http://freegeoip.net/json/%s";
+    public static final String HTTP_FREEGEOIP_NET_JSON_STRING = "http://freegeoip.net/json/";
 
     // TODO: add fallback on telize
-    public static final String HTTP_TELIZE_NET_JSON_STRING = "http://www.telize.com/geoip/%s";
+    public static final String HTTP_TELIZE_NET_JSON_STRING = "http://www.telize.com/geoip/";
 
     public static String TAG = "Utils";
     public static String BASE_ASSETS = "file:///android_asset/";
 
     public static String getProxyCountryCode(ProxyEntity proxy) throws Exception
     {
-        String url = String.format(HTTP_FREEGEOIP_NET_JSON_STRING,proxy.host);
-        URI uri = new URI(url);
+        String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + proxy.host).trim();
+        URI uri = null;
 
         int timeout = 1000 * 60;
-
         HttpAnswer answer = null;
+        String result = null;
 
         try
         {
-            answer = ProxyUtils.getHttpAnswerURI(uri, ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
-        }
-        catch (IOException e)
-        {
-            LogWrapper.w(TAG,"Exception on getProxyCountryCode: " + e.toString());
-        }
-
-        String result = null;
-
-        if (answer != null)
-        {
-            String answerBody = answer.getBody();
-
-            if (answer.getStatus() == HttpURLConnection.HTTP_OK && !TextUtils.isEmpty(answerBody))
+            Uri parsedUri = Uri.parse(stringUrl);
+            if (parsedUri != null)
             {
-                JSONObject jsonObject = new JSONObject(answerBody);
-                if (jsonObject.has("country_code"))
+                String parsedUriString = parsedUri.toString();
+                uri = new URI(parsedUriString);
+            }
+        }
+        catch (URISyntaxException e)
+        {
+            EventReportingUtils.sendException(e);
+        }
+
+        if (uri != null)
+        {
+            try
+            {
+                answer = ProxyUtils.getHttpAnswerURI(uri, ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
+            }
+            catch (IOException e)
+            {
+                LogWrapper.w(TAG, "Exception on getProxyCountryCode: " + e.toString());
+            }
+
+            if (answer != null)
+            {
+                String answerBody = answer.getBody();
+
+                if (answer.getStatus() == HttpURLConnection.HTTP_OK && !TextUtils.isEmpty(answerBody))
                 {
-                     result = jsonObject.getString("country_code");
+                    JSONObject jsonObject = new JSONObject(answerBody);
+                    if (jsonObject.has("country_code"))
+                    {
+                        result = jsonObject.getString("country_code");
+                    }
                 }
             }
         }

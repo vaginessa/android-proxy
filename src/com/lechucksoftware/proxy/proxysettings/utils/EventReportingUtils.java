@@ -1,25 +1,21 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.text.TextUtils;
+
 import com.bugsense.trace.BugSenseHandler;
-//import com.google.analytics.tracking.android.Tracker;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.google.analytics.tracking.android.StandardExceptionParser;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
-import com.lechucksoftware.proxy.proxysettings.exception.DetailedExceptionParser;
 import com.shouldit.proxy.lib.log.IEventReporting;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Map;
+
+//import com.google.analytics.tracking.android.Tracker;
 
 public class EventReportingUtils implements IEventReporting
 {
@@ -55,34 +51,13 @@ public class EventReportingUtils implements IEventReporting
     {
         String key = null;
 
-        // If you want to use BugSense for your fork, register with
-        // them and place your API key in /assets/bugsense.txt
-        // (This prevents me receiving reports of crashes from forked
-        // versions which is somewhat confusing!)
-        try
+        if (BuildConfig.DEBUG)
         {
-            AssetManager am = ctx.getAssets();
-            if (am != null)
-            {
-                InputStream inputStream = am.open("proxy_settings_bugsense_license.txt");
-                if (inputStream != null)
-                {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-                    key = br.readLine();
-                    key = key.trim();
-                    LogWrapper.d(Utils.TAG, "Using bugsense key '" + key + "'");
-                }
-            }
+            key = ApplicationGlobals.getInstance().BugsenseDevelopmentKey;
         }
-        catch (IOException e)
+        else
         {
-            LogWrapper.e(TAG, "No bugsense keyfile found");
-            return;
-        }
-        catch (Exception e)
-        {
-            LogWrapper.e(TAG, "Generic exception on setupBugSense: " + e.toString());
-            return;
+            key = ApplicationGlobals.getInstance().BugsenseReleaseKey;
         }
 
         if (key == null)
@@ -95,6 +70,7 @@ public class EventReportingUtils implements IEventReporting
         }
         else
         {
+            LogWrapper.i(TAG, String.format("BugSense setup [%s]",key));
             BugSenseHandler.initAndStartSession(ctx, key);
             setupDone = true;
         }

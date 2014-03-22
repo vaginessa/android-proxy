@@ -15,7 +15,7 @@ gen/
 # Local configuration file (sdk path, etc)
 local.properties
 
-/assets/proxy_settings_bugsense_license.txt
+/assets/configuration.json
 /gen
 /bin
 /out
