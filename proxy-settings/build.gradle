@@ -1,14 +1,18 @@
 apply plugin: 'android'
 
 repositories {
-    maven {
-        url "http://www.bugsense.com/gradle/"
-    }
+    maven { url 'http://www.bugsense.com/gradle/' }
 }
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    buildToolsVersion '19.0.3'
+
+//    Scheme for version codes: ##@@$$$ , using:
+//    ##   - the first two digits for the API Level,
+//    @@   - the second and third digits for the minimum and maximum screen size
+//           (1 - 4 indicating each of the four sizes) or to denote the texture formats
+//    $$$$ - the last four digits for the app version.
 
     defaultConfig {
         minSdkVersion 15
@@ -21,6 +25,11 @@ android {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            debuggable false
+        }
+        debug {
+            debuggable true
+            runProguard false
         }
     }
 
@@ -39,10 +48,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile 'com.bugsense.trace:bugsense:3.6'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
     compile files('libs/libGoogleAnalyticsV2.jar')
-
     compile project(':android-proxy-library')
 }

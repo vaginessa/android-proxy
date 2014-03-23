@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.lechucksoftware.proxy.proxysettings"
-	android:versionCode="13002142"
-	android:versionName="2.14">
-
-	<!-- Scheme for version codes: ##@@$$$ , using:
-	    ## - the first two digits for the API Level,
-	    @@ - the second and third digits for the minimum and maximum screen size (1 - 4 indicating each of the four sizes) or to denote the texture formats
-		$$$$ - the last four digits for the app version. -->
-
-	<uses-sdk
-		android:minSdkVersion="15"
-		android:targetSdkVersion="17" />
-
-	 <!--1.5 Cupcake 3 0.1% -->
-	 <!--1.6 Donut 4 0.4% -->
-	 <!--2.1 Eclair 7 3.4% -->
-	 <!--2.2 Froyo 8 12.9% -->
-	 <!--2.3 - 2.3.2 Gingerbread 9 0.3% -->
-	 <!--2.3.3 - 2.3.7 10 55.5% -->
-	 <!--3.1 Honeycomb 12 0.4% -->
-	 <!--3.2 13 1.5% -->
-	 <!--4.0.3 - 4.0.4 Ice Cream Sandwich 15 23.7% -->
-	 <!--4.1 Jelly Bean 16 1.8% -->
+	package="com.lechucksoftware.proxy.proxysettings">
 
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -78,9 +56,9 @@
                 android:launchMode="singleTop">
         </activity>
 
-        <activity
-			android:name=".ui.help.DisclaimerFragmentActivity">
-		</activity>
+        <!--<activity-->
+			<!--android:name=".ui.help.DisclaimerFragmentActivity">-->
+		<!--</activity>-->
 
 		<!--<activity-->
 			<!--android:name="com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyPreferencesActivity"-->
@@ -92,8 +70,8 @@
 			<!--</intent-filter>-->
 		<!--</activity>-->
 
-		<activity android:name=".ui.help.HelpFragmentActivity">
-		</activity>
+		<!--<activity android:name=".ui.help.HelpFragmentActivity">-->
+		<!--</activity>-->
 
         <activity android:name=".test.TestActivity"
                 android:exported="false">

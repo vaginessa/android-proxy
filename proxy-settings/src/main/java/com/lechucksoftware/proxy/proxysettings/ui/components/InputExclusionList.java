@@ -115,16 +115,16 @@ public class InputExclusionList extends LinearLayout
 
     protected void readStyleParameters(Context context, AttributeSet attributeSet)
     {
-        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.InputFieldTags);
+        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.InputFieldExclusion);
 
         try
         {
-            title = a.getString(R.styleable.InputField_title);
-            singleLine = a.getBoolean(R.styleable.InputField_singleLine, false);
+            title = a.getString(R.styleable.InputFieldExclusion_title);
+            singleLine = a.getBoolean(R.styleable.InputFieldExclusion_singleLine, false);
 //            fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
-            readonly = a.getBoolean(R.styleable.InputField_readonly, false);
-            titleSize = a.getDimension(R.styleable.InputField_titleSize, Measures.DefaultTitleSize);
-            textSize = a.getDimension(R.styleable.InputField_textSize, Measures.DefaultTextFontSize);
+            readonly = a.getBoolean(R.styleable.InputFieldExclusion_readonly, false);
+            titleSize = a.getDimension(R.styleable.InputFieldExclusion_titleSize, Measures.DefaultTitleSize);
+            textSize = a.getDimension(R.styleable.InputFieldExclusion_textSize, Measures.DefaultTextFontSize);
         }
         finally
         {

@@ -7,11 +7,11 @@
 		android:title="@string/pref_main_title"
 		android:summary="Set the curren" />
 
-	<header
-		android:fragment="com.lechucksoftware.proxy.proxysettings.excluded_from_build.ProxyCheckerPrefsFragment"
-		android:icon="@drawable/ic_action_valid"
-		android:title="@string/proxy_checker"
-		android:summary="testaetase"  />
+	<!--<header-->
+		<!--android:fragment="com.lechucksoftware.proxy.proxysettings.excluded_from_build.ProxyCheckerPrefsFragment"-->
+		<!--android:icon="@drawable/ic_action_valid"-->
+		<!--android:title="@string/proxy_checker"-->
+		<!--android:summary="testaetase"  />-->
 
 	<header
 		android:fragment="com.lechucksoftware.proxy.proxysettings.ui.fragments.AdvancedPrefsFragment"
