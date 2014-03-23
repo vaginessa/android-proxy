@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.activities.help;
+package com.lechucksoftware.proxy.proxysettings.ui.help;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -1,24 +1,48 @@
 apply plugin: 'android'
 
+repositories {
+    maven {
+        url "http://www.bugsense.com/gradle/"
+    }
+}
+
 android {
     compileSdkVersion 19
     buildToolsVersion "19.0.3"
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion 15
         targetSdkVersion 19
-        versionCode 1
-        versionName "1.0"
+        versionCode 13002143
+        versionName "2.14"
     }
+
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+                exclude '**/excluded_from_build/**'
+                exclude '**/ui/help/**'
+            }
+        }
+    }
 }
 
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
+    compile 'com.bugsense.trace:bugsense:3.6'
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile files('libs/libGoogleAnalyticsV2.jar')
+
+    compile project(':android-proxy-library')
 }

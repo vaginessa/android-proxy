@@ -79,7 +79,7 @@
         </activity>
 
         <activity
-			android:name=".ui.activities.help.DisclaimerFragmentActivity">
+			android:name=".ui.help.DisclaimerFragmentActivity">
 		</activity>
 
 		<!--<activity-->
@@ -92,7 +92,7 @@
 			<!--</intent-filter>-->
 		<!--</activity>-->
 
-		<activity android:name=".ui.activities.help.HelpFragmentActivity">
+		<activity android:name=".ui.help.HelpFragmentActivity">
 		</activity>
 
         <activity android:name=".test.TestActivity"

@@ -1,10 +1,11 @@
-package com.lechucksoftware.proxy.proxysettings.ui.activities.help;
+package com.lechucksoftware.proxy.proxysettings.ui.help;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.help.DisclaimerEndFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.help.HelpFragmentActivity;
 
 public class DisclaimerFragmentActivity extends HelpFragmentActivity
 {

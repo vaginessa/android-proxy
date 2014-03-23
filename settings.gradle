@@ -1,1 +1,1 @@
-include ':proxy-settings', ':android-proxy-library'
+include ':android-proxy-library',':proxy-settings'
