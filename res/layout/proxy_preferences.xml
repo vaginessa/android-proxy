@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
+            android:id="@+id/proxy_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/proxy_input_fields"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+                android:id="@+id/proxy_duplicated_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:orientation="horizontal"
+                android:background="@color/OrangeTransparent">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/proxy_duplicated_img"
+                    android:text="@string/duplicated_proxy_warning"/>
+
+            <ImageView
+                    android:id="@+id/proxy_duplicated_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_action_alerts_and_states_warning"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/proxy_in_use_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:orientation="horizontal"
+            android:background="@color/RedTransparent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/proxy_locked_img"
+                android:text="@string/already_used_proxy_warning"/>
+
+            <ImageView
+                android:id="@+id/proxy_locked_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_action_device_access_secure"/>
+
+        </RelativeLayout>
+
+        <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
+                android:id="@+id/proxy_host"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:background="?android:attr/listChoiceBackgroundIndicator"
+                app:title="@string/proxy_hostname_label"
+                app:hint="@string/proxy_hostname_hint"
+                app:readonly="false"
+                app:fullsize="true"
+                app:value=""/>
+
+        <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
+                android:id="@+id/proxy_port"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:background="?android:attr/listChoiceBackgroundIndicator"
+                app:title="@string/proxy_port_label"
+                app:hint="@string/proxy_port_hint"
+                app:inputType="numeric"
+                app:readonly="false"
+                app:fullsize="true"
+                app:value=""/>
+
+        <com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList
+                android:id="@+id/proxy_bypass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/proxy_exclusionlist_label"
+                app:hint="@string/proxy_exclusionlist_hint"
+                android:background="?android:attr/listChoiceBackgroundIndicator"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                app:readonly="false"
+                app:singleLine="false"
+                app:fullsize="true"
+                />
+
+        <!--<com.lechucksoftware.proxy.proxysettings.ui.components.InputTags-->
+                <!--android:id="@+id/proxy_tags"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:paddingBottom="5dp"-->
+                <!--android:paddingLeft="12dp"-->
+                <!--android:background="?android:attr/listChoiceBackgroundIndicator"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:title="Tags"-->
+                <!--app:fullsize="true"-->
+                <!--app:readonly="false"/>-->
+
+    </LinearLayout>
+
+</ScrollView>

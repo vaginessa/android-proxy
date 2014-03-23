@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/com.lechucksoftware.proxy.proxysettings"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingTop="4dp"
+              android:paddingBottom="4dp"
+              android:id="@+id/field_main_layout">
+
+    <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/field_title"
+            android:visibility="visible"
+            android:paddingBottom="4dp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:textColor="@android:color/secondary_text_dark"
+            android:text="TITLE"/>
+
+    <com.lechucksoftware.proxy.proxysettings.ui.components.TagsView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/field_tags"
+            android:visibility="visible"
+            app:singleLine="false"/>
+
+    <TextView
+            android:id="@+id/field_no_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@android:color/primary_text_dark"
+            android:text="NO TAGS SELECTED"
+            android:visibility="visible"/>
+
+    <Button
+            android:layout_marginTop="5dp"
+            android:id="@+id/field_add_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add tags ..."
+            android:visibility="visible"/>
+
+</LinearLayout>

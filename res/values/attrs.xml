@@ -1,0 +1,55 @@
+<resources>
+    <attr name="title" format="string"/>
+    <attr name="hint" format="string"/>
+    <attr name="fullsize" format="boolean"/>
+    <attr name="readonly" format="boolean"/>
+    <attr name="singleLine" format="boolean"/>
+    <attr name="titleSize" format="dimension"/>
+    <attr name="textSize" format="dimension"/>
+    <attr name="maxLength" format="integer" min="0" />
+
+    <declare-styleable name="FlowLayout">
+        <attr name="horizontalSpacing" format="dimension"/>
+        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr name="debugDraw" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="FlowLayout_LayoutParams">
+        <attr name="layout_newLine" format="boolean"/>
+        <attr name="layout_horizontalSpacing" format="dimension"/>
+        <attr name="layout_verticalSpacing" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="TagsView">
+        <attr name="singleLine"/>
+    </declare-styleable>
+    <declare-styleable name="InputField">
+        <attr name="title"/>
+        <attr name="hint"/>
+        <attr name="value" format="string"/>
+        <attr name="readonly"/>
+        <attr name="fullsize"/>
+        <attr name="singleLine"/>
+        <attr name="titleSize"/>
+        <attr name="textSize"/>
+        <attr name="maxLength"/>
+        <attr name="inputType" format="enum">
+            <enum name="string" value="0"/>
+            <enum name="numeric" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="InputFieldTags">
+        <attr name="title"/>
+        <attr name="hint"/>
+        <attr name="fullsize"/>
+        <attr name="readonly"/>
+        <attr name="singleLine"/>
+        <attr name="titleSize"/>
+        <attr name="textSize"/>
+    </declare-styleable>
+    <declare-styleable name="WifiSignal">
+        <attr name="text" format="string"/>
+    </declare-styleable>
+</resources>

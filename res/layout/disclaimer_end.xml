@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/disclaimer_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginTop="10dip"
+        android:layout_weight="0"
+        android:text="@string/disclaimer_end_text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ScrollView
+        android:id="@+id/disclaimer_scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fillViewport="true" >
+
+        <TextView
+            android:id="@+id/disclaimer_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disclaimer_license"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </ScrollView>
+
+    <CheckBox
+        android:id="@+id/disclaimer_accept_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginTop="10dip"
+        android:layout_weight="0"
+        android:text="@string/disclaimer_accept" />
+
+    <include layout="@layout/accept_cancel"/>
+
+</LinearLayout>

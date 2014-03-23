@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<Preference
+		android:enabled="true"
+		android:persistent="false"
+		android:key="preference_test_proxy_configuration"
+		android:summary="@string/preference_test_proxy_configuration_summary"
+		android:title="@string/preference_test_proxy_configuration_title" />
+
+	<PreferenceCategory android:title="@string/network_status">
+
+		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+			android:key="validation_wifi_enabled"
+			android:summary="@string/validation_proxy_summary_checking"
+			android:title="@string/validation_wifi_enabled_title" />
+
+        <com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+                android:key="validation_wifi_selected"
+                android:summary="@string/validation_proxy_summary_checking"
+                android:title="@string/validation_wifi_selected_title" />
+
+		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+			android:key="validation_web_reachable"
+			android:summary="@string/validation_proxy_summary_checking"
+			android:title="@string/validation_proxy_web_reachable_title" />
+
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/proxy_status">
+
+		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+			android:key="validation_proxy_enabled"
+			android:summary="@string/validation_proxy_summary_checking"
+			android:title="@string/validation_proxy_enabled_title" />
+
+
+		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+			android:key="validation_proxy_valid_host"
+			android:summary="@string/validation_proxy_summary_checking"
+			android:title="@string/validation_proxy_host_title" />
+		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+			android:key="validation_proxy_valid_port"
+			android:summary="@string/validation_proxy_summary_checking"
+			android:title="@string/validation_proxy_port_title" />
+		<com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference
+			android:key="validation_proxy_reachable"
+			android:summary="@string/validation_proxy_summary_checking"
+			android:title="@string/validation_proxy_reachable_title" />
+
+	</PreferenceCategory>
+
+
+</PreferenceScreen>

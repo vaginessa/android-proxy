@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/standard_list_layout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+        <ListView
+                android:id="@id/android:list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawSelectorOnTop="false"
+                android:fastScrollEnabled="true"
+                android:fastScrollAlwaysVisible="true"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="none"
+                android:smoothScrollbar="true"
+                android:paddingRight="30dp"
+                android:paddingLeft="10dp"
+                />
+
+        <include layout="@layout/progress"/>
+
+        <TextView
+                android:id="@id/android:empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No data available"/>
+    </LinearLayout>
+
+</RelativeLayout>

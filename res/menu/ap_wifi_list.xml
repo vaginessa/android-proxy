@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/menu_proxies"
+            android:icon="@drawable/ic_action_shuffle"
+            android:showAsAction="always|withText"
+            android:title="@string/proxy_list"/>
+
+    <!--<item-->
+    <!--android:id="@+id/menu_feedbacks"-->
+    <!--android:icon="@drawable/ic_action_notvalid"-->
+    <!--android:showAsAction="always|withText"-->
+    <!--android:title="@string/pref_send_feedback"/>-->
+
+    <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/ic_action_ic_help"
+            android:title="@string/help"/>
+
+    <item
+            android:id="@+id/menu_developer"
+            android:icon="@drawable/ic_action_ok"
+            android:title="@string/pref_developers"/>
+
+</menu>

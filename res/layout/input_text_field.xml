@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="200dp"
+              android:padding="10dp">
+
+    <TextView
+            android:id="@+id/field_title"
+            android:text="Field Title"
+            android:layout_width="match_parent"
+            android:layout_alignParentLeft="true"
+            android:textSize="15dp"
+            android:layout_height="wrap_content"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_margin="10dp"/>
+
+    <EditText
+            android:id="@+id/field_input"
+            android:text="text here..."
+            android:layout_width="match_parent"
+            android:layout_below="@id/field_title"
+            android:textSize="15dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+
+</RelativeLayout>

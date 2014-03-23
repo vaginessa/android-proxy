@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+            android:enabled="true"
+            android:key="pref_about"
+            android:title="@string/pref_about_title"/>
+
+    <Preference
+            android:enabled="true"
+            android:key="pref_full_changelog"
+            android:title="@string/pref_help_changelog"
+            android:summary="@string/pref_help_changelog_summary"/>
+
+    <Preference
+            android:enabled="true"
+            android:key="pref_issues"
+            android:title="@string/pref_issues"
+            android:summary="@string/pref_issues_summary" />
+
+    <!--<Preference-->
+    <!--android:enabled="true"-->
+    <!--android:key="preference_help"-->
+    <!--android:title="@string/preference_help_title" />-->
+    <!---->
+
+    <!--<Preference-->
+            <!--android:enabled="true"-->
+            <!--android:key="pref_send_feedback"-->
+            <!--android:title="@string/pref_send_feedback"-->
+            <!--android:summary="@string/pref_send_feedback_summary"/>-->
+
+    <Preference
+            android:enabled="true"
+            android:key="pref_betatest"
+            android:title="@string/pref_become_tester"
+            android:summary="@string/pref_become_tester_summary" />
+
+    <Preference
+            android:enabled="true"
+            android:key="pref_rate_app"
+            android:title="@string/pref_rate_app"
+            android:summary="@string/pref_rate_app_summary" />
+
+    <!--<Preference-->
+            <!--android:enabled="true"-->
+            <!--android:key="pref_share_app"-->
+            <!--android:title="@string/pref_share_app"-->
+            <!--android:summary="@string/pref_share_app_summary" />-->
+
+    <!--<Preference-->
+            <!--android:enabled="true"-->
+            <!--android:key="pref_translation"-->
+            <!--android:title="@string/pref_translation"-->
+            <!--android:summary="@string/pref_translation_summary" />-->
+
+</PreferenceScreen>

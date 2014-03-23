@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_item_ap_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+    <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
+            android:id="@+id/list_item_wifi_signal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"/>
+
+    <TextView
+            android:id="@+id/list_item_ap_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/list_item_wifi_signal"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:padding="3dp"
+            android:text="AP NAME">
+    </TextView>
+
+    <TextView
+            android:id="@+id/list_item_ap_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/list_item_wifi_signal"
+            android:layout_below="@id/list_item_ap_name"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textSize="15sp"
+            android:text="STATUS DESC"
+            android:padding="3dp">
+    </TextView>
+
+</RelativeLayout>

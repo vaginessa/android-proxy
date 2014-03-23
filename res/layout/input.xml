@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingTop="4dp"
+              android:paddingBottom="4dp"
+              android:id="@+id/field_main_layout">
+
+    <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/field_title"
+            android:visibility="visible"
+            android:paddingBottom="4dp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:textColor="@android:color/secondary_text_dark"
+            android:text="TITLE"/>
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/field_value_readonly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="123.123.123.123"
+                android:textColor="@android:color/primary_text_dark"/>
+
+        <EditText
+                android:id="@+id/field_value"
+                android:layout_below="@+id/field_value_readonly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:singleLine="true"
+                android:text=""
+                android:hint="e.g. 123.123.123.123"
+                android:layout_toLeftOf="@+id/field_action"
+                android:textColor="@android:color/primary_text_dark"
+                />
+
+        <!--<ImageButton-->
+                <!--android:id="@+id/field_input_action"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/ic_action_notvalid"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:layout_alignRight="@+id/field_value"-->
+                <!--android:layout_alignTop="@+id/field_value"-->
+                <!--android:layout_alignBottom="@+id/field_value"-->
+                <!--style="?android:attr/borderlessButtonStyle"/>-->
+
+
+        <ImageButton
+                android:id="@+id/field_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_discard"
+                android:paddingRight="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/field_value"
+                android:layout_alignBottom="@+id/field_value"
+                style="?android:attr/borderlessButtonStyle"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/field_validation"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
