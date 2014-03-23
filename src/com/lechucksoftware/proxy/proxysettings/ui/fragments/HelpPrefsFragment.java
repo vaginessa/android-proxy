@@ -71,8 +71,12 @@ public class HelpPrefsFragment extends PreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
+
+                // TODO: think about removing HTML dialog, in order to add automatic version from manifest
+
                 UIUtils.showHTMLAssetsAlertDialog(getActivity(), getResources().getString(R.string.about), "about.html", getResources().getString(R.string.close), null);
                 return true;
+
             }
         });
         aboutPref.setSummary(appVersionName);
