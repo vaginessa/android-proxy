@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/android-proxy.iml" filepath="$PROJECT_DIR$/android-proxy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-proxy-library/android-proxy-library.iml" filepath="$PROJECT_DIR$/android-proxy-library/android-proxy-library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proxy-settings/proxy-settings.iml" filepath="$PROJECT_DIR$/proxy-settings/proxy-settings.iml" />
+    </modules>
+  </component>
+</project>
+
