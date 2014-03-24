@@ -14,9 +14,9 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.utils.HttpAnswer;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.utils.HttpAnswer;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 import org.json.JSONObject;
 

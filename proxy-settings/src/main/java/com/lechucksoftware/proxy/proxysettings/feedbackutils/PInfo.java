@@ -5,7 +5,7 @@ import java.io.Serializable;
 import android.content.pm.ApplicationInfo;
 
 import android.graphics.drawable.Drawable;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.log.LogWrapper;
 
 public class PInfo implements Serializable 
 {

@@ -19,7 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragm
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.ProxyConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;

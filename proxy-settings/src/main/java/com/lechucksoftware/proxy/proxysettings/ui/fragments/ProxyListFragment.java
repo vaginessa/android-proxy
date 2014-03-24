@@ -1,7 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
@@ -17,24 +15,23 @@ import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.should.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Created by marco on 17/05/13.

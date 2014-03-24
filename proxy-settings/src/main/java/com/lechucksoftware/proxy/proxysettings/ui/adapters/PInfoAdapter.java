@@ -10,7 +10,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.log.LogWrapper;
 
 import java.util.List;
 

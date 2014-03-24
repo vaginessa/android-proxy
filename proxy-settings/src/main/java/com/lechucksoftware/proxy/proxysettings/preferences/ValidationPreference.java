@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.shouldit.proxy.lib.enums.CheckStatusValues;
-import com.shouldit.proxy.lib.ProxyStatusItem;
+import io.should.proxy.lib.enums.CheckStatusValues;
+import io.should.proxy.lib.ProxyStatusItem;
 
 public class ValidationPreference extends Preference
 {

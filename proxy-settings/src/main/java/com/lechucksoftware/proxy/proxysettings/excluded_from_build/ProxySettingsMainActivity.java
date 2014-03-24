@@ -10,8 +10,8 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.help.DisclaimerFragmentActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.APL;
+import io.should.proxy.lib.log.LogWrapper;
 
 
 public class ProxySettingsMainActivity extends FragmentActivity

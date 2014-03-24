@@ -1,39 +1,37 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
-import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
-import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
+import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
+import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.List;
 import java.util.UUID;
+
+import io.should.proxy.lib.APL;
+import io.should.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.reflection.android.ProxySetting;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 
 public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment

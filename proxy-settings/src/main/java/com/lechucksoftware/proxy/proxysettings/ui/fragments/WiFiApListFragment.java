@@ -16,20 +16,21 @@ import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
+import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
+
+import io.should.proxy.lib.APL;
+import io.should.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.enums.SecurityType;
+import io.should.proxy.lib.log.LogWrapper;
 
 /**
  * Created by marco on 17/05/13.

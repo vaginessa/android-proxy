@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.ProxyConfiguration;
 
 import java.util.List;
 

@@ -9,11 +9,11 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.*;
-import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
+import io.should.proxy.lib.*;
+import io.should.proxy.lib.enums.SecurityType;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.reflection.android.ProxySetting;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 import java.util.*;
 

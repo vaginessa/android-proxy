@@ -7,16 +7,20 @@ import android.net.NetworkInfo;
 import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.shouldit.proxy.lib.*;
-import com.shouldit.proxy.lib.enums.ProxyCheckOptions;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.Date;
+
+import io.should.proxy.lib.APL;
+import io.should.proxy.lib.APLConstants;
+import io.should.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.enums.ProxyCheckOptions;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 public class ProxySettingsCheckerService extends IntentService
 {

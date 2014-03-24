@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.log.LogWrapper;
 
 /**
  * Created by marco on 24/05/13.

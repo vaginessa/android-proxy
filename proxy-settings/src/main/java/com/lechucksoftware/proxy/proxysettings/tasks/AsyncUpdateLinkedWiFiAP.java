@@ -1,31 +1,24 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.APLIntents;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.datatype.Duration;
+import io.should.proxy.lib.APL;
+import io.should.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Created by Marco on 29/11/13.

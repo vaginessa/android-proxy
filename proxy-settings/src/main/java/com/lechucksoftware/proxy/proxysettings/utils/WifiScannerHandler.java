@@ -1,12 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.log.LogWrapper;
+
+import io.should.proxy.lib.APL;
+import io.should.proxy.lib.log.LogWrapper;
 
 /**
  * Created by Marco on 29/11/13.

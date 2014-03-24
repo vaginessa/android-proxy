@@ -15,14 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.shouldit.proxy.lib.ProxyStatusItem;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import io.should.proxy.lib.ProxyStatusItem;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 public class InputExclusionList extends LinearLayout
 {

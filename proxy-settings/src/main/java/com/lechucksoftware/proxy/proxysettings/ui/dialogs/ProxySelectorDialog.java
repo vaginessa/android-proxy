@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 
-import com.shouldit.proxy.lib.utils.ProxyUtils;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 public class ProxySelectorDialog extends DialogPreference
 {

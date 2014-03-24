@@ -18,7 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.log.LogWrapper;
 
 public class DisclaimerEndFragment extends Fragment
 {

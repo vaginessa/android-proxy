@@ -5,7 +5,7 @@ import android.content.Context;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesUtils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.ProxyConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -20,8 +20,8 @@ import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.BuildConfig;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.BuildConfig;
+import io.should.proxy.lib.log.LogWrapper;
 
 /**
  * Created by marco on 07/11/13.

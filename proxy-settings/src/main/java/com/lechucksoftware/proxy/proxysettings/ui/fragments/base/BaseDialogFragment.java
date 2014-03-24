@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments.base;
 
 import android.app.DialogFragment;
 
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.log.LogWrapper;
 
 /**
  * Created by marco on 24/05/13.

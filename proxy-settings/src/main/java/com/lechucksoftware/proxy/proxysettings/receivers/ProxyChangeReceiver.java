@@ -14,8 +14,8 @@ import com.lechucksoftware.proxy.proxysettings.services.ProxySyncService;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.shouldit.proxy.lib.APLIntents;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.APLIntents;
+import io.should.proxy.lib.log.LogWrapper;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
 {

@@ -10,8 +10,8 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
-import com.shouldit.proxy.lib.log.IEventReporting;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.log.IEventReporting;
+import io.should.proxy.lib.log.LogWrapper;
 
 import java.util.Map;
 

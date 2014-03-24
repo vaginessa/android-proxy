@@ -3,24 +3,12 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.ProxyStatusItem;
-import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,6 +17,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import io.should.proxy.lib.APL;
+import io.should.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.ProxyStatusItem;
+import io.should.proxy.lib.enums.SecurityType;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.reflection.android.ProxySetting;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by marco on 10/10/13.

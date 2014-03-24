@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.log.LogWrapper;
 
 import java.text.DateFormat;
 import java.util.Date;

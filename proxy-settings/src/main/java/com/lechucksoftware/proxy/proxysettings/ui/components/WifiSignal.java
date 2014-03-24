@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.shouldit.proxy.lib.AccessPoint;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
+
+import io.should.proxy.lib.AccessPoint;
+import io.should.proxy.lib.ProxyConfiguration;
+import io.should.proxy.lib.enums.SecurityType;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by marco on 02/12/13.

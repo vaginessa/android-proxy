@@ -21,15 +21,16 @@ import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragm
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.shouldit.proxy.lib.ProxyStatusItem;
-import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
-import com.shouldit.proxy.lib.log.LogWrapper;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import io.should.proxy.lib.ProxyStatusItem;
+import io.should.proxy.lib.enums.ProxyStatusProperties;
+import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.utils.ProxyUtils;
 
 
 public class ProxyDetailFragment extends BaseDialogFragment
