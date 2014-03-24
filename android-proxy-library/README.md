@@ -27,9 +27,6 @@ If you have isolated a problem or want a new feature to be included in the **And
 
 The more information you provide, the quicker the issue can be verified and prioritized. A test case (source code) that demonstrates the problem is greatly preferred.
 
-# Support APL
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=shouldit&url=https://github.com/shouldit/android-proxy-library&title=Android Proxy Library&language=&tags=github&category=software) 
-
 # Project's resources
 
 * All further information regarding this project can be found at: [www.android-proxy.com](www.android-proxy.com)
