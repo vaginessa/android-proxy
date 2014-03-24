@@ -28,12 +28,15 @@ android {
             debuggable false
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
         }
+
         debug {
             debuggable true
             runProguard false
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
         }
     }
 

@@ -24,7 +24,6 @@ public class EventReportingUtils implements IEventReporting
     private Boolean setupDone;
     private static EventReportingUtils instance;
     private Context context;
-
 //    private static Tracker tracker;
 
     private EventReportingUtils()
@@ -45,6 +44,7 @@ public class EventReportingUtils implements IEventReporting
     public static void setup(Context ctx)
     {
         getInstance().context = ctx;
+        getInstance().setupAnalytics(ctx);
         getInstance().setupBugSense(ctx);
     }
 
@@ -130,5 +130,10 @@ public class EventReportingUtils implements IEventReporting
     public void send(String s)
     {
         send(EventCategories.BASE, BaseActions.BASE, s, null);
+    }
+
+    public void setupAnalytics(Context upAnalytics)
+    {
+
     }
 }
