@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 /**
@@ -98,11 +99,31 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        LogWrapper.w(DatabaseSQLiteOpenHelper.class.getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
-        dropDB(db);
-        createDB(db);
+        LogWrapper.d(TAG, String.format("DB - onUpgrade: %d -> %d", oldVersion, newVersion));
+
+        if (oldVersion < 2)
+        {
+            /**
+             * First released version is v2
+             * - previous versions doesn't need official upgrade plan
+             * */
+
+            dropDB(db);
+            createDB(db);
+        }
+
+        // Se example of upgrade planning here: http://grepcode.com/file_/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.1_r1/com/android/providers/calendar/CalendarDatabaseHelper.java/?v=source
+
+//        if (oldVersion == 3)
+//        {
+//            // Do something for v3
+//            oldVersion = 4;
+//        }
+//
+//        if (oldVersion == 4)
+//        {
+//            // Do something for v4
+//        }
     }
 
     public void createDB(SQLiteDatabase db)

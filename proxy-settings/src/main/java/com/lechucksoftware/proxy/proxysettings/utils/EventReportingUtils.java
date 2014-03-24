@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
-import android.os.Build;
 import android.text.TextUtils;
 
 import com.bugsense.trace.BugSenseHandler;
@@ -54,9 +53,9 @@ public class EventReportingUtils implements IEventReporting
 
         key = BuildConfig.BUGSENSE_LICENSE;
 
-        if (key == null)
+        if (key == null || key.length() != 8)
         {
-            CharSequence text = "No bugsense keyfile found";
+            CharSequence text = "No valid BugSense keyfile found";
 //            int duration = Toast.LENGTH_LONG;
 //            Toast toast = Toast.makeText(ctx, text, duration);
 //            toast.show();
