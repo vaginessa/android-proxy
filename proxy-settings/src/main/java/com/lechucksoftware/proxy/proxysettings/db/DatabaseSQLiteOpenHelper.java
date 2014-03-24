@@ -33,7 +33,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_TAG_ID = "tagId";
 
     public static final String DATABASE_NAME = "proxysettings.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 2;
 
     // Database creation sql statement
 
