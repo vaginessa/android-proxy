@@ -33,9 +33,6 @@ public class ApplicationGlobals extends Application
     public Boolean demoMode;
     public Boolean wifiActionEnabled;
 
-    public String BugsenseReleaseKey;
-    public String BugsenseDevelopmentKey;
-
     @Override
     public void onCreate()
     {
@@ -55,7 +52,7 @@ public class ApplicationGlobals extends Application
         wifiActionEnabled = true;
 
         // READ configuration file
-        readAppConfigurationFile();
+//        readAppConfigurationFile();
 
         // SETUP Libraries
         EventReportingUtils.setup(ApplicationGlobals.this);
@@ -65,64 +62,64 @@ public class ApplicationGlobals extends Application
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
 
-    public void readAppConfigurationFile()
-    {
-        LogWrapper.startTrace(TAG,"readAppConfigurationFile",Log.INFO);
-
-        try
-        {
-            AssetManager am = getAssets();
-            if (am != null)
-            {
-                InputStream inputStream = am.open("configuration.json");
-                if (inputStream != null)
-                {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder builder = new StringBuilder();
-                    String line = "";
-
-                    while ((line = br.readLine()) != null) {
-                        builder.append(line);
-                    }
-
-                    String configuration = builder.toString();
-
-                    JSONObject jsonObject = new JSONObject(configuration);
-
-                    // If you want to use BugSense for your fork, register with
-                    // them and place your API key in /assets/bugsense.txt
-                    // (This prevents me receiving reports of crashes from forked
-                    // versions which is somewhat confusing!)
-
-                    if (jsonObject.has("bugsense"))
-                    {
-                        JSONObject bugsense = jsonObject.getJSONObject("bugsense");
-                        if (bugsense.has("release-key"))
-                        {
-                            BugsenseReleaseKey = bugsense.getString("release-key");
-                        }
-
-                        if (bugsense.has("development-key"))
-                        {
-                            BugsenseDevelopmentKey = bugsense.getString("development-key");
-                        }
-                    }
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            LogWrapper.e(TAG, "No configuration file found");
-            return;
-        }
-        catch (Exception e)
-        {
-            LogWrapper.e(TAG, "Generic exception during read of configuration file: " + e.toString());
-            return;
-        }
-
-        LogWrapper.stopTrace(TAG, "readAppConfigurationFile", Log.INFO);
-    }
+//    public void readAppConfigurationFile()
+//    {
+//        LogWrapper.startTrace(TAG,"readAppConfigurationFile",Log.INFO);
+//
+//        try
+//        {
+//            AssetManager am = getAssets();
+//            if (am != null)
+//            {
+//                InputStream inputStream = am.open("configuration.json");
+//                if (inputStream != null)
+//                {
+//                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+//                    StringBuilder builder = new StringBuilder();
+//                    String line = "";
+//
+//                    while ((line = br.readLine()) != null) {
+//                        builder.append(line);
+//                    }
+//
+//                    String configuration = builder.toString();
+//
+//                    JSONObject jsonObject = new JSONObject(configuration);
+//
+//                    // If you want to use BugSense for your fork, register with
+//                    // them and place your API key in /assets/bugsense.txt
+//                    // (This prevents me receiving reports of crashes from forked
+//                    // versions which is somewhat confusing!)
+//
+//                    if (jsonObject.has("bugsense"))
+//                    {
+//                        JSONObject bugsense = jsonObject.getJSONObject("bugsense");
+//                        if (bugsense.has("release-key"))
+//                        {
+//                            BugsenseReleaseKey = bugsense.getString("release-key");
+//                        }
+//
+//                        if (bugsense.has("development-key"))
+//                        {
+//                            BugsenseDevelopmentKey = bugsense.getString("development-key");
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        catch (IOException e)
+//        {
+//            LogWrapper.e(TAG, "No configuration file found");
+//            return;
+//        }
+//        catch (Exception e)
+//        {
+//            LogWrapper.e(TAG, "Generic exception during read of configuration file: " + e.toString());
+//            return;
+//        }
+//
+//        LogWrapper.stopTrace(TAG, "readAppConfigurationFile", Log.INFO);
+//    }
 
     public static ApplicationGlobals getInstance()
     {

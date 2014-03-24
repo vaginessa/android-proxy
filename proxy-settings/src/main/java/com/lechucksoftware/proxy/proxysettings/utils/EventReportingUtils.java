@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.bugsense.trace.BugSenseHandler;
@@ -51,14 +52,7 @@ public class EventReportingUtils implements IEventReporting
     {
         String key = null;
 
-        if (BuildConfig.DEBUG)
-        {
-            key = ApplicationGlobals.getInstance().BugsenseDevelopmentKey;
-        }
-        else
-        {
-            key = ApplicationGlobals.getInstance().BugsenseReleaseKey;
-        }
+        key = BuildConfig.BUGSENSE_LICENSE;
 
         if (key == null)
         {

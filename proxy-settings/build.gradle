@@ -26,10 +26,14 @@ android {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             debuggable false
+
+            buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
         }
         debug {
             debuggable true
             runProguard false
+
+            buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
         }
     }
 
