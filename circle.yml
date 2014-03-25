@@ -4,11 +4,11 @@ machine:
 
 dependencies:
   pre:
-    - echo y | android update sdk --no-ui --all --filter "android-17,build-tools-17.0.0"
+    - echo y | android update sdk --no-ui --all --filter "android-19,build-tools-19.0.0"
 
   override:
-    - ./gradlew dependencies
+    - gradle dependencies
 
 test:
   override:
-    - ./gradlew build
+    - gradle build
