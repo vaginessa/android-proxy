@@ -21,6 +21,15 @@ android {
         versionName "2.14"
     }
 
+    signingConfigs {
+        releaseSigning {
+            storeFile file(System.getenv("ANDROID_KEYSTORE"))
+            storePassword System.console().readLine("\nStore password: ")
+            keyAlias System.getenv("ANDROID_KEYALIAS")
+            keyPassword System.console().readLine("Key password: ")
+        }
+    }
+
     buildTypes {
         release {
             runProguard false
@@ -28,6 +37,8 @@ android {
             debuggable false
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
+
+            signingConfig signingConfigs.release
         }
         debug {
             debuggable true
