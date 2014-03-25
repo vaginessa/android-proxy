@@ -249,7 +249,8 @@ public class ProxyManager
         List<ProxyConfiguration> updatedConfigurations = APL.getProxiesConfigurations();
         for (ProxyConfiguration conf : updatedConfigurations)
         {
-            if (getSavedConfigurations().containsKey(conf.internalWifiNetworkId))
+            savedConfigurations = getSavedConfigurations();
+            if (savedConfigurations != null && savedConfigurations.containsKey(conf.internalWifiNetworkId))
             {
                 // Updates already saved configuration
                 ProxyConfiguration originalConf = getSavedConfigurations().get(conf.internalWifiNetworkId);
