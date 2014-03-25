@@ -17,7 +17,13 @@ android {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+
         debug {
+            debuggable true
+            runProguard false
+        }
+
+        CI {
             debuggable true
             runProguard false
         }
