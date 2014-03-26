@@ -2,6 +2,8 @@ package io.should.proxy.lib.reflection;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+
 import io.should.proxy.lib.APL;
 import io.should.proxy.lib.log.LogWrapper;
 
@@ -50,31 +52,49 @@ public class ReflectionUtils
     {
         boolean internalSaveDone = false;
 
+        /**
+         *   4.4.2_r1
+         *   4.4.1_r1
+         *   4.4_r1
+         *   4.3.1_r1
+         *   4.3_r1
+         *   4.2.2_r1
+         *   4.2.1_r1.2
+         *   4.2_r1 public void More ...save(WifiConfiguration config, ActionListener listener)
+         *
+         *   4.1.2_r1
+         *   4.1.1_r1 public void More ...save(Channel c, WifiConfiguration config, ActionListener listener)
+         *
+         *   4.0.4_r2.1
+         *   4.0.4_r1.2
+         *   4.0.3_r1
+         *   4.0.2_r1
+         *   4.0.1_r1 public void More ...saveNetwork(WifiConfiguration config)
+         *
+         * */
+
         try
         {
-            // TODO: Needs to support also ICS saveNetwork(...) method
-
-            Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
-            if (internalSave != null)
+            switch (Build.VERSION.SDK_INT)
             {
-                Class<?>[] paramsTypes = internalSave.getParameterTypes();
-                if (paramsTypes.length == 2)
-                {
-                    /**
-                     * TODO: needs pass an instance of the interface WifiManager.ActionListener, in order to receive the status of the call
-                    */
-                    internalSave.invoke(wifiManager, configuration, null);
-                    internalSaveDone = true;
-                }
-                else if (paramsTypes.length == 1)
-                {
-                    internalSave.invoke(wifiManager, configuration);
-                    internalSaveDone = true;
-                }
-                else
-                {
-                    APL.getEventReport().send(new Exception("Not handled WifiManager.save method. Found params: " + paramsTypes.length));
-                }
+                case 14:
+                case 15:
+                    internalSaveDone =  save_4_0(wifiManager, configuration);
+                    break;
+
+                case 16:
+                    internalSaveDone =  save_4_1(wifiManager, configuration);
+                    break;
+
+                case 17:
+                case 18:
+                case 19:
+                    internalSaveDone = save_4_2(wifiManager, configuration);
+                    break;
+
+                default:
+                    internalSaveDone = saveNoVersion(wifiManager, configuration);
+                    break;
             }
         }
         catch (Exception e)
@@ -87,6 +107,105 @@ public class ReflectionUtils
             // Use the STANDARD API as a fallback solution
             wifiManager.updateNetwork(configuration);
         }
+    }
+
+    private static boolean save_4_0(WifiManager wifiManager, WifiConfiguration configuration) throws Exception
+    {
+        boolean internalSaveDone = false;
+
+        Method internalSaveNetwork = getMethod(WifiManager.class.getMethods(), "saveNetwork");
+        if (internalSaveNetwork != null)
+        {
+            try
+            {
+                internalSaveNetwork.invoke(wifiManager, configuration);
+                internalSaveDone = true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Exception during call of WifiManager.saveNetwork method (4.0) : " + e, e);
+            }
+        }
+
+        return internalSaveDone;
+    }
+
+    private static boolean save_4_1(WifiManager wifiManager, WifiConfiguration configuration) throws Exception
+    {
+        boolean internalSaveDone = false;
+
+        Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
+        if (internalSave != null)
+        {
+            try
+            {
+                internalSave.invoke(wifiManager, configuration, null);
+                internalSaveDone = true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Exception during call of WifiManager.save method (4.1) : " + e,e);
+            }
+        }
+
+        return internalSaveDone;
+    }
+
+    private static boolean save_4_2(WifiManager wifiManager, WifiConfiguration configuration) throws Exception
+    {
+        boolean internalSaveDone = false;
+
+        Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
+        if (internalSave != null)
+        {
+            try
+            {
+                /**
+                 * TODO: needs pass an instance of the interface WifiManager.ActionListener, in order to receive the status of the call
+                 */
+                internalSave.invoke(wifiManager, configuration, null);
+                internalSaveDone = true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Exception during call of WifiManager.save method (4.4) : " + e, e);
+            }
+        }
+
+        return internalSaveDone;
+    }
+
+
+    private static boolean saveNoVersion(WifiManager wifiManager, WifiConfiguration configuration) throws Exception
+    {
+        boolean internalSaveDone = false;
+
+        Method internalSaveNetwork = getMethod(WifiManager.class.getMethods(), "saveNetwork");
+        Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
+
+        if (internalSave != null)
+        {
+            Class<?>[] paramsTypes = internalSave.getParameterTypes();
+            if (paramsTypes.length == 2)
+            {
+                /**
+                 * TODO: needs pass an instance of the interface WifiManager.ActionListener, in order to receive the status of the call
+                 */
+                internalSave.invoke(wifiManager, configuration, null);
+                internalSaveDone = true;
+            }
+            else if (paramsTypes.length == 1)
+            {
+                internalSave.invoke(wifiManager, configuration);
+                internalSaveDone = true;
+            }
+            else
+            {
+                APL.getEventReport().send(new Exception("Not handled WifiManager.save method. Found params: " + paramsTypes.length));
+            }
+        }
+
+        return internalSaveDone;
     }
 
     public static Method getMethod(Method[] methods, String methodName) throws Exception
