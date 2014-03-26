@@ -91,15 +91,16 @@ public class ReflectionUtils
                 case 19:
                     internalSaveDone = save_4_2(wifiManager, configuration);
                     break;
-
-                default:
-                    internalSaveDone = saveNoVersion(wifiManager, configuration);
-                    break;
             }
         }
         catch (Exception e)
         {
             APL.getEventReport().send(new Exception("Exception during saveWifiConfiguration", e));
+        }
+
+        if (!internalSaveDone)
+        {
+            internalSaveDone = saveNoVersion(wifiManager, configuration);
         }
 
         if (!internalSaveDone)
@@ -188,9 +189,6 @@ public class ReflectionUtils
             Class<?>[] paramsTypes = internalSave.getParameterTypes();
             if (paramsTypes.length == 2)
             {
-                /**
-                 * TODO: needs pass an instance of the interface WifiManager.ActionListener, in order to receive the status of the call
-                 */
                 internalSave.invoke(wifiManager, configuration, null);
                 internalSaveDone = true;
             }
