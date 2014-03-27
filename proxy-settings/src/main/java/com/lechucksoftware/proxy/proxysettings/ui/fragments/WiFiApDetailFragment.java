@@ -1,39 +1,36 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
-import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
-import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
+import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
+import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
+import com.shouldit.proxy.lib.WifiNetworkId;
 import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.List;
-import java.util.UUID;
 
 
 public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
@@ -53,19 +50,21 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private InputField proxyPort;
     private InputExclusionList proxyBypass;
 //    private InputTags proxyTags;
-    private UUID confId;
+
+    private WifiNetworkId wifiNetworkId;
     private RelativeLayout proxyFieldsLayout;
     private ImageButton proxyEditButton;
+
 
     /**
      * Create a new instance of WiFiApDetailFragment
      */
-    public static WiFiApDetailFragment newInstance(UUID selectedId)
+    public static WiFiApDetailFragment newInstance(WifiNetworkId wifiNetworkId)
     {
         WiFiApDetailFragment instance = new WiFiApDetailFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(Constants.SELECTED_AP_CONF_ARG, selectedId);
+        args.putSerializable(Constants.SELECTED_AP_CONF_ARG, wifiNetworkId);
         instance.setArguments(args);
 
         return instance;
@@ -76,15 +75,14 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     {
         super.onResume();
 
-        confId = (UUID) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+        wifiNetworkId = (WifiNetworkId) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
 //        LogWrapper.d(TAG,"confId: " + String.valueOf(confId));
-        selectedWiFiAP = ApplicationGlobals.getProxyManager().getConfiguration(confId);
+        selectedWiFiAP = ApplicationGlobals.getProxyManager().getConfiguration(wifiNetworkId);
+
         if (selectedWiFiAP == null)
         {
-            // TODO: after resuming app, the UUID of a selected proxy configuration is not more the same -> Try to use some persisted ID (WifiNetworkId??)
             NavigationUtils.GoToMainActivity(getActivity());
         }
-
 
         refreshUI();
     }

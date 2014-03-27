@@ -341,13 +341,13 @@ public class ProxyManager
         return currentConfiguration;
     }
 
-    public ProxyConfiguration getConfiguration(UUID confId)
+    public ProxyConfiguration getConfiguration(WifiNetworkId wifiNetworkId)
     {
         ProxyConfiguration selected = null;
 
         for (ProxyConfiguration conf : getConfigurationsList())
         {
-            if (conf.id.equals(confId))
+            if (conf.internalWifiNetworkId.equals(wifiNetworkId))
             {
                 selected = conf;
                 break;

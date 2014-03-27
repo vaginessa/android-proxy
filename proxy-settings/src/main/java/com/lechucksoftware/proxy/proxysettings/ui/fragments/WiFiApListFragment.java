@@ -229,7 +229,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                 LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
 
                 Intent i = new Intent(getActivity(), WiFiApDetailActivity.class);
-                i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.id);
+                i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.internalWifiNetworkId);
                 startActivity(i);
             }
         }
