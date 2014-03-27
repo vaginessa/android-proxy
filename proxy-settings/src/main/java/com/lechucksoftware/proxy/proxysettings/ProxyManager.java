@@ -345,12 +345,16 @@ public class ProxyManager
     {
         ProxyConfiguration selected = null;
 
-        for (ProxyConfiguration conf : getConfigurationsList())
+        List<ProxyConfiguration> configurationList = getConfigurationsList();
+        if (configurationList != null)
         {
-            if (conf.internalWifiNetworkId.equals(wifiNetworkId))
+            for (ProxyConfiguration conf : configurationList)
             {
-                selected = conf;
-                break;
+                if (conf.internalWifiNetworkId.equals(wifiNetworkId))
+                {
+                    selected = conf;
+                    break;
+                }
             }
         }
 
