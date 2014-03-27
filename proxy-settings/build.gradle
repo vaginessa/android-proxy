@@ -23,26 +23,33 @@ android {
 
     signingConfigs {
         releaseSigning {
-            storeFile file(System.getenv("ANDROID_KEYSTORE"))
-            storePassword System.console().readLine("\nStore password: ")
-            keyAlias System.getenv("ANDROID_KEYALIAS")
-            keyPassword System.console().readLine("Key password: ")
+
+            storeFile file(android_keystore)
+            storePassword android_keystore_password
+
+            keyAlias android_key_alias
+            keyPassword android_key_password
+
         }
     }
 
     buildTypes {
         release {
+
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+
             debuggable false
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
 
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.releaseSigning
         }
         debug {
-            debuggable true
+
             runProguard false
+
+            debuggable true
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
         }
