@@ -483,6 +483,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     @TargetApi(12)
     public void writeConfigurationToDevice() throws Exception
     {
+        if (ap == null)
+        {
+            Exception e = new Exception("Doesn't seems a valid Wi-Fi access point");
+            throw e;
+        }
+
         if (ap.security == SecurityType.SECURITY_EAP)
         {
             Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");

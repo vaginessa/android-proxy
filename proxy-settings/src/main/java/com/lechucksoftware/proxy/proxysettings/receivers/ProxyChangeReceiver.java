@@ -13,6 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySyncService;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APLIntents;
 import com.shouldit.proxy.lib.log.LogWrapper;
@@ -119,9 +120,16 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 
         if (ApplicationGlobals.getInstance().wifiActionEnabled)
         {
-            Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
-            serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
-            context.startService(serviceIntent);
+            try
+            {
+                Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
+                serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
+                context.startService(serviceIntent);
+            }
+            catch (Exception e)
+            {
+                EventReportingUtils.sendException(e);
+            }
         }
     }
 
@@ -138,8 +146,15 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             }
         }
 
-        Intent serviceIntent = new Intent(context, MaintenanceService.class);
-        serviceIntent.putExtra(MaintenanceService.CALLER_INTENT, intent);
-        context.startService(serviceIntent);
+        try
+        {
+            Intent serviceIntent = new Intent(context, MaintenanceService.class);
+            serviceIntent.putExtra(MaintenanceService.CALLER_INTENT, intent);
+            context.startService(serviceIntent);
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
+        }
     }
 }
