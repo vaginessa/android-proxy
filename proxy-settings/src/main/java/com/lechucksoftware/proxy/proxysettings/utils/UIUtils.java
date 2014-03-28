@@ -512,7 +512,14 @@ public class UIUtils
             NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null)
             {
-                manager.cancel(PROXY_NOTIFICATION_ID);
+                try
+                {
+                    manager.cancel(PROXY_NOTIFICATION_ID);
+                }
+                catch (Exception e)
+                {
+                    EventReportingUtils.sendException(e);
+                }
             }
         }
     }
