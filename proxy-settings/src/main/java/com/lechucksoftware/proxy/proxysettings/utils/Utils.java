@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
@@ -127,7 +128,23 @@ public class Utils
     public static void startMarketActivity(Context ctx)
     {
         Uri marketUri = getMarketUri(ApplicationGlobals.getInstance().activeMarket);
-        ctx.startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+
+        boolean marketShown = false;
+
+        try
+        {
+            ctx.startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+            marketShown = true;
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
+        }
+
+        if (!marketShown)
+        {
+            Toast.makeText(ctx,R.string.market_not_found,Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static Uri getMarketUri(AndroidMarket market)
