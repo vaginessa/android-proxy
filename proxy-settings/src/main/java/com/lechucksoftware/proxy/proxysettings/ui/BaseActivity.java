@@ -3,10 +3,12 @@ package com.lechucksoftware.proxy.proxysettings.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
@@ -20,7 +22,6 @@ import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.BuildConfig;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 /**
@@ -97,6 +98,17 @@ public class BaseActivity extends Activity
     public void onDialogResult(int requestCode, int resultCode, Bundle arguments)
     {
         // Intentionally left blank
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        if (!BuildConfig.DEBUG)
+        {
+            menu.removeItem(R.id.menu_developer);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
 

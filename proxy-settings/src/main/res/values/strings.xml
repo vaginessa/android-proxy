@@ -888,4 +888,6 @@
     <string name="wifi_ap_will_be_updated">The updated proxy configuration will be applied to the Wi-Fi access points that used the previous version of the configuration</string>
     <string name="updated_wifi_access_point">Updated %d Wi-Fi access point configuration</string>
     <string name="updated_wifi_access_points">Updated %d Wi-Fi access points configurations</string>
+    <string name="market_not_found">Cannot find valid Market application</string>
+
 </resources>

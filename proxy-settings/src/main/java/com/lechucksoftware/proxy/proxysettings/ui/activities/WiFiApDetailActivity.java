@@ -75,15 +75,4 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         inflater.inflate(R.menu.ap_wifi_list, menu);
         return true;
     }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        if (!BuildConfig.DEBUG)
-        {
-            menu.removeItem(R.id.menu_developer);
-        }
-
-        return super.onPrepareOptionsMenu(menu);
-    }
 }

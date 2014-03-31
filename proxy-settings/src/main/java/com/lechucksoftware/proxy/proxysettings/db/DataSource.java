@@ -7,8 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
@@ -477,7 +479,7 @@ public class DataSource
         return updatedProxy;
     }
 
-    public void clearInUseFlag(Long ... proxyIDs)
+    public void clearInUseFlag(Long... proxyIDs)
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -486,7 +488,7 @@ public class DataSource
         long updatedRows = 0;
         if (proxyIDs != null && proxyIDs.length > 0)
         {
-            String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 0 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",",proxyIDs) + ")";
+            String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 0 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",", proxyIDs) + ")";
 
             Cursor cursor = database.rawQuery(query, null);
             updatedRows = cursor.getCount();
@@ -500,29 +502,45 @@ public class DataSource
         LogWrapper.d(TAG, "Cleared in use flag for : " + updatedRows + " proxies");
     }
 
-    public void setInUseFlag(Long ... inUseProxies)
+    public void setInUseFlag(Long... inUseProxies)
     {
-        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
-        database.beginTransaction();
-
-        clearInUseFlag();
-
-        ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
-
-        long updatedRows = 0;
-        if (inUseProxies != null && inUseProxies.length > 0)
+        try
         {
-            String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 1 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",",inUseProxies) + ")";
+            SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+            database.beginTransaction();
 
-            Cursor cursor = database.rawQuery(query, null);
-            updatedRows = cursor.getCount();
-            cursor.close();
+            try
+            {
+                clearInUseFlag();
+
+                ContentValues values = new ContentValues();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
+
+                long updatedRows = 0;
+                if (inUseProxies != null && inUseProxies.length > 0)
+                {
+                    String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 1 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",", inUseProxies) + ")";
+
+                    Cursor cursor = database.rawQuery(query, null);
+                    updatedRows = cursor.getCount();
+                    cursor.close();
+                }
+                LogWrapper.d(TAG, "Set in use flag for : " + updatedRows + " proxies");
+                database.setTransactionSuccessful();
+            }
+            catch (Exception e)
+            {
+                EventReportingUtils.sendException(e);
+            }
+            finally
+            {
+                database.endTransaction();
+            }
         }
-
-        LogWrapper.d(TAG, "Set in use flag for : " + updatedRows + " proxies");
-        database.setTransactionSuccessful();
-        database.endTransaction();
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
+        }
     }
 
     private void notifyProxyChange()
@@ -624,7 +642,7 @@ public class DataSource
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        Map<Long,ProxyEntity> proxies = new HashMap<Long, ProxyEntity>();
+        Map<Long, ProxyEntity> proxies = new HashMap<Long, ProxyEntity>();
 
         Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PROXIES, proxyTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " ASC");
 
