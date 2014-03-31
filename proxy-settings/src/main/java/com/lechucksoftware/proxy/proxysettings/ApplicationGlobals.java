@@ -2,7 +2,6 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import android.app.Application;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
@@ -12,13 +11,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.log.LogWrapper;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 
 public class ApplicationGlobals extends Application
@@ -37,6 +29,10 @@ public class ApplicationGlobals extends Application
     public void onCreate()
     {
         super.onCreate();
+
+//        // SLF4J
+//        Logger LOG = LoggerFactory.getLogger(ApplicationGlobals.class);
+//        LOG.info("hello world");
 
         LogWrapper.startTrace(TAG, "STARTUP", Log.ERROR);
 
