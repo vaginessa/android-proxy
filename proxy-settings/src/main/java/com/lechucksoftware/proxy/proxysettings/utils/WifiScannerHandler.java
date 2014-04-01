@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.os.Handler;
 import android.os.Message;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.shouldit.proxy.lib.APL;
 
 /**
@@ -21,21 +21,21 @@ public class WifiScannerHandler extends Handler
     {
         if (!hasMessages(0))
         {
-            ApplicationGlobals.getLogger().d(TAG, "Resume Wi-Fi scanner");
+            App.getLogger().d(TAG, "Resume Wi-Fi scanner");
             sendEmptyMessage(0);
         }
     }
 
     public void forceScan()
     {
-        ApplicationGlobals.getLogger().d(TAG, "Force Wi-Fi scanner");
+        App.getLogger().d(TAG, "Force Wi-Fi scanner");
         removeMessages(0);
         sendEmptyMessage(0);
     }
 
     public void pause()
     {
-        ApplicationGlobals.getLogger().d(TAG, "Pause Wi-Fi scanner");
+        App.getLogger().d(TAG, "Pause Wi-Fi scanner");
         mRetry = 0;
         removeMessages(0);
     }
@@ -43,9 +43,9 @@ public class WifiScannerHandler extends Handler
     @Override
     public void handleMessage(Message message)
     {
-        if (ApplicationGlobals.getInstance().wifiActionEnabled)
+        if (App.getInstance().wifiActionEnabled)
         {
-            ApplicationGlobals.getLogger().d(TAG, "Calling Wi-Fi scanner");
+            App.getLogger().d(TAG, "Calling Wi-Fi scanner");
 
             if (APL.getWifiManager().startScan())
             {
@@ -59,7 +59,7 @@ public class WifiScannerHandler extends Handler
         }
         else
         {
-            ApplicationGlobals.getLogger().d(TAG, "Wi-Fi scanner disabled");
+            App.getLogger().d(TAG, "Wi-Fi scanner disabled");
         }
 
         sendEmptyMessageDelayed(0, WIFI_RESCAN_INTERVAL_MS);

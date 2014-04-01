@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
@@ -107,7 +107,7 @@ public class ProxyDetailActivity extends BaseActivity
             {
 
                 EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "cancel_save_proxy", null);
-                ApplicationGlobals.getCacheManager().release(cachedProxyId);
+                App.getCacheManager().release(cachedProxyId);
                 finish();
             }
 
@@ -146,7 +146,7 @@ public class ProxyDetailActivity extends BaseActivity
     {
         try
         {
-            ProxyEntity proxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedProxyId);
+            ProxyEntity proxy = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
             if (proxy.getInUse())
             {
                 UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
@@ -154,8 +154,8 @@ public class ProxyDetailActivity extends BaseActivity
             }
             else
             {
-                ApplicationGlobals.getDBManager().upsertProxy(proxy);
-                ApplicationGlobals.getCacheManager().release(cachedProxyId);
+                App.getDBManager().upsertProxy(proxy);
+                App.getCacheManager().release(cachedProxyId);
                 finish();
             }
         }
@@ -170,12 +170,12 @@ public class ProxyDetailActivity extends BaseActivity
     {
         if (requestCode == Requests.UPDATE_LINKED_WIFI_AP)
         {
-            ProxyEntity updated = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedProxyId);
-            ProxyEntity current = (ProxyEntity) ApplicationGlobals.getDBManager().getProxy(updated.getId());
+            ProxyEntity updated = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
+            ProxyEntity current = (ProxyEntity) App.getDBManager().getProxy(updated.getId());
             AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(this, current, updated);
             asyncUpdateLinkedWiFiAP.execute();
 
-            ApplicationGlobals.getDBManager().upsertProxy(updated);
+            App.getDBManager().upsertProxy(updated);
             finish();
         }
     }

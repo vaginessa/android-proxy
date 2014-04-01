@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.analytics.tracking.android.GAServiceManager;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
@@ -49,7 +49,7 @@ public class TestActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
-        ApplicationGlobals.getLogger().d(TAG, "Creating TestActivity");
+        App.getLogger().d(TAG, "Creating TestActivity");
 
         setContentView(R.layout.test_layout);
 
@@ -107,7 +107,7 @@ public class TestActivity extends Activity
     public void testBugReporting(View caller)
     {
         EventReportingUtils.sendException(new Exception("EXCEPTION ONLY FOR TEST"));
-        EventReportingUtils.sendException(new ProxyException(ApplicationGlobals.getProxyManager().getSortedConfigurationsList()));
+        EventReportingUtils.sendException(new ProxyException(App.getProxyManager().getSortedConfigurationsList()));
         EventReportingUtils.sendEvent("EVENT ONLY FOR TEST");
 
         GAServiceManager.getInstance().dispatchLocalHits();
@@ -117,7 +117,7 @@ public class TestActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
-        List<ProxyEntity> list = ApplicationGlobals.getCacheManager().getAllProxiesList();
+        List<ProxyEntity> list = App.getCacheManager().getAllProxiesList();
         for (ProxyEntity p : list)
         {
             textViewTest.append(p.toString() + "\n\n");
@@ -128,7 +128,7 @@ public class TestActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
-        List<TagEntity> list = ApplicationGlobals.getDBManager().getAllTags();
+        List<TagEntity> list = App.getDBManager().getAllTags();
         for (TagEntity t : list)
         {
             textViewTest.append(t.toString() + "\n\n");
@@ -189,7 +189,7 @@ public class TestActivity extends Activity
         {
             if (_action == TestAction.CLEAR_DB)
             {
-                ApplicationGlobals.getDBManager().resetDB();
+                App.getDBManager().resetDB();
             }
             else if (_action == TestAction.CLEAR_IN_USE)
             {
@@ -203,12 +203,12 @@ public class TestActivity extends Activity
             {
                 // TODO: improve handling of preference cache
                 Utils.checkDemoMode(_testActivity);
-                Utils.setDemoMode(_testActivity, !ApplicationGlobals.getInstance().demoMode);
+                Utils.setDemoMode(_testActivity, !App.getInstance().demoMode);
                 Utils.checkDemoMode(_testActivity);
 
-                for (ProxyConfiguration conf : ApplicationGlobals.getProxyManager().getSortedConfigurationsList())
+                for (ProxyConfiguration conf : App.getProxyManager().getSortedConfigurationsList())
                 {
-                    if (ApplicationGlobals.getInstance().demoMode)
+                    if (App.getInstance().demoMode)
                         conf.setAPDescription(UIUtils.getRandomCodeName().toString());
                     else
                         conf.setAPDescription(null);

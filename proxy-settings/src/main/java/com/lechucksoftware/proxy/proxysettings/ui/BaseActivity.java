@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
@@ -35,7 +35,7 @@ public class BaseActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onCreate");
+        App.getLogger().d(this.getClass().getSimpleName(), "onCreate");
 
         EasyTracker.getInstance(this).activityStart(this);
     }
@@ -43,14 +43,14 @@ public class BaseActivity extends Activity
     @Override
     protected void onNewIntent(Intent intent)
     {
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onNewIntent");
+        App.getLogger().d(this.getClass().getSimpleName(), "onNewIntent");
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onDestroy");
+        App.getLogger().d(this.getClass().getSimpleName(), "onDestroy");
         ViewServer.get(this).removeWindow(this);
     }
 
@@ -65,21 +65,21 @@ public class BaseActivity extends Activity
             ViewServer.get(this).setFocusedWindow(this);
         }
 
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onResume");
+        App.getLogger().d(this.getClass().getSimpleName(), "onResume");
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onPause");
+        App.getLogger().d(this.getClass().getSimpleName(), "onPause");
     }
 
     @Override
     public void onStart()
     {
         super.onStart();
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onStart");
+        App.getLogger().d(this.getClass().getSimpleName(), "onStart");
         active = true;
     }
 
@@ -87,7 +87,7 @@ public class BaseActivity extends Activity
     public void onStop()
     {
         super.onStop();
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onStop");
+        App.getLogger().d(this.getClass().getSimpleName(), "onStop");
         active = false;
 
         EasyTracker.getInstance(this).activityStop(this);
@@ -129,7 +129,7 @@ public class BaseActivity extends Activity
             case R.id.menu_add_new_proxy:
                 Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
                 ProxyEntity emptyProxy = new ProxyEntity();
-                ApplicationGlobals.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
+                App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
                 i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
                 EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "create_new_proxy", null);
@@ -176,7 +176,7 @@ public class BaseActivity extends Activity
         }
         catch (Exception e)
         {
-            ApplicationGlobals.getLogger().e(this.getClass().getSimpleName(), "cannot call refresh fragment");
+            App.getLogger().e(this.getClass().getSimpleName(), "cannot call refresh fragment");
         }
     }
 }

@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 
 import java.io.Serializable;
 
@@ -25,6 +25,6 @@ public class PInfo implements Serializable
     
     void prettyPrint() 
     {
-        ApplicationGlobals.getLogger().d(TAG, appname + "\t" + pname + "\t" + versionName + "\t" + versionCode);
+        App.getLogger().d(TAG, appname + "\t" + pname + "\t" + versionName + "\t" + versionCode);
     }
 }

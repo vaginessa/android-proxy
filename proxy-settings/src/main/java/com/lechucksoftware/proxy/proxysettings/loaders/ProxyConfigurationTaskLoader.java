@@ -2,12 +2,10 @@ package com.lechucksoftware.proxy.proxysettings.loaders;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
-import com.lechucksoftware.proxy.proxysettings.feedbackutils.PackagesUtils;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +24,6 @@ public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<ProxyConf
     @Override
     public List<ProxyConfiguration> loadInBackground()
     {
-        return ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
+        return App.getProxyManager().getSortedConfigurationsList();
     }
 }

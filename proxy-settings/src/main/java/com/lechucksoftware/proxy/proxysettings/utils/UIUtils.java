@@ -29,7 +29,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
@@ -245,7 +245,7 @@ public class UIUtils
     {
         String BASE_URL = "file:///android_asset/www/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
 
-        ApplicationGlobals.getLogger().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
         try
         {
@@ -264,11 +264,11 @@ public class UIUtils
 
             });
 
-            ApplicationGlobals.getLogger().getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             webView.loadUrl(BASE_URL + filename);
 
-            ApplicationGlobals.getLogger().getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                     .setTitle(title)
@@ -290,7 +290,7 @@ public class UIUtils
                         }
                     });
 
-            ApplicationGlobals.getLogger().getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             AlertDialog dialog = builder.create();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
@@ -305,7 +305,7 @@ public class UIUtils
                 }
             });
 
-            ApplicationGlobals.getLogger().getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             dialog.show();
         }
@@ -315,7 +315,7 @@ public class UIUtils
             return;
         }
 
-        ApplicationGlobals.getLogger().stopTrace(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
     }
 
     public static void showHTMLAlertDialog(final Context ctx, String title, String htmlText, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
@@ -372,7 +372,7 @@ public class UIUtils
 
     public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)
     {
-        //		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+        //		if (App.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
         {
             return ProxyUIUtils.GetStatusTitle(conf, ctx);
         }

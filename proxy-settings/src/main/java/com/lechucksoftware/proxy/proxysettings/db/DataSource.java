@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
@@ -111,7 +111,7 @@ public class DataSource
 
     public ProxyEntity getRandomProxy()
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "getRandomProxy", Log.INFO);
+        App.getLogger().startTrace(TAG, "getRandomProxy", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -133,14 +133,14 @@ public class DataSource
         else
         {
             proxyData.setTags(getTagsForProxy(proxyData.getId()));
-            ApplicationGlobals.getLogger().stopTrace(TAG, "getRandomProxy", proxyData.toString(), Log.INFO);
+            App.getLogger().stopTrace(TAG, "getRandomProxy", proxyData.toString(), Log.INFO);
             return proxyData;
         }
     }
 
     public ProxyEntity getProxy(long proxyId)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "getProxy", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "getProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -158,13 +158,13 @@ public class DataSource
         cursor.close();
 
         proxyData.setTags(getTagsForProxy(proxyId));
-        ApplicationGlobals.getLogger().stopTrace(TAG, "getProxy", proxyData.toString(), Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "getProxy", proxyData.toString(), Log.DEBUG);
         return proxyData;
     }
 
     public TagEntity getRandomTag()
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "getTag", Log.INFO);
+        App.getLogger().startTrace(TAG, "getTag", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -188,7 +188,7 @@ public class DataSource
         }
         else
         {
-            ApplicationGlobals.getLogger().stopTrace(TAG, "getTag", tag.toString(), Log.INFO);
+            App.getLogger().stopTrace(TAG, "getTag", tag.toString(), Log.INFO);
             return tag;
         }
     }
@@ -224,7 +224,7 @@ public class DataSource
 
     public ProxyTagLinkEntity getProxyTagLink(long linkId)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "getProxyTagLink", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "getProxyTagLink", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -243,12 +243,12 @@ public class DataSource
 
         if (link == null)
         {
-            ApplicationGlobals.getLogger().stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
+            App.getLogger().stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
             return null;
         }
         else
         {
-            ApplicationGlobals.getLogger().stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
+            App.getLogger().stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
             return link;
         }
     }
@@ -290,7 +290,7 @@ public class DataSource
 
     public List<Long> findDuplicatedProxy(String proxyHost, Integer proxyPort)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         List<Long> duplicatedProxiesID = new ArrayList<Long>();
@@ -320,13 +320,13 @@ public class DataSource
         cursor.close();
 
         cursor.close();
-        ApplicationGlobals.getLogger().stopTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
         return duplicatedProxiesID;
     }
 
     public long findProxy(ProxyEntity proxyData)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "findProxy", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "findProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
@@ -346,13 +346,13 @@ public class DataSource
         }
 
         cursor.close();
-        ApplicationGlobals.getLogger().stopTrace(TAG, "findProxy", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "findProxy", Log.DEBUG);
         return proxyId;
     }
 
     public long findTag(String tagName)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "findTag", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "findTag", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
@@ -369,13 +369,13 @@ public class DataSource
         }
 
         cursor.close();
-        ApplicationGlobals.getLogger().stopTrace(TAG, "findTag", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "findTag", Log.DEBUG);
         return tagId;
     }
 
     public ProxyEntity createProxy(ProxyEntity proxyData)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "createProxy", Log.DEBUG, true);
+        App.getLogger().startTrace(TAG, "createProxy", Log.DEBUG, true);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -398,7 +398,7 @@ public class DataSource
             createProxyTagLink(newProxy.getId(), tag.getId());
         }
 
-        ApplicationGlobals.getLogger().stopTrace(TAG, "createProxy", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "createProxy", Log.DEBUG);
 
         notifyProxyChange();
 
@@ -407,7 +407,7 @@ public class DataSource
 
     public TagEntity createTag(TagEntity tag)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "createTag", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "createTag", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -421,13 +421,13 @@ public class DataSource
         long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_TAGS, null, values);
 
         TagEntity newTag = getTag(insertId);
-        ApplicationGlobals.getLogger().stopTrace(TAG, "createTag", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "createTag", Log.DEBUG);
         return newTag;
     }
 
     public ProxyTagLinkEntity createProxyTagLink(long proxyId, long tagId)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "createProxyTagLink", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "createProxyTagLink", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -441,7 +441,7 @@ public class DataSource
         long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS, null, values);
 
         ProxyTagLinkEntity newLink = getProxyTagLink(insertId);
-        ApplicationGlobals.getLogger().stopTrace(TAG, "createProxyTagLink", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "createProxyTagLink", Log.DEBUG);
         return newLink;
     }
 
@@ -498,7 +498,7 @@ public class DataSource
             updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, null, null);
         }
 
-        ApplicationGlobals.getLogger().d(TAG, "Cleared in use flag for : " + updatedRows + " proxies");
+        App.getLogger().d(TAG, "Cleared in use flag for : " + updatedRows + " proxies");
     }
 
     public void setInUseFlag(Long... inUseProxies)
@@ -524,7 +524,7 @@ public class DataSource
                     updatedRows = cursor.getCount();
                     cursor.close();
                 }
-                ApplicationGlobals.getLogger().d(TAG, "Set in use flag for : " + updatedRows + " proxies");
+                App.getLogger().d(TAG, "Set in use flag for : " + updatedRows + " proxies");
                 database.setTransactionSuccessful();
             }
             catch (Exception e)

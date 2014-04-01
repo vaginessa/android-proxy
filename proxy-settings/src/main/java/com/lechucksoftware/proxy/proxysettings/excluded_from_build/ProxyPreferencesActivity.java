@@ -17,7 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -113,7 +113,7 @@ public class ProxyPreferencesActivity extends Activity
 	{
 //		dismissProgressDialog();
 
-		ProxyConfiguration pconf = ApplicationGlobals.getCachedConfiguration();
+		ProxyConfiguration pconf = App.getCachedConfiguration();
 
 		updateProxyAction(menu, pconf);
 		updateWifiAction(menu, pconf);
@@ -141,13 +141,13 @@ public class ProxyPreferencesActivity extends Activity
 				if (pconf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE).result)
 				{
 					// Errors, but internet is reachable
-					menuItemProxyStatus.setIcon(UIUtils.writeWarningOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_valid, pconf.status.getErrorCount().toString()));
+					menuItemProxyStatus.setIcon(UIUtils.writeWarningOnDrawable(App.getInstance().getApplicationContext(), R.drawable.ic_action_valid, pconf.status.getErrorCount().toString()));
 					menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_warning));
 				}
 				else
 				{
 					// Errors & internet is not reachable
-					menuItemProxyStatus.setIcon(UIUtils.writeErrorOnDrawable(ApplicationGlobals.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, pconf.status.getErrorCount().toString()));
+					menuItemProxyStatus.setIcon(UIUtils.writeErrorOnDrawable(App.getInstance().getApplicationContext(), R.drawable.ic_action_notvalid, pconf.status.getErrorCount().toString()));
 					menuItemProxyStatusDetail.setTitle(getResources().getString(R.string.validation_proxy_summary_errors));
 				}
 			}
@@ -166,14 +166,14 @@ public class ProxyPreferencesActivity extends Activity
 		menuItemWifiSettings = menu.findItem(R.id.menu_wifi_settings);
 
 		// Wi-Fi Toggle
-		boolean wifiEnabled = ApplicationGlobals.getWifiManager().isWifiEnabled();
+		boolean wifiEnabled = App.getWifiManager().isWifiEnabled();
 		if (wifiEnabled)
 			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_off_summary));
 		else
 			menuItemWifiToggle.setTitle(getResources().getString(R.string.wifi_toggle_on_summary));
 
 		// Wi-Fi Supplicant state
-		SupplicantState ss = ApplicationGlobals.getWifiManager().getConnectionInfo().getSupplicantState();
+		SupplicantState ss = App.getWifiManager().getConnectionInfo().getSupplicantState();
 		LogWrapper.d(TAG, "Supplicant state: " + ss.toString());
 
 		if (wifiEnabled)
@@ -265,8 +265,8 @@ public class ProxyPreferencesActivity extends Activity
 				return true;
 
 			case R.id.menu_wifi_toggle:
-				boolean wifiStatus = ApplicationGlobals.getWifiManager().isWifiEnabled();
-				ApplicationGlobals.getWifiManager().setWifiEnabled(!wifiStatus);
+				boolean wifiStatus = App.getWifiManager().isWifiEnabled();
+				App.getWifiManager().setWifiEnabled(!wifiStatus);
 				item.setEnabled(false);
 				menuItemWifiStatus.setActionView(R.layout.actionbar_refresh_progress);
 				refreshUI();

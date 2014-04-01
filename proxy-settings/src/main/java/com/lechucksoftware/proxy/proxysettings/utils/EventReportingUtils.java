@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
@@ -58,11 +58,11 @@ public class EventReportingUtils implements IEventReporting
 //            int duration = Toast.LENGTH_LONG;
 //            Toast toast = Toast.makeText(ctx, text, duration);
 //            toast.show();
-            ApplicationGlobals.getLogger().e(TAG, text.toString());
+            App.getLogger().e(TAG, text.toString());
         }
         else
         {
-            ApplicationGlobals.getLogger().i(TAG, String.format("BugSense setup [%s]",key));
+            App.getLogger().i(TAG, String.format("BugSense setup [%s]", key));
             BugSenseHandler.initAndStartSession(ctx, key);
             setupDone = true;
         }
@@ -75,8 +75,8 @@ public class EventReportingUtils implements IEventReporting
 
     public void send(Exception e)
     {
-        ApplicationGlobals.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
-        ApplicationGlobals.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n",e.getStackTrace()));
+        App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
+        App.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n", e.getStackTrace()));
 
         if (setupDone)
         {
@@ -91,7 +91,7 @@ public class EventReportingUtils implements IEventReporting
         }
         else
         {
-            setupBugSense(ApplicationGlobals.getInstance().getApplicationContext());
+            setupBugSense(App.getInstance().getApplicationContext());
         }
     }
 
@@ -121,7 +121,7 @@ public class EventReportingUtils implements IEventReporting
         else
         {
             String msg = String.format("sendEvent: %s %s %s %d", eventCategory, eventAction, eventLabel, eventValue);
-            ApplicationGlobals.getLogger().e(TAG, msg);
+            App.getLogger().e(TAG, msg);
         }
     }
 

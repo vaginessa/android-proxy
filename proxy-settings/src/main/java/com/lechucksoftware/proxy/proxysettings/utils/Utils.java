@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
@@ -67,11 +67,11 @@ public class Utils
         {
             try
             {
-                answer = ProxyUtils.getHttpAnswerURI(uri, ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
+                answer = ProxyUtils.getHttpAnswerURI(uri, App.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
             }
             catch (IOException e)
             {
-                ApplicationGlobals.getLogger().w(TAG, "Exception on getProxyCountryCode: " + e.toString());
+                App.getLogger().w(TAG, "Exception on getProxyCountryCode: " + e.toString());
             }
 
             if (answer != null)
@@ -126,7 +126,7 @@ public class Utils
 
     public static void startMarketActivity(Context ctx)
     {
-        Uri marketUri = getMarketUri(ApplicationGlobals.getInstance().activeMarket);
+        Uri marketUri = getMarketUri(App.getInstance().activeMarket);
 
         boolean marketShown = false;
 
@@ -233,11 +233,11 @@ public class Utils
         SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
         if (prefs.getBoolean(Constants.PREFERENCES_DEMO_MODE, false))
         {
-            ApplicationGlobals.getInstance().demoMode = true;
+            App.getInstance().demoMode = true;
         }
         else
         {
-            ApplicationGlobals.getInstance().demoMode = false;
+            App.getInstance().demoMode = false;
         }
     }
 

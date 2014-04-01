@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
@@ -23,7 +23,7 @@ public class MaintenanceService extends IntentService
     public MaintenanceService()
     {
         super("MaintenanceService");
-        ApplicationGlobals.getLogger().v(TAG, "MaintenanceService constructor");
+        App.getLogger().v(TAG, "MaintenanceService constructor");
     }
 
     public static MaintenanceService getInstance()
@@ -42,11 +42,11 @@ public class MaintenanceService extends IntentService
         instance = this;
         isHandling = true;
 
-        ApplicationGlobals.getLogger().startTrace(TAG, "maintenanceService", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "maintenanceService", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        ApplicationGlobals.getLogger().stopTrace(TAG, "maintenanceService", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "maintenanceService", Log.DEBUG);
         isHandling = false;
     }
 
@@ -72,7 +72,7 @@ public class MaintenanceService extends IntentService
                     }
                     else
                     {
-                        ApplicationGlobals.getLogger().e(TAG,"Intent not handled: " +callerIntent.toString());
+                        App.getLogger().e(TAG, "Intent not handled: " + callerIntent.toString());
                     }
                 }
                 catch (Exception e)
@@ -96,17 +96,17 @@ public class MaintenanceService extends IntentService
 //    private TagEntity getInUseProxyTag()
 //    {
 //        TagEntity inUseTag = null;
-//        long id  = ApplicationGlobals.getDBManager().findTag("IN USE");
+//        long id  = App.getDBManager().findTag("IN USE");
 //        if (id != -1)
 //        {
-//            inUseTag = ApplicationGlobals.getDBManager().getTag(id);
+//            inUseTag = App.getDBManager().getTag(id);
 //        }
 //        else
 //        {
 //            inUseTag = new TagEntity();
 //            inUseTag.tag = "IN USE";
 //            inUseTag.tagColor = UIUtils.getTagsColor(this, 0);
-//            ApplicationGlobals.getDBManager().upsertTag(inUseTag);
+//            App.getDBManager().upsertTag(inUseTag);
 //        }
 //
 //        return inUseTag;
@@ -114,11 +114,11 @@ public class MaintenanceService extends IntentService
 
     private void checkProxiesCountryCodes()
     {
-        List<ProxyEntity> proxies = ApplicationGlobals.getDBManager().getProxyWithEmptyCountryCode();
+        List<ProxyEntity> proxies = App.getDBManager().getProxyWithEmptyCountryCode();
 
         for (ProxyEntity proxy : proxies)
         {
-            ApplicationGlobals.getLogger().startTrace(TAG, "Get proxy country code", Log.DEBUG);
+            App.getLogger().startTrace(TAG, "Get proxy country code", Log.DEBUG);
 
             try
             {
@@ -126,7 +126,7 @@ public class MaintenanceService extends IntentService
                 if (!TextUtils.isEmpty(countryCode))
                 {
                     proxy.setCountryCode(countryCode);
-                    ApplicationGlobals.getDBManager().upsertProxy(proxy);
+                    App.getDBManager().upsertProxy(proxy);
                 }
             }
             catch (Exception e)
@@ -135,7 +135,7 @@ public class MaintenanceService extends IntentService
                 break;
             }
 
-            ApplicationGlobals.getLogger().stopTrace(TAG, "Get proxy country code", proxy.toString(), Log.DEBUG);
+            App.getLogger().stopTrace(TAG, "Get proxy country code", proxy.toString(), Log.DEBUG);
         }
     }
 }

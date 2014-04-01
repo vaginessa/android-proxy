@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
@@ -140,7 +140,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         loader.forceLoad();
 
 //        // Reset selected configuration
-//        ApplicationGlobals.setSelectedConfiguration(null);
+//        App.setSelectedConfiguration(null);
 
         return v;
     }
@@ -210,10 +210,10 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             listView.setItemChecked(index, true);
 
             ProxyEntity selectedProxy = (ProxyEntity) listView.getItemAtPosition(index);
-            ApplicationGlobals.getLogger().d(TAG, "Selected proxy configuration: " + selectedProxy.toString());
+            App.getLogger().d(TAG, "Selected proxy configuration: " + selectedProxy.toString());
 
             Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
-            ApplicationGlobals.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
+            App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
             i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getUUID());
             startActivity(i);
         }

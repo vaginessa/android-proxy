@@ -9,7 +9,7 @@ import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
@@ -32,7 +32,7 @@ public class WebViewWithProxyActivity extends FragmentActivity
 		setContentView(R.layout.webview);
 
 		if (Build.VERSION.SDK_INT < 12)
-			ProxyUtils.setWebViewProxy(getApplicationContext(), ApplicationGlobals.getProxyManager().getCachedConfiguration()); // Only
+			ProxyUtils.setWebViewProxy(getApplicationContext(), App.getProxyManager().getCachedConfiguration()); // Only
 																								  // for
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.getSettings().setJavaScriptEnabled(true);
@@ -53,7 +53,7 @@ public class WebViewWithProxyActivity extends FragmentActivity
 				// Activities and WebViews measure progress with different
 				// scales. The progress meter will automatically disappear when we reach 100%
 				int activityProgress = progress * 100;
-                ApplicationGlobals.getLogger().d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
+                App.getLogger().d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
 				activity.setProgress(activityProgress);
 
 
@@ -95,34 +95,34 @@ public class WebViewWithProxyActivity extends FragmentActivity
 
 		setProgressBarVisibility(true);
 
-        ApplicationGlobals.getLogger().d(TAG, "Start");
+        App.getLogger().d(TAG, "Start");
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-        ApplicationGlobals.getLogger().d(TAG, "Resume");
+        App.getLogger().d(TAG, "Resume");
 	}
 
 	@Override
 	protected void onPause()
 	{
 		super.onPause();
-        ApplicationGlobals.getLogger().d(TAG, "Pause");
+        App.getLogger().d(TAG, "Pause");
 	}
 
 	@Override
 	protected void onStop()
 	{
-        ApplicationGlobals.getLogger().d(TAG, "Stop");
+        App.getLogger().d(TAG, "Stop");
 		super.onStop();
 	}
 
 	@Override
 	protected void onDestroy()
 	{
-        ApplicationGlobals.getLogger().d(TAG, "Destroy");
+        App.getLogger().d(TAG, "Destroy");
 		super.onDestroy();
 	}
 }

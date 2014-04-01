@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments.base;
 
 import android.app.DialogFragment;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 
 /**
  * Created by marco on 24/05/13.
@@ -31,13 +31,13 @@ public class BaseDialogFragment extends DialogFragment
     public void onResume()
     {
         super.onResume();
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
+        App.getLogger().d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        ApplicationGlobals.getLogger().d(this.getClass().getSimpleName(), "onPause " + this.getClass().getSimpleName());
+        App.getLogger().d(this.getClass().getSimpleName(), "onPause " + this.getClass().getSimpleName());
     }
 }

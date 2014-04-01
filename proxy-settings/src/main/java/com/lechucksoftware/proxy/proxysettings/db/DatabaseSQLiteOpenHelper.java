@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 
 /**
  * Created by Marco on 13/09/13.
@@ -99,7 +99,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        ApplicationGlobals.getLogger().d(TAG, String.format("DB - onUpgrade: %d -> %d", oldVersion, newVersion));
+        App.getLogger().d(TAG, String.format("DB - onUpgrade: %d -> %d", oldVersion, newVersion));
 
         if (oldVersion < 2)
         {
@@ -128,19 +128,19 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 
     public void createDB(SQLiteDatabase db)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
         db.execSQL(CREATE_TABLE_PROXIES);
         db.execSQL(CREATE_TABLE_TAGS);
         db.execSQL(CREATE_TABLE_TAGGED_PROXIES);
-        ApplicationGlobals.getLogger().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
 
     public void dropDB(SQLiteDatabase db)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXIES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
-        ApplicationGlobals.getLogger().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }
 }

@@ -8,7 +8,7 @@ import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
@@ -28,7 +28,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             // INTERNAL (PS) : Called when Proxy Settings is started
 
-            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
+            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callProxySettingsChecker(context, intent);
             callSyncProxyService(context, intent);
             callMaintenanceService(context, intent);
@@ -36,14 +36,14 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         else if (intent.getAction().equals(Intents.WIFI_AP_UPDATED))
         {
             // INTERNAL (PS): Called when a proxy configuration is written
-            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
+            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callProxySettingsChecker(context, intent);
             callSyncProxyService(context, intent);
         }
         else if (intent.getAction().equals(Intents.PROXY_SAVED))
         {
             // INTERNAL (PS) : Saved a Proxy configuration on DB
-            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
+            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callMaintenanceService(context, intent);
         }
         else if (
@@ -62,7 +62,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                     || intent.getAction().equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE")
                 )
         {
-            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
+            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callProxySettingsChecker(context, intent);
         }
         else if (
@@ -73,13 +73,13 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                     || intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK)
                 )
         {
-            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
-            UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getProxyManager().getCachedConfiguration(), context);
+            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
+            UIUtils.UpdateStatusBarNotification(App.getProxyManager().getCachedConfiguration(), context);
         }
         else
         {
-            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.ERROR);
-            ApplicationGlobals.getLogger().e(TAG, "Intent not found into handled list!");
+            App.getLogger().logIntent(TAG, intent, Log.ERROR);
+            App.getLogger().e(TAG, "Intent not found into handled list!");
         }
     }
 
@@ -96,7 +96,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 //            }
 //        }
 
-        if (ApplicationGlobals.getInstance().wifiActionEnabled)
+        if (App.getInstance().wifiActionEnabled)
         {
             Intent serviceIntent = new Intent(context, ProxySyncService.class);
             serviceIntent.putExtra(ProxySyncService.CALLER_INTENT, intent);
@@ -112,12 +112,12 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             if (instance.isHandlingIntent())
             {
-                ApplicationGlobals.getLogger().d(TAG, "Already checking proxy.. skip another call");
+                App.getLogger().d(TAG, "Already checking proxy.. skip another call");
                 return;
             }
         }
 
-        if (ApplicationGlobals.getInstance().wifiActionEnabled)
+        if (App.getInstance().wifiActionEnabled)
         {
             try
             {
@@ -140,7 +140,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             if (instance.isHandlingIntent())
             {
-                ApplicationGlobals.getLogger().d(TAG, "Already working.. skip another call");
+                App.getLogger().d(TAG, "Already working.. skip another call");
                 return;
             }
         }

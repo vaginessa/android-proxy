@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
 
@@ -67,7 +67,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
         }
         catch (Exception e)
         {
-            ApplicationGlobals.getLogger().i(TAG, e.toString());
+            App.getLogger().i(TAG, e.toString());
         }
         return view;
     }
@@ -106,7 +106,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
             position = getPositionForSection(section - 1);
         }
 
-        ApplicationGlobals.getLogger().d(TAG, String.format("Section %d (%s) -> Position %d", section, sectionChar, position));
+        App.getLogger().d(TAG, String.format("Section %d (%s) -> Position %d", section, sectionChar, position));
         return position;
     }
 
@@ -123,7 +123,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
         else
             section = index;
 
-        ApplicationGlobals.getLogger().d(TAG,String.format("Position %d (%c) -> Section %d",position, c,section));
+        App.getLogger().d(TAG, String.format("Position %d (%c) -> Section %d", position, c, section));
         return section;
     }
 

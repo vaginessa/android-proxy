@@ -8,7 +8,7 @@ import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -49,11 +49,11 @@ public class ProxySettingsCheckerService extends IntentService
         instance = this;
         isHandling = true;
 
-        ApplicationGlobals.getLogger().startTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "checkProxySettings", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        ApplicationGlobals.getLogger().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
         isHandling = false;
     }
 
@@ -67,7 +67,7 @@ public class ProxySettingsCheckerService extends IntentService
             if (callerIntent != null)
             {
                 String callerAction = callerIntent.getAction();
-                ApplicationGlobals.getLogger().logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
+                App.getLogger().logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
 
                 if (callerAction.equals(Intents.PROXY_SETTINGS_STARTED)
                         || callerAction.equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
@@ -96,17 +96,17 @@ public class ProxySettingsCheckerService extends IntentService
                     }
                     else
                     {
-                        ApplicationGlobals.getLogger().d(TAG, "Do not check proxy settings if network is not available!");
+                        App.getLogger().d(TAG, "Do not check proxy settings if network is not available!");
                     }
                 }
                 else
                 {
-                    ApplicationGlobals.getLogger().e(TAG, "Intent ACTION not handled: " + callerAction);
+                    App.getLogger().e(TAG, "Intent ACTION not handled: " + callerAction);
                 }
             }
             else
             {
-                ApplicationGlobals.getLogger().e(TAG, "Received Intent NULL ACTION");
+                App.getLogger().e(TAG, "Received Intent NULL ACTION");
             }
         }
 
@@ -121,14 +121,14 @@ public class ProxySettingsCheckerService extends IntentService
 
     private void checkProxySettings()
     {
-        ApplicationGlobals.getLogger().startTrace(TAG,"checkProxySettings", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "checkProxySettings", Log.DEBUG);
 
         try
         {
 //            callRefreshApplicationStatus();
 
-            ApplicationGlobals.getProxyManager().updateProxyConfigurationList();
-            ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCurrentConfiguration();
+            App.getProxyManager().updateProxyConfigurationList();
+            ProxyConfiguration conf = App.getProxyManager().getCurrentConfiguration();
 
             NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
@@ -137,7 +137,7 @@ public class ProxySettingsCheckerService extends IntentService
                 boolean checkNewConf = false;
                 if (conf != null)
                 {
-                    ApplicationGlobals.getLogger().d(TAG, "Checking configuration: " + conf.toShortString());
+                    App.getLogger().d(TAG, "Checking configuration: " + conf.toShortString());
 
                     if (conf.status != null
                             && conf.status.checkedDate != null)
@@ -150,37 +150,37 @@ public class ProxySettingsCheckerService extends IntentService
                         {
                             checkNewConf = true;
                             // Skip check when configuration is the same
-                            ApplicationGlobals.getLogger().d(TAG, "Same configuration for 30 minutes check again!");
+                            App.getLogger().d(TAG, "Same configuration for 30 minutes check again!");
                         }
                     }
                     else
                     {
-                        ApplicationGlobals.getLogger().d(TAG, "Current configuration has not been checked -> needs to check the proxy status");
+                        App.getLogger().d(TAG, "Current configuration has not been checked -> needs to check the proxy status");
                         checkNewConf = true;
                     }
                 }
                 else
                 {
                     // newconf cannot be null!!
-                    ApplicationGlobals.getLogger().d(TAG, "Not found new configuration -> needs to check the proxy status");
+                    App.getLogger().d(TAG, "Not found new configuration -> needs to check the proxy status");
                     EventReportingUtils.sendException(new Exception("Cannot have a null ProxyConfiguration"));
                 }
 
                 if (checkNewConf)
                 {
-                    ApplicationGlobals.getLogger().d(TAG, "Changed current proxy configuration: calling refresh of proxy status");
+                    App.getLogger().d(TAG, "Changed current proxy configuration: calling refresh of proxy status");
                     ProxyUtils.acquireProxyStatus(conf, conf.status, ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
-                    ApplicationGlobals.getLogger().d(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
+                    App.getLogger().d(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
                 }
                 else
                 {
                     // Skip check when configuration is the same
-                    ApplicationGlobals.getLogger().d(TAG, "No need to check the configuration. Skip...");
+                    App.getLogger().d(TAG, "No need to check the configuration. Skip...");
                 }
             }
             else
             {
-                ApplicationGlobals.getLogger().d(TAG, "Network is not available, cannot check proxy settings");
+                App.getLogger().d(TAG, "Network is not available, cannot check proxy settings");
             }
 
             callRefreshApplicationStatus();
@@ -188,11 +188,11 @@ public class ProxySettingsCheckerService extends IntentService
         catch (Exception e)
         {
             EventReportingUtils.sendException(e);
-            UIUtils.DisableProxyNotification(ApplicationGlobals.getInstance());
+            UIUtils.DisableProxyNotification(App.getInstance());
             e.printStackTrace();
         }
 
-        ApplicationGlobals.getLogger().stopTrace(TAG,"checkProxySettings", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
     }
 
     public void callRefreshApplicationStatus()
@@ -200,10 +200,10 @@ public class ProxySettingsCheckerService extends IntentService
         /**
          * Call the update of the UI
          * */
-        ApplicationGlobals.getLogger().d(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
+        App.getLogger().d(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 
-        UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getProxyManager().getCachedConfiguration(), getApplicationContext());
+        UIUtils.UpdateStatusBarNotification(App.getProxyManager().getCachedConfiguration(), getApplicationContext());
     }
 }

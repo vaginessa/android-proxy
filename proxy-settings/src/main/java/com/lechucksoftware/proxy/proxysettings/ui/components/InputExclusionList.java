@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -140,7 +140,7 @@ public class InputExclusionList extends LinearLayout
 
     public void setExclusionString(String value)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "setExclusionString", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "setExclusionString", Log.DEBUG);
 
         if (exclusionString == null || !exclusionString.equals(value))
         {
@@ -162,7 +162,7 @@ public class InputExclusionList extends LinearLayout
 
         refreshExclusionList();
 
-        ApplicationGlobals.getLogger().stopTrace(TAG, "setExclusionString", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "setExclusionString", Log.DEBUG);
     }
 
     public String getExclusionString()
@@ -181,7 +181,7 @@ public class InputExclusionList extends LinearLayout
 
     private void refreshUI()
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "refreshUI", Log.ASSERT, true);
+        App.getLogger().startTrace(TAG, "refreshUI", Log.ASSERT, true);
         // Layout
         if (singleLine)
         {
@@ -205,12 +205,12 @@ public class InputExclusionList extends LinearLayout
         titleTextView.setTextSize(titleSize);
         readonlyValueTextView.setTextSize(textSize);
 
-        ApplicationGlobals.getLogger().stopTrace(TAG, "refreshUI", Log.ASSERT);
+        App.getLogger().stopTrace(TAG, "refreshUI", Log.ASSERT);
     }
 
     private void refreshExclusionList()
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "refreshExclusionList", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "refreshExclusionList", Log.DEBUG);
 
         if (readonly)
         {
@@ -255,19 +255,19 @@ public class InputExclusionList extends LinearLayout
             updateExclusionStringValue();
         }
 
-        ApplicationGlobals.getLogger().stopTrace(TAG, "refreshExclusionList", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "refreshExclusionList", Log.DEBUG);
     }
 
     private void addEmptyItem()
     {
-        ApplicationGlobals.getLogger().startTrace(TAG, "addEmptyItem", Log.ASSERT, true);
+        App.getLogger().startTrace(TAG, "addEmptyItem", Log.ASSERT, true);
 
         InputField i = createExclusionInputField();
         i.setValue("");
         exclusionInputFieldsMap.put(i.getUUID(), i);
 //        uiHandler.callRefreshExclusionList();
 
-        ApplicationGlobals.getLogger().stopTrace(TAG, "addEmptyItem", Log.ASSERT);
+        App.getLogger().stopTrace(TAG, "addEmptyItem", Log.ASSERT);
     }
 
     private class UIHandler extends Handler
@@ -281,7 +281,7 @@ public class InputExclusionList extends LinearLayout
         {
             Bundle b = message.getData();
 
-            ApplicationGlobals.getLogger().w(TAG, "handleMessage: " + b.toString());
+            App.getLogger().w(TAG, "handleMessage: " + b.toString());
 
             if (b.containsKey(REFRESH_UI_ACTION))
                 refreshUI();

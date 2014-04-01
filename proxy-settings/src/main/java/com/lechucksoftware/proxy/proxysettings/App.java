@@ -13,11 +13,11 @@ import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.log.LogWrapper;
 
 
-public class ApplicationGlobals extends Application
+public class App extends Application
 {
-    private static final String TAG = ApplicationGlobals.class.getSimpleName();
+    private static final String TAG = App.class.getSimpleName();
 
-    private static ApplicationGlobals mInstance;
+    private static App mInstance;
     private ProxyManager proxyManager;
     private DataSource dbManager;
     public AndroidMarket activeMarket;
@@ -29,20 +29,22 @@ public class ApplicationGlobals extends Application
     @Override
     public void onCreate()
     {
+
         super.onCreate();
 
+        // TODO: evaluate implementation of Logback library
 //        // SLF4J
-//        Logger LOG = LoggerFactory.getLogger(ApplicationGlobals.class);
+//        Logger LOG = LoggerFactory.getLogger(App.class);
 //        LOG.info("hello world");
         getLogger().startTrace(TAG, "STARTUP", Log.ERROR);
 
         mInstance = this;
 
-        proxyManager = new ProxyManager(ApplicationGlobals.this);
-        dbManager = new DataSource(ApplicationGlobals.this);
-        cacheManager = new CacheManager(ApplicationGlobals.this);
+        proxyManager = new ProxyManager(App.this);
+        dbManager = new DataSource(App.this);
+        cacheManager = new CacheManager(App.this);
 
-        activeMarket = Utils.getInstallerMarket(ApplicationGlobals.this);
+        activeMarket = Utils.getInstallerMarket(App.this);
 
         demoMode = false;
         wifiActionEnabled = true;
@@ -51,8 +53,8 @@ public class ApplicationGlobals extends Application
 //        readAppConfigurationFile();
 
         // SETUP Libraries
-        EventReportingUtils.setup(ApplicationGlobals.this);
-        APL.setup(ApplicationGlobals.this, getLogger().getLogLevel(), EventReportingUtils.getInstance());
+        EventReportingUtils.setup(App.this);
+        APL.setup(App.this, getLogger().getLogLevel(), EventReportingUtils.getInstance());
 
         getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
@@ -127,12 +129,12 @@ public class ApplicationGlobals extends Application
         return getInstance().logger;
     }
 
-    public static ApplicationGlobals getInstance()
+    public static App getInstance()
     {
         if (mInstance == null)
         {
-            EventReportingUtils.sendException(new Exception("Cannot find valid instance of ApplicationGlobals, trying to instanciate a new one"));
-            mInstance = new ApplicationGlobals();
+            EventReportingUtils.sendException(new Exception("Cannot find valid instance of App, trying to instanciate a new one"));
+            mInstance = new App();
         }
 
         return mInstance;

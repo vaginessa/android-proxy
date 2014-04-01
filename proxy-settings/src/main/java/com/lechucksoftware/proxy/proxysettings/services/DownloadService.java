@@ -2,20 +2,19 @@ package com.lechucksoftware.proxy.proxysettings.services;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.Proxy.Type;
 import java.net.URL;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 
 public class DownloadService extends IntentService
@@ -89,10 +88,10 @@ public class DownloadService extends IntentService
 		{
 			HttpURLConnection con = null;
 
-			if (ApplicationGlobals.getProxyManager().getCachedConfiguration().getProxyType()==Type.HTTP)
+			if (App.getProxyManager().getCachedConfiguration().getProxyType()==Type.HTTP)
 			{
-				System.setProperty("http.proxyHost", ApplicationGlobals.getProxyManager().getCachedConfiguration().getProxyIPHost());
-				System.setProperty("http.proxyPort", ApplicationGlobals.getProxyManager().getCachedConfiguration().getProxyPort().toString());
+				System.setProperty("http.proxyHost", App.getProxyManager().getCachedConfiguration().getProxyIPHost());
+				System.setProperty("http.proxyPort", App.getProxyManager().getCachedConfiguration().getProxyPort().toString());
 			}
 			else
 			{

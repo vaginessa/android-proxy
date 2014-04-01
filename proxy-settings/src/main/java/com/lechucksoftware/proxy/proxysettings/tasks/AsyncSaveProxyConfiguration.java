@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
@@ -42,7 +42,7 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
 //        Toast.makeText(callerFragment.getActivity(), String.format("Updated %s Wi-Fi access point configuration", result.toString()), Toast.LENGTH_SHORT).show();
 
             // Calling refresh intent only after save of all configuration
-            ApplicationGlobals.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+            App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
             Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
             APL.getContext().sendBroadcast(intent);
         }
@@ -55,18 +55,18 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
     @Override
     protected Boolean doInBackground(Void... voids)
     {
-        ApplicationGlobals.getLogger().startTrace(TAG,"saveConfiguration", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "saveConfiguration", Log.DEBUG);
 
         try
         {
             if (configuration != null)
             {
-                ApplicationGlobals.getInstance().wifiActionEnabled = false;
+                App.getInstance().wifiActionEnabled = false;
                 configuration.writeConfigurationToDevice();
-                ApplicationGlobals.getInstance().wifiActionEnabled = true;
+                App.getInstance().wifiActionEnabled = true;
             }
 
-            ApplicationGlobals.getLogger().stopTrace(TAG,"saveConfiguration", Log.DEBUG);
+            App.getLogger().stopTrace(TAG, "saveConfiguration", Log.DEBUG);
             return true;
         }
         catch (Exception e)
