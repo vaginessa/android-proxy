@@ -2,7 +2,6 @@ package com.shouldit.proxy.lib;
 
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -128,7 +127,7 @@ public class ProxyStatus implements Serializable
 			}
 			else
 			{
-				LogWrapper.e(TAG, "Cannot find status code: " + psp);
+                APL.getLogger().e(TAG, "Cannot find status code: " + psp);
 			}
 		}
 	}
