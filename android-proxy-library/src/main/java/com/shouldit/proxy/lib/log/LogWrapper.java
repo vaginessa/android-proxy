@@ -3,7 +3,6 @@ package com.shouldit.proxy.lib.log;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import com.shouldit.proxy.lib.BuildConfig;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -40,37 +39,37 @@ public class LogWrapper
 
     public void d(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.DEBUG)
+        if (mLogLevel <= Log.DEBUG)
             Log.d(tag, msg);
     }
 
     public void v(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.VERBOSE)
+        if (mLogLevel <= Log.VERBOSE)
             Log.v(tag, msg);
     }
 
     public void e(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.ERROR)
+        if (mLogLevel <= Log.ERROR)
             Log.e(tag, msg);
     }
 
     public void i(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.INFO)
+        if (mLogLevel <= Log.INFO)
             Log.i(tag, msg);
     }
 
     public void w(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.WARN)
+        if (mLogLevel <= Log.WARN)
             Log.w(tag, msg);
     }
 
     public void a(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.ASSERT)
+        if (mLogLevel <= Log.ASSERT)
             Log.println(Log.ASSERT, tag, msg);
     }
 

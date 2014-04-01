@@ -36,9 +36,21 @@ public class App extends Application
 //        // SLF4J
 //        Logger LOG = LoggerFactory.getLogger(App.class);
 //        LOG.info("hello world");
-        getLogger().startTrace(TAG, "STARTUP", Log.ERROR);
+
 
         mInstance = this;
+
+        if (BuildConfig.DEBUG)
+        {
+            logger = new LogWrapper(Log.VERBOSE);
+        }
+        else
+        {
+            // Disable all LOGS on RELEASE
+            logger = new LogWrapper(Integer.MAX_VALUE);
+        }
+
+        getLogger().startTrace(TAG, "STARTUP", Log.ERROR);
 
         proxyManager = new ProxyManager(App.this);
         dbManager = new DataSource(App.this);
@@ -123,7 +135,7 @@ public class App extends Application
     {
         if (getInstance().logger == null)
         {
-            getInstance().logger = new LogWrapper(Log.INFO);
+            getInstance().logger = new LogWrapper(Log.VERBOSE);
         }
 
         return getInstance().logger;
