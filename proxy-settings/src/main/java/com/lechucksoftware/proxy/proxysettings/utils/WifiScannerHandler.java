@@ -1,12 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 /**
  * Created by Marco on 29/11/13.
@@ -23,21 +21,21 @@ public class WifiScannerHandler extends Handler
     {
         if (!hasMessages(0))
         {
-            LogWrapper.d(TAG, "Resume Wi-Fi scanner");
+            ApplicationGlobals.getLogger().d(TAG, "Resume Wi-Fi scanner");
             sendEmptyMessage(0);
         }
     }
 
     public void forceScan()
     {
-        LogWrapper.d(TAG, "Force Wi-Fi scanner");
+        ApplicationGlobals.getLogger().d(TAG, "Force Wi-Fi scanner");
         removeMessages(0);
         sendEmptyMessage(0);
     }
 
     public void pause()
     {
-        LogWrapper.d(TAG, "Pause Wi-Fi scanner");
+        ApplicationGlobals.getLogger().d(TAG, "Pause Wi-Fi scanner");
         mRetry = 0;
         removeMessages(0);
     }
@@ -47,7 +45,7 @@ public class WifiScannerHandler extends Handler
     {
         if (ApplicationGlobals.getInstance().wifiActionEnabled)
         {
-            LogWrapper.d(TAG, "Calling Wi-Fi scanner");
+            ApplicationGlobals.getLogger().d(TAG, "Calling Wi-Fi scanner");
 
             if (APL.getWifiManager().startScan())
             {
@@ -61,7 +59,7 @@ public class WifiScannerHandler extends Handler
         }
         else
         {
-            LogWrapper.d(TAG, "Wi-Fi scanner disabled");
+            ApplicationGlobals.getLogger().d(TAG, "Wi-Fi scanner disabled");
         }
 
         sendEmptyMessageDelayed(0, WIFI_RESCAN_INTERVAL_MS);

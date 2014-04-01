@@ -12,7 +12,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 /**
  * Created by Marco on 29/11/13.
@@ -43,7 +42,7 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
 //        Toast.makeText(callerFragment.getActivity(), String.format("Updated %s Wi-Fi access point configuration", result.toString()), Toast.LENGTH_SHORT).show();
 
             // Calling refresh intent only after save of all configuration
-            LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+            ApplicationGlobals.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
             Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
             APL.getContext().sendBroadcast(intent);
         }
@@ -56,7 +55,7 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
     @Override
     protected Boolean doInBackground(Void... voids)
     {
-        LogWrapper.startTrace(TAG,"saveConfiguration", Log.DEBUG);
+        ApplicationGlobals.getLogger().startTrace(TAG,"saveConfiguration", Log.DEBUG);
 
         try
         {
@@ -67,7 +66,7 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
                 ApplicationGlobals.getInstance().wifiActionEnabled = true;
             }
 
-            LogWrapper.stopTrace(TAG,"saveConfiguration", Log.DEBUG);
+            ApplicationGlobals.getLogger().stopTrace(TAG,"saveConfiguration", Log.DEBUG);
             return true;
         }
         catch (Exception e)

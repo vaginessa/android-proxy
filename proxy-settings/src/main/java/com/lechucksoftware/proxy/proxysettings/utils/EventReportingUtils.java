@@ -11,7 +11,6 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.shouldit.proxy.lib.log.IEventReporting;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.Map;
 
@@ -59,11 +58,11 @@ public class EventReportingUtils implements IEventReporting
 //            int duration = Toast.LENGTH_LONG;
 //            Toast toast = Toast.makeText(ctx, text, duration);
 //            toast.show();
-            LogWrapper.e(TAG, text.toString());
+            ApplicationGlobals.getLogger().e(TAG, text.toString());
         }
         else
         {
-            LogWrapper.i(TAG, String.format("BugSense setup [%s]",key));
+            ApplicationGlobals.getLogger().i(TAG, String.format("BugSense setup [%s]",key));
             BugSenseHandler.initAndStartSession(ctx, key);
             setupDone = true;
         }
@@ -76,8 +75,8 @@ public class EventReportingUtils implements IEventReporting
 
     public void send(Exception e)
     {
-        LogWrapper.e(TAG, "Handled exception message: " + e.getMessage());
-        LogWrapper.e(TAG, "Handled exception stack trace: " + TextUtils.join("\n",e.getStackTrace()));
+        ApplicationGlobals.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
+        ApplicationGlobals.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n",e.getStackTrace()));
 
         if (setupDone)
         {
@@ -122,7 +121,7 @@ public class EventReportingUtils implements IEventReporting
         else
         {
             String msg = String.format("sendEvent: %s %s %s %d", eventCategory, eventAction, eventLabel, eventValue);
-            LogWrapper.e(TAG, msg);
+            ApplicationGlobals.getLogger().e(TAG, msg);
         }
     }
 

@@ -3,22 +3,16 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -118,12 +112,12 @@ public class TestUtils
         }
         catch (IOException e)
         {
-            LogWrapper.e(TAG, "No proxy examples found");
+            ApplicationGlobals.getLogger().e(TAG, "No proxy examples found");
             return null;
         }
         catch (Exception e)
         {
-            LogWrapper.e(TAG, "Generic exception during read of proxy examples: " + e.toString());
+            ApplicationGlobals.getLogger().e(TAG, "Generic exception during read of proxy examples: " + e.toString());
             return null;
         }
 
@@ -365,7 +359,7 @@ public class TestUtils
         ApplicationGlobals.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+        ApplicationGlobals.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
         Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
         APL.getContext().sendBroadcast(intent);
     }
@@ -401,7 +395,7 @@ public class TestUtils
         ApplicationGlobals.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+        ApplicationGlobals.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
         Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
         APL.getContext().sendBroadcast(intent);
     }

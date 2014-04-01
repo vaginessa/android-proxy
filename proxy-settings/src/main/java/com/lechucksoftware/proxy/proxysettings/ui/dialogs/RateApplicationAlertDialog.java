@@ -6,10 +6,11 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class RateApplicationAlertDialog extends DialogFragment
 {
@@ -27,7 +28,7 @@ public class RateApplicationAlertDialog extends DialogFragment
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
                 dontDisplayAgainAppRate();
-                LogWrapper.d(TAG, "Starting Market activity");
+                ApplicationGlobals.getLogger().d(TAG, "Starting Market activity");
 
                 Utils.startMarketActivity(getActivity());
             }

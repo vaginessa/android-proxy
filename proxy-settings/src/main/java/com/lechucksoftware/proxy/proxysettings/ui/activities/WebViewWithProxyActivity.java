@@ -1,7 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
-import java.net.URL;
-
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +13,8 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
-import com.shouldit.proxy.lib.log.LogWrapper;
+
+import java.net.URL;
 
 public class WebViewWithProxyActivity extends FragmentActivity
 {
@@ -54,7 +53,7 @@ public class WebViewWithProxyActivity extends FragmentActivity
 				// Activities and WebViews measure progress with different
 				// scales. The progress meter will automatically disappear when we reach 100%
 				int activityProgress = progress * 100;
-				LogWrapper.d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
+                ApplicationGlobals.getLogger().d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
 				activity.setProgress(activityProgress);
 
 
@@ -96,34 +95,34 @@ public class WebViewWithProxyActivity extends FragmentActivity
 
 		setProgressBarVisibility(true);
 
-		LogWrapper.d(TAG, "Start");
+        ApplicationGlobals.getLogger().d(TAG, "Start");
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		LogWrapper.d(TAG, "Resume");
+        ApplicationGlobals.getLogger().d(TAG, "Resume");
 	}
 
 	@Override
 	protected void onPause()
 	{
 		super.onPause();
-		LogWrapper.d(TAG, "Pause");
+        ApplicationGlobals.getLogger().d(TAG, "Pause");
 	}
 
 	@Override
 	protected void onStop()
 	{
-		LogWrapper.d(TAG, "Stop");
+        ApplicationGlobals.getLogger().d(TAG, "Stop");
 		super.onStop();
 	}
 
 	@Override
 	protected void onDestroy()
 	{
-		LogWrapper.d(TAG, "Destroy");
+        ApplicationGlobals.getLogger().d(TAG, "Destroy");
 		super.onDestroy();
 	}
 }

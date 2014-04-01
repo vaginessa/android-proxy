@@ -26,7 +26,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.WifiNetworkId;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -90,7 +89,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        LogWrapper.startTrace(TAG, "onCreateView", Log.DEBUG);
+        ApplicationGlobals.getLogger().startTrace(TAG, "onCreateView", Log.DEBUG);
 
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
 
@@ -125,12 +124,12 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
                 if (proxySwitch.isChecked())
                 {
-                    LogWrapper.d(TAG,"Set proxy settings = STATIC");
+                    ApplicationGlobals.getLogger().d(TAG,"Set proxy settings = STATIC");
                     selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
                 }
                 else
                 {
-                    LogWrapper.d(TAG,"Set proxy settings = NONE");
+                    ApplicationGlobals.getLogger().d(TAG,"Set proxy settings = NONE");
                     selectedWiFiAP.setProxySetting(ProxySetting.NONE);
                     selectedWiFiAP.setProxyHost(null);
                     selectedWiFiAP.setProxyPort(0);
@@ -184,7 +183,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         refreshUI();
 
-        LogWrapper.stopTrace(TAG, "onCreateView", Log.DEBUG);
+        ApplicationGlobals.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -255,14 +254,14 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         {
             if (selectedWiFiAP.getProxySettings() == ProxySetting.STATIC)
             {
-                LogWrapper.d(TAG,"Set proxy switch = ON");
+                ApplicationGlobals.getLogger().d(TAG,"Set proxy switch = ON");
                 proxySwitch.setChecked(true);
                 proxySwitch.setText(R.string.status_proxy_enabled);
                 refreshFieldsValues();
             }
             else
             {
-                LogWrapper.d(TAG,"Set proxy switch = OFF");
+                ApplicationGlobals.getLogger().d(TAG,"Set proxy switch = OFF");
                 proxySwitch.setChecked(false);
                 proxySwitch.setText(R.string.status_proxy_disabled);
             }

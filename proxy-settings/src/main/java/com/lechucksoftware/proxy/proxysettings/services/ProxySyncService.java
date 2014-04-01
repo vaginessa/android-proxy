@@ -9,10 +9,8 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +53,7 @@ public class ProxySyncService extends IntentService
 
     private void syncProxyConfigurations()
     {
-        LogWrapper.startTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
+        ApplicationGlobals.getLogger().startTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
 
         List<ProxyConfiguration> configurations =  ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
         List<Long> inUseProxies = new ArrayList<Long>();
@@ -65,19 +63,19 @@ public class ProxySyncService extends IntentService
 
         if (configurations != null && !configurations.isEmpty())
         {
-            LogWrapper.d(TAG, String.format("Analyzing %d Wi-Fi AP configurations",configurations.size()));
+            ApplicationGlobals.getLogger().d(TAG, String.format("Analyzing %d Wi-Fi AP configurations",configurations.size()));
 
             for (ProxyConfiguration conf : configurations)
             {
                 try
                 {
-                    LogWrapper.d(TAG,"Checking Wi-Fi AP: " + conf.getSSID());
+                    ApplicationGlobals.getLogger().d(TAG,"Checking Wi-Fi AP: " + conf.getSSID());
 
                     if (conf.getProxySettings() == ProxySetting.STATIC && conf.ap.security != SecurityType.SECURITY_EAP)
                     {
                         if (conf.isValidProxyConfiguration())
                         {
-                            LogWrapper.d(TAG, "Found proxy: " + conf.toShortString());
+                            ApplicationGlobals.getLogger().d(TAG, "Found proxy: " + conf.toShortString());
 
                             long proxyId = ApplicationGlobals.getDBManager().findProxy(conf);
                             ProxyEntity pd = null;
@@ -102,12 +100,12 @@ public class ProxySyncService extends IntentService
                         }
                         else
                         {
-                            LogWrapper.d(TAG, "Found not valid proxy: " + conf.toShortString());
+                            ApplicationGlobals.getLogger().d(TAG, "Found not valid proxy: " + conf.toShortString());
                         }
                     }
                     else
                     {
-                        LogWrapper.d(TAG, "Proxy not enabled or cannot be read: " + conf.toShortString());
+                        ApplicationGlobals.getLogger().d(TAG, "Proxy not enabled or cannot be read: " + conf.toShortString());
                     }
                 }
                 catch (Exception e)
@@ -119,9 +117,9 @@ public class ProxySyncService extends IntentService
             ApplicationGlobals.getDBManager().setInUseFlag(inUseProxies.toArray(new Long[inUseProxies.size()]));
 
             long proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
-            LogWrapper.d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
+            ApplicationGlobals.getLogger().d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
         }
 
-        LogWrapper.stopTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
+        ApplicationGlobals.getLogger().stopTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
     }
 }

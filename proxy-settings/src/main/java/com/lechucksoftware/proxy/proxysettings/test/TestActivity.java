@@ -17,7 +17,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class TestActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
-        LogWrapper.d(TAG, "Creating TestActivity");
+        ApplicationGlobals.getLogger().d(TAG, "Creating TestActivity");
 
         setContentView(R.layout.test_layout);
 

@@ -10,13 +10,12 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.services.ProxySyncService;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
+import com.lechucksoftware.proxy.proxysettings.services.ProxySyncService;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.APLIntents;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
 {
@@ -29,7 +28,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             // INTERNAL (PS) : Called when Proxy Settings is started
 
-            LogWrapper.logIntent(TAG, intent, Log.DEBUG);
+            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callProxySettingsChecker(context, intent);
             callSyncProxyService(context, intent);
             callMaintenanceService(context, intent);
@@ -37,14 +36,14 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         else if (intent.getAction().equals(Intents.WIFI_AP_UPDATED))
         {
             // INTERNAL (PS): Called when a proxy configuration is written
-            LogWrapper.logIntent(TAG, intent, Log.DEBUG);
+            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callProxySettingsChecker(context, intent);
             callSyncProxyService(context, intent);
         }
         else if (intent.getAction().equals(Intents.PROXY_SAVED))
         {
             // INTERNAL (PS) : Saved a Proxy configuration on DB
-            LogWrapper.logIntent(TAG, intent, Log.DEBUG);
+            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callMaintenanceService(context, intent);
         }
         else if (
@@ -63,7 +62,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                     || intent.getAction().equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE")
                 )
         {
-            LogWrapper.logIntent(TAG, intent, Log.DEBUG);
+            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callProxySettingsChecker(context, intent);
         }
         else if (
@@ -74,13 +73,13 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                     || intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK)
                 )
         {
-            LogWrapper.logIntent(TAG, intent, Log.DEBUG);
+            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG);
             UIUtils.UpdateStatusBarNotification(ApplicationGlobals.getProxyManager().getCachedConfiguration(), context);
         }
         else
         {
-            LogWrapper.logIntent(TAG, intent, Log.ERROR);
-            LogWrapper.e(TAG, "Intent not found into handled list!");
+            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.ERROR);
+            ApplicationGlobals.getLogger().e(TAG, "Intent not found into handled list!");
         }
     }
 
@@ -113,7 +112,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             if (instance.isHandlingIntent())
             {
-                LogWrapper.d(TAG, "Already checking proxy.. skip another call");
+                ApplicationGlobals.getLogger().d(TAG, "Already checking proxy.. skip another call");
                 return;
             }
         }
@@ -141,7 +140,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             if (instance.isHandlingIntent())
             {
-                LogWrapper.d(TAG, "Already working.. skip another call");
+                ApplicationGlobals.getLogger().d(TAG, "Already working.. skip another call");
                 return;
             }
         }

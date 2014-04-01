@@ -7,12 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 
 /**
@@ -61,7 +62,7 @@ public class StatusFragment extends BaseFragment
 
     public void setStatus(StatusFragmentStates status, String message, Boolean isInProgress)
     {
-        LogWrapper.d(TAG, String.format("setStatus: %s ->  %s (%s)", clickedStatus, status.toString(), message));
+        ApplicationGlobals.getLogger().d(TAG, String.format("setStatus: %s ->  %s (%s)", clickedStatus, status.toString(), message));
 
         if (clickedStatus != null)
         {
@@ -73,7 +74,7 @@ public class StatusFragment extends BaseFragment
                 default:
                     if (status == clickedStatus)
                     {
-                        LogWrapper.d(TAG, String.format("already into status: %s", status.toString()));
+                        ApplicationGlobals.getLogger().d(TAG, String.format("already into status: %s", status.toString()));
                         return;
                     }
             }

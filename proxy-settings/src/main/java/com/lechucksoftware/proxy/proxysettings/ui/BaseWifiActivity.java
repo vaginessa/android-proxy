@@ -10,7 +10,6 @@ import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
 import com.shouldit.proxy.lib.APLIntents;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 /**
  * Created by marco on 07/11/13.
@@ -64,29 +63,29 @@ public class BaseWifiActivity extends BaseActivity
         {
             String action = intent.getAction();
 
-            LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
+            ApplicationGlobals.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
 
             if (action.equals(Intents.WIFI_AP_UPDATED))
             {
                 if (ApplicationGlobals.getInstance().wifiActionEnabled)
                 {
-                    LogWrapper.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
+                    ApplicationGlobals.getLogger().d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
                     refreshUI();
                 }
             }
             else if (action.equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK))
             {
-                LogWrapper.d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
+                ApplicationGlobals.getLogger().d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();
             }
             else if (action.equals(Intents.PROXY_REFRESH_UI))
             {
-                LogWrapper.d(TAG, "Received broadcast for update the Proxy Settings UI - RefreshUI");
+                ApplicationGlobals.getLogger().d(TAG, "Received broadcast for update the Proxy Settings UI - RefreshUI");
                 refreshUI();
             }
             else
             {
-                LogWrapper.e(TAG, "Received intent not handled: " + intent.getAction());
+                ApplicationGlobals.getLogger().e(TAG, "Received intent not handled: " + intent.getAction());
             }
         }
     };

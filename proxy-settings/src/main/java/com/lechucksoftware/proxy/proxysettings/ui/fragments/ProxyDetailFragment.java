@@ -23,7 +23,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.HashMap;
@@ -171,7 +170,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
     private boolean validateBypass()
     {
         String value = proxyBypass.getExclusionString();
-        LogWrapper.d(TAG, "Exclusion list updated: " + value);
+        ApplicationGlobals.getLogger().d(TAG, "Exclusion list updated: " + value);
 
         ProxyStatusItem item = ProxyUtils.isProxyValidExclusionList(value);
         validationErrors.remove(item.statusCode);
@@ -302,7 +301,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             Bundle b = message.getData();
 
-            LogWrapper.w(TAG, "handleMessage: " + b.toString());
+            ApplicationGlobals.getLogger().w(TAG, "handleMessage: " + b.toString());
 
             refreshUI();
         }

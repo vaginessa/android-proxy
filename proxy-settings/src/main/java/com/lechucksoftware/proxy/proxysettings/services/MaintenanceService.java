@@ -1,19 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
 
@@ -27,7 +23,7 @@ public class MaintenanceService extends IntentService
     public MaintenanceService()
     {
         super("MaintenanceService");
-        LogWrapper.v(TAG, "MaintenanceService constructor");
+        ApplicationGlobals.getLogger().v(TAG, "MaintenanceService constructor");
     }
 
     public static MaintenanceService getInstance()
@@ -46,11 +42,11 @@ public class MaintenanceService extends IntentService
         instance = this;
         isHandling = true;
 
-        LogWrapper.startTrace(TAG, "maintenanceService", Log.DEBUG);
+        ApplicationGlobals.getLogger().startTrace(TAG, "maintenanceService", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        LogWrapper.stopTrace(TAG, "maintenanceService", Log.DEBUG);
+        ApplicationGlobals.getLogger().stopTrace(TAG, "maintenanceService", Log.DEBUG);
         isHandling = false;
     }
 
@@ -76,7 +72,7 @@ public class MaintenanceService extends IntentService
                     }
                     else
                     {
-                        LogWrapper.e(TAG,"Intent not handled: " +callerIntent.toString());
+                        ApplicationGlobals.getLogger().e(TAG,"Intent not handled: " +callerIntent.toString());
                     }
                 }
                 catch (Exception e)
@@ -122,7 +118,7 @@ public class MaintenanceService extends IntentService
 
         for (ProxyEntity proxy : proxies)
         {
-            LogWrapper.startTrace(TAG, "Get proxy country code", Log.DEBUG);
+            ApplicationGlobals.getLogger().startTrace(TAG, "Get proxy country code", Log.DEBUG);
 
             try
             {
@@ -139,7 +135,7 @@ public class MaintenanceService extends IntentService
                 break;
             }
 
-            LogWrapper.stopTrace(TAG, "Get proxy country code", proxy.toString(), Log.DEBUG);
+            ApplicationGlobals.getLogger().stopTrace(TAG, "Get proxy country code", proxy.toString(), Log.DEBUG);
         }
     }
 }

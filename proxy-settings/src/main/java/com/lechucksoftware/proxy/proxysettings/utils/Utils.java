@@ -15,7 +15,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.HttpAnswer;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -72,7 +71,7 @@ public class Utils
             }
             catch (IOException e)
             {
-                LogWrapper.w(TAG, "Exception on getProxyCountryCode: " + e.toString());
+                ApplicationGlobals.getLogger().w(TAG, "Exception on getProxyCountryCode: " + e.toString());
             }
 
             if (answer != null)

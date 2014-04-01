@@ -24,6 +24,7 @@ public class ApplicationGlobals extends Application
     private CacheManager cacheManager;
     public Boolean demoMode;
     public Boolean wifiActionEnabled;
+    private LogWrapper logger;
 
     @Override
     public void onCreate()
@@ -33,8 +34,7 @@ public class ApplicationGlobals extends Application
 //        // SLF4J
 //        Logger LOG = LoggerFactory.getLogger(ApplicationGlobals.class);
 //        LOG.info("hello world");
-
-        LogWrapper.startTrace(TAG, "STARTUP", Log.ERROR);
+        getLogger().startTrace(TAG, "STARTUP", Log.ERROR);
 
         mInstance = this;
 
@@ -52,9 +52,9 @@ public class ApplicationGlobals extends Application
 
         // SETUP Libraries
         EventReportingUtils.setup(ApplicationGlobals.this);
-        APL.setup(ApplicationGlobals.this, EventReportingUtils.getInstance());
+        APL.setup(ApplicationGlobals.this, getLogger().getLogLevel(), EventReportingUtils.getInstance());
 
-        LogWrapper.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
+        getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
 
@@ -116,6 +116,16 @@ public class ApplicationGlobals extends Application
 //
 //        LogWrapper.stopTrace(TAG, "readAppConfigurationFile", Log.INFO);
 //    }
+
+    public static LogWrapper getLogger()
+    {
+        if (getInstance().logger == null)
+        {
+            getInstance().logger = new LogWrapper(Log.INFO);
+        }
+
+        return getInstance().logger;
+    }
 
     public static ApplicationGlobals getInstance()
     {
