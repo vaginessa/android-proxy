@@ -4,7 +4,7 @@
     <item
             android:id="@+id/menu_add_new_proxy"
             android:icon="@drawable/ic_action_new"
-            android:showAsAction="withText|ifRoom"
+            android:showAsAction="always|withText"
             android:title="@string/add_new_proxy"/>
 
     <item
@@ -26,6 +26,5 @@
         android:icon="@drawable/ic_action_device_access_secure"
         android:showAsAction="always"
         android:title="@string/pref_developers"/>
-
 
 </menu>

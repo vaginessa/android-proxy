@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -50,11 +51,14 @@ public class UIUtils
 
     public static void showError(Context ctx, String errorMessage)
     {
-        new AlertDialog.Builder(ctx)
-                .setTitle(R.string.proxy_error)
-                .setMessage(errorMessage)
-                .setPositiveButton(R.string.proxy_error_dismiss, null)
-                .show();
+        if (!TextUtils.isEmpty(errorMessage))
+        {
+            new AlertDialog.Builder(ctx)
+                    .setTitle(R.string.proxy_error)
+                    .setMessage(errorMessage)
+                    .setPositiveButton(R.string.proxy_error_dismiss, null)
+                    .show();
+        }
     }
 
     public static void showError(Context ctx, int error)
