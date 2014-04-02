@@ -94,9 +94,12 @@ public class ProxySyncService extends IntentService
                                 pd.port = conf.getProxyPort();
                                 pd.exclusion = conf.getProxyExclusionList();
                                 pd.setInUse(true);
+                                pd = App.getDBManager().upsertProxy(pd);
+
                                 foundNew++;
-                                App.getDBManager().upsertProxy(pd);
                             }
+
+                            inUseProxies.add(pd.getId());
                         }
                         else
                         {

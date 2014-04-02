@@ -85,22 +85,18 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 
     private void callSyncProxyService(Context context, Intent intent)
     {
-        //Call the ProxySettingsCheckerService for update the network status
-//        ProxySyncService instance = ProxySyncService.getInstance();
-//        if (instance != null)
-//        {
-//            if (instance.isHandlingIntent())
-//            {
-//                LogWrapper.d(TAG, "Already checking proxy.. skip another call");
-//                return;
-//            }
-//        }
-
         if (App.getInstance().wifiActionEnabled)
         {
-            Intent serviceIntent = new Intent(context, ProxySyncService.class);
-            serviceIntent.putExtra(ProxySyncService.CALLER_INTENT, intent);
-            context.startService(serviceIntent);
+            try
+            {
+                Intent serviceIntent = new Intent(context, ProxySyncService.class);
+                serviceIntent.putExtra(ProxySyncService.CALLER_INTENT, intent);
+                context.startService(serviceIntent);
+            }
+            catch (Exception e)
+            {
+                EventReportingUtils.sendException(e);
+            }
         }
     }
 
