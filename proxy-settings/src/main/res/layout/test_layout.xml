@@ -51,8 +51,8 @@
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Update proxies"
-                    android:onClick="updateDBClicked"
+                    android:text="Test serialization"
+                    android:onClick="testSerializationClicked"
                     app:layout_newLine="true"/>
 
             <Button

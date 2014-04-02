@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
@@ -17,9 +18,12 @@ import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,7 +33,6 @@ import java.util.Random;
  */
 public class TestUtils
 {
-
     // "0123456789" + "ABCDE...Z"
     private static final String ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
     private static final int MIN_LENGHT = 3;
@@ -101,7 +104,7 @@ public class TestUtils
                         if (line.contains(":"))
                         {
                             ProxyEntity p = new ProxyEntity();
-                            String [] host_port = line.split(":");
+                            String[] host_port = line.split(":");
                             p.host = host_port[0];
                             p.port = Integer.parseInt(host_port[1]);
                             proxies.add(p);
@@ -398,6 +401,36 @@ public class TestUtils
         App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
         Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
         APL.getContext().sendBroadcast(intent);
+    }
+
+    public static void testSerialization()
+    {
+        String s = null;
+        ProxyConfiguration conf = App.getProxyManager().getCurrentConfiguration();
+
+        ObjectOutputStream out = null;
+        try
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            out = new ObjectOutputStream(baos);
+            out.writeObject(conf);
+            out.close();
+
+            s = new String(baos.toByteArray());
+
+            if (TextUtils.isEmpty(s))
+            {
+                App.getLogger().e(TAG,"Not serialized correctly");
+            }
+            else
+            {
+                App.getLogger().d(TAG,s);
+            }
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 }
 

@@ -37,7 +37,7 @@ public class TestActivity extends Activity
         CLEAR_ALL_PROXIES,
         CLEAR_IN_USE,
         TEST_VALIDATION,
-        UPDATE_PROXY,
+        TEST_SERIALIZATION,
         UPDATE_TAGS,
         LIST_TAGS,
         CLEAR_DB,
@@ -140,9 +140,9 @@ public class TestActivity extends Activity
         testDBContainer.removeAllViews();
     }
 
-    public void updateDBClicked(View caller)
+    public void testSerializationClicked(View caller)
     {
-        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.UPDATE_PROXY);
+        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.TEST_SERIALIZATION);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -235,8 +235,8 @@ public class TestActivity extends Activity
                         case ADD_PROXY:
                             TestUtils.addProxy();
                             break;
-                        case UPDATE_PROXY:
-                            TestUtils.updateProxy();
+                        case TEST_SERIALIZATION:
+                            TestUtils.testSerialization();
                             break;
                         case ADD_TAGS:
                             TestUtils.addTags();
