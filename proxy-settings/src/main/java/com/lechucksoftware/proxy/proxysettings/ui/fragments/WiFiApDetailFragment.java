@@ -9,7 +9,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
@@ -24,11 +25,10 @@ import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 import java.util.List;
-import java.util.UUID;
 
 import io.should.proxy.lib.APL;
 import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.log.LogWrapper;
+import io.should.proxy.lib.WifiNetworkId;
 import io.should.proxy.lib.reflection.android.ProxySetting;
 import io.should.proxy.lib.utils.ProxyUtils;
 

@@ -5,7 +5,8 @@ import android.graphics.Bitmap;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-import io.should.proxy.lib.log.LogWrapper;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 
 public class LocalWebViewClient extends WebViewClient
 {

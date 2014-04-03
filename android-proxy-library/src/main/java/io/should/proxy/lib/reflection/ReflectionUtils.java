@@ -2,8 +2,9 @@ package io.should.proxy.lib.reflection;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+
 import io.should.proxy.lib.APL;
-import io.should.proxy.lib.log.LogWrapper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -80,11 +81,11 @@ public class ReflectionUtils
             {
                 case 14:
                 case 15:
-                    internalSaveDone =  save_4_0(wifiManager, configuration);
+                    internalSaveDone = save_4_0(wifiManager, configuration);
                     break;
 
                 case 16:
-                    internalSaveDone =  save_4_1(wifiManager, configuration);
+                    internalSaveDone = save_4_1(wifiManager, configuration);
                     break;
 
                 case 17:
@@ -146,7 +147,7 @@ public class ReflectionUtils
             }
             catch (Exception e)
             {
-                throw new Exception("Exception during call of WifiManager.save method (4.1) : " + e,e);
+                throw new Exception("Exception during call of WifiManager.save method (4.1) : " + e, e);
             }
         }
 

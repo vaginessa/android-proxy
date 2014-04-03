@@ -4,12 +4,13 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
+import com.lechucksoftware.proxy.proxysettings.App;
+
 import java.net.URI;
 
 import io.should.proxy.lib.APL;
 import io.should.proxy.lib.APLConstants;
 import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.log.LogWrapper;
 import io.should.proxy.lib.utils.ProxyUtils;
 
 public class ApplicationSubmitService extends IntentService 

@@ -22,8 +22,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyListActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import io.should.proxy.lib.BuildConfig;
-import io.should.proxy.lib.log.LogWrapper;
 
 /**
  * Created by marco on 07/11/13.

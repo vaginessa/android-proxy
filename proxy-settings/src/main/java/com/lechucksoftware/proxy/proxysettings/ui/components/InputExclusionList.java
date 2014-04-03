@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -27,7 +29,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import io.should.proxy.lib.ProxyStatusItem;
-import io.should.proxy.lib.log.LogWrapper;
 import io.should.proxy.lib.utils.ProxyUtils;
 
 public class InputExclusionList extends LinearLayout

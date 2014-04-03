@@ -1,3 +1,6 @@
+# git files
+*.orig
+
 # built application files
 *.apk
 *.ap_

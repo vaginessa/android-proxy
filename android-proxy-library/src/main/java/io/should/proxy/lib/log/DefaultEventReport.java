@@ -1,6 +1,6 @@
 package io.should.proxy.lib.log;
 
-import com.shouldit.proxy.lib.APL;
+import io.should.proxy.lib.APL;
 
 /**
  * Created by Marco on 16/11/13.

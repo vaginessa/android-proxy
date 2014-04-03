@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments.base;
 import android.app.Fragment;
 import android.view.View;
 
-import io.should.proxy.lib.log.LogWrapper;
+import com.lechucksoftware.proxy.proxysettings.App;
 
 /**
  * Created by marco on 24/05/13.

@@ -3,11 +3,9 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.widget.Toast;
+import android.text.TextUtils;
 
-import com.bugsense.trace.BugSenseHandler;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
-import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
@@ -15,7 +13,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +25,6 @@ import io.should.proxy.lib.APL;
 import io.should.proxy.lib.ProxyConfiguration;
 import io.should.proxy.lib.ProxyStatusItem;
 import io.should.proxy.lib.enums.SecurityType;
-import io.should.proxy.lib.log.LogWrapper;
 import io.should.proxy.lib.reflection.android.ProxySetting;
 import io.should.proxy.lib.utils.ProxyUtils;
 

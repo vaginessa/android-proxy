@@ -12,8 +12,10 @@ import android.webkit.WebView;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
+
+import java.net.URL;
+
 import io.should.proxy.lib.utils.ProxyUtils;
-import io.should.proxy.lib.log.LogWrapper;
 
 public class WebViewWithProxyActivity extends FragmentActivity
 {
