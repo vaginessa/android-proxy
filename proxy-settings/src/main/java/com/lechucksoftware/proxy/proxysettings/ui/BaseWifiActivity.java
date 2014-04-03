@@ -9,8 +9,7 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
-import io.should.proxy.lib.APLIntents;
-import io.should.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.APLIntents;
 
 /**
  * Created by marco on 07/11/13.

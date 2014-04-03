@@ -28,10 +28,9 @@ import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.util.List;
 
-import io.should.proxy.lib.APL;
-import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.enums.SecurityType;
-import io.should.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.enums.SecurityType;
 
 /**
  * Created by marco on 17/05/13.

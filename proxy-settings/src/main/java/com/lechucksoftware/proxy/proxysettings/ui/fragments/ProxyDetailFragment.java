@@ -27,10 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import io.should.proxy.lib.ProxyStatusItem;
-import io.should.proxy.lib.enums.ProxyStatusProperties;
-import io.should.proxy.lib.log.LogWrapper;
-import io.should.proxy.lib.utils.ProxyUtils;
+import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 
 public class ProxyDetailFragment extends BaseDialogFragment

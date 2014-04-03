@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import io.should.proxy.lib.log.LogWrapper;
 
 public class PackagesUtils
 {

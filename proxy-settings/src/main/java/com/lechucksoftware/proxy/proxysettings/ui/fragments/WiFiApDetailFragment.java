@@ -26,11 +26,11 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 import java.util.List;
 
-import io.should.proxy.lib.APL;
-import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.WifiNetworkId;
-import io.should.proxy.lib.reflection.android.ProxySetting;
-import io.should.proxy.lib.utils.ProxyUtils;
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WifiNetworkId;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 
 public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment

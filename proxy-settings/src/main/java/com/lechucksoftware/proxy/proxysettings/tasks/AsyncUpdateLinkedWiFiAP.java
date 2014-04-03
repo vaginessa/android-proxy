@@ -15,10 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import io.should.proxy.lib.APL;
-import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.log.LogWrapper;
-import io.should.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Created by Marco on 29/11/13.

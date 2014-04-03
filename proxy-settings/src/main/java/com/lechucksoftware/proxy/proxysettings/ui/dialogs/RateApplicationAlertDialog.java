@@ -11,7 +11,6 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import io.should.proxy.lib.log.LogWrapper;
 
 public class RateApplicationAlertDialog extends DialogFragment
 {

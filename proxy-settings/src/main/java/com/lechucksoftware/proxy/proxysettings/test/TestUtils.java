@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import io.should.proxy.lib.APL;
-import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.ProxyStatusItem;
-import io.should.proxy.lib.enums.SecurityType;
-import io.should.proxy.lib.reflection.android.ProxySetting;
-import io.should.proxy.lib.utils.ProxyUtils;
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by marco on 10/10/13.

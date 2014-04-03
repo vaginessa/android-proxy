@@ -15,11 +15,11 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
-import io.should.proxy.lib.enums.CheckStatusValues;
+import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import comio.should.proxy.liboxyConfiguration;
 import com.shio.should.proxy.libStatusItem;
 import com.shoulio.should.proxy.liboxyStatusProperties;
-import io.should.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.log.LogWrapper;
 
 public class ProxyCheckerPrefsFragment extends PreferenceFragment
 {

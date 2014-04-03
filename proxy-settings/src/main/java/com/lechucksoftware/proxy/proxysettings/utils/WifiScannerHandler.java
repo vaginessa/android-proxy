@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import io.should.proxy.lib.APL;
+import be.shouldit.proxy.lib.APL;
 
 /**
  * Created by Marco on 29/11/13.

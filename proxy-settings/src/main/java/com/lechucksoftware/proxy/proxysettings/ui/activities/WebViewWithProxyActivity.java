@@ -15,7 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
 
 import java.net.URL;
 
-import io.should.proxy.lib.utils.ProxyUtils;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class WebViewWithProxyActivity extends FragmentActivity
 {

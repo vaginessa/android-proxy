@@ -11,9 +11,8 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
-import io.should.proxy.lib.APL;
-import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by Marco on 29/11/13.

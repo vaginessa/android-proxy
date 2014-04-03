@@ -15,11 +15,11 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.Date;
 
-import io.should.proxy.lib.APL;
-import io.should.proxy.lib.APLConstants;
-import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.enums.ProxyCheckOptions;
-import io.should.proxy.lib.utils.ProxyUtils;
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.APLConstants;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class ProxySettingsCheckerService extends IntentService
 {

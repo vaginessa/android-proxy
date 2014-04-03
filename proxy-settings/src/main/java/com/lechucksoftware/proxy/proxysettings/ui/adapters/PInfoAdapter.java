@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
-import io.should.proxy.lib.log.LogWrapper;
 
 import java.util.List;
 

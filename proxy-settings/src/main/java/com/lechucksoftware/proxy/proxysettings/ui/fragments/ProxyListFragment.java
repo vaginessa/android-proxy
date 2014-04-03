@@ -29,9 +29,8 @@ import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.log.LogWrapper;
-import io.should.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Created by marco on 17/05/13.

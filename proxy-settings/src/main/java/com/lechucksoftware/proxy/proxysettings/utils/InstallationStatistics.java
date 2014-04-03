@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import io.should.proxy.lib.log.LogWrapper;
 
 import java.text.DateFormat;
 import java.util.Date;

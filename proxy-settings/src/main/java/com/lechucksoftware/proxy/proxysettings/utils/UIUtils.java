@@ -39,10 +39,9 @@ import java.io.File;
 import java.net.Proxy.Type;
 import java.util.Random;
 
-import io.should.proxy.lib.ProxyConfiguration;
-import io.should.proxy.lib.enums.CheckStatusValues;
-import io.should.proxy.lib.log.LogWrapper;
-import io.should.proxy.lib.utils.ProxyUIUtils;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.enums.CheckStatusValues;
+import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 public class UIUtils
 {

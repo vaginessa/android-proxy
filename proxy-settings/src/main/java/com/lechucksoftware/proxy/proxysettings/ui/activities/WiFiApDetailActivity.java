@@ -14,7 +14,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
-import io.should.proxy.lib.WifiNetworkId;
+import be.shouldit.proxy.lib.WifiNetworkId;
 
 /**
  * Created by marco on 17/05/13.
