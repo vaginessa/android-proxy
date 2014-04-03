@@ -7,9 +7,8 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.DialogPreference;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
@@ -42,7 +41,7 @@ public class NoProxiesDefinedAlertDialog extends DialogFragment
             {
                 Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
                 ProxyEntity emptyProxy = new ProxyEntity();
-                ApplicationGlobals.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
+                App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
                 i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
 //                onResult(Activity.RESULT_OK);

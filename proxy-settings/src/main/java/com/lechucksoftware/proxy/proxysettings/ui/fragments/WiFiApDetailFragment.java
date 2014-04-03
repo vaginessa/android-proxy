@@ -1,39 +1,35 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
-import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
-import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
+import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
+import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import com.shouldit.proxy.lib.WifiNetworkId;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.List;
-import java.util.UUID;
 
 
 public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
@@ -53,19 +49,21 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private InputField proxyPort;
     private InputExclusionList proxyBypass;
 //    private InputTags proxyTags;
-    private UUID confId;
+
+    private WifiNetworkId wifiNetworkId;
     private RelativeLayout proxyFieldsLayout;
     private ImageButton proxyEditButton;
+
 
     /**
      * Create a new instance of WiFiApDetailFragment
      */
-    public static WiFiApDetailFragment newInstance(UUID selectedId)
+    public static WiFiApDetailFragment newInstance(WifiNetworkId wifiNetworkId)
     {
         WiFiApDetailFragment instance = new WiFiApDetailFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(Constants.SELECTED_AP_CONF_ARG, selectedId);
+        args.putSerializable(Constants.SELECTED_AP_CONF_ARG, wifiNetworkId);
         instance.setArguments(args);
 
         return instance;
@@ -76,15 +74,14 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     {
         super.onResume();
 
-        confId = (UUID) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+        wifiNetworkId = (WifiNetworkId) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
 //        LogWrapper.d(TAG,"confId: " + String.valueOf(confId));
-        selectedWiFiAP = ApplicationGlobals.getProxyManager().getConfiguration(confId);
+        selectedWiFiAP = App.getProxyManager().getConfiguration(wifiNetworkId);
+
         if (selectedWiFiAP == null)
         {
-            // TODO: after resuming app, the UUID of a selected proxy configuration is not more the same -> Try to use some persisted ID (WifiNetworkId??)
             NavigationUtils.GoToMainActivity(getActivity());
         }
-
 
         refreshUI();
     }
@@ -92,7 +89,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        LogWrapper.startTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "onCreateView", Log.DEBUG);
 
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
 
@@ -127,12 +124,12 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
                 if (proxySwitch.isChecked())
                 {
-                    LogWrapper.d(TAG,"Set proxy settings = STATIC");
+                    App.getLogger().d(TAG, "Set proxy settings = STATIC");
                     selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
                 }
                 else
                 {
-                    LogWrapper.d(TAG,"Set proxy settings = NONE");
+                    App.getLogger().d(TAG, "Set proxy settings = NONE");
                     selectedWiFiAP.setProxySetting(ProxySetting.NONE);
                     selectedWiFiAP.setProxyHost(null);
                     selectedWiFiAP.setProxyPort(0);
@@ -178,7 +175,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //            public void onClick(View view)
 //            {
 //                Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
-//                ApplicationGlobals.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
+//                App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
 //                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getUUID());
 //                startActivity(i);
 //            }
@@ -186,7 +183,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         refreshUI();
 
-        LogWrapper.stopTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -198,7 +195,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void openProxySelectorDialog()
     {
-        List<ProxyEntity> availableProxies = ApplicationGlobals.getCacheManager().getAllProxiesList();
+        List<ProxyEntity> availableProxies = App.getCacheManager().getAllProxiesList();
         if (availableProxies != null && availableProxies.size() > 0)
         {
             ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
@@ -257,14 +254,14 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         {
             if (selectedWiFiAP.getProxySettings() == ProxySetting.STATIC)
             {
-                LogWrapper.d(TAG,"Set proxy switch = ON");
+                App.getLogger().d(TAG, "Set proxy switch = ON");
                 proxySwitch.setChecked(true);
                 proxySwitch.setText(R.string.status_proxy_enabled);
                 refreshFieldsValues();
             }
             else
             {
-                LogWrapper.d(TAG,"Set proxy switch = OFF");
+                App.getLogger().d(TAG, "Set proxy switch = OFF");
                 proxySwitch.setChecked(false);
                 proxySwitch.setText(R.string.status_proxy_disabled);
             }
@@ -303,10 +300,10 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     private void refreshFieldsValues()
     {
-        long proxyId = ApplicationGlobals.getDBManager().findProxy(selectedWiFiAP);
+        long proxyId = App.getDBManager().findProxy(selectedWiFiAP);
         if (proxyId != -1)
         {
-            selectedProxy = ApplicationGlobals.getDBManager().getProxy(proxyId);
+            selectedProxy = App.getDBManager().getProxy(proxyId);
             proxyHost.setValue(selectedProxy.host);
             proxyPort.setValue(selectedProxy.port);
             proxyBypass.setExclusionString(selectedProxy.exclusion);

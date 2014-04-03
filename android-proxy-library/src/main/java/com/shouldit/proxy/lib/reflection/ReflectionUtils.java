@@ -2,10 +2,13 @@ package com.shouldit.proxy.lib.reflection;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
-import java.lang.reflect.*;
+import com.shouldit.proxy.lib.APL;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -217,11 +220,11 @@ public class ReflectionUtils
 
         if (className.isInterface())
         {
-            LogWrapper.d(TAG, "Interface: " + name);
+            APL.getLogger().d(TAG, "Interface: " + name);
         }
         else
         {
-            LogWrapper.d(TAG, "Class: " + name);
+            APL.getLogger().d(TAG, "Class: " + name);
             displayInterfaces(className.getInterfaces());
             displayConstructors(className.getDeclaredConstructors());
         }
@@ -229,16 +232,16 @@ public class ReflectionUtils
 
     static void displayModifiers(int m)
     {
-        LogWrapper.d(TAG, "Modifiers: " + Modifier.toString(m));
+        APL.getLogger().d(TAG, "Modifiers: " + Modifier.toString(m));
     }
 
     static void displayInterfaces(Class[] interfaces)
     {
         if (interfaces.length > 0)
         {
-            LogWrapper.d(TAG, "Interfaces: ");
+            APL.getLogger().d(TAG, "Interfaces: ");
             for (int i = 0; i < interfaces.length; ++i)
-                LogWrapper.d("", interfaces[i].getName());
+                APL.getLogger().d("", interfaces[i].getName());
         }
     }
 
@@ -246,9 +249,9 @@ public class ReflectionUtils
     {
         if (fields.length > 0)
         {
-            LogWrapper.d(TAG, "Fields: ");
+            APL.getLogger().d(TAG, "Fields: ");
             for (int i = 0; i < fields.length; ++i)
-                LogWrapper.d(TAG, fields[i].toString());
+                APL.getLogger().d(TAG, fields[i].toString());
         }
     }
 
@@ -256,9 +259,9 @@ public class ReflectionUtils
     {
         if (constructors.length > 0)
         {
-            LogWrapper.d(TAG, "Constructors: ");
+            APL.getLogger().d(TAG, "Constructors: ");
             for (int i = 0; i < constructors.length; ++i)
-                LogWrapper.d(TAG, constructors[i].toString());
+                APL.getLogger().d(TAG, constructors[i].toString());
         }
     }
 
@@ -266,9 +269,9 @@ public class ReflectionUtils
     {
         if (methods.length > 0)
         {
-            LogWrapper.d(TAG, "Methods: ");
+            APL.getLogger().d(TAG, "Methods: ");
             for (int i = 0; i < methods.length; ++i)
-                LogWrapper.d(TAG, methods[i].toString());
+                APL.getLogger().d(TAG, methods[i].toString());
         }
     }
 

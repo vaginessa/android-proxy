@@ -1,16 +1,16 @@
 package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
-import java.net.URI;
-
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.APLConstants;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
-import com.shouldit.proxy.lib.log.LogWrapper;
+
+import java.net.URI;
 
 public class ApplicationSubmitService extends IntentService 
 {
@@ -31,7 +31,7 @@ public class ApplicationSubmitService extends IntentService
     @Override
     public void onDestroy() 
     {
-    	LogWrapper.d(TAG, "ApplicationSubmitService destroying");
+        App.getLogger().d(TAG, "ApplicationSubmitService destroying");
     }
     
 	/**

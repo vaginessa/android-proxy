@@ -7,14 +7,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.HttpAnswer;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -67,11 +67,11 @@ public class Utils
         {
             try
             {
-                answer = ProxyUtils.getHttpAnswerURI(uri, ApplicationGlobals.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
+                answer = ProxyUtils.getHttpAnswerURI(uri, App.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
             }
             catch (IOException e)
             {
-                LogWrapper.w(TAG, "Exception on getProxyCountryCode: " + e.toString());
+                App.getLogger().w(TAG, "Exception on getProxyCountryCode: " + e.toString());
             }
 
             if (answer != null)
@@ -99,7 +99,7 @@ public class Utils
 
         if (pi != null)
         {
-            appVersionName = ctx.getResources().getString(R.string.app_versionname, pi.versionName);
+            appVersionName = ctx.getResources().getString(R.string.app_versionname, pi.versionName,pi.versionCode);
         }
         else
         {
@@ -126,8 +126,24 @@ public class Utils
 
     public static void startMarketActivity(Context ctx)
     {
-        Uri marketUri = getMarketUri(ApplicationGlobals.getInstance().activeMarket);
-        ctx.startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+        Uri marketUri = getMarketUri(App.getInstance().activeMarket);
+
+        boolean marketShown = false;
+
+        try
+        {
+            ctx.startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+            marketShown = true;
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
+        }
+
+        if (!marketShown)
+        {
+            Toast.makeText(ctx,R.string.market_not_found,Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static Uri getMarketUri(AndroidMarket market)
@@ -217,11 +233,11 @@ public class Utils
         SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
         if (prefs.getBoolean(Constants.PREFERENCES_DEMO_MODE, false))
         {
-            ApplicationGlobals.getInstance().demoMode = true;
+            App.getInstance().demoMode = true;
         }
         else
         {
-            ApplicationGlobals.getInstance().demoMode = false;
+            App.getInstance().demoMode = false;
         }
     }
 

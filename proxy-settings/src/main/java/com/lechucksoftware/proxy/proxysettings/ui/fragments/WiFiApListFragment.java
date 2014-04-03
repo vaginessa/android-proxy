@@ -15,19 +15,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.ActionManager;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
+import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
 import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 import java.util.List;
 
@@ -64,14 +64,14 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        LogWrapper.startTrace(TAG,"onCreateView",Log.DEBUG);
+        App.getLogger().startTrace(TAG, "onCreateView", Log.DEBUG);
 
         View v = inflater.inflate(R.layout.standard_list, container, false);
 
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
 
-        LogWrapper.stopTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -144,10 +144,10 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     @Override
     public Loader<List<ProxyConfiguration>> onCreateLoader(int i, Bundle bundle)
     {
-        LogWrapper.startTrace(TAG,"onCreateLoader",Log.DEBUG);
+        App.getLogger().startTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         ProxyConfigurationTaskLoader proxyConfigurationTaskLoader = new ProxyConfigurationTaskLoader(getActivity());
-        LogWrapper.stopTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         return proxyConfigurationTaskLoader;
     }
@@ -155,7 +155,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     @Override
     public void onLoadFinished(Loader<List<ProxyConfiguration>> listLoader, List<ProxyConfiguration> proxyConfigurations)
     {
-        LogWrapper.startTrace(TAG,"onLoadFinished",Log.DEBUG);
+        App.getLogger().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
         if (APL.getWifiManager().isWifiEnabled())
         {
@@ -186,8 +186,8 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
         progress.setVisibility(View.GONE);
 
-        LogWrapper.stopTrace(TAG,"onLoadFinished",Log.DEBUG);
-        LogWrapper.stopTrace(TAG,"STARTUP", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "STARTUP", Log.DEBUG);
     }
 
     @Override
@@ -226,10 +226,10 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             }
             else
             {
-                LogWrapper.d(TAG,"Selected proxy configuration: " + selectedConfiguration.toShortString());
+                App.getLogger().d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
 
                 Intent i = new Intent(getActivity(), WiFiApDetailActivity.class);
-                i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.id);
+                i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.internalWifiNetworkId);
                 startActivity(i);
             }
         }

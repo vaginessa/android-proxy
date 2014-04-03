@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.utils.ChangeLogDialog;
@@ -103,7 +103,7 @@ public class HelpPrefsFragment extends PreferenceFragment
             }
         });
 
-        if (ApplicationGlobals.getInstance().activeMarket != AndroidMarket.PLAY)
+        if (App.getInstance().activeMarket != AndroidMarket.PLAY)
         {
             getPreferenceScreen().removePreference(betaTestPref);
         }

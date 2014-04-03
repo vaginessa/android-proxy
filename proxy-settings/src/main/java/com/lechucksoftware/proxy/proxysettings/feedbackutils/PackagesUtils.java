@@ -1,15 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import android.content.Context;
-import android.content.pm.PackageInfo;
-
-import android.util.Log;
-import com.lechucksoftware.proxy.proxysettings.R;
-import com.shouldit.proxy.lib.log.LogWrapper;
 
 public class PackagesUtils
 {
@@ -21,9 +21,9 @@ public class PackagesUtils
 		if (packages == null)
 		{
             /* false = no system packages */
-            LogWrapper.startTrace(TAG,"getInstalledApps()", Log.INFO);
+            App.getLogger().startTrace(TAG, "getInstalledApps()", Log.INFO);
 			ArrayList<PInfo> apps = getInstalledApps(callerContext, false);
-            LogWrapper.stopTrace(TAG, "getInstalledApps()", Log.INFO);
+            App.getLogger().stopTrace(TAG, "getInstalledApps()", Log.INFO);
 			packages = apps;
 		}
 			
@@ -39,9 +39,9 @@ public class PackagesUtils
 //		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 //		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 //		final List pkgAppsList = callerContext.getPackageManager().queryIntentActivities(mainIntent, 0);
-        LogWrapper.startTrace(TAG,"getInstalledPackages()", Log.INFO);
+        App.getLogger().startTrace(TAG, "getInstalledPackages()", Log.INFO);
 		List<PackageInfo> packs = callerContext.getPackageManager().getInstalledPackages(0);
-        LogWrapper.stopTrace(TAG, "getInstalledPackages()", Log.INFO);
+        App.getLogger().stopTrace(TAG, "getInstalledPackages()", Log.INFO);
 
 		for (int i = 0; i < packs.size(); i++)
 		{

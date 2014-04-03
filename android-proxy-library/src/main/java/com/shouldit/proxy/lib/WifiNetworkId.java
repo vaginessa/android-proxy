@@ -2,10 +2,12 @@ package com.shouldit.proxy.lib;
 
 import com.shouldit.proxy.lib.enums.SecurityType;
 
+import java.io.Serializable;
+
 /**
  * Created by Marco on 08/06/13.
  */
-public class WifiNetworkId
+public class WifiNetworkId implements Serializable
 {
     public String SSID;
     public SecurityType Security;

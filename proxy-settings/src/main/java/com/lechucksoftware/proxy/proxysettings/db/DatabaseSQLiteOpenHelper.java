@@ -4,7 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import com.shouldit.proxy.lib.log.LogWrapper;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 
 /**
  * Created by Marco on 13/09/13.
@@ -98,28 +99,48 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        LogWrapper.w(DatabaseSQLiteOpenHelper.class.getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
-        dropDB(db);
-        createDB(db);
+        App.getLogger().d(TAG, String.format("DB - onUpgrade: %d -> %d", oldVersion, newVersion));
+
+        if (oldVersion < 2)
+        {
+            /**
+             * First released version is v2
+             * - previous versions doesn't need official upgrade plan
+             * */
+
+            dropDB(db);
+            createDB(db);
+        }
+
+        // Se example of upgrade planning here: http://grepcode.com/file_/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.1_r1/com/android/providers/calendar/CalendarDatabaseHelper.java/?v=source
+
+//        if (oldVersion == 3)
+//        {
+//            // Do something for v3
+//            oldVersion = 4;
+//        }
+//
+//        if (oldVersion == 4)
+//        {
+//            // Do something for v4
+//        }
     }
 
     public void createDB(SQLiteDatabase db)
     {
-        LogWrapper.startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
         db.execSQL(CREATE_TABLE_PROXIES);
         db.execSQL(CREATE_TABLE_TAGS);
         db.execSQL(CREATE_TABLE_TAGGED_PROXIES);
-        LogWrapper.stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
 
     public void dropDB(SQLiteDatabase db)
     {
-        LogWrapper.startTrace(TAG, "DROP DATABASE", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXIES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
-        LogWrapper.stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }
 }

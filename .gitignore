@@ -34,7 +34,10 @@ proguard/
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/misc.xml
+.idea/gradle.xml
+.idea/modules.xml
 .idea/libraries/
+.idea/.name
 *.iml
 
 

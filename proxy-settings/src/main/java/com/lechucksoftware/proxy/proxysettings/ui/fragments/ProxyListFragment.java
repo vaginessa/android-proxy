@@ -1,7 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
@@ -15,22 +13,19 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.APL;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.ArrayList;
@@ -145,7 +140,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         loader.forceLoad();
 
 //        // Reset selected configuration
-//        ApplicationGlobals.setSelectedConfiguration(null);
+//        App.setSelectedConfiguration(null);
 
         return v;
     }
@@ -215,10 +210,10 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             listView.setItemChecked(index, true);
 
             ProxyEntity selectedProxy = (ProxyEntity) listView.getItemAtPosition(index);
-            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedProxy.toString());
+            App.getLogger().d(TAG, "Selected proxy configuration: " + selectedProxy.toString());
 
             Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
-            ApplicationGlobals.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
+            App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
             i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getUUID());
             startActivity(i);
         }

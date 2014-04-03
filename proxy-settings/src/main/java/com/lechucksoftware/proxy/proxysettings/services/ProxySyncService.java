@@ -4,15 +4,13 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.shouldit.proxy.lib.ProxyConfiguration;
 import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,9 +53,9 @@ public class ProxySyncService extends IntentService
 
     private void syncProxyConfigurations()
     {
-        LogWrapper.startTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
 
-        List<ProxyConfiguration> configurations =  ApplicationGlobals.getProxyManager().getSortedConfigurationsList();
+        List<ProxyConfiguration> configurations =  App.getProxyManager().getSortedConfigurationsList();
         List<Long> inUseProxies = new ArrayList<Long>();
 
         int foundNew = 0;
@@ -65,26 +63,26 @@ public class ProxySyncService extends IntentService
 
         if (configurations != null && !configurations.isEmpty())
         {
-            LogWrapper.d(TAG, String.format("Analyzing %d Wi-Fi AP configurations",configurations.size()));
+            App.getLogger().d(TAG, String.format("Analyzing %d Wi-Fi AP configurations", configurations.size()));
 
             for (ProxyConfiguration conf : configurations)
             {
                 try
                 {
-                    LogWrapper.d(TAG,"Checking Wi-Fi AP: " + conf.getSSID());
+                    App.getLogger().d(TAG, "Checking Wi-Fi AP: " + conf.getSSID());
 
                     if (conf.getProxySettings() == ProxySetting.STATIC && conf.ap.security != SecurityType.SECURITY_EAP)
                     {
                         if (conf.isValidProxyConfiguration())
                         {
-                            LogWrapper.d(TAG, "Found proxy: " + conf.toShortString());
+                            App.getLogger().d(TAG, "Found proxy: " + conf.toShortString());
 
-                            long proxyId = ApplicationGlobals.getDBManager().findProxy(conf);
+                            long proxyId = App.getDBManager().findProxy(conf);
                             ProxyEntity pd = null;
                             if (proxyId != -1)
                             {
                                 // Proxy already saved into DB
-                                pd = ApplicationGlobals.getDBManager().getProxy(proxyId);
+                                pd = App.getDBManager().getProxy(proxyId);
                                 inUseProxies.add(pd.getId());
                                 foundUpdate++;
                             }
@@ -96,18 +94,21 @@ public class ProxySyncService extends IntentService
                                 pd.port = conf.getProxyPort();
                                 pd.exclusion = conf.getProxyExclusionList();
                                 pd.setInUse(true);
+                                pd = App.getDBManager().upsertProxy(pd);
+
                                 foundNew++;
-                                ApplicationGlobals.getDBManager().upsertProxy(pd);
                             }
+
+                            inUseProxies.add(pd.getId());
                         }
                         else
                         {
-                            LogWrapper.d(TAG, "Found not valid proxy: " + conf.toShortString());
+                            App.getLogger().d(TAG, "Found not valid proxy: " + conf.toShortString());
                         }
                     }
                     else
                     {
-                        LogWrapper.d(TAG, "Proxy not enabled or cannot be read: " + conf.toShortString());
+                        App.getLogger().d(TAG, "Proxy not enabled or cannot be read: " + conf.toShortString());
                     }
                 }
                 catch (Exception e)
@@ -116,12 +117,12 @@ public class ProxySyncService extends IntentService
                 }
             }
 
-            ApplicationGlobals.getDBManager().setInUseFlag(inUseProxies.toArray(new Long[inUseProxies.size()]));
+            App.getDBManager().setInUseFlag(inUseProxies.toArray(new Long[inUseProxies.size()]));
 
-            long proxiesCount = ApplicationGlobals.getDBManager().getProxiesCount();
-            LogWrapper.d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
+            long proxiesCount = App.getDBManager().getProxiesCount();
+            App.getLogger().d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
         }
 
-        LogWrapper.stopTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
     }
 }

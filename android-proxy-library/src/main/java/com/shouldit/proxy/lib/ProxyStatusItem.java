@@ -3,10 +3,11 @@ package com.shouldit.proxy.lib;
 import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
 
-public class ProxyStatusItem
+public class ProxyStatusItem implements Serializable
 {
 	public ProxyStatusProperties statusCode;
 	public CheckStatusValues status;

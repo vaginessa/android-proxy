@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.TagsListAdapter;
@@ -65,7 +65,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
         if (args != null && args.containsKey(DBPROXY_ARG))
         {
             cachedObjId = (UUID) getArguments().getSerializable(DBPROXY_ARG);
-            selectedProxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedObjId);
+            selectedProxy = (ProxyEntity) App.getCacheManager().get(cachedObjId);
         }
         else
         {

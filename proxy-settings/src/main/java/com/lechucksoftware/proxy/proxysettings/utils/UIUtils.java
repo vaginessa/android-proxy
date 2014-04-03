@@ -9,25 +9,33 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
-import com.shouldit.proxy.lib.enums.CheckStatusValues;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import com.shouldit.proxy.lib.enums.CheckStatusValues;
 import com.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 import java.io.File;
@@ -43,11 +51,14 @@ public class UIUtils
 
     public static void showError(Context ctx, String errorMessage)
     {
-        new AlertDialog.Builder(ctx)
-                .setTitle(R.string.proxy_error)
-                .setMessage(errorMessage)
-                .setPositiveButton(R.string.proxy_error_dismiss, null)
-                .show();
+        if (!TextUtils.isEmpty(errorMessage))
+        {
+            new AlertDialog.Builder(ctx)
+                    .setTitle(R.string.proxy_error)
+                    .setMessage(errorMessage)
+                    .setPositiveButton(R.string.proxy_error_dismiss, null)
+                    .show();
+        }
     }
 
     public static void showError(Context ctx, int error)
@@ -238,7 +249,7 @@ public class UIUtils
     {
         String BASE_URL = "file:///android_asset/www/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
 
-        LogWrapper.startTrace(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
         try
         {
@@ -257,11 +268,11 @@ public class UIUtils
 
             });
 
-            LogWrapper.getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             webView.loadUrl(BASE_URL + filename);
 
-            LogWrapper.getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                     .setTitle(title)
@@ -283,7 +294,7 @@ public class UIUtils
                         }
                     });
 
-            LogWrapper.getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             AlertDialog dialog = builder.create();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
@@ -298,7 +309,7 @@ public class UIUtils
                 }
             });
 
-            LogWrapper.getPartial(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             dialog.show();
         }
@@ -308,7 +319,7 @@ public class UIUtils
             return;
         }
 
-        LogWrapper.stopTrace(TAG,"showHTMLAssetsAlertDialog", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
     }
 
     public static void showHTMLAlertDialog(final Context ctx, String title, String htmlText, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
@@ -365,7 +376,7 @@ public class UIUtils
 
     public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)
     {
-        //		if (ApplicationGlobals.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
+        //		if (App.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
         {
             return ProxyUIUtils.GetStatusTitle(conf, ctx);
         }
@@ -512,7 +523,14 @@ public class UIUtils
             NotificationManager manager = (NotificationManager) callerContext.getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null)
             {
-                manager.cancel(PROXY_NOTIFICATION_ID);
+                try
+                {
+                    manager.cancel(PROXY_NOTIFICATION_ID);
+                }
+                catch (Exception e)
+                {
+                    EventReportingUtils.sendException(e);
+                }
             }
         }
     }

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
@@ -23,7 +23,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.shouldit.proxy.lib.ProxyStatusItem;
 import com.shouldit.proxy.lib.enums.ProxyStatusProperties;
-import com.shouldit.proxy.lib.log.LogWrapper;
 import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.HashMap;
@@ -86,7 +85,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         if (args != null && args.containsKey(SELECTED_PROXY_ARG))
         {
             cachedObjId = (UUID) getArguments().getSerializable(SELECTED_PROXY_ARG);
-            selectedProxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedObjId);
+            selectedProxy = (ProxyEntity) App.getCacheManager().get(cachedObjId);
         }
 
         if (selectedProxy == null)
@@ -171,7 +170,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
     private boolean validateBypass()
     {
         String value = proxyBypass.getExclusionString();
-        LogWrapper.d(TAG, "Exclusion list updated: " + value);
+        App.getLogger().d(TAG, "Exclusion list updated: " + value);
 
         ProxyStatusItem item = ProxyUtils.isProxyValidExclusionList(value);
         validationErrors.remove(item.statusCode);
@@ -259,7 +258,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         Integer port = selectedProxy.port;
         if (host != null && port != null)
         {
-            List<Long> duplicatedIDs = ApplicationGlobals.getDBManager().findDuplicatedProxy(host, port);
+            List<Long> duplicatedIDs = App.getDBManager().findDuplicatedProxy(host, port);
             if (selectedProxy.isPersisted)
             {
                 proxyDuplicatedBanner.setVisibility(UIUtils.booleanToVisibility(duplicatedIDs.size() > 1));
@@ -302,7 +301,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             Bundle b = message.getData();
 
-            LogWrapper.w(TAG, "handleMessage: " + b.toString());
+            App.getLogger().w(TAG, "handleMessage: " + b.toString());
 
             refreshUI();
         }

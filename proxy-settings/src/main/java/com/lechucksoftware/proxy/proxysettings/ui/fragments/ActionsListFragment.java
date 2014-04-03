@@ -113,7 +113,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         loader.forceLoad();
 
 //        // Reset selected configuration
-//        ApplicationGlobals.setSelectedConfiguration(null);
+//        App.setSelectedConfiguration(null);
 
         ActionManager.getInstance().hide();
 
@@ -172,7 +172,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
             listView.setItemChecked(index, true);
 
             ProxyEntity selectedProxy = (ProxyEntity) listView.getItemAtPosition(index);
-//            ApplicationGlobals.setSelectedProxy(selectProxy);
+//            App.setSelectedProxy(selectProxy);
 //            LogWrapper.d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
 //            NavigationUtils.GoToProxyDetailsFragment(getFragmentManager(), selectedProxy);
         }
