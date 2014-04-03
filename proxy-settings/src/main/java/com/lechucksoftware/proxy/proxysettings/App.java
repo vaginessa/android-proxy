@@ -9,8 +9,8 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.log.LogWrapper;
 
 
 public class App extends Application

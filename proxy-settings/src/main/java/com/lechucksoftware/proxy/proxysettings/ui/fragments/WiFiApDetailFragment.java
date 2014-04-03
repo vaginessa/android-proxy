@@ -23,13 +23,14 @@ import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertD
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.WifiNetworkId;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.List;
+
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WifiNetworkId;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 
 public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment

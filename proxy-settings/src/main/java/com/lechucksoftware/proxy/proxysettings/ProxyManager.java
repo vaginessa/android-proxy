@@ -9,12 +9,10 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.WifiNetworkId;
-import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
+import be.shouldit.proxy.lib.*;
+import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

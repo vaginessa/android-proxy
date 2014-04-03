@@ -34,13 +34,14 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.enums.CheckStatusValues;
-import com.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 import java.io.File;
 import java.net.Proxy.Type;
 import java.util.Random;
+
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.enums.CheckStatusValues;
+import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 public class UIUtils
 {

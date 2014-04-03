@@ -25,11 +25,12 @@ import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAda
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.enums.SecurityType;
 
 import java.util.List;
+
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.enums.SecurityType;
 
 /**
  * Created by marco on 17/05/13.

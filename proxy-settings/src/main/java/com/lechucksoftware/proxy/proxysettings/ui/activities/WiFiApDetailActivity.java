@@ -8,16 +8,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.WifiNetworkId;
 
-import java.util.UUID;
-
+import be.shouldit.proxy.lib.WifiNetworkId;
 
 /**
  * Created by marco on 17/05/13.

@@ -1,15 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class PackagesUtils
 {

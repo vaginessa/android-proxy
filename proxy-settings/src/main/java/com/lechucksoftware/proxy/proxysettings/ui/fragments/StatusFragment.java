@@ -13,7 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.APL;
 
 
 /**

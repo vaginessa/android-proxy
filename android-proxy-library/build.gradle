@@ -23,7 +23,13 @@ android {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+
         debug {
+            debuggable true
+            runProguard false
+        }
+
+        CI {
             debuggable true
             runProguard false
         }
@@ -40,6 +46,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:+'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+//    compile 'com.android.support:appcompat-v7:+'
+//    compile fileTree(dir: 'libs', include: ['*.jar'])
 }

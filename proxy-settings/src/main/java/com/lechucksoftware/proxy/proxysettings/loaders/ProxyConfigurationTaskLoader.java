@@ -2,9 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.loaders;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.List;
 

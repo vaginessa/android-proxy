@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.exception;
 
 import android.text.TextUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.List;
 

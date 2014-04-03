@@ -42,9 +42,9 @@ android {
             debuggable false
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
-
-            signingConfig signingConfigs.releaseSigning
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
         }
+
         debug {
 
             runProguard false
@@ -52,6 +52,15 @@ android {
             debuggable true
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
+        }
+
+        CI {
+            debuggable true
+            runProguard false
+
+            buildConfigField "String", "BUGSENSE_LICENSE", '"1234"'
+            buildConfigField "String", "ANALYTICS_TRACK_ID", '"1234"'
         }
     }
 

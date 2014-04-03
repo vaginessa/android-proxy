@@ -7,12 +7,13 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.enums.SecurityType;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Created by Marco on 09/03/14.

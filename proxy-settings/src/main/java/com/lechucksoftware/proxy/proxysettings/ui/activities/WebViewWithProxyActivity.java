@@ -12,9 +12,10 @@ import android.webkit.WebView;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.net.URL;
+
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class WebViewWithProxyActivity extends FragmentActivity
 {
@@ -53,7 +54,7 @@ public class WebViewWithProxyActivity extends FragmentActivity
 				// Activities and WebViews measure progress with different
 				// scales. The progress meter will automatically disappear when we reach 100%
 				int activityProgress = progress * 100;
-                App.getLogger().d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
+                		App.getLogger().d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
 				activity.setProgress(activityProgress);
 
 

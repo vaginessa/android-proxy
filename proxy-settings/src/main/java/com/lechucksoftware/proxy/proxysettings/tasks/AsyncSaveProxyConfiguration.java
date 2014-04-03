@@ -10,8 +10,9 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.shouldit.proxy.lib.APL;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by Marco on 29/11/13.

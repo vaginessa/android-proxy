@@ -25,11 +25,12 @@ import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAd
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
-import com.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Created by marco on 17/05/13.

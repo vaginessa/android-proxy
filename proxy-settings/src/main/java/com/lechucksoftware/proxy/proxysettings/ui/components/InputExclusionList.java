@@ -20,8 +20,6 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.shouldit.proxy.lib.ProxyStatusItem;
-import com.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +27,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class InputExclusionList extends LinearLayout
 {

@@ -16,7 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.List;
 
