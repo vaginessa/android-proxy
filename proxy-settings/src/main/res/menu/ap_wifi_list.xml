@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/menu_proxies"
-            android:icon="@drawable/ic_action_shuffle"
-            android:showAsAction="always|withText"
-            android:title="@string/proxy_list"/>
+        android:id="@+id/menu_proxies"
+        android:icon="@drawable/ic_action_shuffle"
+        android:showAsAction="always|withText"
+        android:title="@string/proxy_list"/>
 
     <!--<item-->
     <!--android:id="@+id/menu_feedbacks"-->
@@ -14,13 +14,22 @@
     <!--android:title="@string/pref_send_feedback"/>-->
 
     <item
-            android:id="@+id/menu_about"
-            android:icon="@drawable/ic_action_ic_help"
-            android:title="@string/help"/>
+        android:id="@+id/overflowSection"
+        android:icon="@drawable/ic_action_core_overflow"
+        android:showAsAction="always"
+        android:title="More">
+        <menu>
+
+            <item
+                android:id="@+id/menu_about"
+                android:title="@string/help"/>
+        </menu>
+    </item>
 
     <item
-            android:id="@+id/menu_developer"
-            android:icon="@drawable/ic_action_ok"
-            android:title="@string/pref_developers"/>
+        android:id="@+id/menu_developer"
+        android:icon="@drawable/ic_action_device_access_secure"
+        android:showAsAction="always"
+        android:title="@string/pref_developers"/>
 
 </menu>

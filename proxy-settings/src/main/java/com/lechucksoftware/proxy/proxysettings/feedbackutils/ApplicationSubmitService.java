@@ -31,7 +31,7 @@ public class ApplicationSubmitService extends IntentService
     @Override
     public void onDestroy() 
     {
-    	LogWrapper.d(TAG, "ApplicationSubmitService destroying");
+        App.getLogger().d(TAG, "ApplicationSubmitService destroying");
     }
     
 	/**

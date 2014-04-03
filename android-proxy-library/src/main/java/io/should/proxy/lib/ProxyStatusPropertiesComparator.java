@@ -1,5 +1,6 @@
 package io.should.proxy.lib;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import io.should.proxy.lib.enums.ProxyStatusProperties;

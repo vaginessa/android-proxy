@@ -3,17 +3,23 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.widget.Toast;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +37,6 @@ import io.should.proxy.lib.utils.ProxyUtils;
  */
 public class TestUtils
 {
-
     // "0123456789" + "ABCDE...Z"
     private static final String ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
     private static final int MIN_LENGHT = 3;
@@ -103,7 +108,7 @@ public class TestUtils
                         if (line.contains(":"))
                         {
                             ProxyEntity p = new ProxyEntity();
-                            String [] host_port = line.split(":");
+                            String[] host_port = line.split(":");
                             p.host = host_port[0];
                             p.port = Integer.parseInt(host_port[1]);
                             proxies.add(p);
@@ -114,12 +119,12 @@ public class TestUtils
         }
         catch (IOException e)
         {
-            LogWrapper.e(TAG, "No proxy examples found");
+            App.getLogger().e(TAG, "No proxy examples found");
             return null;
         }
         catch (Exception e)
         {
-            LogWrapper.e(TAG, "Generic exception during read of proxy examples: " + e.toString());
+            App.getLogger().e(TAG, "Generic exception during read of proxy examples: " + e.toString());
             return null;
         }
 
@@ -137,7 +142,7 @@ public class TestUtils
         int tagNum = r.nextInt(MAX_TAGS) + MIN_TAGS;
         for (int i = 0; i < tagNum; i++)
         {
-            TagEntity tag = ApplicationGlobals.getDBManager().getRandomTag();
+            TagEntity tag = App.getDBManager().getRandomTag();
             if (tag != null)
             {
                 pd.addTag(tag);
@@ -149,7 +154,7 @@ public class TestUtils
 
     public static ProxyEntity getModifiedExistingProxy()
     {
-        ProxyEntity pd = ApplicationGlobals.getDBManager().getRandomProxy();
+        ProxyEntity pd = App.getDBManager().getRandomProxy();
 
         if (pd != null)
         {
@@ -168,7 +173,7 @@ public class TestUtils
                     pd.exclusion = getRandomExclusionList();
                     break;
                 case 3:
-                    TagEntity tag = ApplicationGlobals.getDBManager().getRandomTag();
+                    TagEntity tag = App.getDBManager().getRandomTag();
                     if (tag != null)
                     {
                         pd.addTag(tag);
@@ -191,7 +196,7 @@ public class TestUtils
     {
         ProxyEntity pd = getRandomProxy();
 
-        ProxyEntity savedProxy = ApplicationGlobals.getDBManager().upsertProxy(pd);
+        ProxyEntity savedProxy = App.getDBManager().upsertProxy(pd);
 
         if (!savedProxy.equals(pd))
         {
@@ -209,7 +214,7 @@ public class TestUtils
 
         for (ProxyEntity p : proxies)
         {
-            ApplicationGlobals.getDBManager().upsertProxy(p);
+            App.getDBManager().upsertProxy(p);
         }
     }
 
@@ -218,7 +223,7 @@ public class TestUtils
         ProxyEntity pd = getModifiedExistingProxy();
         if (pd != null)
         {
-            ApplicationGlobals.getDBManager().updateProxy(pd.getId(), pd);
+            App.getDBManager().updateProxy(pd.getId(), pd);
         }
     }
 
@@ -228,7 +233,7 @@ public class TestUtils
         Random r = new Random();
         tag.tag = getRandomTag();
         tag.tagColor = r.nextInt(4) + 1;
-        ApplicationGlobals.getDBManager().upsertTag(tag);
+        App.getDBManager().upsertTag(tag);
     }
 
 //    public static void assignProxies(ProxyConfiguration conf, ProxyEntity proxy) throws Exception
@@ -256,7 +261,7 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            ProxyConfiguration updatedConf = ApplicationGlobals.getProxyManager().getConfiguration(conf.id);
+//            ProxyConfiguration updatedConf = App.getProxyManager().getConfiguration(conf.id);
 //
 //            if (updatedConf.getProxySettings() == ProxySetting.STATIC &&
 //                    updatedConf.getProxyHost() == proxy.host &&
@@ -283,7 +288,7 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            ProxyConfiguration updatedConf = ApplicationGlobals.getProxyManager().getConfiguration(conf.id);
+//            ProxyConfiguration updatedConf = App.getProxyManager().getConfiguration(conf.id);
 //
 //            if (updatedConf.getProxySettings() == ProxySetting.NONE &&
 //                    (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
@@ -311,16 +316,16 @@ public class TestUtils
 
     public static void clearInUse()
     {
-        ProxyEntity pd = ApplicationGlobals.getDBManager().getRandomProxy();
-        ApplicationGlobals.getDBManager().clearInUseFlag(pd.getId());
+        ProxyEntity pd = App.getDBManager().getRandomProxy();
+        App.getDBManager().clearInUseFlag(pd.getId());
 
-        ProxyEntity pd1 = ApplicationGlobals.getDBManager().getRandomProxy();
-        ProxyEntity pd2 = ApplicationGlobals.getDBManager().getRandomProxy();
-        ProxyEntity pd3 = ApplicationGlobals.getDBManager().getRandomProxy();
+        ProxyEntity pd1 = App.getDBManager().getRandomProxy();
+        ProxyEntity pd2 = App.getDBManager().getRandomProxy();
+        ProxyEntity pd3 = App.getDBManager().getRandomProxy();
 
-        ApplicationGlobals.getDBManager().clearInUseFlag(pd1.getId(), pd2.getId(), pd3.getId());
+        App.getDBManager().clearInUseFlag(pd1.getId(), pd2.getId(), pd3.getId());
 
-        ApplicationGlobals.getDBManager().clearInUseFlag();
+        App.getDBManager().clearInUseFlag();
     }
 
     public static void testValidation()
@@ -334,9 +339,9 @@ public class TestUtils
 
     public static void clearAllProxies(Context ctx)
     {
-        ApplicationGlobals.getInstance().wifiActionEnabled = false;
+        App.getInstance().wifiActionEnabled = false;
 
-        for (ProxyConfiguration configuration : ApplicationGlobals.getProxyManager().getSortedConfigurationsList())
+        for (ProxyConfiguration configuration : App.getProxyManager().getSortedConfigurationsList())
         {
             if (configuration.ap.security == SecurityType.SECURITY_EAP)
             {
@@ -358,10 +363,10 @@ public class TestUtils
             }
         }
 
-        ApplicationGlobals.getInstance().wifiActionEnabled = true;
+        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
         Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
         APL.getContext().sendBroadcast(intent);
     }
@@ -370,9 +375,9 @@ public class TestUtils
     {
         ProxyEntity p = getRandomProxy();
 
-        ApplicationGlobals.getInstance().wifiActionEnabled = false;
+        App.getInstance().wifiActionEnabled = false;
 
-        for (ProxyConfiguration configuration : ApplicationGlobals.getProxyManager().getSortedConfigurationsList())
+        for (ProxyConfiguration configuration : App.getProxyManager().getSortedConfigurationsList())
         {
             if (configuration.ap.security == SecurityType.SECURITY_EAP)
             {
@@ -394,12 +399,42 @@ public class TestUtils
             }
         }
 
-        ApplicationGlobals.getInstance().wifiActionEnabled = true;
+        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-        LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
         Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
         APL.getContext().sendBroadcast(intent);
+    }
+
+    public static void testSerialization()
+    {
+        String s = null;
+        ProxyConfiguration conf = App.getProxyManager().getCurrentConfiguration();
+
+        ObjectOutputStream out = null;
+        try
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            out = new ObjectOutputStream(baos);
+            out.writeObject(conf);
+            out.close();
+
+            s = new String(baos.toByteArray());
+
+            if (TextUtils.isEmpty(s))
+            {
+                App.getLogger().e(TAG,"Not serialized correctly");
+            }
+            else
+            {
+                App.getLogger().d(TAG,s);
+            }
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 }
 

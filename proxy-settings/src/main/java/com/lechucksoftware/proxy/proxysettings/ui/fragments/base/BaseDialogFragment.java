@@ -31,13 +31,13 @@ public class BaseDialogFragment extends DialogFragment
     public void onResume()
     {
         super.onResume();
-        LogWrapper.d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
+        App.getLogger().d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        LogWrapper.d(this.getClass().getSimpleName(), "onPause " + this.getClass().getSimpleName());
+        App.getLogger().d(this.getClass().getSimpleName(), "onPause " + this.getClass().getSimpleName());
     }
 }

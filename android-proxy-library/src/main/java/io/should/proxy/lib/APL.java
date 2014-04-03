@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import io.should.proxy.lib.log.DefaultEventReport;
 import io.should.proxy.lib.log.IEventReporting;
 import io.should.proxy.lib.log.LogWrapper;
@@ -40,12 +41,19 @@ public class APL
     private static int deviceVersion;
     private static IEventReporting eventReport;
 
-    public static boolean setup(Context context)
+    public static LogWrapper getLogger()
     {
-        return setup(context, null);
+        return logger;
     }
 
-    public static boolean setup(Context context, IEventReporting eRep)
+    private static LogWrapper logger;
+
+    public static boolean setup(Context context)
+    {
+        return setup(context, Log.ERROR, null);
+    }
+
+    public static boolean setup(Context context, int logLevel, IEventReporting eRep)
     {
         gContext = context;
         deviceVersion = Build.VERSION.SDK_INT;
@@ -57,7 +65,9 @@ public class APL
         }
 
         sSetupCalled = true;
-        LogWrapper.d(TAG,"APL setup executed");
+        logger = new LogWrapper(logLevel);
+
+        getLogger().d(TAG,"APL setup executed");
 
         if (eRep != null)
         {
@@ -206,7 +216,7 @@ public class APL
         if (proxyList.size() > 0)
         {
             proxy = proxyList.get(0);
-            LogWrapper.d(TAG, "Current Proxy Configuration: " + proxy.toString());
+            getLogger().d(TAG, "Current Proxy Configuration: " + proxy.toString());
         }
         else
             throw new Exception("Not found valid proxy configuration!");

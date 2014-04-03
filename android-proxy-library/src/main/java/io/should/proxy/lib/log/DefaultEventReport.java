@@ -1,5 +1,7 @@
 package io.should.proxy.lib.log;
 
+import com.shouldit.proxy.lib.APL;
+
 /**
  * Created by Marco on 16/11/13.
  */
@@ -10,12 +12,12 @@ public class DefaultEventReport implements IEventReporting
     @Override
     public void send(Exception e)
     {
-        LogWrapper.e(TAG, e.toString());
+        APL.getLogger().e(TAG, e.toString());
     }
 
     @Override
     public void send(String s)
     {
-        LogWrapper.e(TAG, s);
+        APL.getLogger().e(TAG, s);
     }
 }

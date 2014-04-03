@@ -10,7 +10,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
@@ -76,7 +77,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
     public void refreshUIComponents()
     {
-        ProxyConfiguration conf = ApplicationGlobals.getProxyManager().getCachedConfiguration();
+        ProxyConfiguration conf = App.getProxyManager().getCachedConfiguration();
 
         if (conf.status.getCheckingStatus() == CheckStatusValues.CHECKING)
         {

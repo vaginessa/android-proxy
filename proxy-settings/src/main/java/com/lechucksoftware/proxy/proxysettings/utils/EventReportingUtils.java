@@ -1,18 +1,20 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.text.TextUtils;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import io.should.proxy.lib.log.IEventReporting;
 import io.should.proxy.lib.log.LogWrapper;
 
+import java.util.HashMap;
 import java.util.Map;
 
 //import com.google.analytics.tracking.android.Tracker;
@@ -59,11 +61,11 @@ public class EventReportingUtils implements IEventReporting
 //            int duration = Toast.LENGTH_LONG;
 //            Toast toast = Toast.makeText(ctx, text, duration);
 //            toast.show();
-            LogWrapper.e(TAG, text.toString());
+            App.getLogger().e(TAG, text.toString());
         }
         else
         {
-            LogWrapper.i(TAG, String.format("BugSense setup [%s]",key));
+            App.getLogger().i(TAG, String.format("BugSense setup [%s]", key));
             BugSenseHandler.initAndStartSession(ctx, key);
             setupDone = true;
         }
@@ -76,13 +78,29 @@ public class EventReportingUtils implements IEventReporting
 
     public void send(Exception e)
     {
-        LogWrapper.e(TAG, "Handled exception message: " + e.getMessage());
-        LogWrapper.e(TAG, "Handled exception stack trace: " + TextUtils.join("\n",e.getStackTrace()));
+        App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
+        App.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n", e.getStackTrace()));
 
         if (setupDone)
         {
             // Bugsense
-            BugSenseHandler.sendException(e);
+            HashMap<String, String> map = new HashMap<String, String>();
+            PackageInfo appInfo = Utils.getAppInfo(context);
+
+            try
+            {
+                map.put("versionName", String.valueOf(appInfo.versionName));
+                map.put("versionCode", String.valueOf(appInfo.versionCode));
+            }
+            catch (Exception internalEx)
+            {
+                BugSenseHandler.sendException(internalEx);
+            }
+
+            if (map != null)
+                BugSenseHandler.sendExceptionMap(map,e);
+            else
+                BugSenseHandler.sendException(e);
 
             // Google Analytics
 //            DetailedExceptionParser sep = new DetailedExceptionParser();
@@ -92,7 +110,7 @@ public class EventReportingUtils implements IEventReporting
         }
         else
         {
-            setupBugSense(ApplicationGlobals.getInstance().getApplicationContext());
+            setupBugSense(App.getInstance().getApplicationContext());
         }
     }
 
@@ -122,7 +140,7 @@ public class EventReportingUtils implements IEventReporting
         else
         {
             String msg = String.format("sendEvent: %s %s %s %d", eventCategory, eventAction, eventLabel, eventValue);
-            LogWrapper.e(TAG, msg);
+            App.getLogger().e(TAG, msg);
         }
     }
 

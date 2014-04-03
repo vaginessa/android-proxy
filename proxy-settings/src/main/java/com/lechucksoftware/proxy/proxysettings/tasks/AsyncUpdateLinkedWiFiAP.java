@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
@@ -61,67 +61,70 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     {
         int updatedWiFiAP = 0;
 
-        List<ProxyConfiguration> configurations = new ArrayList<ProxyConfiguration>(ApplicationGlobals.getProxyManager().getSortedConfigurationsList());
+        List<ProxyConfiguration> configurations = new ArrayList<ProxyConfiguration>(App.getProxyManager().getSortedConfigurationsList());
 
-        LogWrapper.d(TAG, "Current proxy: " + currentProxy.toString());
-        LogWrapper.d(TAG, "Updated proxy: " + updatedProxy.toString());
+        App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
+        App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());
 
-        ApplicationGlobals.getInstance().wifiActionEnabled = false;
+        App.getInstance().wifiActionEnabled = false;
 
         for (ProxyConfiguration conf : configurations)
         {
             if (conf.getProxySettings() == ProxySetting.STATIC)
             {
-                LogWrapper.d(TAG, "Checking AP: " + conf.toShortString());
+                App.getLogger().d(TAG, "Checking AP: " + conf.toShortString());
 
-                String host = conf.getProxyHost();
-                Integer port = conf.getProxyPort();
-                String exclusion = conf.getProxyExclusionList();
-
-                if (host.equalsIgnoreCase(currentProxy.host)
-                        && port.equals(currentProxy.port)
-                        && exclusion.equalsIgnoreCase(currentProxy.exclusion))
+                if (conf.isValidProxyConfiguration())
                 {
-                    conf.setProxyHost(updatedProxy.host);
-                    conf.setProxyPort(updatedProxy.port);
-                    conf.setProxyExclusionList(updatedProxy.exclusion);
+                    String host = conf.getProxyHost();
+                    Integer port = conf.getProxyPort();
+                    String exclusion = conf.getProxyExclusionList();
 
-                    LogWrapper.d(TAG, "Writing updated AP configuration on device: " + conf.toShortString());
-
-                    try
+                    if (host.equalsIgnoreCase(currentProxy.host)
+                            && port.equals(currentProxy.port)
+                            && exclusion.equalsIgnoreCase(currentProxy.exclusion))
                     {
-                        conf.writeConfigurationToDevice();
-                    }
-                    catch (Exception e)
-                    {
-                        EventReportingUtils.sendException(e);
-                    }
+                        conf.setProxyHost(updatedProxy.host);
+                        conf.setProxyPort(updatedProxy.port);
+                        conf.setProxyExclusionList(updatedProxy.exclusion);
 
-                    updatedWiFiAP++;
+                        App.getLogger().d(TAG, "Writing updated AP configuration on device: " + conf.toShortString());
 
-                    try
-                    {
-                        Thread.sleep(1);
-                    }
-                    catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
+                        try
+                        {
+                            conf.writeConfigurationToDevice();
+                        }
+                        catch (Exception e)
+                        {
+                            EventReportingUtils.sendException(e);
+                        }
 
-                    // Calling refresh intent only after save of all AP configurations
-                    LogWrapper.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-                    Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-                    APL.getContext().sendBroadcast(intent);
+                        updatedWiFiAP++;
+
+                        try
+                        {
+                            Thread.sleep(1);
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        // Calling refresh intent only after save of all AP configurations
+                        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+                        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+                        APL.getContext().sendBroadcast(intent);
+                    }
                 }
             }
         }
 
-        ApplicationGlobals.getInstance().wifiActionEnabled = true;
+        App.getInstance().wifiActionEnabled = true;
 
-        LogWrapper.d(TAG, "Current proxy: " + currentProxy.toString());
-        LogWrapper.d(TAG, "Updated proxy: " + updatedProxy.toString());
+        App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
+        App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());
 
-//        ApplicationGlobals.getDBManager().upsertProxy(updatedProxy);
+//        App.getDBManager().upsertProxy(updatedProxy);
 
         return updatedWiFiAP;
     }

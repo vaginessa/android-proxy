@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Measures;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -141,7 +140,7 @@ public class InputExclusionList extends LinearLayout
 
     public void setExclusionString(String value)
     {
-        LogWrapper.startTrace(TAG, "setExclusionString", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "setExclusionString", Log.DEBUG);
 
         if (exclusionString == null || !exclusionString.equals(value))
         {
@@ -163,7 +162,7 @@ public class InputExclusionList extends LinearLayout
 
         refreshExclusionList();
 
-        LogWrapper.stopTrace(TAG, "setExclusionString", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "setExclusionString", Log.DEBUG);
     }
 
     public String getExclusionString()
@@ -182,7 +181,7 @@ public class InputExclusionList extends LinearLayout
 
     private void refreshUI()
     {
-        LogWrapper.startTrace(TAG, "refreshUI", Log.ASSERT, true);
+        App.getLogger().startTrace(TAG, "refreshUI", Log.ASSERT, true);
         // Layout
         if (singleLine)
         {
@@ -206,12 +205,12 @@ public class InputExclusionList extends LinearLayout
         titleTextView.setTextSize(titleSize);
         readonlyValueTextView.setTextSize(textSize);
 
-        LogWrapper.stopTrace(TAG, "refreshUI", Log.ASSERT);
+        App.getLogger().stopTrace(TAG, "refreshUI", Log.ASSERT);
     }
 
     private void refreshExclusionList()
     {
-        LogWrapper.startTrace(TAG, "refreshExclusionList", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "refreshExclusionList", Log.DEBUG);
 
         if (readonly)
         {
@@ -256,19 +255,19 @@ public class InputExclusionList extends LinearLayout
             updateExclusionStringValue();
         }
 
-        LogWrapper.stopTrace(TAG, "refreshExclusionList", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "refreshExclusionList", Log.DEBUG);
     }
 
     private void addEmptyItem()
     {
-        LogWrapper.startTrace(TAG, "addEmptyItem", Log.ASSERT, true);
+        App.getLogger().startTrace(TAG, "addEmptyItem", Log.ASSERT, true);
 
         InputField i = createExclusionInputField();
         i.setValue("");
         exclusionInputFieldsMap.put(i.getUUID(), i);
 //        uiHandler.callRefreshExclusionList();
 
-        LogWrapper.stopTrace(TAG, "addEmptyItem", Log.ASSERT);
+        App.getLogger().stopTrace(TAG, "addEmptyItem", Log.ASSERT);
     }
 
     private class UIHandler extends Handler
@@ -282,7 +281,7 @@ public class InputExclusionList extends LinearLayout
         {
             Bundle b = message.getData();
 
-            LogWrapper.w(TAG, "handleMessage: " + b.toString());
+            App.getLogger().w(TAG, "handleMessage: " + b.toString());
 
             if (b.containsKey(REFRESH_UI_ACTION))
                 refreshUI();

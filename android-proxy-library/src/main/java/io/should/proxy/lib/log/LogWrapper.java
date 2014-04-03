@@ -23,47 +23,58 @@ public class LogWrapper
      * ASSERT	Constant Value: 7 (0x00000007)
      */
 
-//	private static int mLogLevel = Integer.MAX_VALUE;
-    private static int mLogLevel = Integer.MIN_VALUE;
-    private static Map<String, Date> startTraces;
+//	private int mLogLevel = Integer.MAX_VALUE;
+    private int mLogLevel = Integer.MIN_VALUE;
 
-    public static void d(String tag, String msg)
+    public int getLogLevel()
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.DEBUG)
+        return mLogLevel;
+    }
+
+    public LogWrapper(int logLevel)
+    {
+        mLogLevel = logLevel;
+    }
+
+    private Map<String, Date> startTraces;
+
+    public void d(String tag, String msg)
+    {
+        if (mLogLevel <= Log.DEBUG)
             Log.d(tag, msg);
     }
 
-    public static void v(String tag, String msg)
+    public void v(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.VERBOSE)
+        if (mLogLevel <= Log.VERBOSE)
             Log.v(tag, msg);
     }
 
-    public static void e(String tag, String msg)
+    public void e(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.ERROR)
+        if (mLogLevel <= Log.ERROR)
             Log.e(tag, msg);
     }
 
-    public static void i(String tag, String msg)
+    public void i(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.INFO)
+        if (mLogLevel <= Log.INFO)
             Log.i(tag, msg);
     }
 
-    public static void w(String tag, String msg)
+    public void w(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.WARN)
+        if (mLogLevel <= Log.WARN)
             Log.w(tag, msg);
     }
 
-    public static void a(String tag, String msg)
+    public void a(String tag, String msg)
     {
-        if (BuildConfig.DEBUG && mLogLevel <= Log.ASSERT)
+        if (mLogLevel <= Log.ASSERT)
             Log.println(Log.ASSERT, tag, msg);
     }
 
-    private static void log(String tag, String msg, int logLevel)
+    private void log(String tag, String msg, int logLevel)
     {
         switch (logLevel)
         {
@@ -88,12 +99,12 @@ public class LogWrapper
         }
     }
 
-    public static void startTrace(String tag, String msg, int logLevel)
+    public void startTrace(String tag, String msg, int logLevel)
     {
         startTrace(tag, msg, logLevel, false);
     }
 
-    public static void startTrace(String tag, String msg, int logLevel, boolean showStart)
+    public void startTrace(String tag, String msg, int logLevel, boolean showStart)
     {
         if (startTraces == null)
         {
@@ -113,8 +124,7 @@ public class LogWrapper
         }
     }
 
-
-    public static void getPartial(String tag, String key, int logLevel)
+    public void getPartial(String tag, String key, int logLevel)
     {
         synchronized (startTraces)
         {
@@ -128,12 +138,12 @@ public class LogWrapper
         }
     }
 
-    public static void stopTrace(String tag, String key, int logLevel)
+    public void stopTrace(String tag, String key, int logLevel)
     {
         stopTrace(tag, key, "", logLevel);
     }
 
-    public static void stopTrace(String tag, String key, String msg, int logLevel)
+    public void stopTrace(String tag, String key, String msg, int logLevel)
     {
         synchronized (startTraces)
         {
@@ -153,22 +163,22 @@ public class LogWrapper
         }
     }
 
-    public static void logIntent(String tag, String msg, Intent intent, int logLevel)
+    public void logIntent(String tag, String msg, Intent intent, int logLevel)
     {
         logIntent(tag, msg, intent, logLevel, false);
     }
 
-    public static void logIntent(String tag, Intent intent, int logLevel)
+    public void logIntent(String tag, Intent intent, int logLevel)
     {
         logIntent(tag, null, intent, logLevel, false);
     }
 
-    public static void logIntent(String tag, Intent intent, int logLevel, boolean logExtras)
+    public void logIntent(String tag, Intent intent, int logLevel, boolean logExtras)
     {
         logIntent(tag, null, intent, logLevel, logExtras);
     }
 
-    public static void logIntent(String tag, String msg, Intent intent, int logLevel, boolean logExtras)
+    public void logIntent(String tag, String msg, Intent intent, int logLevel, boolean logExtras)
     {
         StringBuilder sb = new StringBuilder();
 

@@ -2,6 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import io.should.proxy.lib.log.LogWrapper;
 
@@ -36,7 +38,7 @@ public class InstallationStatistics
 
         DateFormat df = DateFormat.getDateTimeInstance();
         Date resultdate = new Date(date_firstLaunch);
-        LogWrapper.e(TAG, String.format("App launched #%d times since %s", launch_count, df.format(resultdate)));
+        App.getLogger().e(TAG, String.format("App launched #%d times since %s", launch_count, df.format(resultdate)));
         editor.commit();
 
         InstallationStatistics details = new InstallationStatistics();

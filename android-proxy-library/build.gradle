@@ -5,11 +5,17 @@ android {
     compileSdkVersion 19
     buildToolsVersion '19.0.3'
 
+//    Scheme for version codes: ##@@$$$ , using:
+//    ##   - the first two digits for the API Level,
+//    @@   - the second and third digits for the minimum and maximum screen size
+//           (1 - 4 indicating each of the four sizes) or to denote the texture formats
+//    $$$  - the last three digits for the app version.
+
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 16
-        versionCode 1
-        versionName "1.0"
+        versionCode 800300
+        versionName "3.0"
     }
 
     buildTypes {

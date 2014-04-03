@@ -145,7 +145,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         if (!(another instanceof ProxyConfiguration))
         {
-            LogWrapper.d(TAG, "Not a ProxyConfiguration object");
+            APL.getLogger().d(TAG, "Not a ProxyConfiguration object");
             return false;
         }
 
@@ -153,7 +153,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
         {
-            LogWrapper.d(TAG, String.format("Different proxy settings toggle status: '%s' - '%s'",this.proxySetting, anotherConf.proxySetting));
+            APL.getLogger().d(TAG, String.format("Different proxy settings toggle status: '%s' - '%s'",this.proxySetting, anotherConf.proxySetting));
             return false;
         }
 
@@ -161,7 +161,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost))
             {
-                LogWrapper.d(TAG, String.format("Different proxy host value: '%s' - '%s'", this.proxyHost, anotherConf.proxyHost));
+                APL.getLogger().d(TAG, String.format("Different proxy host value: '%s' - '%s'", this.proxyHost, anotherConf.proxyHost));
                 return false;
             }
         }
@@ -175,9 +175,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             }
             else
             {
-                LogWrapper.d(TAG, String.format("Different proxy host set"));
-                LogWrapper.d(TAG, TextUtils.isEmpty(this.proxyHost) ? "":this.proxyHost);
-                LogWrapper.d(TAG, TextUtils.isEmpty(anotherConf.proxyHost) ? "":anotherConf.proxyHost);
+                APL.getLogger().d(TAG, String.format("Different proxy host set"));
+                APL.getLogger().d(TAG, TextUtils.isEmpty(this.proxyHost) ? "":this.proxyHost);
+                APL.getLogger().d(TAG, TextUtils.isEmpty(anotherConf.proxyHost) ? "":anotherConf.proxyHost);
                 return false;
             }
         }
@@ -186,7 +186,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.proxyPort.equals(anotherConf.proxyPort))
             {
-                LogWrapper.d(TAG, String.format("Different proxy port value: '%d' - '%d'", this.proxyPort, anotherConf.proxyPort));
+                APL.getLogger().d(TAG, String.format("Different proxy port value: '%d' - '%d'", this.proxyPort, anotherConf.proxyPort));
                 return false;
             }
         }
@@ -200,7 +200,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             }
             else
             {
-                LogWrapper.d(TAG, "Different proxy port set");
+                APL.getLogger().d(TAG, "Different proxy port set");
                 return false;
             }
         }
@@ -209,7 +209,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
             {
-                LogWrapper.d(TAG, String.format("Different proxy exclusion list value: '%s' - '%s'",this.stringProxyExclusionList, anotherConf.stringProxyExclusionList));
+                APL.getLogger().d(TAG, String.format("Different proxy exclusion list value: '%s' - '%s'",this.stringProxyExclusionList, anotherConf.stringProxyExclusionList));
                 return false;
             }
         }
@@ -223,7 +223,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             }
             else
             {
-                LogWrapper.d(TAG, "Different proxy exclusion list set");
+                APL.getLogger().d(TAG, "Different proxy exclusion list set");
                 return false;
             }
         }
@@ -294,7 +294,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         //TODO: Add all required fields for updating an old configuration with an updated version
         if (!this.isSameConfiguration(updated))
         {
-            LogWrapper.d(TAG, "Updating proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
+            APL.getLogger().d(TAG, "Updating proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
 
             setProxySetting(updated.getProxySettings());
             proxyHost = updated.proxyHost;
@@ -304,7 +304,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
             status.clear();
 
-            LogWrapper.d(TAG, "Updated proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
+            APL.getLogger().d(TAG, "Updated proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
 
             return true;
         }
@@ -483,6 +483,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     @TargetApi(12)
     public void writeConfigurationToDevice() throws Exception
     {
+        if (ap == null)
+        {
+            Exception e = new Exception("Doesn't seems a valid Wi-Fi access point");
+            throw e;
+        }
+
         if (ap.security == SecurityType.SECURITY_EAP)
         {
             Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
@@ -561,9 +567,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 //            Object mHttpProxy = mHttpProxyField.get(linkProperties);
 //            mHttpProxy = mHttpProxyField.get(linkProperties);
 
-            LogWrapper.startTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
+            APL.getLogger().startTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
-            LogWrapper.getPartial(TAG,"saveWifiConfiguration", Log.DEBUG);
+            APL.getLogger().getPartial(TAG,"saveWifiConfiguration", Log.DEBUG);
             /***************************************************************************************
              * TODO: improve method adding callback in order to return the result of the operation
               */
@@ -598,12 +604,12 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             }
             /**************************************************************************************/
 
-            LogWrapper.stopTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
+            APL.getLogger().stopTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
             this.status.clear();
 
-            LogWrapper.d(TAG, String.format("Succesfully updated configuration %s, after %d tries", this.toShortString(),tries));
+            APL.getLogger().d(TAG, String.format("Succesfully updated configuration %s, after %d tries", this.toShortString(),tries));
 
-            LogWrapper.i(TAG, "Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
+            APL.getLogger().i(TAG, "Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             APL.getContext().sendBroadcast(intent);
         }

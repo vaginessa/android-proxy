@@ -15,7 +15,12 @@ import io.should.proxy.lib.log.LogWrapper;
 import io.should.proxy.lib.reflection.android.ProxySetting;
 import io.should.proxy.lib.utils.ProxyUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Marco on 15/09/13.
@@ -117,7 +122,7 @@ public class ProxyManager
         // Always return a not null configuration
         if (currentConfiguration == null)
         {
-            LogWrapper.w(TAG, "Cannot find a valid current configuration: creating an empty one");
+            App.getLogger().w(TAG, "Cannot find a valid current configuration: creating an empty one");
             currentConfiguration = new ProxyConfiguration(ProxySetting.NONE, null, null, null, null);
         }
 
@@ -144,7 +149,7 @@ public class ProxyManager
      */
     public synchronized void updateProxyConfigurationList()
     {
-        LogWrapper.startTrace(TAG, "updateProxyConfigurationList", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "updateProxyConfigurationList", Log.DEBUG);
 
         //Get information regarding current saved configuration
         List<WifiNetworkId> internalSavedSSID = getInternalSavedWifiConfigurations();
@@ -161,12 +166,12 @@ public class ProxyManager
         // If the configuration has been updated sort again the list!!
         if (updatedConfiguration && !getSavedConfigurations().isEmpty())
         {
-            LogWrapper.d(TAG, "Configuration updated -> need to create again the sorted list");
+            App.getLogger().d(TAG, "Configuration updated -> need to create again the sorted list");
             buildSortedConfigurationsList();
         }
 
-        LogWrapper.d(TAG, "Final savedConfigurations list: " + getConfigurationsString());
-        LogWrapper.stopTrace(TAG, "updateProxyConfigurationList", Log.DEBUG);
+        App.getLogger().d(TAG, "Final savedConfigurations list: " + getConfigurationsString());
+        App.getLogger().stopTrace(TAG, "updateProxyConfigurationList", Log.DEBUG);
     }
 
     private void updateConfigurationsWithWifiScanResults()
@@ -214,7 +219,7 @@ public class ProxyManager
                 }
             }
 
-            LogWrapper.d(TAG, "Updating from scanresult: " + TextUtils.join(", ", scanResultsStrings.toArray()));
+            App.getLogger().d(TAG, "Updating from scanresult: " + TextUtils.join(", ", scanResultsStrings.toArray()));
         }
 
 //        LogWrapper.stopTrace(TAG,"updateAfterScanResults", Log.DEBUG);
@@ -231,7 +236,7 @@ public class ProxyManager
                 {
                     ProxyConfiguration removed = getSavedConfigurations().remove(netId);
                     updatedConfiguration = true;
-                    LogWrapper.w(TAG, "Removing from Proxy Settings configuration a no more configured SSID: " + removed.toShortString());
+                    App.getLogger().w(TAG, "Removing from Proxy Settings configuration a no more configured SSID: " + removed.toShortString());
                 }
             }
 
@@ -260,7 +265,7 @@ public class ProxyManager
             else
             {
                 // Add new found configuration
-                LogWrapper.d(TAG, "Adding to list new proxy savedConfigurations: " + conf.toShortString());
+                App.getLogger().d(TAG, "Adding to list new proxy savedConfigurations: " + conf.toShortString());
                 getSavedConfigurations().put(conf.internalWifiNetworkId, conf);
             }
 
@@ -306,7 +311,7 @@ public class ProxyManager
             Collection<ProxyConfiguration> values = getSavedConfigurations().values();
             if (values != null && values.size() > 0)
             {
-                LogWrapper.startTrace(TAG, "SortConfigurationList", Log.DEBUG);
+                App.getLogger().startTrace(TAG, "SortConfigurationList", Log.DEBUG);
 
                 sortedConfigurationsList = new ArrayList<ProxyConfiguration>(values);
 
@@ -324,9 +329,9 @@ public class ProxyManager
                 {
                     sb.append(conf.ap.ssid + ",");
                 }
-                LogWrapper.d(TAG, "Sorted proxy configuration list: " + sb.toString());
+                App.getLogger().d(TAG, "Sorted proxy configuration list: " + sb.toString());
 
-                LogWrapper.stopTrace(TAG, "SortConfigurationList", Log.DEBUG);
+                App.getLogger().stopTrace(TAG, "SortConfigurationList", Log.DEBUG);
             }
         }
     }
@@ -341,16 +346,20 @@ public class ProxyManager
         return currentConfiguration;
     }
 
-    public ProxyConfiguration getConfiguration(UUID confId)
+    public ProxyConfiguration getConfiguration(WifiNetworkId wifiNetworkId)
     {
         ProxyConfiguration selected = null;
 
-        for (ProxyConfiguration conf : getConfigurationsList())
+        List<ProxyConfiguration> configurationList = getConfigurationsList();
+        if (configurationList != null)
         {
-            if (conf.id.equals(confId))
+            for (ProxyConfiguration conf : configurationList)
             {
-                selected = conf;
-                break;
+                if (conf.internalWifiNetworkId.equals(wifiNetworkId))
+                {
+                    selected = conf;
+                    break;
+                }
             }
         }
 

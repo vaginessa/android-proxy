@@ -21,14 +21,14 @@ public class CacheManager
         context = ctx;
 
         cachedObjects = Collections.synchronizedMap(new HashMap<UUID, Object>());
-//        savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+//        savedProxies = App.getDBManager().getAllProxiesWithTAGs();
     }
 
     public List<ProxyEntity> getAllProxiesList()
     {
         List<ProxyEntity> proxies;
 
-        Map<Long, ProxyEntity> savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+        Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
         proxies = new ArrayList<ProxyEntity>(savedProxies.values());
 
         return proxies;
@@ -39,7 +39,7 @@ public class CacheManager
 //        synchronized (proxyLock)
 //        {
 //            if (savedProxies == null)
-//                savedProxies = ApplicationGlobals.getDBManager().getAllProxiesWithTAGs();
+//                savedProxies = App.getDBManager().getAllProxiesWithTAGs();
 //        }
 //
 //        return savedProxies;

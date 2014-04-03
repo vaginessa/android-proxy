@@ -29,7 +29,7 @@ public class LocalWebViewClient extends WebViewClient
 	public void onLoadResource(WebView view, String url)
 	{
 		super.onLoadResource(view, url);
-		LogWrapper.d(TAG, "onLoadResource: " + (url.length() > 50 ? url.substring(0, 50) : url));
+        App.getLogger().d(TAG, "onLoadResource: " + (url.length() > 50 ? url.substring(0, 50) : url));
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import android.app.Application;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
@@ -13,40 +12,51 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import io.should.proxy.lib.APL;
 import io.should.proxy.lib.log.LogWrapper;
 
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-
-public class ApplicationGlobals extends Application
+public class App extends Application
 {
-    private static final String TAG = ApplicationGlobals.class.getSimpleName();
+    private static final String TAG = App.class.getSimpleName();
 
-    private static ApplicationGlobals mInstance;
+    private static App mInstance;
     private ProxyManager proxyManager;
     private DataSource dbManager;
     public AndroidMarket activeMarket;
     private CacheManager cacheManager;
     public Boolean demoMode;
     public Boolean wifiActionEnabled;
+    private LogWrapper logger;
 
     @Override
     public void onCreate()
     {
+
         super.onCreate();
 
-        LogWrapper.startTrace(TAG, "STARTUP", Log.ERROR);
+        // TODO: evaluate implementation of Logback library
+//        // SLF4J
+//        Logger LOG = LoggerFactory.getLogger(App.class);
+//        LOG.info("hello world");
+
 
         mInstance = this;
 
-        proxyManager = new ProxyManager(ApplicationGlobals.this);
-        dbManager = new DataSource(ApplicationGlobals.this);
-        cacheManager = new CacheManager(ApplicationGlobals.this);
+        if (BuildConfig.DEBUG)
+        {
+            logger = new LogWrapper(Log.VERBOSE);
+        }
+        else
+        {
+            // Disable all LOGS on RELEASE
+            logger = new LogWrapper(Integer.MAX_VALUE);
+        }
 
-        activeMarket = Utils.getInstallerMarket(ApplicationGlobals.this);
+        getLogger().startTrace(TAG, "STARTUP", Log.ERROR);
+
+        proxyManager = new ProxyManager(App.this);
+        dbManager = new DataSource(App.this);
+        cacheManager = new CacheManager(App.this);
+
+        activeMarket = Utils.getInstallerMarket(App.this);
 
         demoMode = false;
         wifiActionEnabled = true;
@@ -55,10 +65,10 @@ public class ApplicationGlobals extends Application
 //        readAppConfigurationFile();
 
         // SETUP Libraries
-        EventReportingUtils.setup(ApplicationGlobals.this);
-        APL.setup(ApplicationGlobals.this, EventReportingUtils.getInstance());
+        EventReportingUtils.setup(App.this);
+        APL.setup(App.this, getLogger().getLogLevel(), EventReportingUtils.getInstance());
 
-        LogWrapper.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
+        getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
 
@@ -121,12 +131,22 @@ public class ApplicationGlobals extends Application
 //        LogWrapper.stopTrace(TAG, "readAppConfigurationFile", Log.INFO);
 //    }
 
-    public static ApplicationGlobals getInstance()
+    public static LogWrapper getLogger()
+    {
+        if (getInstance().logger == null)
+        {
+            getInstance().logger = new LogWrapper(Log.VERBOSE);
+        }
+
+        return getInstance().logger;
+    }
+
+    public static App getInstance()
     {
         if (mInstance == null)
         {
-            EventReportingUtils.sendException(new Exception("Cannot find valid instance of ApplicationGlobals, trying to instanciate a new one"));
-            mInstance = new ApplicationGlobals();
+            EventReportingUtils.sendException(new Exception("Cannot find valid instance of App, trying to instanciate a new one"));
+            mInstance = new App();
         }
 
         return mInstance;

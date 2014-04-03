@@ -15,6 +15,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -58,7 +61,7 @@ public class DisclaimerEndFragment extends Fragment
 				editor.commit();
 
 				Intent i = new Intent(getActivity().getApplicationContext(), WiFiApListActivity.class);
-				LogWrapper.d(TAG, "Starting WiFiApListActivity activity");
+                App.getLogger().d(TAG, "Starting WiFiApListActivity activity");
 				startActivity(i);
 				getActivity().finish();
 			}

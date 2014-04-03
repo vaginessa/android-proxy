@@ -291,7 +291,7 @@ public class ProxyUtils
                 proc.waitFor();
                 exitValue = proc.exitValue();
 
-                LogWrapper.d(TAG, "Ping exit value: " + exitValue);
+                APL.getLogger().d(TAG, "Ping exit value: " + exitValue);
 
                 if (exitValue == 0)
                 {
@@ -345,7 +345,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                LogWrapper.w(TAG,e.toString());
+                APL.getLogger().w(TAG,e.toString());
             }
 
             step++;
@@ -415,7 +415,7 @@ public class ProxyUtils
         }
         catch (URISyntaxException e)
         {
-            LogWrapper.w(TAG,e.toString());
+            APL.getLogger().w(TAG,e.toString());
 //            APL.getEventReport().send(e);
         }
 
@@ -658,7 +658,7 @@ public class ProxyUtils
         if (checkOptions.contains(ProxyCheckOptions.ONLINE_CHECK))
         {
             // Always check if WEB is reachable
-            LogWrapper.d(TAG, "Checking if web is reachable ...");
+            APL.getLogger().d(TAG, "Checking if web is reachable ...");
             status.set(isWebReachable(conf, timeout));
             broadCastUpdatedStatus();
         }
@@ -674,17 +674,17 @@ public class ProxyUtils
         status.set(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
         status.set(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.NOT_CHECKED, false, false);
 
-        LogWrapper.d(TAG, "Checking if proxy is enabled ...");
+        APL.getLogger().d(TAG, "Checking if proxy is enabled ...");
         status.set(isProxyEnabled(conf));
         broadCastUpdatedStatus();
 
         if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
         {
-            LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
+            APL.getLogger().d(TAG, "Checking if proxy is valid hostname ...");
             status.set(isProxyValidHostname(conf));
             broadCastUpdatedStatus();
 
-            LogWrapper.d(TAG, "Checking if proxy is valid port ...");
+            APL.getLogger().d(TAG, "Checking if proxy is valid port ...");
             status.set(isProxyValidPort(conf));
             broadCastUpdatedStatus();
 
@@ -692,7 +692,7 @@ public class ProxyUtils
                     && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
                     && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
             {
-                LogWrapper.d(TAG, "Checking if proxy is reachable ...");
+                APL.getLogger().d(TAG, "Checking if proxy is reachable ...");
                 status.set(isProxyReachable(conf));
                 broadCastUpdatedStatus();
             }
@@ -709,30 +709,30 @@ public class ProxyUtils
 
     private static void acquireProxyStatusSDK12(ProxyConfiguration conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions)
     {
-        LogWrapper.d(TAG, "Checking if Wi-Fi is enabled ...");
+        APL.getLogger().d(TAG, "Checking if Wi-Fi is enabled ...");
         status.set(isWifiEnabled(conf));
         broadCastUpdatedStatus();
 
         if (status.getProperty(ProxyStatusProperties.WIFI_ENABLED).result)
         {
-            LogWrapper.d(TAG, "Checking if Wi-Fi is selected ...");
+            APL.getLogger().d(TAG, "Checking if Wi-Fi is selected ...");
             status.set(isWifiSelected(conf));
             broadCastUpdatedStatus();
 
             if (status.getProperty(ProxyStatusProperties.WIFI_SELECTED).result)
             {
                 // Wi-Fi enabled & selected
-                LogWrapper.d(TAG, "Checking if proxy is enabled ...");
+                APL.getLogger().d(TAG, "Checking if proxy is enabled ...");
                 status.set(isProxyEnabled(conf));
                 broadCastUpdatedStatus();
 
                 if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
                 {
-                    LogWrapper.d(TAG, "Checking if proxy is valid hostname ...");
+                    APL.getLogger().d(TAG, "Checking if proxy is valid hostname ...");
                     status.set(isProxyValidHostname(conf));
                     broadCastUpdatedStatus();
 
-                    LogWrapper.d(TAG, "Checking if proxy is valid port ...");
+                    APL.getLogger().d(TAG, "Checking if proxy is valid port ...");
                     status.set(isProxyValidPort(conf));
                     broadCastUpdatedStatus();
 
@@ -740,7 +740,7 @@ public class ProxyUtils
                             && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
                             && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
                     {
-                        LogWrapper.d(TAG, "Checking if proxy is reachable ...");
+                        APL.getLogger().d(TAG, "Checking if proxy is reachable ...");
                         status.set(isProxyReachable(conf));
                         broadCastUpdatedStatus();
                     }

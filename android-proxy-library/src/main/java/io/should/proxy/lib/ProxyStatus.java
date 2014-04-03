@@ -1,5 +1,9 @@
 package io.should.proxy.lib;
 
+import io.should.proxy.lib.enums.CheckStatusValues;
+import io.should.proxy.lib.enums.ProxyStatusProperties;
+import io.should.proxy.lib.log.LogWrapper;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Collections;
@@ -128,7 +132,7 @@ public class ProxyStatus implements Serializable
 			}
 			else
 			{
-				LogWrapper.e(TAG, "Cannot find status code: " + psp);
+                		APL.getLogger().e(TAG, "Cannot find status code: " + psp);
 			}
 		}
 	}

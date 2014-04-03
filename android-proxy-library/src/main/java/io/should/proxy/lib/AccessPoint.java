@@ -7,9 +7,11 @@ import io.should.proxy.lib.enums.PskType;
 import io.should.proxy.lib.enums.SecurityType;
 import io.should.proxy.lib.utils.ProxyUtils;
 
-public class AccessPoint implements Comparable<AccessPoint>
+import java.io.Serializable;
+
+public class AccessPoint implements Comparable<AccessPoint>, Serializable
 {
-	static final String TAG = "Settings.AccessPoint";
+	static final String TAG = "AccessPoint";
 
 	public static final int INVALID_NETWORK_ID = -1;
 	private static final int DISABLED_UNKNOWN_REASON = 0;
@@ -29,15 +31,39 @@ public class AccessPoint implements Comparable<AccessPoint>
 	public String bssid;
 	public SecurityType security;
 	public int networkId;
-	public boolean wpsAvailable = false;
-
 	public PskType pskType = PskType.UNKNOWN;
-
-	public WifiConfiguration wifiConfig;
-	/* package */ScanResult mScanResult;
-
+	public transient WifiConfiguration wifiConfig;
 	private int mRssi;
-//	private WifiInfo mInfo;
+
+//
+//    @Override
+//    public int describeContents()
+//    {
+//        return 0;
+//    }
+
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i)
+//    {
+//        parcel.writeString(ssid);
+//        parcel.writeString(bssid);
+//        parcel.writeSerializable(security);
+//        parcel.writeInt(networkId);
+//        parcel.writeSerializable(pskType);
+//        parcel.writeParcelable(wifiConfig,0);
+//        parcel.writeInt(mRssi);
+//    }
+//
+//    public AccessPoint(Parcel p)
+//    {
+//        ssid = p.readString();
+//        bssid = p.readString();
+//        security = (SecurityType) p.readSerializable();
+//        networkId = p.readInt();
+//        pskType = (PskType) p.readSerializable();
+//        wifiConfig = p.readParcelable(WifiConfiguration.class.getClassLoader());
+//        mRssi = p.readInt();
+//    }
 
 	public AccessPoint(WifiConfiguration config)
 	{

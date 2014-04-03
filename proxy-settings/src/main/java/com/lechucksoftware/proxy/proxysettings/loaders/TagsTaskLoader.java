@@ -2,11 +2,11 @@ package com.lechucksoftware.proxy.proxysettings.loaders;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import com.lechucksoftware.proxy.proxysettings.ApplicationGlobals;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,13 +22,13 @@ public class TagsTaskLoader extends AsyncTaskLoader<List<TagEntity>>
     {
         super(context);
         ctx = context;
-        selectedProxy = (ProxyEntity) ApplicationGlobals.getCacheManager().get(cachedProxyID);
+        selectedProxy = (ProxyEntity) App.getCacheManager().get(cachedProxyID);
     }
 
     @Override
     public List<TagEntity> loadInBackground()
     {
-        List<TagEntity> dbTags = ApplicationGlobals.getDBManager().getAllTags();
+        List<TagEntity> dbTags = App.getDBManager().getAllTags();
         List<TagEntity> tags = selectedProxy.getTags();
 
         for(TagEntity tag: dbTags)

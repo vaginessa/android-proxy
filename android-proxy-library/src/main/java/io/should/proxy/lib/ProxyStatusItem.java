@@ -1,5 +1,6 @@
 package io.should.proxy.lib;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
 
