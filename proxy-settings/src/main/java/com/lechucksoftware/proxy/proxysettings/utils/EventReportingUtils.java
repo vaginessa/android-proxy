@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.text.TextUtils;
 
 import com.bugsense.trace.BugSenseHandler;
@@ -12,6 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.shouldit.proxy.lib.log.IEventReporting;
 
+import java.util.HashMap;
 import java.util.Map;
 
 //import com.google.analytics.tracking.android.Tracker;
@@ -81,7 +83,23 @@ public class EventReportingUtils implements IEventReporting
         if (setupDone)
         {
             // Bugsense
-            BugSenseHandler.sendException(e);
+            HashMap<String, String> map = new HashMap<String, String>();
+            PackageInfo appInfo = Utils.getAppInfo(context);
+
+            try
+            {
+                map.put("versionName", String.valueOf(appInfo.versionName));
+                map.put("versionCode", String.valueOf(appInfo.versionCode));
+            }
+            catch (Exception internalEx)
+            {
+                BugSenseHandler.sendException(internalEx);
+            }
+
+            if (map != null)
+                BugSenseHandler.sendExceptionMap(map,e);
+            else
+                BugSenseHandler.sendException(e);
 
             // Google Analytics
 //            DetailedExceptionParser sep = new DetailedExceptionParser();
