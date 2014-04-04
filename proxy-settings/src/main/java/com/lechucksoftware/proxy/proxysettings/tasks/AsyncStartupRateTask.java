@@ -2,12 +2,12 @@ package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
+
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
-
-import java.util.Calendar;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 /**
  * Created by Marco on 29/11/13.
@@ -52,16 +52,10 @@ public class AsyncStartupRateTask extends AsyncTask<Void, Void, Boolean>
         // Wait at least N days before opening
         if (statistics.launchCount >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT)
         {
-            Calendar c = Calendar.getInstance();
-            c.setTime(statistics.launhcFirstDate);
-            c.add(Calendar.DATE, Constants.APPRATE_DAYS_UNTIL_PROMPT);
-
-            if (System.currentTimeMillis() >= c.getTime().getTime())
-            {
-                return true;
-            }
+            boolean result = Utils.ElapsedNDays(statistics.launhcFirstDate, Constants.APPRATE_DAYS_UNTIL_PROMPT);
         }
 
         return false;
     }
+
 }

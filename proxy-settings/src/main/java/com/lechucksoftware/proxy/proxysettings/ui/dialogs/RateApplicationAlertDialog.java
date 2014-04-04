@@ -7,10 +7,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 public class RateApplicationAlertDialog extends DialogFragment
 {
@@ -23,30 +21,21 @@ public class RateApplicationAlertDialog extends DialogFragment
         builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
         builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
         builder.setCancelable(false);
-        builder.setPositiveButton(getResources().getText(R.string.app_rater_dialog_button_rate), new DialogInterface.OnClickListener()
+        builder.setPositiveButton(getResources().getText(R.string.yes), new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
-                dontDisplayAgainAppRate();
-                App.getLogger().d(TAG, "Starting Market activity");
 
-                Utils.startMarketActivity(getActivity());
+//                App.getLogger().d(TAG, "Starting Market activity");
+//                Utils.startMarketActivity(getActivity());
             }
         });
 
-        builder.setNeutralButton(getResources().getText(R.string.app_rater_dialog_button_remind), new DialogInterface.OnClickListener()
+        builder.setNegativeButton(getResources().getText(R.string.no), new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
-
-            }
-        });
-
-        builder.setNegativeButton(getResources().getText(R.string.app_rater_dialog_button_nothanks), new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
-            {
-                dontDisplayAgainAppRate();
+//                dontDisplayAgainAppRate();
             }
         });
 

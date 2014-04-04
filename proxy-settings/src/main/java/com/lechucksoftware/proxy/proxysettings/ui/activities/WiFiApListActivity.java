@@ -8,14 +8,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.StatusFragment;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupBetaTestTask;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupDialogTask;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupChangelogDialogTask;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupRateTask;
+import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.StatusFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
 
 
 /**
@@ -25,11 +25,14 @@ public class WiFiApListActivity extends BaseWifiActivity
 {
     public static String TAG = WiFiApListActivity.class.getSimpleName();
 
-    AsyncStartupDialogTask asyncStartupDialogTask;
+    AsyncStartupChangelogDialogTask asyncStartupChangelogDialogTask;
     AsyncStartupRateTask asyncStartupRateTask;
     AsyncStartupBetaTestTask asyncStartupBetaTestTask;
+    AsyncStartupActions asyncStartupActionsTask;
 
     private static WiFiApListActivity instance;
+
+
     public static WiFiApListActivity getInstance()
     {
         return instance;
@@ -59,12 +62,17 @@ public class WiFiApListActivity extends BaseWifiActivity
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(getResources().getString(R.string.app_name));
 
-        asyncStartupDialogTask = new AsyncStartupDialogTask(this);
-        asyncStartupRateTask = new AsyncStartupRateTask(this);
-        asyncStartupBetaTestTask = new AsyncStartupBetaTestTask(this);
-        asyncStartupDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        asyncStartupChangelogDialogTask = new AsyncStartupChangelogDialogTask(this);
+        asyncStartupChangelogDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+//        asyncStartupRateTask = new AsyncStartupRateTask(this);
+//        asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//
+//        asyncStartupBetaTestTask = new AsyncStartupBetaTestTask(this);
+//        asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        asyncStartupActionsTask = new AsyncStartupActions(this);
+        asyncStartupActionsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override

@@ -18,16 +18,14 @@ public class InstallationStatistics
     public long launchCount;
     public Date launhcFirstDate;
 
-    public static InstallationStatistics GetInstallationDetails(Context applicationContext)
+    public static void UpdateInstallationDetails(Context applicationContext)
     {
         SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
         SharedPreferences.Editor editor = prefs.edit();
 
-        // Increment launch counter
         long launch_count = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0) + 1;
         editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, launch_count);
 
-        // Get date of first launch
         long date_firstLaunch = prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0);
         if (date_firstLaunch == 0)
         {
@@ -35,14 +33,31 @@ public class InstallationStatistics
             editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, date_firstLaunch);
         }
 
-        DateFormat df = DateFormat.getDateTimeInstance();
-        Date resultdate = new Date(date_firstLaunch);
-        App.getLogger().e(TAG, String.format("App launched #%d times since %s", launch_count, df.format(resultdate)));
         editor.commit();
+    }
 
+    public static InstallationStatistics GetInstallationDetails(Context applicationContext)
+    {
         InstallationStatistics details = new InstallationStatistics();
-        details.launchCount = launch_count;
-        details.launhcFirstDate = resultdate;
+        SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+
+        // Increment launch counter
+        details.launchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);
+
+        // Get date of first launch
+        details.launhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
+
+        App.getLogger().a(TAG,details.toString());
+
         return details;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        DateFormat df = DateFormat.getDateTimeInstance();
+        App.getLogger().a(TAG, String.format("App launched #%d times since %s", launchCount, df.format(launhcFirstDate)));
+        return sb.toString();
     }
 }

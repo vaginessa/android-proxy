@@ -7,12 +7,12 @@ import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
 /**
  * Created by Marco on 29/11/13.
  */
-public class AsyncStartupDialogTask extends AsyncTask<Void, Void, Boolean>
+public class AsyncStartupChangelogDialogTask extends AsyncTask<Void, Void, Boolean>
 {
     WhatsNewDialog wnd = null;
     WiFiApListActivity wiFiApListActivity;
 
-    public AsyncStartupDialogTask(WiFiApListActivity activity)
+    public AsyncStartupChangelogDialogTask(WiFiApListActivity activity)
     {
         wiFiApListActivity = activity;
     }

@@ -186,7 +186,7 @@
     <string name="proxysettingscalleractivity_dialog_OK">OK. Go to Wi-Fi Settings</string>
 
     <string name="app_rater_dialog_title">Rate Proxy Settings!</string>
-    <string name="app_rater_dialog_text">It\'s been a while since you are using Proxy Settings. If you enjoy using this app, please take a moment to rate it. Thanks for your support!</string>
+    <string name="app_rater_dialog_text">Do you like Proxy Settings?</string>
     <string name="app_rater_dialog_button_rate">Rate Proxy Settings</string>
     <string name="app_rater_dialog_button_remind">Remind me later</string>
     <string name="app_rater_dialog_button_nothanks">No, thanks</string>
@@ -889,5 +889,7 @@
     <string name="updated_wifi_access_point">Updated %d Wi-Fi access point configuration</string>
     <string name="updated_wifi_access_points">Updated %d Wi-Fi access points configurations</string>
     <string name="market_not_found">Cannot find valid Market application</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 
 </resources>

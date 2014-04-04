@@ -30,6 +30,8 @@ import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Utils
 {
@@ -249,5 +251,21 @@ public class Utils
 
         editor.putBoolean(Constants.PREFERENCES_DEMO_MODE, enabled);
         editor.commit();
+    }
+
+    public static boolean ElapsedNDays(Date date, int days)
+    {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, days);
+
+        if (System.currentTimeMillis() >= c.getTime().getTime())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
