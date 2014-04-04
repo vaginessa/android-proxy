@@ -12,21 +12,6 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
-import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.APLConstants;
-import be.shouldit.proxy.lib.APLIntents;
-import be.shouldit.proxy.lib.ProxyConfiguration;
-import be.shouldit.proxy.lib.ProxyStatus;
-import be.shouldit.proxy.lib.ProxyStatusItem;
-import be.shouldit.proxy.lib.R;
-import be.shouldit.proxy.lib.enums.CheckStatusValues;
-import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
-import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
-import be.shouldit.proxy.lib.enums.PskType;
-import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.reflection.ReflectionUtils;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
-
 import org.apache.http.HttpHost;
 
 import java.io.IOException;
@@ -42,6 +27,21 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.EnumSet;
 import java.util.regex.Matcher;
+
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.APLConstants;
+import be.shouldit.proxy.lib.APLIntents;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.ProxyStatus;
+import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.R;
+import be.shouldit.proxy.lib.enums.CheckStatusValues;
+import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
+import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
+import be.shouldit.proxy.lib.enums.PskType;
+import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.ReflectionUtils;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class ProxyUtils
 {
@@ -540,32 +540,48 @@ public class ProxyUtils
 
     public static SecurityType getSecurity(WifiConfiguration config)
     {
-        if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK))
+        SecurityType security = SecurityType.SECURITY_NONE;
+
+        if (config != null && config.allowedKeyManagement != null)
         {
-            return SecurityType.SECURITY_PSK;
+            if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK))
+            {
+                security = SecurityType.SECURITY_PSK;
+            }
+            if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP) || config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X))
+            {
+                security = SecurityType.SECURITY_EAP;
+            }
         }
-        if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP) || config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X))
+        else if (config != null && config.wepKeys != null)
         {
-            return SecurityType.SECURITY_EAP;
+            security = (config.wepKeys[0] != null) ? SecurityType.SECURITY_WEP : SecurityType.SECURITY_NONE;
         }
-        return (config.wepKeys[0] != null) ? SecurityType.SECURITY_WEP : SecurityType.SECURITY_NONE;
+
+        return security;
     }
 
     public static SecurityType getSecurity(ScanResult result)
     {
-        if (result.capabilities.contains("WEP"))
+        SecurityType security = SecurityType.SECURITY_NONE;
+
+        if (result != null && result.capabilities != null)
         {
-            return SecurityType.SECURITY_WEP;
+            if (result.capabilities.contains("WEP"))
+            {
+                security = SecurityType.SECURITY_WEP;
+            }
+            else if (result.capabilities.contains("PSK"))
+            {
+                security = SecurityType.SECURITY_PSK;
+            }
+            else if (result.capabilities.contains("EAP"))
+            {
+                security = SecurityType.SECURITY_EAP;
+            }
         }
-        else if (result.capabilities.contains("PSK"))
-        {
-            return SecurityType.SECURITY_PSK;
-        }
-        else if (result.capabilities.contains("EAP"))
-        {
-            return SecurityType.SECURITY_EAP;
-        }
-        return SecurityType.SECURITY_NONE;
+
+        return security;
     }
 
     public static String getSecurityString(ProxyConfiguration conf, Context ctx, boolean concise)
@@ -923,7 +939,8 @@ public class ProxyUtils
                 }
             }
 
-            String msg = String.format("%s %s", APL.getContext().getString(R.string.status_exclusion_item_valid), TextUtils.join(",",proxyExclusionList));
+            String exclusionItemValid = APL.getContext().getString(R.string.status_exclusion_item_valid);
+            String msg = String.format("%s %s", exclusionItemValid, TextUtils.join(",",proxyExclusionList));
             return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, true, msg);
         }
         catch (Exception e)
