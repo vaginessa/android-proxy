@@ -11,10 +11,11 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
-import be.shouldit.proxy.lib.log.IEventReporting;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import be.shouldit.proxy.lib.log.IEventReporting;
 
 //import com.google.analytics.tracking.android.Tracker;
 
@@ -111,6 +112,18 @@ public class EventReportingUtils implements IEventReporting
         {
             setupBugSense(App.getInstance().getApplicationContext());
         }
+    }
+
+    public static int getTotalCrashes()
+    {
+        return getInstance().getCrashesCount();
+    }
+
+    public int getCrashesCount()
+    {
+        // Get the total number of crashes
+        int totalCrashes = BugSenseHandler.getTotalCrashesNum();
+        return totalCrashes;
     }
 
     public static void sendEvent(String s)

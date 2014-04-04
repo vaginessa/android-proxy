@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.BetaTestApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
+import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 
 import java.util.Calendar;
 
@@ -47,13 +47,13 @@ public class AsyncStartupBetaTestTask extends AsyncTask<Void, Void, Boolean>
             return false;
         }
 
-        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(wiFiApListActivity.getApplicationContext());
+        ApplicationStatistics statistics = ApplicationStatistics.GetInstallationDetails(wiFiApListActivity.getApplicationContext());
 
         // Wait at least N days before opening
-        if (statistics.launchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)
+        if (statistics.LaunchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)
         {
             Calendar c = Calendar.getInstance();
-            c.setTime(statistics.launhcFirstDate);
+            c.setTime(statistics.LaunhcFirstDate);
             c.add(Calendar.DATE, Constants.BETATEST_DAYS_UNTIL_PROMPT);
 
             if (System.currentTimeMillis() >= c.getTime().getTime())

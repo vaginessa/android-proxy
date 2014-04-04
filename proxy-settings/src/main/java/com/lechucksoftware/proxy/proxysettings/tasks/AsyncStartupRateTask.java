@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.RateApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
+import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 /**
@@ -47,12 +47,12 @@ public class AsyncStartupRateTask extends AsyncTask<Void, Void, Boolean>
             return false;
         }
 
-        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(wiFiApListActivity.getApplicationContext());
+        ApplicationStatistics statistics = ApplicationStatistics.GetInstallationDetails(wiFiApListActivity.getApplicationContext());
 
         // Wait at least N days before opening
-        if (statistics.launchCount >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT)
+        if (statistics.LaunchCount >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT)
         {
-            boolean result = Utils.ElapsedNDays(statistics.launhcFirstDate, Constants.APPRATE_DAYS_UNTIL_PROMPT);
+            boolean result = Utils.ElapsedNDays(statistics.LaunhcFirstDate, Constants.APPRATE_DAYS_UNTIL_PROMPT);
         }
 
         return false;

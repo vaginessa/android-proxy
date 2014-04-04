@@ -8,7 +8,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActions;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.RateApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
+import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 /**
@@ -49,27 +49,50 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActions>
     protected StartupActions doInBackground(Void... voids)
     {
         StartupActions action = StartupActions.NONE;
-        InstallationStatistics statistics = InstallationStatistics.GetInstallationDetails(activity.getApplicationContext());
+
+        ApplicationStatistics statistics = ApplicationStatistics.GetInstallationDetails(activity.getApplicationContext());
         SharedPreferences prefs = activity.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
 
-        if (!prefs.getBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, false))
+        if (statistics.CrashesCount == 0)
         {
-//            if (statistics.launchCount >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT &&
-//                Utils.ElapsedNDays(statistics.launhcFirstDate, Constants.APPRATE_LAUNCHES_UNTIL_PROMPT))
+            // Avoid rating and betatest if application has crashed
+
+            if (!prefs.getBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, false))
             {
-                action = StartupActions.RATE_DIALOG;
+                if (checkInstallationConditions(statistics, Constants.APPRATE_LAUNCHES_UNTIL_PROMPT, Constants.APPRATE_DAYS_UNTIL_PROMPT))
+                {
+                    action = StartupActions.RATE_DIALOG;
+                }
+            }
+
+            if (!prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
+            {
+                if (checkInstallationConditions(statistics, Constants.BETATEST_LAUNCHES_UNTIL_PROMPT, Constants.BETATEST_DAYS_UNTIL_PROMPT))
+                {
+                    action = StartupActions.BETA_TEST_DIALOG;
+                }
             }
         }
-
-        if (!prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
+        else
         {
-            if (statistics.launchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT &&
-                Utils.ElapsedNDays(statistics.launhcFirstDate, Constants.BETATEST_DAYS_UNTIL_PROMPT))
-            {
-                action = StartupActions.BETA_TEST_DIALOG;
-            }
+            // If the application crashed ask the user to send information to support team
         }
 
         return action;
     }
+
+    private Boolean checkInstallationConditions(ApplicationStatistics statistics, int launchCount, int daysCount)
+    {
+        Boolean result = false;
+
+        if (statistics.LaunchCount >= launchCount &&
+            Utils.ElapsedNDays(statistics.LaunhcFirstDate, daysCount))
+        {
+            result = true;
+        }
+
+        return result;
+    }
+
+
 }

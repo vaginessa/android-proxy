@@ -7,8 +7,8 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
+import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.InstallationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.log.LogWrapper;
@@ -69,7 +69,7 @@ public class App extends Application
         EventReportingUtils.setup(App.this);
         APL.setup(App.this, getLogger().getLogLevel(), EventReportingUtils.getInstance());
 
-        InstallationStatistics.UpdateInstallationDetails(this);
+        ApplicationStatistics.UpdateInstallationDetails(this);
 
         getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));

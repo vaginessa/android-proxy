@@ -12,11 +12,12 @@ import java.util.Date;
 /**
  * Created by marco on 18/09/13.
  */
-public class InstallationStatistics
+public class ApplicationStatistics
 {
-    private static final String TAG = InstallationStatistics.class.getSimpleName();
-    public long launchCount;
-    public Date launhcFirstDate;
+    private static final String TAG = ApplicationStatistics.class.getSimpleName();
+    public long LaunchCount;
+    public Date LaunhcFirstDate;
+    public int CrashesCount;
 
     public static void UpdateInstallationDetails(Context applicationContext)
     {
@@ -36,16 +37,19 @@ public class InstallationStatistics
         editor.commit();
     }
 
-    public static InstallationStatistics GetInstallationDetails(Context applicationContext)
+    public static ApplicationStatistics GetInstallationDetails(Context applicationContext)
     {
-        InstallationStatistics details = new InstallationStatistics();
+        ApplicationStatistics details = new ApplicationStatistics();
         SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
 
         // Increment launch counter
-        details.launchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);
+        details.LaunchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);
 
         // Get date of first launch
-        details.launhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
+        details.LaunhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
+
+        details.CrashesCount = EventReportingUtils.getTotalCrashes();
+
 
         App.getLogger().a(TAG,details.toString());
 
@@ -57,7 +61,7 @@ public class InstallationStatistics
     {
         StringBuilder sb = new StringBuilder();
         DateFormat df = DateFormat.getDateTimeInstance();
-        App.getLogger().a(TAG, String.format("App launched #%d times since %s", launchCount, df.format(launhcFirstDate)));
+        App.getLogger().a(TAG, String.format("App launched #%d times (%d crashes) since %s", LaunchCount, CrashesCount, df.format(LaunhcFirstDate)));
         return sb.toString();
     }
 }
