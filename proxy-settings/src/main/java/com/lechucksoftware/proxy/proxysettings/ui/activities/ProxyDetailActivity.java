@@ -93,7 +93,7 @@ public class ProxyDetailActivity extends BaseActivity
             @Override
             public void onClick(View v)
             {
-                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "save_proxy", null);
+                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "save_proxy");
                 saveConfiguration();
             }
 
@@ -106,7 +106,7 @@ public class ProxyDetailActivity extends BaseActivity
             public void onClick(View view)
             {
 
-                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "cancel_save_proxy", null);
+                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "cancel_save_proxy");
                 App.getCacheManager().release(cachedProxyId);
                 finish();
             }

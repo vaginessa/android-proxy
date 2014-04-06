@@ -5,8 +5,9 @@ import android.content.pm.PackageInfo;
 import android.text.TextUtils;
 
 import com.bugsense.trace.BugSenseHandler;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
@@ -17,14 +18,13 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.log.IEventReporting;
 
-//import com.google.analytics.tracking.android.Tracker;
-
 public class EventReportingUtils implements IEventReporting
 {
     private static final String TAG = "EventReportingUtils";
     private Boolean setupDone;
     private static EventReportingUtils instance;
     private Context context;
+    private Tracker defaultTracker;
 //    private static Tracker tracker;
 
     private EventReportingUtils()
@@ -131,38 +131,61 @@ public class EventReportingUtils implements IEventReporting
         getInstance().send(s);
     }
 
-    public static void sendEvent(EventCategories eventCategory, BaseActions eventAction, String eventLabel, Long eventValue)
+    public static void sendEvent(EventCategories eventCategory, BaseActions eventAction, String eventLabel)
     {
-        getInstance().send(eventCategory, eventAction, eventLabel, eventValue);
+        getInstance().send(eventCategory, eventAction, eventLabel);
     }
 
-    public void send(EventCategories eventCategory, BaseActions eventAction, String eventLabel, Long eventValue)
+    public void send(EventCategories eventCategory, BaseActions eventAction, String eventLabel)
     {
         if (setupDone)
         {
-            MapBuilder mapBuilder = MapBuilder.createEvent(
-                                        eventCategory.toString(),   // Event category (required)
-                                        eventAction.toString(),     // Event action (required)
-                                        eventLabel,                 // Event label
-                                        eventValue);                // Event value
+            HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder();
 
-            Map<String, String> map = mapBuilder.build();
-            EasyTracker.getInstance(getInstance().context).send(map);
+            builder.setCategory(eventCategory.toString());   // Event category (required)
+            builder.setAction(eventAction.toString());       // Event action (required)
+            builder.setLabel(eventLabel.toString());         // Event label
+
+            Map<String, String> map = builder.build();
+            Tracker tracker = getDefaultTracker();
+            if(tracker != null)
+            {
+                tracker.send(map);
+            }
         }
         else
         {
-            String msg = String.format("sendEvent: %s %s %s %d", eventCategory, eventAction, eventLabel, eventValue);
+            String msg = String.format("sendEvent: %s %s %s", eventCategory, eventAction, eventLabel);
             App.getLogger().e(TAG, msg);
         }
     }
 
     public void send(String s)
     {
-        send(EventCategories.BASE, BaseActions.BASE, s, null);
+        send(EventCategories.BASE, BaseActions.BASE, s);
     }
 
     public void setupAnalytics(Context upAnalytics)
     {
+        if (!TextUtils.isEmpty(BuildConfig.ANALYTICS_TRACK_ID))
+        {
+            defaultTracker = GoogleAnalytics.getInstance(context).newTracker(BuildConfig.ANALYTICS_TRACK_ID);
+//            defaultTracker.setAppName(ApplicationStatistics.GetInstallationDetails(context));
+        }
+    }
 
+    public static Tracker getDefaultTracker()
+    {
+        return getInstance().defaultTracker;
+    }
+
+    public static void sendScreenView(String screenName)
+    {
+        Tracker tracker = getDefaultTracker();
+        if (tracker != null)
+        {
+            tracker.setScreenName(screenName);
+            tracker.send(new HitBuilders.AppViewBuilder().build());
+        }
     }
 }

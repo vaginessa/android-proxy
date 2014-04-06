@@ -1,11 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.exception;
 
 import android.text.TextUtils;
-import com.google.analytics.tracking.android.ExceptionParser;
 
-/**
- * Created by Marco on 20/01/14.
- */
+import com.google.android.gms.analytics.ExceptionParser;
+
 public class DetailedExceptionParser implements ExceptionParser
 {
     @Override

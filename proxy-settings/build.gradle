@@ -49,7 +49,8 @@ android {
             debuggable true
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
-            buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
+//            buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
         }
 
         CI {
@@ -92,16 +93,17 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
-
+    compile 'com.google.android.gms:play-services:4.3.23'
 
 // https://github.com/tony19/logback-android
 //    compile 'org.slf4j:slf4j-api:1.7.1'
 //    compile 'com.github.tony19:logback-android-core:1.0.7-1'
 //    compile 'com.github.tony19:logback-android-classic:1.0.7-1'
 
+
     compile 'com.bugsense.trace:bugsense:3.6'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('libs/libGoogleAnalyticsV2.jar')
+    compile files('libs/google-play-services.jar')
     compile project(':android-proxy-library')
 }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -37,7 +36,7 @@ public class BaseActivity extends Activity
 
         App.getLogger().d(this.getClass().getSimpleName(), "onCreate");
 
-        EasyTracker.getInstance(this).activityStart(this);
+        EventReportingUtils.sendScreenView(this.getClass().getSimpleName());
     }
 
     @Override
@@ -89,8 +88,6 @@ public class BaseActivity extends Activity
         super.onStop();
         App.getLogger().d(this.getClass().getSimpleName(), "onStop");
         active = false;
-
-        EasyTracker.getInstance(this).activityStop(this);
     }
 
 
@@ -132,7 +129,7 @@ public class BaseActivity extends Activity
                 App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
                 i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
-                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "create_new_proxy", null);
+                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "create_new_proxy");
                 break;
 
             case R.id.menu_about:

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.GAServiceManager;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
@@ -16,9 +16,10 @@ import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.List;
+
+import be.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by marco on 10/10/13.
@@ -110,7 +111,7 @@ public class TestActivity extends Activity
         EventReportingUtils.sendException(new ProxyException(App.getProxyManager().getSortedConfigurationsList()));
         EventReportingUtils.sendEvent("EVENT ONLY FOR TEST");
 
-        GAServiceManager.getInstance().dispatchLocalHits();
+        GoogleAnalytics.getInstance(this).dispatchLocalHits();
     }
 
     public void listDBProxies(View caller)
