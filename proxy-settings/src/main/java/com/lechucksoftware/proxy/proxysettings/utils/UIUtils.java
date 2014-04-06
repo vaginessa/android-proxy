@@ -52,19 +52,33 @@ public class UIUtils
 
     public static void showError(Context ctx, String errorMessage)
     {
-        if (!TextUtils.isEmpty(errorMessage))
+        try
         {
-            new AlertDialog.Builder(ctx)
-                    .setTitle(R.string.proxy_error)
-                    .setMessage(errorMessage)
-                    .setPositiveButton(R.string.proxy_error_dismiss, null)
-                    .show();
+            if (!TextUtils.isEmpty(errorMessage))
+            {
+                new AlertDialog.Builder(ctx)
+                        .setTitle(R.string.proxy_error)
+                        .setMessage(errorMessage)
+                        .setPositiveButton(R.string.proxy_error_dismiss, null)
+                        .show();
+            }
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
         }
     }
 
     public static void showError(Context ctx, int error)
     {
-        showError(ctx, ctx.getResources().getString(error));
+        try
+        {
+            showError(ctx, ctx.getResources().getString(error));
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
+        }
     }
 
     /**
