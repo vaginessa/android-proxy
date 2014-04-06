@@ -9,10 +9,6 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import be.shouldit.proxy.lib.*;
-import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
-import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +16,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WifiNetworkId;
+import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by Marco on 15/09/13.
@@ -254,7 +257,8 @@ public class ProxyManager
         for (ProxyConfiguration conf : updatedConfigurations)
         {
             savedConfigurations = getSavedConfigurations();
-            if (savedConfigurations != null && savedConfigurations.containsKey(conf.internalWifiNetworkId))
+            if (savedConfigurations != null && conf.internalWifiNetworkId != null
+                && savedConfigurations.containsKey(conf.internalWifiNetworkId))
             {
                 // Updates already saved configuration
                 ProxyConfiguration originalConf = getSavedConfigurations().get(conf.internalWifiNetworkId);
