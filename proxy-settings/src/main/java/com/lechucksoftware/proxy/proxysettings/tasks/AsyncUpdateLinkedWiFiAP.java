@@ -67,52 +67,55 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
         App.getInstance().wifiActionEnabled = false;
 
-        for (ProxyConfiguration conf : configurations)
+        if (configurations != null)
         {
-            if (conf.getProxySettings() == ProxySetting.STATIC)
+            for (ProxyConfiguration conf : configurations)
             {
-                App.getLogger().d(TAG, "Checking AP: " + conf.toShortString());
-
-                if (conf.isValidProxyConfiguration())
+                if (conf.getProxySettings() == ProxySetting.STATIC)
                 {
-                    String host = conf.getProxyHost();
-                    Integer port = conf.getProxyPort();
-                    String exclusion = conf.getProxyExclusionList();
+                    App.getLogger().d(TAG, "Checking AP: " + conf.toShortString());
 
-                    if (host.equalsIgnoreCase(currentProxy.host)
-                            && port.equals(currentProxy.port)
-                            && exclusion.equalsIgnoreCase(currentProxy.exclusion))
+                    if (conf.isValidProxyConfiguration())
                     {
-                        conf.setProxyHost(updatedProxy.host);
-                        conf.setProxyPort(updatedProxy.port);
-                        conf.setProxyExclusionList(updatedProxy.exclusion);
+                        String host = conf.getProxyHost();
+                        Integer port = conf.getProxyPort();
+                        String exclusion = conf.getProxyExclusionList();
 
-                        App.getLogger().d(TAG, "Writing updated AP configuration on device: " + conf.toShortString());
-
-                        try
+                        if (host.equalsIgnoreCase(currentProxy.host)
+                                && port.equals(currentProxy.port)
+                                && exclusion.equalsIgnoreCase(currentProxy.exclusion))
                         {
-                            conf.writeConfigurationToDevice();
-                        }
-                        catch (Exception e)
-                        {
-                            EventReportingUtils.sendException(e);
-                        }
+                            conf.setProxyHost(updatedProxy.host);
+                            conf.setProxyPort(updatedProxy.port);
+                            conf.setProxyExclusionList(updatedProxy.exclusion);
 
-                        updatedWiFiAP++;
+                            App.getLogger().d(TAG, "Writing updated AP configuration on device: " + conf.toShortString());
 
-                        try
-                        {
-                            Thread.sleep(1);
-                        }
-                        catch (InterruptedException e)
-                        {
-                            e.printStackTrace();
-                        }
+                            try
+                            {
+                                conf.writeConfigurationToDevice();
+                            }
+                            catch (Exception e)
+                            {
+                                EventReportingUtils.sendException(e);
+                            }
 
-                        // Calling refresh intent only after save of all AP configurations
-                        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-                        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-                        APL.getContext().sendBroadcast(intent);
+                            updatedWiFiAP++;
+
+                            try
+                            {
+                                Thread.sleep(1);
+                            }
+                            catch (InterruptedException e)
+                            {
+                                e.printStackTrace();
+                            }
+
+                            // Calling refresh intent only after save of all AP configurations
+                            App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+                            Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+                            APL.getContext().sendBroadcast(intent);
+                        }
                     }
                 }
             }
