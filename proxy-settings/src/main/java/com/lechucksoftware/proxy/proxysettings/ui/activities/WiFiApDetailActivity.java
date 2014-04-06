@@ -13,6 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 import be.shouldit.proxy.lib.WifiNetworkId;
 
@@ -39,13 +40,8 @@ public class WiFiApDetailActivity extends BaseWifiActivity
 
         FragmentManager fm = getFragmentManager();
 
-        // Add the StatusFragment to the status_fragment_container
-//        fm.beginTransaction()
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
-
         Intent callerIntent = getIntent();
-        if (callerIntent != null)
+        if (callerIntent != null && callerIntent.hasExtra(Constants.SELECTED_AP_CONF_ARG))
         {
             WifiNetworkId selectedId = (WifiNetworkId) callerIntent.getExtras().getSerializable(Constants.SELECTED_AP_CONF_ARG);
 
@@ -56,7 +52,8 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         }
         else
         {
-            EventReportingUtils.sendException(new Exception("Intent not received"));
+            EventReportingUtils.sendException(new Exception("Intent not received or not containing extra"));
+            NavigationUtils.GoToMainActivity(this);
         }
 
         ActionBar actionBar = getActionBar();
