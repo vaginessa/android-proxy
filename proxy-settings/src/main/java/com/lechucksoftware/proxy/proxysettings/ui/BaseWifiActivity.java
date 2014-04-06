@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
 import be.shouldit.proxy.lib.APLIntents;
 
@@ -40,7 +41,15 @@ public class BaseWifiActivity extends BaseActivity
         ifilt.addAction(Intents.WIFI_AP_UPDATED);
         ifilt.addAction(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK);
         ifilt.addAction(Intents.PROXY_REFRESH_UI);
-        registerReceiver(changeStatusReceiver, ifilt);
+
+        try
+        {
+            registerReceiver(changeStatusReceiver, ifilt);
+        }
+        catch (IllegalArgumentException e)
+        {
+            EventReportingUtils.sendException(e);
+        }
 
         refreshUI();
     }
@@ -52,8 +61,15 @@ public class BaseWifiActivity extends BaseActivity
         getWifiScanner().pause();
         mScanner = null;
 
-        // Stop the registered status receivers
-        unregisterReceiver(changeStatusReceiver);
+        try
+        {
+            // Stop the registered status receivers
+            unregisterReceiver(changeStatusReceiver);
+        }
+        catch (IllegalArgumentException e)
+        {
+            EventReportingUtils.sendException(e);
+        }
     }
 
     private BroadcastReceiver changeStatusReceiver = new BroadcastReceiver()
