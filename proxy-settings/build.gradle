@@ -24,15 +24,7 @@ android {
 
     signingConfigs {
 
-        release {
-
-            storeFile file(android_keystore)
-            storePassword android_keystore_password
-
-            keyAlias android_key_alias
-            keyPassword android_key_password
-
-        }
+        release
     }
 
     buildTypes {
@@ -46,6 +38,8 @@ android {
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
             buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
+
+            signingConfig project.hasProperty('android_keystore') ? signingConfigs.release : signingConfigs.debug
         }
 
         debug {
@@ -67,13 +61,31 @@ android {
         }
     }
 
+    if (project.hasProperty('android_keystore') &&
+        project.hasProperty('android_keystore_password') &&
+        project.hasProperty('android_key_alias') &&
+        project.hasProperty('keyPassword'))
+    {
+        android.signingConfigs.release.storeFile = file(android_keystore)
+        android.signingConfigs.release.storePassword = android_keystore_password
+        android.signingConfigs.release.keyAlias = android_key_alias
+        android.signingConfigs.release.keyPassword = android_key_password
+    }
+    else
+    {
+        buildTypes.release.signingConfig = null
+    }
+
     sourceSets {
+
         main {
+
             java {
                 srcDir 'src'
                 exclude '**/excluded_from_build/**'
                 exclude '**/ui/help/**'
             }
+
         }
     }
 }
