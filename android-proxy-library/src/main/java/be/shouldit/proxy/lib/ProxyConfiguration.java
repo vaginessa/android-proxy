@@ -10,12 +10,6 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
-import be.shouldit.proxy.lib.enums.CheckStatusValues;
-import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.reflection.ReflectionUtils;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
-import be.shouldit.proxy.lib.utils.ProxyUtils;
-
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -24,6 +18,12 @@ import java.net.Proxy;
 import java.net.SocketAddress;
 import java.util.List;
 import java.util.UUID;
+
+import be.shouldit.proxy.lib.enums.CheckStatusValues;
+import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.ReflectionUtils;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Serializable
 {
@@ -361,7 +361,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public String toStatusString()
     {
-        if (getProxySettings() == ProxySetting.NONE || getProxySettings() == ProxySetting.UNASSIGNED)
+        ProxySetting setting = getProxySettings();
+
+        if (setting == null)
+        {
+            return  APL.getContext().getResources().getString(R.string.not_available);
+        }
+
+        if (setting== ProxySetting.NONE || setting == ProxySetting.UNASSIGNED)
         {
             return APL.getContext().getResources().getString(R.string.direct_connection);
         }
