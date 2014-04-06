@@ -5,6 +5,7 @@ repositories {
 }
 
 android {
+
     compileSdkVersion 19
     buildToolsVersion '19.0.3'
 
@@ -17,12 +18,13 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 19
-        versionCode 13002144
-        versionName "2.14"
+        versionCode 13002150
+        versionName "2.15"
     }
 
     signingConfigs {
-        releaseSigning {
+
+        release {
 
             storeFile file(android_keystore)
             storePassword android_keystore_password
@@ -34,6 +36,7 @@ android {
     }
 
     buildTypes {
+
         release {
 
             runProguard false
@@ -52,15 +55,15 @@ android {
             debuggable true
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
-            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
+            buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
         }
 
         CI {
             debuggable true
             runProguard false
 
-            buildConfigField "String", "BUGSENSE_LICENSE", '"1234"'
-            buildConfigField "String", "ANALYTICS_TRACK_ID", '"1234"'
+            buildConfigField "String", "BUGSENSE_LICENSE", 'null'
+            buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
         }
     }
 
