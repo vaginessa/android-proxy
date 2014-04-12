@@ -200,7 +200,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(new Exception("ProxyUtils.standardAPIPingHost() Exception", e));
+            APL.getEventReport().send(e);
         }
 
         return false;

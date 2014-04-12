@@ -4,8 +4,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 
-import be.shouldit.proxy.lib.APL;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,6 +11,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import be.shouldit.proxy.lib.APL;
 
 public class ReflectionUtils
 {
@@ -97,13 +97,20 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(new Exception("Exception during saveWifiConfiguration", e));
+            APL.getEventReport().send(e);
         }
 
-        if (!internalSaveDone)
-        {
-            internalSaveDone = saveNoVersion(wifiManager, configuration);
-        }
+//        if (!internalSaveDone)
+//        {
+//            try
+//            {
+//                internalSaveDone = saveNoVersion(wifiManager, configuration);
+//            }
+//            catch (Exception e)
+//            {
+//                APL.getEventReport().send(e);
+//            }
+//        }
 
         if (!internalSaveDone)
         {
@@ -182,9 +189,27 @@ public class ReflectionUtils
     private static boolean saveNoVersion(WifiManager wifiManager, WifiConfiguration configuration) throws Exception
     {
         boolean internalSaveDone = false;
+        Method internalSaveNetwork = null;
+        Method internalSave = null;
 
-        Method internalSaveNetwork = getMethod(WifiManager.class.getMethods(), "saveNetwork");
-        Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
+        try
+        {
+            internalSaveNetwork = getMethod(WifiManager.class.getMethods(), "saveNetwork");
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        try
+        {
+            internalSave = getMethod(WifiManager.class.getMethods(), "save");
+        }
+        catch (Exception e)
+        {
+
+        }
+
 
         if (internalSave != null)
         {
