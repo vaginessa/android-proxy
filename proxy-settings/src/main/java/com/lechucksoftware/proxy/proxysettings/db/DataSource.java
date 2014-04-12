@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -606,17 +608,26 @@ public class DataSource
 
     public long getProxiesCount()
     {
-        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+        long result = 0;
 
-        String query = "SELECT COUNT(*)"
-                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES;
+        try
+        {
+            SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        Cursor cursor = database.rawQuery(query, null);
-        cursor.moveToFirst();
-        long result = cursor.getLong(0);
+            String query = "SELECT COUNT(*)"
+                    + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES;
 
-        // Make sure to close the cursor
-        cursor.close();
+            Cursor cursor = database.rawQuery(query, null);
+            cursor.moveToFirst();
+            result = cursor.getLong(0);
+
+            // Make sure to close the cursor
+            cursor.close();
+        }
+        catch (SQLiteException e)
+        {
+            EventReportingUtils.sendException(e);
+        }
 
         return result;
     }
