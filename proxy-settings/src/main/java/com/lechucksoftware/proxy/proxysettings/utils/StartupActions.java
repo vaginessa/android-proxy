@@ -21,19 +21,24 @@ public class StartupActions
         availableActions = new ArrayList<StartupAction>();
         context = ctx;
 
-        availableActions.add(new StartupAction(context, StartupActionType.RATE_DIALOG, StartupActionStatus.NOT_AVAILABLE, 1, null));
-        availableActions.add(new StartupAction(context, StartupActionType.BETA_TEST_DIALOG, StartupActionStatus.NOT_AVAILABLE, 2, null));
+        StartupAction rating = new StartupAction(context,
+                                                 StartupActionType.RATE_DIALOG,
+                                                 StartupActionStatus.NOT_AVAILABLE,
+                                                 1,
+                                                 null);
+
+        StartupAction betaTest = new StartupAction(context,
+                                                   StartupActionType.BETA_TEST_DIALOG,
+                                                   StartupActionStatus.NOT_AVAILABLE,
+                                                   2,
+                                                   null);
+
+        availableActions.add(rating);
+        availableActions.add(betaTest);
     }
 
     public List<StartupAction> getAvailableActions()
     {
         return availableActions;
     }
-
-//    for (StartupActionType actionType: StartupActionType.values())
-//    {
-//        StartupAction a = new StartupAction(actionType, StartupActionStatus.NOT_AVAILABLE);
-//        availableActions.add(a);
-//    }
-
 }

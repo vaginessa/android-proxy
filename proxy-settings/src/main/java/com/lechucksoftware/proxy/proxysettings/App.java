@@ -69,7 +69,7 @@ public class App extends Application
         EventReportingUtils.setup(App.this);
         APL.setup(App.this, getLogger().getLogLevel(), EventReportingUtils.getInstance());
 
-        ApplicationStatistics.UpdateInstallationDetails(this);
+        ApplicationStatistics.updateInstallationDetails(this);
 
         getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));

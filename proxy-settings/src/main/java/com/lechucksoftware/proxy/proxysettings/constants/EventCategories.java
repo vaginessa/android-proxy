@@ -6,8 +6,10 @@ package com.lechucksoftware.proxy.proxysettings.constants;
 public enum EventCategories
 {
     UI,
+    USER_ACTION,
     LOGIC,
     INFRASTRUCTURE,
     TEST,
-    APL, BASE
+    APL,
+    BASE
 }

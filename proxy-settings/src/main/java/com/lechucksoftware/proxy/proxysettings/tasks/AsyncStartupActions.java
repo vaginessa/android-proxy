@@ -3,7 +3,6 @@ package com.lechucksoftware.proxy.proxysettings.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 
-import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
@@ -13,7 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.StartupActions;
 /**
  * Created by mpagliar on 04/04/2014.
  */
-public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActionType>
+public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 {
     private final Activity activity;
 
@@ -23,33 +22,36 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActionTyp
     }
 
     @Override
-    protected void onPostExecute(StartupActionType action)
+    protected void onPostExecute(StartupAction action)
     {
         super.onPostExecute(action);
 
-        switch (action)
+        if (action != null)
         {
-            case RATE_DIALOG:
-                RateApplicationAlertDialog rateDialog = RateApplicationAlertDialog.newInstance();
-                rateDialog.show(activity.getFragmentManager(), "RateApplicationAlertDialog");
-                break;
+            switch (action.actionType)
+            {
+                case RATE_DIALOG:
+                    RateApplicationAlertDialog rateDialog = RateApplicationAlertDialog.newInstance(action);
+                    rateDialog.show(activity.getFragmentManager(), "RateApplicationAlertDialog");
+                    break;
 
-            case BETA_TEST_DIALOG:
-                BetaTestApplicationAlertDialog betaDialog = BetaTestApplicationAlertDialog.newInstance();
-                betaDialog.show(activity.getFragmentManager(), "BetaTestApplicationAlertDialog");
+                case BETA_TEST_DIALOG:
+                    BetaTestApplicationAlertDialog betaDialog = BetaTestApplicationAlertDialog.newInstance(action);
+                    betaDialog.show(activity.getFragmentManager(), "BetaTestApplicationAlertDialog");
 
-            default:
-            case NONE:
-                break;
+                default:
+                case NONE:
+                    break;
+            }
         }
     }
 
     @Override
-    protected StartupActionType doInBackground(Void... voids)
+    protected StartupAction doInBackground(Void... voids)
     {
-        StartupActionType action = StartupActionType.NONE;
+        StartupAction action = null;
 
-        ApplicationStatistics statistics = ApplicationStatistics.GetInstallationDetails(activity.getApplicationContext());
+        ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(activity.getApplicationContext());
 
         if (statistics.CrashesCount == 0)
         {
@@ -64,9 +66,9 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActionTyp
         return action;
     }
 
-    private StartupActionType getStartupAction(ApplicationStatistics statistics)
+    private StartupAction getStartupAction(ApplicationStatistics statistics)
     {
-        StartupActionType result = StartupActionType.NONE;
+        StartupAction result = null;
 
         StartupActions actions = new StartupActions(activity);
 
@@ -74,7 +76,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActionTyp
         {
             if (action.canExecute(statistics))
             {
-                result = action.actionType;
+                result = action;
                 break;
             }
         }

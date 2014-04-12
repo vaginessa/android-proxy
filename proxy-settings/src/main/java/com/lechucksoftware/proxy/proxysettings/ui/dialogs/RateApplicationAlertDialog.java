@@ -4,21 +4,28 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
+import com.lechucksoftware.proxy.proxysettings.utils.StartupAction;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 public class RateApplicationAlertDialog extends DialogFragment
 {
     public static String TAG = "RateApplicationAlertDialog";
+    private StartupAction startupAction;
+
+    public RateApplicationAlertDialog(StartupAction action)
+    {
+        startupAction = action;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-        builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
+//        builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
         builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
         builder.setCancelable(false);
         builder.setPositiveButton(getResources().getText(R.string.yes), new DialogInterface.OnClickListener()
@@ -27,7 +34,8 @@ public class RateApplicationAlertDialog extends DialogFragment
             {
 
 //                App.getLogger().d(TAG, "Starting Market activity");
-//                Utils.startMarketActivity(getActivity());
+                startupAction.updateStatus(StartupActionStatus.DONE);
+                Utils.startMarketActivity(getActivity());
             }
         });
 
@@ -35,7 +43,8 @@ public class RateApplicationAlertDialog extends DialogFragment
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
-//                dontDisplayAgainAppRate();
+
+                startupAction.updateStatus(StartupActionStatus.REJECTED);
             }
         });
 
@@ -43,21 +52,9 @@ public class RateApplicationAlertDialog extends DialogFragment
         return alert;
     }
 
-    public void dontDisplayAgainAppRate()
+    public static RateApplicationAlertDialog newInstance(StartupAction action)
     {
-        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        if (editor != null)
-        {
-            editor.putBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, true);
-            editor.commit();
-        }
-    }
-
-    public static RateApplicationAlertDialog newInstance()
-    {
-        RateApplicationAlertDialog frag = new RateApplicationAlertDialog();
+        RateApplicationAlertDialog frag = new RateApplicationAlertDialog(action);
         return frag;
     }
 }

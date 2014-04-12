@@ -19,9 +19,9 @@ public class ApplicationStatistics
     public Date LaunhcFirstDate;
     public int CrashesCount;
 
-    public static void UpdateInstallationDetails(Context applicationContext)
+    public static void updateInstallationDetails(Context applicationContext)
     {
-        SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
 
         long launch_count = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0) + 1;
@@ -37,10 +37,10 @@ public class ApplicationStatistics
         editor.commit();
     }
 
-    public static ApplicationStatistics GetInstallationDetails(Context applicationContext)
+    public static ApplicationStatistics getInstallationDetails(Context applicationContext)
     {
         ApplicationStatistics details = new ApplicationStatistics();
-        SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
 
         // Increment launch counter
         details.LaunchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);

@@ -52,7 +52,7 @@ public class DisclaimerEndFragment extends Fragment
 		accept.setOnClickListener(new OnClickListener() {
 			public void onClick(View v)
 			{
-				SharedPreferences settings = getActivity().getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+				SharedPreferences settings = getActivity().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
 				Editor editor = settings.edit();
 				editor.putBoolean(Constants.PREFERENCES_ACCEPTED_DISCLAIMER, true);
 				editor.commit();

@@ -1,11 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
@@ -28,8 +28,8 @@ public class AsyncStartupRateTask extends AsyncTask<Void, Void, Boolean>
 
         if (showDialog)
         {
-            RateApplicationAlertDialog dialog = RateApplicationAlertDialog.newInstance();
-            dialog.show(wiFiApListActivity.getFragmentManager(), "AsyncStartupRateTask");
+//            RateApplicationAlertDialog dialog = RateApplicationAlertDialog.newInstance(action);
+//            dialog.show(wiFiApListActivity.getFragmentManager(), "AsyncStartupRateTask");
         }
     }
 
@@ -41,13 +41,13 @@ public class AsyncStartupRateTask extends AsyncTask<Void, Void, Boolean>
 
     public boolean showAppRate()
     {
-        SharedPreferences prefs = wiFiApListActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences prefs = wiFiApListActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         if (prefs.getBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, false))
         {
             return false;
         }
 
-        ApplicationStatistics statistics = ApplicationStatistics.GetInstallationDetails(wiFiApListActivity.getApplicationContext());
+        ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(wiFiApListActivity.getApplicationContext());
 
         // Wait at least N days before opening
         if (statistics.LaunchCount >= Constants.APPRATE_LAUNCHES_UNTIL_PROMPT)

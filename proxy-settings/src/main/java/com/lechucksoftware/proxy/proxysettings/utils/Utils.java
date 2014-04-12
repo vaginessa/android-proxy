@@ -16,9 +16,6 @@ import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
-import be.shouldit.proxy.lib.utils.HttpAnswer;
-import be.shouldit.proxy.lib.utils.ProxyUtils;
-
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -32,6 +29,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
+
+import be.shouldit.proxy.lib.utils.HttpAnswer;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class Utils
 {
@@ -233,7 +233,7 @@ public class Utils
 
     public static void checkDemoMode(Context ctx)
     {
-        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         if (prefs.getBoolean(Constants.PREFERENCES_DEMO_MODE, false))
         {
             App.getInstance().demoMode = true;
@@ -246,7 +246,7 @@ public class Utils
 
     public static void setDemoMode(Context ctx, boolean enabled)
     {
-        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
 
         editor.putBoolean(Constants.PREFERENCES_DEMO_MODE, enabled);

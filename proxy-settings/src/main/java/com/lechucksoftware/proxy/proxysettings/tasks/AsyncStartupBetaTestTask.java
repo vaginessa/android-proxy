@@ -1,10 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
+
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.BetaTestApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 
 import java.util.Calendar;
@@ -28,8 +29,8 @@ public class AsyncStartupBetaTestTask extends AsyncTask<Void, Void, Boolean>
 
         if (showDialog)
         {
-            BetaTestApplicationAlertDialog dialog = BetaTestApplicationAlertDialog.newInstance();
-            dialog.show(wiFiApListActivity.getFragmentManager(), "AsyncStartupBetaTestTask");
+//            BetaTestApplicationAlertDialog dialog = BetaTestApplicationAlertDialog.newInstance(action);
+//            dialog.show(wiFiApListActivity.getFragmentManager(), "AsyncStartupBetaTestTask");
         }
     }
 
@@ -41,13 +42,13 @@ public class AsyncStartupBetaTestTask extends AsyncTask<Void, Void, Boolean>
 
     public boolean showAppBetaTest()
     {
-        SharedPreferences prefs = wiFiApListActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences prefs = wiFiApListActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         if (prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
         {
             return false;
         }
 
-        ApplicationStatistics statistics = ApplicationStatistics.GetInstallationDetails(wiFiApListActivity.getApplicationContext());
+        ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(wiFiApListActivity.getApplicationContext());
 
         // Wait at least N days before opening
         if (statistics.LaunchCount >= Constants.BETATEST_LAUNCHES_UNTIL_PROMPT)

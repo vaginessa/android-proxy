@@ -136,7 +136,17 @@ public class EventReportingUtils implements IEventReporting
         getInstance().send(eventCategory, eventAction, eventLabel);
     }
 
+    public static void sendEvent(EventCategories eventCategory, BaseActions eventAction, String eventLabel, Long eventValue)
+    {
+        getInstance().send(eventCategory, eventAction, eventLabel, eventValue);
+    }
+
     public void send(EventCategories eventCategory, BaseActions eventAction, String eventLabel)
+    {
+        send(eventCategory,eventAction, eventLabel, null);
+    }
+
+    public void send(EventCategories eventCategory, BaseActions eventAction, String eventLabel, Long eventValue)
     {
         if (setupDone)
         {
@@ -145,6 +155,9 @@ public class EventReportingUtils implements IEventReporting
             builder.setCategory(eventCategory.toString());   // Event category (required)
             builder.setAction(eventAction.toString());       // Event action (required)
             builder.setLabel(eventLabel.toString());         // Event label
+
+            if (eventValue != null)
+                builder.setValue(eventValue);
 
             Map<String, String> map = builder.build();
             Tracker tracker = getDefaultTracker();
@@ -170,7 +183,7 @@ public class EventReportingUtils implements IEventReporting
         if (!TextUtils.isEmpty(BuildConfig.ANALYTICS_TRACK_ID))
         {
             defaultTracker = GoogleAnalytics.getInstance(context).newTracker(BuildConfig.ANALYTICS_TRACK_ID);
-//            defaultTracker.setAppName(ApplicationStatistics.GetInstallationDetails(context));
+//            defaultTracker.setAppName(ApplicationStatistics.getInstallationDetails(context));
         }
     }
 

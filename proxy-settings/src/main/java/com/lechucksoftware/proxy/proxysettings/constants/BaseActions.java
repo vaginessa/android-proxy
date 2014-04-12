@@ -5,5 +5,8 @@ package com.lechucksoftware.proxy.proxysettings.constants;
  */
 public enum BaseActions
 {
-    BASE, BUTTON_PRESS, TEST_ACTION
+    BASE,
+    BUTTON_PRESS,
+    DIALOG_ANSWER,
+    TEST_ACTION
 }

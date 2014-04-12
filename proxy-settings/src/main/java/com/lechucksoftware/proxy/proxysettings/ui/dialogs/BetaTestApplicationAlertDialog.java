@@ -3,12 +3,14 @@ package com.lechucksoftware.proxy.proxysettings.ui.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.utils.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class BetaTestApplicationAlertDialog extends DialogFragment
@@ -44,7 +46,7 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 		return alert;
 	}
 
-	public static BetaTestApplicationAlertDialog newInstance()
+	public static BetaTestApplicationAlertDialog newInstance(StartupAction action)
 	{
 		BetaTestApplicationAlertDialog frag = new BetaTestApplicationAlertDialog();
 		return frag;
@@ -52,7 +54,7 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
 
     public void dontDisplayAgainBetaTest()
     {
-        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
 
         if (editor != null)

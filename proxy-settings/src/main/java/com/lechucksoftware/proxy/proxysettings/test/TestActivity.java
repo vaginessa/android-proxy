@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
+import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -41,7 +44,7 @@ public class TestActivity extends Activity
         TEST_SERIALIZATION,
         UPDATE_TAGS,
         LIST_TAGS,
-        CLEAR_DB,
+        CLEAR_ALL,
         TOGGLE_DEMO_MODE,
         ASSIGN_PROXY
     }
@@ -147,9 +150,9 @@ public class TestActivity extends Activity
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void clearDBClicked(View caller)
+    public void clearPrefAndDB(View caller)
     {
-        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.CLEAR_DB);
+        AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.CLEAR_ALL);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -188,8 +191,17 @@ public class TestActivity extends Activity
         @Override
         protected Void doInBackground(Void... params)
         {
-            if (_action == TestAction.CLEAR_DB)
+            if (_action == TestAction.CLEAR_ALL)
             {
+                SharedPreferences preferences = _testActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_MULTI_PROCESS);
+
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
+
+                ApplicationStatistics.updateInstallationDetails(getApplicationContext());
+
+
                 App.getDBManager().resetDB();
             }
             else if (_action == TestAction.CLEAR_IN_USE)

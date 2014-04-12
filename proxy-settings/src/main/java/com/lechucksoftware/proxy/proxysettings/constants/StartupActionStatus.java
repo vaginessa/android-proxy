@@ -22,7 +22,7 @@ public enum StartupActionStatus
         return value;
     }
 
-    public static StartupActionStatus ParseInt(int val)
+    public static StartupActionStatus parseInt(int val)
     {
         StartupActionStatus result = NOT_AVAILABLE;
 

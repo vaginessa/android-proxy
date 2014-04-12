@@ -3,7 +3,9 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 
@@ -33,10 +35,24 @@ public class StartupAction
         daysCondition = days;
     }
 
+    public void updateStatus(StartupActionStatus status)
+    {
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (editor != null)
+        {
+            editor.putInt(preferenceKey, status.getValue());
+            editor.commit();
+
+            EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, preferenceKey, (long) status.getValue());
+        }
+    }
+
     public boolean canExecute(ApplicationStatistics statistics)
     {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
-        StartupActionStatus status = StartupActionStatus.ParseInt(prefs.getInt(preferenceKey, StartupActionStatus.NOT_AVAILABLE.getValue()));
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        StartupActionStatus status = StartupActionStatus.parseInt(prefs.getInt(preferenceKey, StartupActionStatus.NOT_AVAILABLE.getValue()));
 
         Boolean result;
 
