@@ -37,7 +37,7 @@ android {
             debuggable false
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
-            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_release + "\""
 
             signingConfig project.hasProperty('android_keystore') ? signingConfigs.release : signingConfigs.debug
         }
@@ -49,7 +49,7 @@ android {
             debuggable true
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
-            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id + "\""
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_debug + "\""
 //            buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
         }
 
