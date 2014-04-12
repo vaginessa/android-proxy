@@ -3,10 +3,10 @@ package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.support.v4.app.FragmentActivity;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
-import be.shouldit.proxy.lib.log.LogWrapper;
 
 public class ProxySettingsCallerActivity extends FragmentActivity
 {
@@ -21,8 +21,8 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		LogWrapper.d(TAG, "SDK Version");
-		LogWrapper.d(TAG, "SDK Version: " + Build.VERSION.SDK_INT);
+        App.getLogger().d(TAG, "SDK Version");
+        App.getLogger().d(TAG, "SDK Version: " + Build.VERSION.SDK_INT);
 
 //        if (showAppRate())
 //		{
@@ -44,7 +44,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 
     public void onBackPressed() 
     {
-    	LogWrapper.d(TAG, "Back Pressed");
+    	App.getLogger().d(TAG, "Back Pressed");
     	return;
     }
     

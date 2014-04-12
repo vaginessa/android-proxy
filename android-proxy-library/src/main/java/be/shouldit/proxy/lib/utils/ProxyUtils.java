@@ -264,7 +264,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling getAddress().getHostAddress() on proxySocketAddress : ", e));
+            APL.getEventReport().send(e);
         }
 
         if (proxyAddress == null)
@@ -276,7 +276,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getEventReport().send(new Exception("ProxyUtils.lowLevelPingHost() Exception calling toString() on proxySocketAddress", e));
+                APL.getEventReport().send(e);
             }
         }
 
@@ -303,11 +303,15 @@ public class ProxyUtils
             }
             catch (IOException e)
             {
-                APL.getEventReport().send(new Exception("ProxyUtils.lowLevelPingHost() IOException", e));
+                APL.getEventReport().send(e);
             }
             catch (InterruptedException e)
             {
-                APL.getEventReport().send(new Exception("ProxyUtils.lowLevelPingHost() InterruptedException", e));
+                APL.getEventReport().send(e);
+            }
+            catch (Exception e)
+            {
+                APL.getEventReport().send(e);
             }
         }
 
