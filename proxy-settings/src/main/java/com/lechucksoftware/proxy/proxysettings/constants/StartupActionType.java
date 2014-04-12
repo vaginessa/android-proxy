@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.constants;
 /**
  * Created by mpagliar on 04/04/2014.
  */
-public enum StartupActions
+public enum StartupActionType
 {
     RATE_DIALOG,
     BETA_TEST_DIALOG,

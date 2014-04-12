@@ -1,20 +1,19 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.constants.StartupActions;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.RateApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.lechucksoftware.proxy.proxysettings.utils.StartupAction;
+import com.lechucksoftware.proxy.proxysettings.utils.StartupActions;
 
 /**
  * Created by mpagliar on 04/04/2014.
  */
-public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActions>
+public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActionType>
 {
     private final Activity activity;
 
@@ -24,7 +23,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActions>
     }
 
     @Override
-    protected void onPostExecute(StartupActions action)
+    protected void onPostExecute(StartupActionType action)
     {
         super.onPostExecute(action);
 
@@ -46,53 +45,40 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupActions>
     }
 
     @Override
-    protected StartupActions doInBackground(Void... voids)
+    protected StartupActionType doInBackground(Void... voids)
     {
-        StartupActions action = StartupActions.NONE;
+        StartupActionType action = StartupActionType.NONE;
 
         ApplicationStatistics statistics = ApplicationStatistics.GetInstallationDetails(activity.getApplicationContext());
-        SharedPreferences prefs = activity.getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);
 
         if (statistics.CrashesCount == 0)
         {
             // Avoid rating and betatest if application has crashed
-
-            if (!prefs.getBoolean(Constants.PREFERENCES_APPRATE_DONT_SHOW_AGAIN, false))
-            {
-                if (checkInstallationConditions(statistics, Constants.APPRATE_LAUNCHES_UNTIL_PROMPT, Constants.APPRATE_DAYS_UNTIL_PROMPT))
-                {
-                    action = StartupActions.RATE_DIALOG;
-                }
-            }
-
-            if (!prefs.getBoolean(Constants.PREFERENCES_BETATEST_DONT_SHOW_AGAIN, false))
-            {
-                if (checkInstallationConditions(statistics, Constants.BETATEST_LAUNCHES_UNTIL_PROMPT, Constants.BETATEST_DAYS_UNTIL_PROMPT))
-                {
-                    action = StartupActions.BETA_TEST_DIALOG;
-                }
-            }
+            action = getStartupAction(statistics);
         }
         else
         {
-            // If the application crashed ask the user to send information to support team
+            // TODO: If the application crashed ask the user to send information to support team
         }
 
         return action;
     }
 
-    private Boolean checkInstallationConditions(ApplicationStatistics statistics, int launchCount, int daysCount)
+    private StartupActionType getStartupAction(ApplicationStatistics statistics)
     {
-        Boolean result = false;
+        StartupActionType result = StartupActionType.NONE;
 
-        if (statistics.LaunchCount >= launchCount &&
-            Utils.ElapsedNDays(statistics.LaunhcFirstDate, daysCount))
+        StartupActions actions = new StartupActions(activity);
+
+        for (StartupAction action : actions.getAvailableActions())
         {
-            result = true;
+            if (action.canExecute(statistics))
+            {
+                result = action.actionType;
+                break;
+            }
         }
 
         return result;
     }
-
-
 }
