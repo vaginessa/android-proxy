@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.utils;
+package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
 import android.content.Context;
 

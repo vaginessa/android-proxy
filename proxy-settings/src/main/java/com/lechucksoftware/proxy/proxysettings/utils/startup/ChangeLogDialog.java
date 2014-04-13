@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.lechucksoftware.proxy.proxysettings.utils;
+package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,6 +26,9 @@ import android.content.res.XmlResourceParser;
 import android.text.format.DateFormat;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

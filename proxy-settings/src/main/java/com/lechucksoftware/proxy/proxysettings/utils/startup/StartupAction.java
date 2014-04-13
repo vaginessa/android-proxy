@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.utils;
+package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,9 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
+import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 /**
  * Created by Marco on 12/04/14.

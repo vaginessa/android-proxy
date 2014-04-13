@@ -26,7 +26,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 
 //        if (showAppRate())
 //		{
-//			RateApplicationAlertDialog dialog = RateApplicationAlertDialog.newInstance();
+//			FirstRateDialog dialog = FirstRateDialog.newInstance();
 //            dialog.show(getSupportFragmentManager(), TAG);
 //		}
 //		else if (showAppBetaTest())

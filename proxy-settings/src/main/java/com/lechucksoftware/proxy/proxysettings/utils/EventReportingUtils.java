@@ -119,11 +119,21 @@ public class EventReportingUtils implements IEventReporting
         return getInstance().getCrashesCount();
     }
 
+    public static void clearTotalCrashes()
+    {
+        getInstance().clearTotalCrashesNum();
+    }
+
     public int getCrashesCount()
     {
         // Get the total number of crashes
         int totalCrashes = BugSenseHandler.getTotalCrashesNum();
         return totalCrashes;
+    }
+
+    public void clearTotalCrashesNum()
+    {
+        BugSenseHandler.clearTotalCrashesNum();
     }
 
     public static void sendEvent(String s)

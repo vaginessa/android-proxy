@@ -10,12 +10,12 @@ import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.utils.StartupAction;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class BetaTestApplicationAlertDialog extends DialogFragment
 {
-	public static String TAG = "RateApplicationAlertDialog";
+	public static String TAG = "FirstRateDialog";
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)

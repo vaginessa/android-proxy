@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.os.AsyncTask;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.WhatsNewDialog;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.WhatsNewDialog;
 
 /**
  * Created by Marco on 29/11/13.

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
-import com.lechucksoftware.proxy.proxysettings.utils.ChangeLogDialog;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.ChangeLogDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 

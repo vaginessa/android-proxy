@@ -15,6 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -46,7 +47,7 @@ public class TestActivity extends Activity
         LIST_TAGS,
         CLEAR_ALL,
         TOGGLE_DEMO_MODE,
-        ASSIGN_PROXY
+        RUN_STARTUP_ACTIONS, ASSIGN_PROXY
     }
 
     @Override
@@ -64,6 +65,15 @@ public class TestActivity extends Activity
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_PROXY);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void startStartupActions(View view)
+    {
+//        AsyncTest async = new AsyncTest(this, TestAction.RUN_STARTUP_ACTIONS);
+//        async.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        AsyncStartupActions async = new AsyncStartupActions(this);
+        async.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void addExampleProxyClicked(View caller)

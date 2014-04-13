@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.BetaTestApplicationAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.RateApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.FirstRateDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.StartupAction;
-import com.lechucksoftware.proxy.proxysettings.utils.StartupActions;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
 
 /**
  * Created by mpagliar on 04/04/2014.
@@ -31,8 +31,8 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
             switch (action.actionType)
             {
                 case RATE_DIALOG:
-                    RateApplicationAlertDialog rateDialog = RateApplicationAlertDialog.newInstance(action);
-                    rateDialog.show(activity.getFragmentManager(), "RateApplicationAlertDialog");
+                    FirstRateDialog rateDialog = FirstRateDialog.newInstance(action);
+                    rateDialog.show(activity.getFragmentManager(), "FirstRateDialog");
                     break;
 
                 case BETA_TEST_DIALOG:

@@ -8,15 +8,15 @@ import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
-import com.lechucksoftware.proxy.proxysettings.utils.StartupAction;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
-public class RateApplicationAlertDialog extends DialogFragment
+public class FirstRateDialog extends DialogFragment
 {
-    public static String TAG = "RateApplicationAlertDialog";
+    public static String TAG = "FirstRateDialog";
     private StartupAction startupAction;
 
-    public RateApplicationAlertDialog(StartupAction action)
+    public FirstRateDialog(StartupAction action)
     {
         startupAction = action;
     }
@@ -52,9 +52,9 @@ public class RateApplicationAlertDialog extends DialogFragment
         return alert;
     }
 
-    public static RateApplicationAlertDialog newInstance(StartupAction action)
+    public static FirstRateDialog newInstance(StartupAction action)
     {
-        RateApplicationAlertDialog frag = new RateApplicationAlertDialog(action);
+        FirstRateDialog frag = new FirstRateDialog(action);
         return frag;
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.lechucksoftware.proxy.proxysettings.utils;
+package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,7 +26,8 @@ import android.preference.PreferenceManager;
 /**
  * Class to show a dialog with the latest changes for the current app version.
  */
-public class WhatsNewDialog extends ChangeLogDialog {
+public class WhatsNewDialog extends ChangeLogDialog
+{
     private static final String WHATS_NEW_LAST_SHOWN = "whats_new_last_shown";
 
     public WhatsNewDialog(final Context context) {

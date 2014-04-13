@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 
 import java.text.DateFormat;
@@ -34,6 +35,12 @@ public class ApplicationStatistics
             editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, date_firstLaunch);
         }
 
+        if (BuildConfig.DEBUG)
+        {
+            // During debug there is no need to mantain the total number of crashes
+            EventReportingUtils.clearTotalCrashes();
+        }
+
         editor.commit();
     }
 
@@ -49,7 +56,6 @@ public class ApplicationStatistics
         details.LaunhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
 
         details.CrashesCount = EventReportingUtils.getTotalCrashes();
-
 
         App.getLogger().a(TAG,details.toString());
 
