@@ -891,5 +891,7 @@
     <string name="market_not_found">Cannot find valid Market application</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="not_now">Not now</string>
+    <string name="mail_feedback_dialog">Sorry for that. We'd like to hear your feedback: it will help us improve Proxy Settings</string>
 
 </resources>

@@ -15,7 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class BetaTestApplicationAlertDialog extends DialogFragment
 {
-	public static String TAG = "FirstRateDialog";
+	public static String TAG = "LikeAppDialog";
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)

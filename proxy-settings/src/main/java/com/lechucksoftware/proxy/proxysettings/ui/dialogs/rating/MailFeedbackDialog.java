@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.dialogs;
+package com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,15 +8,15 @@ import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
-public class FirstRateDialog extends DialogFragment
+public class MailFeedbackDialog extends DialogFragment
 {
-    public static String TAG = "FirstRateDialog";
+    public static String TAG = "LikeAppDialog";
     private StartupAction startupAction;
 
-    public FirstRateDialog(StartupAction action)
+    public MailFeedbackDialog(StartupAction action)
     {
         startupAction = action;
     }
@@ -26,9 +26,9 @@ public class FirstRateDialog extends DialogFragment
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
 //        builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
-        builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
+        builder.setMessage(getResources().getString(R.string.mail_feedback_dialog));
         builder.setCancelable(false);
-        builder.setPositiveButton(getResources().getText(R.string.yes), new DialogInterface.OnClickListener()
+        builder.setPositiveButton(getResources().getText(R.string.ok), new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
@@ -36,6 +36,15 @@ public class FirstRateDialog extends DialogFragment
 //                App.getLogger().d(TAG, "Starting Market activity");
                 startupAction.updateStatus(StartupActionStatus.DONE);
                 Utils.startMarketActivity(getActivity());
+            }
+        });
+
+        builder.setNeutralButton(getResources().getText(R.string.not_now), new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+            {
+
+                startupAction.updateStatus(StartupActionStatus.POSTPONED);
             }
         });
 
@@ -52,9 +61,9 @@ public class FirstRateDialog extends DialogFragment
         return alert;
     }
 
-    public static FirstRateDialog newInstance(StartupAction action)
+    public static MailFeedbackDialog newInstance(StartupAction action)
     {
-        FirstRateDialog frag = new FirstRateDialog(action);
+        MailFeedbackDialog frag = new MailFeedbackDialog(action);
         return frag;
     }
 }

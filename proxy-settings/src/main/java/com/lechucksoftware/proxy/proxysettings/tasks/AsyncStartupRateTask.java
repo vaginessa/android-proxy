@@ -28,7 +28,7 @@ public class AsyncStartupRateTask extends AsyncTask<Void, Void, Boolean>
 
         if (showDialog)
         {
-//            FirstRateDialog dialog = FirstRateDialog.newInstance(action);
+//            LikeAppDialog dialog = LikeAppDialog.newInstance(action);
 //            dialog.show(wiFiApListActivity.getFragmentManager(), "AsyncStartupRateTask");
         }
     }
