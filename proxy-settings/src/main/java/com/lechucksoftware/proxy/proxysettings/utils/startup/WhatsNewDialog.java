@@ -16,11 +16,13 @@
  */
 package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.preference.PreferenceManager;
+
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 
 /**
@@ -29,32 +31,27 @@ import android.preference.PreferenceManager;
 public class WhatsNewDialog extends ChangeLogDialog
 {
     private static final String WHATS_NEW_LAST_SHOWN = "whats_new_last_shown";
+    private PackageInfo appInfo;
 
-    public WhatsNewDialog(final Context context) {
-        super(context);
+    public WhatsNewDialog(Activity activity)
+    {
+        super(activity);
+        appInfo = Utils.getAppInfo(getContext());
     }
 
-    //Get the current app version
-    private int getAppVersionCode() {
-        try {
-            final PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (NameNotFoundException ignored) {
-            return 0;
-        }
-    }
-
-    public void forceShow() {
+    public void forceShow()
+    {
         //Show only the changes from this version (if available)
-        show(getAppVersionCode());
+        show(appInfo.versionCode);
     }
 
     @Override
     public void show()
     {
-        show(getAppVersionCode());
+        show(appInfo.versionCode);
 
-        if(mOnDismissListener != null) {
+        if (mOnDismissListener != null)
+        {
             mOnDismissListener.onDismiss(null);
         }
     }
@@ -62,16 +59,17 @@ public class WhatsNewDialog extends ChangeLogDialog
     public Boolean isToShow()
     {
         //ToDo check if version is shown
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        final SharedPreferences prefs = getContext().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+
         final int versionShown = prefs.getInt(WHATS_NEW_LAST_SHOWN, 0);
 
-        if (versionShown != getAppVersionCode())
+        if (versionShown != appInfo.versionCode)
         {
             //This version is new, show only the changes from this version (if available)
 
             //Update last shown version
             final SharedPreferences.Editor edit = prefs.edit();
-            edit.putInt(WHATS_NEW_LAST_SHOWN, getAppVersionCode());
+            edit.putInt(WHATS_NEW_LAST_SHOWN, appInfo.versionCode);
             edit.commit();
 
             return true;

@@ -211,7 +211,6 @@ public class TestActivity extends Activity
 
                 ApplicationStatistics.updateInstallationDetails(getApplicationContext());
 
-
                 App.getDBManager().resetDB();
             }
             else if (_action == TestAction.CLEAR_IN_USE)

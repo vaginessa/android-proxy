@@ -19,7 +19,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -33,6 +32,7 @@ import android.widget.Toast;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 
 import java.io.File;
@@ -439,7 +439,8 @@ public class UIUtils
      */
     public static void SetProxyNotification(ProxyConfiguration conf, Context callerContext)
     {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(callerContext);
+        SharedPreferences prefs = callerContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+
         if (prefs.getBoolean("preference_notification_enabled", false))
         {
 

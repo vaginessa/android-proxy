@@ -1,20 +1,20 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UrlManager
 {
 	public static String[] getUsedUrls(Context ctx)
 	{
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+		SharedPreferences sharedPref = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+
 		String cachedUrls = sharedPref.getString(Constants.PREFERENCES_CACHED_URLS, "");
 		
 		if (cachedUrls == "")
@@ -50,7 +50,7 @@ public class UrlManager
 
 	public static void addUsedUrl(Context ctx, String url)
 	{
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+		SharedPreferences sharedPref = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
 		String cachedUrls = sharedPref.getString(Constants.PREFERENCES_CACHED_URLS, "");
 		SharedPreferences.Editor keyValuesEditor = sharedPref.edit();
 		

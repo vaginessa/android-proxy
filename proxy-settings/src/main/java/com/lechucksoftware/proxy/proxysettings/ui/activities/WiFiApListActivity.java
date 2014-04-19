@@ -62,15 +62,6 @@ public class WiFiApListActivity extends BaseWifiActivity
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(getResources().getString(R.string.app_name));
 
-        asyncStartupChangelogDialogTask = new AsyncStartupChangelogDialogTask(this);
-        asyncStartupChangelogDialogTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-//        asyncStartupRateTask = new AsyncStartupRateTask(this);
-//        asyncStartupRateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//
-//        asyncStartupBetaTestTask = new AsyncStartupBetaTestTask(this);
-//        asyncStartupBetaTestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
         asyncStartupActionsTask = new AsyncStartupActions(this);
         asyncStartupActionsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
