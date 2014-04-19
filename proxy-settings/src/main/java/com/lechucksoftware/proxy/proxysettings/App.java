@@ -30,7 +30,6 @@ public class App extends Application
     @Override
     public void onCreate()
     {
-
         super.onCreate();
 
         // TODO: evaluate implementation of Logback library
@@ -51,7 +50,7 @@ public class App extends Application
             logger = new LogWrapper(Integer.MAX_VALUE);
         }
 
-        getLogger().startTrace(TAG, "STARTUP", Log.ERROR);
+        getLogger().startTrace(TAG, "STARTUP", Log.ERROR, true);
 
         proxyManager = new ProxyManager(App.this);
         dbManager = new DataSource(App.this);
@@ -69,7 +68,12 @@ public class App extends Application
         EventReportingUtils.setup(App.this);
         APL.setup(App.this, getLogger().getLogLevel(), EventReportingUtils.getInstance());
 
+        getLogger().getPartial(TAG,"STARTUP",Log.ERROR);
+
+        // TODO: evaluate moving to AsyncUpdateApplicationStatistics
         ApplicationStatistics.updateInstallationDetails(this);
+
+        getLogger().getPartial(TAG,"STARTUP",Log.ERROR);
 
         getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));

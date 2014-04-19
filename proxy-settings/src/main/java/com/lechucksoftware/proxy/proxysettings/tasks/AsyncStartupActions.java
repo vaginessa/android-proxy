@@ -8,6 +8,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.WhatsNewDialog;
@@ -30,27 +31,34 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
     {
         super.onPostExecute(action);
 
-        if (action != null)
+        try
         {
-            switch (action.actionType)
+            if (action != null)
             {
-                case WHATSNEW:
-                    whatsNewDialog.show();
-                    break;
+                switch (action.actionType)
+                {
+                    case WHATSNEW:
+                        whatsNewDialog.show();
+                        break;
 
-                case RATE_DIALOG:
-                    LikeAppDialog rateDialog = LikeAppDialog.newInstance(action);
-                    rateDialog.show(activity.getFragmentManager(), "LikeAppDialog");
-                    break;
+                    case RATE_DIALOG:
+                        LikeAppDialog likeAppDialog = LikeAppDialog.newInstance(action);
+                        likeAppDialog.show(activity.getFragmentManager(), "LikeAppDialog");
+                        break;
 
-                case BETA_TEST_DIALOG:
-                    BetaTestApplicationAlertDialog betaDialog = BetaTestApplicationAlertDialog.newInstance(action);
-                    betaDialog.show(activity.getFragmentManager(), "BetaTestApplicationAlertDialog");
+                    case BETA_TEST_DIALOG:
+                        BetaTestApplicationAlertDialog betaDialog = BetaTestApplicationAlertDialog.newInstance(action);
+                        betaDialog.show(activity.getFragmentManager(), "BetaTestApplicationAlertDialog");
 
-                default:
-                case NONE:
-                    break;
+                    default:
+                    case NONE:
+                        break;
+                }
             }
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
         }
     }
 
@@ -71,7 +79,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                     null);
         }
 
-        if (action == null && statistics.CrashesCount == 0)
+        if (action == null && statistics != null && statistics.CrashesCount == 0)
         {
             // Avoid rating and betatest if application has crashed
             action = getStartupAction(statistics);

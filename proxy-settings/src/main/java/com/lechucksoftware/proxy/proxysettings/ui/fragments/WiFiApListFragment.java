@@ -188,7 +188,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         progress.setVisibility(View.GONE);
 
         App.getLogger().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getLogger().stopTrace(TAG, "STARTUP", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "STARTUP", Log.ERROR);
     }
 
     @Override

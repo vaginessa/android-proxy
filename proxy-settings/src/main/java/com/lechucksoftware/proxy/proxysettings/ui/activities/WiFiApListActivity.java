@@ -10,9 +10,6 @@ import android.view.MenuInflater;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupBetaTestTask;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupChangelogDialogTask;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupRateTask;
 import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
@@ -25,9 +22,6 @@ public class WiFiApListActivity extends BaseWifiActivity
 {
     public static String TAG = WiFiApListActivity.class.getSimpleName();
 
-    AsyncStartupChangelogDialogTask asyncStartupChangelogDialogTask;
-    AsyncStartupRateTask asyncStartupRateTask;
-    AsyncStartupBetaTestTask asyncStartupBetaTestTask;
     AsyncStartupActions asyncStartupActionsTask;
 
     private static WiFiApListActivity instance;
