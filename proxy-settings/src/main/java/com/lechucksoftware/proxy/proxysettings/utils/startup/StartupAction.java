@@ -24,18 +24,16 @@ public class StartupAction
     public StartupActionType actionType;
     public StartupActionStatus actionStatus;
 
-    public Integer launchCondition;
-    public Integer daysCondition;
+    public StartupCondition [] startupConditions;
 
-    public StartupAction(Context ctx, StartupActionType type, StartupActionStatus status, Integer launch, Integer days)
+    public StartupAction(Context ctx, StartupActionType type, StartupActionStatus status, StartupCondition ... conditions)
     {
         context = ctx;
         actionType = type;
         actionStatus = status;
         preferenceKey = keyPrefix + actionType;
 
-        launchCondition = launch;
-        daysCondition = days;
+        startupConditions = conditions;
     }
 
     public void updateStatus(StartupActionStatus status)
@@ -63,7 +61,7 @@ public class StartupAction
         {
             case NOT_AVAILABLE:
             case POSTPONED:
-                result = checkInstallationConditions(statistics,launchCondition, daysCondition);
+                result = checkInstallationConditions(statistics, startupConditions);
                 break;
 
             case REJECTED:
@@ -75,14 +73,21 @@ public class StartupAction
         return result;
     }
 
-    public static Boolean checkInstallationConditions(ApplicationStatistics statistics, Integer launchCount, Integer daysCount)
+    public static Boolean checkInstallationConditions(ApplicationStatistics statistics, StartupCondition [] conditions)
     {
         Boolean result = false;
 
-        if (checkLaunchCount(statistics, launchCount) &&
-                checkElapsedDays(statistics, daysCount))
+        if (conditions != null)
         {
-            result = true;
+            for (StartupCondition condition: conditions)
+            {
+                if (checkLaunchCount(statistics, condition.launchCount) &&
+                        checkElapsedDays(statistics, condition.launchDays))
+                {
+                    result = true;
+                    break;
+                }
+            }
         }
 
         return result;

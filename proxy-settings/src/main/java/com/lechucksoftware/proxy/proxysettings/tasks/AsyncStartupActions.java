@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.BetaTestApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestApplicationAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;

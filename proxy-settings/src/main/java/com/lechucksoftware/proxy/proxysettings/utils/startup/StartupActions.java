@@ -24,14 +24,13 @@ public class StartupActions
         StartupAction rating = new StartupAction(context,
                                                  StartupActionType.RATE_DIALOG,
                                                  StartupActionStatus.NOT_AVAILABLE,
-                                                 1,
-                                                 null);
+                                                 new StartupCondition(1,null),
+                                                 new StartupCondition(2,null));
 
         StartupAction betaTest = new StartupAction(context,
                                                    StartupActionType.BETA_TEST_DIALOG,
                                                    StartupActionStatus.NOT_AVAILABLE,
-                                                   2,
-                                                   null);
+                                                   new StartupCondition(2,null));
 
         availableActions.add(rating);
         availableActions.add(betaTest);

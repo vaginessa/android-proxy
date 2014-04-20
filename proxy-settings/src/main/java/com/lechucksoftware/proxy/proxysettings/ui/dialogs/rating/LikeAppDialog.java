@@ -26,9 +26,9 @@ public class LikeAppDialog extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-//        builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
+
         builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
-        builder.setCancelable(false);
+
         builder.setPositiveButton(getResources().getText(R.string.yes), new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
@@ -51,6 +51,13 @@ public class LikeAppDialog extends DialogFragment
 
         AlertDialog alert = builder.create();
         return alert;
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog)
+    {
+        super.onCancel(dialog);
+        EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "like_proxy_settings", 2L);
     }
 
     public static LikeAppDialog newInstance(StartupAction action)
