@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestApplicationAlertDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
@@ -47,7 +47,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                         break;
 
                     case BETA_TEST_DIALOG:
-                        BetaTestApplicationAlertDialog betaDialog = BetaTestApplicationAlertDialog.newInstance(action);
+                        BetaTestAppDialog betaDialog = BetaTestAppDialog.newInstance(action);
                         betaDialog.show(activity.getFragmentManager(), "BetaTestApplicationAlertDialog");
 
                     default:

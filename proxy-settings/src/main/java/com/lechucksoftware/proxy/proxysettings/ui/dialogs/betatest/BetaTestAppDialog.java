@@ -14,7 +14,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
-public class BetaTestApplicationAlertDialog extends DialogFragment
+public class BetaTestAppDialog extends DialogFragment
 {
 	public static String TAG = "LikeAppDialog";
     private static StartupAction startupAction;
@@ -57,9 +57,9 @@ public class BetaTestApplicationAlertDialog extends DialogFragment
         EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_proxy_settings", 2L);
     }
 
-    public static BetaTestApplicationAlertDialog newInstance(StartupAction action)
+    public static BetaTestAppDialog newInstance(StartupAction action)
 	{
-		BetaTestApplicationAlertDialog frag = new BetaTestApplicationAlertDialog();
+		BetaTestAppDialog frag = new BetaTestAppDialog();
         startupAction = action;
 		return frag;
 	}
