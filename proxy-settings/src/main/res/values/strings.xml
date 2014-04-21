@@ -859,9 +859,11 @@
     <string name="pref_rate_app_summary">Write a review and rate Proxy Settings!</string>
     <string name="pref_help_changelog_summary">Show full application changelog</string>
     <string name="beta_testing">Beta testing</string>
-    <string name="beta_testing_request">Are you interested to be the first to get the latest features of Proxy Settings?</string>
+    <string name="beta_testing_request">Are you interested to be the first to try the latest version of Proxy Settings?</string>
 
-    <!--joining the \"Proxy Settings - Beta Testers\" Community on Google+. Are you interested? You will find more information available on the Community page-->
+    <string name="beta_testing_community">In order to be part of the Beta Testing program, you need to join the \"Proxy Settings - Beta Testers\" Community on Google+.</string>
+
+    <string name="beta_testing_dismissed">If you change your mind in future, you can find the link to join the Beta Testing program in the Help section or in the official page of the </string>
 
     <string name="beta_testing_instructions">In order to become a beta tester for you need to join the \"Proxy Settings - Beta Testers\" Community on Google+. More information available on the Community page.</string>
     <string name="ok">OK</string>

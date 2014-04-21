@@ -31,6 +31,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 public class WhatsNewDialog extends ChangeLogDialog
 {
     private static final String WHATS_NEW_LAST_SHOWN = "whats_new_last_shown";
+    private static final String TAG = WhatsNewDialog.class.getSimpleName();
     private PackageInfo appInfo;
 
     public WhatsNewDialog(Activity activity)

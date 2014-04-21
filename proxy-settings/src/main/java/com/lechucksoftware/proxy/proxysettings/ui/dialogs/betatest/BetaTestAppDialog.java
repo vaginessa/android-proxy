@@ -11,7 +11,6 @@ import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class BetaTestAppDialog extends DialogFragment
@@ -32,8 +31,9 @@ public class BetaTestAppDialog extends DialogFragment
 			{
                 startupAction.updateStatus(StartupActionStatus.DONE);
                 EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_proxy_settings", 1L);
-                UIUtils.openBetaTestProject(getActivity());
-//				getActivity().finish();
+
+                BetaTestCommunityDialog betaTestCommunityDialog = BetaTestCommunityDialog.newInstance();
+                betaTestCommunityDialog.show(getFragmentManager(), "BetaTestCommunityDialog");
 			}
 		});
 
@@ -43,6 +43,9 @@ public class BetaTestAppDialog extends DialogFragment
 			{
                 startupAction.updateStatus(StartupActionStatus.REJECTED);
                 EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_proxy_settings", 0L);
+
+                BetaTestDismissedDialog betaTestDismissedDialog = BetaTestDismissedDialog.newInstance();
+                betaTestDismissedDialog.show(getFragmentManager(), "BetaTestDismissedDialog");
 			}
 		});
 
