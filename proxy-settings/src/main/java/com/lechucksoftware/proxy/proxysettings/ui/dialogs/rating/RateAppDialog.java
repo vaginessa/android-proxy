@@ -25,10 +25,10 @@ public class RateAppDialog extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-//        builder.setTitle(getResources().getString(R.string.app_rater_dialog_title));
-        builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
+        builder.setTitle(R.string.thank_you);
+        builder.setMessage(R.string.rate_app);
         builder.setCancelable(false);
-        builder.setPositiveButton(getResources().getText(R.string.yes), new DialogInterface.OnClickListener()
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
@@ -39,7 +39,7 @@ public class RateAppDialog extends DialogFragment
             }
         });
 
-        builder.setNegativeButton(getResources().getText(R.string.no), new DialogInterface.OnClickListener()
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {

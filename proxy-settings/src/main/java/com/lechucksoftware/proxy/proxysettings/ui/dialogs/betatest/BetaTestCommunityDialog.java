@@ -21,8 +21,9 @@ public class BetaTestCommunityDialog extends DialogFragment
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
 
-		builder.setMessage(R.string.beta_testing_community);
-		builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener()
+        builder.setTitle(R.string.welcome_aboard);
+		builder.setMessage(R.string.beta_testing_instructions);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{

@@ -27,9 +27,10 @@ public class LikeAppDialog extends DialogFragment
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
 
-        builder.setMessage(getResources().getString(R.string.app_rater_dialog_text));
+//        builder.setTitle(R.string.app_rater_dialog_title);
+        builder.setMessage(R.string.do_you_like);
 
-        builder.setPositiveButton(getResources().getText(R.string.yes), new DialogInterface.OnClickListener()
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
@@ -39,7 +40,7 @@ public class LikeAppDialog extends DialogFragment
             }
         });
 
-        builder.setNegativeButton(getResources().getText(R.string.no), new DialogInterface.OnClickListener()
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {

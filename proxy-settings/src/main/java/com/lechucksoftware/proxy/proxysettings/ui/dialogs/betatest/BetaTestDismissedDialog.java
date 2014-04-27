@@ -20,6 +20,7 @@ public class BetaTestDismissedDialog extends DialogFragment
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
 
+        builder.setTitle(R.string.no_problem);
 		builder.setMessage(R.string.beta_testing_dismissed);
 		builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener()
 		{

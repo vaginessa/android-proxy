@@ -29,20 +29,20 @@ public class MailFeedbackDialog extends DialogFragment
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
 
-        builder.setMessage(getResources().getString(R.string.mail_feedback_dialog));
-        builder.setPositiveButton(getResources().getText(R.string.ok), new DialogInterface.OnClickListener()
+        builder.setTitle(R.string.sorry_for_that);
+        builder.setMessage(R.string.mail_feedback_dialog);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
 
-//                App.getLogger().d(TAG, "Starting Market activity");
                 startupAction.updateStatus(StartupActionStatus.DONE);
                 EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "mail_feedback_proxy_settings", 1L);
                 Utils.startMarketActivity(getActivity());
             }
         });
 
-        builder.setNegativeButton(getResources().getText(R.string.no), new DialogInterface.OnClickListener()
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {

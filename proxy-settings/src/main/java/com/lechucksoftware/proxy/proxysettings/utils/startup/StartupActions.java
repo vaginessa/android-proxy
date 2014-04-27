@@ -21,17 +21,17 @@ public class StartupActions
         availableActions = new ArrayList<StartupAction>();
         context = ctx;
 
-//        StartupAction rating = new StartupAction(context,
-//                                                 StartupActionType.RATE_DIALOG,
-//                                                 StartupActionStatus.NOT_AVAILABLE,
-//                                                 new StartupCondition(1,null),
-//                                                 new StartupCondition(2,null));
-//        availableActions.add(rating);
+        StartupAction rating = new StartupAction(context,
+                                                 StartupActionType.RATE_DIALOG,
+                                                 StartupActionStatus.NOT_AVAILABLE,
+                                                 new StartupCondition(1,null),
+                                                 new StartupCondition(2,null));
+        availableActions.add(rating);
 
         StartupAction betaTest = new StartupAction(context,
                                                    StartupActionType.BETA_TEST_DIALOG,
                                                    StartupActionStatus.NOT_AVAILABLE,
-                                                   new StartupCondition(1,null));
+                                                   new StartupCondition(3,null));
 
         availableActions.add(betaTest);
     }

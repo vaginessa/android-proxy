@@ -185,8 +185,7 @@
 	</string>
     <string name="proxysettingscalleractivity_dialog_OK">OK. Go to Wi-Fi Settings</string>
 
-    <string name="app_rater_dialog_title">Rate Proxy Settings!</string>
-    <string name="app_rater_dialog_text">Do you like Proxy Settings?</string>
+    <string name="do_you_like">Do you like Proxy Settings?</string>
     <string name="app_rater_dialog_button_rate">Rate Proxy Settings</string>
     <string name="app_rater_dialog_button_remind">Remind me later</string>
     <string name="app_rater_dialog_button_nothanks">No, thanks</string>
@@ -851,21 +850,26 @@
     <string name="about_opensource">Proxy Settings is an open source software. You can find the source code here:</string>
     <string name="about_github">https://github.com/shouldit/proxy-settings"</string>
     <string name="pref_author_title">Author</string>
-    <string name="pref_become_tester">Beta version access</string>
-    <string name="pref_become_tester_summary">Receive the latest development versions of Proxy Settings</string>
+    <string name="pref_become_tester">Beta Testing</string>
+    <string name="pref_become_tester_summary">Join the program to receive the latest development versions of Proxy Settings</string>
     <string name="pref_translation">Translations</string>
     <string name="pref_translation_summary">Help us translate Proxy Settings</string>
     <string name="pref_rate_app">Application feedback</string>
     <string name="pref_rate_app_summary">Write a review and rate Proxy Settings!</string>
     <string name="pref_help_changelog_summary">Show full application changelog</string>
+
     <string name="beta_testing">Beta testing</string>
-    <string name="beta_testing_request">Are you interested to be the first to try the latest version of Proxy Settings?</string>
+    <string name="beta_testing_request">Do you want to join the Beta Testing program?</string>
 
-    <string name="beta_testing_community">In order to be part of the Beta Testing program, you need to join the \"Proxy Settings - Beta Testers\" Community on Google+.</string>
+    <!--<string name="beta_testing_community_title">In order to be part of the Beta Testing program, you need to join the \"Proxy Settings - Beta Testers\" Community on Google+.</string>-->
+    <!--<string name="beta_testing_community">In order to be part of the Beta Testing program, you need to join the \"Proxy Settings - Beta Testers\" Community on Google+.</string>-->
 
-    <string name="beta_testing_dismissed">If you change your mind in future, you can find the link to join the Beta Testing program in the Help section or in the official page of the </string>
+    <string name="no_problem">No problem!</string>
+    <string name="beta_testing_dismissed">You will find a link to join the Beta Testing program into the Help section.</string>
 
-    <string name="beta_testing_instructions">In order to become a beta tester for you need to join the \"Proxy Settings - Beta Testers\" Community on Google+. More information available on the Community page.</string>
+    <string name="welcome_aboard">Welcome aboard!</string>
+    <string name="beta_testing_instructions">Join the Beta Testing program on Google+, and follow the instructions you will find on the Community page.</string>
+
     <string name="ok">OK</string>
     <string name="cont">Continue</string>
     <string name="pref_share_app">Spread the voice</string>
@@ -897,6 +901,10 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="not_now">Not now</string>
-    <string name="mail_feedback_dialog">Sorry for that. We\'d like to hear your feedback: it will help us improve Proxy Settings</string>
+    <string name="thank_you">Thank you!</string>
+
+    <string name="sorry_for_that">Sorry for that!</string>
+    <string name="mail_feedback_dialog">Please let us know how to make Proxy Settings better for you!</string>
+    <string name="rate_app">It\'d be really helpful if you rated Proxy Settings.</string>
 
 </resources>
