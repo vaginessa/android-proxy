@@ -22,16 +22,27 @@ public class StartupActions
         context = ctx;
 
         StartupAction rating = new StartupAction(context,
-                                                 StartupActionType.RATE_DIALOG,
-                                                 StartupActionStatus.NOT_AVAILABLE,
-                                                 new StartupCondition(1,null),
-                                                 new StartupCondition(2,null));
+                StartupActionType.RATE_DIALOG,
+                StartupActionStatus.NOT_AVAILABLE,
+                new StartupCondition(1, null),
+                new StartupCondition(2, null),
+                new StartupCondition(3, null),
+                new StartupCondition(4, null),
+//                new StartupCondition(30, null),
+//                new StartupCondition(45, null),
+//                new StartupCondition(60, null),
+//                new StartupCondition(70, null),
+//                new StartupCondition(80, null),
+//                new StartupCondition(90, null),
+                new StartupCondition(100,null));
         availableActions.add(rating);
 
         StartupAction betaTest = new StartupAction(context,
-                                                   StartupActionType.BETA_TEST_DIALOG,
-                                                   StartupActionStatus.NOT_AVAILABLE,
-                                                   new StartupCondition(3,null));
+                StartupActionType.BETA_TEST_DIALOG,
+                StartupActionStatus.NOT_AVAILABLE,
+                new StartupCondition(50, null),
+                new StartupCondition(70, null),
+                new StartupCondition(90, null));
 
         availableActions.add(betaTest);
     }

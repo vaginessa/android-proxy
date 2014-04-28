@@ -47,7 +47,8 @@ public class TestActivity extends Activity
         LIST_TAGS,
         CLEAR_ALL,
         TOGGLE_DEMO_MODE,
-        RUN_STARTUP_ACTIONS, ASSIGN_PROXY
+        RUN_STARTUP_ACTIONS,
+        ASSIGN_PROXY
     }
 
     @Override
@@ -69,11 +70,8 @@ public class TestActivity extends Activity
 
     public void startStartupActions(View view)
     {
-//        AsyncTest async = new AsyncTest(this, TestAction.RUN_STARTUP_ACTIONS);
-//        async.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        AsyncStartupActions async = new AsyncStartupActions(this);
-        async.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        AsyncTest startupActionsAsync = new AsyncTest(this, TestAction.RUN_STARTUP_ACTIONS);
+        startupActionsAsync.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void addExampleProxyClicked(View caller)
@@ -181,7 +179,7 @@ public class TestActivity extends Activity
         @Override
         protected void onPostExecute(Void result)
         {
-            _testActivity.testDBContainer.removeView(textViewTest);
+//            _testActivity.testDBContainer.removeView(textViewTest);
         }
 
         @Override
@@ -220,6 +218,16 @@ public class TestActivity extends Activity
             else if (_action == TestAction.ADD_EXAMPLE_PROXIES)
             {
                 TestUtils.addProxyExamples(_testActivity);
+            }
+            else if (_action == TestAction.RUN_STARTUP_ACTIONS)
+            {
+                ApplicationStatistics.updateInstallationDetails(_testActivity);
+
+                ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(_testActivity);
+                publishProgress(statistics.toString());
+
+                AsyncStartupActions async = new AsyncStartupActions(_testActivity);
+                async.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
             else if (_action == TestAction.TOGGLE_DEMO_MODE)
             {
