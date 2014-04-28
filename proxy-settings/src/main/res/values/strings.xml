@@ -906,5 +906,7 @@
     <string name="sorry_for_that">Sorry for that!</string>
     <string name="mail_feedback_dialog">Please let us know how to make Proxy Settings better for you!</string>
     <string name="rate_app">It\'d be really helpful if you rated Proxy Settings.</string>
+    <string name="no_email_client_installed">There are no email clients installed.</string>
+    <string name="mail_feedback_subject">Proxy Settings %s feedback</string>
 
 </resources>

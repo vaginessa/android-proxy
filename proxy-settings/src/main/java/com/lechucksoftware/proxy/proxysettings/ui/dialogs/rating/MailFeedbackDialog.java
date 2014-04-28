@@ -38,7 +38,7 @@ public class MailFeedbackDialog extends DialogFragment
 
                 startupAction.updateStatus(StartupActionStatus.DONE);
                 EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "mail_feedback_proxy_settings", 1L);
-                Utils.startMarketActivity(getActivity());
+                Utils.sendFeedbackMail(getActivity());
             }
         });
 

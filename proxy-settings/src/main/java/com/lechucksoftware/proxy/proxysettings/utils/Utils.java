@@ -1,11 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -29,6 +32,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Stack;
 
 import be.shouldit.proxy.lib.utils.HttpAnswer;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -102,7 +107,7 @@ public class Utils
 
         if (pi != null)
         {
-            appVersionName = ctx.getResources().getString(R.string.app_versionname, pi.versionName,pi.versionCode);
+            appVersionName = ctx.getResources().getString(R.string.app_versionname, pi.versionName, pi.versionCode);
         }
         else
         {
@@ -145,7 +150,7 @@ public class Utils
 
         if (!marketShown)
         {
-            Toast.makeText(ctx,R.string.market_not_found,Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, R.string.market_not_found, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -266,6 +271,57 @@ public class Utils
         else
         {
             return false;
+        }
+    }
+
+    public static Intent createEmailOnlyChooserIntent(Context context, Intent source, CharSequence chooserTitle)
+    {
+        Stack<Intent> intents = new Stack<Intent>();
+        Intent i = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "info@domain.com", null));
+        List<ResolveInfo> activities = context.getPackageManager().queryIntentActivities(i, 0);
+
+        for (ResolveInfo ri : activities)
+        {
+            Intent target = new Intent(source);
+            target.setPackage(ri.activityInfo.packageName);
+            intents.add(target);
+        }
+
+        if (!intents.isEmpty())
+        {
+            Intent chooserIntent = Intent.createChooser(intents.remove(0), chooserTitle);
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toArray(new Parcelable[intents.size()]));
+            return chooserIntent;
+        }
+        else
+        {
+            return Intent.createChooser(source, chooserTitle);
+        }
+    }
+
+    public static void sendFeedbackMail(Context context)
+    {
+        /* Create the Intent */
+        final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        /* Fill it with Data */
+        emailIntent.setType("message/rfc822");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@shouldit.be"});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.mail_feedback_subject, getAppInfo(context).versionName));
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+
+        /* Send it off to the Activity-Chooser */
+        try
+        {
+            context.startActivity(createEmailOnlyChooserIntent(context, emailIntent, "Send us an email..."));
+        }
+        catch (ActivityNotFoundException ex)
+        {
+            Toast.makeText(context, R.string.no_email_client_installed, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
         }
     }
 }
