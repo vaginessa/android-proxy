@@ -32,6 +32,7 @@ public class LikeAppDialog extends DialogFragment
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
+
                 RateAppDialog rateDialog = RateAppDialog.newInstance(startupAction);
                 rateDialog.show(getFragmentManager(), "RateAppDialog");
 
@@ -45,6 +46,7 @@ public class LikeAppDialog extends DialogFragment
         {
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
+
                 MailFeedbackDialog feedbackDialog = MailFeedbackDialog.newInstance(startupAction);
                 feedbackDialog.show(getFragmentManager(), "MailFeedbackDialog");
 

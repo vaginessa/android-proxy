@@ -27,7 +27,9 @@ public class BetaTestAppDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
+
                 startupAction.updateStatus(StartupActionStatus.DONE);
+
                 EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
                         R.string.analytics_lab_beta_test_dialog, 1L);
@@ -41,6 +43,7 @@ public class BetaTestAppDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
+
                 startupAction.updateStatus(StartupActionStatus.REJECTED);
 
                 EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,

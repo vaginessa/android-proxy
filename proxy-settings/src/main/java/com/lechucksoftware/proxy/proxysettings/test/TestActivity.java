@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -32,6 +34,7 @@ public class TestActivity extends Activity
 {
     public static final String TAG = "TestActivity";
     public LinearLayout testDBContainer;
+    private ScrollView testLogScroll;
 
     public enum TestAction
     {
@@ -59,6 +62,7 @@ public class TestActivity extends Activity
 
         setContentView(R.layout.test_layout);
 
+        testLogScroll = (ScrollView) findViewById(R.id.test_log);
         testDBContainer = (LinearLayout) findViewById(R.id.testDBContainer);
     }
 
@@ -179,7 +183,7 @@ public class TestActivity extends Activity
         @Override
         protected void onPostExecute(Void result)
         {
-//            _testActivity.testDBContainer.removeView(textViewTest);
+            _testActivity.testLogScroll.fullScroll(View.FOCUS_DOWN);
         }
 
         @Override
@@ -193,7 +197,13 @@ public class TestActivity extends Activity
         @Override
         protected void onProgressUpdate(String... progress)
         {
-            textViewTest.setText(_action + " " + progress[0]);
+            if (progress != null && progress.length > 0)
+            {
+                String msg = TextUtils.join("\n",progress);
+                textViewTest.setText(msg);
+            }
+            else
+                textViewTest.setText(_action.toString());
         }
 
         @Override

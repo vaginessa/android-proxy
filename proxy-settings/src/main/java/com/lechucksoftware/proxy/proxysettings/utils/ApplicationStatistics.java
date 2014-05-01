@@ -65,9 +65,8 @@ public class ApplicationStatistics
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
         DateFormat df = DateFormat.getDateTimeInstance();
-        App.getLogger().a(TAG, String.format("App launched #%d times (%d crashes) since %s", LaunchCount, CrashesCount, df.format(LaunhcFirstDate)));
-        return sb.toString();
+        String msg = String.format("App launched #%d times (%d crashes) since %s", LaunchCount, CrashesCount, df.format(LaunhcFirstDate));
+        return msg;
     }
 }
