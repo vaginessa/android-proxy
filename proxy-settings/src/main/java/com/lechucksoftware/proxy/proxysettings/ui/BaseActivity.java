@@ -9,9 +9,7 @@ import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
@@ -129,7 +127,7 @@ public class BaseActivity extends Activity
                 App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
                 i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
-                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "create_new_proxy");
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action, R.string.analytics_act_button_click,R.string.analytics_lab_create_new_proxy);
                 break;
 
             case R.id.menu_about:

@@ -909,4 +909,27 @@
     <string name="no_email_client_installed">There are no email clients installed.</string>
     <string name="mail_feedback_subject">Proxy Settings %s feedback</string>
 
+    <!-- Analytics Categories -->
+    <string name="analytics_cat_user_action">User action</string>
+
+    <!-- Analytics Actions -->
+    <string name="analytics_act_button_click">Clicked button</string>
+    <string name="analytics_act_dialog_button_click">Dialog button clicked</string>
+    <string name="analytics_act_startup_action">Updated status of startup action</string>
+
+    <!-- Analytics Labels -->
+    <string name="analytics_lab_create_new_proxy">Create new proxy</string>
+    <string name="analytics_lab_save_proxy">Save proxy</string>
+    <string name="analytics_lab_cancel_save_proxy">Cancel proxy save</string>
+    <string name="analytics_lab_beta_test_dialog">Beta test dialog</string>
+    <string name="analytics_lab_beta_test_community_dialog">Beta test dialog for Google+</string>
+    <string name="analytics_lab_beta_test_dismiss_dialog">Beta test dismiss dialog</string>
+
+    <string name="analytics_lab_like_app_dialog">Application like dialog</string>
+    <string name="analytics_lab_like_app_mail_feedback">Doesn\'t like application, mail feedback</string>
+    <string name="analytics_lab_like_app_rate">Like application, rate it</string>
+
+
+
+
 </resources>

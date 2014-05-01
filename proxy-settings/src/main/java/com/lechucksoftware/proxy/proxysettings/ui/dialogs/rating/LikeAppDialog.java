@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
@@ -36,7 +34,10 @@ public class LikeAppDialog extends DialogFragment
             {
                 RateAppDialog rateDialog = RateAppDialog.newInstance(startupAction);
                 rateDialog.show(getFragmentManager(), "RateAppDialog");
-                EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "like_proxy_settings", 1L);
+
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_dialog_button_click,
+                        R.string.analytics_lab_like_app_dialog, 1L);
             }
         });
 
@@ -46,7 +47,10 @@ public class LikeAppDialog extends DialogFragment
             {
                 MailFeedbackDialog feedbackDialog = MailFeedbackDialog.newInstance(startupAction);
                 feedbackDialog.show(getFragmentManager(), "MailFeedbackDialog");
-                EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "like_proxy_settings", 0L);
+
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_dialog_button_click,
+                        R.string.analytics_lab_like_app_dialog, 0L);
             }
         });
 
@@ -58,7 +62,10 @@ public class LikeAppDialog extends DialogFragment
     public void onCancel(DialogInterface dialog)
     {
         super.onCancel(dialog);
-        EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "like_proxy_settings", 2L);
+
+        EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                R.string.analytics_act_dialog_button_click,
+                R.string.analytics_lab_like_app_dialog, 0L);
     }
 
     public static LikeAppDialog newInstance(StartupAction action)

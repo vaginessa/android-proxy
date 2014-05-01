@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
@@ -27,7 +25,10 @@ public class BetaTestCommunityDialog extends DialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-                EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_community_proxy_settings", 1L);
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_dialog_button_click,
+                        R.string.analytics_lab_beta_test_community_dialog, 1L);
+
                 UIUtils.openBetaTestProject(getActivity());
 			}
 		});
@@ -40,7 +41,10 @@ public class BetaTestCommunityDialog extends DialogFragment
     public void onCancel(DialogInterface dialog)
     {
         super.onCancel(dialog);
-        EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_community_proxy_settings", 2L);
+
+        EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                R.string.analytics_act_dialog_button_click,
+                R.string.analytics_lab_beta_test_community_dialog, 2L);
     }
 
     public static BetaTestCommunityDialog newInstance()

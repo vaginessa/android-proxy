@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 public class BetaTestDismissedDialog extends DialogFragment
@@ -22,11 +20,14 @@ public class BetaTestDismissedDialog extends DialogFragment
 
         builder.setTitle(R.string.no_problem);
 		builder.setMessage(R.string.beta_testing_dismissed);
+
 		builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener()
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-                EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_dismissed_proxy_settings", 1L);
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_dialog_button_click,
+                        R.string.analytics_lab_beta_test_dismiss_dialog, 1L);
 			}
 		});
 
@@ -38,7 +39,10 @@ public class BetaTestDismissedDialog extends DialogFragment
     public void onCancel(DialogInterface dialog)
     {
         super.onCancel(dialog);
-        EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_dismissed_proxy_settings", 2L);
+
+        EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                R.string.analytics_act_dialog_button_click,
+                R.string.analytics_lab_beta_test_dismiss_dialog, 2L);
     }
 
     public static BetaTestDismissedDialog newInstance()

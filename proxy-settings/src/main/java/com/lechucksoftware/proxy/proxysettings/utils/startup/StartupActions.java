@@ -24,17 +24,16 @@ public class StartupActions
         StartupAction rating = new StartupAction(context,
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(1, null),
-                new StartupCondition(2, null),
-                new StartupCondition(3, null),
-                new StartupCondition(4, null),
-//                new StartupCondition(30, null),
-//                new StartupCondition(45, null),
-//                new StartupCondition(60, null),
-//                new StartupCondition(70, null),
-//                new StartupCondition(80, null),
-//                new StartupCondition(90, null),
+//                new StartupCondition(1, null),
+//                new StartupCondition(3, null),
+//                new StartupCondition(5, null),
+//                new StartupCondition(7, null),
+                new StartupCondition(null, 1),
+                new StartupCondition(30, null),
+                new StartupCondition(60, null),
+                new StartupCondition(80, null),
                 new StartupCondition(100,null));
+                new StartupCondition(null, 30);
         availableActions.add(rating);
 
         StartupAction betaTest = new StartupAction(context,
@@ -42,7 +41,8 @@ public class StartupActions
                 StartupActionStatus.NOT_AVAILABLE,
                 new StartupCondition(50, null),
                 new StartupCondition(70, null),
-                new StartupCondition(90, null));
+                new StartupCondition(90, null),
+                new StartupCondition(null, 80));
 
         availableActions.add(betaTest);
     }

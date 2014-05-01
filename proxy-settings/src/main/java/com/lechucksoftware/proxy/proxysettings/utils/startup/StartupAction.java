@@ -3,9 +3,8 @@ package com.lechucksoftware.proxy.proxysettings.utils.startup;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
+import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
@@ -46,7 +45,7 @@ public class StartupAction
             editor.putInt(preferenceKey, status.getValue());
             editor.commit();
 
-            EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, preferenceKey, (long) status.getValue());
+            EventReportingUtils.sendEvent(context.getString(R.string.analytics_cat_user_action), context.getString(R.string.analytics_act_startup_action), preferenceKey, (long) status.getValue());
         }
     }
 
@@ -97,7 +96,7 @@ public class StartupAction
     {
         Boolean result = false;
 
-        if (launchCount == null || statistics.LaunchCount >= launchCount)
+        if (launchCount == null || statistics.LaunchCount == launchCount)
         {
             result = true;
         }

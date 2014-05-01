@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
@@ -30,7 +28,9 @@ public class BetaTestAppDialog extends DialogFragment
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
                 startupAction.updateStatus(StartupActionStatus.DONE);
-                EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_proxy_settings", 1L);
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_dialog_button_click,
+                        R.string.analytics_lab_beta_test_dialog, 1L);
 
                 BetaTestCommunityDialog betaTestCommunityDialog = BetaTestCommunityDialog.newInstance();
                 betaTestCommunityDialog.show(getFragmentManager(), "BetaTestCommunityDialog");
@@ -42,7 +42,10 @@ public class BetaTestAppDialog extends DialogFragment
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
                 startupAction.updateStatus(StartupActionStatus.REJECTED);
-                EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_proxy_settings", 0L);
+
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_dialog_button_click,
+                        R.string.analytics_lab_beta_test_dialog, 0L);
 
                 BetaTestDismissedDialog betaTestDismissedDialog = BetaTestDismissedDialog.newInstance();
                 betaTestDismissedDialog.show(getFragmentManager(), "BetaTestDismissedDialog");
@@ -57,7 +60,10 @@ public class BetaTestAppDialog extends DialogFragment
     public void onCancel(DialogInterface dialog)
     {
         super.onCancel(dialog);
-        EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "beta_test_proxy_settings", 2L);
+
+        EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                R.string.analytics_act_dialog_button_click,
+                R.string.analytics_lab_beta_test_dialog, 2L);
     }
 
     public static BetaTestAppDialog newInstance(StartupAction action)

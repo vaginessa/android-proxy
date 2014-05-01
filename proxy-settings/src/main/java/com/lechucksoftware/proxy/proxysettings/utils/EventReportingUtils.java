@@ -10,8 +10,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -141,30 +139,44 @@ public class EventReportingUtils implements IEventReporting
         getInstance().send(s);
     }
 
-    public static void sendEvent(EventCategories eventCategory, BaseActions eventAction, String eventLabel)
+    public static void sendEvent(final int categoryId, final int actionId, final int labelId)
     {
-        getInstance().send(eventCategory, eventAction, eventLabel);
+        getInstance().send(categoryId, actionId, labelId);
     }
 
-    public static void sendEvent(EventCategories eventCategory, BaseActions eventAction, String eventLabel, Long eventValue)
+    public static void sendEvent(final int categoryId, final int actionId, final int labelId, final Long eventValue)
     {
-        getInstance().send(eventCategory, eventAction, eventLabel, eventValue);
+        getInstance().send(categoryId, actionId, labelId, eventValue);
     }
 
-    public void send(EventCategories eventCategory, BaseActions eventAction, String eventLabel)
+    public static void sendEvent(final String category, final String action, final String label, final Long eventValue)
     {
-        send(eventCategory,eventAction, eventLabel, null);
+        getInstance().send(category, action, label, eventValue);
     }
 
-    public void send(EventCategories eventCategory, BaseActions eventAction, String eventLabel, Long eventValue)
+    public void send(final int categoryId, final int actionId, final int labelId)
+    {
+        send(categoryId, actionId, labelId, null);
+    }
+
+    public void send(final int categoryId, final int actionId, final int labelId, final Long eventValue)
+    {
+        String category = context.getString(categoryId);
+        String action = context.getString(actionId);
+        String label = context.getString(labelId);
+
+        send(category, action, label, eventValue);
+    }
+
+    public void send(final String category, final String action, final String label, final Long eventValue)
     {
         if (setupDone)
         {
             HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder();
 
-            builder.setCategory(eventCategory.toString());   // Event category (required)
-            builder.setAction(eventAction.toString());       // Event action (required)
-            builder.setLabel(eventLabel.toString());         // Event label
+            builder.setCategory(category);   // Event category (required)
+            builder.setAction(action);       // Event action (required)
+            builder.setLabel(label);         // Event label
 
             if (eventValue != null)
                 builder.setValue(eventValue);
@@ -178,14 +190,19 @@ public class EventReportingUtils implements IEventReporting
         }
         else
         {
-            String msg = String.format("sendEvent: %s %s %s", eventCategory, eventAction, eventLabel);
+            String msg = "";
+            if (eventValue != null)
+                msg = String.format("Logging event: %s %s %s %d", category, action, label, eventValue);
+            else
+                msg = String.format("Logging event: %s %s %s", category, action, label);
+
             App.getLogger().e(TAG, msg);
         }
     }
 
     public void send(String s)
     {
-        send(EventCategories.BASE, BaseActions.BASE, s);
+        send("", "", s, null);
     }
 
     public void setupAnalytics(Context upAnalytics)

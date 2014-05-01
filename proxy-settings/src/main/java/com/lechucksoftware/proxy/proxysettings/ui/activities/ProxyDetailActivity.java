@@ -12,13 +12,11 @@ import android.view.ViewGroup;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
 import com.lechucksoftware.proxy.proxysettings.ui.BaseActivity;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.UpdateLinkedWifiAPAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
@@ -88,25 +86,31 @@ public class ProxyDetailActivity extends BaseActivity
         final View customActionBarView = inflater.inflate(R.layout.save_cancel, null);
         saveButton = customActionBarView.findViewById(R.id.actionbar_done);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
             public void onClick(View v)
             {
-                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "save_proxy");
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_button_click,
+                        R.string.analytics_lab_save_proxy);
                 saveConfiguration();
             }
 
         });
 
         cancelButton = customActionBarView.findViewById(R.id.actionbar_cancel);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
             public void onClick(View view)
             {
 
-                EventReportingUtils.sendEvent(EventCategories.UI, BaseActions.BUTTON_PRESS, "cancel_save_proxy");
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_button_click,
+                        R.string.analytics_lab_cancel_save_proxy);
                 App.getCacheManager().release(cachedProxyId);
                 finish();
             }
@@ -118,7 +122,8 @@ public class ProxyDetailActivity extends BaseActivity
                 ActionBar.DISPLAY_SHOW_CUSTOM |
                         ActionBar.DISPLAY_HOME_AS_UP |
                         ActionBar.DISPLAY_SHOW_HOME |
-                        ActionBar.DISPLAY_SHOW_TITLE);
+                        ActionBar.DISPLAY_SHOW_TITLE
+        );
 
 
 //        actionBar.setCustomView(customActionBarView);
@@ -127,7 +132,8 @@ public class ProxyDetailActivity extends BaseActivity
         actionBar.setCustomView(customActionBarView,
                 new ActionBar.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
+                        ViewGroup.LayoutParams.MATCH_PARENT)
+        );
     }
 
     public void enableSave()

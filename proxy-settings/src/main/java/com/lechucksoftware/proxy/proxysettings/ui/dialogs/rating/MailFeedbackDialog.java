@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.BaseActions;
-import com.lechucksoftware.proxy.proxysettings.constants.EventCategories;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -37,7 +35,11 @@ public class MailFeedbackDialog extends DialogFragment
             {
 
                 startupAction.updateStatus(StartupActionStatus.DONE);
-                EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "mail_feedback_proxy_settings", 1L);
+
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_dialog_button_click,
+                        R.string.analytics_lab_like_app_mail_feedback, 1L);
+
                 Utils.sendFeedbackMail(getActivity());
             }
         });
@@ -48,7 +50,10 @@ public class MailFeedbackDialog extends DialogFragment
             {
 
                 startupAction.updateStatus(StartupActionStatus.REJECTED);
-                EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "mail_feedback_proxy_settings", 0L);
+
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_dialog_button_click,
+                        R.string.analytics_lab_like_app_mail_feedback, 0L);
             }
         });
 
@@ -60,7 +65,10 @@ public class MailFeedbackDialog extends DialogFragment
     public void onCancel(DialogInterface dialog)
     {
         super.onCancel(dialog);
-        EventReportingUtils.sendEvent(EventCategories.USER_ACTION, BaseActions.DIALOG_ANSWER, "mail_feedback_proxy_settings", 2L);
+
+        EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                R.string.analytics_act_dialog_button_click,
+                R.string.analytics_lab_like_app_mail_feedback, 2L);
     }
 
     public static MailFeedbackDialog newInstance(StartupAction action)
