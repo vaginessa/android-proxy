@@ -4,6 +4,14 @@ repositories {
     maven { url 'http://www.bugsense.com/gradle/' }
 }
 
+task printProps << {
+    println 'Printing properties'
+    println android_keystore
+    println android_keystore_password
+    println android_key_alias
+    println android_key_password
+}
+
 android {
 
     compileSdkVersion 19
@@ -16,15 +24,18 @@ android {
 //    $$$$ - the last four digits for the app version.
 
     defaultConfig {
+
         minSdkVersion 15
         targetSdkVersion 19
         versionCode 13002150
         versionName "2.15"
+        
     }
 
     signingConfigs {
 
         release
+
     }
 
     buildTypes {
@@ -40,6 +51,11 @@ android {
             buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_release + "\""
 
             signingConfig project.hasProperty('android_keystore') ? signingConfigs.release : signingConfigs.debug
+
+            applicationVariants.all { variant ->
+                def file = variant.outputFile
+                variant.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionCode + ".apk"))
+            }
         }
 
         debug {
@@ -54,6 +70,7 @@ android {
         }
 
         CI {
+
             debuggable true
             runProguard false
 
@@ -63,17 +80,16 @@ android {
     }
 
     if (project.hasProperty('android_keystore') &&
-        project.hasProperty('android_keystore_password') &&
-        project.hasProperty('android_key_alias') &&
-        project.hasProperty('keyPassword'))
-    {
+            project.hasProperty('android_keystore_password') &&
+            project.hasProperty('android_key_alias') &&
+            project.hasProperty('android_key_password')) {
+        println 'Signing Configurations succesfully found'
         android.signingConfigs.release.storeFile = file(android_keystore)
         android.signingConfigs.release.storePassword = android_keystore_password
         android.signingConfigs.release.keyAlias = android_key_alias
         android.signingConfigs.release.keyPassword = android_key_password
-    }
-    else
-    {
+    } else {
+        println 'Signing Configurations not found'
         buildTypes.release.signingConfig = null
     }
 
