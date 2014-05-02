@@ -3,6 +3,7 @@ package be.shouldit.proxy.lib.reflection;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Looper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -13,10 +14,42 @@ import java.util.Arrays;
 import java.util.List;
 
 import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.reflection.android.WifiServiceHandler;
 
 public class ReflectionUtils
 {
     public static final String TAG = "ReflectionUtils";
+
+    /* Events from WifiService */
+    /** @hide */
+    public static final int CMD_WPS_COMPLETED               = 11;
+
+    public static final int BASE_SYSTEM_ASYNC_CHANNEL = 0x00011000;
+    private static final int BASE = BASE_SYSTEM_ASYNC_CHANNEL;
+
+    /**
+     * Command sent when the channel is half connected. Half connected
+     * means that the channel can be used to send commends to the destination
+     * but the destination is unaware that the channel exists. The first
+     * command sent to the destination is typically CMD_CHANNEL_FULL_CONNECTION if
+     * it is desired to establish a long term connection, but any command maybe
+     * sent.
+     *
+     * msg.arg1 == 0 : STATUS_SUCCESSFUL
+     *             1 : STATUS_BINDING_UNSUCCESSFUL
+     * msg.obj  == the AsyncChannel
+     * msg.replyTo == dstMessenger if successful
+     */
+    public static final int CMD_CHANNEL_HALF_CONNECTED = BASE + 0;
+
+    /** Successful status always 0, !0 is an unsuccessful status */
+    public static final int STATUS_SUCCESSFUL = 0;
+    /** Error attempting to bind on a connect */
+    public static final int STATUS_BINDING_UNSUCCESSFUL = 1;
+    /** Error attempting to send a message */
+    public static final int STATUS_SEND_UNSUCCESSFUL = 2;
+
+
 
     public static void connectToWifi(WifiManager wifiManager, Integer networkId) throws Exception
     {
@@ -123,13 +156,25 @@ public class ReflectionUtils
     {
         boolean internalSaveDone = false;
 
+        Method internalAsyncConnect = getMethod(WifiManager.class.getMethods(), "asyncConnect");
         Method internalSaveNetwork = getMethod(WifiManager.class.getMethods(), "saveNetwork");
-        if (internalSaveNetwork != null)
+
+        if (internalAsyncConnect != null && internalSaveNetwork != null)
         {
             try
             {
-                internalSaveNetwork.invoke(wifiManager, configuration);
-                internalSaveDone = true;
+                Looper looper = Looper.myLooper();
+                if (looper == null)
+                    Looper.prepare();   // Needed to invoke the asyncConnect method
+
+                WifiServiceHandler wifiServiceHandler = new WifiServiceHandler();
+                internalAsyncConnect.invoke(wifiManager, APL.getContext(), wifiServiceHandler);
+
+                if (internalSaveNetwork != null)
+                {
+                    internalSaveNetwork.invoke(wifiManager, configuration);
+                    internalSaveDone = true;
+                }
             }
             catch (Exception e)
             {
