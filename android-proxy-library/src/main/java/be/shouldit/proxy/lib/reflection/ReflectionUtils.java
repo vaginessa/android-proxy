@@ -49,8 +49,6 @@ public class ReflectionUtils
     /** Error attempting to send a message */
     public static final int STATUS_SEND_UNSUCCESSFUL = 2;
 
-
-
     public static void connectToWifi(WifiManager wifiManager, Integer networkId) throws Exception
     {
         boolean internalConnectDone = false;
@@ -190,12 +188,22 @@ public class ReflectionUtils
         boolean internalSaveDone = false;
 
         Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
-        if (internalSave != null)
+        Method internalInitialize = getMethod(WifiManager.class.getMethods(), "initialize");
+
+        if (internalInitialize != null && internalSave != null)
         {
             try
             {
-                internalSave.invoke(wifiManager, configuration, null);
-                internalSaveDone = true;
+                Looper looper = Looper.myLooper();
+                if (looper == null)
+                    Looper.prepare();   // Needed to invoke the asyncConnect method
+
+                Object channel = internalInitialize.invoke(wifiManager, APL.getContext(), looper, null);
+                if (channel != null)
+                {
+                    internalSave.invoke(wifiManager, channel, configuration, null);
+                    internalSaveDone = true;
+                }
             }
             catch (Exception e)
             {
