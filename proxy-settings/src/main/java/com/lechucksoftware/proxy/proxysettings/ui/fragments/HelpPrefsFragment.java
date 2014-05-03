@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.ChangeLogDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.AboutDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.ChangeLogDialog;
 
 public class HelpPrefsFragment extends PreferenceFragment
 {
@@ -71,12 +72,11 @@ public class HelpPrefsFragment extends PreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
+                AboutDialog aboutDialog = AboutDialog.newInstance();
+                aboutDialog.setCancelable(true);
+                aboutDialog.show(getFragmentManager(), "BetaTestApplicationAlertDialog");
 
-                // TODO: think about removing HTML dialog, in order to add automatic version from manifest
-
-                UIUtils.showHTMLAssetsAlertDialog(getActivity(), getResources().getString(R.string.about), "about.html", getResources().getString(R.string.close), null);
                 return true;
-
             }
         });
         aboutPref.setSummary(appVersionName);
