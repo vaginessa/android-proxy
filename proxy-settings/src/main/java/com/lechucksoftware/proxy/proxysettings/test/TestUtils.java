@@ -1,8 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.provider.Telephony;
 import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -401,6 +403,19 @@ public class TestUtils
         App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
         Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
         APL.getContext().sendBroadcast(intent);
+    }
+
+    @TargetApi(19)
+    public static void testAPN(Context ctx)
+    {
+        try
+        {
+            ctx.startActivity(new Intent(Intent.ACTION_INSERT, Telephony.Carriers.CONTENT_URI));
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
+        }
     }
 
     public static void testSerialization()
