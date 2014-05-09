@@ -1,9 +1,6 @@
 apply plugin: 'android-library'
-
-android {
-
-    compileSdkVersion 19
-    buildToolsVersion '19.0.3'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 //    Scheme for version codes: ##@@$$$ , using:
 //    ##   - the first two digits for the API Level,
@@ -11,28 +8,16 @@ android {
 //           (1 - 4 indicating each of the four sizes) or to denote the texture formats
 //    $$$  - the last three digits for the app version.
 
+android {
+
+    compileSdkVersion 19
+    buildToolsVersion '19.0.3'
+
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 19
-        versionCode 800300
-        versionName "3.0"
-    }
-
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-
-        debug {
-            debuggable true
-            runProguard false
-        }
-
-        CI {
-            debuggable true
-            runProguard false
-        }
+        versionCode 800290
+        versionName "2.9"
     }
 
     sourceSets {
@@ -45,7 +30,82 @@ android {
     }
 }
 
-dependencies {
-//    compile 'com.android.support:appcompat-v7:+'
-//    compile fileTree(dir: 'libs', include: ['*.jar'])
+//version = "3.0.0"
+version = '3.0.0-SNAPSHOT'
+group = "be.shouldit"
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+if (isReleaseVersion) {
+    println 'Building RELEASE'
+    ext.sonatypeRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+} else {
+    println 'Building SNAPSHOT'
+    ext.sonatypeRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
+}
+
+ext.sonatypeUsername = has("sonatypeUsername") ? sonatypeUsername : ""
+ext.sonatypePassword = has("sonatypePassword") ? sonatypePassword : ""
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+task publishLocal(type: Upload) {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        repository(url: "file://$buildDir/repo")
+    }
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: project.ext.sonatypeRepo) {
+            authentication(userName: project.ext.sonatypeUsername,
+                    password: project.ext.sonatypePassword)
+        }
+
+        pom.project {
+            name 'Android Proxy Library'
+            packaging 'aar'
+            description 'Proxy utility library for Android applications'
+            url 'https://github.com/shouldit/android-proxy'
+
+            scm {
+                url 'scm:git@github.com:shouldit/android-proxy.git'
+                connection 'scm:git@github.com:shouldit/android-proxy.git'
+                developerConnection 'scm:git@github.com:shouldit/android-proxy.git'
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'lechuckcaptain'
+                    name 'Marco Pagliari'
+                    email 'lechuckcaptain@gmail.com'
+                }
+            }
+        }
+    }
 }

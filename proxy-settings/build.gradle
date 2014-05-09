@@ -83,6 +83,7 @@ android {
             project.hasProperty('android_keystore_password') &&
             project.hasProperty('android_key_alias') &&
             project.hasProperty('android_key_password')) {
+
         println 'Signing Configurations succesfully found'
         android.signingConfigs.release.storeFile = file(android_keystore)
         android.signingConfigs.release.storePassword = android_keystore_password
