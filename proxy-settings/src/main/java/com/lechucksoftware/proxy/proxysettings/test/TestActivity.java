@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -64,6 +65,15 @@ public class TestActivity extends Activity
 
         testLogScroll = (ScrollView) findViewById(R.id.test_log);
         testDBContainer = (LinearLayout) findViewById(R.id.testDBContainer);
+    }
+
+
+    public void APNTest(View view)
+    {
+        if (Build.VERSION.SDK_INT >= 19)
+        {
+            TestUtils.testAPN(this);
+        }
     }
 
     public void addDBClicked(View caller)

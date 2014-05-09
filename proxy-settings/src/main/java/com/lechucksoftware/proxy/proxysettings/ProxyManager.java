@@ -180,6 +180,8 @@ public class ProxyManager
     {
 //        LogWrapper.startTrace(TAG,"updateAfterScanResults", Log.DEBUG);
 
+        // TODO: getScanResults() seems to Trigger a query to LocationManager
+        // Add a possibility to disable the behaviour in order to avoid problems with KitKat AppOps
         List<ScanResult> scanResults = APL.getWifiManager().getScanResults();
         if (scanResults != null)
         {
