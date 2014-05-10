@@ -6,6 +6,7 @@ package com.lechucksoftware.proxy.proxysettings.constants;
 public enum StartupActionType
 {
     WHATSNEW,
+    FIRST_QUICK_TOUR,
     RATE_DIALOG,
     BETA_TEST_DIALOG,
     NONE;

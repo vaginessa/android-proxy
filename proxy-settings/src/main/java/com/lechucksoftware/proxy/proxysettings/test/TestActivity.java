@@ -40,6 +40,7 @@ public class TestActivity extends Activity
     public enum TestAction
     {
         ADD_PROXY,
+        ADD_WIFI_NETWORKS,
         ADD_EXAMPLE_PROXIES,
         ADD_TAGS,
         SET_ALL_PROXIES,
@@ -76,10 +77,16 @@ public class TestActivity extends Activity
         }
     }
 
-    public void addDBClicked(View caller)
+    public void addProxyClicked(View caller)
     {
         AsyncTest addAsyncProxy = new AsyncTest(this, TestAction.ADD_PROXY);
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void addWifiNetworks(View view)
+    {
+        AsyncTest addAsyncWifiNetworks = new AsyncTest(this, TestAction.ADD_WIFI_NETWORKS);
+        addAsyncWifiNetworks.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void startStartupActions(View view)
@@ -238,6 +245,14 @@ public class TestActivity extends Activity
             else if (_action == TestAction.ADD_EXAMPLE_PROXIES)
             {
                 TestUtils.addProxyExamples(_testActivity);
+            }
+            else if (_action == TestAction.ADD_WIFI_NETWORKS)
+            {
+                for (int i=0;i<3;i++)
+                {
+                    String ssid = TestUtils.createFakeWifiNetwork(_testActivity);
+                    publishProgress(String.format("Created Wi-Fi [%d] network: %s", i, ssid));
+                }
             }
             else if (_action == TestAction.RUN_STARTUP_ACTIONS)
             {

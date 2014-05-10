@@ -21,6 +21,13 @@ public class StartupActions
         availableActions = new ArrayList<StartupAction>();
         context = ctx;
 
+        // SHOW Quick tour at first start
+        StartupAction quickTour = new StartupAction(context,
+                StartupActionType.FIRST_QUICK_TOUR,
+                StartupActionStatus.NOT_AVAILABLE,
+                new StartupCondition(0, null));
+        availableActions.add(quickTour);
+
         StartupAction rating = new StartupAction(context,
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,

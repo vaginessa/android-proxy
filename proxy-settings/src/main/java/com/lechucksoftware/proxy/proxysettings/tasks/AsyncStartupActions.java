@@ -7,6 +7,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.tour.AppTourDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
@@ -39,6 +40,11 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                 {
                     case WHATSNEW:
                         whatsNewDialog.show();
+                        break;
+
+                    case FIRST_QUICK_TOUR:
+                        AppTourDialog appTourDialog = AppTourDialog.newInstance(action);
+                        appTourDialog.show(activity.getFragmentManager(), "AppTourDialog");
                         break;
 
                     case RATE_DIALOG:

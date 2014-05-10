@@ -26,10 +26,16 @@
                 android:onClick="APNTest"/>
 
             <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add proxies"
+            android:onClick="addProxyClicked"/>
+
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add proxies"
-                android:onClick="addDBClicked"/>
+                android:text="Add Wi-Fi Networks"
+                android:onClick="addWifiNetworks"/>
 
             <Button
                 android:layout_width="match_parent"

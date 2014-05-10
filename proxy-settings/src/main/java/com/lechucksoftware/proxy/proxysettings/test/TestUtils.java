@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.net.wifi.WifiConfiguration;
 import android.provider.Telephony;
 import android.text.TextUtils;
 
@@ -12,6 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -446,6 +448,36 @@ public class TestUtils
         {
             ex.printStackTrace();
         }
+    }
+
+    public static String createFakeWifiNetwork(Context ctx)
+    {
+        WifiConfiguration wc = new WifiConfiguration();
+        wc.SSID = String.format("\"%s\"",UIUtils.getRandomCodeName().name());
+        wc.hiddenSSID = true;
+        wc.status = WifiConfiguration.Status.DISABLED;
+        wc.priority = 40;
+        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+        wc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+
+        wc.wepKeys[0] = "\"aaabbb1234\""; //This is the WEP Password
+        wc.wepTxKeyIndex = 0;
+
+        int res = APL.getWifiManager().addNetwork(wc);
+        App.getLogger().d("WifiPreference", "add Network returned " + res );
+        boolean es = APL.getWifiManager().saveConfiguration();
+        App.getLogger().d("WifiPreference", "saveConfiguration returned " + es );
+        boolean b = APL.getWifiManager().enableNetwork(res, true);
+        App.getLogger().d("WifiPreference", "enableNetwork returned " + b );
+
+        return wc.SSID;
     }
 }
 
