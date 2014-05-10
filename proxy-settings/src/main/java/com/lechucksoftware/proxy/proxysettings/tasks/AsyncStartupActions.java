@@ -75,17 +75,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 
         ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(activity.getApplicationContext());
 
-        whatsNewDialog = new WhatsNewDialog(activity);
-        if (whatsNewDialog.isToShow())
-        {
-            action = new StartupAction(activity,
-                    StartupActionType.WHATSNEW,
-                    StartupActionStatus.NOT_AVAILABLE,
-                    null,
-                    null);
-        }
-
-        if (action == null && statistics != null && statistics.CrashesCount == 0)
+        if (statistics != null && statistics.CrashesCount == 0)
         {
             // Avoid rating and betatest if application has crashed
             action = getStartupAction(statistics);
@@ -93,6 +83,19 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
         else
         {
             // TODO: If the application crashed ask the user to send information to support team
+        }
+
+        if (action == null)
+        {
+            whatsNewDialog = new WhatsNewDialog(activity);
+            if (whatsNewDialog.isToShow())
+            {
+                action = new StartupAction(activity,
+                        StartupActionType.WHATSNEW,
+                        StartupActionStatus.NOT_AVAILABLE,
+                        null,
+                        null);
+            }
         }
 
         return action;
