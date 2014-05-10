@@ -30,8 +30,8 @@ android {
     }
 }
 
-//version = "3.0.0"
-version = '3.0.0-SNAPSHOT'
+version = "2.9.0"
+//version = '2.9.0-SNAPSHOT'
 group = "be.shouldit"
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
