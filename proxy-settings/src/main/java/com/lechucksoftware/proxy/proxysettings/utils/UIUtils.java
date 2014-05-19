@@ -311,7 +311,7 @@ public class UIUtils
 
             App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
-            AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
             {
                 @Override
@@ -324,9 +324,17 @@ public class UIUtils
                 }
             });
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            webView.setWebViewClient(new WebViewClient(){
 
-            dialog.show();
+                @Override
+                public void onPageFinished(WebView view, String url)
+                {
+                    super.onPageFinished(view, url);
+                    dialog.show();
+                }
+            });
+
+            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
         }
         catch (Exception e)
         {

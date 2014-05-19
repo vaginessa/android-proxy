@@ -1,5 +1,6 @@
 body {
 	font-size: 10pt; 
+    text-align: center;
 }
 
 h1 { 
@@ -18,11 +19,16 @@ li {
 }
 
 ul { 
-    padding-left: 30px 
+    padding-left: 30px;
 }
 
 a {
 	color: #33B5E5;
+    font-weight: bolder;
+}
+
+footer {
+    font-size: 8pt
 }
 
 .summary {

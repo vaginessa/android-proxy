@@ -474,8 +474,9 @@ public class TestUtils
         App.getLogger().d("WifiPreference", "add Network returned " + res );
         boolean es = APL.getWifiManager().saveConfiguration();
         App.getLogger().d("WifiPreference", "saveConfiguration returned " + es );
-        boolean b = APL.getWifiManager().enableNetwork(res, true);
-        App.getLogger().d("WifiPreference", "enableNetwork returned " + b );
+
+//        boolean b = APL.getWifiManager().enableNetwork(res, true);
+//        App.getLogger().d("WifiPreference", "enableNetwork returned " + b );
 
         return wc.SSID;
     }

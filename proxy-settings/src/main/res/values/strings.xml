@@ -847,7 +847,7 @@
 		information.
 	</string>
     <string name="about_copyright">\u00A9 SHOULDIT 2014</string>
-    <string name="about_opensource">Proxy Settings is an open source software created by <a href="info@shouldit.net">SHOULDIT</a>. You can find the source code <a href="https://github.com/shouldit/proxy-settings">here</a> here</string>
+    <string name="about_opensource">Proxy Settings is an open source software created by <b><a href="mailto:info@shouldit.net">SHOULDIT</a></b>. You can find the source code <a href="https://github.com/shouldit/proxy-settings">HERE</a></string>
     <string name="about_github">https://github.com/shouldit/proxy-settings</string>
     <string name="pref_author_title">Author</string>
     <string name="pref_become_tester">Beta Testing</string>
