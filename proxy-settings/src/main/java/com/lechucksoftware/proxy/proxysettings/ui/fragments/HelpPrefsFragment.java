@@ -75,12 +75,7 @@ public class HelpPrefsFragment extends PreferenceFragment
 
                 AboutDialog aboutDialog = AboutDialog.newInstance();
                 aboutDialog.setCancelable(true);
-                aboutDialog.show(getFragmentManager(), "BetaTestApplicationAlertDialog");
-
-                // TODO: think about removing HTML dialog, in order to add automatic version from manifest
-
-//                UIUtils.showHTMLAssetsAlertDialog(getActivity(), getResources().getString(R.string.about), "about.html", getResources().getString(R.string.close), null);
-//
+                aboutDialog.show(getFragmentManager(), "AboutDialog");
                 return true;
 
             }
