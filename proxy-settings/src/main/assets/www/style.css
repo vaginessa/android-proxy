@@ -5,11 +5,13 @@ body {
 h1 { 
 	margin-left: 0px; 
 	font-size: 14pt; 
+    text-align: center;
 }
 
 h2 { 
 	margin-left: 0px; 
-	font-size: 12pt; 
+	font-size: 12pt;
+    text-align: center;
 }
 
 li {
@@ -28,6 +30,7 @@ a {
 
 footer {
     font-size: 8pt
+    text-align: center;
 }
 
 .summary {
