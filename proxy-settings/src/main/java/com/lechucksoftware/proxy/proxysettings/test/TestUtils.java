@@ -317,13 +317,24 @@ public class TestUtils
     public static void clearInUse()
     {
         ProxyEntity pd = App.getDBManager().getRandomProxy();
-        App.getDBManager().clearInUseFlag(pd.getId());
+
+        if (pd != null)
+        {
+            App.getDBManager().clearInUseFlag(pd.getId());
+        }
+        else
+        {
+            App.getDBManager().clearInUseFlag();
+        }
 
         ProxyEntity pd1 = App.getDBManager().getRandomProxy();
         ProxyEntity pd2 = App.getDBManager().getRandomProxy();
         ProxyEntity pd3 = App.getDBManager().getRandomProxy();
 
-        App.getDBManager().clearInUseFlag(pd1.getId(), pd2.getId(), pd3.getId());
+        if (pd1 != null && pd2 != null && pd3 != null)
+        {
+            App.getDBManager().clearInUseFlag(pd1.getId(), pd2.getId(), pd3.getId());
+        }
 
         App.getDBManager().clearInUseFlag();
     }
