@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <!--<release version="2.15" versioncode="13002150" date="04/19/2014">-->
-        <!--<change>Fixed various bugs on previous versions</change>-->
-    <!--</release>-->
+    <release version="2.15" versioncode="13002150" date="05/30/2014">
+        <change>Fixed various bugs on previous versions</change>
+        <change>Improved dialogs infrastructure</change>
+    </release>
     <release version="2.14" versioncode="13002142" date="03/23/2014">
         <change>Improved overall application stability</change>
     </release>
