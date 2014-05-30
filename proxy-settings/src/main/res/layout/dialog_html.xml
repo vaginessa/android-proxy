@@ -8,17 +8,17 @@
     <include layout="@layout/progress"/>
 
     <WebView
-        android:id="@+id/about_webview"
+        android:id="@+id/dialog_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/about_close">
+        android:layout_above="@+id/dialog_close">
     </WebView>
 
     <!--style="@android:style/Holo.ButtonBar.AlertDialog"-->
     <Button
         style="@android:style/Holo.ButtonBar.AlertDialog"
-        android:id="@+id/about_close"
+        android:id="@+id/dialog_close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

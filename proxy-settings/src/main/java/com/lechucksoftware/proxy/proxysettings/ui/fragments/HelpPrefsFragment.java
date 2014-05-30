@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
+import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.AboutDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.ChangeLogDialog;
 
 public class HelpPrefsFragment extends PreferenceFragment
 {
@@ -59,8 +60,8 @@ public class HelpPrefsFragment extends PreferenceFragment
             public boolean onPreferenceClick(Preference preference)
             {
 
-                ChangeLogDialog cld = new ChangeLogDialog(getActivity());
-                cld.show();
+                HtmlDialog htmlDialog = HtmlDialog.newInstance(getActivity().getString(R.string.changelog), Resources.CHANGELOG_HTML);
+                htmlDialog.show(getActivity().getFragmentManager(), "ChangelogHTMLDialog");
                 return true;
             }
         });

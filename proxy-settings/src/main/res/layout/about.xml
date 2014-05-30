@@ -75,7 +75,7 @@
 
     <Button
         style="@android:style/Holo.ButtonBar.AlertDialog"
-        android:id="@+id/about_close"
+        android:id="@+id/dialog_close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/close"/>

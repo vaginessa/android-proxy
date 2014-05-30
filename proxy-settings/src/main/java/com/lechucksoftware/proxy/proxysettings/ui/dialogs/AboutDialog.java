@@ -27,19 +27,18 @@ public class AboutDialog extends DialogFragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.about_html, container, false);
+        View v = inflater.inflate(R.layout.dialog_html, container, false);
 
         App.getLogger().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
         getDialog().setTitle(R.string.about);
 
-        webView = (WebView) v.findViewById(R.id.about_webview);
+        webView = (WebView) v.findViewById(R.id.dialog_webview);
         webView.setVisibility(View.GONE);
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         progress.setVisibility(View.VISIBLE);
@@ -79,7 +78,7 @@ public class AboutDialog extends DialogFragment
         App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
         // Watch for button clicks.
-        Button button = (Button) v.findViewById(R.id.about_close);
+        Button button = (Button) v.findViewById(R.id.dialog_close);
         button.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)

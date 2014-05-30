@@ -5,7 +5,8 @@ package com.lechucksoftware.proxy.proxysettings.constants;
  */
 public enum StartupActionType
 {
-    WHATSNEW,
+    WHATSNEW_215,
+    WHATSNEW_216,
     FIRST_QUICK_TOUR,
     RATE_DIALOG,
     BETA_TEST_DIALOG,

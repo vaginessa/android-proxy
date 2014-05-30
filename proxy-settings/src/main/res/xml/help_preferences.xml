@@ -9,7 +9,7 @@
     <Preference
             android:enabled="true"
             android:key="pref_full_changelog"
-            android:title="@string/pref_help_changelog"
+            android:title="@string/changelog"
             android:summary="@string/pref_help_changelog_summary"/>
 
     <Preference

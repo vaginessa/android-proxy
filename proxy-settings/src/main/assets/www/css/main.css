@@ -1,0 +1,72 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body {
+    background-color: #ededed;
+    font-size: 14px;
+    width: 95%;
+    margin: auto;
+}
+
+li {
+    margin:5px 0px 5px 0px;
+}
+
+ul {
+    padding-left: 30px;
+}
+
+a img {
+    width: 75px;
+    color: #FFFFFF;
+    border-width: thin;
+    border-color: #c9c9c9;
+    border-style: solid;
+    border-radius: 2px;
+    text-decoration: none;
+}
+
+.jumbotron{
+    background-color: #cecece;
+}
+
+.summary {
+    color: #606060;
+    display: block;
+    clear: left;
+}
+
+.logos
+{
+    margin: 20px 0px 20px 0px;
+    text-align: center;
+}
+
+.row
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.date {
+    color: #606060;
+    display: block;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

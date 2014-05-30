@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.lechucksoftware.proxy.proxysettings.utils.startup;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 import android.app.Activity;
 import android.content.Context;

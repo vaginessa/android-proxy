@@ -2,8 +2,6 @@ package com.lechucksoftware.proxy.proxysettings.constants;
 
 import android.net.Uri;
 
-import java.net.URI;
-
 public class Constants
 {
     public static final String PREFERENCES_FILENAME = "ProxySettingsPreferences";

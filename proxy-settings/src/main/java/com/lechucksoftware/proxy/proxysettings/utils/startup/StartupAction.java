@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.utils.startup;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
@@ -81,12 +82,25 @@ public class StartupAction
             for (StartupCondition condition: conditions)
             {
                 if (checkLaunchCount(statistics, condition.launchCount) &&
-                        checkElapsedDays(statistics, condition.launchDays))
+                    checkElapsedDays(statistics, condition.launchDays) &&
+                    checkRequiredAppVersion(statistics, condition.requiredVerCode))
                 {
                     result = true;
                     break;
                 }
             }
+        }
+
+        return result;
+    }
+
+    private static boolean checkRequiredAppVersion(ApplicationStatistics statistics, Integer requiredVerCode)
+    {
+        Boolean result = false;
+
+        if (requiredVerCode == null || BuildConfig.VERSION_CODE == requiredVerCode)
+        {
+            result = true;
         }
 
         return result;

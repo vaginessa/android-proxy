@@ -7,10 +7,12 @@ public class StartupCondition
 {
     public Integer launchCount;
     public Integer launchDays;
+    public Integer requiredVerCode;
 
-    public StartupCondition(Integer count, Integer days)
+    public StartupCondition(Integer count, Integer days, Integer versionCode)
     {
         launchCount = count;
         launchDays = days;
+        requiredVerCode = versionCode;
     }
 }

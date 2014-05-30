@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.lechucksoftware.proxy.proxysettings.utils.startup;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,9 +25,9 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.text.format.DateFormat;
 import android.util.Log;
+
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -45,21 +45,13 @@ public class ChangeLogDialog
     private static final String TAG = "ChangeLogDialog";
 
     private final Context mContext;
-    private String mStyle = "h1 { margin-left: 0px; font-size: 12pt; }"
-            + "li { margin-left: 0px; font-size: 9pt; }"
-            + "ul { padding-left: 30px; }"
-            + ".summary { font-size: 9pt; color: #606060; display: block; clear: left; }"
-            + ".date { font-size: 9pt; color: #606060;  display: block; }";
+    private String mStyle = "";
 
     protected DialogInterface.OnDismissListener mOnDismissListener;
 
     public ChangeLogDialog(final Context context)
     {
         mContext = context;
-
-        // Check if exist an override of the base style
-        String overrideBaseStyle = Utils.getFullAsset(context, "www/style.css");
-        if (overrideBaseStyle != null) mStyle = overrideBaseStyle;
     }
 
     protected Context getContext()
@@ -136,9 +128,19 @@ public class ChangeLogDialog
     }
 
     //CSS style for the html
-    private String getStyle()
+    private String getHead()
     {
-        return String.format("<style type=\"text/css\">%s</style>", mStyle);
+        return String.format("<head>\n" +
+                "    <meta charset=\"utf-8\">\n" +
+                "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n" +
+                "    <title>About Proxy Settings</title>\n" +
+                "    <meta name=\"description\" content=\"\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+                "    <link rel=\"stylesheet\" href=\"../css/bootstrap.min.css\">\n" +
+                "    <link rel=\"stylesheet\" href=\"../css/bootstrap-theme.min.css\">\n" +
+                "    <link rel=\"stylesheet\" href=\"../css/main.css\">\n" +
+                "    <script src=\"../js/vendor/modernizr-2.6.2-respond-1.1.0.min.js\"></script>\n" +
+                "</head>");
     }
 
     public void setStyle(final String style)
@@ -157,7 +159,7 @@ public class ChangeLogDialog
     {
         boolean releaseFound = false;
         final StringBuilder changelogBuilder = new StringBuilder();
-        changelogBuilder.append("<html><head>").append(getStyle()).append("</head><body>");
+        changelogBuilder.append("<html>").append(getHead()).append("<body>");
         final XmlResourceParser xml = resources.getXml(resourceId);
         try
         {

@@ -25,25 +25,32 @@ public class StartupActions
         StartupAction quickTour = new StartupAction(context,
                 StartupActionType.FIRST_QUICK_TOUR,
                 StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(0, null));
+                new StartupCondition(0, null, null));
         availableActions.add(quickTour);
+
+        // SHOW Quick tour at first start
+        StartupAction whatsNew215 = new StartupAction(context,
+                StartupActionType.WHATSNEW_215,
+                StartupActionStatus.NOT_AVAILABLE,
+                new StartupCondition(null, null, 13002150));
+        availableActions.add(whatsNew215);
 
         StartupAction rating = new StartupAction(context,
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(50, null),
-                new StartupCondition(70, null),
-                new StartupCondition(90, null),
-                new StartupCondition(null, 50));
+                new StartupCondition(50, null, null),
+                new StartupCondition(70, null, null),
+                new StartupCondition(90, null, null),
+                new StartupCondition(null, 50, null));
         availableActions.add(rating);
 
         StartupAction betaTest = new StartupAction(context,
                 StartupActionType.BETA_TEST_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(100, null),
-                new StartupCondition(130, null),
-                new StartupCondition(160, null),
-                new StartupCondition(null, 100));
+                new StartupCondition(100, null, null),
+                new StartupCondition(130, null, null),
+                new StartupCondition(160, null, null),
+                new StartupCondition(null, 100, null));
 
         availableActions.add(betaTest);
     }

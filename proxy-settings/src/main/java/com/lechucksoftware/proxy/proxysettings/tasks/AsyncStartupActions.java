@@ -3,8 +3,10 @@ package com.lechucksoftware.proxy.proxysettings.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
-import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.tour.AppTourDialog;
@@ -12,7 +14,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.WhatsNewDialog;
 
 /**
  * Created by mpagliar on 04/04/2014.
@@ -20,7 +21,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.startup.WhatsNewDialog;
 public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 {
     private final Activity activity;
-    private WhatsNewDialog whatsNewDialog;
 
     public AsyncStartupActions(Activity a)
     {
@@ -38,8 +38,11 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
             {
                 switch (action.actionType)
                 {
-                    case WHATSNEW:
-                        whatsNewDialog.show();
+                    case WHATSNEW_215:
+                    case WHATSNEW_216:
+                        HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
+                        htmlDialog.show(activity.getFragmentManager(), "WhatsNewHTMLDialog");
+                        action.updateStatus(StartupActionStatus.DONE);
                         break;
 
                     case FIRST_QUICK_TOUR:
@@ -83,19 +86,6 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
         else
         {
             // TODO: If the application crashed ask the user to send information to support team
-        }
-
-        if (action == null)
-        {
-            whatsNewDialog = new WhatsNewDialog(activity);
-            if (whatsNewDialog.isToShow())
-            {
-                action = new StartupAction(activity,
-                        StartupActionType.WHATSNEW,
-                        StartupActionStatus.NOT_AVAILABLE,
-                        null,
-                        null);
-            }
         }
 
         return action;
