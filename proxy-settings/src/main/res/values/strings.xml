@@ -883,7 +883,8 @@
     <string name="proxy_description_title">Proxy description</string>
     <string name="proxy_description">Description</string>
     <string name="pref_developers">Developer options</string>
-    <string name="loading">Loading data &#8230;</string>
+    <string name="loading">Loading &#8230;</string>
+    <string name="loading_data">Loading data &#8230;</string>
     <string name="saved_n_proxies">Saved %1$d Proxies</string>
     <string name="save">Save</string>
     <string name="undo">undo</string>

@@ -7,7 +7,7 @@
 body {
     background-color: #ededed;
     font-size: 14px;
-    width: 95%;
+    width: 90%;
     margin: auto;
 }
 
@@ -55,8 +55,19 @@ a img {
     color: #606060;
     display: block;
     text-align: center;
+    margin: 0px;
+    padding: 0px;
+/*    background-color: #cecece;*/
 }
 
+.changelog {
+    padding: 10px;
+    border-bottom: 1px solid #000000;
+}
+
+.changelog h2{
+    margin: 0px;
+}
 
 
 

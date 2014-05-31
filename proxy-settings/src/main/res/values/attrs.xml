@@ -63,4 +63,7 @@
     <declare-styleable name="WifiSignal">
         <attr name="text" format="string"/>
     </declare-styleable>
+    <declare-styleable name="EnhancedProgress">
+        <attr name="progressText" format="string"/>
+    </declare-styleable>
 </resources>

@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.ui.components.EnhancedProgress;
 
 public class HtmlDialog extends DialogFragment
 {
@@ -23,7 +23,7 @@ public class HtmlDialog extends DialogFragment
     public String title;
     public String fileName;
     private WebView webView;
-    private RelativeLayout progress;
+    private EnhancedProgress progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -36,7 +36,7 @@ public class HtmlDialog extends DialogFragment
 
         webView = (WebView) v.findViewById(R.id.dialog_webview);
         webView.setVisibility(View.GONE);
-        progress = (RelativeLayout) v.findViewById(R.id.progress);
+        progress = (EnhancedProgress) v.findViewById(R.id.dialog_progress);
         progress.setVisibility(View.VISIBLE);
 
         App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
@@ -56,8 +56,20 @@ public class HtmlDialog extends DialogFragment
             public void onPageFinished(WebView view, String url)
             {
                 App.getLogger().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-                progress.setVisibility(View.GONE);
+
+//                webView.requestLayout();
+
+//                try
+//                {
+//                    Thread.sleep(1000);
+//                }
+//                catch (InterruptedException e)
+//                {
+//                    e.printStackTrace();
+//                }
+
                 webView.setVisibility(View.VISIBLE);
+                progress.setVisibility(View.GONE);
             }
 
             @Override
