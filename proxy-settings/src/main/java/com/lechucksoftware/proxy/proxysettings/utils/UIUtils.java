@@ -84,11 +84,12 @@ public class UIUtils
     /**
      * This method converts dp unit to equivalent pixels, depending on device density.
      *
-     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param dp      A value in dp (density independent pixels) unit. Which we need to convert into pixels
      * @param context Context to get resources and device specific display metrics
      * @return A float value to represent px equivalent to dp depending on device density
      */
-    public static float convertDpToPixel(float dp, Context context){
+    public static float convertDpToPixel(float dp, Context context)
+    {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
@@ -98,11 +99,12 @@ public class UIUtils
     /**
      * This method converts device specific pixels to density independent pixels.
      *
-     * @param px A value in px (pixels) unit. Which we need to convert into db
+     * @param px      A value in px (pixels) unit. Which we need to convert into db
      * @param context Context to get resources and device specific display metrics
      * @return A float value to represent dp equivalent to px value
      */
-    public static float convertPixelsToDp(float px, Context context){
+    public static float convertPixelsToDp(float px, Context context)
+    {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = px / (metrics.densityDpi / 160f);
@@ -324,7 +326,8 @@ public class UIUtils
                 }
             });
 
-            webView.setWebViewClient(new WebViewClient(){
+            webView.setWebViewClient(new WebViewClient()
+            {
 
                 @Override
                 public void onPageFinished(WebView view, String url)
@@ -345,44 +348,32 @@ public class UIUtils
         App.getLogger().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
     }
 
-    public static void showHTMLAlertDialog(final Context ctx, String title, String htmlText, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
+    public static void showHTMLAlertDialog(final Context ctx, String title, String htmlFile, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
     {
-        //Create web view and load html
         final WebView webView = new WebView(ctx);
-        webView.setWebViewClient(new WebViewClient()
-        {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url)
-            {
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                ctx.startActivity(intent);
-                return true;
-            }
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setTitle(title);
+        builder.setView(webView);
+
+        builder.setPositiveButton(closeString, new Dialog.OnClickListener()
+        {
+            public void onClick(final DialogInterface dialogInterface, final int i)
+            {
+                dialogInterface.dismiss();
+            }
         });
 
-        webView.loadDataWithBaseURL(null, htmlText, "text/html", "utf-8", null);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-                .setTitle(title)
-                .setView(webView)
-                .setPositiveButton(closeString, new Dialog.OnClickListener()
-                {
-                    public void onClick(final DialogInterface dialogInterface, final int i)
-                    {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .setOnCancelListener(new DialogInterface.OnCancelListener()
-                {
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
+        {
+            @Override
+            public void onCancel(DialogInterface dialog)
+            {
+                dialog.dismiss();
+            }
+        });
 
-                    @Override
-                    public void onCancel(DialogInterface dialog)
-                    {
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
         {
             @Override
@@ -394,7 +385,37 @@ public class UIUtils
                 }
             }
         });
-        dialog.show();
+
+        webView.setWebViewClient(new WebViewClient()
+        {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url)
+            {
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                ctx.startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url)
+            {
+                super.onPageFinished(view, url);
+
+                try
+                {
+                    Thread.sleep(200);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+
+                dialog.show();
+            }
+        });
+
+        webView.loadUrl(htmlFile);
     }
 
     public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)

@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-
-    <com.lechucksoftware.proxy.proxysettings.ui.components.EnhancedProgress
-        android:id="@+id/dialog_progress"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:progressText="@string/loading"/>
+              android:layout_height="match_parent">
 
     <WebView
         android:id="@+id/dialog_webview"
@@ -28,4 +21,4 @@
         android:layout_weight="0"
         android:text="@string/close"/>
 
-</LinearLayout>
+</RelativeLayout>
