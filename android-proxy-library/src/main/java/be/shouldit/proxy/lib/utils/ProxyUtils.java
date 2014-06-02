@@ -348,7 +348,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getLogger().w(TAG,e.toString());
+                APL.getLogger().w(TAG, e.toString());
             }
 
             step++;
@@ -418,7 +418,7 @@ public class ProxyUtils
         }
         catch (URISyntaxException e)
         {
-            APL.getLogger().w(TAG,e.toString());
+            APL.getLogger().w(TAG, e.toString());
 //            APL.getEventReport().send(e);
         }
 
@@ -544,25 +544,16 @@ public class ProxyUtils
 
     public static SecurityType getSecurity(WifiConfiguration config)
     {
-        SecurityType security = SecurityType.SECURITY_NONE;
-
-        if (config != null && config.allowedKeyManagement != null)
+        if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK))
         {
-            if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_PSK))
-            {
-                security = SecurityType.SECURITY_PSK;
-            }
-            if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP) || config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X))
-            {
-                security = SecurityType.SECURITY_EAP;
-            }
+            return SecurityType.SECURITY_PSK;
         }
-        else if (config != null && config.wepKeys != null)
+        if (config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP) ||
+                config.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X))
         {
-            security = (config.wepKeys[0] != null) ? SecurityType.SECURITY_WEP : SecurityType.SECURITY_NONE;
+            return SecurityType.SECURITY_EAP;
         }
-
-        return security;
+        return (config.wepKeys[0] != null) ? SecurityType.SECURITY_WEP : SecurityType.SECURITY_NONE;
     }
 
     public static SecurityType getSecurity(ScanResult result)
@@ -944,7 +935,7 @@ public class ProxyUtils
             }
 
             String exclusionItemValid = APL.getContext().getString(R.string.status_exclusion_item_valid);
-            String msg = String.format("%s %s", exclusionItemValid, TextUtils.join(",",proxyExclusionList));
+            String msg = String.format("%s %s", exclusionItemValid, TextUtils.join(",", proxyExclusionList));
             return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, true, msg);
         }
         catch (Exception e)

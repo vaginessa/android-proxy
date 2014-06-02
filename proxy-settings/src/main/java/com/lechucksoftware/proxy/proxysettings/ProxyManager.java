@@ -157,7 +157,7 @@ public class ProxyManager
         List<WifiNetworkId> internalSavedSSID = getInternalSavedWifiConfigurations();
 
         //Get latests information regarding configured AP
-        List<WifiNetworkId> notMoreConfiguredSSID = updateInternalSavedConfiguration(internalSavedSSID);
+        List<WifiNetworkId> notMoreConfiguredSSID = updateInternalWifiAP(internalSavedSSID);
 
         // Remove from current configuration the SSID that are not more configured into Android's Wi-Fi settings
         removeNotMoreConfiguredSSID(notMoreConfiguredSSID);
@@ -250,7 +250,7 @@ public class ProxyManager
 //        LogWrapper.stopTrace(TAG,"removeNoMoreConfiguredSSID", Log.DEBUG);
     }
 
-    private List<WifiNetworkId> updateInternalSavedConfiguration(List<WifiNetworkId> internalSavedSSID)
+    private List<WifiNetworkId> updateInternalWifiAP(List<WifiNetworkId> internalSavedSSID)
     {
 //        LogWrapper.startTrace(TAG,"getSavedConfigurations", Log.DEBUG);
 
@@ -272,7 +272,7 @@ public class ProxyManager
                 else
                 {
                     // Add new found configuration
-                    App.getLogger().d(TAG, "Adding to list new proxy savedConfigurations: " + conf.toShortString());
+                    App.getLogger().d(TAG, "Adding to list new Wi-Fi AP configuration: " + conf.toShortString());
                     getSavedConfigurations().put(conf.internalWifiNetworkId, conf);
                 }
 
