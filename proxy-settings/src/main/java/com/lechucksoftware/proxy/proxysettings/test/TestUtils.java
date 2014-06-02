@@ -464,7 +464,23 @@ public class TestUtils
     public static String createFakeWifiNetwork(Context ctx)
     {
         WifiConfiguration wc = new WifiConfiguration();
-        wc.SSID = String.format("\"%s\"",UIUtils.getRandomCodeName().name());
+
+        String ssid = UIUtils.getRandomCodeName().name();
+        String password = "\"aaabbb1234\""; //This is the WEP Password
+
+        setupWEPWifiConfig(wc, ssid, password);
+
+        int res = APL.getWifiManager().addNetwork(wc);
+        App.getLogger().d("WifiPreference", "add Network returned " + res );
+        boolean es = APL.getWifiManager().saveConfiguration();
+        App.getLogger().d("WifiPreference", "saveConfiguration returned " + es );
+
+        return wc.SSID;
+    }
+
+    public static void setupWEPWifiConfig(WifiConfiguration wc, String ssid, String password)
+    {
+        wc.SSID = String.format("\"%s\"",ssid);
         wc.hiddenSSID = true;
         wc.status = WifiConfiguration.Status.DISABLED;
         wc.priority = 40;
@@ -478,18 +494,8 @@ public class TestUtils
         wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
         wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
 
-        wc.wepKeys[0] = "\"aaabbb1234\""; //This is the WEP Password
+        wc.wepKeys[0] = password;
         wc.wepTxKeyIndex = 0;
-
-        int res = APL.getWifiManager().addNetwork(wc);
-        App.getLogger().d("WifiPreference", "add Network returned " + res );
-        boolean es = APL.getWifiManager().saveConfiguration();
-        App.getLogger().d("WifiPreference", "saveConfiguration returned " + es );
-
-//        boolean b = APL.getWifiManager().enableNetwork(res, true);
-//        App.getLogger().d("WifiPreference", "enableNetwork returned " + b );
-
-        return wc.SSID;
     }
 }
 
