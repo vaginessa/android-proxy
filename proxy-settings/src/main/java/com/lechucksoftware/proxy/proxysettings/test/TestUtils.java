@@ -468,7 +468,23 @@ public class TestUtils
         String ssid = UIUtils.getRandomCodeName().name();
         String password = "\"aaabbb1234\""; //This is the WEP Password
 
-        setupWEPWifiConfig(wc, ssid, password);
+        Random r = new Random();
+        int securityType = r.nextInt(3);
+        switch (securityType)
+        {
+            case 0:
+                setupNOSECWifiConfig(wc, ssid, password);
+                break;
+            case 1:
+                setupWEPWifiConfig(wc, ssid, password);
+                break;
+            case 2:
+                setupWPAWifiConfig(wc, ssid, password);
+                break;
+            case 3:
+                setup802xWifiConfig(wc, ssid, password);
+                break;
+        }
 
         int res = APL.getWifiManager().addNetwork(wc);
         App.getLogger().d("WifiPreference", "add Network returned " + res );
@@ -476,6 +492,16 @@ public class TestUtils
         App.getLogger().d("WifiPreference", "saveConfiguration returned " + es );
 
         return wc.SSID;
+    }
+
+    private static void setup802xWifiConfig(WifiConfiguration wc, String ssid, String password)
+    {
+        
+    }
+
+    private static void setupNOSECWifiConfig(WifiConfiguration wc, String ssid, String password)
+    {
+
     }
 
     public static void setupWEPWifiConfig(WifiConfiguration wc, String ssid, String password)
@@ -493,6 +519,30 @@ public class TestUtils
         wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
         wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
         wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+
+        wc.wepKeys[0] = password;
+        wc.wepTxKeyIndex = 0;
+    }
+
+    public static void setupWPAWifiConfig(WifiConfiguration wc, String ssid, String password)
+    {
+        wc.SSID = String.format("\"%s\"",ssid);
+        wc.hiddenSSID = true;
+        wc.status = WifiConfiguration.Status.DISABLED;
+        wc.priority = 40;
+
+        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+        wc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+
+        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+
+        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
         wc.wepKeys[0] = password;
         wc.wepTxKeyIndex = 0;
