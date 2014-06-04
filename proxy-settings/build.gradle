@@ -15,7 +15,7 @@ task printProps << {
 android {
 
     compileSdkVersion 19
-    buildToolsVersion '19.0.3'
+    buildToolsVersion '19.1.0'
 
 //    Scheme for version codes: ##@@$$$ , using:
 //    ##   - the first two digits for the API Level,
@@ -110,7 +110,7 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
-    compile 'com.google.android.gms:play-services:4.3.23'
+    compile 'com.google.android.gms:play-services:4.4.52'
 
 // https://github.com/tony19/logback-android
 //    compile 'org.slf4j:slf4j-api:1.7.1'
