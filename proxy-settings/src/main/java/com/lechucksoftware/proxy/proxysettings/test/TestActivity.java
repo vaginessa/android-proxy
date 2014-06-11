@@ -40,7 +40,8 @@ public class TestActivity extends Activity
     public enum TestAction
     {
         ADD_PROXY,
-        ADD_WIFI_NETWORKS,
+        ADD_TEST_WIFI_NETWORKS,
+        REMOVE_TEST_WIFI_NETWORKS,
         ADD_EXAMPLE_PROXIES,
         ADD_TAGS,
         SET_ALL_PROXIES,
@@ -85,8 +86,14 @@ public class TestActivity extends Activity
 
     public void addWifiNetworks(View view)
     {
-        AsyncTest addAsyncWifiNetworks = new AsyncTest(this, TestAction.ADD_WIFI_NETWORKS);
+        AsyncTest addAsyncWifiNetworks = new AsyncTest(this, TestAction.ADD_TEST_WIFI_NETWORKS);
         addAsyncWifiNetworks.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void removeWifiNetworks(View view)
+    {
+        AsyncTest removeAsyncWifiNetworks = new AsyncTest(this, TestAction.REMOVE_TEST_WIFI_NETWORKS);
+        removeAsyncWifiNetworks.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void startStartupActions(View view)
@@ -246,13 +253,18 @@ public class TestActivity extends Activity
             {
                 TestUtils.addProxyExamples(_testActivity);
             }
-            else if (_action == TestAction.ADD_WIFI_NETWORKS)
+            else if (_action == TestAction.ADD_TEST_WIFI_NETWORKS)
             {
                 for (int i=0;i<3;i++)
                 {
                     String ssid = TestUtils.createFakeWifiNetwork(_testActivity);
-                    publishProgress(String.format("Created Wi-Fi [%d] network: %s", i, ssid));
+                    publishProgress(String.format("Created #[%d] TEST Wi-Fi network: %s", i, ssid));
                 }
+            }
+            else if (_action == TestAction.REMOVE_TEST_WIFI_NETWORKS)
+            {
+                int removedCount = TestUtils.deleteFakeWifiNetworks(_testActivity);
+                publishProgress(String.format("Removed #[%d] TEST Wi-Fi networks", removedCount));
             }
             else if (_action == TestAction.RUN_STARTUP_ACTIONS)
             {

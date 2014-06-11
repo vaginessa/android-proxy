@@ -9,6 +9,7 @@ import android.provider.Telephony;
 import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
@@ -481,17 +482,44 @@ public class TestUtils
             case 2:
                 setupWPAWifiConfig(wc, ssid, password);
                 break;
-            case 3:
-                setup802xWifiConfig(wc, ssid, password);
-                break;
+//            case 3:
+//                setup802xWifiConfig(wc, ssid, password);
+//                break;
         }
 
         int res = APL.getWifiManager().addNetwork(wc);
-        App.getLogger().d("WifiPreference", "add Network returned " + res );
+        App.getLogger().d(TAG, "add Network returned " + res );
         boolean es = APL.getWifiManager().saveConfiguration();
-        App.getLogger().d("WifiPreference", "saveConfiguration returned " + es );
+        App.getLogger().d(TAG, "saveConfiguration returned " + es );
 
         return wc.SSID;
+    }
+
+    public static int deleteFakeWifiNetworks(Context ctx)
+    {
+        int removedNetworks = 0;
+        List<WifiConfiguration> configurations = APL.getWifiManager().getConfiguredNetworks();
+        if (configurations != null && configurations.size() > 0)
+        {
+            for(WifiConfiguration conf: configurations)
+            {
+                String SSID = ProxyUtils.cleanUpSSID(conf.SSID);
+                for (CodeNames codename : CodeNames.values())
+                {
+                    if (SSID.contains(codename.toString()))
+                    {
+                        boolean res = APL.getWifiManager().removeNetwork(conf.networkId);
+                        App.getLogger().d(TAG, "removeNetwork returned " + res);
+                        boolean es = APL.getWifiManager().saveConfiguration();
+                        App.getLogger().d(TAG, "saveConfiguration returned " + es);
+
+                        removedNetworks++;
+                    }
+                }
+            }
+        }
+
+        return removedNetworks;
     }
 
     private static void setup802xWifiConfig(WifiConfiguration wc, String ssid, String password)
@@ -501,7 +529,10 @@ public class TestUtils
 
     private static void setupNOSECWifiConfig(WifiConfiguration wc, String ssid, String password)
     {
-
+        wc.SSID = String.format("\"%s\"",ssid);
+        wc.hiddenSSID = false;
+        wc.status = WifiConfiguration.Status.DISABLED;
+        wc.priority = 40;
     }
 
     public static void setupWEPWifiConfig(WifiConfiguration wc, String ssid, String password)

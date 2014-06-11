@@ -34,8 +34,14 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Wi-Fi Networks"
+                android:text="Add TEST Wi-Fi Networks"
                 android:onClick="addWifiNetworks"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Remove TEST Wi-Fi Networks"
+                android:onClick="removeWifiNetworks"/>
 
             <Button
                 android:layout_width="match_parent"
