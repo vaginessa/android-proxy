@@ -30,6 +30,7 @@ android {
         versionCode 13002150
         versionName "2.15"
 
+        applicationId "com.lechucksoftware.proxy.proxysettings"
     }
 
     signingConfigs {
