@@ -195,8 +195,14 @@ public class ReflectionUtils
             try
             {
                 Looper looper = Looper.myLooper();
-                if (looper == null)
+                int attempt = 0;
+
+                while (attempt < 5 && looper == null)
+                {
                     Looper.prepare();   // Needed to invoke the asyncConnect method
+                    looper = Looper.myLooper();
+                    attempt++;
+                }
 
                 Object channel = internalInitialize.invoke(wifiManager, APL.getContext(), looper, null);
                 if (channel != null)
