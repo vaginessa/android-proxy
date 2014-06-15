@@ -108,8 +108,10 @@
         <!-- Receiver used to track all the network changes -->
 		<receiver
 			android:name="com.lechucksoftware.proxy.proxysettings.receivers.ProxyChangeReceiver">
-			<intent-filter>			
-				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			<intent-filter>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.CONFIGURED_NETWORKS_CHANGE" />
 				<action android:name="android.intent.action.PROXY_CHANGE" />
 				

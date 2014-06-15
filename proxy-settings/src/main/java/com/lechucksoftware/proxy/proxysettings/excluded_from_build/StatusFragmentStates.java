@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.constants;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 public enum StatusFragmentStates
 {

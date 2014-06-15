@@ -56,6 +56,9 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                     // Scan results available information
                     || intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
 
+                    // Wifi state changed action
+                    || intent.getAction().equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
+
                     // Called when a Proxy Configuration is changed
                     || intent.getAction().equals(Proxy.PROXY_CHANGE_ACTION)
 

@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.fragments;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 import android.app.LoaderManager;
 import android.content.Loader;
@@ -10,19 +10,20 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.lechucksoftware.proxy.proxysettings.ActionManager;
+
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import be.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by marco on 17/05/13.

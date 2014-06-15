@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.fragments;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import be.shouldit.proxy.lib.APL;

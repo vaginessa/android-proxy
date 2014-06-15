@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button
+        android:id="@+id/enable_wifi_action_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_red_holo_dark"
+        android:text="@string/enable_wifi_action"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/configure_wifi_ap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_green_holo_dark"
+        android:text="@string/setupap_wifi_action"
+        android:visibility="visible"/>
+
+</LinearLayout>

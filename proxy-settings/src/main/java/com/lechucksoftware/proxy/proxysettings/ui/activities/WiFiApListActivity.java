@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.StatusFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
 
 
@@ -37,14 +36,9 @@ public class WiFiApListActivity extends BaseWifiActivity
     {
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
         instance = this;
-        setContentView(R.layout.main_layout_with_status);
+        setContentView(R.layout.main_layout);
 
         FragmentManager fm = getFragmentManager();
-
-        // Add the StatusFragment to the status_fragment_container
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
 
         // Add the WiFiApListFragment to the main fragment_container
         fm.beginTransaction()

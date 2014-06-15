@@ -34,11 +34,6 @@ public class ProxyListActivity extends BaseWifiActivity
 
         FragmentManager fm = getFragmentManager();
 
-        // Add the StatusFragment to the status_fragment_container
-//        fm.beginTransaction()
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//                .add(R.id.status_fragment_container, StatusFragment.getInstance()).commit();
-
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.fragment_container, ProxyListFragment.newInstance()).commit();

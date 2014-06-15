@@ -1,7 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings;
-
-import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.StatusFragment;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 /**
  * Created by Marco on 06/08/13.

@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.components;
+package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.StatusFragmentStates;
 
 /**
  * Created by marco on 12/09/13.
