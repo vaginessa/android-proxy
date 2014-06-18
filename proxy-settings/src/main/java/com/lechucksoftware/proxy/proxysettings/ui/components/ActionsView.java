@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.APL;
 
@@ -93,4 +94,14 @@ public class ActionsView extends LinearLayout
             view.setVisibility(GONE);
         }
     };
+
+    public void enableWifiAction(boolean b)
+    {
+        enableWifiActionBtn.setVisibility(UIUtils.booleanToVisibility(b));
+    }
+
+    public void configureWifiAction(boolean b)
+    {
+        configureWifiActionBtn.setVisibility(UIUtils.booleanToVisibility(b));
+    }
 }

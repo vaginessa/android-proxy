@@ -38,8 +38,8 @@
     <string name="connected_to">%1$s &#8230;</string>
 
     <string name="no_proxy_defined">No proxies defined!</string>
-    <string name="enable_wifi_action">Enable Wi-Fi</string>
-    <string name="setupap_wifi_action">Connect to available Wi-Fi</string>
+    <string name="enable_wifi_action">Enable Wi-Fi&#8230;</string>
+    <string name="setupap_wifi_action">Configure new Wi-Fi access point&#8230;</string>
     <string name="connect_to_wifi_action">Connect to %1$s</string>
     <string name="checking_action">Checking configuration</string>
 
