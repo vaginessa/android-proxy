@@ -4,10 +4,10 @@ machine:
 
 dependencies:
   pre:
-    - echo y | android update sdk --no-ui --all --filter "android-19,build-tools-19.0.3"
-    - echo y | android update sdk --no-ui --filter "extra-android-m2repository" 
-    - echo y | android update sdk --no-ui --filter "extra-android-support" 
-    - echo y | android update sdk --no-ui --filter "extra-google-m2repository" 
+    - echo y | android update sdk --no-ui --all --filter "android-19,build-tools-19.1.0"
+    - echo y | android update sdk --no-ui --filter "extra-android-m2repository"
+    - echo y | android update sdk --no-ui --filter "extra-android-support"
+    - echo y | android update sdk --no-ui --filter "extra-google-m2repository"
 
   override:
     - gradle dependencies --info
