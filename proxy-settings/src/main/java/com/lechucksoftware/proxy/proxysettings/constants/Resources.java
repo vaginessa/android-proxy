@@ -1,6 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.constants;
 
-import com.lechucksoftware.proxy.proxysettings.BuildConfig;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.utils.LocaleManager;
 
 /**
@@ -20,13 +20,13 @@ public class Resources
     {
         String resource = null;
 
-        switch (BuildConfig.VERSION_CODE)
+        switch (App.getAppMajorVersion())
         {
-            case 13002150:
+            case 1300215:
                 resource = WHATSNEW_2_15_HTML;
                 break;
 
-            case 13002160:
+            case 1300216:
                 resource = WHATSNEW_2_16_HTML;
                 break;
         }

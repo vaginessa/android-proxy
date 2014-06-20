@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.utils.startup;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.lechucksoftware.proxy.proxysettings.BuildConfig;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
@@ -98,7 +98,7 @@ public class StartupAction
     {
         Boolean result = false;
 
-        if (requiredVerCode == null || BuildConfig.VERSION_CODE == requiredVerCode)
+        if (requiredVerCode == null || App.getAppMajorVersion() == requiredVerCode)
         {
             result = true;
         }

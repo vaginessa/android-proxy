@@ -17,17 +17,20 @@ android {
     compileSdkVersion 19
     buildToolsVersion '19.1.0'
 
-//    Scheme for version codes: ##@@$$$ , using:
+//    Scheme for version codes: ##@@$$$%% , using:
 //    ##   - the first two digits for the API Level,
 //    @@   - the second and third digits for the minimum and maximum screen size
 //           (1 - 4 indicating each of the four sizes) or to denote the texture formats
-//    $$$$ - the last four digits for the app version.
+//
+///          the last five digits are for the app version:
+//    $$$  - three digits for major version (the user will see only the major version)
+///   %%   - two digits for minor version
 
     defaultConfig {
 
         minSdkVersion 15
         targetSdkVersion 19
-        versionCode 13002151
+        versionCode 130021511
         versionName "2.15"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"

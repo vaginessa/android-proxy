@@ -27,6 +27,16 @@ public class App extends Application
     public Boolean wifiActionEnabled;
     private LogWrapper logger;
 
+    public static int getAppMajorVersion()
+    {
+        return BuildConfig.VERSION_CODE / 100;
+    }
+
+    public static int getAppMinorVersion()
+    {
+        return BuildConfig.VERSION_CODE % 100;
+    }
+
     @Override
     public void onCreate()
     {
