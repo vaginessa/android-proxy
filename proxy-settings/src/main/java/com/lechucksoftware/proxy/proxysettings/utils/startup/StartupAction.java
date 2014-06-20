@@ -98,7 +98,11 @@ public class StartupAction
     {
         Boolean result = false;
 
-        if (requiredVerCode == null || App.getAppMajorVersion() == requiredVerCode)
+        if (requiredVerCode == null)
+        {
+            result = true;
+        }
+        else if (App.getAppMajorVersion() == requiredVerCode)
         {
             result = true;
         }
