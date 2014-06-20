@@ -21,6 +21,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
 public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 {
     private final Activity activity;
+    private ApplicationStatistics statistics;
 
     public AsyncStartupActions(Activity a)
     {
@@ -51,8 +52,17 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                         break;
 
                     case RATE_DIALOG:
-                        LikeAppDialog likeAppDialog = LikeAppDialog.newInstance(action);
-                        likeAppDialog.show(activity.getFragmentManager(), "LikeAppDialog");
+                        if (statistics != null && statistics.CrashesCount != 0)
+                        {
+                            // Avoid rating if application has crashed
+                            // TODO: If the application crashed ask the user to send information to support team
+                            action.updateStatus(StartupActionStatus.NOT_APPLICABLE);
+                        }
+                        else
+                        {
+                            LikeAppDialog likeAppDialog = LikeAppDialog.newInstance(action);
+                            likeAppDialog.show(activity.getFragmentManager(), "LikeAppDialog");
+                        }
                         break;
 
                     case BETA_TEST_DIALOG:
@@ -76,17 +86,8 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
     {
         StartupAction action = null;
 
-        ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(activity.getApplicationContext());
-
-        if (statistics != null && statistics.CrashesCount == 0)
-        {
-            // Avoid rating and betatest if application has crashed
-            action = getStartupAction(statistics);
-        }
-        else
-        {
-            // TODO: If the application crashed ask the user to send information to support team
-        }
+        statistics = ApplicationStatistics.getInstallationDetails(activity.getApplicationContext());
+        action = getStartupAction(statistics);
 
         return action;
     }

@@ -108,10 +108,11 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             setListAdapter(apListAdapter);
         }
 
+        actionsView.enableWifiAction(false);
+        actionsView.configureWifiAction(false);
+
         loader = getLoaderManager().initLoader(LOADER_PROXYCONFIGURATIONS, new Bundle(), this);
         loader.forceLoad();
-
-        refreshUI();
     }
 
     public void refreshUI()

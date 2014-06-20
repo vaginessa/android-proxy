@@ -8,6 +8,7 @@ public enum StartupActionStatus
     DONE(1),
     REJECTED(2),
     POSTPONED(3),
+    NOT_APPLICABLE(4),
     NOT_AVAILABLE(0);
 
     private final Integer value;

@@ -28,11 +28,11 @@ public class StartupActions
                 new StartupCondition(0, null, null));
         availableActions.add(quickTour);
 
-        // SHOW Quick tour at first start
+        // SHOW Whats new at first start for 2.15 version
         StartupAction whatsNew215 = new StartupAction(context,
                 StartupActionType.WHATSNEW_215,
                 StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(null, null, 13002150));
+                new StartupCondition(null, null, 1300215));
         availableActions.add(whatsNew215);
 
         StartupAction rating = new StartupAction(context,

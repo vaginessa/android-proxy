@@ -66,6 +66,7 @@ public class StartupAction
 
             case REJECTED:
             case DONE:
+            case NOT_APPLICABLE:
             default:
                 result = false;
         }
@@ -132,5 +133,11 @@ public class StartupAction
         }
 
         return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%s: %s %s", preferenceKey, actionType, actionStatus);
     }
 }
