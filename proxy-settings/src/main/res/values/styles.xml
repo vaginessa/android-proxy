@@ -8,6 +8,14 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="Transparent" parent="@android:style/Theme.NoTitleBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
     <style name="CustomSpinner" parent="@android:Widget.Holo.Spinner">
         <!--<item name="android:dropDownSelector">@android:drawable/list_selector_holo_dark</item>-->
         <!--<item name="android:popupBackground">@android:drawable/menu_dropdown_panel_holo_dark</item>-->

@@ -1,15 +1,18 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.tour.AppTourDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
@@ -20,6 +23,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
  */
 public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 {
+    private static final String TAG = AsyncStartupActions.class.getSimpleName();
     private final Activity activity;
     private ApplicationStatistics statistics;
 
@@ -47,8 +51,8 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                         break;
 
                     case FIRST_QUICK_TOUR:
-                        AppTourDialog appTourDialog = AppTourDialog.newInstance(action);
-                        appTourDialog.show(activity.getFragmentManager(), "AppTourDialog");
+                        Intent appDemo = new Intent(activity, TransparentAppGuideActivity.class);
+                        activity.startActivity(appDemo);
                         break;
 
                     case RATE_DIALOG:
@@ -96,9 +100,9 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
     {
         StartupAction result = null;
 
-        StartupActions actions = new StartupActions(activity);
+        App.getLogger().startTrace(TAG, "getStartupAction", Log.DEBUG);
 
-        for (StartupAction action : actions.getAvailableActions())
+        for (StartupAction action : StartupActions.getAvailableActions(activity))
         {
             if (action.canExecute(statistics))
             {
@@ -106,6 +110,8 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                 break;
             }
         }
+
+        App.getLogger().stopTrace(TAG, "getStartupAction", Log.DEBUG);
 
         return result;
     }
