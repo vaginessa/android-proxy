@@ -241,7 +241,7 @@ public class TestActivity extends Activity
                 editor.clear();
                 editor.commit();
 
-                ApplicationStatistics.updateInstallationDetails(getApplicationContext());
+//                ApplicationStatistics.updateInstallationDetails(getApplicationContext());
 
                 App.getDBManager().resetDB();
             }
