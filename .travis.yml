@@ -3,9 +3,15 @@ jdk: oraclejdk7
 env:
   matrix:
     - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
+    
+notifications:
+  email: false
 
 android:
   components:
+    - platform-tools
+    - tools
+    - android-19
     - build-tools-20.0.0
 
 before_script:
@@ -15,4 +21,4 @@ before_script:
   - adb wait-for-device
   - adb shell input keyevent 82 &
 
-script: gradle build connectedCheck
+script: gradle assembleCI
