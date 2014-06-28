@@ -261,8 +261,10 @@ public class ProxyManager
             for (ProxyConfiguration conf : updatedConfigurations)
             {
                 savedConfigurations = getSavedConfigurations();
-                if (savedConfigurations != null && conf.internalWifiNetworkId != null
-                        && savedConfigurations.containsKey(conf.internalWifiNetworkId))
+                if (   savedConfigurations != null
+                    && conf != null
+                    && conf.internalWifiNetworkId != null
+                    && savedConfigurations.containsKey(conf.internalWifiNetworkId))
                 {
                     // Updates already saved configuration
                     ProxyConfiguration originalConf = getSavedConfigurations().get(conf.internalWifiNetworkId);
