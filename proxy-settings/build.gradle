@@ -15,7 +15,7 @@ task printProps << {
 android {
 
     compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    buildToolsVersion '20.0.0'
 
 //    Scheme for version codes: ##@@$$$%% , using:
 //    ##   - the first two digits for the API Level,
