@@ -2,6 +2,8 @@ machine:
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
 
+# Use android list sdk -e -a in order to get all the available packages on Android SDK Manager
+
 dependencies:
   pre:
     - echo y | android update sdk --no-ui --filter "platform-tools"
