@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.text.TextUtils;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -19,15 +20,20 @@ import be.shouldit.proxy.lib.log.IEventReporting;
 public class EventReportingUtils implements IEventReporting
 {
     private static final String TAG = "EventReportingUtils";
-    private Boolean setupDone;
+//    private Boolean setupDone;
     private static EventReportingUtils instance;
+    private static boolean crittercismSetupDone;
+    private static boolean bugSenseSetupDone;
+    private static boolean analyticsSetupDone;
     private Context context;
     private Tracker defaultTracker;
 //    private static Tracker tracker;
 
     private EventReportingUtils()
     {
-        setupDone = false;
+        crittercismSetupDone = false;
+        bugSenseSetupDone = false;
+        analyticsSetupDone = false;
     }
 
     public static EventReportingUtils getInstance()
@@ -43,13 +49,16 @@ public class EventReportingUtils implements IEventReporting
     public static void setup(Context ctx)
     {
         getInstance().context = ctx;
-        getInstance().setupAnalytics(ctx);
-        getInstance().setupBugSense(ctx);
+
+        analyticsSetupDone = getInstance().setupAnalytics(ctx);
+        bugSenseSetupDone = getInstance().setupBugSense(ctx);
+        crittercismSetupDone = getInstance().setupCrittercism(ctx);
     }
 
-    private void setupBugSense(Context ctx)
+    private boolean setupBugSense(Context ctx)
     {
-        String key = null;
+        String key;
+        Boolean setupDone;
 
         key = BuildConfig.BUGSENSE_LICENSE;
 
@@ -60,6 +69,7 @@ public class EventReportingUtils implements IEventReporting
 //            Toast toast = Toast.makeText(ctx, text, duration);
 //            toast.show();
             App.getLogger().e(TAG, text.toString());
+            setupDone = false;
         }
         else
         {
@@ -67,6 +77,57 @@ public class EventReportingUtils implements IEventReporting
             BugSenseHandler.initAndStartSession(ctx, key);
             setupDone = true;
         }
+
+        return setupDone;
+    }
+
+    public boolean setupCrittercism(Context context)
+    {
+        String key;
+        Boolean setupDone;
+
+        key = BuildConfig.CRITTERCISM_LICENSE;
+
+        if (key == null || key.length() != 24)
+        {
+            CharSequence text = "No valid Crittercism keyfile found";
+            App.getLogger().e(TAG, text.toString());
+            setupDone = false;
+        }
+        else
+        {
+            App.getLogger().i(TAG, String.format("Crittercism setup [%s]", key));
+            Crittercism.initialize(context, "");
+            setupDone = true;
+        }
+
+        return setupDone;
+    }
+
+    public boolean setupAnalytics(Context upAnalytics)
+    {
+        String key;
+        Boolean setupDone;
+
+        key = BuildConfig.ANALYTICS_TRACK_ID;
+
+        if (!TextUtils.isEmpty(key))
+        {
+            defaultTracker = GoogleAnalytics.getInstance(context).newTracker(BuildConfig.ANALYTICS_TRACK_ID);
+//            defaultTracker.setAppName(ApplicationStatistics.getInstallationDetails(context));
+            setupDone = true;
+        }
+        else
+        {
+            setupDone = false;
+        }
+
+        return setupDone;
+    }
+
+    public static Tracker getDefaultTracker()
+    {
+        return getInstance().defaultTracker;
     }
 
     public static void sendException(Exception e)
@@ -79,7 +140,7 @@ public class EventReportingUtils implements IEventReporting
         App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
         App.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n", e.getStackTrace()));
 
-        if (setupDone)
+        if (bugSenseSetupDone)
         {
             // Bugsense
             HashMap<String, String> map = new HashMap<String, String>();
@@ -96,19 +157,22 @@ public class EventReportingUtils implements IEventReporting
             }
 
             if (map != null)
-                BugSenseHandler.sendExceptionMap(map,e);
+            {
+                BugSenseHandler.sendExceptionMap(map, e);
+            }
             else
+            {
                 BugSenseHandler.sendException(e);
-
-            // Google Analytics
-//            DetailedExceptionParser sep = new DetailedExceptionParser();
-//            String exceptionDescription = sep.getDescription(Thread.currentThread().getName(),e);
-//            Map<String, String> map = MapBuilder.createException(exceptionDescription, false).build();
-//            EasyTracker.getInstance(getInstance().context).send(map);
+            }
         }
         else
         {
             setupBugSense(App.getInstance().getApplicationContext());
+        }
+
+        if (crittercismSetupDone)
+        {
+            Crittercism.logHandledException(e);
         }
     }
 
@@ -170,7 +234,7 @@ public class EventReportingUtils implements IEventReporting
 
     public void send(final String category, final String action, final String label, final Long eventValue)
     {
-        if (setupDone)
+        if (bugSenseSetupDone)
         {
             HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder();
 
@@ -203,20 +267,6 @@ public class EventReportingUtils implements IEventReporting
     public void send(String s)
     {
         send("", "", s, null);
-    }
-
-    public void setupAnalytics(Context upAnalytics)
-    {
-        if (!TextUtils.isEmpty(BuildConfig.ANALYTICS_TRACK_ID))
-        {
-            defaultTracker = GoogleAnalytics.getInstance(context).newTracker(BuildConfig.ANALYTICS_TRACK_ID);
-//            defaultTracker.setAppName(ApplicationStatistics.getInstallationDetails(context));
-        }
-    }
-
-    public static Tracker getDefaultTracker()
-    {
-        return getInstance().defaultTracker;
     }
 
     public static void sendScreenView(String screenName)
