@@ -225,7 +225,9 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                         .setPositiveButton(R.string.proxy_error_dismiss, null)
                         .show();
 
-                EventReportingUtils.sendException(new Exception("Not supported Wi-Fi security 802.1x!!"));
+                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                        R.string.analytics_act_button_click,
+                        R.string.analytics_lab_8021x_security_not_supported);
             }
             else
             {

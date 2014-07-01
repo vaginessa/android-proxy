@@ -2,9 +2,15 @@ machine:
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
 
+# Use android list sdk -e -a in order to get all the available packages on Android SDK Manager
+
 dependencies:
   pre:
-    - echo y | android update sdk --no-ui --all --filter "android-19,build-tools-19.1.0"
+    - echo y | android update sdk --no-ui --filter "platform-tools"
+    - echo y | android update sdk --no-ui --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "android-19"
+    - echo y | android update sdk --no-ui --filter "build-tools-20.0.0"
+    - echo y | android update sdk --no-ui --filter "extra-google-google_play_services"
     - echo y | android update sdk --no-ui --filter "extra-android-m2repository"
     - echo y | android update sdk --no-ui --filter "extra-android-support"
     - echo y | android update sdk --no-ui --filter "extra-google-m2repository"
