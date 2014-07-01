@@ -260,7 +260,14 @@ public class ProxyUtils
         try
         {
             InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
-            proxyAddress = proxySocketAddress.getAddress().getHostAddress();
+            if (proxySocketAddress != null)
+            {
+                InetAddress inetAddress = proxySocketAddress.getAddress();
+                if (inetAddress != null)
+                {
+                    proxyAddress = inetAddress.getHostAddress();
+                }
+            }
         }
         catch (Exception e)
         {
@@ -313,6 +320,10 @@ public class ProxyUtils
             {
                 APL.getEventReport().send(e);
             }
+        }
+        else
+        {
+            APL.getLogger().w(TAG,"Cannot find available address to ping the proxy host");
         }
 
         return false;

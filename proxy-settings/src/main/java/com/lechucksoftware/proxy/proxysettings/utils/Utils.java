@@ -19,6 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -50,7 +51,22 @@ public class Utils
 
     public static String getProxyCountryCode(ProxyEntity proxy) throws Exception
     {
+        String result = null;
+
         String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + proxy.host).trim();
+        result = getProxyCountryCode(stringUrl, proxy);
+
+        if (TextUtils.isEmpty(result))
+        {
+            stringUrl = (HTTP_TELIZE_NET_JSON_STRING + proxy.host).trim();
+            result = getProxyCountryCode(stringUrl, proxy);
+        }
+
+        return result;
+    }
+
+    private static String getProxyCountryCode(String requestUrl, ProxyEntity proxy) throws JSONException
+    {
         URI uri = null;
 
         int timeout = 1000 * 60;
@@ -59,7 +75,7 @@ public class Utils
 
         try
         {
-            Uri parsedUri = Uri.parse(stringUrl);
+            Uri parsedUri = Uri.parse(requestUrl);
             if (parsedUri != null)
             {
                 String parsedUriString = parsedUri.toString();
@@ -86,10 +102,23 @@ public class Utils
             {
                 String answerBody = answer.getBody();
 
+                //ONLY FOR DEBUG
+                answerBody = "</pre><span style=\"height: 20px; width: 40px; min-height: 20px; min-width: 40px; position: absolute; opacity: 0.85; z-index: 8675309; display: none; cursor: pointer; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAUCAYAAAD/Rn+7AAADU0lEQVR42s2WXUhTYRjHz0VEVPRFUGmtVEaFUZFhHxBhsotCU5JwBWEf1EWEEVHQx4UfFWYkFa2biPJiXbUta33OXFtuUXMzJ4bK3Nqay7m5NeZq6h/tPQ+xU20zugjOxR/+7/O8539+5znnwMtNTExwJtMb3L/fiLv3botCSmUjeCaejTOb39AiFothfHxcFIrHY8RksZjBsckJcOIRMfFsHD/SsbExUYpnI8DR0dGUGjSb0byhEJp5Uqg5CTSzc2CQleJbMEj9/ywBcGRkJEk9DQqouEVQT1sK444yWI9UonmTjGqauVLEIlHa9x8lAMbj8SSpp0rwKGMVvg8P46vbg0C7na8z8JsMcgHe7jlEa+edRhiLy8n/TUMfu6EvLElk+U0WtGwrTrdfAGQf5J8iiK4LVzDU28t8JtMSocf8E+l68myaNFXm/6rXslLK7ay5TOunuRvZWpJuvwAYjUaTpOIWoquuAZ219RTaxKYp9BbjycoN5FvL9qH9TBX5rvoGdJythvXYSTxdtRnWylO/ZdqrLsGwszzhWQ593z2KlAwCYCQSSZJ6ehZ0W7bD9VBLgN0NCqr3qR7R2rBrL3pu3Sb/7nDlz2uy6cG0OXk0GTbZXzNp8trsPAQdTj6frlWzN2DcXZGKQQAMh8NJ6rpyHe+PnkCr/CAFdZyvpfpjuvkifLF9wIt1Wwlo0OHie1RvWrKa93RjzfzliTzPKz3ltB0/Tevmwp14wGUgHAzSOoUEwFAolFaaBSuhnslPRkJexUJtZ6v5HtUeLswl33n1BgEY5fvhs9sJ3FAiT+QYyyvoAQJuD0KBAFRTJNAuz5/s3gJgMBhMJwrVFRThM5tY5zUF/A4X1f2fvQTRLCuBreoim0YmAbqNJryvPEXeeq46kaNdkQ/1HCncbJKPs9ZSv2VHGfWsZ2hfkhKAfr8/pdxWKx4wwD69PmVfNSOL+lr2w+gYqHpWDtXt1xQ8AMlWU0e1lqLd/APRHoP8AJqWrQG9gYxcPMsvSJUvAA4MDKTUJ7MZLaVy8v+qT21tcDx/OemePr0RTkNrur4A6PP5xCgBsL+/X4wiQDpuuVxOeL1eMYmYeDY6sOp0z+B0OuHxeEQhxkJMFosJiSO/UinOI/8Pc+l7KKArAT8AAAAASUVORK5CYII=);\"></span><span id=\"buffer-extension-hover-button\" style=\"display: none;position: absolute;z-index: 8675309;width: 100px;height: 25px;background-image: url(chrome-extension://noojglkidnpfjbincgijbaiedldjfbhh/data/shared/img/buffer-hover-icon@1x.png);background-size: 100px 25px;opacity: 0.9;cursor: pointer;\"></span></body>";
+
                 if (answer.getStatus() == HttpURLConnection.HTTP_OK && !TextUtils.isEmpty(answerBody))
                 {
-                    JSONObject jsonObject = new JSONObject(answerBody);
-                    if (jsonObject.has("country_code"))
+                    JSONObject jsonObject = null;
+                    try
+                    {
+                        jsonObject = new JSONObject(answerBody);
+                    }
+                    catch (Exception e)
+                    {
+                        EventReportingUtils.addExtraData("CONTENT", answerBody);
+                        EventReportingUtils.sendException(e);
+                    }
+
+                    if (jsonObject != null && jsonObject.has("country_code"))
                     {
                         result = jsonObject.getString("country_code");
                     }
