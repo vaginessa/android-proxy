@@ -260,7 +260,14 @@ public class ProxyUtils
         try
         {
             InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
-            proxyAddress = proxySocketAddress.getAddress().getHostAddress();
+            if (proxySocketAddress != null)
+            {
+                InetAddress inetAddress = proxySocketAddress.getAddress();
+                if (inetAddress != null)
+                {
+                    proxyAddress = inetAddress.getHostAddress();
+                }
+            }
         }
         catch (Exception e)
         {
