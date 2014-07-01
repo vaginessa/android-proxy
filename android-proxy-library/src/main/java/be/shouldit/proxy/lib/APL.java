@@ -12,11 +12,6 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-import be.shouldit.proxy.lib.log.DefaultEventReport;
-import be.shouldit.proxy.lib.log.IEventReporting;
-import be.shouldit.proxy.lib.log.LogWrapper;
-import be.shouldit.proxy.lib.reflection.ReflectionUtils;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
@@ -25,6 +20,12 @@ import java.net.ProxySelector;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import be.shouldit.proxy.lib.log.DefaultEventReport;
+import be.shouldit.proxy.lib.log.IEventReporting;
+import be.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.reflection.ReflectionUtils;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Main class that contains utilities for getting the proxy configuration of the
@@ -320,11 +321,9 @@ public class APL
 
         ProxyConfiguration proxyHost = null;
 
-        ConnectivityManager connManager = (ConnectivityManager) gContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         try
         {
-            Field proxySettingsField = wifiConf.getClass().getField("proxySettings");
+            Field proxySettingsField = ReflectionUtils.getField(wifiConf.getClass().getFields(), "proxySettings");
             Object proxySettings = proxySettingsField.get(wifiConf);
 
             int ordinal = ((Enum) proxySettings).ordinal();
