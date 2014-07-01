@@ -22,7 +22,7 @@ public class EventReportingUtils implements IEventReporting
     private static final String TAG = "EventReportingUtils";
 //    private Boolean setupDone;
     private static EventReportingUtils instance;
-    private static boolean crittercismSetupDone;
+//    private static boolean crittercismSetupDone;
     private static boolean bugSenseSetupDone;
     private static boolean analyticsSetupDone;
     private Context context;
@@ -31,7 +31,7 @@ public class EventReportingUtils implements IEventReporting
 
     private EventReportingUtils()
     {
-        crittercismSetupDone = false;
+//        crittercismSetupDone = false;
         bugSenseSetupDone = false;
         analyticsSetupDone = false;
     }
@@ -52,7 +52,7 @@ public class EventReportingUtils implements IEventReporting
 
         analyticsSetupDone = getInstance().setupAnalytics(ctx);
         bugSenseSetupDone = getInstance().setupBugSense(ctx);
-        crittercismSetupDone = getInstance().setupCrittercism(ctx);
+//        crittercismSetupDone = getInstance().setupCrittercism(ctx);
     }
 
     private boolean setupBugSense(Context ctx)
@@ -170,10 +170,10 @@ public class EventReportingUtils implements IEventReporting
             setupBugSense(App.getInstance().getApplicationContext());
         }
 
-        if (crittercismSetupDone)
-        {
-            Crittercism.logHandledException(e);
-        }
+//        if (crittercismSetupDone)
+//        {
+//            Crittercism.logHandledException(e);
+//        }
     }
 
     public static int getTotalCrashes()
