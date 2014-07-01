@@ -19,6 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -50,7 +51,22 @@ public class Utils
 
     public static String getProxyCountryCode(ProxyEntity proxy) throws Exception
     {
+        String result = null;
+
         String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + proxy.host).trim();
+        result = getProxyCountryCode(stringUrl, proxy);
+
+        if (TextUtils.isEmpty(result))
+        {
+            stringUrl = (HTTP_TELIZE_NET_JSON_STRING + proxy.host).trim();
+            result = getProxyCountryCode(stringUrl, proxy);
+        }
+
+        return result;
+    }
+
+    private static String getProxyCountryCode(String requestUrl, ProxyEntity proxy) throws JSONException
+    {
         URI uri = null;
 
         int timeout = 1000 * 60;
@@ -59,7 +75,7 @@ public class Utils
 
         try
         {
-            Uri parsedUri = Uri.parse(stringUrl);
+            Uri parsedUri = Uri.parse(requestUrl);
             if (parsedUri != null)
             {
                 String parsedUriString = parsedUri.toString();
