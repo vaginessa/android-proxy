@@ -135,6 +135,16 @@ public class EventReportingUtils implements IEventReporting
         getInstance().send(e);
     }
 
+    public static void addExtraData(String level, String secondLevel)
+    {
+        getInstance().addCrashExtraData(level,secondLevel);
+    }
+
+    public void addCrashExtraData(String level, String secondLevel)
+    {
+        BugSenseHandler.addCrashExtraData(level,secondLevel);
+    }
+
     public void send(Exception e)
     {
         App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());

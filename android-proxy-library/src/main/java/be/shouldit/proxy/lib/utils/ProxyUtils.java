@@ -321,6 +321,10 @@ public class ProxyUtils
                 APL.getEventReport().send(e);
             }
         }
+        else
+        {
+            APL.getLogger().w(TAG,"Cannot find available address to ping the proxy host");
+        }
 
         return false;
     }
