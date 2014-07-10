@@ -44,7 +44,7 @@
     <string name="checking_action">Checking configuration</string>
 
     <string name="not_supported_network_8021x_error_message">Proxy Settings is currently not able to access and modify the settings for Wi-Fi networks with 802.1x security type.</string>
-    <string name="exception_apl_writeconfig_error_message">Proxy Settings experienced an error writing the configuration on the device.</string>
+    <string name="exception_apl_writeconfig_error_message">Proxy Settings experienced an error writing the configuration on the device. Please try again.</string>
 
     <string name="wifi_empty_list_no_ap">No Wi-Fi networks configured</string>
     <string name="proxy_empty_list">No proxies saved</string>
@@ -929,8 +929,7 @@
     <string name="analytics_lab_like_app_dialog">Application like dialog</string>
     <string name="analytics_lab_like_app_mail_feedback">Doesn\'t like application, mail feedback</string>
     <string name="analytics_lab_like_app_rate">Like application, rate it</string>
-
-
+    <string name="analytics_lab_8021x_security_not_supported">Not supported Wi-Fi security 802.1x</string>
 
 
 </resources>
