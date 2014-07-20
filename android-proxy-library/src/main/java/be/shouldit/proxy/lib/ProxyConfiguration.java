@@ -61,13 +61,16 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             SocketAddress sa = null;
 
-            try
+            if (isValidProxyConfiguration())
             {
-                sa = InetSocketAddress.createUnresolved(proxyHost, proxyPort);
-            }
-            catch (IllegalArgumentException	e)
-            {
-                APL.getEventReport().send(new Exception("Failed creating unresolved", e));
+                try
+                {
+                    sa = InetSocketAddress.createUnresolved(proxyHost, proxyPort);
+                }
+                catch (Exception e)
+                {
+                    APL.getEventReport().send(new Exception("Failed creating unresolved", e));
+                }
             }
 
             if (sa != null)

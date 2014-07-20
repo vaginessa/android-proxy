@@ -257,6 +257,9 @@ public class ProxyUtils
         String cmdline = null;
         String proxyAddress = null;
 
+        if (proxy == null)
+            return false;
+
         try
         {
             InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
