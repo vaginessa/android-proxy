@@ -22,8 +22,8 @@ import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.util.ArrayList;

@@ -3,15 +3,15 @@ package com.lechucksoftware.proxy.proxysettings.ui.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
-import com.lechucksoftware.proxy.proxysettings.ui.BaseActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 
-public class UpdateLinkedWifiAPAlertDialog extends DialogFragment
+public class UpdateLinkedWifiAPAlertDialog extends BaseDialogFragment
 {
     public static String TAG = "LikeAppDialog";
 

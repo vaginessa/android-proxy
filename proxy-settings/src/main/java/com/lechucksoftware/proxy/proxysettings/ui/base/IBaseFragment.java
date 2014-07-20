@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.fragments.base;
+package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 /**
  * Created by Marco on 29/11/13.

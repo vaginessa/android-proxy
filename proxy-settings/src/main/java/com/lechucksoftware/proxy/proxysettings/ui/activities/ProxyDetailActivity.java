@@ -16,7 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
-import com.lechucksoftware.proxy.proxysettings.ui.BaseActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.UpdateLinkedWifiAPAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;

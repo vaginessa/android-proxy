@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui;
+package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.HelpActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyListActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 

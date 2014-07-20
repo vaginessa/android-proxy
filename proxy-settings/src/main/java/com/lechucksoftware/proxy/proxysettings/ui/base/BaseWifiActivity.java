@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui;
+package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

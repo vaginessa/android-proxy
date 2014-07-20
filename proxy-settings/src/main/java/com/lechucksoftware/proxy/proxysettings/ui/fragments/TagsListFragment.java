@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.BaseActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.TagsListAdapter;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 

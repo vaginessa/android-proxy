@@ -930,6 +930,8 @@
     <string name="analytics_lab_like_app_mail_feedback">Doesn\'t like application, mail feedback</string>
     <string name="analytics_lab_like_app_rate">Like application, rate it</string>
     <string name="analytics_lab_8021x_security_not_supported">Not supported Wi-Fi security 802.1x</string>
+    <string name="pref_contact_us_summary">Get in touch with the SHOULDIT team</string>
+    <string name="pref_contact_us_title">Contact us</string>
 
 
 </resources>

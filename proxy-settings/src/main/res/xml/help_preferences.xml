@@ -7,6 +7,12 @@
             android:title="@string/pref_about_title"/>
 
     <Preference
+        android:enabled="true"
+        android:key="pref_contact"
+        android:title="@string/pref_contact_us_title"
+        android:summary="@string/pref_contact_us_summary"/>
+
+    <Preference
             android:enabled="true"
             android:key="pref_full_changelog"
             android:title="@string/changelog"

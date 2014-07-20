@@ -20,8 +20,8 @@ import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 import java.util.List;
