@@ -6,35 +6,55 @@
                 android:layout_height="match_parent">
 
     <LinearLayout
-            android:id="@+id/dialog_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:orientation="vertical">
+        android:id="@+id/dialog_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
         <ListView
-                android:id="@id/android:list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:drawSelectorOnTop="false"
-                android:fastScrollEnabled="true"
-                android:fastScrollAlwaysVisible="true"
-                android:scrollbarStyle="outsideOverlay"
-                android:scrollbars="none"
-                android:smoothScrollbar="true"
-                android:paddingRight="30dp"
-                android:paddingLeft="10dp"
-                />
+            android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawSelectorOnTop="false"
+            android:fastScrollEnabled="true"
+            android:fastScrollAlwaysVisible="true"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="none"
+            android:smoothScrollbar="true"
+            android:paddingRight="30dp"
+            android:paddingLeft="10dp"
+            />
 
         <include layout="@layout/progress"/>
 
-        <TextView
+        <RelativeLayout
+            android:id="@+id/empty_message_section"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
                 android:id="@id/android:empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:gravity="center"
                 android:text="No data available"/>
+
+            <!--<ImageView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:scaleType="centerInside"-->
+                <!--android:layout_toRightOf="@id/android:empty"-->
+                <!--android:layout_alignTop="@id/android:empty"-->
+                <!--android:layout_alignBottom="@id/android:empty"-->
+                <!--android:id="@+id/empty_image"-->
+                <!--android:src="@drawable/ic_wifi_signal_4"-->
+                <!--/>-->
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

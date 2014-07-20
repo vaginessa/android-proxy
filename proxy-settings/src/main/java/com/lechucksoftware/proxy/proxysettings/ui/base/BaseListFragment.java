@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.fragments.base;
+package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 import android.app.ListFragment;
 

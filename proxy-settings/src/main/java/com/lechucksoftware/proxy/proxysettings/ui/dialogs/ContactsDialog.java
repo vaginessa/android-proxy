@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating;
+package com.lechucksoftware.proxy.proxysettings.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,20 +6,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
-public class RateAppDialog extends BaseDialogFragment
+public class ContactsDialog extends BaseDialogFragment
 {
-    public static String TAG = "LikeAppDialog";
-    private StartupAction startupAction;
-
-    public RateAppDialog(StartupAction action)
-    {
-        startupAction = action;
-    }
+    public static String TAG = ContactsDialog.class.getSimpleName();
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -34,17 +26,7 @@ public class RateAppDialog extends BaseDialogFragment
             {
 
 //                App.getLogger().d(TAG, "Starting Market activity");
-                startupAction.updateStatus(StartupActionStatus.DONE);
                 Utils.startMarketActivity(getActivity());
-            }
-        });
-
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
-            {
-
-                startupAction.updateStatus(StartupActionStatus.REJECTED);
             }
         });
 
@@ -52,9 +34,9 @@ public class RateAppDialog extends BaseDialogFragment
         return alert;
     }
 
-    public static RateAppDialog newInstance(StartupAction action)
+    public static ContactsDialog newInstance()
     {
-        RateAppDialog frag = new RateAppDialog(action);
+        ContactsDialog frag = new ContactsDialog();
         return frag;
     }
 }

@@ -1,9 +1,11 @@
-package com.lechucksoftware.proxy.proxysettings.ui.fragments.base;
+package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.View;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 /**
  * Created by marco on 24/05/13.
@@ -30,6 +32,16 @@ public class BaseFragment extends Fragment
      *
      *  onStop()	 Fragment becomes not visible.
      */
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+        App.getLogger().d(this.getClass().getSimpleName(), "onCreate " + this.getClass().getSimpleName());
+
+        EventReportingUtils.sendScreenView(this.getClass().getSimpleName());
+    }
 
     @Override
     public void onResume()

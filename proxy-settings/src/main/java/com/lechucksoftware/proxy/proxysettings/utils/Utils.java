@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
+import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -353,4 +356,44 @@ public class Utils
             EventReportingUtils.sendException(e);
         }
     }
+
+
+    public static boolean airplaneModeEnabled(Context context)
+    {
+        boolean result = false;
+
+        try
+        {
+            result = isAirplaneModeOn(context);
+        }
+        catch (Exception e)
+        {
+            EventReportingUtils.sendException(e);
+        }
+
+        return result;
+    }
+
+    /**
+     * Gets the state of Airplane Mode.
+     *
+     * @param context
+     * @return true if enabled.
+     */
+//    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static boolean isAirplaneModeOn(Context context)
+    {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
+        {
+            return Settings.System.getInt(context.getContentResolver(),
+                    Settings.System.AIRPLANE_MODE_ON, 0) != 0;
+        }
+        else
+        {
+            return Settings.Global.getInt(context.getContentResolver(),
+                    Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        }
+    }
+
 }

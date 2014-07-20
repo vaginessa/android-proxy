@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import be.shouldit.proxy.lib.APL;
 
