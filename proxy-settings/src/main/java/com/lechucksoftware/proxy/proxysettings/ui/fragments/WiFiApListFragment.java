@@ -125,7 +125,12 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
         if (Utils.isAirplaneModeOn(getActivity()))
         {
+            emptySection.setVisibility(View.VISIBLE);
+            emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText("AIRPLANE MODE");
 
+            actionsView.configureWifiAction(false);
+            actionsView.enableWifiAction(false);
         }
         else
         {
