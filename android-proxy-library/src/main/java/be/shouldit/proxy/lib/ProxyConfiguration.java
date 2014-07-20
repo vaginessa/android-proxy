@@ -1,27 +1,17 @@
 package be.shouldit.proxy.lib;
 
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.SocketAddress;
-import java.util.List;
 import java.util.UUID;
 
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
-import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.reflection.ReflectionUtils;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -489,142 +479,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     @TargetApi(12)
     public void writeConfigurationToDevice() throws Exception
     {
-        if (ap == null)
-        {
-            Exception e = new Exception("Doesn't seems a valid Wi-Fi access point");
-            throw e;
-        }
-
-        if (ap.security == SecurityType.SECURITY_EAP)
-        {
-            Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
-            throw e;
-        }
-
-        WifiManager wifiManager = (WifiManager) APL.getContext().getSystemService(Context.WIFI_SERVICE);
-        List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
-
-        if (configuredNetworks == null || configuredNetworks.size() == 0)
-            throw new Exception("Cannot find any configured network during writing configuration to the device: " + this.toShortString());
-
-        WifiConfiguration selectedConfiguration = null;
-        for (WifiConfiguration conf : configuredNetworks)
-        {
-            if (conf.networkId == ap.wifiConfig.networkId)
-            {
-                selectedConfiguration = conf;
-                break;
-            }
-        }
-
-        if (selectedConfiguration != null)
-        {
-            Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];
-            WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance((Object) selectedConfiguration);
-
-            Field proxySettingsField = newConf.getClass().getField("proxySettings");
-            proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[getProxySettings().ordinal()]);
-            Object proxySettings = proxySettingsField.get(newConf);
-            int ordinal = ((Enum) proxySettings).ordinal();
-            if (ordinal != getProxySettings().ordinal())
-                throw new Exception("Cannot set proxySettings variable");
-
-            Field linkPropertiesField = newConf.getClass().getField("linkProperties");
-            Object linkProperties = linkPropertiesField.get(newConf);
-            Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
-            mHttpProxyField.setAccessible(true);
-
-            if (getProxySettings() == ProxySetting.NONE || getProxySettings() == ProxySetting.UNASSIGNED)
-            {
-                mHttpProxyField.set(linkProperties, null);
-            }
-            else if (getProxySettings() == ProxySetting.STATIC)
-            {
-                Class ProxyPropertiesClass = mHttpProxyField.getType();
-                Integer port = getProxyPort();
-
-                if (port == null)
-                {
-                    Constructor constr = ProxyPropertiesClass.getConstructors()[0];
-                    Object ProxyProperties = constr.newInstance((Object) null);
-                    mHttpProxyField.set(linkProperties, ProxyProperties);
-                }
-                else
-                {
-                    Constructor constr;
-
-                    // NOTE: Hardcoded sdk version number.
-                    // Instead of comparing against Build.VERSION_CODES.KITKAT, we directly compare against the version
-                    // number to allow devs to compile with an older version of the sdk.
-                    if (Build.VERSION.SDK_INT < 19)
-                    {
-                        constr = ProxyPropertiesClass.getConstructors()[1];
-                    }
-                    else
-                    {
-                        constr = ProxyPropertiesClass.getConstructors()[3];
-                    }
-
-                    Object ProxyProperties = constr.newInstance(getProxyHostString(), port, getProxyExclusionList());
-                    mHttpProxyField.set(linkProperties, ProxyProperties);
-                }
-            }
-
-//            Object mHttpProxy = mHttpProxyField.get(linkProperties);
-//            mHttpProxy = mHttpProxyField.get(linkProperties);
-
-            APL.getLogger().startTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
-            ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
-            APL.getLogger().getPartial(TAG,"saveWifiConfiguration", Log.DEBUG);
-            /***************************************************************************************
-             * TODO: improve method adding callback in order to return the result of the operation
-              */
-            boolean succesfullySaved = false;
-            int tries = 0;
-            while (tries < 10)
-            {
-                try
-                {
-                    Thread.sleep(100);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-
-                ProxyConfiguration savedConf = APL.getProxySdk12(newConf);
-                succesfullySaved = this.isSameConfiguration(savedConf);
-
-                if (succesfullySaved)
-                {
-                    this.updateConfiguration(savedConf);
-                    break;
-                }
-
-                tries++;
-            }
-
-            if (!succesfullySaved)
-            {
-                throw new Exception(String.format("Cannot save proxy configuration after %s tries", tries));
-            }
-            /**************************************************************************************/
-
-            APL.getLogger().stopTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
-            this.status.clear();
-
-            APL.getLogger().d(TAG, String.format("Succesfully updated configuration %s, after %d tries", this.toShortString(),tries));
-
-            APL.getLogger().i(TAG, "Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
-            Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
-            APL.getContext().sendBroadcast(intent);
-        }
-        else
-        {
-            throw new Exception("Cannot find selected configuration among configured networks during writing to the device: " + this.toShortString());
-        }
+        APL.writeProxySdk12(this);
     }
-
 
     public String getAPConnectionStatus()
     {

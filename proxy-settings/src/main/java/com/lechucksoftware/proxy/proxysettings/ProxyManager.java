@@ -260,27 +260,29 @@ public class ProxyManager
         {
             for (ProxyConfiguration conf : updatedConfigurations)
             {
-                savedConfigurations = getSavedConfigurations();
-                if (   savedConfigurations != null
-                    && conf != null
-                    && conf.internalWifiNetworkId != null
-                    && savedConfigurations.containsKey(conf.internalWifiNetworkId))
+                if (conf != null)
                 {
-                    // Updates already saved configuration
-                    ProxyConfiguration originalConf = getSavedConfigurations().get(conf.internalWifiNetworkId);
-                    if (originalConf.updateConfiguration(conf))
-                        updatedConfiguration = true;
-                }
-                else
-                {
-                    // Add new found configuration
-                    App.getLogger().d(TAG, "Adding to list new Wi-Fi AP configuration: " + conf.toShortString());
-                    getSavedConfigurations().put(conf.internalWifiNetworkId, conf);
-                }
+                    savedConfigurations = getSavedConfigurations();
+                    if (savedConfigurations != null
+                            && conf.internalWifiNetworkId != null
+                            && savedConfigurations.containsKey(conf.internalWifiNetworkId))
+                    {
+                        // Updates already saved configuration
+                        ProxyConfiguration originalConf = getSavedConfigurations().get(conf.internalWifiNetworkId);
+                        if (originalConf.updateConfiguration(conf))
+                            updatedConfiguration = true;
+                    }
+                    else
+                    {
+                        // Add new found configuration
+                        App.getLogger().d(TAG, "Adding to list new Wi-Fi AP configuration: " + conf.toShortString());
+                        getSavedConfigurations().put(conf.internalWifiNetworkId, conf);
+                    }
 
-                if (internalSavedSSID.contains(conf.internalWifiNetworkId))
-                {
-                    internalSavedSSID.remove(conf.internalWifiNetworkId);
+                    if (internalSavedSSID.contains(conf.internalWifiNetworkId))
+                    {
+                        internalSavedSSID.remove(conf.internalWifiNetworkId);
+                    }
                 }
             }
         }
