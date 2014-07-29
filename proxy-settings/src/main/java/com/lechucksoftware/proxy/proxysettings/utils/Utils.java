@@ -36,7 +36,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import be.shouldit.proxy.lib.utils.HttpAnswer;
@@ -118,8 +120,9 @@ public class Utils
                     }
                     catch (Exception e)
                     {
-                        EventReportingUtils.addExtraData("CONTENT", answerBody);
-                        EventReportingUtils.sendException(e);
+                        Map<String,String> map = new HashMap<String, String>();
+                        map.put("CONTENT", answerBody);
+                        EventReportingUtils.sendException(e,map);
                     }
 
                     if (jsonObject != null && jsonObject.has("country_code"))

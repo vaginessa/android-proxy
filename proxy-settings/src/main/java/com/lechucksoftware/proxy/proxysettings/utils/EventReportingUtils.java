@@ -3,16 +3,17 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.log.IEventReporting;
@@ -114,6 +115,9 @@ public class EventReportingUtils implements IEventReporting
         if (!TextUtils.isEmpty(key))
         {
             defaultTracker = GoogleAnalytics.getInstance(context).newTracker(BuildConfig.ANALYTICS_TRACK_ID);
+
+            defaultTracker.enableExceptionReporting(true);
+            defaultTracker.enableAutoActivityTracking(true);
 //            defaultTracker.setAppName(ApplicationStatistics.getInstallationDetails(context));
             setupDone = true;
         }
@@ -135,55 +139,62 @@ public class EventReportingUtils implements IEventReporting
         getInstance().send(e);
     }
 
-    public static void addExtraData(String level, String secondLevel)
+    public static void sendException(Exception e, Map<String, String> map)
     {
-        getInstance().addCrashExtraData(level,secondLevel);
+        getInstance().send(e, map);
     }
 
-    public void addCrashExtraData(String level, String secondLevel)
-    {
-        BugSenseHandler.addCrashExtraData(level,secondLevel);
-    }
+//    public static void addExtraData(String level, String secondLevel)
+//    {
+//        getInstance().addCrashExtraData(level,secondLevel);
+//    }
+//
+//    public void addCrashExtraData(String level, String secondLevel)
+//    {
+//        BugSenseHandler.addCrashExtraData(level,secondLevel);
+//    }
 
     public void send(Exception e)
+    {
+        send(e, null);
+    }
+
+    public void send(Exception e, Map<String,String> params)
     {
         App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
         App.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n", e.getStackTrace()));
 
-        if (bugSenseSetupDone)
+        if (analyticsSetupDone)
         {
-            // Bugsense
-            HashMap<String, String> map = new HashMap<String, String>();
-            PackageInfo appInfo = Utils.getAppInfo(context);
+            if (e != null)
+            {
+                HitBuilders.ExceptionBuilder eb = new HitBuilders.ExceptionBuilder();
+                StandardExceptionParser sep = new StandardExceptionParser(context, null);
 
-            try
-            {
-                map.put("versionName", String.valueOf(appInfo.versionName));
-                map.put("versionCode", String.valueOf(appInfo.versionCode));
-            }
-            catch (Exception internalEx)
-            {
-                BugSenseHandler.sendException(internalEx);
-            }
+                eb.setFatal(false);
+                eb.setDescription(sep.getDescription(Thread.currentThread().getName(), e));
+                eb.set("stackTrace", Log.getStackTraceString(e));
 
-            if (map != null)
-            {
-                BugSenseHandler.sendExceptionMap(map, e);
-            }
-            else
-            {
-                BugSenseHandler.sendException(e);
+                PackageInfo appInfo = Utils.getAppInfo(context);
+
+                eb.set("versionName", String.valueOf(appInfo.versionName));
+                eb.set("versionCode", String.valueOf(appInfo.versionCode));
+
+                if (params != null)
+                {
+                    for (String key : params.keySet())
+                    {
+                        eb.set(key, params.get(key));
+                    }
+                }
+
+                getDefaultTracker().send(eb.build());
             }
         }
         else
         {
-            setupBugSense(App.getInstance().getApplicationContext());
+            setupAnalytics(App.getInstance().getApplicationContext());
         }
-
-//        if (crittercismSetupDone)
-//        {
-//            Crittercism.logHandledException(e);
-//        }
     }
 
     public static int getTotalCrashes()
@@ -281,11 +292,13 @@ public class EventReportingUtils implements IEventReporting
 
     public static void sendScreenView(String screenName)
     {
-        Tracker tracker = getDefaultTracker();
-        if (tracker != null)
-        {
-            tracker.setScreenName(screenName);
-            tracker.send(new HitBuilders.AppViewBuilder().build());
-        }
+        // DO nothing, since enableAutoActivityTracking = true
+
+//        Tracker tracker = getDefaultTracker();
+//        if (tracker != null)
+//        {
+//            tracker.setScreenName(screenName);
+//            tracker.send(new HitBuilders.AppViewBuilder().build());
+//        }
     }
 }
