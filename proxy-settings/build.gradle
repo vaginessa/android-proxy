@@ -117,7 +117,7 @@ android {
 
 dependencies {
 //    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.google.android.gms:play-services:4.4.52'
+    compile 'com.google.android.gms:play-services:+'
 
 // https://github.com/tony19/logback-android
 //    compile 'org.slf4j:slf4j-api:1.7.1'
