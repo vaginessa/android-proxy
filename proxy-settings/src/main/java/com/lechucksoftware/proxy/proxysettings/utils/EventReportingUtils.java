@@ -1,11 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.crashlytics.android.Crashlytics;
 import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -26,6 +26,7 @@ public class EventReportingUtils implements IEventReporting
 //    private static boolean crittercismSetupDone;
     private static boolean bugSenseSetupDone;
     private static boolean analyticsSetupDone;
+    private static boolean crashLyticsSetupDone;
     private Context context;
     private Tracker defaultTracker;
 //    private static Tracker tracker;
@@ -35,6 +36,7 @@ public class EventReportingUtils implements IEventReporting
 //        crittercismSetupDone = false;
         bugSenseSetupDone = false;
         analyticsSetupDone = false;
+        crashLyticsSetupDone = false;
     }
 
     public static EventReportingUtils getInstance()
@@ -53,7 +55,19 @@ public class EventReportingUtils implements IEventReporting
 
         analyticsSetupDone = getInstance().setupAnalytics(ctx);
         bugSenseSetupDone = getInstance().setupBugSense(ctx);
+        crashLyticsSetupDone = getInstance().setupCrashLytics(ctx);
 //        crittercismSetupDone = getInstance().setupCrittercism(ctx);
+    }
+
+    private boolean setupCrashLytics(Context ctx)
+    {
+        String key;
+        Boolean setupDone;
+
+        Crashlytics.start(ctx);
+        setupDone = true;
+
+        return setupDone;
     }
 
     private boolean setupBugSense(Context ctx)
@@ -164,6 +178,19 @@ public class EventReportingUtils implements IEventReporting
         App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
         App.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n", e.getStackTrace()));
 
+        if (crashLyticsSetupDone)
+        {
+            if (params != null)
+            {
+                for (String key : params.keySet())
+                {
+                    Crashlytics.log(0, key, params.get(key)); // Priority = 0
+                }
+            }
+
+            Crashlytics.logException(e);
+        }
+
         if (analyticsSetupDone)
         {
             if (e != null)
@@ -172,21 +199,10 @@ public class EventReportingUtils implements IEventReporting
                 StandardExceptionParser sep = new StandardExceptionParser(context, null);
 
                 eb.setFatal(false);
-                eb.setDescription(sep.getDescription(Thread.currentThread().getName(), e));
-                eb.set("stackTrace", Log.getStackTraceString(e));
+                String title = sep.getDescription(Thread.currentThread().getName(), e);
+                String stackTrace = Log.getStackTraceString(e);
 
-                PackageInfo appInfo = Utils.getAppInfo(context);
-
-                eb.set("versionName", String.valueOf(appInfo.versionName));
-                eb.set("versionCode", String.valueOf(appInfo.versionCode));
-
-                if (params != null)
-                {
-                    for (String key : params.keySet())
-                    {
-                        eb.set(key, params.get(key));
-                    }
-                }
+                eb.setDescription(TextUtils.join("             ",new Object[]{title,stackTrace}));
 
                 getDefaultTracker().send(eb.build());
             }
