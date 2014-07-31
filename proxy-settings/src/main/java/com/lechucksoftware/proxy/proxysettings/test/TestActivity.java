@@ -151,6 +151,9 @@ public class TestActivity extends Activity
         EventReportingUtils.sendEvent("EVENT ONLY FOR TEST");
 
         GoogleAnalytics.getInstance(this).dispatchLocalHits();
+
+        // Force a CRASH
+        throw new RuntimeException("Application forced to crash!");
     }
 
     public void listDBProxies(View caller)

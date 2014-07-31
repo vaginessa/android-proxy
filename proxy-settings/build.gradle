@@ -65,7 +65,6 @@ android {
             debuggable false
 
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
-            buildConfigField "String", "CRITTERCISM_LICENSE", "\"" + crittercism_release + "\""
             buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_release + "\""
 
             signingConfig project.hasProperty('android_keystore') ? signingConfigs.release : signingConfigs.debug
@@ -79,13 +78,12 @@ android {
         debug {
 
             runProguard false
-
             debuggable true
 
+            versionNameSuffix "-DEBUG"
+
             buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
-            buildConfigField "String", "CRITTERCISM_LICENSE", "\"" + crittercism_debug + "\""
             buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_debug + "\""
-//            buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
         }
 
         CI {
@@ -93,8 +91,9 @@ android {
             debuggable true
             runProguard false
 
+            versionNameSuffix "-CI"
+
             buildConfigField "String", "BUGSENSE_LICENSE", 'null'
-            buildConfigField "String", "CRITTERCISM_LICENSE", 'null'
             buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
         }
     }
@@ -138,7 +137,6 @@ dependencies {
 //    compile 'com.github.tony19:logback-android-classic:1.0.7-1'
 
     compile 'com.bugsense.trace:bugsense:3.6.1'
-    compile 'com.crittercism:crittercism-android-agent:+'
 
 //    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])

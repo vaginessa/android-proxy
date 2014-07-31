@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.crashlytics.android.Crashlytics;
-import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
@@ -96,28 +95,28 @@ public class EventReportingUtils implements IEventReporting
         return setupDone;
     }
 
-    public boolean setupCrittercism(Context context)
-    {
-        String key;
-        Boolean setupDone;
-
-        key = BuildConfig.CRITTERCISM_LICENSE;
-
-        if (key == null || key.length() != 24)
-        {
-            CharSequence text = "No valid Crittercism keyfile found";
-            App.getLogger().e(TAG, text.toString());
-            setupDone = false;
-        }
-        else
-        {
-            App.getLogger().i(TAG, String.format("Crittercism setup [%s]", key));
-            Crittercism.initialize(context, "");
-            setupDone = true;
-        }
-
-        return setupDone;
-    }
+//    public boolean setupCrittercism(Context context)
+//    {
+//        String key;
+//        Boolean setupDone;
+//
+//        key = BuildConfig.CRITTERCISM_LICENSE;
+//
+//        if (key == null || key.length() != 24)
+//        {
+//            CharSequence text = "No valid Crittercism keyfile found";
+//            App.getLogger().e(TAG, text.toString());
+//            setupDone = false;
+//        }
+//        else
+//        {
+//            App.getLogger().i(TAG, String.format("Crittercism setup [%s]", key));
+//            Crittercism.initialize(context, "");
+//            setupDone = true;
+//        }
+//
+//        return setupDone;
+//    }
 
     public boolean setupAnalytics(Context upAnalytics)
     {
