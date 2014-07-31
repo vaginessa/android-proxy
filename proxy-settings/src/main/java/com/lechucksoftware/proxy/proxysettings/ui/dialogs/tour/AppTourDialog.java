@@ -2,17 +2,17 @@ package com.lechucksoftware.proxy.proxysettings.ui.dialogs.tour;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.MailFeedbackDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.RateAppDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
-public class AppTourDialog extends DialogFragment
+public class AppTourDialog extends BaseDialogFragment
 {
     public static String TAG = "LikeAppDialog";
     private StartupAction startupAction;

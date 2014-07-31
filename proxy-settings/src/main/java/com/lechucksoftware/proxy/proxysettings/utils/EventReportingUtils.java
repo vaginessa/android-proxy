@@ -1,18 +1,18 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bugsense.trace.BugSenseHandler;
-import com.crittercism.app.Crittercism;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.log.IEventReporting;
@@ -25,6 +25,7 @@ public class EventReportingUtils implements IEventReporting
 //    private static boolean crittercismSetupDone;
     private static boolean bugSenseSetupDone;
     private static boolean analyticsSetupDone;
+    private static boolean crashLyticsSetupDone;
     private Context context;
     private Tracker defaultTracker;
 //    private static Tracker tracker;
@@ -34,6 +35,7 @@ public class EventReportingUtils implements IEventReporting
 //        crittercismSetupDone = false;
         bugSenseSetupDone = false;
         analyticsSetupDone = false;
+        crashLyticsSetupDone = false;
     }
 
     public static EventReportingUtils getInstance()
@@ -52,7 +54,19 @@ public class EventReportingUtils implements IEventReporting
 
         analyticsSetupDone = getInstance().setupAnalytics(ctx);
         bugSenseSetupDone = getInstance().setupBugSense(ctx);
+        crashLyticsSetupDone = getInstance().setupCrashLytics(ctx);
 //        crittercismSetupDone = getInstance().setupCrittercism(ctx);
+    }
+
+    private boolean setupCrashLytics(Context ctx)
+    {
+        String key;
+        Boolean setupDone;
+
+        Crashlytics.start(ctx);
+        setupDone = true;
+
+        return setupDone;
     }
 
     private boolean setupBugSense(Context ctx)
@@ -81,28 +95,28 @@ public class EventReportingUtils implements IEventReporting
         return setupDone;
     }
 
-    public boolean setupCrittercism(Context context)
-    {
-        String key;
-        Boolean setupDone;
-
-        key = BuildConfig.CRITTERCISM_LICENSE;
-
-        if (key == null || key.length() != 24)
-        {
-            CharSequence text = "No valid Crittercism keyfile found";
-            App.getLogger().e(TAG, text.toString());
-            setupDone = false;
-        }
-        else
-        {
-            App.getLogger().i(TAG, String.format("Crittercism setup [%s]", key));
-            Crittercism.initialize(context, "");
-            setupDone = true;
-        }
-
-        return setupDone;
-    }
+//    public boolean setupCrittercism(Context context)
+//    {
+//        String key;
+//        Boolean setupDone;
+//
+//        key = BuildConfig.CRITTERCISM_LICENSE;
+//
+//        if (key == null || key.length() != 24)
+//        {
+//            CharSequence text = "No valid Crittercism keyfile found";
+//            App.getLogger().e(TAG, text.toString());
+//            setupDone = false;
+//        }
+//        else
+//        {
+//            App.getLogger().i(TAG, String.format("Crittercism setup [%s]", key));
+//            Crittercism.initialize(context, "");
+//            setupDone = true;
+//        }
+//
+//        return setupDone;
+//    }
 
     public boolean setupAnalytics(Context upAnalytics)
     {
@@ -114,6 +128,9 @@ public class EventReportingUtils implements IEventReporting
         if (!TextUtils.isEmpty(key))
         {
             defaultTracker = GoogleAnalytics.getInstance(context).newTracker(BuildConfig.ANALYTICS_TRACK_ID);
+
+            defaultTracker.enableExceptionReporting(true);
+            defaultTracker.enableAutoActivityTracking(true);
 //            defaultTracker.setAppName(ApplicationStatistics.getInstallationDetails(context));
             setupDone = true;
         }
@@ -135,55 +152,64 @@ public class EventReportingUtils implements IEventReporting
         getInstance().send(e);
     }
 
-    public static void addExtraData(String level, String secondLevel)
+    public static void sendException(Exception e, Map<String, String> map)
     {
-        getInstance().addCrashExtraData(level,secondLevel);
+        getInstance().send(e, map);
     }
 
-    public void addCrashExtraData(String level, String secondLevel)
-    {
-        BugSenseHandler.addCrashExtraData(level,secondLevel);
-    }
+//    public static void addExtraData(String level, String secondLevel)
+//    {
+//        getInstance().addCrashExtraData(level,secondLevel);
+//    }
+//
+//    public void addCrashExtraData(String level, String secondLevel)
+//    {
+//        BugSenseHandler.addCrashExtraData(level,secondLevel);
+//    }
 
     public void send(Exception e)
+    {
+        send(e, null);
+    }
+
+    public void send(Exception e, Map<String,String> params)
     {
         App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
         App.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n", e.getStackTrace()));
 
-        if (bugSenseSetupDone)
+        if (crashLyticsSetupDone)
         {
-            // Bugsense
-            HashMap<String, String> map = new HashMap<String, String>();
-            PackageInfo appInfo = Utils.getAppInfo(context);
-
-            try
+            if (params != null)
             {
-                map.put("versionName", String.valueOf(appInfo.versionName));
-                map.put("versionCode", String.valueOf(appInfo.versionCode));
-            }
-            catch (Exception internalEx)
-            {
-                BugSenseHandler.sendException(internalEx);
+                for (String key : params.keySet())
+                {
+                    Crashlytics.log(0, key, params.get(key)); // Priority = 0
+                }
             }
 
-            if (map != null)
+            Crashlytics.logException(e);
+        }
+
+        if (analyticsSetupDone)
+        {
+            if (e != null)
             {
-                BugSenseHandler.sendExceptionMap(map, e);
-            }
-            else
-            {
-                BugSenseHandler.sendException(e);
+                HitBuilders.ExceptionBuilder eb = new HitBuilders.ExceptionBuilder();
+                StandardExceptionParser sep = new StandardExceptionParser(context, null);
+
+                eb.setFatal(false);
+                String title = sep.getDescription(Thread.currentThread().getName(), e);
+                String stackTrace = Log.getStackTraceString(e);
+
+                eb.setDescription(TextUtils.join("             ",new Object[]{title,stackTrace}));
+
+                getDefaultTracker().send(eb.build());
             }
         }
         else
         {
-            setupBugSense(App.getInstance().getApplicationContext());
+            setupAnalytics(App.getInstance().getApplicationContext());
         }
-
-//        if (crittercismSetupDone)
-//        {
-//            Crittercism.logHandledException(e);
-//        }
     }
 
     public static int getTotalCrashes()
@@ -281,11 +307,13 @@ public class EventReportingUtils implements IEventReporting
 
     public static void sendScreenView(String screenName)
     {
-        Tracker tracker = getDefaultTracker();
-        if (tracker != null)
-        {
-            tracker.setScreenName(screenName);
-            tracker.send(new HitBuilders.AppViewBuilder().build());
-        }
+        // DO nothing, since enableAutoActivityTracking = true
+
+//        Tracker tracker = getDefaultTracker();
+//        if (tracker != null)
+//        {
+//            tracker.setScreenName(screenName);
+//            tracker.send(new HitBuilders.AppViewBuilder().build());
+//        }
     }
 }

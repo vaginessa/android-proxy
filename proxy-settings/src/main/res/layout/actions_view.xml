@@ -9,9 +9,22 @@
         android:id="@+id/enable_wifi_action_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:background="@drawable/btn_red_holo_dark"
         android:text="@string/enable_wifi_action"
         android:visibility="visible"/>
+
+    <!--<Button-->
+        <!--android:id="@+id/airplane_mode_action_btn"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/Holo_Red_Light"-->
+        <!--android:textColor="@android:color/primary_text_dark"-->
+        <!--android:padding="10dp"-->
+        <!--android:layout_margin="4dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Airplane mode enabled"-->
+        <!--android:visibility="gone"/>-->
 
     <Button
         android:id="@+id/configure_wifi_ap"

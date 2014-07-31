@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.components;
 
+import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -22,6 +23,7 @@ public class ActionsView extends LinearLayout
 {
     private Button configureWifiActionBtn;
     private Button enableWifiActionBtn;
+//    private Button airplaneModeActionBtn;
 
     public ActionsView(Context context, AttributeSet attrs)
     {
@@ -55,6 +57,9 @@ public class ActionsView extends LinearLayout
 
     private void getUIComponents(View v)
     {
+//        airplaneModeActionBtn = (Button) v.findViewById(R.id.airplane_mode_action_btn);
+//        airplaneModeActionBtn.setOnClickListener(airplaneModeClickListener);
+
         enableWifiActionBtn = (Button) v.findViewById(R.id.enable_wifi_action_btn);
         enableWifiActionBtn.setOnClickListener(enableWifiClickListener);
 
@@ -62,6 +67,24 @@ public class ActionsView extends LinearLayout
         configureWifiActionBtn.setOnClickListener(configureNewWifiAp);
     }
 
+    View.OnClickListener airplaneModeClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                EventReportingUtils.sendException(new Exception("Exception during ActionsView airplaneModeClickListener action", e));
+            }
+
+            view.setVisibility(GONE);
+        }
+    };
 
     View.OnClickListener enableWifiClickListener = new View.OnClickListener()
     {
@@ -94,6 +117,11 @@ public class ActionsView extends LinearLayout
             view.setVisibility(GONE);
         }
     };
+
+//    public void airplaneModeAction(boolean b)
+//    {
+//        airplaneModeActionBtn.setVisibility(UIUtils.booleanToVisibility(b));
+//    }
 
     public void enableWifiAction(boolean b)
     {

@@ -2,14 +2,14 @@ package com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
-public class BetaTestDismissedDialog extends DialogFragment
+public class BetaTestDismissedDialog extends BaseDialogFragment
 {
 	public static String TAG = "LikeAppDialog";
 

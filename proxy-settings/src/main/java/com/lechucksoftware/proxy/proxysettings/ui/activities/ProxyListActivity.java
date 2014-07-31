@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.BaseWifiActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 
 

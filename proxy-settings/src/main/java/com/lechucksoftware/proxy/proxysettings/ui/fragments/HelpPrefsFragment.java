@@ -14,6 +14,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.ContactsDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -28,6 +29,7 @@ public class HelpPrefsFragment extends PreferenceFragment
     private Preference betaTestPref;
     private Preference appRatePref;
     private Preference shareApp;
+    private Preference contactPref;
 //    private Preference aboutPref;
 
     public static HelpPrefsFragment getInstance()
@@ -61,6 +63,20 @@ public class HelpPrefsFragment extends PreferenceFragment
 
                 HtmlDialog htmlDialog = HtmlDialog.newInstance(getActivity().getString(R.string.changelog), Resources.CHANGELOG_HTML);
                 htmlDialog.show(getActivity().getFragmentManager(), "ChangelogHTMLDialog");
+                return true;
+            }
+        });
+
+        contactPref = findPreference("pref_contact");
+        contactPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+
+                // TODO:  Create ContacsDialog in order to let the user decide how to contact us
+//                ContactsDialog contactDialog = ContactsDialog.newInstance();
+                Utils.sendFeedbackMail(getActivity());
                 return true;
             }
         });

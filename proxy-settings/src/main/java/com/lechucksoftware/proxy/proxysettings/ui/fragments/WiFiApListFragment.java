@@ -21,9 +21,10 @@ import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoa
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseListFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseListFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     private RelativeLayout progress;
     private List<ProxyConfiguration> apConfigurations;
     private ActionsView actionsView;
+    private RelativeLayout emptySection;
 
     public static WiFiApListFragment getInstance()
     {
@@ -73,6 +75,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         progress = (RelativeLayout) v.findViewById(R.id.progress);
         actionsView = (ActionsView) v.findViewById(R.id.actions_view);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
+        emptySection = (RelativeLayout) v.findViewById(R.id.empty_message_section);
 
         App.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
@@ -120,19 +123,32 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         if (apListAdapter != null)
             apListAdapter.notifyDataSetChanged();
 
-        if (APL.getWifiManager().isWifiEnabled())
+        if (Utils.isAirplaneModeOn(getActivity()))
         {
-            loader.forceLoad();
+            emptySection.setVisibility(View.VISIBLE);
+            emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText(getActivity().getString(R.string.airplane_mode_message));
 
+            actionsView.configureWifiAction(false);
             actionsView.enableWifiAction(false);
-
-            if (apConfigurations != null && apConfigurations.size() > 0)
+        }
+        else
+        {
+            if (APL.getWifiManager().isWifiEnabled())
             {
-                apListAdapter.setData(apConfigurations);
+                loader.forceLoad();
 
-                getListView().setVisibility(View.VISIBLE);
-                emptyText.setVisibility(View.GONE);
-                actionsView.configureWifiAction(false);
+                actionsView.enableWifiAction(false);
+
+                if (apConfigurations != null && apConfigurations.size() > 0)
+                {
+                    apListAdapter.setData(apConfigurations);
+
+                    getListView().setVisibility(View.VISIBLE);
+                    emptySection.setVisibility(View.GONE);
+                    emptyText.setVisibility(View.GONE);
+
+                    actionsView.configureWifiAction(false);
 //                if (proxyConfigurations.size() > 10)
 //                {
 //                    getListView().setFastScrollEnabled(true);
@@ -145,24 +161,29 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 //                    getListView().setFastScrollAlwaysVisible(false);
 //                    getListView().setSmoothScrollbarEnabled(false);
 //                }
+                }
+                else
+                {
+                    getListView().setVisibility(View.GONE);
+                    emptySection.setVisibility(View.VISIBLE);
+                    emptyText.setVisibility(View.VISIBLE);
+                    emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
+
+                    actionsView.configureWifiAction(true);
+                }
             }
             else
             {
-                getListView().setVisibility(View.GONE);
-                emptyText.setVisibility(View.VISIBLE);
-                emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
-                actionsView.configureWifiAction(true);
-            }
-        }
-        else
-        {
-            // Do not display results when Wi-Fi is not enabled
+                // Do not display results when Wi-Fi is not enabled
 //            apListAdapter.setData(new ArrayList<ProxyConfiguration>());
-            getListView().setVisibility(View.GONE);
-            emptyText.setVisibility(View.VISIBLE);
-            actionsView.enableWifiAction(true);
-            actionsView.configureWifiAction(false);
-            emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
+                getListView().setVisibility(View.GONE);
+                emptySection.setVisibility(View.VISIBLE);
+                emptyText.setVisibility(View.VISIBLE);
+                emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
+
+                actionsView.enableWifiAction(true);
+                actionsView.configureWifiAction(false);
+            }
         }
 
 //        Toast.makeText(getActivity(), TAG + " REFRESHUI ", Toast.LENGTH_SHORT).show();

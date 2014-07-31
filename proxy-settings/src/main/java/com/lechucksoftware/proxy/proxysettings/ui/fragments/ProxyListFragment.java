@@ -22,8 +22,8 @@ import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.util.ArrayList;
@@ -57,6 +57,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
     private ProxyConfiguration apConf;
     private Button cancelDialogButton;
+    private RelativeLayout emptySection;
 
 
     public static ProxyListFragment newInstance()
@@ -112,6 +113,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         progress.setVisibility(View.VISIBLE);
 
         emptyText = (TextView) v.findViewById(android.R.id.empty);
+        emptySection = (RelativeLayout) v.findViewById(R.id.empty_message_section);
         listView = (ListView) v.findViewById(android.R.id.list);
 
         if (proxiesListAdapter == null)
@@ -163,6 +165,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         if (dbProxies != null && dbProxies.size() > 0)
         {
             proxiesListAdapter.setData(dbProxies);
+
+            emptySection.setVisibility(View.GONE);
             emptyText.setVisibility(View.GONE);
 
 //            if (dbProxies.size() > 10)
@@ -181,6 +185,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         else
         {
             proxiesListAdapter.setData(new ArrayList<ProxyEntity>());
+
+            emptySection.setVisibility(View.VISIBLE);
             emptyText.setText(getResources().getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
         }

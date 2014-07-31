@@ -46,3 +46,8 @@ proguard/
 
 # Private configuration files
 assets/configuration.json
+
+# Crashlytics configuration files
+*crashlytics.properties
+*crashlytics-build.properties
+*com_crashlytics_export_strings.xml

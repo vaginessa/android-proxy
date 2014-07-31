@@ -2,7 +2,6 @@ package com.lechucksoftware.proxy.proxysettings.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,8 +15,9 @@ import android.webkit.WebViewClient;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 
-public class HtmlDialog extends DialogFragment
+public class HtmlDialog extends BaseDialogFragment
 {
     public static String TAG = HtmlDialog.class.getSimpleName();
 
