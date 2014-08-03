@@ -29,7 +29,7 @@ import be.shouldit.proxy.lib.ProxyStatusItem;
 
 public class ProxyPreferencesActivity extends Activity
 {
-	public static final String TAG = "ProxyPreferencesActivity";
+	public static final String TAG = ProxyPreferencesActivity.class.getSimpleName();
 	public static final String CALLING_EXTRA = "com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyPreferencesActivity.CALLING_EXTRA";
 
 	public static ProxyPreferencesActivity instance;

@@ -33,7 +33,7 @@ import be.shouldit.proxy.lib.ProxyConfiguration;
  */
 public class TestActivity extends Activity
 {
-    public static final String TAG = "TestActivity";
+    public static final String TAG = TestActivity.class.getSimpleName();
     public LinearLayout testDBContainer;
     private ScrollView testLogScroll;
 

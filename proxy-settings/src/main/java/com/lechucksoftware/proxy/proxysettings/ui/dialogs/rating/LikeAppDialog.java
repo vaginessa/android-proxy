@@ -13,7 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class LikeAppDialog extends BaseDialogFragment
 {
-    public static String TAG = "LikeAppDialog";
+    public static String TAG = LikeAppDialog.class.getSimpleName();
     private StartupAction startupAction;
 
     public LikeAppDialog(StartupAction action)

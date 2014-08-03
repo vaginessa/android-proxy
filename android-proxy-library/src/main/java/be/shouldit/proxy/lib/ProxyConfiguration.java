@@ -20,7 +20,7 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Serializable
 {
-    public static final String TAG = "ProxyConfiguration";
+    public static final String TAG = ProxyConfiguration.class.getSimpleName();
 
     public final UUID id;
     public final WifiNetworkId internalWifiNetworkId;

@@ -9,7 +9,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.help.HelpFragmentActivity;
 
 public class DisclaimerFragmentActivity extends HelpFragmentActivity
 {
-	public static final String TAG = "DisclaimerFragmentActivity";
+	public static final String TAG = DisclaimerFragmentActivity.class.getSimpleName();
 	public static final int FRAGMENTS_COUNT = 8;
 
 	/** Called when the activity is first created. */

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ApplicationsFeedbackFragment extends BaseListFragment implements LoaderManager.LoaderCallbacks<List<PInfo>>
 {
-    public static final String TAG = "ApplicationsFeedbackFragment";
+    public static final String TAG = ApplicationsFeedbackFragment.class.getSimpleName();
     private static ApplicationsFeedbackFragment instance;
     private TextView emptyText;
 

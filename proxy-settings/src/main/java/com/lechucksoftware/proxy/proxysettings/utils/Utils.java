@@ -51,7 +51,7 @@ public class Utils
     // TODO: add fallback on telize
     public static final String HTTP_TELIZE_NET_JSON_STRING = "http://www.telize.com/geoip/";
 
-    public static String TAG = "Utils";
+    public static String TAG = Utils.class.getSimpleName();
     public static String BASE_ASSETS = "file:///android_asset/";
 
     public static String getProxyCountryCode(ProxyEntity proxy) throws Exception

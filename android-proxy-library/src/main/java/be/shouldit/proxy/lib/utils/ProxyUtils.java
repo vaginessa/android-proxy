@@ -46,7 +46,7 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class ProxyUtils
 {
-    public static final String TAG = "ProxyUtils";
+    public static final String TAG = ProxyUtils.class.getSimpleName();
 
     public static void startWifiScan()
     {

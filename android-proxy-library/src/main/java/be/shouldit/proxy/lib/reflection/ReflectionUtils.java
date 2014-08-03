@@ -18,7 +18,7 @@ import be.shouldit.proxy.lib.reflection.android.WifiServiceHandler;
 
 public class ReflectionUtils
 {
-    public static final String TAG = "ReflectionUtils";
+    public static final String TAG = ReflectionUtils.class.getSimpleName();
 
     /* Events from WifiService */
     /** @hide */

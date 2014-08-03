@@ -14,7 +14,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class BetaTestAppDialog extends BaseDialogFragment
 {
-	public static String TAG = "LikeAppDialog";
+	public static String TAG = BetaTestAppDialog.class.getSimpleName();
     private static StartupAction startupAction;
 
     @Override

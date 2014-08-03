@@ -37,7 +37,7 @@ import be.shouldit.proxy.lib.enums.SecurityType;
  */
 public class WiFiApListFragment extends BaseListFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
 {
-    private static final String TAG = "WiFiApListFragment";
+    private static final String TAG = WiFiApListFragment.class.getSimpleName();
     private static final int LOADER_PROXYCONFIGURATIONS = 1;
     private static WiFiApListFragment instance;
     int mCurCheckPosition = 0;

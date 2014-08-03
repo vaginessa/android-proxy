@@ -17,7 +17,7 @@ import be.shouldit.proxy.lib.log.LogWrapper;
 
 public class ProxySettingsMainActivity extends FragmentActivity
 {
-	public static String TAG = "ProxySettingsActivity";
+	public static String TAG = ProxySettingsMainActivity.class.getSimpleName();
 
 	/** Called when the activity is first created. */
 	@Override

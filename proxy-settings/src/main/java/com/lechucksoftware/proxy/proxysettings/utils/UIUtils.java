@@ -45,7 +45,7 @@ import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 public class UIUtils
 {
-    public static final String TAG = "UIUtils";
+    public static final String TAG = UIUtils.class.getSimpleName();
 
     public static int PROXY_NOTIFICATION_ID = 1;
     public static int URL_DOWNLOADER_COMPLETED_ID = 2;

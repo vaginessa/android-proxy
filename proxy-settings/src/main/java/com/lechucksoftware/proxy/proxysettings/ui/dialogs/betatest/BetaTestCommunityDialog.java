@@ -13,7 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class BetaTestCommunityDialog extends BaseDialogFragment
 {
-	public static String TAG = "LikeAppDialog";
+	public static String TAG = BetaTestCommunityDialog.class.getSimpleName();
 
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)

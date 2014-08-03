@@ -18,7 +18,7 @@ import be.shouldit.proxy.lib.APLIntents;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
 {
-    public static String TAG = "ProxyChangeReceiver";
+    public static String TAG = ProxyChangeReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent)

@@ -10,7 +10,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 
 public class ProxySettingsCallerActivity extends FragmentActivity
 {
-	public static String TAG = "ProxySettingsCallerActivity";
+	public static String TAG = ProxySettingsCallerActivity.class.getSimpleName();
 
 	static final int DIALOG_ID_WARNING = 0;
 	static final int DIALOG_ID_APP_RATE = 1;

@@ -36,7 +36,7 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
  */
 public class APL
 {
-    public static final String TAG = "APL";
+    public static final String TAG = APL.class.getSimpleName();
 
     private static ConnectivityManager mConnManager;
     private static WifiManager mWifiManager;

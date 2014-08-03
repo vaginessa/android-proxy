@@ -19,7 +19,7 @@ import be.shouldit.proxy.lib.log.IEventReporting;
 
 public class EventsReporter implements IEventReporting
 {
-    private static final String TAG = "EventReportingUtils";
+    private static final String TAG = EventsReporter.class.getSimpleName();
 //    private Boolean setupDone;
     private static EventsReporter instance;
 //    private static boolean crittercismSetupDone;

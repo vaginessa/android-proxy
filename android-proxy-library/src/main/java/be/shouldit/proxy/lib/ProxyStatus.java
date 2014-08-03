@@ -16,7 +16,7 @@ import java.util.TreeMap;
 
 public class ProxyStatus implements Serializable
 {
-	public static final String TAG = "ProxyConfiguration";
+	public static final String TAG = ProxyStatus.class.getSimpleName();
 	private static final long serialVersionUID = -2657093750716229587L;
 
 	SortedMap<ProxyStatusProperties, ProxyStatusItem> properties;

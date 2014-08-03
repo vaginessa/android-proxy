@@ -20,7 +20,7 @@ import be.shouldit.proxy.lib.APL;
  */
 public class StatusFragment extends BaseFragment
 {
-    private static final String TAG = "StatusFragment";
+    private static final String TAG = StatusFragment.class.getSimpleName();
     public static StatusFragment instance;
     private Button statusButton;
 

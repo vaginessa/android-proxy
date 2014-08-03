@@ -30,7 +30,7 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
  */
 public class ProxyManager
 {
-    private static final String TAG = "ProxyManager";
+    private static final String TAG = ProxyManager.class.getSimpleName();
     private final Context context;
     private ProxyConfiguration currentConfiguration;
     private Boolean updatedConfiguration;

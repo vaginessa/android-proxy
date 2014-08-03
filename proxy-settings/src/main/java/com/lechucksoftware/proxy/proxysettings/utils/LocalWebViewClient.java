@@ -10,7 +10,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 
 public class LocalWebViewClient extends WebViewClient
 {
-	public static String TAG = "LocalWebViewClient";
+	public static String TAG = LocalWebViewClient.class.getSimpleName();
 
 	@Override
 	public boolean shouldOverrideUrlLoading(WebView view, String url)
