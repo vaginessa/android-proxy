@@ -25,6 +25,7 @@ import java.net.Proxy.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.EnumSet;
 import java.util.regex.Matcher;
 
@@ -40,6 +41,7 @@ import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
 import be.shouldit.proxy.lib.enums.PskType;
 import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.log.LogWrapper;
 import be.shouldit.proxy.lib.reflection.ReflectionUtils;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
@@ -176,34 +178,53 @@ public class ProxyUtils
     // return intent;
     // }
 
-    public static boolean isHostReachable(Proxy proxy)
+    public static boolean isHostReachable(Proxy proxy, int timeout)
     {
-        Boolean standardResult = standardAPIPingHost(proxy);
+        Boolean standardResult = standardAPIPingHost(proxy, timeout);
+
         if (standardResult)
         {
             return true;
         }
         else
         {
-            Boolean lowResult = lowLevelPingHost(proxy);
+            Boolean lowResult = lowLevelPingHost(proxy, timeout);
             return lowResult;
         }
     }
 
-    public static boolean standardAPIPingHost(Proxy proxy)
+    public static boolean standardAPIPingHost(Proxy proxy, int timeout)
     {
+        Boolean result = false;
+
         try
         {
             InetSocketAddress proxySocketAddress = (InetSocketAddress) proxy.address();
-            return InetAddress.getByName(proxySocketAddress.toString().split(":")[0]).isReachable(100000);
-//			return proxySocketAddress.getAddress().isReachable(100000);
+            String socketAddressString = proxySocketAddress.toString();
+            if (!TextUtils.isEmpty(socketAddressString) && socketAddressString.contains(":"))
+            {
+                String host = socketAddressString.split(":")[0];
+
+                if (!TextUtils.isEmpty(host))
+                {
+                    InetAddress address = InetAddress.getByName(host);
+                    if (address != null)
+                    {
+                        result = address.isReachable(timeout);
+                    }
+                }
+            }
+        }
+        catch (UnknownHostException e)
+        {
+            APL.getLogger().e(TAG,e.toString());
         }
         catch (Exception e)
         {
             APL.getEventReport().send(e);
         }
 
-        return false;
+        return result;
     }
 
 //	public static void pingMe()
@@ -248,7 +269,7 @@ public class ProxyUtils
 //
 //	}
 
-    public static boolean lowLevelPingHost(Proxy proxy)
+    public static boolean lowLevelPingHost(Proxy proxy, int timeout)
     {
         int exitValue;
         Runtime runtime = Runtime.getRuntime();
@@ -292,7 +313,7 @@ public class ProxyUtils
 
         if (proxyAddress != null)
         {
-            cmdline = "ping -c 1 -w 1 " + proxyAddress;
+            cmdline = "ping -c 1 -w " + timeout/1000 + " " + proxyAddress;
 
             try
             {
@@ -717,7 +738,7 @@ public class ProxyUtils
                     && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
             {
                 APL.getLogger().d(TAG, "Checking if proxy is reachable ...");
-                status.set(isProxyReachable(conf));
+                status.set(isProxyReachable(conf, APLConstants.DEFAULT_TIMEOUT));
                 broadCastUpdatedStatus();
             }
             else
@@ -765,7 +786,7 @@ public class ProxyUtils
                             && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
                     {
                         APL.getLogger().d(TAG, "Checking if proxy is reachable ...");
-                        status.set(isProxyReachable(conf));
+                        status.set(isProxyReachable(conf, APLConstants.DEFAULT_TIMEOUT));
                         broadCastUpdatedStatus();
                     }
                     else
@@ -1011,11 +1032,11 @@ public class ProxyUtils
     /**
      * Try to PING the HOST specified in the current proxy configuration
      */
-    protected static ProxyStatusItem isProxyReachable(ProxyConfiguration conf)
+    protected static ProxyStatusItem isProxyReachable(ProxyConfiguration conf, int timeout)
     {
         if (conf.getProxy() != null && conf.getProxyType() != Proxy.Type.DIRECT)
         {
-            Boolean result = ProxyUtils.isHostReachable(conf.getProxy());
+            Boolean result = ProxyUtils.isHostReachable(conf.getProxy(), timeout);
             if (result)
             {
                 return new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_proxy_reachable));
