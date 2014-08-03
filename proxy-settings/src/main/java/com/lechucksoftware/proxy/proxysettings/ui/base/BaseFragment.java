@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 
 /**
  * Created by marco on 24/05/13.
@@ -40,7 +40,7 @@ public class BaseFragment extends Fragment
 
         App.getLogger().d(this.getClass().getSimpleName(), "onCreate " + this.getClass().getSimpleName());
 
-        EventReportingUtils.sendScreenView(this.getClass().getSimpleName());
+        App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
 
     @Override

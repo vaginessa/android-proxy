@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.Date;
@@ -164,7 +163,7 @@ public class ProxySettingsCheckerService extends IntentService
                 {
                     // newconf cannot be null!!
                     App.getLogger().d(TAG, "Not found new configuration -> needs to check the proxy status");
-                    EventReportingUtils.sendException(new Exception("Cannot have a null ProxyConfiguration"));
+                    App.getEventsReporter().sendException(new Exception("Cannot have a null ProxyConfiguration"));
                 }
 
                 if (checkNewConf)
@@ -188,7 +187,7 @@ public class ProxySettingsCheckerService extends IntentService
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
             UIUtils.DisableProxyNotification(App.getInstance());
             e.printStackTrace();
         }

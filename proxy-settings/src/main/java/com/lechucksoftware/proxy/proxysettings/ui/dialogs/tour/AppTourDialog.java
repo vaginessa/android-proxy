@@ -5,11 +5,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.MailFeedbackDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.RateAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class AppTourDialog extends BaseDialogFragment
@@ -38,7 +39,7 @@ public class AppTourDialog extends BaseDialogFragment
                 RateAppDialog rateDialog = RateAppDialog.newInstance(startupAction);
                 rateDialog.show(getFragmentManager(), "RateAppDialog");
 
-                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
                         R.string.analytics_lab_like_app_dialog, 1L);
             }
@@ -52,7 +53,7 @@ public class AppTourDialog extends BaseDialogFragment
                 MailFeedbackDialog feedbackDialog = MailFeedbackDialog.newInstance(startupAction);
                 feedbackDialog.show(getFragmentManager(), "MailFeedbackDialog");
 
-                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
                         R.string.analytics_lab_like_app_dialog, 0L);
             }
@@ -67,7 +68,7 @@ public class AppTourDialog extends BaseDialogFragment
     {
         super.onCancel(dialog);
 
-        EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+        App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                 R.string.analytics_act_dialog_button_click,
                 R.string.analytics_lab_like_app_dialog, 0L);
     }

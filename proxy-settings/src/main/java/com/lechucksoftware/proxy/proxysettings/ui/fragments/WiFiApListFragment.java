@@ -23,7 +23,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAda
 import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.List;
@@ -246,7 +246,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                         .setPositiveButton(R.string.proxy_error_dismiss, null)
                         .show();
 
-                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_button_click,
                         R.string.analytics_lab_8021x_security_not_supported);
             }
@@ -261,7 +261,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
+            App.getEventsReporter().sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
         }
     }
 }

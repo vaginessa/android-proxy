@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.components;
 
-import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -10,8 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.APL;
@@ -79,7 +79,7 @@ public class ActionsView extends LinearLayout
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(new Exception("Exception during ActionsView airplaneModeClickListener action", e));
+                App.getEventsReporter().sendException(new Exception("Exception during ActionsView airplaneModeClickListener action", e));
             }
 
             view.setVisibility(GONE);
@@ -98,7 +98,7 @@ public class ActionsView extends LinearLayout
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(new Exception("Exception during ActionsView enableWifiClickListener action", e));
+                App.getEventsReporter().sendException(new Exception("Exception during ActionsView enableWifiClickListener action", e));
             }
 
             view.setVisibility(GONE);

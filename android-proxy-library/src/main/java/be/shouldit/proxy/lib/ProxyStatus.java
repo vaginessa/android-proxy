@@ -1,5 +1,9 @@
 package be.shouldit.proxy.lib;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
 
@@ -196,6 +200,38 @@ public class ProxyStatus implements Serializable
 			return sb.toString();
 		}
 	}
+
+    public JSONObject toJSON()
+    {
+        JSONObject jsonObject = new JSONObject();
+
+        try
+        {
+            if (checkedDate != null)
+            {
+                DateFormat df = DateFormat.getDateTimeInstance();
+                jsonObject.put("checked_date",df.format(checkedDate));
+            }
+            else
+            {
+                jsonObject.put("checked_date", null);
+            }
+
+            JSONArray propertiesArray = new JSONArray();
+            for (ProxyStatusItem prop : properties.values())
+            {
+                propertiesArray.put(prop.toJSON());
+            }
+
+            jsonObject.put("check_properties", propertiesArray);
+        }
+        catch (JSONException e)
+        {
+            APL.getEventsReporter().sendException(e);
+        }
+
+        return jsonObject;
+    }
 
     public String toShortString()
     {

@@ -7,8 +7,9 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -333,7 +334,9 @@ public class ProxyManager
                 }
                 catch (IllegalArgumentException e)
                 {
-                    EventReportingUtils.sendException(new ProxyException(sortedConfigurationsList));
+                    Map<String,String> map = new HashMap<String, String>();
+                    map.put("config_list", configListToDBG().toString());
+                    App.getEventsReporter().sendException(e, map);
                 }
 
                 StringBuilder sb = new StringBuilder();
@@ -376,5 +379,29 @@ public class ProxyManager
         }
 
         return selected;
+    }
+
+    public JSONObject configListToDBG()
+    {
+        JSONObject dbg = new JSONObject();
+
+        try
+        {
+            JSONArray configurations = new JSONArray();
+
+            for (ProxyConfiguration conf : sortedConfigurationsList)
+            {
+                JSONObject jconf = new JSONObject();
+                configurations.put(conf.toJSON());
+            }
+
+            dbg.put("configurations", configurations);
+        }
+        catch (JSONException e)
+        {
+            APL.getEventsReporter().sendException(e);
+        }
+
+        return dbg;
     }
 }

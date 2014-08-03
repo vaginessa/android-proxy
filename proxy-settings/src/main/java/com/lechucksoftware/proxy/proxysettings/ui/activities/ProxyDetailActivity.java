@@ -19,7 +19,6 @@ import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.UpdateLinkedWifiAPAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.UUID;
@@ -92,7 +91,7 @@ public class ProxyDetailActivity extends BaseActivity
             @Override
             public void onClick(View v)
             {
-                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_button_click,
                         R.string.analytics_lab_save_proxy);
                 saveConfiguration();
@@ -108,7 +107,7 @@ public class ProxyDetailActivity extends BaseActivity
             public void onClick(View view)
             {
 
-                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_button_click,
                         R.string.analytics_lab_cancel_save_proxy);
                 App.getCacheManager().release(cachedProxyId);
@@ -167,7 +166,7 @@ public class ProxyDetailActivity extends BaseActivity
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 

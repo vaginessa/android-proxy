@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 import be.shouldit.proxy.lib.WifiNetworkId;
@@ -52,7 +52,7 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         }
         else
         {
-            EventReportingUtils.sendException(new Exception("Intent not received or not containing extra"));
+            App.getEventsReporter().sendException(new Exception("Intent not received or not containing extra"));
             NavigationUtils.GoToMainActivity(this);
         }
 

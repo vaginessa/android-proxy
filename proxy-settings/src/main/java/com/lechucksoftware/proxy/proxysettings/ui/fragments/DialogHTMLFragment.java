@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.LocaleManager;
 
 /**
@@ -103,7 +104,7 @@ public class DialogHTMLFragment extends BaseDialogFragment
                 }
                 catch (Exception e)
                 {
-                    EventReportingUtils.sendException(e);
+                    App.getEventsReporter().sendException(e);
                 }
 
                 return true;

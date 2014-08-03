@@ -41,7 +41,6 @@ import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
 import be.shouldit.proxy.lib.enums.PskType;
 import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.log.LogWrapper;
 import be.shouldit.proxy.lib.reflection.ReflectionUtils;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
@@ -221,7 +220,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(e);
+            APL.getEventsReporter().sendException(e);
         }
 
         return result;
@@ -232,7 +231,7 @@ public class ProxyUtils
 //
 //		try
 //		{
-//			ByteBuffer send = ByteBuffer.wrap("Hello".getBytes());
+//			ByteBuffer sendEvent = ByteBuffer.wrap("Hello".getBytes());
 //			ByteBuffer receive = ByteBuffer.allocate("Hello".getBytes().length);
 //			//use echo port 7
 //			InetSocketAddress socketAddress = new InetSocketAddress("192.168.1.2", 7);
@@ -240,7 +239,7 @@ public class ProxyUtils
 //			//we have the channel non-blocking.
 //			dgChannel.configureBlocking(false);
 //			dgChannel.connect(socketAddress);
-//			dgChannel.send(send, socketAddress);
+//			dgChannel.sendEvent(sendEvent, socketAddress);
 //			/*
 //			 * it's non-blocking so we need some amount of delay to get the
 //			 * response
@@ -295,7 +294,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(e);
+            APL.getEventsReporter().sendException(e);
         }
 
         if (proxyAddress == null)
@@ -307,7 +306,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getEventReport().send(e);
+                APL.getEventsReporter().sendException(e);
             }
         }
 
@@ -334,15 +333,15 @@ public class ProxyUtils
             }
             catch (IOException e)
             {
-                APL.getEventReport().send(e);
+                APL.getEventsReporter().sendException(e);
             }
             catch (InterruptedException e)
             {
-                APL.getEventReport().send(e);
+                APL.getEventsReporter().sendException(e);
             }
             catch (Exception e)
             {
-                APL.getEventReport().send(e);
+                APL.getEventsReporter().sendException(e);
             }
         }
         else
@@ -394,7 +393,7 @@ public class ProxyUtils
             }
             catch (InterruptedException e)
             {
-                APL.getEventReport().send(e);
+                APL.getEventsReporter().sendException(e);
                 return -1;
             }
         }
@@ -454,7 +453,7 @@ public class ProxyUtils
         catch (URISyntaxException e)
         {
             APL.getLogger().w(TAG, e.toString());
-//            APL.getEventReport().send(e);
+//            APL.getEventsReporter().sendEvent(e);
         }
 
         return false;
@@ -485,7 +484,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getEventReport().send(e);
+                APL.getEventsReporter().sendException(e);
             }
         }
     }
@@ -516,7 +515,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(new Exception("Exception setting WebKit proxy settings", e));
+            APL.getEventsReporter().sendException(new Exception("Exception setting WebKit proxy settings", e));
         }
         return ret;
     }
@@ -937,7 +936,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(e);
+            APL.getEventsReporter().sendException(e);
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));
@@ -975,7 +974,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(e);
+            APL.getEventsReporter().sendException(e);
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_notvalid));
@@ -1001,7 +1000,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(e);
+            APL.getEventsReporter().sendException(e);
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_notvalid));

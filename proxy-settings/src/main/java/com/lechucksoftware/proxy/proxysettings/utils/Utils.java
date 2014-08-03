@@ -89,7 +89,7 @@ public class Utils
         }
         catch (URISyntaxException e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         if (uri != null)
@@ -122,7 +122,7 @@ public class Utils
                     {
                         Map<String,String> map = new HashMap<String, String>();
                         map.put("CONTENT", answerBody);
-                        EventReportingUtils.sendException(e,map);
+                        App.getEventsReporter().sendException(e, map);
                     }
 
                     if (jsonObject != null && jsonObject.has("country_code"))
@@ -162,7 +162,7 @@ public class Utils
         }
         catch (PackageManager.NameNotFoundException e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         return pInfo;
@@ -181,7 +181,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         if (!marketShown)
@@ -227,7 +227,7 @@ public class Utils
             res = AndroidMarket.OTHER;
 
             if (!BuildConfig.DEBUG)
-                EventReportingUtils.sendException(new Exception("No InstallerPackageName recognized: " + market));
+                App.getEventsReporter().sendException(new Exception("No InstallerPackageName recognized: " + market));
             else
                 res = AndroidMarket.PLAY;
         }
@@ -266,7 +266,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         return text;
@@ -357,7 +357,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 
@@ -372,7 +372,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         return result;

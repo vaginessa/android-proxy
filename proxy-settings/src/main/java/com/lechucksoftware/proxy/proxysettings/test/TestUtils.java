@@ -13,7 +13,6 @@ import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.io.BufferedReader;
@@ -371,7 +370,7 @@ public class TestUtils
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(e);
+                App.getEventsReporter().sendException(e);
             }
         }
 
@@ -407,7 +406,7 @@ public class TestUtils
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(e);
+                App.getEventsReporter().sendException(e);
             }
         }
 
@@ -428,7 +427,7 @@ public class TestUtils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 

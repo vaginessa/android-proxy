@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -531,7 +530,7 @@ public class DataSource
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(e);
+                App.getEventsReporter().sendException(e);
             }
             finally
             {
@@ -540,7 +539,7 @@ public class DataSource
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 
@@ -625,7 +624,7 @@ public class DataSource
         }
         catch (SQLiteException e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         return result;
