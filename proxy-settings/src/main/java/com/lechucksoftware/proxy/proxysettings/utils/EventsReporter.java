@@ -141,7 +141,7 @@ public class EventsReporter implements IEventReporting
     public void sendException(Exception e, Map<String, String> params)
     {
         App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
-        App.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n", e.getStackTrace()));
+        App.getLogger().e(TAG, "Handled exception stack trace: " + Log.getStackTraceString(e));
 
         if (crashLyticsSetupDone)
         {
@@ -149,11 +149,14 @@ public class EventsReporter implements IEventReporting
             {
                 for (String key : params.keySet())
                 {
-                    Crashlytics.setString(key, params.get(key)); // Priority = 0
+                    String value = params.get(key);
+                    Crashlytics.log(0, key, value); // Priority = 0
+                    App.getLogger().e(TAG,String.format("Added log '%s': '%s'",key,value));
                 }
             }
 
             Crashlytics.logException(e);
+            App.getLogger().e(TAG,String.format("Sent exception to Crashlytics"));
         }
 
         if (analyticsSetupDone)
