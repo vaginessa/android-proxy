@@ -24,12 +24,11 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
@@ -55,7 +54,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     // Arguments
     private static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
     private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
-    private ProxyConfiguration apConf;
+    private WiFiAPConfig apConf;
     private Button cancelDialogButton;
     private RelativeLayout emptySection;
 
@@ -65,7 +64,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         return newInstance(FragmentMode.FULLSIZE, null);
     }
 
-    public static ProxyListFragment newInstance(FragmentMode mode, ProxyConfiguration apConf)
+    public static ProxyListFragment newInstance(FragmentMode mode, WiFiAPConfig apConf)
     {
         ProxyListFragment instance = new ProxyListFragment();
 
@@ -82,7 +81,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     {
         super.onCreate(savedInstanceState);
         fragmentMode = (FragmentMode) getArguments().getSerializable(FRAGMENT_MODE_ARG);
-        apConf = (ProxyConfiguration) getArguments().getSerializable(PROXY_CONF_ARG);
+        apConf = (WiFiAPConfig) getArguments().getSerializable(PROXY_CONF_ARG);
     }
 
     @Override
@@ -244,7 +243,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             apConf.setProxySetting(ProxySetting.STATIC);
             apConf.setProxyHost(proxy.host);
             apConf.setProxyPort(proxy.port);
-            apConf.setProxyExclusionList(proxy.exclusion);
+            apConf.setProxyExclusionString(proxy.exclusion);
             apConf.writeConfigurationToDevice();
 
             AsyncSaveProxyConfiguration asyncSaveProxyConfiguration = new AsyncSaveProxyConfiguration(this, apConf);

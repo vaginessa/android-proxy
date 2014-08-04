@@ -16,7 +16,7 @@ import java.util.Date;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLConstants;
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -128,7 +128,7 @@ public class ProxySettingsCheckerService extends IntentService
         {
 //            callRefreshApplicationStatus();
             App.getProxyManager().updateProxyConfigurationList();
-            ProxyConfiguration conf = App.getProxyManager().getCurrentConfiguration();
+            WiFiAPConfig conf = App.getProxyManager().getCurrentConfiguration();
 
             NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
@@ -163,7 +163,7 @@ public class ProxySettingsCheckerService extends IntentService
                 {
                     // newconf cannot be null!!
                     App.getLogger().d(TAG, "Not found new configuration -> needs to check the proxy status");
-                    App.getEventsReporter().sendException(new Exception("Cannot have a null ProxyConfiguration"));
+                    App.getEventsReporter().sendException(new Exception("Cannot have a null WiFiAPConfig"));
                 }
 
                 if (checkNewConf)

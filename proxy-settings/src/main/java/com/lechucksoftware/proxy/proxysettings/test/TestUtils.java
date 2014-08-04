@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -236,7 +236,7 @@ public class TestUtils
         App.getDBManager().upsertTag(tag);
     }
 
-//    public static void assignProxies(ProxyConfiguration conf, ProxyEntity proxy) throws Exception
+//    public static void assignProxies(WiFiAPConfig conf, ProxyEntity proxy) throws Exception
 //    {
 //        ProxySetting originalSettings = conf.getProxySettings();
 //        ProxyEntity originalData = new ProxyEntity();
@@ -251,7 +251,7 @@ public class TestUtils
 //        conf.setProxySetting(ProxySetting.STATIC);
 //        conf.setProxyHost(proxy.host);
 //        conf.setProxyPort(proxy.port);
-//        conf.setProxyExclusionList(proxy.exclusion);
+//        conf.setProxyExclusionString(proxy.exclusion);
 //
 //        conf.writeConfigurationToDevice();
 //
@@ -261,7 +261,7 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            ProxyConfiguration updatedConf = App.getProxyManager().getConfiguration(conf.id);
+//            WiFiAPConfig updatedConf = App.getProxyManager().getConfiguration(conf.id);
 //
 //            if (updatedConf.getProxySettings() == ProxySetting.STATIC &&
 //                    updatedConf.getProxyHost() == proxy.host &&
@@ -279,7 +279,7 @@ public class TestUtils
 //        conf.setProxySetting(ProxySetting.NONE);
 //        conf.setProxyHost(null);
 //        conf.setProxyPort(null);
-//        conf.setProxyExclusionList(null);
+//        conf.setProxyExclusionString(null);
 //        conf.writeConfigurationToDevice();
 //
 //        Thread.sleep(5000);
@@ -288,7 +288,7 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            ProxyConfiguration updatedConf = App.getProxyManager().getConfiguration(conf.id);
+//            WiFiAPConfig updatedConf = App.getProxyManager().getConfiguration(conf.id);
 //
 //            if (updatedConf.getProxySettings() == ProxySetting.NONE &&
 //                    (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
@@ -308,7 +308,7 @@ public class TestUtils
 //        {
 //            conf.setProxyHost(originalData.host);
 //            conf.setProxyPort(originalData.port);
-//            conf.setProxyExclusionList(originalData.exclusion);
+//            conf.setProxyExclusionString(originalData.exclusion);
 //        }
 //        conf.writeConfigurationToDevice();
 //        Thread.sleep(5000);
@@ -352,9 +352,9 @@ public class TestUtils
     {
         App.getInstance().wifiActionEnabled = false;
 
-        for (ProxyConfiguration configuration : App.getProxyManager().getSortedConfigurationsList())
+        for (WiFiAPConfig configuration : App.getProxyManager().getSortedConfigurationsList())
         {
-            if (configuration.ap.security == SecurityType.SECURITY_EAP)
+            if (configuration.security == SecurityType.SECURITY_EAP)
             {
                 // skip 802.1x security networks
                 continue;
@@ -365,7 +365,7 @@ public class TestUtils
                 configuration.setProxySetting(ProxySetting.NONE);
                 configuration.setProxyHost("");
                 configuration.setProxyPort(0);
-                configuration.setProxyExclusionList("");
+                configuration.setProxyExclusionString("");
                 configuration.writeConfigurationToDevice();
             }
             catch (Exception e)
@@ -388,9 +388,9 @@ public class TestUtils
 
         App.getInstance().wifiActionEnabled = false;
 
-        for (ProxyConfiguration configuration : App.getProxyManager().getSortedConfigurationsList())
+        for (WiFiAPConfig configuration : App.getProxyManager().getSortedConfigurationsList())
         {
-            if (configuration.ap.security == SecurityType.SECURITY_EAP)
+            if (configuration.security == SecurityType.SECURITY_EAP)
             {
                 // skip 802.1x security networks
                 continue;
@@ -399,7 +399,7 @@ public class TestUtils
             configuration.setProxySetting(ProxySetting.STATIC);
             configuration.setProxyHost(p.host);
             configuration.setProxyPort(p.port);
-            configuration.setProxyExclusionList(p.exclusion);
+            configuration.setProxyExclusionString(p.exclusion);
             try
             {
                 configuration.writeConfigurationToDevice();
@@ -434,7 +434,7 @@ public class TestUtils
     public static void testSerialization()
     {
         String s = null;
-        ProxyConfiguration conf = App.getProxyManager().getCurrentConfiguration();
+        WiFiAPConfig conf = App.getProxyManager().getCurrentConfiguration();
 
         ObjectOutputStream out = null;
         try

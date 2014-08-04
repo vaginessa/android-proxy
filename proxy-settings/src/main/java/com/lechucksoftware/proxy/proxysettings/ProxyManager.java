@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 import be.shouldit.proxy.lib.WifiNetworkId;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -32,10 +32,10 @@ public class ProxyManager
 {
     private static final String TAG = ProxyManager.class.getSimpleName();
     private final Context context;
-    private ProxyConfiguration currentConfiguration;
+    private WiFiAPConfig currentConfiguration;
     private Boolean updatedConfiguration;
-    private Map<WifiNetworkId, ProxyConfiguration> savedConfigurations;
-    private List<ProxyConfiguration> sortedConfigurationsList;
+    private Map<WifiNetworkId, WiFiAPConfig> savedConfigurations;
+    private List<WiFiAPConfig> sortedConfigurationsList;
     private Map<WifiNetworkId, ScanResult> notConfiguredWifi; // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
 
     public ProxyManager(Context ctx)
@@ -43,14 +43,14 @@ public class ProxyManager
         context = ctx;
         updatedConfiguration = false;
 
-        savedConfigurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, ProxyConfiguration>());
+        savedConfigurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, WiFiAPConfig>());
         notConfiguredWifi = Collections.synchronizedMap(new HashMap<WifiNetworkId, ScanResult>());
     }
 
-    private Map<WifiNetworkId, ProxyConfiguration> getSavedConfigurations()
+    private Map<WifiNetworkId, WiFiAPConfig> getSavedConfigurations()
     {
         if (savedConfigurations == null)
-            savedConfigurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, ProxyConfiguration>());
+            savedConfigurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, WiFiAPConfig>());
 
         return savedConfigurations;
     }
@@ -63,7 +63,7 @@ public class ProxyManager
         return notConfiguredWifi;
     }
 
-    public List<ProxyConfiguration> getSortedConfigurationsList()
+    public List<WiFiAPConfig> getSortedConfigurationsList()
     {
         if (sortedConfigurationsList == null)
         {
@@ -85,9 +85,9 @@ public class ProxyManager
         }
     }
 
-    public ProxyConfiguration getCurrentConfiguration()
+    public WiFiAPConfig getCurrentConfiguration()
     {
-        ProxyConfiguration conf = null;
+        WiFiAPConfig conf = null;
 
         if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
         {
@@ -126,7 +126,7 @@ public class ProxyManager
         if (currentConfiguration == null)
         {
             App.getLogger().w(TAG, "Cannot find a valid current configuration: creating an empty one");
-            currentConfiguration = new ProxyConfiguration(ProxySetting.NONE, null, null, null, null);
+            currentConfiguration = new WiFiAPConfig(ProxySetting.NONE, null, null, null, null);
         }
 
         return currentConfiguration;
@@ -137,7 +137,7 @@ public class ProxyManager
      *
      * @return the sorted list of current proxy savedConfigurations
      */
-    private List<ProxyConfiguration> getConfigurationsList()
+    private List<WiFiAPConfig> getConfigurationsList()
     {
         if (getSavedConfigurations().isEmpty())
             updateProxyConfigurationList();
@@ -158,13 +158,13 @@ public class ProxyManager
         List<WifiNetworkId> internalSavedSSID = getInternalSavedWifiConfigurations();
 
         //Get latests information regarding configured AP
-        List<WifiNetworkId> notMoreConfiguredSSID = updateInternalWifiAP(internalSavedSSID);
+        List<WifiNetworkId> notMoreConfiguredSSID = updateCachedWifiAP(internalSavedSSID);
 
         // Remove from current configuration the SSID that are not more configured into Android's Wi-Fi settings
         removeNotMoreConfiguredSSID(notMoreConfiguredSSID);
 
         // Update savedConfigurations with latest Wi-Fi scan results
-        updateConfigurationsWithWifiScanResults();
+        updateWifiApConfigs();
 
         // If the configuration has been updated sort again the list!!
         if (updatedConfiguration && !getSavedConfigurations().isEmpty())
@@ -177,9 +177,19 @@ public class ProxyManager
         App.getLogger().stopTrace(TAG, "updateProxyConfigurationList", Log.DEBUG);
     }
 
-    private void updateConfigurationsWithWifiScanResults()
+    private void updateWifiApConfigs()
     {
 //        LogWrapper.startTrace(TAG,"updateAfterScanResults", Log.DEBUG);
+        WifiInfo currentWifiInfo = APL.getWifiManager().getConnectionInfo();
+
+        // update current WifiInfo information for each WifiApConfig
+        if (!getSavedConfigurations().isEmpty())
+        {
+            for (WiFiAPConfig conf : getSavedConfigurations().values())
+            {
+                conf.updateWifiInfo(currentWifiInfo, null);
+            }
+        }
 
         // TODO: getScanResults() seems to Trigger a query to LocationManager
         // Add a possibility to disable the behaviour in order to avoid problems with KitKat AppOps
@@ -191,13 +201,15 @@ public class ProxyManager
             // clear all the savedConfigurations AP status
             if (!getSavedConfigurations().isEmpty())
             {
-                for (ProxyConfiguration conf : getSavedConfigurations().values())
+                for (WiFiAPConfig conf : getSavedConfigurations().values())
                 {
-                    conf.ap.clearScanStatus();
+                    conf.clearScanStatus();
                 }
             }
 
             List<String> scanResultsStrings = new ArrayList<String>();
+
+
             for (ScanResult res : scanResults)
             {
                 scanResultsStrings.add(res.SSID + " level: " + res.level);
@@ -207,10 +219,10 @@ public class ProxyManager
 
                 if (getSavedConfigurations().containsKey(currWifiNet))
                 {
-                    ProxyConfiguration conf = getSavedConfigurations().get(currWifiNet);
-                    if (conf != null && conf.ap != null)
+                    WiFiAPConfig conf = getSavedConfigurations().get(currWifiNet);
+                    if (conf != null)
                     {
-                        conf.ap.update(res);
+                        conf.updateScanResults(res);
                     }
                 }
                 else
@@ -239,7 +251,7 @@ public class ProxyManager
             {
                 if (getSavedConfigurations().containsKey(netId))
                 {
-                    ProxyConfiguration removed = getSavedConfigurations().remove(netId);
+                    WiFiAPConfig removed = getSavedConfigurations().remove(netId);
                     updatedConfiguration = true;
                     App.getLogger().w(TAG, "Removing from Proxy Settings configuration a no more configured SSID: " + removed.toShortString());
                 }
@@ -251,15 +263,15 @@ public class ProxyManager
 //        LogWrapper.stopTrace(TAG,"removeNoMoreConfiguredSSID", Log.DEBUG);
     }
 
-    private List<WifiNetworkId> updateInternalWifiAP(List<WifiNetworkId> internalSavedSSID)
+    private List<WifiNetworkId> updateCachedWifiAP(List<WifiNetworkId> internalSavedSSID)
     {
 //        LogWrapper.startTrace(TAG,"getSavedConfigurations", Log.DEBUG);
 
         // Get updated list of Proxy savedConfigurations from APL
-        List<ProxyConfiguration> updatedConfigurations = APL.getProxiesConfigurations();
+        List<WiFiAPConfig> updatedConfigurations = APL.getAPConfigurations();
         if (updatedConfigurations != null)
         {
-            for (ProxyConfiguration conf : updatedConfigurations)
+            for (WiFiAPConfig conf : updatedConfigurations)
             {
                 if (conf != null)
                 {
@@ -269,8 +281,8 @@ public class ProxyManager
                             && savedConfigurations.containsKey(conf.internalWifiNetworkId))
                     {
                         // Updates already saved configuration
-                        ProxyConfiguration originalConf = getSavedConfigurations().get(conf.internalWifiNetworkId);
-                        if (originalConf.updateConfiguration(conf))
+                        WiFiAPConfig originalConf = getSavedConfigurations().get(conf.internalWifiNetworkId);
+                        if (originalConf.updateProxyConfiguration(conf))
                             updatedConfiguration = true;
                     }
                     else
@@ -321,12 +333,12 @@ public class ProxyManager
     {
         if (!getSavedConfigurations().isEmpty())
         {
-            Collection<ProxyConfiguration> values = getSavedConfigurations().values();
+            Collection<WiFiAPConfig> values = getSavedConfigurations().values();
             if (values != null && values.size() > 0)
             {
                 App.getLogger().startTrace(TAG, "SortConfigurationList", Log.DEBUG);
 
-                sortedConfigurationsList = new ArrayList<ProxyConfiguration>(values);
+                sortedConfigurationsList = new ArrayList<WiFiAPConfig>(values);
 
                 try
                 {
@@ -340,10 +352,11 @@ public class ProxyManager
                 }
 
                 StringBuilder sb = new StringBuilder();
-                for (ProxyConfiguration conf : sortedConfigurationsList)
+                for (WiFiAPConfig conf : sortedConfigurationsList)
                 {
-                    sb.append(conf.ap.ssid + ",");
+                    sb.append(conf.ssid + ",");
                 }
+
                 App.getLogger().d(TAG, "Sorted proxy configuration list: " + sb.toString());
 
                 App.getLogger().stopTrace(TAG, "SortConfigurationList", Log.DEBUG);
@@ -351,7 +364,7 @@ public class ProxyManager
         }
     }
 
-    public ProxyConfiguration getCachedConfiguration()
+    public WiFiAPConfig getCachedConfiguration()
     {
         if (currentConfiguration == null)
         {
@@ -361,14 +374,14 @@ public class ProxyManager
         return currentConfiguration;
     }
 
-    public ProxyConfiguration getConfiguration(WifiNetworkId wifiNetworkId)
+    public WiFiAPConfig getConfiguration(WifiNetworkId wifiNetworkId)
     {
-        ProxyConfiguration selected = null;
+        WiFiAPConfig selected = null;
 
-        List<ProxyConfiguration> configurationList = getConfigurationsList();
+        List<WiFiAPConfig> configurationList = getConfigurationsList();
         if (configurationList != null)
         {
-            for (ProxyConfiguration conf : configurationList)
+            for (WiFiAPConfig conf : configurationList)
             {
                 if (conf.internalWifiNetworkId.equals(wifiNetworkId))
                 {
@@ -389,7 +402,7 @@ public class ProxyManager
         {
             JSONArray configurations = new JSONArray();
 
-            for (ProxyConfiguration conf : sortedConfigurationsList)
+            for (WiFiAPConfig conf : sortedConfigurationsList)
             {
                 JSONObject jconf = new JSONObject();
                 configurations.put(conf.toJSON());

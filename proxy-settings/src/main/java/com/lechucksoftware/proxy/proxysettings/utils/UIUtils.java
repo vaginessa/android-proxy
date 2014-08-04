@@ -39,7 +39,7 @@ import java.io.File;
 import java.net.Proxy.Type;
 import java.util.Random;
 
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 
@@ -418,7 +418,7 @@ public class UIUtils
         webView.loadUrl(htmlFile);
     }
 
-    public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)
+    public static String GetStatusSummary(WiFiAPConfig conf, Context ctx)
     {
         //		if (App.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
         {
@@ -438,11 +438,11 @@ public class UIUtils
         //		}
     }
 
-    public static void UpdateStatusBarNotification(ProxyConfiguration conf, Context context)
+    public static void UpdateStatusBarNotification(WiFiAPConfig conf, Context context)
     {
         if (conf == null)
         {
-            App.getEventsReporter().sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
+            App.getEventsReporter().sendException(new Exception("Cannot find valid instance of WiFiAPConfig"));
             return;
         }
 
@@ -466,7 +466,7 @@ public class UIUtils
     /**
      * Notification related methods
      */
-    public static void SetProxyNotification(ProxyConfiguration conf, Context callerContext)
+    public static void SetProxyNotification(WiFiAPConfig conf, Context callerContext)
     {
         SharedPreferences prefs = callerContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
 

@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.AccessPoint;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -28,7 +28,7 @@ public class WifiSignal extends LinearLayout
     private TextView securityTextView;
 
     private String text;
-    private ProxyConfiguration configuration;
+    private WiFiAPConfig configuration;
 
     public WifiSignal(Context context, AttributeSet attrs)
     {
@@ -70,16 +70,16 @@ public class WifiSignal extends LinearLayout
         else
             securityTextView.setText("");
 
-        if (configuration.ap.getLevel() == -1)
+        if (configuration.getLevel() == -1)
         {
             iconImageView.setImageResource(R.drawable.ic_action_notvalid);
             layout.setBackgroundResource(R.color.DarkGrey);
         }
         else
         {
-            iconImageView.setImageLevel(configuration.ap.getLevel());
+            iconImageView.setImageLevel(configuration.getLevel());
             iconImageView.setImageResource(R.drawable.wifi_signal);
-            iconImageView.setImageState((configuration.ap.security != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
+            iconImageView.setImageState((configuration.security != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
 
             if (configuration.isCurrentNetwork())
             {
@@ -92,7 +92,7 @@ public class WifiSignal extends LinearLayout
         }
     }
 
-    public void setConfiguration(ProxyConfiguration configuration)
+    public void setConfiguration(WiFiAPConfig configuration)
     {
         this.configuration = configuration;
         refreshUI();

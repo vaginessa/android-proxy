@@ -10,7 +10,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
@@ -55,7 +55,7 @@ public class ProxySyncService extends IntentService
     {
         App.getLogger().startTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
 
-        List<ProxyConfiguration> configurations =  App.getProxyManager().getSortedConfigurationsList();
+        List<WiFiAPConfig> configurations =  App.getProxyManager().getSortedConfigurationsList();
         List<Long> inUseProxies = new ArrayList<Long>();
 
         int foundNew = 0;
@@ -65,13 +65,13 @@ public class ProxySyncService extends IntentService
         {
             App.getLogger().d(TAG, String.format("Analyzing %d Wi-Fi AP configurations", configurations.size()));
 
-            for (ProxyConfiguration conf : configurations)
+            for (WiFiAPConfig conf : configurations)
             {
                 try
                 {
                     App.getLogger().d(TAG, "Checking Wi-Fi AP: " + conf.getSSID());
 
-                    if (conf.getProxySettings() == ProxySetting.STATIC && conf.ap.security != SecurityType.SECURITY_EAP)
+                    if (conf.getProxySettings() == ProxySetting.STATIC && conf.security != SecurityType.SECURITY_EAP)
                     {
                         if (conf.isValidProxyConfiguration())
                         {

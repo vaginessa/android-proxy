@@ -1,14 +1,15 @@
 package be.shouldit.proxy.lib.utils;
 
 import android.content.Context;
-import be.shouldit.proxy.lib.ProxyConfiguration;
+
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.R;
 
 public class ProxyUIUtils
 {
 
-	public static String GetStatusTitle(ProxyConfiguration conf, Context callerContext)
+	public static String GetStatusTitle(WiFiAPConfig conf, Context callerContext)
 	{
 		String description;
 
@@ -63,7 +64,7 @@ public class ProxyUIUtils
 		return description;
 	}
 
-	public static String GetStatusDescription(ProxyConfiguration conf, Context callerContext)
+	public static String GetStatusDescription(WiFiAPConfig conf, Context callerContext)
 	{
 		String description;
 
@@ -122,7 +123,7 @@ public class ProxyUIUtils
 		return description;
 	}
 
-	public static String ProxyConfigToStatusString(ProxyConfiguration conf, Context callerContext)
+	public static String ProxyConfigToStatusString(WiFiAPConfig conf, Context callerContext)
 	{
 		String message = String.format("%s", conf.toStatusString());
 

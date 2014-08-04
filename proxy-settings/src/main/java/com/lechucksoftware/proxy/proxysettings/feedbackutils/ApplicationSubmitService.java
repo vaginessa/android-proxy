@@ -6,11 +6,11 @@ import android.content.Intent;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 
+import java.net.Proxy;
 import java.net.URI;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLConstants;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class ApplicationSubmitService extends IntentService 
@@ -42,9 +42,9 @@ public class ApplicationSubmitService extends IntentService
 	{
 		try
         {
-			ProxyConfiguration proxyConf = APL.getCurrentHttpProxyConfiguration();
+			Proxy proxyConf = APL.getCurrentHttpProxyConfiguration();
     		URI uri = URI.create("");
-			String result = ProxyUtils.getURI(uri, proxyConf.getProxy(), APLConstants.DEFAULT_TIMEOUT);
+			String result = ProxyUtils.getURI(uri, proxyConf, APLConstants.DEFAULT_TIMEOUT);
         }
         catch (Exception e)
         {

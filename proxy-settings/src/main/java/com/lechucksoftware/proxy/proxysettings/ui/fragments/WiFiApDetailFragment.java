@@ -26,8 +26,8 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 import java.util.List;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 import be.shouldit.proxy.lib.WifiNetworkId;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -37,7 +37,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 {
     public static final String TAG = WiFiApDetailFragment.class.getSimpleName();
 
-    private ProxyConfiguration selectedWiFiAP;
+    private WiFiAPConfig selectedWiFiAP;
     private ProxyEntity selectedProxy;
 
     private TextView wifiName;
@@ -134,7 +134,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                     selectedWiFiAP.setProxySetting(ProxySetting.NONE);
                     selectedWiFiAP.setProxyHost(null);
                     selectedWiFiAP.setProxyPort(0);
-                    selectedWiFiAP.setProxyExclusionList(null);
+                    selectedWiFiAP.setProxyExclusionString(null);
                 }
 
                 saveConfiguration();
@@ -267,7 +267,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 proxySwitch.setText(R.string.status_proxy_disabled);
             }
 
-            if (selectedWiFiAP.ap.getLevel() == -1)
+            if (selectedWiFiAP.getLevel() == -1)
             {
                 wifiLayout.setBackgroundResource(R.color.DarkGrey);
             }

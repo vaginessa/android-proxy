@@ -1,8 +1,11 @@
 package be.shouldit.proxy.lib;
 
 import android.annotation.TargetApi;
+import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 
 import org.json.JSONException;
@@ -15,18 +18,20 @@ import java.net.SocketAddress;
 import java.util.UUID;
 
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
+import be.shouldit.proxy.lib.enums.PskType;
+import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
-public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Serializable
+public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 {
-    public static final String TAG = ProxyConfiguration.class.getSimpleName();
+    public static final String TAG = WiFiAPConfig.class.getSimpleName();
 
     public final UUID id;
     public final WifiNetworkId internalWifiNetworkId;
 
     public ProxyStatus status;
-    public AccessPoint ap;
+
     private String apDescription;
 
     private ProxySetting proxySetting;
@@ -35,27 +40,107 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     private String stringProxyExclusionList;
     private String[] parsedProxyExclusionList;
 
-    public ProxyConfiguration(ProxySetting setting, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
+    /* AccessPoint class fields */
+//    public AccessPoint ap;
+    public static final int[] STATE_SECURED = {R.attr.state_encrypted};
+    public static final int[] STATE_NONE = {};
+
+    public static final int INVALID_NETWORK_ID = -1;
+
+    public String ssid;
+    public String bssid;
+    public SecurityType security;
+    public int networkId;
+    public PskType pskType = PskType.UNKNOWN;
+    public transient WifiConfiguration wifiConfig;
+    private WifiInfo mInfo;
+    private int mRssi;
+    private NetworkInfo.DetailedState mState;
+
+
+    public WiFiAPConfig(ProxySetting setting, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
     {
         id = UUID.randomUUID();
 
         setProxySetting(setting);
         proxyHost = host;
         proxyPort = port;
-        setProxyExclusionList(exclusionList);
+        setProxyExclusionString(exclusionList);
 
-        if (wifiConf != null)
+//        ap = new AccessPoint(wifiConf);
+        ssid = (wifiConf.SSID == null ? "" : removeDoubleQuotes(wifiConf.SSID));
+        bssid = wifiConf.BSSID;
+        security = ProxyUtils.getSecurity(wifiConf);
+        networkId = wifiConf.networkId;
+        mRssi = Integer.MAX_VALUE;
+        wifiConfig = wifiConf;
+
+        internalWifiNetworkId = new WifiNetworkId(ssid, security);
+
+        status = new ProxyStatus();
+    }
+
+    public boolean updateScanResults(ScanResult result)
+    {
+        if (ssid.equals(result.SSID) && security == ProxyUtils.getSecurity(result))
         {
-            ap = new AccessPoint(wifiConf);
-            internalWifiNetworkId = new WifiNetworkId(ap.ssid, ap.security);
+            if (WifiManager.compareSignalLevel(result.level, mRssi) > 0)
+            {
+                int oldLevel = getLevel();
+                mRssi = result.level;
+            }
+            // This flag only comes from scans, is not easily saved in config
+            if (security == SecurityType.SECURITY_PSK)
+            {
+                pskType = ProxyUtils.getPskType(result);
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    public void updateWifiInfo(WifiInfo info, NetworkInfo.DetailedState state)
+    {
+        if (info != null
+            && networkId != INVALID_NETWORK_ID
+            && networkId == info.getNetworkId())
+        {
+            mRssi = info.getRssi();
+            mInfo = info;
+            mState = state;
+        }
+        else if (mInfo != null)
+        {
+            mInfo = null;
+            mState = null;
+        }
+    }
+
+    public boolean updateProxyConfiguration(WiFiAPConfig updated)
+    {
+        //TODO: Add all required fields for updating an old configuration with an updated version
+        if (!this.isSameConfiguration(updated))
+        {
+            APL.getLogger().d(TAG, "Updating proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
+
+            setProxySetting(updated.getProxySettings());
+            proxyHost = updated.proxyHost;
+            proxyPort = updated.proxyPort;
+            stringProxyExclusionList = updated.stringProxyExclusionList;
+            parsedProxyExclusionList = ProxyUtils.parseExclusionList(stringProxyExclusionList);
+
+            status.clear();
+
+            APL.getLogger().d(TAG, "Updated proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
+
+            return true;
         }
         else
         {
-            ap = null;
-            internalWifiNetworkId = null;
+//            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
+            return false;
         }
-
-        status = new ProxyStatus();
     }
 
     public Proxy getProxy()
@@ -94,9 +179,9 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         ProxyStatusItem portStatus = ProxyUtils.isProxyValidPort(this);
         ProxyStatusItem exclStatus = ProxyUtils.isProxyValidExclusionList(this);
 
-        if (   hostStatus.effective && hostStatus.status == CheckStatusValues.CHECKED && hostStatus.result
-            && portStatus.effective && portStatus.status == CheckStatusValues.CHECKED && portStatus.result
-            && exclStatus.effective && exclStatus.status == CheckStatusValues.CHECKED && exclStatus.result )
+        if (hostStatus.effective && hostStatus.status == CheckStatusValues.CHECKED && hostStatus.result
+                && portStatus.effective && portStatus.status == CheckStatusValues.CHECKED && portStatus.result
+                && exclStatus.effective && exclStatus.status == CheckStatusValues.CHECKED && exclStatus.result)
         {
             result = true;
         }
@@ -130,7 +215,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         proxyPort = port;
     }
 
-    public void setProxyExclusionList(String exList)
+    public void setProxyExclusionString(String exList)
     {
         stringProxyExclusionList = exList;
         parsedProxyExclusionList = ProxyUtils.parseExclusionList(exList);
@@ -138,17 +223,17 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public boolean isSameConfiguration(Object another)
     {
-        if (!(another instanceof ProxyConfiguration))
+        if (!(another instanceof WiFiAPConfig))
         {
-            APL.getLogger().d(TAG, "Not a ProxyConfiguration object");
+            APL.getLogger().e(TAG, "Not a WiFiAPConfig object");
             return false;
         }
 
-        ProxyConfiguration anotherConf = (ProxyConfiguration) another;
+        WiFiAPConfig anotherConf = (WiFiAPConfig) another;
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
         {
-            APL.getLogger().d(TAG, String.format("Different proxy settings toggle status: '%s' - '%s'",this.proxySetting, anotherConf.proxySetting));
+            APL.getLogger().d(TAG, String.format("Different proxy settings toggle status: '%s' - '%s'", this.proxySetting, anotherConf.proxySetting));
             return false;
         }
 
@@ -171,8 +256,8 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             else
             {
                 APL.getLogger().d(TAG, String.format("Different proxy host set"));
-                APL.getLogger().d(TAG, TextUtils.isEmpty(this.proxyHost) ? "":this.proxyHost);
-                APL.getLogger().d(TAG, TextUtils.isEmpty(anotherConf.proxyHost) ? "":anotherConf.proxyHost);
+                APL.getLogger().d(TAG, TextUtils.isEmpty(this.proxyHost) ? "" : this.proxyHost);
+                APL.getLogger().d(TAG, TextUtils.isEmpty(anotherConf.proxyHost) ? "" : anotherConf.proxyHost);
                 return false;
             }
         }
@@ -204,7 +289,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             if (!this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
             {
-                APL.getLogger().d(TAG, String.format("Different proxy exclusion list value: '%s' - '%s'",this.stringProxyExclusionList, anotherConf.stringProxyExclusionList));
+                APL.getLogger().d(TAG, String.format("Different proxy exclusion list value: '%s' - '%s'", this.stringProxyExclusionList, anotherConf.stringProxyExclusionList));
                 return false;
             }
         }
@@ -228,97 +313,117 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     }
 
     @Override
-    public int compareTo(ProxyConfiguration another)
-    {
-        int result = 0;
+    public int compareTo(WiFiAPConfig wiFiAPConfig) {
 
-        if (this.isCurrentNetwork())
+        if (!(wiFiAPConfig instanceof WiFiAPConfig))
         {
-            if (another.isCurrentNetwork())
-            {
-                result = 0;
-            }
-            else
-            {
-                result = -1;
-            }
-        }
-        else
-        {
-            if (another.isCurrentNetwork())
-            {
-                result = +1;
-            }
-            else
-            {
-                result = 0;
-            }
+            return 1;
         }
 
-        if (result == 0)
+        WiFiAPConfig other = (WiFiAPConfig) wiFiAPConfig;
+
+        // Active one goes first.
+        if (mInfo != null && other.mInfo == null) return -1;
+        if (mInfo == null && other.mInfo != null) return 1;
+
+        // Reachable one goes before unreachable one.
+        if (mRssi != Integer.MAX_VALUE && other.mRssi == Integer.MAX_VALUE)
         {
-            if (ap != null)
-            {
-                if (another.ap != null)
-                {
-                    result = ap.compareTo(another.ap);
-                }
-                else
-                {
-                    result = -1;
-                }
-            }
-            else
-            {
-                if (another.ap != null)
-                {
-                    result = +1;
-                }
-                else
-                {
-                    result = 0;
-                }
-            }
+            return -1;
         }
 
-        return result;
+        if (mRssi == Integer.MAX_VALUE && other.mRssi != Integer.MAX_VALUE)
+        {
+            return 1;
+        }
+
+        // Configured one goes before unconfigured one.
+        if (networkId != INVALID_NETWORK_ID
+                && other.networkId == INVALID_NETWORK_ID)
+        {
+            return -1;
+        }
+
+        if (networkId == INVALID_NETWORK_ID
+                && other.networkId != INVALID_NETWORK_ID)
+        {
+            return 1;
+        }
+
+        // Sort by signal strength.
+        int difference = WifiManager.compareSignalLevel(other.mRssi, mRssi);
+        if (difference != 0)
+        {
+            return difference;
+        }
+
+        // Sort by ssid.
+        return ssid.compareToIgnoreCase(other.ssid);
     }
 
-    public boolean updateConfiguration(ProxyConfiguration updated)
-    {
-        //TODO: Add all required fields for updating an old configuration with an updated version
-        if (!this.isSameConfiguration(updated))
-        {
-            APL.getLogger().d(TAG, "Updating proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
-
-            setProxySetting(updated.getProxySettings());
-            proxyHost = updated.proxyHost;
-            proxyPort = updated.proxyPort;
-            stringProxyExclusionList = updated.stringProxyExclusionList;
-            parsedProxyExclusionList = ProxyUtils.parseExclusionList(stringProxyExclusionList);
-
-            status.clear();
-
-            APL.getLogger().d(TAG, "Updated proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
-
-            return true;
-        }
-        else
-        {
-//            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
-            return false;
-        }
-    }
+//    @Override
+//    public int compareTo(WiFiAPConfig another)
+//    {
+//        int result = 0;
+//
+//        if (this.isCurrentNetwork())
+//        {
+//            if (another.isCurrentNetwork())
+//            {
+//                result = 0;
+//            }
+//            else
+//            {
+//                result = -1;
+//            }
+//        }
+//        else
+//        {
+//            if (another.isCurrentNetwork())
+//            {
+//                result = +1;
+//            }
+//            else
+//            {
+//                result = 0;
+//            }
+//        }
+//
+//        if (result == 0)
+//        {
+//            if (ap != null)
+//            {
+//                if (another.ap != null)
+//                {
+//                    result = ap.compareTo(another.ap);
+//                }
+//                else
+//                {
+//                    result = -1;
+//                }
+//            }
+//            else
+//            {
+//                if (another.ap != null)
+//                {
+//                    result = +1;
+//                }
+//                else
+//                {
+//                    result = 0;
+//                }
+//            }
+//        }
+//
+//        return result;
+//    }
 
     @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("ID: %s\n", id.toString()));
-
-        if (ap != null)
-            sb.append(String.format("Wi-Fi Configuration Info: %s\n", ap.ssid));
-
+        sb.append(String.format("Wi-Fi Configuration Info: %s\n", ssid));
         sb.append(String.format("Proxy setting: %s\n", getProxySettings().toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
         sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
@@ -339,9 +444,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         try
         {
             jsonObject.put("ID", id.toString());
-
-            if (ap != null)
-                jsonObject.put("SSID", ap.ssid);
+            jsonObject.put("SSID", ssid);
 
             jsonObject.put("proxy_setting", getProxySettings().toString());
             jsonObject.put("proxy_status", toStatusString());
@@ -366,14 +469,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         StringBuilder sb = new StringBuilder();
         sb.append(id.toString());
 
-        if (ap != null)
-        {
-            sb.append(" - " + ap.toShortString());
-        }
-        else
-        {
-            sb.append(" - NO AP ASSOCIATED");
-        }
+        sb.append(String.format("SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", ssid, mRssi, getLevel(), networkId));
 
         sb.append(" - " + toStatusString());
         sb.append(" " + getProxyExclusionList());
@@ -390,10 +486,10 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
         if (setting == null)
         {
-            return  APL.getContext().getResources().getString(R.string.not_available);
+            return APL.getContext().getResources().getString(R.string.not_available);
         }
 
-        if (setting== ProxySetting.NONE || setting == ProxySetting.UNASSIGNED)
+        if (setting == ProxySetting.NONE || setting == ProxySetting.UNASSIGNED)
         {
             return APL.getContext().getResources().getString(R.string.direct_connection);
         }
@@ -415,8 +511,18 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
     {
         WifiInfo connectionInfo = APL.getWifiManager().getConnectionInfo();
 
-        if (ap != null && connectionInfo != null && ap.networkId == connectionInfo.getNetworkId())
-            return true;
+        if (mInfo != null)
+        {
+            if (networkId == connectionInfo.getNetworkId())
+            {
+                return true;
+            }
+            else
+            {
+                APL.getLogger().d(TAG, "isCurrentNetwork: mInfo not null but different from active network");
+                return false;
+            }
+        }
         else
             return false;
     }
@@ -476,12 +582,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public String getSSID()
     {
-        if (ap != null && ap.wifiConfig != null && ap.wifiConfig.SSID != null)
-        {
-            return ap.wifiConfig.SSID;
-        }
-        else
-            return null;
+        return ssid;
     }
 
 //    public String getSecurityString()
@@ -494,27 +595,14 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
 
     public String getBSSID()
     {
-        if (ap != null && ap.bssid != null)
-        {
-            return ap.bssid;
-        }
-        else
-            return null;
-    }
-
-    public boolean isValidConfiguration()
-    {
-        if (ap != null)
-            return true;
-        else
-            return false;
+        return bssid;
     }
 
     @Deprecated
     @TargetApi(12)
     public void writeConfigurationToDevice() throws Exception
     {
-        APL.writeProxySdk12(this);
+        APL.writeWifiAPConfig(this);
     }
 
     public String getAPConnectionStatus()
@@ -523,7 +611,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             return APL.getContext().getString(R.string.connected);
         }
-        else if (ap.getLevel() > 0)
+        else if (getLevel() > 0)
         {
             return APL.getContext().getString(R.string.available);
         }
@@ -531,5 +619,35 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         {
             return APL.getContext().getString(R.string.not_available);
         }
+    }
+
+    private static String removeDoubleQuotes(String string)
+    {
+        int length = string.length();
+        if ((length > 1) && (string.charAt(0) == '"') && (string.charAt(length - 1) == '"'))
+        {
+            return string.substring(1, length - 1);
+        }
+        return string;
+    }
+
+    private static String convertToQuotedString(String string)
+    {
+        return "\"" + string + "\"";
+    }
+
+    public int getLevel()
+    {
+        if (mRssi == Integer.MAX_VALUE)
+        {
+            return -1;
+        }
+        return WifiManager.calculateSignalLevel(mRssi, 4);
+    }
+
+    public void clearScanStatus()
+    {
+        mRssi = Integer.MAX_VALUE;
+        pskType = PskType.UNKNOWN;
     }
 }

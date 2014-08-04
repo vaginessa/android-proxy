@@ -23,19 +23,18 @@ import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAda
 import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.List;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 import be.shouldit.proxy.lib.enums.SecurityType;
 
 /**
  * Created by marco on 17/05/13.
  */
-public class WiFiApListFragment extends BaseListFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<ProxyConfiguration>>
+public class WiFiApListFragment extends BaseListFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<WiFiAPConfig>>
 {
     private static final String TAG = WiFiApListFragment.class.getSimpleName();
     private static final int LOADER_PROXYCONFIGURATIONS = 1;
@@ -43,9 +42,9 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     int mCurCheckPosition = 0;
     private WifiAPSelectorListAdapter apListAdapter;
     private TextView emptyText;
-    private Loader<List<ProxyConfiguration>> loader;
+    private Loader<List<WiFiAPConfig>> loader;
     private RelativeLayout progress;
-    private List<ProxyConfiguration> apConfigurations;
+    private List<WiFiAPConfig> wiFiApConfigs;
     private ActionsView actionsView;
     private RelativeLayout emptySection;
 
@@ -140,9 +139,9 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
                 actionsView.enableWifiAction(false);
 
-                if (apConfigurations != null && apConfigurations.size() > 0)
+                if (wiFiApConfigs != null && wiFiApConfigs.size() > 0)
                 {
-                    apListAdapter.setData(apConfigurations);
+                    apListAdapter.setData(wiFiApConfigs);
 
                     getListView().setVisibility(View.VISIBLE);
                     emptySection.setVisibility(View.GONE);
@@ -175,7 +174,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             else
             {
                 // Do not display results when Wi-Fi is not enabled
-//            apListAdapter.setData(new ArrayList<ProxyConfiguration>());
+//            apListAdapter.setData(new ArrayList<WiFiAPConfig>());
                 getListView().setVisibility(View.GONE);
                 emptySection.setVisibility(View.VISIBLE);
                 emptyText.setVisibility(View.VISIBLE);
@@ -190,7 +189,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     }
 
     @Override
-    public Loader<List<ProxyConfiguration>> onCreateLoader(int i, Bundle bundle)
+    public Loader<List<WiFiAPConfig>> onCreateLoader(int i, Bundle bundle)
     {
         App.getLogger().startTrace(TAG, "onCreateLoader", Log.DEBUG);
 
@@ -201,12 +200,12 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     }
 
     @Override
-    public void onLoadFinished(Loader<List<ProxyConfiguration>> listLoader, List<ProxyConfiguration> aps)
+    public void onLoadFinished(Loader<List<WiFiAPConfig>> listLoader, List<WiFiAPConfig> aps)
     {
         App.getLogger().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
         progress.setVisibility(View.GONE);
-        apConfigurations = aps;
+        wiFiApConfigs = aps;
 
         refreshUI();
 
@@ -215,7 +214,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     }
 
     @Override
-    public void onLoaderReset(Loader<List<ProxyConfiguration>> listLoader)
+    public void onLoaderReset(Loader<List<WiFiAPConfig>> listLoader)
     {
 //        Toast.makeText(getActivity(), TAG + " LOADRESET", Toast.LENGTH_SHORT).show();
     }
@@ -236,9 +235,9 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             // the list to highlight the selected item and show the data.
             getListView().setItemChecked(index, true);
 
-            ProxyConfiguration selectedConfiguration = (ProxyConfiguration) getListView().getItemAtPosition(index);
+            WiFiAPConfig selectedConfiguration = (WiFiAPConfig) getListView().getItemAtPosition(index);
 
-            if (selectedConfiguration.ap.security == SecurityType.SECURITY_EAP)
+            if (selectedConfiguration.security == SecurityType.SECURITY_EAP)
             {
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.oops)

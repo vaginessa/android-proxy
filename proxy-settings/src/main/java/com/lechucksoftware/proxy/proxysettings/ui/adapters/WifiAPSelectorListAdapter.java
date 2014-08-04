@@ -9,11 +9,12 @@ import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 
 import java.util.List;
 
-public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
+import be.shouldit.proxy.lib.WiFiAPConfig;
+
+public class WifiAPSelectorListAdapter extends ArrayAdapter<WiFiAPConfig>
 {
     private static String TAG = WifiAPSelectorListAdapter.class.getSimpleName();
 
@@ -36,7 +37,7 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
         WifiSignal security;
     }
 
-    public void setData(List<ProxyConfiguration> confList)
+    public void setData(List<WiFiAPConfig> confList)
     {
         Boolean needsRefresh = false;
 
@@ -44,7 +45,7 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
         {
             for (int i = 0; i < this.getCount(); i++)
             {
-                ProxyConfiguration conf = this.getItem(i);
+                WiFiAPConfig conf = this.getItem(i);
                 if (conf.compareTo(confList.get(i)) != 0)
                 {
                     needsRefresh = true;
@@ -62,7 +63,7 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
             clear();
             if (confList != null)
             {
-                for (ProxyConfiguration conf : confList)
+                for (WiFiAPConfig conf : confList)
                 {
                     add(conf);
                 }
@@ -88,7 +89,7 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<ProxyConfiguration>
             viewHolder = (ApViewHolder) view.getTag();
         }
 
-        ProxyConfiguration listItem = getItem(position);
+        WiFiAPConfig listItem = getItem(position);
 
         if (listItem != null)
         {

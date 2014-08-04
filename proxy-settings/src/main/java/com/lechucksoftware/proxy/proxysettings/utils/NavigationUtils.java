@@ -55,7 +55,7 @@ public class NavigationUtils
 //        ft.commit();
 //    }
 
-//    public static void GoToAPDetailsFragment(FragmentManager fm, ProxyConfiguration proxyConfiguration)
+//    public static void GoToAPDetailsFragment(FragmentManager fm, WiFiAPConfig proxyConfiguration)
 //    {
 //        WiFiApDetailFragment details = WiFiApDetailFragment.newInstance(proxyConfiguration);
 //

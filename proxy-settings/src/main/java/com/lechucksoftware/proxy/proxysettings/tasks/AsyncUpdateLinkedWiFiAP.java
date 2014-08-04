@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
@@ -58,11 +58,11 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     {
         int updatedWiFiAP = 0;
 
-        List<ProxyConfiguration> configurations = App.getProxyManager().getSortedConfigurationsList();
+        List<WiFiAPConfig> configurations = App.getProxyManager().getSortedConfigurationsList();
 
         if (configurations != null)
         {
-//            List<ProxyConfiguration> configurations = new ArrayList<ProxyConfiguration>(sortedConfigurations);
+//            List<WiFiAPConfig> configurations = new ArrayList<WiFiAPConfig>(sortedConfigurations);
 
             App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
             App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());
@@ -71,7 +71,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
             if (configurations != null)
             {
-                for (ProxyConfiguration conf : configurations)
+                for (WiFiAPConfig conf : configurations)
                 {
                     if (conf.getProxySettings() == ProxySetting.STATIC)
                     {
@@ -89,7 +89,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                             {
                                 conf.setProxyHost(updatedProxy.host);
                                 conf.setProxyPort(updatedProxy.port);
-                                conf.setProxyExclusionList(updatedProxy.exclusion);
+                                conf.setProxyExclusionString(updatedProxy.exclusion);
 
                                 App.getLogger().d(TAG, "Writing updated AP configuration on device: " + conf.toShortString());
 

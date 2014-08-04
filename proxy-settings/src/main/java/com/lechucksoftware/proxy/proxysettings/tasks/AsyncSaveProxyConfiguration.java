@@ -10,8 +10,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 
 /**
  * Created by Marco on 29/11/13.
@@ -21,10 +21,10 @@ import be.shouldit.proxy.lib.ProxyConfiguration;
 public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean>
 {
     private final Fragment callerFragment;
-    private final ProxyConfiguration configuration;
+    private final WiFiAPConfig configuration;
     private static final String TAG = AsyncSaveProxyConfiguration.class.getSimpleName();
 
-    public AsyncSaveProxyConfiguration(Fragment caller, ProxyConfiguration conf)
+    public AsyncSaveProxyConfiguration(Fragment caller, WiFiAPConfig conf)
     {
         callerFragment = caller;
         configuration = conf;

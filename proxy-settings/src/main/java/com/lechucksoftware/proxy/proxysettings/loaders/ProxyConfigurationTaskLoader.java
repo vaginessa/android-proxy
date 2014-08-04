@@ -3,14 +3,14 @@ package com.lechucksoftware.proxy.proxysettings.loaders;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import com.lechucksoftware.proxy.proxysettings.App;
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 
 import java.util.List;
 
 /**
  * Created by marco on 04/10/13.
  */
-public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<ProxyConfiguration>>
+public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<WiFiAPConfig>>
 {
     private final Context ctx;
 
@@ -21,7 +21,7 @@ public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<ProxyConf
     }
 
     @Override
-    public List<ProxyConfiguration> loadInBackground()
+    public List<WiFiAPConfig> loadInBackground()
     {
         return App.getProxyManager().getSortedConfigurationsList();
     }

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 
 /**
  * Created by Marco on 13/09/13.
@@ -254,7 +254,7 @@ public class DataSource
         }
     }
 
-    public long findProxy(ProxyConfiguration configuration)
+    public long findProxy(WiFiAPConfig configuration)
     {
         long result = -1;
 

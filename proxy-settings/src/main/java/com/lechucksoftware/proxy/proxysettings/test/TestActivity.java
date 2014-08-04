@@ -12,7 +12,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.ProxyManager;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
@@ -26,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 
 /**
  * Created by marco on 10/10/13.
@@ -288,7 +287,7 @@ public class TestActivity extends Activity
                 Utils.setDemoMode(_testActivity, !App.getInstance().demoMode);
                 Utils.checkDemoMode(_testActivity);
 
-                for (ProxyConfiguration conf : App.getProxyManager().getSortedConfigurationsList())
+                for (WiFiAPConfig conf : App.getProxyManager().getSortedConfigurationsList())
                 {
                     if (App.getInstance().demoMode)
                         conf.setAPDescription(UIUtils.getRandomCodeName().toString());

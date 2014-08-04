@@ -29,10 +29,10 @@ import java.net.UnknownHostException;
 import java.util.EnumSet;
 import java.util.regex.Matcher;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLConstants;
 import be.shouldit.proxy.lib.APLIntents;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 import be.shouldit.proxy.lib.ProxyStatus;
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.R;
@@ -56,16 +56,16 @@ public class ProxyUtils
         }
     }
 
-    public static void connectToAP(ProxyConfiguration conf) throws Exception
+    public static void connectToAP(WiFiAPConfig conf) throws Exception
     {
         if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
         {
-            if (conf != null && conf.ap != null && conf.ap.getLevel() > -1)
+            if (conf != null && conf.getLevel() > -1)
             {
                 // Connect to AP only if it's available
-                ReflectionUtils.connectToWifi(APL.getWifiManager(), conf.ap.networkId);
+                ReflectionUtils.connectToWifi(APL.getWifiManager(), conf.networkId);
 
-                APL.getWifiManager().enableNetwork(conf.ap.networkId, true);
+                APL.getWifiManager().enableNetwork(conf.networkId, true);
             }
         }
     }
@@ -352,7 +352,7 @@ public class ProxyUtils
         return false;
     }
 
-    public static int testHTTPConnection(URI uri, ProxyConfiguration proxyConfiguration, int timeout)
+    public static int testHTTPConnection(URI uri, WiFiAPConfig WiFiAPConfig, int timeout)
     {
         int step = 0;
         while (step < 5)
@@ -361,10 +361,10 @@ public class ProxyUtils
             {
                 URL url = uri.toURL();
 
-                if (proxyConfiguration != null && proxyConfiguration.getProxyType() == Type.HTTP)
+                if (WiFiAPConfig != null && WiFiAPConfig.getProxyType() == Type.HTTP)
                 {
-                    System.setProperty("http.proxyHost", proxyConfiguration.getProxyIPHost());
-                    System.setProperty("http.proxyPort", proxyConfiguration.getProxyPort().toString());
+                    System.setProperty("http.proxyHost", WiFiAPConfig.getProxyIPHost());
+                    System.setProperty("http.proxyPort", WiFiAPConfig.getProxyPort().toString());
                 }
                 else
                 {
@@ -427,13 +427,13 @@ public class ProxyUtils
         }
     }
 
-    public static boolean canGetWebResources(ProxyConfiguration proxyConfiguration, int timeout)
+    public static boolean canGetWebResources(WiFiAPConfig WiFiAPConfig, int timeout)
     {
         try
         {
             // TODO: add better method to check web resources
-            int result = testHTTPConnection(new URI("http://www.un.org/"), proxyConfiguration, timeout);
-//            int rawresult = testHTTPConnection(new URI("http://157.150.34.32"), proxyConfiguration, timeout);
+            int result = testHTTPConnection(new URI("http://www.un.org/"), WiFiAPConfig, timeout);
+//            int rawresult = testHTTPConnection(new URI("http://157.150.34.32"), WiFiAPConfig, timeout);
 
             switch (result)
             {
@@ -462,7 +462,7 @@ public class ProxyUtils
     /**
      * Try to set the Proxy Settings for active WebViews. This works only for devices with API version < 12.
      */
-    public static void setWebViewProxy(Context context, ProxyConfiguration proxyConf)
+    public static void setWebViewProxy(Context context, WiFiAPConfig proxyConf)
     {
         if (Build.VERSION.SDK_INT >= 12)
         {
@@ -613,11 +613,11 @@ public class ProxyUtils
         return security;
     }
 
-    public static String getSecurityString(ProxyConfiguration conf, Context ctx, boolean concise)
+    public static String getSecurityString(WiFiAPConfig conf, Context ctx, boolean concise)
     {
-        if (conf != null && conf.ap != null)
+        if (conf != null)
         {
-            return getSecurityString(conf.ap.security, conf.ap.pskType, ctx, true);
+            return getSecurityString(conf.security, conf.pskType, ctx, true);
         }
         else
             return "";
@@ -673,7 +673,7 @@ public class ProxyUtils
         }
     }
 
-    public static void acquireProxyStatus(ProxyConfiguration conf, ProxyStatus status)
+    public static void acquireProxyStatus(WiFiAPConfig conf, ProxyStatus status)
     {
         acquireProxyStatus(conf, status, ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
     }
@@ -684,7 +684,7 @@ public class ProxyUtils
      * reachable (using a PING) - Check if is possible to retrieve an URI
      * resource using the proxy
      */
-    public static void acquireProxyStatus(ProxyConfiguration conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions, int timeout)
+    public static void acquireProxyStatus(WiFiAPConfig conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions, int timeout)
     {
         status.clear();
         status.startchecking();
@@ -712,7 +712,7 @@ public class ProxyUtils
         }
     }
 
-    private static void acquireProxyStatusSDK1_11(ProxyConfiguration conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions)
+    private static void acquireProxyStatusSDK1_11(WiFiAPConfig conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions)
     {
         // API version <= 11 (Older devices)
         status.set(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
@@ -751,7 +751,7 @@ public class ProxyUtils
         }
     }
 
-    private static void acquireProxyStatusSDK12(ProxyConfiguration conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions)
+    private static void acquireProxyStatusSDK12(WiFiAPConfig conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions)
     {
         APL.getLogger().d(TAG, "Checking if Wi-Fi is enabled ...");
         status.set(isWifiEnabled(conf));
@@ -827,7 +827,7 @@ public class ProxyUtils
         APL.getContext().sendBroadcast(intent);
     }
 
-    protected static ProxyStatusItem isWifiEnabled(ProxyConfiguration conf)
+    protected static ProxyStatusItem isWifiEnabled(WiFiAPConfig conf)
     {
         ProxyStatusItem result = null;
 
@@ -852,13 +852,13 @@ public class ProxyUtils
         return result;
     }
 
-    protected static ProxyStatusItem isWifiSelected(ProxyConfiguration conf)
+    protected static ProxyStatusItem isWifiSelected(WiFiAPConfig conf)
     {
         ProxyStatusItem result = null;
 
         if (conf.isCurrentNetwork())
         {
-            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, conf.ap.ssid));
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, conf.ssid));
         }
         else
         {
@@ -868,7 +868,7 @@ public class ProxyUtils
         return result;
     }
 
-    protected static ProxyStatusItem isProxyEnabled(ProxyConfiguration conf)
+    protected static ProxyStatusItem isProxyEnabled(WiFiAPConfig conf)
     {
         ProxyStatusItem result;
 
@@ -909,7 +909,7 @@ public class ProxyUtils
         return result;
     }
 
-    public static ProxyStatusItem isProxyValidHostname(ProxyConfiguration conf)
+    public static ProxyStatusItem isProxyValidHostname(WiFiAPConfig conf)
     {
         String proxyHost = conf.getProxyHostString();
         return isProxyValidHostname(proxyHost);
@@ -942,7 +942,7 @@ public class ProxyUtils
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));
     }
 
-    public static ProxyStatusItem isProxyValidExclusionList(ProxyConfiguration conf)
+    public static ProxyStatusItem isProxyValidExclusionList(WiFiAPConfig conf)
     {
         String proxyExclusionList = conf.getProxyExclusionList();
         return isProxyValidExclusionList(proxyExclusionList);
@@ -1006,7 +1006,7 @@ public class ProxyUtils
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_notvalid));
     }
 
-    public static ProxyStatusItem isProxyValidPort(ProxyConfiguration conf)
+    public static ProxyStatusItem isProxyValidPort(WiFiAPConfig conf)
     {
         Integer proxyPort = conf.getProxyPort();
         return isProxyValidPort(proxyPort);
@@ -1031,7 +1031,7 @@ public class ProxyUtils
     /**
      * Try to PING the HOST specified in the current proxy configuration
      */
-    protected static ProxyStatusItem isProxyReachable(ProxyConfiguration conf, int timeout)
+    protected static ProxyStatusItem isProxyReachable(WiFiAPConfig conf, int timeout)
     {
         if (conf.getProxy() != null && conf.getProxyType() != Proxy.Type.DIRECT)
         {
@@ -1078,12 +1078,12 @@ public class ProxyUtils
         return exList;
     }
 
-    protected ProxyStatusItem isWebReachable(ProxyConfiguration conf)
+    protected ProxyStatusItem isWebReachable(WiFiAPConfig conf)
     {
         return isWebReachable(conf, APLConstants.DEFAULT_TIMEOUT);
     }
 
-    protected static ProxyStatusItem isWebReachable(ProxyConfiguration conf, int timeout)
+    protected static ProxyStatusItem isWebReachable(WiFiAPConfig conf, int timeout)
     {
         Boolean result = ProxyUtils.canGetWebResources(conf, timeout);
         if (result)

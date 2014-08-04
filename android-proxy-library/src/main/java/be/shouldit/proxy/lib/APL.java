@@ -5,9 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
@@ -144,12 +142,12 @@ public class APL
     /**
      * Main entry point to access the proxy settings
      */
-    public static ProxyConfiguration getCurrentProxyConfiguration(URI uri) throws Exception
+    public static Proxy getCurrentProxyConfiguration(URI uri) throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        ProxyConfiguration proxyConfig;
+        Proxy proxyConfig;
 
         if (deviceVersion >= 12) // Honeycomb 3.1
         {
@@ -165,39 +163,39 @@ public class APL
          * */
         if (proxyConfig == null)
         {
-            proxyConfig = new ProxyConfiguration(ProxySetting.NONE, null, null, null, null);
+            proxyConfig = Proxy.NO_PROXY;
         }
 
         /**
          * Add connection details
          * */
-        ConnectivityManager connManager = (ConnectivityManager) gContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
-//		proxyConfig.currentNetworkInfo = activeNetInfo;
-
-        if (activeNetInfo != null)
-        {
-            switch (activeNetInfo.getType())
-            {
-                case ConnectivityManager.TYPE_WIFI:
-                    WifiManager wifiManager = (WifiManager) gContext.getSystemService(Context.WIFI_SERVICE);
-                    WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-                    List<WifiConfiguration> wifiConfigurations = wifiManager.getConfiguredNetworks();
-                    for (WifiConfiguration wc : wifiConfigurations)
-                    {
-                        if (wc.networkId == wifiInfo.getNetworkId())
-                        {
-                            proxyConfig.ap = new AccessPoint(wc);
-                            break;
-                        }
-                    }
-                    break;
-                case ConnectivityManager.TYPE_MOBILE:
-                    break;
-                default:
-                    throw new UnsupportedOperationException("Not yet implemented support for" + activeNetInfo.getTypeName() + " network type");
-            }
-        }
+//        ConnectivityManager connManager = (ConnectivityManager) gContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
+////		proxyConfig.currentNetworkInfo = activeNetInfo;
+//
+//        if (activeNetInfo != null)
+//        {
+//            switch (activeNetInfo.getType())
+//            {
+//                case ConnectivityManager.TYPE_WIFI:
+//                    WifiManager wifiManager = (WifiManager) gContext.getSystemService(Context.WIFI_SERVICE);
+//                    WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+//                    List<WifiConfiguration> wifiConfigurations = wifiManager.getConfiguredNetworks();
+//                    for (WifiConfiguration wc : wifiConfigurations)
+//                    {
+//                        if (wc.networkId == wifiInfo.getNetworkId())
+//                        {
+//                            proxyConfig.ap = new AccessPoint(wc);
+//                            break;
+//                        }
+//                    }
+//                    break;
+//                case ConnectivityManager.TYPE_MOBILE:
+//                    break;
+//                default:
+//                    throw new UnsupportedOperationException("Not yet implemented support for" + activeNetInfo.getTypeName() + " network type");
+//            }
+//        }
 
         return proxyConfig;
     }
@@ -207,13 +205,12 @@ public class APL
      * this implementation is a wrapper of the Android's ProxySelector class.
      * Just add some other details that can be useful to the developer.
      */
-    public static ProxyConfiguration getProxySelectorConfiguration(URI uri) throws Exception
+    public static Proxy getProxySelectorConfiguration(URI uri) throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
         ProxySelector defaultProxySelector = ProxySelector.getDefault();
-
         Proxy proxy = null;
 
         List<Proxy> proxyList = defaultProxySelector.select(uri);
@@ -225,26 +222,26 @@ public class APL
         else
             throw new Exception("Not found valid proxy configuration!");
 
-        ConnectivityManager connManager = (ConnectivityManager) gContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        ConnectivityManager connManager = (ConnectivityManager) gContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+//
+//        WiFiAPConfig proxyConfig = null;
+//        if (proxy != Proxy.NO_PROXY)
+//        {
+//            proxyConfig = new WiFiAPConfig(ProxySetting.STATIC, null, null, null, null);
+//        }
+//        else
+//        {
+//            InetSocketAddress proxyAddress = (InetSocketAddress) proxy.address();
+//            proxyConfig = new WiFiAPConfig(ProxySetting.NONE, proxyAddress.getHostName(), proxyAddress.getPort(), null, null);
+//        }
 
-        ProxyConfiguration proxyConfig = null;
-        if (proxy != Proxy.NO_PROXY)
-        {
-            proxyConfig = new ProxyConfiguration(ProxySetting.STATIC, null, null, null, null);
-        }
-        else
-        {
-            InetSocketAddress proxyAddress = (InetSocketAddress) proxy.address();
-            proxyConfig = new ProxyConfiguration(ProxySetting.NONE, proxyAddress.getHostName(), proxyAddress.getPort(), null, null);
-        }
-
-        return proxyConfig;
+        return proxy;
     }
 
     /**
      * Return the current proxy configuration for HTTP protocol
      */
-    public static ProxyConfiguration getCurrentHttpProxyConfiguration() throws Exception
+    public static Proxy getCurrentHttpProxyConfiguration() throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
@@ -256,7 +253,7 @@ public class APL
     /**
      * Return the current proxy configuration for HTTPS protocol
      */
-    public static ProxyConfiguration getCurrentHttpsProxyConfiguration() throws Exception
+    public static Proxy getCurrentHttpsProxyConfiguration() throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
@@ -268,7 +265,7 @@ public class APL
     /**
      * Return the current proxy configuration for FTP protocol
      */
-    public static ProxyConfiguration getCurrentFtpProxyConfiguration() throws Exception
+    public static Proxy getCurrentFtpProxyConfiguration() throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
@@ -281,12 +278,12 @@ public class APL
      * For API < 12: Get global proxy configuration.
      */
     @Deprecated
-    public static ProxyConfiguration getGlobalProxy()
+    public static Proxy getGlobalProxy()
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        ProxyConfiguration proxyConfig = null;
+        Proxy proxyConfig = null;
 
         ContentResolver contentResolver = gContext.getContentResolver();
         String proxyString = Settings.Secure.getString(contentResolver, Settings.Secure.HTTP_PROXY);
@@ -300,7 +297,7 @@ public class APL
                 try
                 {
                     int proxyPort = Integer.parseInt(proxyParts[1]);
-                    proxyConfig = new ProxyConfiguration(ProxySetting.STATIC, proxyAddress, proxyPort, null, null);
+                    proxyConfig = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, proxyPort));
                 }
                 catch (NumberFormatException e)
                 {
@@ -317,12 +314,12 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static ProxyConfiguration getProxySdk12(WifiConfiguration wifiConf)
+    private static WiFiAPConfig getProxySdk12(WifiConfiguration wifiConf)
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        ProxyConfiguration proxyHost = null;
+        WiFiAPConfig proxyHost = null;
 
         try
         {
@@ -334,7 +331,7 @@ public class APL
 
                 if (ordinal == ProxySetting.NONE.ordinal() || ordinal == ProxySetting.UNASSIGNED.ordinal())
                 {
-                    proxyHost = new ProxyConfiguration(ProxySetting.NONE, null, null, "", wifiConf);
+                    proxyHost = new WiFiAPConfig(ProxySetting.NONE, null, null, "", wifiConf);
                 }
                 else
                 {
@@ -359,14 +356,14 @@ public class APL
 
                         //LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-                        proxyHost = new ProxyConfiguration(ProxySetting.STATIC, mHost, mPort, mExclusionList, wifiConf);
+                        proxyHost = new WiFiAPConfig(ProxySetting.STATIC, mHost, mPort, mExclusionList, wifiConf);
                     }
                 }
             }
             else
             {
                 APL.getEventsReporter().sendException(new Exception("Cannot find "));
-                proxyHost = new ProxyConfiguration(ProxySetting.NONE, null, null, "", wifiConf);
+                proxyHost = new WiFiAPConfig(ProxySetting.NONE, null, null, "", wifiConf);
             }
         }
         catch (Exception e)
@@ -435,13 +432,13 @@ public class APL
 
     @Deprecated
     @TargetApi(12)
-    public static List<ProxyConfiguration> getProxiesConfigurations()
+    public static List<WiFiAPConfig> getAPConfigurations()
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
 //        LogWrapper.startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
-        List<ProxyConfiguration> proxyConfigurations = new ArrayList<ProxyConfiguration>();
+        List<WiFiAPConfig> WiFiAPConfigs = new ArrayList<WiFiAPConfig>();
         List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
 //        LogWrapper.stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
 
@@ -450,8 +447,8 @@ public class APL
         {
             for (WifiConfiguration wifiConf : configuredNetworks)
             {
-                ProxyConfiguration conf = getProxySdk12(wifiConf);
-                proxyConfigurations.add(conf);
+                WiFiAPConfig conf = getProxySdk12(wifiConf);
+                WiFiAPConfigs.add(conf);
             }
         }
 //        LogWrapper.stopTrace(TAG,"getProxySdk12", Log.DEBUG);
@@ -459,11 +456,11 @@ public class APL
 
         // Commented out sorting, not useful here
 //        LogWrapper.startTrace(TAG,"sortConfigurations", Log.DEBUG);
-//        if (proxyConfigurations.size() > 0)
-//            Collections.sort(proxyConfigurations);
+//        if (WiFiAPConfigs.size() > 0)
+//            Collections.sort(WiFiAPConfigs);
 //        LogWrapper.stopTrace(TAG,"sortConfigurations", Log.DEBUG);
 
-        return proxyConfigurations;
+        return WiFiAPConfigs;
     }
 
 
@@ -472,18 +469,12 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static void writeProxySdk12(ProxyConfiguration apConf) throws Exception
+    public static void writeWifiAPConfig(WiFiAPConfig wiFiAPConfig) throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        if (apConf.ap == null)
-        {
-            Exception e = new Exception("Doesn't seems a valid Wi-Fi access point");
-            throw e;
-        }
-
-        if (apConf.ap.security == SecurityType.SECURITY_EAP)
+        if (wiFiAPConfig.security == SecurityType.SECURITY_EAP)
         {
             Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
             throw e;
@@ -493,12 +484,12 @@ public class APL
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
 
         if (configuredNetworks == null || configuredNetworks.size() == 0)
-            throw new Exception("Cannot find any configured network during writing configuration to the device: " + apConf.toShortString());
+            throw new Exception("Cannot find any configured network during writing configuration to the device: " + wiFiAPConfig.toShortString());
 
         WifiConfiguration selectedConfiguration = null;
         for (WifiConfiguration conf : configuredNetworks)
         {
-            if (conf.networkId == apConf.ap.wifiConfig.networkId)
+            if (conf.networkId == wiFiAPConfig.wifiConfig.networkId)
             {
                 selectedConfiguration = conf;
                 break;
@@ -520,19 +511,19 @@ public class APL
                     if (mIpConfiguration != null)
                     {
                         Field proxySettingsField = ReflectionUtils.getField(mIpConfiguration.getClass().getFields(), "proxySettings");
-                        proxySettingsField.set(mIpConfiguration, (Object) proxySettingsField.getType().getEnumConstants()[apConf.getProxySettings().ordinal()]);
+                        proxySettingsField.set(mIpConfiguration, (Object) proxySettingsField.getType().getEnumConstants()[wiFiAPConfig.getProxySettings().ordinal()]);
                     }
                 }
             }
             else
             {
                 Field proxySettingsField = newConf.getClass().getField("proxySettings");
-                proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[apConf.getProxySettings().ordinal()]);
+                proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[wiFiAPConfig.getProxySettings().ordinal()]);
             }
 
             Object proxySettings = getProxySettingsField(newConf);
             int ordinal = ((Enum) proxySettings).ordinal();
-            if (ordinal != apConf.getProxySettings().ordinal())
+            if (ordinal != wiFiAPConfig.getProxySettings().ordinal())
                 throw new Exception("Cannot set proxySettings variable");
 
             Object linkProperties = null;
@@ -559,14 +550,14 @@ public class APL
             Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
             mHttpProxyField.setAccessible(true);
 
-            if (apConf.getProxySettings() == ProxySetting.NONE || apConf.getProxySettings() == ProxySetting.UNASSIGNED)
+            if (wiFiAPConfig.getProxySettings() == ProxySetting.NONE || wiFiAPConfig.getProxySettings() == ProxySetting.UNASSIGNED)
             {
                 mHttpProxyField.set(linkProperties, null);
             }
-            else if (apConf.getProxySettings() == ProxySetting.STATIC)
+            else if (wiFiAPConfig.getProxySettings() == ProxySetting.STATIC)
             {
                 Class ProxyPropertiesClass = mHttpProxyField.getType();
-                Integer port = apConf.getProxyPort();
+                Integer port = wiFiAPConfig.getProxyPort();
 
                 if (port == null)
                 {
@@ -596,7 +587,7 @@ public class APL
                         constr = ProxyPropertiesClass.getConstructors()[4];
                     }
 
-                    Object ProxyProperties = constr.newInstance(apConf.getProxyHostString(), port, apConf.getProxyExclusionList());
+                    Object ProxyProperties = constr.newInstance(wiFiAPConfig.getProxyHostString(), port, wiFiAPConfig.getProxyExclusionList());
                     mHttpProxyField.set(linkProperties, ProxyProperties);
                 }
             }
@@ -623,12 +614,12 @@ public class APL
                     e.printStackTrace();
                 }
 
-                ProxyConfiguration savedConf = APL.getProxySdk12(newConf);
-                succesfullySaved = apConf.isSameConfiguration(savedConf);
+                WiFiAPConfig savedConf = APL.getProxySdk12(newConf);
+                succesfullySaved = wiFiAPConfig.isSameConfiguration(savedConf);
 
                 if (succesfullySaved)
                 {
-                    apConf.updateConfiguration(savedConf);
+                    wiFiAPConfig.updateProxyConfiguration(savedConf);
                     break;
                 }
 
@@ -642,9 +633,9 @@ public class APL
             /**************************************************************************************/
 
             APL.getLogger().stopTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
-            apConf.status.clear();
+            wiFiAPConfig.status.clear();
 
-            APL.getLogger().d(TAG, String.format("Succesfully updated configuration %s, after %d tries", apConf.toShortString(), tries));
+            APL.getLogger().d(TAG, String.format("Succesfully updated configuration %s, after %d tries", wiFiAPConfig.toShortString(), tries));
 
             APL.getLogger().i(TAG, "Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
@@ -652,7 +643,7 @@ public class APL
         }
         else
         {
-            throw new Exception("Cannot find selected configuration among configured networks during writing to the device: " + apConf.toShortString());
+            throw new Exception("Cannot find selected configuration among configured networks during writing to the device: " + wiFiAPConfig.toShortString());
         }
     }
 }
