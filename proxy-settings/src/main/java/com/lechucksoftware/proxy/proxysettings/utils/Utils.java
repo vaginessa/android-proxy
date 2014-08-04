@@ -118,6 +118,12 @@ public class Utils
                     {
                         jsonObject = new JSONObject(answerBody);
                     }
+                    catch (JSONException e)
+                    {
+                        //It's a common error to receive wrong answers due to the proxy servers
+                        //between the Android device that make the request and the geoIP services
+                        App.getLogger().e(TAG,String.format("%s reading string: '%s'",e.toString(),answerBody));
+                    }
                     catch (Exception e)
                     {
                         Map<String,String> map = new HashMap<String, String>();
