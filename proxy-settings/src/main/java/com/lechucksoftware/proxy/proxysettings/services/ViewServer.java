@@ -656,7 +656,7 @@ public class ViewServer implements Runnable {
                 }
 
             } catch (Exception e) {
-                Log.w(LOG_TAG, "Could not send command " + command +
+                Log.w(LOG_TAG, "Could not sendEvent command " + command +
                         " with parameters " + parameters, e);
                 success = false;
             } finally {

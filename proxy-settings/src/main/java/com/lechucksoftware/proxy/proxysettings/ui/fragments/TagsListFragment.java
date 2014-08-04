@@ -16,7 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
         else
         {
             // TODO: Add handling here
-            EventReportingUtils.sendException(new Exception("NO PROXY RECEIVED"));
+            App.getEventsReporter().sendException(new Exception("NO PROXY RECEIVED"));
         }
     }
 

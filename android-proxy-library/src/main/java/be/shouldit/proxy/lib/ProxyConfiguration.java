@@ -5,6 +5,9 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -17,7 +20,7 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Serializable
 {
-    public static final String TAG = "ProxyConfiguration";
+    public static final String TAG = ProxyConfiguration.class.getSimpleName();
 
     public final UUID id;
     public final WifiNetworkId internalWifiNetworkId;
@@ -69,7 +72,7 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
                 }
                 catch (Exception e)
                 {
-                    APL.getEventReport().send(new Exception("Failed creating unresolved", e));
+                    APL.getEventsReporter().sendException(new Exception("Failed creating unresolved", e));
                 }
             }
 
@@ -329,6 +332,35 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
         return sb.toString();
     }
 
+    public JSONObject toJSON()
+    {
+        JSONObject jsonObject = new JSONObject();
+
+        try
+        {
+            jsonObject.put("ID", id.toString());
+
+            if (ap != null)
+                jsonObject.put("SSID", ap.ssid);
+
+            jsonObject.put("proxy_setting", getProxySettings().toString());
+            jsonObject.put("proxy_status", toStatusString());
+            jsonObject.put("is_current", isCurrentNetwork());
+            jsonObject.put("status", status.toJSON());
+
+            if (APL.getConnectivityManager().getActiveNetworkInfo() != null)
+            {
+                jsonObject.put("network_info", APL.getConnectivityManager().getActiveNetworkInfo());
+            }
+        }
+        catch (JSONException e)
+        {
+            APL.getEventsReporter().sendException(e);
+        }
+
+        return jsonObject;
+    }
+
     public String toShortString()
     {
         StringBuilder sb = new StringBuilder();
@@ -500,6 +532,4 @@ public class ProxyConfiguration implements Comparable<ProxyConfiguration>, Seria
             return APL.getContext().getString(R.string.not_available);
         }
     }
-
-
 }

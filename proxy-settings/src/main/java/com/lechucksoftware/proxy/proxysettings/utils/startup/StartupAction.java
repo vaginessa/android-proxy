@@ -10,7 +10,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 /**
@@ -47,7 +47,7 @@ public class StartupAction
             editor.putInt(preferenceKey, status.getValue());
             editor.commit();
 
-            EventReportingUtils.sendEvent(activity.getString(R.string.analytics_cat_user_action), activity.getString(R.string.analytics_act_startup_action), preferenceKey, (long) status.getValue());
+            App.getEventsReporter().sendEvent(context.getString(R.string.analytics_cat_user_action), context.getString(R.string.analytics_act_startup_action), preferenceKey, (long) status.getValue());
         }
     }
 

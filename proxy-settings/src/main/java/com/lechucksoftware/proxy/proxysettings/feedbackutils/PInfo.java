@@ -14,7 +14,7 @@ public class PInfo implements Serializable
 	 */
 	private static final long serialVersionUID = -8480854041634888786L;
 
-	static String TAG = "PInfo";
+	static String TAG = PInfo.class.getSimpleName();
 	
     public String appname = "";
     public String pname = "";

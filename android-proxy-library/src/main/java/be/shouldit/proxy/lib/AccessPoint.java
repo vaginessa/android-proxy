@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 public class AccessPoint implements Comparable<AccessPoint>, Serializable
 {
-	static final String TAG = "AccessPoint";
+	static final String TAG = AccessPoint.class.getSimpleName();
 
 	public static final int INVALID_NETWORK_ID = -1;
 	private static final int DISABLED_UNKNOWN_REASON = 0;

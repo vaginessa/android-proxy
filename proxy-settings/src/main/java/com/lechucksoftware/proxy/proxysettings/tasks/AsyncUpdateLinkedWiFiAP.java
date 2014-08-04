@@ -9,9 +9,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -101,7 +99,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                                 }
                                 catch (Exception e)
                                 {
-                                    EventReportingUtils.sendException(e);
+                                    App.getEventsReporter().sendException(e);
                                 }
 
                                 updatedWiFiAP++;

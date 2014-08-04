@@ -51,7 +51,7 @@ public class Utils
     // TODO: add fallback on telize
     public static final String HTTP_TELIZE_NET_JSON_STRING = "http://www.telize.com/geoip/";
 
-    public static String TAG = "Utils";
+    public static String TAG = Utils.class.getSimpleName();
     public static String BASE_ASSETS = "file:///android_asset/";
 
     public static String getProxyCountryCode(ProxyEntity proxy) throws Exception
@@ -89,7 +89,7 @@ public class Utils
         }
         catch (URISyntaxException e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         if (uri != null)
@@ -118,11 +118,17 @@ public class Utils
                     {
                         jsonObject = new JSONObject(answerBody);
                     }
+                    catch (JSONException e)
+                    {
+                        //It's a common error to receive wrong answers due to the proxy servers
+                        //between the Android device that make the request and the geoIP services
+                        App.getLogger().e(TAG,String.format("%s reading string: '%s'",e.toString(),answerBody));
+                    }
                     catch (Exception e)
                     {
                         Map<String,String> map = new HashMap<String, String>();
                         map.put("CONTENT", answerBody);
-                        EventReportingUtils.sendException(e,map);
+                        App.getEventsReporter().sendException(e, map);
                     }
 
                     if (jsonObject != null && jsonObject.has("country_code"))
@@ -162,7 +168,7 @@ public class Utils
         }
         catch (PackageManager.NameNotFoundException e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         return pInfo;
@@ -181,7 +187,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         if (!marketShown)
@@ -227,7 +233,7 @@ public class Utils
             res = AndroidMarket.OTHER;
 
             if (!BuildConfig.DEBUG)
-                EventReportingUtils.sendException(new Exception("No InstallerPackageName recognized: " + market));
+                App.getEventsReporter().sendException(new Exception("No InstallerPackageName recognized: " + market));
             else
                 res = AndroidMarket.PLAY;
         }
@@ -266,7 +272,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         return text;
@@ -357,7 +363,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 
@@ -372,7 +378,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         return result;

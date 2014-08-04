@@ -15,7 +15,7 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class ApplicationSubmitService extends IntentService 
 {
-	public static String TAG = "ApplicationSubmitService";
+	public static String TAG = ApplicationSubmitService.class.getSimpleName();
 	
     public ApplicationSubmitService() 
     {

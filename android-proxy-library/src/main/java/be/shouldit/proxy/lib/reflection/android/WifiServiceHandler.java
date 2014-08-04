@@ -58,7 +58,7 @@ public class WifiServiceHandler extends Handler
 //                }
 //                catch (Exception e)
 //                {
-//                    APL.getEventReport().send(e);
+//                    APL.getEventsReporter().sendEvent(e);
 //                }
                 break;
             //TODO: more connectivity feedback

@@ -20,7 +20,7 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 public class WebViewWithProxyActivity extends FragmentActivity
 {
 	WebView mWebView;
-	public static String TAG = "WebViewWithProxyActivity";
+	public static String TAG = WebViewWithProxyActivity.class.getSimpleName();
 
 	public void onCreate(Bundle savedInstanceState)
 	{

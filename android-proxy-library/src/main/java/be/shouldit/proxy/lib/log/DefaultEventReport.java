@@ -10,13 +10,13 @@ public class DefaultEventReport implements IEventReporting
     private static String TAG = DefaultEventReport.class.getSimpleName();
 
     @Override
-    public void send(Exception e)
+    public void sendException(Exception e)
     {
         APL.getLogger().e(TAG, e.toString());
     }
 
     @Override
-    public void send(String s)
+    public void sendEvent(String s)
     {
         APL.getLogger().e(TAG, s);
     }

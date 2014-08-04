@@ -9,14 +9,15 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.help.DisclaimerFragmentActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
+
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.log.LogWrapper;
 
 
 public class ProxySettingsMainActivity extends FragmentActivity
 {
-	public static String TAG = "ProxySettingsActivity";
+	public static String TAG = ProxySettingsMainActivity.class.getSimpleName();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -27,10 +28,6 @@ public class ProxySettingsMainActivity extends FragmentActivity
         LogWrapper.startTrace(TAG,"STARTUP", Log.ERROR,true);
 
 //        LogWrapper.d(TAG, "Creating ProxySettingsMainActivity");
-
-        // Ensure that SETUP for Libraries are called
-        APL.setup(ProxySettingsMainActivity.this);
-        EventReportingUtils.setup(ProxySettingsMainActivity.this);
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_FILENAME, 0);

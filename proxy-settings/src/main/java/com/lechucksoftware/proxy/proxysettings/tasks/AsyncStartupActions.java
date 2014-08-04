@@ -14,7 +14,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
 
@@ -59,7 +58,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                         if (statistics != null && statistics.CrashesCount != 0)
                         {
                             // Avoid rating if application has crashed
-                            // TODO: If the application crashed ask the user to send information to support team
+                            // TODO: If the application crashed ask the user to sendEvent information to support team
                             action.updateStatus(StartupActionStatus.NOT_APPLICABLE);
                         }
                         else
@@ -81,7 +80,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 
