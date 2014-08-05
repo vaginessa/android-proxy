@@ -434,30 +434,34 @@ public class TestUtils
     public static void testSerialization()
     {
         String s = null;
-        WiFiAPConfig conf = App.getProxyManager().getCurrentConfiguration();
+        WiFiAPConfig conf = App.getProxyManager().getCachedConfiguration();
 
         ObjectOutputStream out = null;
-        try
-        {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            out = new ObjectOutputStream(baos);
-            out.writeObject(conf);
-            out.close();
 
-            s = new String(baos.toByteArray());
-
-            if (TextUtils.isEmpty(s))
-            {
-                App.getLogger().e(TAG,"Not serialized correctly");
-            }
-            else
-            {
-                App.getLogger().d(TAG,s);
-            }
-        }
-        catch (IOException ex)
+        if (conf != null)
         {
-            ex.printStackTrace();
+            try
+            {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                out = new ObjectOutputStream(baos);
+                out.writeObject(conf);
+                out.close();
+
+                s = new String(baos.toByteArray());
+
+                if (TextUtils.isEmpty(s))
+                {
+                    App.getLogger().e(TAG, "Not serialized correctly");
+                }
+                else
+                {
+                    App.getLogger().d(TAG, s);
+                }
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 

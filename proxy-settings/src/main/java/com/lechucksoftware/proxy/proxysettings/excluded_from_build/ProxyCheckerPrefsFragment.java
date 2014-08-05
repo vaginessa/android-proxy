@@ -15,11 +15,11 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
+
+import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
-import comio.should.proxy.liboxyConfiguration;
-import com.shio.should.proxy.libStatusItem;
-import com.shoulio.should.proxy.liboxyStatusProperties;
-import be.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
 
 public class ProxyCheckerPrefsFragment extends PreferenceFragment
 {
@@ -60,7 +60,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
         {
             public boolean onPreferenceClick(Preference preference)
             {
-                LogWrapper.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
+                App.getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
                 getActivity().sendBroadcast(new Intent(Intents.PROXY_SETTINGS_MANUAL_REFRESH));
                 return true;
             }
@@ -77,7 +77,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
     public void refreshUIComponents()
     {
-        ProxyConfiguration conf = App.getProxyManager().getCachedConfiguration();
+        WiFiAPConfig conf = App.getProxyManager().getCachedConfiguration();
 
         if (conf.status.getCheckingStatus() == CheckStatusValues.CHECKING)
         {

@@ -129,7 +129,6 @@ public class ProxySettingsCheckerService extends IntentService
 //            callRefreshApplicationStatus();
             App.getProxyManager().updateProxyConfigurationList();
             WiFiAPConfig conf = App.getProxyManager().getCurrentConfiguration();
-
             NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
             if (ni != null && ni.isAvailable() && ni.isConnected())
@@ -162,8 +161,8 @@ public class ProxySettingsCheckerService extends IntentService
                 else
                 {
                     // newconf cannot be null!!
-                    App.getLogger().d(TAG, "Not found new configuration -> needs to check the proxy status");
-                    App.getEventsReporter().sendException(new Exception("Cannot have a null WiFiAPConfig"));
+                    App.getLogger().d(TAG, "Not found valid configuration");
+//                    App.getEventsReporter().sendException(new Exception("Cannot have a null WiFiAPConfig"));
                 }
 
                 if (checkNewConf)
@@ -204,6 +203,13 @@ public class ProxySettingsCheckerService extends IntentService
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 
-        UIUtils.UpdateStatusBarNotification(App.getProxyManager().getCachedConfiguration(), getApplicationContext());
+        WiFiAPConfig wiFiAPConfig = App.getProxyManager().getCachedConfiguration();
+        if (wiFiAPConfig == null)
+            wiFiAPConfig = App.getProxyManager().getCurrentConfiguration();
+
+        if (wiFiAPConfig != null)
+        {
+            UIUtils.UpdateStatusBarNotification(wiFiAPConfig, getApplicationContext());
+        }
     }
 }

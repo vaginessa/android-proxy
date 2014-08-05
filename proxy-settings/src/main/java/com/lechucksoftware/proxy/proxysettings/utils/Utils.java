@@ -32,6 +32,7 @@ import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.utils.HttpAnswer;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -96,7 +98,12 @@ public class Utils
         {
             try
             {
-                answer = ProxyUtils.getHttpAnswerURI(uri, App.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
+                WiFiAPConfig wiFiAPConfig = App.getProxyManager().getCachedConfiguration();
+                Proxy proxyConf = Proxy.NO_PROXY;
+                if (wiFiAPConfig != null)
+                    proxyConf = wiFiAPConfig.getProxy();
+
+                answer = ProxyUtils.getHttpAnswerURI(uri,proxyConf, timeout);
             }
             catch (IOException e)
             {

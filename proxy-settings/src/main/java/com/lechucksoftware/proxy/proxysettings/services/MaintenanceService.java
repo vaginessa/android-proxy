@@ -10,7 +10,12 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
+import java.net.Proxy;
 import java.util.List;
+
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.APLConstants;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class MaintenanceService extends IntentService
 {
@@ -113,28 +118,42 @@ public class MaintenanceService extends IntentService
 
     private void checkProxiesCountryCodes()
     {
-        List<ProxyEntity> proxies = App.getDBManager().getProxyWithEmptyCountryCode();
+        Proxy proxy = null;
 
-        for (ProxyEntity proxy : proxies)
+        try
         {
-            App.getLogger().startTrace(TAG, "Get proxy country code", Log.DEBUG);
+            proxy = APL.getCurrentHttpProxyConfiguration();
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
 
-            try
+        if (proxy != null && ProxyUtils.canGetWebResources(proxy, APLConstants.DEFAULT_TIMEOUT))
+        {
+            List<ProxyEntity> proxies = App.getDBManager().getProxyWithEmptyCountryCode();
+
+            for (ProxyEntity pe : proxies)
             {
-                String countryCode = Utils.getProxyCountryCode(proxy);
-                if (!TextUtils.isEmpty(countryCode))
+                App.getLogger().startTrace(TAG, "Get proxy country code", Log.DEBUG);
+
+                try
                 {
-                    proxy.setCountryCode(countryCode);
-                    App.getDBManager().upsertProxy(proxy);
+                    String countryCode = Utils.getProxyCountryCode(pe);
+                    if (!TextUtils.isEmpty(countryCode))
+                    {
+                        pe.setCountryCode(countryCode);
+                        App.getDBManager().upsertProxy(pe);
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                App.getEventsReporter().sendException(e);
-                break;
-            }
+                catch (Exception e)
+                {
+                    App.getEventsReporter().sendException(e);
+                    break;
+                }
 
-            App.getLogger().stopTrace(TAG, "Get proxy country code", proxy.toString(), Log.DEBUG);
+                App.getLogger().stopTrace(TAG, "Get proxy country code", pe.toString(), Log.DEBUG);
+            }
         }
     }
 }

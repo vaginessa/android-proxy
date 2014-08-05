@@ -43,7 +43,7 @@ public class WifiScannerHandler extends Handler
     @Override
     public void handleMessage(Message message)
     {
-        if (App.getInstance().wifiActionEnabled)
+        if (App.getInstance().wifiActionEnabled && APL.getWifiManager().isWifiEnabled())
         {
             App.getLogger().d(TAG, "Calling Wi-Fi scanner");
 

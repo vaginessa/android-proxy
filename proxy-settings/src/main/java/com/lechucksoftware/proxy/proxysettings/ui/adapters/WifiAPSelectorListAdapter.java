@@ -1,12 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 
@@ -39,6 +41,8 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<WiFiAPConfig>
 
     public void setData(List<WiFiAPConfig> confList)
     {
+        App.getLogger().startTrace(TAG, "setData", Log.INFO);
+
         Boolean needsRefresh = false;
 
         if (this.getCount() == confList.size())
@@ -46,8 +50,11 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<WiFiAPConfig>
             for (int i = 0; i < this.getCount(); i++)
             {
                 WiFiAPConfig conf = this.getItem(i);
-                if (conf.compareTo(confList.get(i)) != 0)
+
+                // Compare if it's changed the SSIDs order
+                if (conf.ssid.compareTo(confList.get(i).ssid) != 0)
                 {
+                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s",confList.get(i).ssid, conf.ssid));
                     needsRefresh = true;
                     break;
                 }
@@ -60,15 +67,19 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<WiFiAPConfig>
 
         if (needsRefresh)
         {
+            App.getLogger().d(TAG,"Adapter need to refresh its data");
+
+            setNotifyOnChange(false);
             clear();
-            if (confList != null)
-            {
-                for (WiFiAPConfig conf : confList)
-                {
-                    add(conf);
-                }
-            }
+            addAll(confList);
+            // note that a call to notifyDataSetChanged() implicitly sets the setNotifyOnChange back to 'true'!
+            // That's why the call 'setNotifyOnChange(false) should be called first every time (see call before 'clear()').
+            notifyDataSetChanged();
+
+            App.getLogger().d(TAG,"setData - notifyDataSetChanged");
         }
+
+        App.getLogger().stopTrace(TAG, "setData", Log.INFO);
     }
 
     public View getView(int position, View view, ViewGroup parent)

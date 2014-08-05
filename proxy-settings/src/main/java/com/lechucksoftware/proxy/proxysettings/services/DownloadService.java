@@ -1,5 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import android.app.IntentService;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.ResultReceiver;
+import android.webkit.URLUtil;
+
+import com.lechucksoftware.proxy.proxysettings.App;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -8,14 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.Proxy.Type;
 import java.net.URL;
 
-import com.lechucksoftware.proxy.proxysettings.App;
-
-import android.app.IntentService;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.ResultReceiver;
-import android.webkit.URLUtil;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 
 public class DownloadService extends IntentService
 {
@@ -88,10 +90,12 @@ public class DownloadService extends IntentService
 		{
 			HttpURLConnection con = null;
 
-			if (App.getProxyManager().getCachedConfiguration().getProxyType()==Type.HTTP)
+            WiFiAPConfig wiFiAPConfig = App.getProxyManager().getCachedConfiguration();
+
+			if (wiFiAPConfig != null && wiFiAPConfig.getProxyType()==Type.HTTP)
 			{
-				System.setProperty("http.proxyHost", App.getProxyManager().getCachedConfiguration().getProxyIPHost());
-				System.setProperty("http.proxyPort", App.getProxyManager().getCachedConfiguration().getProxyPort().toString());
+				System.setProperty("http.proxyHost", wiFiAPConfig.getProxyIPHost());
+				System.setProperty("http.proxyPort", wiFiAPConfig.getProxyPort().toString());
 			}
 			else
 			{

@@ -18,11 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.WifiNetworkId;
 import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
@@ -89,6 +88,8 @@ public class ProxyManager
     {
         WiFiAPConfig conf = null;
 
+        App.getLogger().startTrace(TAG,"getCurrentConfiguration",Log.INFO);
+
         if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
         {
             WifiInfo info = APL.getWifiManager().getConnectionInfo();
@@ -115,19 +116,40 @@ public class ProxyManager
                     }
                 }
 
-                if (currentConfiguration == null || conf != null && currentConfiguration != null && currentConfiguration.compareTo(conf) != 0)
+                if (currentConfiguration == null)
                 {
+                    if (conf != null)
+                    {
+                        currentConfiguration = conf;
+                        App.getLogger().d(TAG, "getCurrentConfiguration - Set current configuration (was NULL before)");
+                    }
+                    else
+                    {
+                        App.getLogger().d(TAG,"getCurrentConfiguration - Same configuration: no need to update it (both NULL)");
+                    }
+                }
+                else
+                if ((currentConfiguration == null) || (conf != null && currentConfiguration != null && currentConfiguration.compareTo(conf) != 0))
+                {
+                    // Update currentConfiguration only if it's different from the previous
                     currentConfiguration = conf;
+                    App.getLogger().d(TAG,"getCurrentConfiguration - Updated current configuration");
+                }
+                else
+                {
+                    App.getLogger().d(TAG,"getCurrentConfiguration - Same configuration: no need to update it");
                 }
             }
         }
 
-        // Always return a not null configuration
-        if (currentConfiguration == null)
-        {
-            App.getLogger().w(TAG, "Cannot find a valid current configuration: creating an empty one");
-            currentConfiguration = new WiFiAPConfig(ProxySetting.NONE, null, null, null, null);
-        }
+        App.getLogger().stopTrace(TAG,"getCurrentConfiguration",Log.INFO);
+
+//        // Always return a not null configuration
+//        if (currentConfiguration == null)
+//        {
+//            App.getLogger().w(TAG, "Cannot find a valid current configuration: creating an empty one");
+//            currentConfiguration = new WiFiAPConfig(null, ProxySetting.NONE, null, null, null);
+//        }
 
         return currentConfiguration;
     }
@@ -366,11 +388,10 @@ public class ProxyManager
 
     public WiFiAPConfig getCachedConfiguration()
     {
-        if (currentConfiguration == null)
-        {
-            return getCurrentConfiguration();
-        }
-
+//        if (currentConfiguration == null)
+//        {
+//            return getCurrentConfiguration();
+//        }
         return currentConfiguration;
     }
 

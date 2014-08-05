@@ -22,6 +22,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
+import java.net.SocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -352,7 +353,7 @@ public class ProxyUtils
         return false;
     }
 
-    public static int testHTTPConnection(URI uri, WiFiAPConfig WiFiAPConfig, int timeout)
+    public static int testHTTPConnection(URI uri, Proxy proxy, int timeout)
     {
         int step = 0;
         while (step < 5)
@@ -361,10 +362,12 @@ public class ProxyUtils
             {
                 URL url = uri.toURL();
 
-                if (WiFiAPConfig != null && WiFiAPConfig.getProxyType() == Type.HTTP)
+                if (proxy.type() == Type.HTTP)
                 {
-                    System.setProperty("http.proxyHost", WiFiAPConfig.getProxyIPHost());
-                    System.setProperty("http.proxyPort", WiFiAPConfig.getProxyPort().toString());
+                    SocketAddress sa = proxy.address();
+                    InetSocketAddress isa = (InetSocketAddress) sa;
+                    System.setProperty("http.proxyHost", isa.getHostString());
+                    System.setProperty("http.proxyPort", String.valueOf(isa.getPort()));
                 }
                 else
                 {
@@ -427,12 +430,12 @@ public class ProxyUtils
         }
     }
 
-    public static boolean canGetWebResources(WiFiAPConfig WiFiAPConfig, int timeout)
+    public static boolean canGetWebResources(Proxy proxy, int timeout)
     {
         try
         {
             // TODO: add better method to check web resources
-            int result = testHTTPConnection(new URI("http://www.un.org/"), WiFiAPConfig, timeout);
+            int result = testHTTPConnection(new URI("http://www.un.org/"), proxy, timeout);
 //            int rawresult = testHTTPConnection(new URI("http://157.150.34.32"), WiFiAPConfig, timeout);
 
             switch (result)
@@ -462,7 +465,7 @@ public class ProxyUtils
     /**
      * Try to set the Proxy Settings for active WebViews. This works only for devices with API version < 12.
      */
-    public static void setWebViewProxy(Context context, WiFiAPConfig proxyConf)
+    public static void setWebViewProxy(Context context, WiFiAPConfig wiFiAPConfig)
     {
         if (Build.VERSION.SDK_INT >= 12)
         {
@@ -473,9 +476,9 @@ public class ProxyUtils
             // On older devices try to set or clear the proxy settings, depending on the argument configuration
             try
             {
-                if (proxyConf != null && proxyConf.getProxyType() == Type.HTTP && APL.getDeviceVersion() < 12)
+                if (wiFiAPConfig != null && wiFiAPConfig.getProxyType() == Type.HTTP && APL.getDeviceVersion() < 12)
                 {
-                    setProxy(context, proxyConf.getProxyIPHost(), proxyConf.getProxyPort());
+                    setProxy(context, wiFiAPConfig.getProxyIPHost(), wiFiAPConfig.getProxyPort());
                 }
                 else
                 {
@@ -1085,7 +1088,8 @@ public class ProxyUtils
 
     protected static ProxyStatusItem isWebReachable(WiFiAPConfig conf, int timeout)
     {
-        Boolean result = ProxyUtils.canGetWebResources(conf, timeout);
+        Boolean result = ProxyUtils.canGetWebResources(conf.getProxy(), timeout);
+
         if (result)
         {
             return new ProxyStatusItem(ProxyStatusProperties.WEB_REACHABLE, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_web_reachable));

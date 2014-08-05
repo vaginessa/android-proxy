@@ -58,8 +58,11 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private NetworkInfo.DetailedState mState;
 
 
-    public WiFiAPConfig(ProxySetting setting, String host, Integer port, String exclusionList, WifiConfiguration wifiConf)
+    public WiFiAPConfig(WifiConfiguration wifiConf, ProxySetting setting, String host, Integer port, String exclusionList)
     {
+        if (wifiConf == null)
+            throw new IllegalArgumentException("WifiConfiguration parameter cannot be null");
+
         id = UUID.randomUUID();
 
         setProxySetting(setting);
@@ -67,7 +70,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         proxyPort = port;
         setProxyExclusionString(exclusionList);
 
-//        ap = new AccessPoint(wifiConf);
         ssid = (wifiConf.SSID == null ? "" : removeDoubleQuotes(wifiConf.SSID));
         bssid = wifiConf.BSSID;
         security = ProxyUtils.getSecurity(wifiConf);

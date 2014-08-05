@@ -331,7 +331,7 @@ public class APL
 
                 if (ordinal == ProxySetting.NONE.ordinal() || ordinal == ProxySetting.UNASSIGNED.ordinal())
                 {
-                    proxyHost = new WiFiAPConfig(ProxySetting.NONE, null, null, "", wifiConf);
+                    proxyHost = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
                 }
                 else
                 {
@@ -356,14 +356,14 @@ public class APL
 
                         //LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-                        proxyHost = new WiFiAPConfig(ProxySetting.STATIC, mHost, mPort, mExclusionList, wifiConf);
+                        proxyHost = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList);
                     }
                 }
             }
             else
             {
                 APL.getEventsReporter().sendException(new Exception("Cannot find "));
-                proxyHost = new WiFiAPConfig(ProxySetting.NONE, null, null, "", wifiConf);
+                proxyHost = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
             }
         }
         catch (Exception e)

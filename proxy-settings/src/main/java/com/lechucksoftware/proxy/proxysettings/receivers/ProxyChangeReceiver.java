@@ -15,6 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerServ
 import com.lechucksoftware.proxy.proxysettings.services.ProxySyncService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import be.shouldit.proxy.lib.APLIntents;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
 {
@@ -76,7 +77,15 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                 )
         {
             App.getLogger().logIntent(TAG, intent, Log.DEBUG);
-            UIUtils.UpdateStatusBarNotification(App.getProxyManager().getCachedConfiguration(), context);
+
+            WiFiAPConfig wiFiAPConfig = App.getProxyManager().getCachedConfiguration();
+            if (wiFiAPConfig == null)
+                wiFiAPConfig = App.getProxyManager().getCurrentConfiguration();
+
+            if (wiFiAPConfig != null)
+            {
+                UIUtils.UpdateStatusBarNotification(wiFiAPConfig, context);
+            }
         }
         else
         {
