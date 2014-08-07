@@ -95,6 +95,7 @@ android {
 
             buildConfigField "String", "BUGSENSE_LICENSE", 'null'
             buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
+            ext.enableCrashlytics = false
         }
     }
 
