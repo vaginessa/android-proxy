@@ -20,15 +20,15 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAdapter;
-import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.List;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 
 /**
@@ -47,6 +47,8 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     private List<WiFiAPConfig> wiFiApConfigs;
     private ActionsView actionsView;
     private RelativeLayout emptySection;
+    private View footerView;
+    private TextView footerTextView;
 
     public static WiFiApListFragment getInstance()
     {
@@ -75,6 +77,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         actionsView = (ActionsView) v.findViewById(R.id.actions_view);
         emptyText = (TextView) v.findViewById(android.R.id.empty);
         emptySection = (RelativeLayout) v.findViewById(R.id.empty_message_section);
+        footerTextView = (TextView) v.findViewById(R.id.wifi_ap_footer_textview);
 
         App.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
@@ -90,6 +93,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                                     ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE |    // ENABLE
                                     ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM);  // DISABLE
 
+//        getListView().addFooterView(footerView);
     }
 
     @Override
@@ -104,14 +108,17 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         super.onResume();
 
         progress.setVisibility(View.VISIBLE);
+        actionsView.setVisibility(View.GONE);
+        actionsView.enableWifiAction(false);
+        actionsView.configureWifiAction(false);
+
+        footerTextView.setVisibility(View.GONE);
+
         if (apListAdapter == null)
         {
             apListAdapter = new WifiAPSelectorListAdapter(getActivity());
             setListAdapter(apListAdapter);
         }
-
-        actionsView.enableWifiAction(false);
-        actionsView.configureWifiAction(false);
 
         loader = getLoaderManager().initLoader(LOADER_PROXYCONFIGURATIONS, new Bundle(), this);
         loader.forceLoad();
@@ -130,6 +137,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
             actionsView.configureWifiAction(false);
             actionsView.enableWifiAction(false);
+            footerTextView.setVisibility(View.GONE);
         }
         else
         {
@@ -148,6 +156,9 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                     emptyText.setVisibility(View.GONE);
 
                     actionsView.configureWifiAction(false);
+
+                    footerTextView.setVisibility(View.VISIBLE);
+                    footerTextView.setText(getString(R.string.num_wifi_access_points_configured, wiFiApConfigs.size()));
 //                if (proxyConfigurations.size() > 10)
 //                {
 //                    getListView().setFastScrollEnabled(true);
@@ -169,6 +180,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                     emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
 
                     actionsView.configureWifiAction(true);
+                    footerTextView.setVisibility(View.GONE);
                 }
             }
             else
@@ -182,6 +194,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
                 actionsView.enableWifiAction(true);
                 actionsView.configureWifiAction(false);
+                footerTextView.setVisibility(View.GONE);
             }
         }
 
