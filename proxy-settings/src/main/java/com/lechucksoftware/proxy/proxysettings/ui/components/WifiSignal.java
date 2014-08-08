@@ -66,13 +66,17 @@ public class WifiSignal extends LinearLayout
     {
         String sec = ProxyUtils.getSecurityString(configuration, getContext(), true);
         if (!TextUtils.isEmpty(sec))
+        {
             securityTextView.setText(sec);
+        }
         else
+        {
             securityTextView.setText("");
+        }
 
         if (configuration.getLevel() == -1)
         {
-            iconImageView.setImageResource(R.drawable.ic_action_notvalid);
+            iconImageView.setImageResource(R.drawable.ic_action_nowifi);
             layout.setBackgroundResource(R.color.DarkGrey);
         }
         else

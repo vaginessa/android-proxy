@@ -35,7 +35,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else if (intent.getAction().equals(Intents.WIFI_AP_UPDATED))
         {
-            // INTERNAL (PS): Called when a proxy configuration is written
+            // INTERNAL (PS): Called when a Wi-Fi configuration is written to the device
             App.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callProxySettingsChecker(context, intent);
             callSyncProxyService(context, intent);

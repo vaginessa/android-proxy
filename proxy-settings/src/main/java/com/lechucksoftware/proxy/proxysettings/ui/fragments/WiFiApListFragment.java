@@ -19,7 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPSelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
@@ -41,7 +41,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     private static final int LOADER_PROXYCONFIGURATIONS = 1;
     private static WiFiApListFragment instance;
     int mCurCheckPosition = 0;
-    private WifiAPSelectorListAdapter apListAdapter;
+    private WifiAPListAdapter apListAdapter;
     private TextView emptyText;
     private Loader<List<WiFiAPConfig>> loader;
     private RelativeLayout progress;
@@ -124,7 +124,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
         if (apListAdapter == null)
         {
-            apListAdapter = new WifiAPSelectorListAdapter(getActivity());
+            apListAdapter = new WifiAPListAdapter(getActivity());
             setListAdapter(apListAdapter);
         }
 

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/list_item_wifi_signal"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
@@ -37,7 +37,7 @@
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:text="STATUS DESC"
             android:padding="3dp">
     </TextView>

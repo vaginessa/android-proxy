@@ -53,7 +53,7 @@ public class ProxySyncService extends IntentService
 
     private void syncProxyConfigurations()
     {
-        App.getLogger().startTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
+        App.getLogger().startTrace(TAG, "syncProxyConfigurations", Log.ASSERT);
 
         List<WiFiAPConfig> configurations =  App.getProxyManager().getSortedConfigurationsList();
         List<Long> inUseProxies = new ArrayList<Long>();
@@ -120,9 +120,9 @@ public class ProxySyncService extends IntentService
             App.getDBManager().setInUseFlag(inUseProxies.toArray(new Long[inUseProxies.size()]));
 
             long proxiesCount = App.getDBManager().getProxiesCount();
-            App.getLogger().d(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
+            App.getLogger().a(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNew, foundUpdate, proxiesCount));
         }
 
-        App.getLogger().stopTrace(TAG, "syncProxyConfigurations", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "syncProxyConfigurations", Log.ASSERT);
     }
 }

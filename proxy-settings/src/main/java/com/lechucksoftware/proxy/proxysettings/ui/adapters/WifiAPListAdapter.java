@@ -16,16 +16,16 @@ import java.util.List;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
 
-public class WifiAPSelectorListAdapter extends ArrayAdapter<WiFiAPConfig>
+public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
 {
-    private static String TAG = WifiAPSelectorListAdapter.class.getSimpleName();
+    private static String TAG = WifiAPListAdapter.class.getSimpleName();
 
     private final LayoutInflater inflater;
     private Context ctx;
 
     ApViewHolder viewHolder;
 
-    public WifiAPSelectorListAdapter(Context context)
+    public WifiAPListAdapter(Context context)
     {
         super(context, R.layout.ap_list_item);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -105,8 +105,25 @@ public class WifiAPSelectorListAdapter extends ArrayAdapter<WiFiAPConfig>
         if (listItem != null)
         {
             viewHolder.security.setConfiguration(listItem);
+
+            if (listItem.isReachable())
+            {
+                viewHolder.security.setAlpha(1f);
+                viewHolder.ssid.setAlpha(1f);
+                viewHolder.status.setAlpha(1f);
+            }
+            else
+            {
+                float alpha = 0.7f;
+                viewHolder.security.setAlpha(alpha);
+                viewHolder.ssid.setAlpha(alpha);
+                viewHolder.status.setAlpha(alpha);
+            }
+
             viewHolder.ssid.setText(listItem.getAPDescription());
+
             viewHolder.status.setText(listItem.toStatusString());
+
         }
 
         return view;

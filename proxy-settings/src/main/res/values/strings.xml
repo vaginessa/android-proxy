@@ -933,6 +933,6 @@
     <string name="pref_contact_us_summary">Get in touch with the SHOULDIT team</string>
     <string name="pref_contact_us_title">Contact us</string>
     <string name="airplane_mode_message">Proxy Settings cannot access your Wi-Fi information while Airplane mode is enabled</string>
-    <string name="num_wifi_access_points_configured">%1$d Wi-Fi access points configured</string>
+    <string name="num_wifi_access_points_configured">%1$d Wi-Fi access points configured&#8230;</string>
 
 </resources>
