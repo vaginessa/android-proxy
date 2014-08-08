@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -859,7 +860,7 @@ public class ProxyUtils
     {
         ProxyStatusItem result = null;
 
-        if (conf.isCurrentNetwork())
+        if (conf.isActive())
         {
             result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, conf.ssid));
         }
@@ -1079,6 +1080,12 @@ public class ProxyUtils
         }
 
         return exList;
+    }
+
+    public static void startAndroidWifiSettings(Context ctx)
+    {
+        Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
+        ctx.startActivity(intent);
     }
 
     protected ProxyStatusItem isWebReachable(WiFiAPConfig conf)

@@ -273,7 +273,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             }
             else
             {
-                if (selectedWiFiAP.isCurrentNetwork())
+                if (selectedWiFiAP.isActive())
                 {
                     wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
                 }

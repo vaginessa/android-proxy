@@ -81,7 +81,7 @@ public class WifiSignal extends LinearLayout
             iconImageView.setImageResource(R.drawable.wifi_signal);
             iconImageView.setImageState((configuration.security != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
 
-            if (configuration.isCurrentNetwork())
+            if (configuration.isActive())
             {
                 layout.setBackgroundResource(R.color.Holo_Blue_Dark);
             }

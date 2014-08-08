@@ -325,16 +325,16 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         WiFiAPConfig other = (WiFiAPConfig) wiFiAPConfig;
 
         // Active one goes first.
-        if (mInfo != null && other.mInfo == null) return -1;
-        if (mInfo == null && other.mInfo != null) return 1;
+        if (isActive() && !other.isActive()) return -1;
+        if (!isActive() && other.isActive()) return 1;
 
         // Reachable one goes before unreachable one.
-        if (mRssi != Integer.MAX_VALUE && other.mRssi == Integer.MAX_VALUE)
+        if (isReachable() && !other.isReachable())
         {
             return -1;
         }
 
-        if (mRssi == Integer.MAX_VALUE && other.mRssi != Integer.MAX_VALUE)
+        if (!isReachable() && other.isReachable())
         {
             return 1;
         }
@@ -361,6 +361,16 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
         // Sort by ssid.
         return ssid.compareToIgnoreCase(other.ssid);
+    }
+
+    public boolean isActive()
+    {
+        return mInfo != null;
+    }
+
+    public boolean isReachable()
+    {
+        return mRssi != Integer.MAX_VALUE;
     }
 
 //    @Override
@@ -428,7 +438,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         sb.append(String.format("Wi-Fi Configuration Info: %s\n", ssid));
         sb.append(String.format("Proxy setting: %s\n", getProxySettings().toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
-        sb.append(String.format("Is current network: %B\n", isCurrentNetwork()));
+        sb.append(String.format("Is current network: %B\n", isActive()));
         sb.append(String.format("Proxy status checker results: %s\n", status.toString()));
 
         if (APL.getConnectivityManager().getActiveNetworkInfo() != null)
@@ -450,7 +460,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
             jsonObject.put("proxy_setting", getProxySettings().toString());
             jsonObject.put("proxy_status", toStatusString());
-            jsonObject.put("is_current", isCurrentNetwork());
+            jsonObject.put("is_current", isActive());
             jsonObject.put("status", status.toJSON());
 
             if (APL.getConnectivityManager().getActiveNetworkInfo() != null)
@@ -507,26 +517,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
             return sb.toString();
         }
-    }
-
-    public Boolean isCurrentNetwork()
-    {
-        WifiInfo connectionInfo = APL.getWifiManager().getConnectionInfo();
-
-        if (mInfo != null)
-        {
-            if (networkId == connectionInfo.getNetworkId())
-            {
-                return true;
-            }
-            else
-            {
-                APL.getLogger().d(TAG, "isCurrentNetwork: mInfo not null but different from active network");
-                return false;
-            }
-        }
-        else
-            return false;
     }
 
     public Proxy.Type getProxyType()
@@ -609,7 +599,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public String getAPConnectionStatus()
     {
-        if (isCurrentNetwork())
+        if (isActive())
         {
             return APL.getContext().getString(R.string.connected);
         }

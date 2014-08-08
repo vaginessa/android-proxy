@@ -30,6 +30,7 @@ import java.util.List;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by marco on 17/05/13.
@@ -108,11 +109,18 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         super.onResume();
 
         progress.setVisibility(View.VISIBLE);
-        actionsView.setVisibility(View.GONE);
-        actionsView.enableWifiAction(false);
-        actionsView.configureWifiAction(false);
+
+        actionsView.wifiOnOffEnable(false);
+        actionsView.wifiConfigureEnable(false);
 
         footerTextView.setVisibility(View.GONE);
+        footerTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                ProxyUtils.startAndroidWifiSettings(getActivity());
+            }
+        });
 
         if (apListAdapter == null)
         {
@@ -135,8 +143,8 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText(getActivity().getString(R.string.airplane_mode_message));
 
-            actionsView.configureWifiAction(false);
-            actionsView.enableWifiAction(false);
+            actionsView.wifiConfigureEnable(false);
+            actionsView.wifiOnOffEnable(false);
             footerTextView.setVisibility(View.GONE);
         }
         else
@@ -145,7 +153,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             {
                 loader.forceLoad();
 
-                actionsView.enableWifiAction(false);
+                actionsView.wifiOnOffEnable(false);
 
                 if (wiFiApConfigs != null && wiFiApConfigs.size() > 0)
                 {
@@ -155,22 +163,24 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                     emptySection.setVisibility(View.GONE);
                     emptyText.setVisibility(View.GONE);
 
-                    actionsView.configureWifiAction(false);
+                    // TODO: Add WifiConfigureEnable if Wi-Fi is enabled, some Wi-Fi are available but no Wi-Fi is active
+                    boolean atLeastOneActive = false;
+                    for (WiFiAPConfig config : wiFiApConfigs)
+                    {
+                        if (config.isActive())
+                        {
+                            atLeastOneActive = true;
+                            break;
+                        }
+                    }
+
+                    if (atLeastOneActive)
+                        actionsView.wifiConfigureEnable(false);
+                    else
+                        actionsView.wifiConfigureEnable(true);
 
                     footerTextView.setVisibility(View.VISIBLE);
                     footerTextView.setText(getString(R.string.num_wifi_access_points_configured, wiFiApConfigs.size()));
-//                if (proxyConfigurations.size() > 10)
-//                {
-//                    getListView().setFastScrollEnabled(true);
-//                    getListView().setFastScrollAlwaysVisible(true);
-//                    getListView().setSmoothScrollbarEnabled(true);
-//                }
-//                else
-//                {
-//                    getListView().setFastScrollEnabled(false);
-//                    getListView().setFastScrollAlwaysVisible(false);
-//                    getListView().setSmoothScrollbarEnabled(false);
-//                }
                 }
                 else
                 {
@@ -179,7 +189,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                     emptyText.setVisibility(View.VISIBLE);
                     emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
 
-                    actionsView.configureWifiAction(true);
+                    actionsView.wifiConfigureEnable(true);
                     footerTextView.setVisibility(View.GONE);
                 }
             }
@@ -192,8 +202,8 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                 emptyText.setVisibility(View.VISIBLE);
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
 
-                actionsView.enableWifiAction(true);
-                actionsView.configureWifiAction(false);
+                actionsView.wifiOnOffEnable(true);
+                actionsView.wifiConfigureEnable(false);
                 footerTextView.setVisibility(View.GONE);
             }
         }

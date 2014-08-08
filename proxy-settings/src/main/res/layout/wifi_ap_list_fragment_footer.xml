@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/num_wifi_access_points_configured"
-        android:gravity="right"
+        android:gravity="center"
         android:paddingRight="10dp"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
