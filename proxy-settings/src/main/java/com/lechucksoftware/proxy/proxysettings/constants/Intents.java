@@ -26,6 +26,11 @@ public class Intents
     public static final String WIFI_AP_UPDATED = INTENT_PREFIX + "WIFI_AP_UPDATED";
 
     /**
+     * Argument for the WIFI_AP_UPDATED intent that identify the updated Wi-Fi access point
+     * */
+    public static final String UPDATED_WIFI = "UPDATED_WIFI";
+
+    /**
      * Call a Refresh of the UI after a proxy change
      */
     public static final String PROXY_REFRESH_UI = INTENT_PREFIX + "PROXY_REFRESH_UI";

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
@@ -44,6 +45,7 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
             // Calling refresh intent only after save of all configuration
             App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
             Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+            intent.putExtra(Intents.UPDATED_WIFI, configuration.internalWifiNetworkId);
             APL.getContext().sendBroadcast(intent);
         }
         else

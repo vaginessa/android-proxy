@@ -20,7 +20,7 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
-public class ProxySettingsCheckerService extends IntentService
+public class ProxySettingsCheckerService extends EnhancedIntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = ProxySettingsCheckerService.class.getSimpleName();

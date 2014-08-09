@@ -470,7 +470,7 @@ public class TestUtils
         WifiConfiguration wc = new WifiConfiguration();
 
         String ssid = UIUtils.getRandomCodeName().name();
-        String password = "\"aaabbb1234\""; //This is the WEP Password
+        String password = "\"aaabbb1234567\""; //This is the WEP Password
 
         Random r = new Random();
         int securityType = r.nextInt(3);

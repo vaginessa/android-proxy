@@ -30,7 +30,6 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 public class ProxyManager
 {
     private static final String TAG = ProxyManager.class.getSimpleName();
-    private final Context context;
     private WiFiAPConfig currentConfiguration;
     private Boolean updatedConfiguration;
     private Map<WifiNetworkId, WiFiAPConfig> savedConfigurations;
@@ -39,7 +38,6 @@ public class ProxyManager
 
     public ProxyManager(Context ctx)
     {
-        context = ctx;
         updatedConfiguration = false;
 
         savedConfigurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, WiFiAPConfig>());
@@ -88,7 +86,7 @@ public class ProxyManager
     {
         WiFiAPConfig conf = null;
 
-        App.getLogger().startTrace(TAG,"getCurrentConfiguration",Log.INFO);
+        App.getLogger().startTrace(TAG, "getCurrentConfiguration", Log.INFO);
 
         if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
         {
@@ -125,24 +123,23 @@ public class ProxyManager
                     }
                     else
                     {
-                        App.getLogger().d(TAG,"getCurrentConfiguration - Same configuration: no need to update it (both NULL)");
+                        App.getLogger().d(TAG, "getCurrentConfiguration - Same configuration: no need to update it (both NULL)");
                     }
                 }
-                else
-                if ((currentConfiguration == null) || (conf != null && currentConfiguration != null && currentConfiguration.compareTo(conf) != 0))
+                else if ((currentConfiguration == null) || (conf != null && currentConfiguration != null && currentConfiguration.compareTo(conf) != 0))
                 {
                     // Update currentConfiguration only if it's different from the previous
                     currentConfiguration = conf;
-                    App.getLogger().d(TAG,"getCurrentConfiguration - Updated current configuration");
+                    App.getLogger().d(TAG, "getCurrentConfiguration - Updated current configuration");
                 }
                 else
                 {
-                    App.getLogger().d(TAG,"getCurrentConfiguration - Same configuration: no need to update it");
+                    App.getLogger().d(TAG, "getCurrentConfiguration - Same configuration: no need to update it");
                 }
             }
         }
 
-        App.getLogger().stopTrace(TAG,"getCurrentConfiguration",Log.INFO);
+        App.getLogger().stopTrace(TAG, "getCurrentConfiguration", Log.INFO);
 
 //        // Always return a not null configuration
 //        if (currentConfiguration == null)
@@ -310,7 +307,7 @@ public class ProxyManager
                     else
                     {
                         // Add new found configuration
-                        App.getLogger().d(TAG, "Adding to list new Wi-Fi AP configuration: " + conf.toShortString());
+//                        App.getLogger().d(TAG, "Adding to list new Wi-Fi AP configuration: " + conf.toShortString());
                         getSavedConfigurations().put(conf.internalWifiNetworkId, conf);
                     }
 
@@ -368,7 +365,7 @@ public class ProxyManager
                 }
                 catch (IllegalArgumentException e)
                 {
-                    Map<String,String> map = new HashMap<String, String>();
+                    Map<String, String> map = new HashMap<String, String>();
                     map.put("config_list", configListToDBG().toString());
                     App.getEventsReporter().sendException(e, map);
                 }

@@ -2,22 +2,26 @@ package com.lechucksoftware.proxy.proxysettings.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WifiNetworkId;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Created by Marco on 09/03/14.
  */
-public class ProxySyncService extends IntentService
+public class ProxySyncService extends EnhancedIntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = ProxySyncService.class.getSimpleName();
@@ -46,16 +50,43 @@ public class ProxySyncService extends IntentService
         instance = this;
         isHandling = true;
 
-        syncProxyConfigurations();
+        WiFiAPConfig wiFiAPConfig = null;
+        if (intent != null && intent.hasExtra(ProxySyncService.CALLER_INTENT))
+        {
+            Intent caller = (Intent) intent.getExtras().get(ProxySyncService.CALLER_INTENT);
+
+            if (caller != null && caller.hasExtra(Intents.UPDATED_WIFI))
+            {
+                WifiNetworkId wifiId = (WifiNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
+                if (wifiId != null)
+                {
+                    wiFiAPConfig = App.getProxyManager().getConfiguration(wifiId);
+                }
+            }
+        }
+
+        List<WiFiAPConfig> configsToCheck;
+        // Disable until the Wi-Fi ap will be persisted on DB
+
+//        if (wiFiAPConfig != null)
+//        {
+//            configsToCheck = new ArrayList<WiFiAPConfig>();
+//            configsToCheck.add(wiFiAPConfig);
+//        }
+//        else
+//        {
+            configsToCheck = App.getProxyManager().getSortedConfigurationsList();
+//        }
+
+        syncProxyConfigurations(configsToCheck);
 
         isHandling = false;
     }
 
-    private void syncProxyConfigurations()
+    private void syncProxyConfigurations(List<WiFiAPConfig> configurations)
     {
         App.getLogger().startTrace(TAG, "syncProxyConfigurations", Log.ASSERT);
 
-        List<WiFiAPConfig> configurations =  App.getProxyManager().getSortedConfigurationsList();
         List<Long> inUseProxies = new ArrayList<Long>();
 
         int foundNew = 0;
@@ -69,7 +100,7 @@ public class ProxySyncService extends IntentService
             {
                 try
                 {
-                    App.getLogger().d(TAG, "Checking Wi-Fi AP: " + conf.getSSID());
+//                    App.getLogger().d(TAG, "Checking Wi-Fi AP: " + conf.getSSID());
 
                     if (conf.getProxySettings() == ProxySetting.STATIC && conf.security != SecurityType.SECURITY_EAP)
                     {
@@ -103,12 +134,12 @@ public class ProxySyncService extends IntentService
                         }
                         else
                         {
-                            App.getLogger().d(TAG, "Found not valid proxy: " + conf.toShortString());
+//                            App.getLogger().d(TAG, "Found not valid proxy: " + conf.toShortString());
                         }
                     }
                     else
                     {
-                        App.getLogger().d(TAG, "Proxy not enabled or cannot be read: " + conf.toShortString());
+//                        App.getLogger().d(TAG, "Proxy not enabled or cannot be read: " + conf.toShortString());
                     }
                 }
                 catch (Exception e)

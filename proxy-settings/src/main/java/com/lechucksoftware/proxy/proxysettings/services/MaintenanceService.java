@@ -17,7 +17,7 @@ import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLConstants;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
-public class MaintenanceService extends IntentService
+public class MaintenanceService extends EnhancedIntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = MaintenanceService.class.getSimpleName();

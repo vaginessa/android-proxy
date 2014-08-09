@@ -12,6 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
  */
 public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 {
+    public static final String TABLE_WIFI_AP = "wifi_ap";
     public static final String TABLE_PROXIES = "proxies";
     public static final String TABLE_TAGS = "tags";
     public static final String TABLE_PROXY_TAG_LINKS = "taggedproxies";
@@ -113,12 +114,11 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
         }
 
         // Se example of upgrade planning here: http://grepcode.com/file_/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.1_r1/com/android/providers/calendar/CalendarDatabaseHelper.java/?v=source
+        if (oldVersion == 2)
+        {
+            // Do something for v3
 
-//        if (oldVersion == 3)
-//        {
-//            // Do something for v3
-//            oldVersion = 4;
-//        }
+        }
 //
 //        if (oldVersion == 4)
 //        {
