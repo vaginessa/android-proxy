@@ -65,9 +65,9 @@ public class ProxyUtils
             if (conf != null && conf.getLevel() > -1)
             {
                 // Connect to AP only if it's available
-                ReflectionUtils.connectToWifi(APL.getWifiManager(), conf.networkId);
+                ReflectionUtils.connectToWifi(APL.getWifiManager(), conf.getNetworkId());
 
-                APL.getWifiManager().enableNetwork(conf.networkId, true);
+                APL.getWifiManager().enableNetwork(conf.getNetworkId(), true);
             }
         }
     }
@@ -621,7 +621,7 @@ public class ProxyUtils
     {
         if (conf != null)
         {
-            return getSecurityString(conf.securityType, conf.pskType, ctx, true);
+            return getSecurityString(conf.getSecurityType(), conf.getPskType(), ctx, true);
         }
         else
             return "";
@@ -862,7 +862,7 @@ public class ProxyUtils
 
         if (conf.isActive())
         {
-            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, conf.ssid));
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, conf.getSsid()));
         }
         else
         {

@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -138,10 +137,10 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
                 {
                     App.getLogger().d(TAG, "Checking configuration: " + conf.toShortString());
 
-                    if (conf.status != null
-                            && conf.status.checkedDate != null)
+                    if (conf.getStatus() != null
+                            && conf.getStatus().checkedDate != null)
                     {
-                        long diffMsec = new Date().getTime() - conf.status.checkedDate.getTime();
+                        long diffMsec = new Date().getTime() - conf.getStatus().checkedDate.getTime();
                         long diffSeconds = diffMsec / 1000;
                         long diffMinutes = diffMsec / (60 * 1000);
 
@@ -168,7 +167,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
                 if (checkNewConf)
                 {
                     App.getLogger().d(TAG, "Changed current proxy configuration: calling refresh of proxy status");
-                    ProxyUtils.acquireProxyStatus(conf, conf.status, ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
+                    ProxyUtils.acquireProxyStatus(conf, conf.getStatus(), ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
                     App.getLogger().d(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
                 }
                 else

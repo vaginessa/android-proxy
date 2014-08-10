@@ -77,7 +77,7 @@ public class DataSource
     public ProxyEntity upsertProxy(ProxyEntity proxyData)
     {
         long proxyId = -1;
-        if (proxyData.isPersisted)
+        if (proxyData.isPersisted())
         {
             proxyId = proxyData.getId();
         }
@@ -127,8 +127,8 @@ public class DataSource
         if (config != null)
         {
             WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
-            wiFiAPEntity.setSsid(config.ssid);
-            wiFiAPEntity.setSecurityType(config.securityType);
+            wiFiAPEntity.setSsid(config.getSsid());
+            wiFiAPEntity.setSecurityType(config.getSecurityType());
             wiFiAPEntity.setProxySetting(config.getProxySetting());
 
             if (wiFiAPEntity.getProxySetting() == ProxySetting.STATIC)
@@ -152,7 +152,7 @@ public class DataSource
     public WiFiAPEntity upsertWifiAP(WiFiAPEntity wiFiAPEntity)
     {
         long wifiApId = -1;
-        if (wiFiAPEntity.isPersisted)
+        if (wiFiAPEntity.isPersisted())
         {
             wifiApId = wiFiAPEntity.getId();
         }
@@ -351,11 +351,11 @@ public class DataSource
 
         if (configuration != null)
         {
-            if (configuration.internalWifiNetworkId != null)
+            if (configuration.getInternalWifiNetworkId() != null)
             {
                 WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
-                wiFiAPEntity.setSsid(configuration.internalWifiNetworkId.SSID);
-                wiFiAPEntity.setSecurityType(configuration.internalWifiNetworkId.Security);
+                wiFiAPEntity.setSsid(configuration.getInternalWifiNetworkId().SSID);
+                wiFiAPEntity.setSecurityType(configuration.getInternalWifiNetworkId().Security);
 
                 result = findWifiAp(wiFiAPEntity);
             }
@@ -876,7 +876,7 @@ public class DataSource
         link.setCreationDate(cursor.getLong(3));
         link.setModifiedDate(cursor.getLong(4));
 
-        link.isPersisted = true;
+        link.setPersisted(true);
 
         return link;
     }
@@ -957,7 +957,7 @@ public class DataSource
         proxy.setCreationDate(cursor.getLong(6));
         proxy.setModifiedDate(cursor.getLong(7));
 
-        proxy.isPersisted = true;
+        proxy.setPersisted(true);
 
         return proxy;
     }
@@ -980,7 +980,7 @@ public class DataSource
         wiFiAPEntity.setCreationDate(cursor.getLong(5));
         wiFiAPEntity.setModifiedDate(cursor.getLong(6));
 
-        wiFiAPEntity.isPersisted = true;
+        wiFiAPEntity.setPersisted(true);
 
         return wiFiAPEntity;
     }
@@ -994,7 +994,7 @@ public class DataSource
         tag.setCreationDate(cursor.getLong(3));
         tag.setModifiedDate(cursor.getLong(4));
 
-        tag.isPersisted = true;
+        tag.setPersisted(true);
 
         return tag;
     }

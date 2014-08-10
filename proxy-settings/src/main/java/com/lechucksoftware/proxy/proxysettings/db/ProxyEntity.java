@@ -79,7 +79,6 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         return inUse;
     }
 
-
     @Override
     public boolean equals(Object another)
     {
@@ -89,7 +88,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         {
             ProxyEntity anotherProxy = (ProxyEntity) another;
 
-            if (this.isPersisted && anotherProxy.isPersisted)
+            if (this.isPersisted() && anotherProxy.isPersisted())
             {
                 return anotherProxy.getId() == this.getId();
             }

@@ -35,7 +35,7 @@ public class TagsTaskLoader extends AsyncTaskLoader<List<TagEntity>>
         {
             if (tags != null)
             {
-                tag.isSelected = tags.contains(tag);
+                tag.setSelected(tags.contains(tag));
             }
         }
 

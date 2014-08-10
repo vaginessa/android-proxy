@@ -474,7 +474,7 @@ public class APL
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        if (wiFiAPConfig.securityType == SecurityType.SECURITY_EAP)
+        if (wiFiAPConfig.getSecurityType() == SecurityType.SECURITY_EAP)
         {
             Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
             throw e;
@@ -489,7 +489,7 @@ public class APL
         WifiConfiguration selectedConfiguration = null;
         for (WifiConfiguration conf : configuredNetworks)
         {
-            if (conf.networkId == wiFiAPConfig.wifiConfig.networkId)
+            if (conf.networkId == wiFiAPConfig.getWifiConfig().networkId)
             {
                 selectedConfiguration = conf;
                 break;
@@ -633,7 +633,7 @@ public class APL
             /**************************************************************************************/
 
             APL.getLogger().stopTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
-            wiFiAPConfig.status.clear();
+            wiFiAPConfig.getStatus().clear();
 
             APL.getLogger().d(TAG, String.format("Succesfully updated configuration %s, after %d tries", wiFiAPConfig.toShortString(), tries));
 

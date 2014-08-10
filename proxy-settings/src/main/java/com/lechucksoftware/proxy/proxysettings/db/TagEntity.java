@@ -39,7 +39,7 @@ public class TagEntity extends BaseEntity implements Serializable
         {
             TagEntity anotherTag = (TagEntity) another;
 
-            if (this.isPersisted && anotherTag.isPersisted)
+            if (this.isPersisted() && anotherTag.isPersisted())
             {
                 return anotherTag.getId() == this.getId();
             }

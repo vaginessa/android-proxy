@@ -25,12 +25,12 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 {
-    public static final String TAG = WiFiAPConfig.class.getSimpleName();
+    private static final String TAG = WiFiAPConfig.class.getSimpleName();
 
-    public final UUID id;
-    public final WifiNetworkId internalWifiNetworkId;
+    private final UUID id;
+    private final WifiNetworkId internalWifiNetworkId;
 
-    public ProxyStatus status;
+    private ProxyStatus status;
 
     private String apDescription;
 
@@ -42,17 +42,17 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     /* AccessPoint class fields */
 //    public AccessPoint ap;
-    public static final int[] STATE_SECURED = {R.attr.state_encrypted};
-    public static final int[] STATE_NONE = {};
+    private static final int[] STATE_SECURED = {R.attr.state_encrypted};
+    private static final int[] STATE_NONE = {};
 
-    public static final int INVALID_NETWORK_ID = -1;
+    private static final int INVALID_NETWORK_ID = -1;
 
-    public String ssid;
-    public String bssid;
-    public SecurityType securityType;
-    public int networkId;
-    public PskType pskType = PskType.UNKNOWN;
-    public transient WifiConfiguration wifiConfig;
+    private String ssid;
+    private String bssid;
+    private SecurityType securityType;
+    private int networkId;
+    private PskType pskType = PskType.UNKNOWN;
+    private transient WifiConfiguration wifiConfig;
     private WifiInfo mInfo;
     private int mRssi;
     private NetworkInfo.DetailedState mState;
@@ -77,14 +77,14 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         mRssi = Integer.MAX_VALUE;
         wifiConfig = wifiConf;
 
-        internalWifiNetworkId = new WifiNetworkId(ssid, securityType);
+        internalWifiNetworkId = new WifiNetworkId(getSsid(), getSecurityType());
 
         status = new ProxyStatus();
     }
 
     public boolean updateScanResults(ScanResult result)
     {
-        if (ssid.equals(result.SSID) && securityType == ProxyUtils.getSecurity(result))
+        if (getSsid().equals(result.SSID) && getSecurityType() == ProxyUtils.getSecurity(result))
         {
             if (WifiManager.compareSignalLevel(result.level, mRssi) > 0)
             {
@@ -92,7 +92,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
                 mRssi = result.level;
             }
             // This flag only comes from scans, is not easily saved in config
-            if (securityType == SecurityType.SECURITY_PSK)
+            if (getSecurityType() == SecurityType.SECURITY_PSK)
             {
                 pskType = ProxyUtils.getPskType(result);
             }
@@ -105,8 +105,8 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     public void updateWifiInfo(WifiInfo info, NetworkInfo.DetailedState state)
     {
         if (info != null
-            && networkId != INVALID_NETWORK_ID
-            && networkId == info.getNetworkId())
+            && getNetworkId() != INVALID_NETWORK_ID
+            && getNetworkId() == info.getNetworkId())
         {
             mRssi = info.getRssi();
             mInfo = info;
@@ -129,10 +129,10 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             setProxySetting(updated.getProxySetting());
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
-            stringProxyExclusionList = updated.stringProxyExclusionList;
-            parsedProxyExclusionList = ProxyUtils.parseExclusionList(stringProxyExclusionList);
+            stringProxyExclusionList = updated.getStringProxyExclusionList();
+            parsedProxyExclusionList = ProxyUtils.parseExclusionList(getStringProxyExclusionList());
 
-            status.clear();
+            getStatus().clear();
 
             APL.getLogger().d(TAG, "Updated proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
 
@@ -181,7 +181,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public void setProxySetting(ProxySetting setting)
     {
-        synchronized (id)
+        synchronized (getId())
         {
             proxySetting = setting;
         }
@@ -189,7 +189,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public ProxySetting getProxySetting()
     {
-        synchronized (id)
+        synchronized (getId())
         {
             return proxySetting;
         }
@@ -275,17 +275,17 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             }
         }
 
-        if (this.stringProxyExclusionList != null && anotherConf.stringProxyExclusionList != null)
+        if (this.getStringProxyExclusionList() != null && anotherConf.getStringProxyExclusionList() != null)
         {
-            if (!this.stringProxyExclusionList.equalsIgnoreCase(anotherConf.stringProxyExclusionList))
+            if (!this.getStringProxyExclusionList().equalsIgnoreCase(anotherConf.getStringProxyExclusionList()))
             {
-                APL.getLogger().d(TAG, String.format("Different proxy exclusion list value: '%s' - '%s'", this.stringProxyExclusionList, anotherConf.stringProxyExclusionList));
+                APL.getLogger().d(TAG, String.format("Different proxy exclusion list value: '%s' - '%s'", this.getStringProxyExclusionList(), anotherConf.getStringProxyExclusionList()));
                 return false;
             }
         }
-        else if (this.stringProxyExclusionList != anotherConf.stringProxyExclusionList)
+        else if (this.getStringProxyExclusionList() != anotherConf.getStringProxyExclusionList())
         {
-            if (TextUtils.isEmpty(this.stringProxyExclusionList) && TextUtils.isEmpty(anotherConf.stringProxyExclusionList))
+            if (TextUtils.isEmpty(this.getStringProxyExclusionList()) && TextUtils.isEmpty(anotherConf.getStringProxyExclusionList()))
             {
                 /** Can happen when a partial configuration is written on the device:
                  *  - ProxySettings enabled but no proxyHost and proxyPort are filled
@@ -328,14 +328,14 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         }
 
         // Configured one goes before unconfigured one.
-        if (networkId != INVALID_NETWORK_ID
-                && other.networkId == INVALID_NETWORK_ID)
+        if (getNetworkId() != INVALID_NETWORK_ID
+                && other.getNetworkId() == INVALID_NETWORK_ID)
         {
             return -1;
         }
 
-        if (networkId == INVALID_NETWORK_ID
-                && other.networkId != INVALID_NETWORK_ID)
+        if (getNetworkId() == INVALID_NETWORK_ID
+                && other.getNetworkId() != INVALID_NETWORK_ID)
         {
             return 1;
         }
@@ -348,7 +348,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         }
 
         // Sort by ssid.
-        return ssid.compareToIgnoreCase(other.ssid);
+        return getSsid().compareToIgnoreCase(other.getSsid());
     }
 
     public boolean isActive()
@@ -422,12 +422,12 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("ID: %s\n", id.toString()));
-        sb.append(String.format("Wi-Fi Configuration Info: %s\n", ssid));
+        sb.append(String.format("ID: %s\n", getId().toString()));
+        sb.append(String.format("Wi-Fi Configuration Info: %s\n", getSsid()));
         sb.append(String.format("Proxy setting: %s\n", getProxySetting().toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
         sb.append(String.format("Is current network: %B\n", isActive()));
-        sb.append(String.format("Proxy status checker results: %s\n", status.toString()));
+        sb.append(String.format("Proxy status checker results: %s\n", getStatus().toString()));
 
         if (APL.getConnectivityManager().getActiveNetworkInfo() != null)
         {
@@ -443,13 +443,13 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
         try
         {
-            jsonObject.put("ID", id.toString());
-            jsonObject.put("SSID", ssid);
+            jsonObject.put("ID", getId().toString());
+            jsonObject.put("SSID", getSsid());
 
             jsonObject.put("proxy_setting", getProxySetting().toString());
             jsonObject.put("proxy_status", toStatusString());
             jsonObject.put("is_current", isActive());
-            jsonObject.put("status", status.toJSON());
+            jsonObject.put("status", getStatus().toJSON());
 
             if (APL.getConnectivityManager().getActiveNetworkInfo() != null)
             {
@@ -467,15 +467,15 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     public String toShortString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(id.toString());
+        sb.append(getId().toString());
 
-        sb.append(String.format("SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", ssid, mRssi, getLevel(), networkId));
+        sb.append(String.format("SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getSsid(), mRssi, getLevel(), getNetworkId()));
 
         sb.append(" - " + toStatusString());
         sb.append(" " + getProxyExclusionList());
 
-        if (status != null)
-            sb.append(" - " + status.toShortString());
+        if (getStatus() != null)
+            sb.append(" - " + getStatus().toShortString());
 
         return sb.toString();
     }
@@ -534,15 +534,15 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public String getProxyExclusionList()
     {
-        if (stringProxyExclusionList == null)
+        if (getStringProxyExclusionList() == null)
             return "";
         else
-            return stringProxyExclusionList;
+            return getStringProxyExclusionList();
     }
 
     public CheckStatusValues getCheckingStatus()
     {
-        return status.getCheckingStatus();
+        return getStatus().getCheckingStatus();
     }
 
     public void setAPDescription(String value)
@@ -552,8 +552,8 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public String getAPDescription()
     {
-        if (!TextUtils.isEmpty(apDescription))
-            return apDescription;
+        if (!TextUtils.isEmpty(getApDescription()))
+            return getApDescription();
         else
         {
             return ProxyUtils.cleanUpSSID(getSSID());
@@ -562,7 +562,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public String getSSID()
     {
-        return ssid;
+        return getSsid();
     }
 
 //    public String getSecurityString()
@@ -629,5 +629,55 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     {
         mRssi = Integer.MAX_VALUE;
         pskType = PskType.UNKNOWN;
+    }
+
+    public UUID getId()
+    {
+        return id;
+    }
+
+    public WifiNetworkId getInternalWifiNetworkId()
+    {
+        return internalWifiNetworkId;
+    }
+
+    public ProxyStatus getStatus()
+    {
+        return status;
+    }
+
+    public String getApDescription()
+    {
+        return apDescription;
+    }
+
+    public String getStringProxyExclusionList()
+    {
+        return stringProxyExclusionList;
+    }
+
+    public String getSsid()
+    {
+        return ssid;
+    }
+
+    public SecurityType getSecurityType()
+    {
+        return securityType;
+    }
+
+    public int getNetworkId()
+    {
+        return networkId;
+    }
+
+    public PskType getPskType()
+    {
+        return pskType;
+    }
+
+    public WifiConfiguration getWifiConfig()
+    {
+        return wifiConfig;
     }
 }

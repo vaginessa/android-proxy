@@ -16,7 +16,6 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.loaders.TagsTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +99,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
                 for (int i = 0; i<tagsListAdapter.getCount(); i++)
                 {
                     TagEntity t = tagsListAdapter.getItem(i);
-                    if (t.isSelected)
+                    if (t.isSelected())
                     {
                         selectedProxy.addTag(t);
                     }

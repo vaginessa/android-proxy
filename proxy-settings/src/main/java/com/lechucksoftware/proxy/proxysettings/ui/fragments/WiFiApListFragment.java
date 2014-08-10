@@ -260,7 +260,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
             WiFiAPConfig selectedConfiguration = (WiFiAPConfig) getListView().getItemAtPosition(index);
 
-            if (selectedConfiguration.securityType == SecurityType.SECURITY_EAP)
+            if (selectedConfiguration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.oops)
@@ -277,7 +277,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                 App.getLogger().d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
 
                 Intent i = new Intent(getActivity(), WiFiApDetailActivity.class);
-                i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.internalWifiNetworkId);
+                i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.getInternalWifiNetworkId());
                 startActivity(i);
             }
         }

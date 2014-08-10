@@ -296,11 +296,11 @@ public class ProxyManager
                 {
                     savedConfigurations = getSavedConfigurations();
                     if (savedConfigurations != null
-                            && conf.internalWifiNetworkId != null
-                            && savedConfigurations.containsKey(conf.internalWifiNetworkId))
+                            && conf.getInternalWifiNetworkId() != null
+                            && savedConfigurations.containsKey(conf.getInternalWifiNetworkId()))
                     {
                         // Updates already saved configuration
-                        WiFiAPConfig originalConf = getSavedConfigurations().get(conf.internalWifiNetworkId);
+                        WiFiAPConfig originalConf = getSavedConfigurations().get(conf.getInternalWifiNetworkId());
                         if (originalConf.updateProxyConfiguration(conf))
                             updatedConfiguration = true;
                     }
@@ -308,12 +308,12 @@ public class ProxyManager
                     {
                         // Add new found configuration
 //                        App.getLogger().d(TAG, "Adding to list new Wi-Fi AP configuration: " + conf.toShortString());
-                        getSavedConfigurations().put(conf.internalWifiNetworkId, conf);
+                        getSavedConfigurations().put(conf.getInternalWifiNetworkId(), conf);
                     }
 
-                    if (internalSavedSSID.contains(conf.internalWifiNetworkId))
+                    if (internalSavedSSID.contains(conf.getInternalWifiNetworkId()))
                     {
-                        internalSavedSSID.remove(conf.internalWifiNetworkId);
+                        internalSavedSSID.remove(conf.getInternalWifiNetworkId());
                     }
                 }
             }
@@ -373,7 +373,7 @@ public class ProxyManager
                 StringBuilder sb = new StringBuilder();
                 for (WiFiAPConfig conf : sortedConfigurationsList)
                 {
-                    sb.append(conf.ssid + ",");
+                    sb.append(conf.getSsid() + ",");
                 }
 
                 App.getLogger().d(TAG, "Sorted proxy configuration list: " + sb.toString());
@@ -401,7 +401,7 @@ public class ProxyManager
         {
             for (WiFiAPConfig conf : configurationList)
             {
-                if (conf.internalWifiNetworkId.equals(wifiNetworkId))
+                if (conf.getInternalWifiNetworkId().equals(wifiNetworkId))
                 {
                     selected = conf;
                     break;

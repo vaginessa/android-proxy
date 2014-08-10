@@ -66,7 +66,7 @@ public class TagsListAdapter extends ArrayAdapter<TagEntity>
         if (listItem != null)
         {
             viewHolder.checkBox.setText(listItem.getTag());
-            viewHolder.checkBox.setChecked(listItem.isSelected);
+            viewHolder.checkBox.setChecked(listItem.isSelected());
             viewHolder.checkBox.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -75,11 +75,11 @@ public class TagsListAdapter extends ArrayAdapter<TagEntity>
                     CheckBox checkBox = (CheckBox) view;
                     if (checkBox.isChecked())
                     {
-                        listItem.isSelected = true;
+                        listItem.setSelected(true);
                     }
                     else
                     {
-                        listItem.isSelected = false;
+                        listItem.setSelected(false);
                     }
                 }
             });

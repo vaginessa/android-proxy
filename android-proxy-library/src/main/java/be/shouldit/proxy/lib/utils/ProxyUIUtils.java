@@ -17,7 +17,7 @@ public class ProxyUIUtils
 		{
 			case CHECKED:
 			{
-				ProxyStatusItem status = conf.status.getMostRelevantErrorProxyStatusItem();
+				ProxyStatusItem status = conf.getStatus().getMostRelevantErrorProxyStatusItem();
 
 				if (status != null)
 				{
@@ -72,7 +72,7 @@ public class ProxyUIUtils
 		{
 			case CHECKED:
 			{
-				ProxyStatusItem status = conf.status.getMostRelevantErrorProxyStatusItem();
+				ProxyStatusItem status = conf.getStatus().getMostRelevantErrorProxyStatusItem();
 
 				if (status != null)
 				{

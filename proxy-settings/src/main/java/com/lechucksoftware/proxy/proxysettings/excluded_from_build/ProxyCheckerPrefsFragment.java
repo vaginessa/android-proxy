@@ -79,28 +79,28 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
     {
         WiFiAPConfig conf = App.getProxyManager().getCachedConfiguration();
 
-        if (conf.status.getCheckingStatus() == CheckStatusValues.CHECKING)
+        if (conf.getStatus().getCheckingStatus() == CheckStatusValues.CHECKING)
         {
             startCheckPref.setEnabled(false);
-            String checkedDate = conf.status.getCheckedDateString();
+            String checkedDate = conf.getStatus().getCheckedDateString();
             if (!TextUtils.isEmpty(checkedDate))
                 startCheckPref.setSummary("Start checking on: " + checkedDate);
         }
         else
         {
             startCheckPref.setEnabled(true);
-            String checkedDate = conf.status.getCheckedDateString();
+            String checkedDate = conf.getStatus().getCheckedDateString();
             if (checkedDate != null && checkedDate.length() > 0)
                 startCheckPref.setSummary("Last checked on: " + checkedDate);
         }
 
-        ProxyStatusItem wifi = conf.status.getProperty(ProxyStatusProperties.WIFI_ENABLED);
-        ProxyStatusItem wifiSelected = conf.status.getProperty(ProxyStatusProperties.WIFI_SELECTED);
-        ProxyStatusItem enabled = conf.status.getProperty(ProxyStatusProperties.PROXY_ENABLED);
-        ProxyStatusItem hostname = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
-        ProxyStatusItem port = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT);
-        ProxyStatusItem ping = conf.status.getProperty(ProxyStatusProperties.PROXY_REACHABLE);
-        ProxyStatusItem web = conf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE);
+        ProxyStatusItem wifi = conf.getStatus().getProperty(ProxyStatusProperties.WIFI_ENABLED);
+        ProxyStatusItem wifiSelected = conf.getStatus().getProperty(ProxyStatusProperties.WIFI_SELECTED);
+        ProxyStatusItem enabled = conf.getStatus().getProperty(ProxyStatusProperties.PROXY_ENABLED);
+        ProxyStatusItem hostname = conf.getStatus().getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
+        ProxyStatusItem port = conf.getStatus().getProperty(ProxyStatusProperties.PROXY_VALID_PORT);
+        ProxyStatusItem ping = conf.getStatus().getProperty(ProxyStatusProperties.PROXY_REACHABLE);
+        ProxyStatusItem web = conf.getStatus().getProperty(ProxyStatusProperties.WEB_REACHABLE);
 
         checkProxyStatusItem(wifi, wifiEnabledPref);
         checkProxyStatusItem(wifiSelected, wifiSelectedPref);

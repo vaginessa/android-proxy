@@ -14,13 +14,13 @@ public class BaseEntity implements Serializable
     private long id;
     private long creationDate;
     private long lastModifiedDate;
-    public boolean isPersisted;
-    public boolean isSelected;
+    private boolean isPersisted;
+    private boolean isSelected;
 
     public BaseEntity()
     {
-        isPersisted = false;
-        isSelected = false;
+        setPersisted(false);
+        setSelected(false);
         uuid = UUID.randomUUID();
     }
 
@@ -79,5 +79,25 @@ public class BaseEntity implements Serializable
         }
 
         return sb.toString();
+    }
+
+    public boolean isPersisted()
+    {
+        return isPersisted;
+    }
+
+    public void setPersisted(boolean isPersisted)
+    {
+        this.isPersisted = isPersisted;
+    }
+
+    public boolean isSelected()
+    {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected)
+    {
+        this.isSelected = isSelected;
     }
 }

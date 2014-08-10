@@ -354,7 +354,7 @@ public class TestUtils
 
         for (WiFiAPConfig configuration : App.getProxyManager().getSortedConfigurationsList())
         {
-            if (configuration.securityType == SecurityType.SECURITY_EAP)
+            if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
                 // skip 802.1x security networks
                 continue;
@@ -390,7 +390,7 @@ public class TestUtils
 
         for (WiFiAPConfig configuration : App.getProxyManager().getSortedConfigurationsList())
         {
-            if (configuration.securityType == SecurityType.SECURITY_EAP)
+            if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
                 // skip 802.1x security networks
                 continue;

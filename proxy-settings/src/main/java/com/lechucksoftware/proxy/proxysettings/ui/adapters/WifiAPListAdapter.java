@@ -52,9 +52,9 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
                 WiFiAPConfig conf = this.getItem(i);
 
                 // Compare if it's changed the SSIDs order
-                if (conf.ssid.compareTo(confList.get(i).ssid) != 0)
+                if (conf.getSsid().compareTo(confList.get(i).getSsid()) != 0)
                 {
-                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s",confList.get(i).ssid, conf.ssid));
+                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", confList.get(i).getSsid(), conf.getSsid()));
                     needsRefresh = true;
                     break;
                 }

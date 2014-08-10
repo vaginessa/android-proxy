@@ -18,7 +18,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
@@ -260,7 +259,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         if (host != null && port != null)
         {
             List<Long> duplicatedIDs = App.getDBManager().findDuplicatedProxy(host, port);
-            if (selectedProxy.isPersisted)
+            if (selectedProxy.isPersisted())
             {
                 proxyDuplicatedBanner.setVisibility(UIUtils.booleanToVisibility(duplicatedIDs.size() > 1));
             }

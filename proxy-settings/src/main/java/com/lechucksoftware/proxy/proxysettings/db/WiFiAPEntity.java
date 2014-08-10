@@ -69,7 +69,7 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
         {
             WiFiAPEntity otherAp = (WiFiAPEntity) another;
 
-            if (this.isPersisted && otherAp.isPersisted)
+            if (this.isPersisted() && otherAp.isPersisted())
             {
                 return otherAp.getId() == this.getId();
             }
