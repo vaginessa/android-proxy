@@ -474,7 +474,7 @@ public class APL
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        if (wiFiAPConfig.security == SecurityType.SECURITY_EAP)
+        if (wiFiAPConfig.securityType == SecurityType.SECURITY_EAP)
         {
             Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
             throw e;
@@ -511,19 +511,19 @@ public class APL
                     if (mIpConfiguration != null)
                     {
                         Field proxySettingsField = ReflectionUtils.getField(mIpConfiguration.getClass().getFields(), "proxySettings");
-                        proxySettingsField.set(mIpConfiguration, (Object) proxySettingsField.getType().getEnumConstants()[wiFiAPConfig.getProxySettings().ordinal()]);
+                        proxySettingsField.set(mIpConfiguration, (Object) proxySettingsField.getType().getEnumConstants()[wiFiAPConfig.getProxySetting().ordinal()]);
                     }
                 }
             }
             else
             {
                 Field proxySettingsField = newConf.getClass().getField("proxySettings");
-                proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[wiFiAPConfig.getProxySettings().ordinal()]);
+                proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[wiFiAPConfig.getProxySetting().ordinal()]);
             }
 
             Object proxySettings = getProxySettingsField(newConf);
             int ordinal = ((Enum) proxySettings).ordinal();
-            if (ordinal != wiFiAPConfig.getProxySettings().ordinal())
+            if (ordinal != wiFiAPConfig.getProxySetting().ordinal())
                 throw new Exception("Cannot set proxySettings variable");
 
             Object linkProperties = null;
@@ -550,11 +550,11 @@ public class APL
             Field mHttpProxyField = ReflectionUtils.getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
             mHttpProxyField.setAccessible(true);
 
-            if (wiFiAPConfig.getProxySettings() == ProxySetting.NONE || wiFiAPConfig.getProxySettings() == ProxySetting.UNASSIGNED)
+            if (wiFiAPConfig.getProxySetting() == ProxySetting.NONE || wiFiAPConfig.getProxySetting() == ProxySetting.UNASSIGNED)
             {
                 mHttpProxyField.set(linkProperties, null);
             }
-            else if (wiFiAPConfig.getProxySettings() == ProxySetting.STATIC)
+            else if (wiFiAPConfig.getProxySetting() == ProxySetting.STATIC)
             {
                 Class ProxyPropertiesClass = mHttpProxyField.getType();
                 Integer port = wiFiAPConfig.getProxyPort();

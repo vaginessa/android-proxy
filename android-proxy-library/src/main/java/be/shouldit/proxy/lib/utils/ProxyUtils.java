@@ -621,7 +621,7 @@ public class ProxyUtils
     {
         if (conf != null)
         {
-            return getSecurityString(conf.security, conf.pskType, ctx, true);
+            return getSecurityString(conf.securityType, conf.pskType, ctx, true);
         }
         else
             return "";
@@ -892,7 +892,7 @@ public class ProxyUtils
             }
         }
 
-        if (conf.getProxySettings() == ProxySetting.UNASSIGNED || conf.getProxySettings() == ProxySetting.NONE)
+        if (conf.getProxySetting() == ProxySetting.UNASSIGNED || conf.getProxySetting() == ProxySetting.NONE)
         {
             result = new ProxyStatusItem(ProxyStatusProperties.PROXY_ENABLED, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_proxy_disabled));
         }
@@ -1086,6 +1086,23 @@ public class ProxyUtils
     {
         Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
         ctx.startActivity(intent);
+    }
+
+    public static boolean isValidProxyConfiguration(WiFiAPConfig config)
+    {
+        boolean result = false;
+        ProxyStatusItem hostStatus = isProxyValidHostname(config);
+        ProxyStatusItem portStatus = isProxyValidPort(config);
+        ProxyStatusItem exclStatus = isProxyValidExclusionList(config);
+
+        if (hostStatus.effective && hostStatus.status == CheckStatusValues.CHECKED && hostStatus.result
+                && portStatus.effective && portStatus.status == CheckStatusValues.CHECKED && portStatus.result
+                && exclStatus.effective && exclStatus.status == CheckStatusValues.CHECKED && exclStatus.result)
+        {
+            result = true;
+        }
+
+        return result;
     }
 
     protected ProxyStatusItem isWebReachable(WiFiAPConfig conf)

@@ -109,8 +109,8 @@ public class TestUtils
                         {
                             ProxyEntity p = new ProxyEntity();
                             String[] host_port = line.split(":");
-                            p.host = host_port[0];
-                            p.port = Integer.parseInt(host_port[1]);
+                            p.setHost(host_port[0]);
+                            p.setPort(Integer.parseInt(host_port[1]));
                             proxies.add(p);
                         }
                     }
@@ -134,9 +134,9 @@ public class TestUtils
     public static ProxyEntity getRandomProxy()
     {
         ProxyEntity pd = new ProxyEntity();
-        pd.host = getRandomIP();
-        pd.port = getRandomPort();
-        pd.exclusion = getRandomExclusionList();
+        pd.setHost(getRandomIP());
+        pd.setPort(getRandomPort());
+        pd.setExclusion(getRandomExclusionList());
 
         Random r = new Random();
         int tagNum = r.nextInt(MAX_TAGS) + MIN_TAGS;
@@ -164,13 +164,13 @@ public class TestUtils
             switch (typeOfModification)
             {
                 case 0:
-                    pd.host = getRandomIP();
+                    pd.setHost(getRandomIP());
                     break;
                 case 1:
-                    pd.port = getRandomPort();
+                    pd.setPort(getRandomPort());
                     break;
                 case 2:
-                    pd.exclusion = getRandomExclusionList();
+                    pd.setExclusion(getRandomExclusionList());
                     break;
                 case 3:
                     TagEntity tag = App.getDBManager().getRandomTag();
@@ -231,14 +231,14 @@ public class TestUtils
     {
         TagEntity tag = new TagEntity();
         Random r = new Random();
-        tag.tag = getRandomTag();
-        tag.tagColor = r.nextInt(4) + 1;
+        tag.setTag(getRandomTag());
+        tag.setTagColor(r.nextInt(4) + 1);
         App.getDBManager().upsertTag(tag);
     }
 
 //    public static void assignProxies(WiFiAPConfig conf, ProxyEntity proxy) throws Exception
 //    {
-//        ProxySetting originalSettings = conf.getProxySettings();
+//        ProxySetting originalSettings = conf.getProxySetting();
 //        ProxyEntity originalData = new ProxyEntity();
 //
 //        if (originalSettings == ProxySetting.STATIC)
@@ -263,7 +263,7 @@ public class TestUtils
 //
 //            WiFiAPConfig updatedConf = App.getProxyManager().getConfiguration(conf.id);
 //
-//            if (updatedConf.getProxySettings() == ProxySetting.STATIC &&
+//            if (updatedConf.getProxySetting() == ProxySetting.STATIC &&
 //                    updatedConf.getProxyHost() == proxy.host &&
 //                    updatedConf.getProxyPort() == proxy.port &&
 //                    updatedConf.getProxyExclusionList() == proxy.exclusion)
@@ -290,7 +290,7 @@ public class TestUtils
 //
 //            WiFiAPConfig updatedConf = App.getProxyManager().getConfiguration(conf.id);
 //
-//            if (updatedConf.getProxySettings() == ProxySetting.NONE &&
+//            if (updatedConf.getProxySetting() == ProxySetting.NONE &&
 //                    (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
 //                    (updatedConf.getProxyPort() == null || updatedConf.getProxyPort() == -1) &&
 //                    (updatedConf.getProxyExclusionList() == null || updatedConf.getProxyExclusionList() == ""))
@@ -354,7 +354,7 @@ public class TestUtils
 
         for (WiFiAPConfig configuration : App.getProxyManager().getSortedConfigurationsList())
         {
-            if (configuration.security == SecurityType.SECURITY_EAP)
+            if (configuration.securityType == SecurityType.SECURITY_EAP)
             {
                 // skip 802.1x security networks
                 continue;
@@ -390,16 +390,16 @@ public class TestUtils
 
         for (WiFiAPConfig configuration : App.getProxyManager().getSortedConfigurationsList())
         {
-            if (configuration.security == SecurityType.SECURITY_EAP)
+            if (configuration.securityType == SecurityType.SECURITY_EAP)
             {
                 // skip 802.1x security networks
                 continue;
             }
 
             configuration.setProxySetting(ProxySetting.STATIC);
-            configuration.setProxyHost(p.host);
-            configuration.setProxyPort(p.port);
-            configuration.setProxyExclusionString(p.exclusion);
+            configuration.setProxyHost(p.getHost());
+            configuration.setProxyPort(p.getPort());
+            configuration.setProxyExclusionString(p.getExclusion());
             try
             {
                 configuration.writeConfigurationToDevice();

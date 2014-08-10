@@ -253,7 +253,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         if (selectedWiFiAP != null)
         {
-            if (selectedWiFiAP.getProxySettings() == ProxySetting.STATIC)
+            if (selectedWiFiAP.getProxySetting() == ProxySetting.STATIC)
             {
                 App.getLogger().d(TAG, "Set proxy switch = ON");
                 proxySwitch.setChecked(true);
@@ -304,9 +304,9 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         if (proxyId != -1)
         {
             selectedProxy = App.getDBManager().getProxy(proxyId);
-            proxyHost.setValue(selectedProxy.host);
-            proxyPort.setValue(selectedProxy.port);
-            proxyBypass.setExclusionString(selectedProxy.exclusion);
+            proxyHost.setValue(selectedProxy.getHost());
+            proxyPort.setValue(selectedProxy.getPort());
+            proxyBypass.setExclusionString(selectedProxy.getExclusion());
 //            proxyTags.setTags(selectedProxy.getTags());
         }
         else

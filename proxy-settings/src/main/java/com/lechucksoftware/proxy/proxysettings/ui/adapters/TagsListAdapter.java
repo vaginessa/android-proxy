@@ -65,7 +65,7 @@ public class TagsListAdapter extends ArrayAdapter<TagEntity>
 
         if (listItem != null)
         {
-            viewHolder.checkBox.setText(listItem.tag);
+            viewHolder.checkBox.setText(listItem.getTag());
             viewHolder.checkBox.setChecked(listItem.isSelected);
             viewHolder.checkBox.setOnClickListener(new View.OnClickListener()
             {
@@ -84,7 +84,7 @@ public class TagsListAdapter extends ArrayAdapter<TagEntity>
                 }
             });
 
-            viewHolder.checkBox.setBackgroundColor(UIUtils.getTagsColor(getContext(), listItem.tagColor));
+            viewHolder.checkBox.setBackgroundColor(UIUtils.getTagsColor(getContext(), listItem.getTagColor()));
         }
 
         return convertView;

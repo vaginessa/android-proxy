@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class TagEntity extends BaseEntity implements Serializable
 {
-    public String tag;
-    public Integer tagColor;
+    private String tag;
+    private Integer tagColor;
 
     public TagEntity()
     {
@@ -18,15 +18,15 @@ public class TagEntity extends BaseEntity implements Serializable
     public TagEntity(TagEntity t)
     {
         super();
-        this.tag = t.tag;
-        this.tagColor = t.tagColor;
+        this.setTag(t.getTag());
+        this.setTagColor(t.getTagColor());
     }
 
     @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s-%d", tag, tagColor));
+        sb.append(String.format("%s-%d", getTag(), getTagColor()));
         return sb.toString();
     }
 
@@ -45,10 +45,30 @@ public class TagEntity extends BaseEntity implements Serializable
             }
             else
             {
-                return anotherTag.tag.equalsIgnoreCase(this.tag);
+                return anotherTag.getTag().equalsIgnoreCase(this.getTag());
             }
         }
 
         return result;
+    }
+
+    public String getTag()
+    {
+        return tag;
+    }
+
+    public void setTag(String tag)
+    {
+        this.tag = tag;
+    }
+
+    public Integer getTagColor()
+    {
+        return tagColor;
+    }
+
+    public void setTagColor(Integer tagColor)
+    {
+        this.tagColor = tagColor;
     }
 }

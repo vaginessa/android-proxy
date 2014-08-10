@@ -12,10 +12,9 @@ import java.util.List;
  */
 public class ProxyEntity extends BaseEntity implements Serializable, Comparable<ProxyEntity>
 {
-
-    public String host;
-    public Integer port;
-    public String exclusion;
+    private String host;
+    private Integer port;
+    private String exclusion;
     private List<TagEntity> tags;
     private String countryCode;
     private boolean inUse;
@@ -44,6 +43,42 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
             this.tags.add(new TagEntity(t));
         }
     }
+
+    public String getHost()
+    {
+        return host;
+    }
+
+    public void setHost(String host)
+    {
+        this.host = host;
+    }
+
+    public Integer getPort()
+    {
+        return port;
+    }
+
+    public void setPort(Integer port)
+    {
+        this.port = port;
+    }
+
+    public String getExclusion()
+    {
+        return exclusion;
+    }
+
+    public void setExclusion(String exclusion)
+    {
+        this.exclusion = exclusion;
+    }
+
+    public boolean isInUse()
+    {
+        return inUse;
+    }
+
 
     @Override
     public boolean equals(Object another)

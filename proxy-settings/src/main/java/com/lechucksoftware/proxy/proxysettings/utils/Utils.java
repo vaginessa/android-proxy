@@ -60,12 +60,12 @@ public class Utils
     {
         String result = null;
 
-        String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + proxy.host).trim();
+        String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + proxy.getHost()).trim();
         result = getProxyCountryCode(stringUrl, proxy);
 
         if (TextUtils.isEmpty(result))
         {
-            stringUrl = (HTTP_TELIZE_NET_JSON_STRING + proxy.host).trim();
+            stringUrl = (HTTP_TELIZE_NET_JSON_STRING + proxy.getHost()).trim();
             result = getProxyCountryCode(stringUrl, proxy);
         }
 

@@ -260,7 +260,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
             WiFiAPConfig selectedConfiguration = (WiFiAPConfig) getListView().getItemAtPosition(index);
 
-            if (selectedConfiguration.security == SecurityType.SECURITY_EAP)
+            if (selectedConfiguration.securityType == SecurityType.SECURITY_EAP)
             {
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.oops)

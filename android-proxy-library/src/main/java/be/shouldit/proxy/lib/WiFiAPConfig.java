@@ -49,7 +49,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public String ssid;
     public String bssid;
-    public SecurityType security;
+    public SecurityType securityType;
     public int networkId;
     public PskType pskType = PskType.UNKNOWN;
     public transient WifiConfiguration wifiConfig;
@@ -72,19 +72,19 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
         ssid = (wifiConf.SSID == null ? "" : removeDoubleQuotes(wifiConf.SSID));
         bssid = wifiConf.BSSID;
-        security = ProxyUtils.getSecurity(wifiConf);
+        securityType = ProxyUtils.getSecurity(wifiConf);
         networkId = wifiConf.networkId;
         mRssi = Integer.MAX_VALUE;
         wifiConfig = wifiConf;
 
-        internalWifiNetworkId = new WifiNetworkId(ssid, security);
+        internalWifiNetworkId = new WifiNetworkId(ssid, securityType);
 
         status = new ProxyStatus();
     }
 
     public boolean updateScanResults(ScanResult result)
     {
-        if (ssid.equals(result.SSID) && security == ProxyUtils.getSecurity(result))
+        if (ssid.equals(result.SSID) && securityType == ProxyUtils.getSecurity(result))
         {
             if (WifiManager.compareSignalLevel(result.level, mRssi) > 0)
             {
@@ -92,7 +92,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
                 mRssi = result.level;
             }
             // This flag only comes from scans, is not easily saved in config
-            if (security == SecurityType.SECURITY_PSK)
+            if (securityType == SecurityType.SECURITY_PSK)
             {
                 pskType = ProxyUtils.getPskType(result);
             }
@@ -126,7 +126,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         {
             APL.getLogger().d(TAG, "Updating proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
 
-            setProxySetting(updated.getProxySettings());
+            setProxySetting(updated.getProxySetting());
             proxyHost = updated.proxyHost;
             proxyPort = updated.proxyPort;
             stringProxyExclusionList = updated.stringProxyExclusionList;
@@ -147,7 +147,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public Proxy getProxy()
     {
-        if (getProxySettings() == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
+        if (getProxySetting() == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
         {
             SocketAddress sa = null;
 
@@ -176,19 +176,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public boolean isValidProxyConfiguration()
     {
-        boolean result = false;
-        ProxyStatusItem hostStatus = ProxyUtils.isProxyValidHostname(this);
-        ProxyStatusItem portStatus = ProxyUtils.isProxyValidPort(this);
-        ProxyStatusItem exclStatus = ProxyUtils.isProxyValidExclusionList(this);
-
-        if (hostStatus.effective && hostStatus.status == CheckStatusValues.CHECKED && hostStatus.result
-                && portStatus.effective && portStatus.status == CheckStatusValues.CHECKED && portStatus.result
-                && exclStatus.effective && exclStatus.status == CheckStatusValues.CHECKED && exclStatus.result)
-        {
-            result = true;
-        }
-
-        return result;
+        return ProxyUtils.isValidProxyConfiguration(this);
     }
 
     public void setProxySetting(ProxySetting setting)
@@ -199,7 +187,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         }
     }
 
-    public ProxySetting getProxySettings()
+    public ProxySetting getProxySetting()
     {
         synchronized (id)
         {
@@ -436,7 +424,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("ID: %s\n", id.toString()));
         sb.append(String.format("Wi-Fi Configuration Info: %s\n", ssid));
-        sb.append(String.format("Proxy setting: %s\n", getProxySettings().toString()));
+        sb.append(String.format("Proxy setting: %s\n", getProxySetting().toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
         sb.append(String.format("Is current network: %B\n", isActive()));
         sb.append(String.format("Proxy status checker results: %s\n", status.toString()));
@@ -458,7 +446,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             jsonObject.put("ID", id.toString());
             jsonObject.put("SSID", ssid);
 
-            jsonObject.put("proxy_setting", getProxySettings().toString());
+            jsonObject.put("proxy_setting", getProxySetting().toString());
             jsonObject.put("proxy_status", toStatusString());
             jsonObject.put("is_current", isActive());
             jsonObject.put("status", status.toJSON());
@@ -494,7 +482,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public String toStatusString()
     {
-        ProxySetting setting = getProxySettings();
+        ProxySetting setting = getProxySetting();
 
         if (setting == null)
         {

@@ -74,11 +74,11 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
 
         if (listItem != null)
         {
-            viewHolder.host.setText(listItem.host);
-            viewHolder.port.setText(listItem.port.toString());
+            viewHolder.host.setText(listItem.getHost());
+            viewHolder.port.setText(listItem.getPort().toString());
 
-            viewHolder.bypass.setText(getContext().getString(R.string.bypass_for) + " " +  listItem.exclusion);
-            viewHolder.bypass.setVisibility(UIUtils.booleanToVisibility(!TextUtils.isEmpty(listItem.exclusion)));
+            viewHolder.bypass.setText(getContext().getString(R.string.bypass_for) + " " +  listItem.getExclusion());
+            viewHolder.bypass.setVisibility(UIUtils.booleanToVisibility(!TextUtils.isEmpty(listItem.getExclusion())));
 //            viewHolder.tags.setTags(listItem.getTags());
             viewHolder.used.setVisibility(UIUtils.booleanToVisibility(listItem.getInUse()));
         }

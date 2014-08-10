@@ -4,16 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Proxy;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.services.EnhancedIntentService;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
-import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
-import com.lechucksoftware.proxy.proxysettings.services.ProxySyncService;
+import com.lechucksoftware.proxy.proxysettings.services.WifiProxySyncService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import be.shouldit.proxy.lib.APLIntents;
 import be.shouldit.proxy.lib.WiFiAPConfig;
@@ -48,26 +45,25 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             callMaintenanceService(context, intent);
         }
         else if (
-                    // INTERNAL (PS) : Called when Proxy Settings needs to refreshUI the Proxy status
-                    intent.getAction().equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
-
                     // Connection type change (switch between 3G/WiFi)
-                    || intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
+                    intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
 
                     // Scan results available information
                     || intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
 
                     // Wifi state changed action
                     || intent.getAction().equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
-
-                    // Called when a Proxy Configuration is changed
-                    || intent.getAction().equals(Proxy.PROXY_CHANGE_ACTION)
-
-                    || intent.getAction().equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE")
                 )
         {
-            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
+            App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
             callProxySettingsChecker(context, intent);
+        }
+        else if (
+                     // Called when a Wi-Fi configured networks is changed
+                     intent.getAction().equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE"))
+        {
+            App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
+            callSyncProxyService(context, intent);
         }
         else if (
                     // INTERNAL (PS) : Called to refreshUI the UI of Proxy Settings
@@ -101,8 +97,8 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             try
             {
-                Intent serviceIntent = new Intent(context, ProxySyncService.class);
-                serviceIntent.putExtra(ProxySyncService.CALLER_INTENT, intent);
+                Intent serviceIntent = new Intent(context, WifiProxySyncService.class);
+                serviceIntent.putExtra(WifiProxySyncService.CALLER_INTENT, intent);
                 context.startService(serviceIntent);
             }
             catch (Exception e)
@@ -115,29 +111,32 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     private void callProxySettingsChecker(Context context, Intent intent)
     {
         //Call the ProxySettingsCheckerService for update the network status
-        ProxySettingsCheckerService instance = ProxySettingsCheckerService.getInstance();
-        if (instance != null)
-        {
-            if (instance.isHandlingIntent())
-            {
-                App.getLogger().d(TAG, "Already checking proxy.. skip another call");
-                return;
-            }
-        }
+        Log.e(TAG,"PROXY SETTINGS CHECKER DISABLED");
+        return;
 
-        if (App.getInstance().wifiActionEnabled)
-        {
-            try
-            {
-                Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
-                serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
-                context.startService(serviceIntent);
-            }
-            catch (Exception e)
-            {
-                App.getEventsReporter().sendException(e);
-            }
-        }
+//        ProxySettingsCheckerService instance = ProxySettingsCheckerService.getInstance();
+//        if (instance != null)
+//        {
+//            if (instance.isHandlingIntent())
+//            {
+//                App.getLogger().d(TAG, "Already checking proxy.. skip another call");
+//                return;
+//            }
+//        }
+//
+//        if (App.getInstance().wifiActionEnabled)
+//        {
+//            try
+//            {
+//                Intent serviceIntent = new Intent(context, ProxySettingsCheckerService.class);
+//                serviceIntent.putExtra(ProxySettingsCheckerService.CALLER_INTENT, intent);
+//                context.startService(serviceIntent);
+//            }
+//            catch (Exception e)
+//            {
+//                App.getEventsReporter().sendException(e);
+//            }
+//        }
     }
 
     private void callMaintenanceService(Context context, Intent intent)

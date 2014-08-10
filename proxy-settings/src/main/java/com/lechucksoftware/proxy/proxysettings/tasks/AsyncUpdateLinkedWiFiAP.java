@@ -73,7 +73,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             {
                 for (WiFiAPConfig conf : configurations)
                 {
-                    if (conf.getProxySettings() == ProxySetting.STATIC)
+                    if (conf.getProxySetting() == ProxySetting.STATIC)
                     {
                         App.getLogger().d(TAG, "Checking AP: " + conf.toShortString());
 
@@ -83,13 +83,13 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                             Integer port = conf.getProxyPort();
                             String exclusion = conf.getProxyExclusionList();
 
-                            if (host.equalsIgnoreCase(currentProxy.host)
-                                    && port.equals(currentProxy.port)
-                                    && exclusion.equalsIgnoreCase(currentProxy.exclusion))
+                            if (host.equalsIgnoreCase(currentProxy.getHost())
+                                    && port.equals(currentProxy.getPort())
+                                    && exclusion.equalsIgnoreCase(currentProxy.getExclusion()))
                             {
-                                conf.setProxyHost(updatedProxy.host);
-                                conf.setProxyPort(updatedProxy.port);
-                                conf.setProxyExclusionString(updatedProxy.exclusion);
+                                conf.setProxyHost(updatedProxy.getHost());
+                                conf.setProxyPort(updatedProxy.getPort());
+                                conf.setProxyExclusionString(updatedProxy.getExclusion());
 
                                 App.getLogger().d(TAG, "Writing updated AP configuration on device: " + conf.toShortString());
 

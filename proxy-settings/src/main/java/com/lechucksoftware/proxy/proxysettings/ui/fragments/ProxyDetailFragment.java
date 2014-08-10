@@ -182,7 +182,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         else
         {
-            selectedProxy.exclusion = value;
+            selectedProxy.setExclusion(value);
             return true;
         }
     }
@@ -203,7 +203,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         else
         {
-            selectedProxy.host = value;
+            selectedProxy.setHost(value);
             return true;
         }
     }
@@ -233,7 +233,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         else
         {
-            selectedProxy.port = value;
+            selectedProxy.setPort(value);
             return true;
         }
     }
@@ -255,8 +255,8 @@ public class ProxyDetailFragment extends BaseDialogFragment
 
         // TODO: Add check for duplicated configuration to Async handler
         proxyDuplicatedBanner.setVisibility(View.GONE);
-        String host = selectedProxy.host;
-        Integer port = selectedProxy.port;
+        String host = selectedProxy.getHost();
+        Integer port = selectedProxy.getPort();
         if (host != null && port != null)
         {
             List<Long> duplicatedIDs = App.getDBManager().findDuplicatedProxy(host, port);
@@ -277,13 +277,13 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             proxyInUseBanner.setVisibility(UIUtils.booleanToVisibility(selectedProxy.getInUse()));
 
-            proxyHost.setValue(selectedProxy.host);
-            if (selectedProxy.port != null && selectedProxy.port != 0)
+            proxyHost.setValue(selectedProxy.getHost());
+            if (selectedProxy.getPort() != null && selectedProxy.getPort() != 0)
             {
-                proxyPort.setValue(selectedProxy.port);
+                proxyPort.setValue(selectedProxy.getPort());
             }
 
-            proxyBypass.setExclusionString(selectedProxy.exclusion);
+            proxyBypass.setExclusionString(selectedProxy.getExclusion());
 //                proxyTags.setTags(selectedProxy.getTags());
 
             checkValidation();

@@ -241,9 +241,9 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             ProxyEntity proxy = (ProxyEntity) listView.getItemAtPosition(index);
 
             apConf.setProxySetting(ProxySetting.STATIC);
-            apConf.setProxyHost(proxy.host);
-            apConf.setProxyPort(proxy.port);
-            apConf.setProxyExclusionString(proxy.exclusion);
+            apConf.setProxyHost(proxy.getHost());
+            apConf.setProxyPort(proxy.getPort());
+            apConf.setProxyExclusionString(proxy.getExclusion());
             apConf.writeConfigurationToDevice();
 
             AsyncSaveProxyConfiguration asyncSaveProxyConfiguration = new AsyncSaveProxyConfiguration(this, apConf);

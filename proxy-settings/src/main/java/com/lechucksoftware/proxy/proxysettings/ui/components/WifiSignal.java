@@ -83,7 +83,7 @@ public class WifiSignal extends LinearLayout
         {
             iconImageView.setImageLevel(configuration.getLevel());
             iconImageView.setImageResource(R.drawable.wifi_signal);
-            iconImageView.setImageState((configuration.security != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
+            iconImageView.setImageState((configuration.securityType != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
 
             if (configuration.isActive())
             {
