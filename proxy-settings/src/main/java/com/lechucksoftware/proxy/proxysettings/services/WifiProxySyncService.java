@@ -66,15 +66,15 @@ public class WifiProxySyncService extends EnhancedIntentService
         List<WiFiAPConfig> configsToCheck;
         // Disable until the Wi-Fi ap will be persisted on DB
 
-//        if (wiFiAPConfig != null)
-//        {
-//            configsToCheck = new ArrayList<WiFiAPConfig>();
-//            configsToCheck.add(wiFiAPConfig);
-//        }
-//        else
-//        {
+        if (wiFiAPConfig != null)
+        {
+            configsToCheck = new ArrayList<WiFiAPConfig>();
+            configsToCheck.add(wiFiAPConfig);
+        }
+        else
+        {
             configsToCheck = App.getProxyManager().getSortedConfigurationsList();
-//        }
+        }
 
         syncProxyConfigurations(configsToCheck);
 

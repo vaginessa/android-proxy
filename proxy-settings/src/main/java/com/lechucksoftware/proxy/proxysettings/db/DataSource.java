@@ -641,11 +641,14 @@ public class DataSource
     {
         WiFiAPEntity persistedWifiAp = getWifiAP(wifiApId);
 
+        clearInUseFlag(persistedWifiAp.getProxyId());
+        setInUseFlag(wiFiAPEntity.getProxyId());
+
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_SETTING, persistedWifiAp.getProxySetting().toString());
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID, persistedWifiAp.getProxyId());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_SETTING, wiFiAPEntity.getProxySetting().toString());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID, wiFiAPEntity.getProxyId());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
@@ -913,7 +916,7 @@ public class DataSource
 
             try
             {
-                clearInUseFlag();
+//                clearInUseFlag();
 
                 ContentValues values = new ContentValues();
                 values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
