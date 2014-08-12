@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,7 +13,7 @@ import java.net.Proxy;
 import java.util.List;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.APLConstants;
+import be.shouldit.proxy.lib.constants.APLConstants;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class MaintenanceService extends EnhancedIntentService

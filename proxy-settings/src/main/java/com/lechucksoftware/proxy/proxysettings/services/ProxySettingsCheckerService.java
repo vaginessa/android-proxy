@@ -14,7 +14,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import java.util.Date;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.APLConstants;
+import be.shouldit.proxy.lib.constants.APLConstants;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -74,7 +74,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
                         || callerAction.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
                         || callerAction.equals(Intents.WIFI_AP_UPDATED)
                         || callerAction.equals(Proxy.PROXY_CHANGE_ACTION)
-                        || callerAction.equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE"))
+                        || callerAction.equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGED_ACTION"))
                 {
                     checkProxySettings();
                 }

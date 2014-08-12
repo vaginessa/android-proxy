@@ -1,20 +1,19 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
 import android.content.Intent;
+import android.net.wifi.WifiConfiguration;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.WifiNetworkId;
-import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.constants.APLReflectionConstants;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by Marco on 09/03/14.
@@ -53,12 +52,36 @@ public class WifiProxySyncService extends EnhancedIntentService
         {
             Intent caller = (Intent) intent.getExtras().get(WifiProxySyncService.CALLER_INTENT);
 
-            if (caller != null && caller.hasExtra(Intents.UPDATED_WIFI))
+            if (caller != null)
             {
-                WifiNetworkId wifiId = (WifiNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
-                if (wifiId != null)
+                if (caller.getAction().equals(Intents.WIFI_AP_UPDATED))
                 {
-                    wiFiAPConfig = App.getProxyManager().getConfiguration(wifiId);
+                    if (caller.hasExtra(Intents.UPDATED_WIFI))
+                    {
+                        WifiNetworkId wifiId = (WifiNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
+                        if (wifiId != null)
+                        {
+                            wiFiAPConfig = App.getProxyManager().getConfiguration(wifiId);
+                        }
+                    }
+                }
+                else if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
+                {
+                    if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
+                    {
+                        WifiConfiguration wifiConf = (WifiConfiguration) caller.getExtras().get(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION);
+                        if (wifiConf != null)
+                        {
+                            WifiNetworkId wifiId = new WifiNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
+                            wiFiAPConfig = App.getProxyManager().getConfiguration(wifiId);
+                        }
+                    }
+
+                    if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
+                    {
+                        App.getLogger().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
+                        App.getLogger().logIntent(TAG,caller,Log.ERROR);
+                    }
                 }
             }
         }
@@ -100,7 +123,7 @@ public class WifiProxySyncService extends EnhancedIntentService
             {
                 try
                 {
-//                    App.getLogger().d(TAG, "Checking Wi-Fi AP: " + conf.getSSID());
+                    App.getLogger().d(TAG, "Checking Wi-Fi AP: " + conf.getSSID());
                     App.getDBManager().upsertWifiAP(conf);
 
 //                    long wifiConfId = App.getDBManager().findWifiAp(conf);

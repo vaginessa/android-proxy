@@ -77,14 +77,14 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         mRssi = Integer.MAX_VALUE;
         wifiConfig = wifiConf;
 
-        internalWifiNetworkId = new WifiNetworkId(getSsid(), getSecurityType());
+        internalWifiNetworkId = new WifiNetworkId(getSSID(), getSecurityType());
 
         status = new ProxyStatus();
     }
 
     public boolean updateScanResults(ScanResult result)
     {
-        if (getSsid().equals(result.SSID) && getSecurityType() == ProxyUtils.getSecurity(result))
+        if (getSSID().equals(result.SSID) && getSecurityType() == ProxyUtils.getSecurity(result))
         {
             if (WifiManager.compareSignalLevel(result.level, mRssi) > 0)
             {
@@ -348,7 +348,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         }
 
         // Sort by ssid.
-        return getSsid().compareToIgnoreCase(other.getSsid());
+        return getSSID().compareToIgnoreCase(other.getSSID());
     }
 
     public boolean isActive()
@@ -423,7 +423,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("ID: %s\n", getId().toString()));
-        sb.append(String.format("Wi-Fi Configuration Info: %s\n", getSsid()));
+        sb.append(String.format("Wi-Fi Configuration Info: %s\n", getSSID()));
         sb.append(String.format("Proxy setting: %s\n", getProxySetting().toString()));
         sb.append(String.format("Proxy: %s\n", toStatusString()));
         sb.append(String.format("Is current network: %B\n", isActive()));
@@ -444,7 +444,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         try
         {
             jsonObject.put("ID", getId().toString());
-            jsonObject.put("SSID", getSsid());
+            jsonObject.put("SSID", getSSID());
 
             jsonObject.put("proxy_setting", getProxySetting().toString());
             jsonObject.put("proxy_status", toStatusString());
@@ -469,7 +469,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         StringBuilder sb = new StringBuilder();
         sb.append(getId().toString());
 
-        sb.append(String.format("SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getSsid(), mRssi, getLevel(), getNetworkId()));
+        sb.append(String.format("SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getSSID(), mRssi, getLevel(), getNetworkId()));
 
         sb.append(" - " + toStatusString());
         sb.append(" " + getProxyExclusionList());
@@ -559,12 +559,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             return ProxyUtils.cleanUpSSID(getSSID());
         }
     }
-
-    public String getSSID()
-    {
-        return getSsid();
-    }
-
 //    public String getSecurityString()
 //    {
 //        if (ap != null)
@@ -601,7 +595,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         }
     }
 
-    private static String removeDoubleQuotes(String string)
+    public static String removeDoubleQuotes(String string)
     {
         int length = string.length();
         if ((length > 1) && (string.charAt(0) == '"') && (string.charAt(length - 1) == '"'))
@@ -611,7 +605,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         return string;
     }
 
-    private static String convertToQuotedString(String string)
+    public static String convertToQuotedString(String string)
     {
         return "\"" + string + "\"";
     }
@@ -656,7 +650,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         return stringProxyExclusionList;
     }
 
-    public String getSsid()
+    public String getSSID()
     {
         return ssid;
     }

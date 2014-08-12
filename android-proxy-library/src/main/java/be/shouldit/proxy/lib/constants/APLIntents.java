@@ -1,4 +1,4 @@
-package be.shouldit.proxy.lib;
+package be.shouldit.proxy.lib.constants;
 
 /**
  * Created by mpagliar on 24/02/14.

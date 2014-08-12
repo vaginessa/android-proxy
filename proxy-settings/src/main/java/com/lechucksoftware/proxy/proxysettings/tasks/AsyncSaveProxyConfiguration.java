@@ -62,9 +62,9 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
         {
             if (configuration != null)
             {
-                App.getInstance().wifiActionEnabled = false;
+//                App.getInstance().wifiActionEnabled = false;
                 configuration.writeConfigurationToDevice();
-                App.getInstance().wifiActionEnabled = true;
+//                App.getInstance().wifiActionEnabled = true;
             }
 
             App.getLogger().stopTrace(TAG, "saveConfiguration", Log.DEBUG);

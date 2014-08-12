@@ -21,6 +21,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.log.DefaultEventReport;
 import be.shouldit.proxy.lib.log.IEventReporting;

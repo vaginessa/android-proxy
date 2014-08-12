@@ -8,9 +8,9 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
-import be.shouldit.proxy.lib.APLIntents;
+
+import be.shouldit.proxy.lib.constants.APLIntents;
 
 /**
  * Created by marco on 07/11/13.
@@ -83,7 +83,7 @@ public class BaseWifiActivity extends BaseActivity
 
             if (action.equals(Intents.WIFI_AP_UPDATED))
             {
-                if (App.getInstance().wifiActionEnabled)
+//                if (App.getInstance().wifiActionEnabled)
                 {
                     App.getLogger().d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
                     refreshUI();

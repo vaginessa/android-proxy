@@ -67,7 +67,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
             App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());
 
-            App.getInstance().wifiActionEnabled = false;
+//            App.getInstance().wifiActionEnabled = false;
 
             if (configurations != null)
             {
@@ -124,7 +124,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             }
         }
 
-        App.getInstance().wifiActionEnabled = true;
+//        App.getInstance().wifiActionEnabled = true;
 
         App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
         App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());

@@ -10,7 +10,7 @@ import java.net.Proxy;
 import java.net.URI;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.APLConstants;
+import be.shouldit.proxy.lib.constants.APLConstants;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class ApplicationSubmitService extends IntentService 

@@ -127,7 +127,7 @@ public class DataSource
         if (config != null)
         {
             WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
-            wiFiAPEntity.setSsid(config.getSsid());
+            wiFiAPEntity.setSsid(config.getSSID());
             wiFiAPEntity.setSecurityType(config.getSecurityType());
             wiFiAPEntity.setProxySetting(config.getProxySetting());
 

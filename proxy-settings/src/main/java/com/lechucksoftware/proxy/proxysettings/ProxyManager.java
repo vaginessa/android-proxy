@@ -373,7 +373,7 @@ public class ProxyManager
                 StringBuilder sb = new StringBuilder();
                 for (WiFiAPConfig conf : sortedConfigurationsList)
                 {
-                    sb.append(conf.getSsid() + ",");
+                    sb.append(conf.getSSID() + ",");
                 }
 
                 App.getLogger().d(TAG, "Sorted proxy configuration list: " + sb.toString());

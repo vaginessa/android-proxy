@@ -12,8 +12,9 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.WifiProxySyncService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import be.shouldit.proxy.lib.APLIntents;
+import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
 {
@@ -60,7 +61,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else if (
                      // Called when a Wi-Fi configured networks is changed
-                     intent.getAction().equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE"))
+                     intent.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
         {
             App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
             callSyncProxyService(context, intent);
@@ -93,7 +94,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 
     private void callSyncProxyService(Context context, Intent intent)
     {
-        if (App.getInstance().wifiActionEnabled)
+//        if (App.getInstance().wifiActionEnabled)
         {
             try
             {

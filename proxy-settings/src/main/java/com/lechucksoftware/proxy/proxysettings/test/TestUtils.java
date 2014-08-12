@@ -350,7 +350,7 @@ public class TestUtils
 
     public static void clearAllProxies(Context ctx)
     {
-        App.getInstance().wifiActionEnabled = false;
+//        App.getInstance().wifiActionEnabled = false;
 
         for (WiFiAPConfig configuration : App.getProxyManager().getSortedConfigurationsList())
         {
@@ -374,7 +374,7 @@ public class TestUtils
             }
         }
 
-        App.getInstance().wifiActionEnabled = true;
+//        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
         App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
@@ -386,7 +386,7 @@ public class TestUtils
     {
         ProxyEntity p = getRandomProxy();
 
-        App.getInstance().wifiActionEnabled = false;
+//        App.getInstance().wifiActionEnabled = false;
 
         for (WiFiAPConfig configuration : App.getProxyManager().getSortedConfigurationsList())
         {
@@ -410,7 +410,7 @@ public class TestUtils
             }
         }
 
-        App.getInstance().wifiActionEnabled = true;
+//        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
         App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);

@@ -1,4 +1,4 @@
-package be.shouldit.proxy.lib;
+package be.shouldit.proxy.lib.constants;
 
 import java.util.regex.Pattern;
 

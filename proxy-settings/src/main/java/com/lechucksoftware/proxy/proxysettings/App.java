@@ -24,7 +24,7 @@ public class App extends Application
     public AndroidMarket activeMarket;
     private CacheManager cacheManager;
     public Boolean demoMode;
-    public Boolean wifiActionEnabled;
+//    public Boolean wifiActionEnabled;
     private LogWrapper logger;
     private EventsReporter eventsReporter;
 
@@ -71,7 +71,7 @@ public class App extends Application
         activeMarket = Utils.getInstallerMarket(App.this);
 
         demoMode = false;
-        wifiActionEnabled = true;
+//        wifiActionEnabled = true;
 
         // READ configuration file
 //        readAppConfigurationFile();

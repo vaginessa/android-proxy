@@ -33,8 +33,8 @@ import java.util.regex.Matcher;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.APLConstants;
-import be.shouldit.proxy.lib.APLIntents;
+import be.shouldit.proxy.lib.constants.APLConstants;
+import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.ProxyStatus;
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.R;
@@ -862,7 +862,7 @@ public class ProxyUtils
 
         if (conf.isActive())
         {
-            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, conf.getSsid()));
+            result = new ProxyStatusItem(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.CHECKED, true, true, APL.getContext().getString(R.string.status_wifi_selected, conf.getSSID()));
         }
         else
         {
