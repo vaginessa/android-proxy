@@ -65,7 +65,8 @@ public class WifiProxySyncService extends EnhancedIntentService
                         }
                     }
                 }
-                else if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
+                else
+                if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
                 {
                     if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
                     {
@@ -108,13 +109,6 @@ public class WifiProxySyncService extends EnhancedIntentService
     {
         App.getLogger().startTrace(TAG, "syncProxyConfigurations", Log.ASSERT);
 
-        List<Long> inUseProxies = new ArrayList<Long>();
-
-        int foundNewWifiAp = 0;
-        int foundUpdateWifiAp = 0;
-        int foundNewProxy = 0;
-        int foundUpdateProxy = 0;
-
         if (configurations != null && !configurations.isEmpty())
         {
             App.getLogger().d(TAG, String.format("Analyzing %d Wi-Fi AP configurations", configurations.size()));
@@ -123,7 +117,7 @@ public class WifiProxySyncService extends EnhancedIntentService
             {
                 try
                 {
-                    App.getLogger().d(TAG, "Checking Wi-Fi AP: " + conf.getSSID());
+                    App.getLogger().d(TAG, "Checking Wi-Fi AP: " + ProxyUtils.convertToQuotedString(conf.getSSID()));
                     App.getDBManager().upsertWifiAP(conf);
 
 //                    long wifiConfId = App.getDBManager().findWifiAp(conf);
@@ -225,11 +219,6 @@ public class WifiProxySyncService extends EnhancedIntentService
                     App.getEventsReporter().sendException(new Exception("Exception during ProxySyncService", e));
                 }
             }
-
-            App.getDBManager().setInUseFlag(inUseProxies.toArray(new Long[inUseProxies.size()]));
-
-            long proxiesCount = App.getDBManager().getProxiesCount();
-            App.getLogger().a(TAG, String.format("Found proxies: NEW: %d, UPDATED: %d, TOT: %d", foundNewProxy, foundUpdateProxy, proxiesCount));
         }
 
         App.getLogger().stopTrace(TAG, "syncProxyConfigurations", Log.ASSERT);
