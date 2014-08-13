@@ -10,7 +10,7 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
-import com.lechucksoftware.proxy.proxysettings.services.WifiProxySyncService;
+import com.lechucksoftware.proxy.proxysettings.services.WifiSyncService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.WiFiAPConfig;
@@ -23,27 +23,30 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
+        App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
+
         if (intent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
         {
             // INTERNAL (PS) : Called when Proxy Settings is started
-
-            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
-            callProxySettingsChecker(context, intent);
-            callSyncProxyService(context, intent);
+//            callProxySettingsChecker(context, intent);
+            callWifiSyncService(context, intent);
             callMaintenanceService(context, intent);
         }
         else if (intent.getAction().equals(Intents.WIFI_AP_UPDATED))
         {
             // INTERNAL (PS): Called when a Wi-Fi configuration is written to the device
-            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
-            callProxySettingsChecker(context, intent);
-            callSyncProxyService(context, intent);
+//            callProxySettingsChecker(context, intent);
+            callWifiSyncService(context, intent);
         }
         else if (intent.getAction().equals(Intents.PROXY_SAVED))
         {
             // INTERNAL (PS) : Saved a Proxy configuration on DB
-            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
             callMaintenanceService(context, intent);
+        }
+        else if (intent.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
+        {
+            // Called when a Wi-Fi configured networks is changed
+            callWifiSyncService(context, intent);
         }
         else if (
                     // Connection type change (switch between 3G/WiFi)
@@ -56,15 +59,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                     || intent.getAction().equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
                 )
         {
-            App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
-            callProxySettingsChecker(context, intent);
-        }
-        else if (
-                     // Called when a Wi-Fi configured networks is changed
-                     intent.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
-        {
-            App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
-            callSyncProxyService(context, intent);
+            callUpdatedWifStatusService(context, intent);
         }
         else if (
                     // INTERNAL (PS) : Called to refreshUI the UI of Proxy Settings
@@ -92,14 +87,14 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
     }
 
-    private void callSyncProxyService(Context context, Intent intent)
+    private void callWifiSyncService(Context context, Intent intent)
     {
 //        if (App.getInstance().wifiActionEnabled)
         {
             try
             {
-                Intent serviceIntent = new Intent(context, WifiProxySyncService.class);
-                serviceIntent.putExtra(WifiProxySyncService.CALLER_INTENT, intent);
+                Intent serviceIntent = new Intent(context, WifiSyncService.class);
+                serviceIntent.putExtra(WifiSyncService.CALLER_INTENT, intent);
                 context.startService(serviceIntent);
             }
             catch (Exception e)
@@ -107,6 +102,26 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                 App.getEventsReporter().sendException(e);
             }
         }
+    }
+
+    private void callUpdatedWifStatusService(Context context, Intent intent)
+    {
+        Log.e(TAG,"NEED TO DEFINE A SERVICE TO UPDATE THE WIFI STATUS");
+        return;
+//
+////        if (App.getInstance().wifiActionEnabled)
+//        {
+//            try
+//            {
+//                Intent serviceIntent = new Intent(context, WifiSyncService.class);
+//                serviceIntent.putExtra(WifiSyncService.CALLER_INTENT, intent);
+//                context.startService(serviceIntent);
+//            }
+//            catch (Exception e)
+//            {
+//                App.getEventsReporter().sendException(e);
+//            }
+//        }
     }
 
     private void callProxySettingsChecker(Context context, Intent intent)
