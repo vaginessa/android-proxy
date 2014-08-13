@@ -525,11 +525,11 @@ public class DataSource
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
         long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, null, values);
-        WiFiAPEntity newProxy = getWifiAP(insertId);
+        WiFiAPEntity newWifiAp = getWifiAP(insertId);
 
         App.getLogger().stopTrace(TAG, "createWifiAp", Log.DEBUG);
 
-        return newProxy;
+        return newWifiAp;
     }
 
     public ProxyEntity createProxy(ProxyEntity proxyData)
