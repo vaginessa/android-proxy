@@ -21,20 +21,20 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 /**
  * Created by Marco on 09/03/14.
  */
-public class WifiProxySyncService extends EnhancedIntentService
+public class WifiSyncService extends EnhancedIntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
-    public static String TAG = WifiProxySyncService.class.getSimpleName();
+    public static String TAG = WifiSyncService.class.getSimpleName();
     private boolean isHandling = false;
-    private static WifiProxySyncService instance;
+    private static WifiSyncService instance;
 
-    public WifiProxySyncService()
+    public WifiSyncService()
     {
         super("ProxySyncService");
 //        LogWrapper.v(TAG, "ProxySyncService constructor");
     }
 
-    public static WifiProxySyncService getInstance()
+    public static WifiSyncService getInstance()
     {
         return instance;
     }
@@ -52,9 +52,10 @@ public class WifiProxySyncService extends EnhancedIntentService
 
         List<WifiNetworkId> configsToCheck = new ArrayList<WifiNetworkId>();
 
-        if (intent != null && intent.hasExtra(WifiProxySyncService.CALLER_INTENT))
+        WiFiAPConfig wiFiAPConfig = null;
+        if (intent != null && intent.hasExtra(WifiSyncService.CALLER_INTENT))
         {
-            Intent caller = (Intent) intent.getExtras().get(WifiProxySyncService.CALLER_INTENT);
+            Intent caller = (Intent) intent.getExtras().get(WifiSyncService.CALLER_INTENT);
 
             if (caller != null)
             {

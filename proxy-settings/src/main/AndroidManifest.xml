@@ -108,7 +108,7 @@
 		<!-- </activity> -->
 
 		<service android:name=".services.ProxySettingsCheckerService" />
-        <service android:name=".services.WifiProxySyncService" />
+        <service android:name=".services.WifiSyncService" />
         <service android:name=".services.MaintenanceService" />
 		<service android:name=".services.DownloadService" />
 
