@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WifiNetworkId;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -366,6 +367,11 @@ public class DataSource
 
     public long findWifiAp(WiFiAPEntity wiFiAPEntity)
     {
+        return findWifiAp(new WifiNetworkId(wiFiAPEntity.getSsid(),wiFiAPEntity.getSecurityType()));
+    }
+
+    public long findWifiAp(WifiNetworkId wifiId)
+    {
         App.getLogger().startTrace(TAG, "findWifiAp", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
@@ -374,7 +380,7 @@ public class DataSource
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " =?"
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE + "=?";
 
-        String[] selectionArgs = {wiFiAPEntity.getSsid(), wiFiAPEntity.getSecurityType().toString()};
+        String[] selectionArgs = {wifiId.SSID, wifiId.Security.toString()};
         Cursor cursor = database.rawQuery(query, selectionArgs);
 
         cursor.moveToFirst();

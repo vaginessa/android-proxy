@@ -19,7 +19,9 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.enums.SecurityType;
@@ -28,6 +30,7 @@ import be.shouldit.proxy.lib.log.IEventReporting;
 import be.shouldit.proxy.lib.log.LogWrapper;
 import be.shouldit.proxy.lib.reflection.ReflectionUtils;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Main class that contains utilities for getting the proxy configuration of the
@@ -315,10 +318,12 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    private static WiFiAPConfig getProxySdk12(WifiConfiguration wifiConf)
+    public static WiFiAPConfig getAPConfiguration(WifiConfiguration wifiConf)
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
+
+        APL.getLogger().startTrace(TAG,"getAPConfiguration",Log.DEBUG);
 
         WiFiAPConfig proxyHost = null;
 
@@ -371,6 +376,8 @@ public class APL
         {
             APL.getEventsReporter().sendException(e);
         }
+
+        APL.getLogger().stopTrace(TAG,"getAPConfiguration",Log.DEBUG);
 
         return proxyHost;
     }
@@ -431,39 +438,73 @@ public class APL
         return proxySettings;
     }
 
-    @Deprecated
-    @TargetApi(12)
-    public static List<WiFiAPConfig> getAPConfigurations()
+    public static Map<WifiNetworkId,WifiConfiguration> getConfiguredNetworks()
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-//        LogWrapper.startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
-        List<WiFiAPConfig> WiFiAPConfigs = new ArrayList<WiFiAPConfig>();
-        List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
-//        LogWrapper.stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+        Map<WifiNetworkId,WifiConfiguration> networksMap = new HashMap<WifiNetworkId, WifiConfiguration>();
 
-//        LogWrapper.startTrace(TAG,"getProxySdk12", Log.DEBUG);
+        APL.getLogger().startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+        List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
+        APL.getLogger().stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+
+        APL.getLogger().startTrace(TAG,"createNetworksMap", Log.DEBUG);
         if (configuredNetworks != null)
         {
             for (WifiConfiguration wifiConf : configuredNetworks)
             {
-                WiFiAPConfig conf = getProxySdk12(wifiConf);
+                WifiNetworkId networkId = new WifiNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
+                networksMap.put(networkId, wifiConf);
+            }
+        }
+        APL.getLogger().stopTrace(TAG,"createNetworksMap", Log.DEBUG);
+
+        return networksMap;
+    }
+
+    public static WifiConfiguration getConfiguredNetwork(WifiNetworkId networkId)
+    {
+        if (!sSetupCalled && gContext == null)
+            throw new RuntimeException("you need to call setup() first");
+
+        WifiConfiguration result=null;
+
+        Map<WifiNetworkId,WifiConfiguration> networksMap = getConfiguredNetworks();
+        if (networksMap.containsKey(networkId))
+        {
+            result = networksMap.get(networkId);
+        }
+
+        return result;
+    }
+
+    @Deprecated
+    @TargetApi(12)
+    public static List<WiFiAPConfig> getWifiAPConfigurations()
+    {
+        if (!sSetupCalled && gContext == null)
+            throw new RuntimeException("you need to call setup() first");
+
+        List<WiFiAPConfig> WiFiAPConfigs = new ArrayList<WiFiAPConfig>();
+
+        APL.getLogger().startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+        List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
+        APL.getLogger().stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+
+        APL.getLogger().startTrace(TAG,"getAPConfiguration", Log.DEBUG);
+        if (configuredNetworks != null)
+        {
+            for (WifiConfiguration wifiConf : configuredNetworks)
+            {
+                WiFiAPConfig conf = getAPConfiguration(wifiConf);
                 WiFiAPConfigs.add(conf);
             }
         }
-//        LogWrapper.stopTrace(TAG,"getProxySdk12", Log.DEBUG);
-
-
-        // Commented out sorting, not useful here
-//        LogWrapper.startTrace(TAG,"sortConfigurations", Log.DEBUG);
-//        if (WiFiAPConfigs.size() > 0)
-//            Collections.sort(WiFiAPConfigs);
-//        LogWrapper.stopTrace(TAG,"sortConfigurations", Log.DEBUG);
+        APL.getLogger().stopTrace(TAG,"getAPConfiguration", Log.DEBUG);
 
         return WiFiAPConfigs;
     }
-
 
     /**
      * Get proxy configuration for Wi-Fi access point. Valid for API >= 12
@@ -615,7 +656,7 @@ public class APL
                     e.printStackTrace();
                 }
 
-                WiFiAPConfig savedConf = APL.getProxySdk12(newConf);
+                WiFiAPConfig savedConf = APL.getAPConfiguration(newConf);
                 succesfullySaved = wiFiAPConfig.isSameConfiguration(savedConf);
 
                 if (succesfullySaved)

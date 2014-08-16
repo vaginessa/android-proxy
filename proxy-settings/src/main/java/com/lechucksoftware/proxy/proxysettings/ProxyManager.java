@@ -287,7 +287,7 @@ public class ProxyManager
 //        LogWrapper.startTrace(TAG,"getSavedConfigurations", Log.DEBUG);
 
         // Get updated list of Proxy savedConfigurations from APL
-        List<WiFiAPConfig> updatedConfigurations = APL.getAPConfigurations();
+        List<WiFiAPConfig> updatedConfigurations = APL.getWifiAPConfigurations();
         if (updatedConfigurations != null)
         {
             for (WiFiAPConfig conf : updatedConfigurations)

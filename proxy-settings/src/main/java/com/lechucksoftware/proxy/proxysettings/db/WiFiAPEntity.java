@@ -31,13 +31,14 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
         this.setSecurityType(ap.getSecurityType());
         this.setProxySetting(ap.getProxySetting());
         this.proxyId = ap.proxyId;
+        this.proxyEntity = ap.proxyEntity;
     }
 
     public void setProxy(ProxyEntity proxy)
     {
-        ProxyEntity upsertProxy = App.getDBManager().upsertProxy(proxy);
-        proxyEntity = upsertProxy;
-        proxyId = upsertProxy.getId();
+        ProxyEntity upsetedProxy = App.getDBManager().upsertProxy(proxy);
+        proxyEntity = upsetedProxy;
+        proxyId = upsetedProxy.getId();
     }
 
     public ProxyEntity getProxy()
@@ -94,7 +95,11 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s - %s", getSsid(), getSecurityType()));
+        sb.append(String.format("%s - %s ", getSsid(), getSecurityType()));
+        if (proxyId != -1)
+        {
+            sb.append(getProxy().toString());
+        }
         return sb.toString();
     }
 

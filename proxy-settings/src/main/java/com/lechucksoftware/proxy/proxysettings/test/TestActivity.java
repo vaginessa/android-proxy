@@ -259,11 +259,8 @@ public class TestActivity extends Activity
             }
             else if (_action == TestAction.ADD_TEST_WIFI_NETWORKS)
             {
-                for (int i=0;i<3;i++)
-                {
-                    String ssid = TestUtils.createFakeWifiNetwork(_testActivity);
-                    publishProgress(String.format("Created #[%d] TEST Wi-Fi network: %s", i, ssid));
-                }
+                String ssid = TestUtils.createFakeWifiNetwork(_testActivity);
+                publishProgress(String.format("Created #[%d] TEST Wi-Fi network: %s",1, ssid));
             }
             else if (_action == TestAction.REMOVE_TEST_WIFI_NETWORKS)
             {
