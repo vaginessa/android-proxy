@@ -90,7 +90,7 @@ public class DownloadService extends IntentService
 		{
 			HttpURLConnection con = null;
 
-            WiFiAPConfig wiFiAPConfig = App.getProxyManager().getCachedConfiguration();
+            WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
 
 			if (wiFiAPConfig != null && wiFiAPConfig.getProxyType()==Type.HTTP)
 			{

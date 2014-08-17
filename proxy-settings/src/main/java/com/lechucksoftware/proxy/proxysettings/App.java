@@ -19,7 +19,7 @@ public class App extends Application
     private static final String TAG = App.class.getSimpleName();
 
     private static App mInstance;
-    private ProxyManager proxyManager;
+    private WifiNetworksManager wifiNetworksManager;
     private DataSource dbManager;
     public AndroidMarket activeMarket;
     private CacheManager cacheManager;
@@ -64,7 +64,7 @@ public class App extends Application
 
         eventsReporter = new EventsReporter(App.this);
 
-        proxyManager = new ProxyManager(App.this);
+        wifiNetworksManager = new WifiNetworksManager(App.this);
         dbManager = new DataSource(App.this);
         cacheManager = new CacheManager(App.this);
 
@@ -89,65 +89,6 @@ public class App extends Application
         getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
-
-//    public void readAppConfigurationFile()
-//    {
-//        LogWrapper.startTrace(TAG,"readAppConfigurationFile",Log.INFO);
-//
-//        try
-//        {
-//            AssetManager am = getAssets();
-//            if (am != null)
-//            {
-//                InputStream inputStream = am.open("configuration.json");
-//                if (inputStream != null)
-//                {
-//                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-//                    StringBuilder builder = new StringBuilder();
-//                    String line = "";
-//
-//                    while ((line = br.readLine()) != null) {
-//                        builder.append(line);
-//                    }
-//
-//                    String configuration = builder.toString();
-//
-//                    JSONObject jsonObject = new JSONObject(configuration);
-//
-//                    // If you want to use BugSense for your fork, register with
-//                    // them and place your API key in /assets/bugsense.txt
-//                    // (This prevents me receiving reports of crashes from forked
-//                    // versions which is somewhat confusing!)
-//
-//                    if (jsonObject.has("bugsense"))
-//                    {
-//                        JSONObject bugsense = jsonObject.getJSONObject("bugsense");
-//                        if (bugsense.has("release-key"))
-//                        {
-//                            BugsenseReleaseKey = bugsense.getString("release-key");
-//                        }
-//
-//                        if (bugsense.has("development-key"))
-//                        {
-//                            BugsenseDevelopmentKey = bugsense.getString("development-key");
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        catch (IOException e)
-//        {
-//            LogWrapper.e(TAG, "No configuration file found");
-//            return;
-//        }
-//        catch (Exception e)
-//        {
-//            LogWrapper.e(TAG, "Generic exception during read of configuration file: " + e.toString());
-//            return;
-//        }
-//
-//        LogWrapper.stopTrace(TAG, "readAppConfigurationFile", Log.INFO);
-//    }
 
     public static EventsReporter getEventsReporter()
     {
@@ -180,15 +121,15 @@ public class App extends Application
         return mInstance;
     }
 
-    public static ProxyManager getProxyManager()
+    public static WifiNetworksManager getWifiNetworksManager()
     {
-        if (getInstance().proxyManager == null)
+        if (getInstance().wifiNetworksManager == null)
         {
-            getEventsReporter().sendException(new Exception("Cannot find valid instance of ProxyManager, trying to instanciate a new one"));
-            getInstance().proxyManager = new ProxyManager(getInstance());
+            getEventsReporter().sendException(new Exception("Cannot find valid instance of WifiNetworksManager, trying to instanciate a new one"));
+            getInstance().wifiNetworksManager = new WifiNetworksManager(getInstance());
         }
 
-        return getInstance().proxyManager;
+        return getInstance().wifiNetworksManager;
     }
 
     public static DataSource getDBManager()

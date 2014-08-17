@@ -77,7 +77,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
     public void refreshUIComponents()
     {
-        WiFiAPConfig conf = App.getProxyManager().getCachedConfiguration();
+        WiFiAPConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
 
         if (conf.getStatus().getCheckingStatus() == CheckStatusValues.CHECKING)
         {

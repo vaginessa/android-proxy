@@ -27,16 +27,16 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 /**
  * Created by Marco on 15/09/13.
  */
-public class ProxyManager
+public class WifiNetworksManager
 {
-    private static final String TAG = ProxyManager.class.getSimpleName();
+    private static final String TAG = WifiNetworksManager.class.getSimpleName();
     private WiFiAPConfig currentConfiguration;
     private Boolean updatedConfiguration;
     private Map<WifiNetworkId, WiFiAPConfig> savedConfigurations;
     private List<WiFiAPConfig> sortedConfigurationsList;
     private Map<WifiNetworkId, ScanResult> notConfiguredWifi; // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
 
-    public ProxyManager(Context ctx)
+    public WifiNetworksManager(Context ctx)
     {
         updatedConfiguration = false;
 
@@ -141,14 +141,16 @@ public class ProxyManager
 
         App.getLogger().stopTrace(TAG, "getCurrentConfiguration", Log.INFO);
 
-//        // Always return a not null configuration
+        return currentConfiguration;
+    }
+
+    public WiFiAPConfig getCachedConfiguration()
+    {
 //        if (currentConfiguration == null)
 //        {
-//            App.getLogger().w(TAG, "Cannot find a valid current configuration: creating an empty one");
-//            currentConfiguration = new WiFiAPConfig(null, ProxySetting.NONE, null, null, null);
+        return getCurrentConfiguration();
 //        }
-
-        return currentConfiguration;
+//        return currentConfiguration;
     }
 
     /**
@@ -381,15 +383,6 @@ public class ProxyManager
                 App.getLogger().stopTrace(TAG, "SortConfigurationList", Log.DEBUG);
             }
         }
-    }
-
-    public WiFiAPConfig getCachedConfiguration()
-    {
-//        if (currentConfiguration == null)
-//        {
-//            return getCurrentConfiguration();
-//        }
-        return currentConfiguration;
     }
 
     public WiFiAPConfig getConfiguration(WifiNetworkId wifiNetworkId)

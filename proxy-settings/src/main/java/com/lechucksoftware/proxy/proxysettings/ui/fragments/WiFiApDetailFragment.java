@@ -77,7 +77,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         wifiNetworkId = (WifiNetworkId) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
 //        LogWrapper.d(TAG,"confId: " + String.valueOf(confId));
-        selectedWiFiAP = App.getProxyManager().getConfiguration(wifiNetworkId);
+        selectedWiFiAP = App.getWifiNetworksManager().getConfiguration(wifiNetworkId);
 
         if (selectedWiFiAP == null)
         {

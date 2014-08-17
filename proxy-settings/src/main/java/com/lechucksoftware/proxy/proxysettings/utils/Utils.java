@@ -98,7 +98,7 @@ public class Utils
         {
             try
             {
-                WiFiAPConfig wiFiAPConfig = App.getProxyManager().getCachedConfiguration();
+                WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
                 Proxy proxyConf = Proxy.NO_PROXY;
                 if (wiFiAPConfig != null)
                     proxyConf = wiFiAPConfig.getProxy();

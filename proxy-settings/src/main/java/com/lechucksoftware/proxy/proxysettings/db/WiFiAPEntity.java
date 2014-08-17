@@ -59,6 +59,10 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
         {
             proxyEntity = App.getDBManager().getProxy(id);
         }
+        else
+        {
+            proxyEntity = null;
+        }
     }
 
     @Override

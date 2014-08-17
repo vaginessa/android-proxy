@@ -23,6 +23,6 @@ public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<WiFiAPCon
     @Override
     public List<WiFiAPConfig> loadInBackground()
     {
-        return App.getProxyManager().getSortedConfigurationsList();
+        return App.getWifiNetworksManager().getSortedConfigurationsList();
     }
 }

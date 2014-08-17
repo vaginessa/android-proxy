@@ -72,9 +72,9 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             App.getLogger().logIntent(TAG, intent, Log.DEBUG);
 
-            WiFiAPConfig wiFiAPConfig = App.getProxyManager().getCachedConfiguration();
+            WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
             if (wiFiAPConfig == null)
-                wiFiAPConfig = App.getProxyManager().getCurrentConfiguration();
+                wiFiAPConfig = App.getWifiNetworksManager().getCurrentConfiguration();
 
             if (wiFiAPConfig != null)
             {

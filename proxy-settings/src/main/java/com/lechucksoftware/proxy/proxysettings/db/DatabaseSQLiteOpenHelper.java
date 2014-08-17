@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
 
 /**
  * Created by Marco on 13/09/13.
@@ -155,20 +156,24 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     public void createDB(SQLiteDatabase db)
     {
         App.getLogger().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
-        db.execSQL(CREATE_TABLE_PROXIES);
-        db.execSQL(CREATE_TABLE_TAGS);
-        db.execSQL(CREATE_TABLE_TAGGED_PROXIES);
-        db.execSQL(CREATE_TABLE_WIFI_AP);
+
+        DatabaseUtils.execSQL(db, CREATE_TABLE_PROXIES);
+        DatabaseUtils.execSQL(db, CREATE_TABLE_TAGS);
+        DatabaseUtils.execSQL(db, CREATE_TABLE_TAGGED_PROXIES);
+        DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
+
         App.getLogger().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
 
     public void dropDB(SQLiteDatabase db)
     {
         App.getLogger().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXIES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAGS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WIFI_AP);
+
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXIES);
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_TAGS);
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_WIFI_AP);
+
         App.getLogger().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }
 }

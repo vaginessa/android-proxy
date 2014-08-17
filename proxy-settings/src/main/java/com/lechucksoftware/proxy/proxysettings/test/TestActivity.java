@@ -45,7 +45,6 @@ public class TestActivity extends Activity
         ADD_TAGS,
         SET_ALL_PROXIES,
         CLEAR_ALL_PROXIES,
-        CLEAR_IN_USE,
         TEST_VALIDATION,
         TEST_SERIALIZATION,
         UPDATE_TAGS,
@@ -137,16 +136,10 @@ public class TestActivity extends Activity
         testValidation.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void clearProxyInUse(View view)
-    {
-        AsyncTest clearInUseAsync = new AsyncTest(this, TestAction.CLEAR_IN_USE);
-        clearInUseAsync.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
     public void testBugReporting(View caller)
     {
         Map<String,String> map = new HashMap<String, String>();
-        map.put("config_list", App.getProxyManager().configListToDBG().toString());
+        map.put("config_list", App.getWifiNetworksManager().configListToDBG().toString());
 
         App.getEventsReporter().sendException(new Exception("EXCEPTION ONLY FOR TEST"), map);
         App.getEventsReporter().sendEvent("EVENT ONLY FOR TEST");
@@ -249,10 +242,6 @@ public class TestActivity extends Activity
 
                 App.getDBManager().resetDB();
             }
-            else if (_action == TestAction.CLEAR_IN_USE)
-            {
-                TestUtils.clearInUse();
-            }
             else if (_action == TestAction.ADD_EXAMPLE_PROXIES)
             {
                 TestUtils.addProxyExamples(_testActivity);
@@ -284,7 +273,7 @@ public class TestActivity extends Activity
                 Utils.setDemoMode(_testActivity, !App.getInstance().demoMode);
                 Utils.checkDemoMode(_testActivity);
 
-                for (WiFiAPConfig conf : App.getProxyManager().getSortedConfigurationsList())
+                for (WiFiAPConfig conf : App.getWifiNetworksManager().getSortedConfigurationsList())
                 {
                     if (App.getInstance().demoMode)
                         conf.setAPDescription(UIUtils.getRandomCodeName().toString());
