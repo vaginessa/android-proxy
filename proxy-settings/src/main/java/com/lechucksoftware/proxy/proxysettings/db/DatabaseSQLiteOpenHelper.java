@@ -85,7 +85,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_WIFI_SSID + " text not null, "
             + COLUMN_WIFI_SECURITY_TYPE + " text not null, "
             + COLUMN_WIFI_PROXY_SETTING + " text not null, "
-            + COLUMN_WIFI_PROXY_ID + " integer, "
+            + COLUMN_WIFI_PROXY_ID + " integer not null, "
             + COLUMN_CREATION_DATE + " integer not null, "
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
