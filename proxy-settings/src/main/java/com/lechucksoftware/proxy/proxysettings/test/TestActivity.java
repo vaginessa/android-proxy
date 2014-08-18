@@ -18,6 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
+import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
@@ -50,6 +51,7 @@ public class TestActivity extends Activity
         UPDATE_TAGS,
         LIST_TAGS,
         CLEAR_ALL,
+        BACKUP_DB,
         TOGGLE_DEMO_MODE,
         RUN_STARTUP_ACTIONS,
         ASSIGN_PROXY
@@ -74,6 +76,11 @@ public class TestActivity extends Activity
         {
             TestUtils.testAPN(this);
         }
+    }
+
+    public void backupDB(View view)
+    {
+        DatabaseUtils.backupDB(this);
     }
 
     public void addProxyClicked(View caller)
