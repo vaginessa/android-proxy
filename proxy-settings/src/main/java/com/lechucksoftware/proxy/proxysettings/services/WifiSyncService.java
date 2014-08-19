@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
-import be.shouldit.proxy.lib.WifiNetworkId;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -30,8 +30,7 @@ public class WifiSyncService extends EnhancedIntentService
 
     public WifiSyncService()
     {
-        super("ProxySyncService");
-//        LogWrapper.v(TAG, "ProxySyncService constructor");
+        super("WifiSyncService");
     }
 
     public static WifiSyncService getInstance()
@@ -50,16 +49,18 @@ public class WifiSyncService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        List<WifiNetworkId> configsToCheck = getConfigsToCheck(intent);
-
+        App.getLogger().startTrace(TAG, "syncAP", Log.ASSERT);
+        List<APLNetworkId> configsToCheck = getConfigsToCheck(intent);
+        App.getLogger().getPartial(TAG, "syncAP", Log.ASSERT);
         syncProxyConfigurations(configsToCheck);
+        App.getLogger().stopTrace(TAG, "syncAP", Log.ASSERT);
 
         isHandling = false;
     }
 
-    private List<WifiNetworkId> getConfigsToCheck(Intent intent)
+    private List<APLNetworkId> getConfigsToCheck(Intent intent)
     {
-        List<WifiNetworkId> networkIds = new ArrayList<WifiNetworkId>();
+        List<APLNetworkId> networkIds = new ArrayList<APLNetworkId>();
 
         if (intent != null && intent.hasExtra(WifiSyncService.CALLER_INTENT))
         {
@@ -71,7 +72,7 @@ public class WifiSyncService extends EnhancedIntentService
                 {
                     if (caller.hasExtra(Intents.UPDATED_WIFI))
                     {
-                        WifiNetworkId wifiId = (WifiNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
+                        APLNetworkId wifiId = (APLNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
                         networkIds.add(wifiId);
                     }
                 }
@@ -83,16 +84,16 @@ public class WifiSyncService extends EnhancedIntentService
                         WifiConfiguration wifiConf = (WifiConfiguration) caller.getExtras().get(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION);
                         if (wifiConf != null)
                         {
-                            WifiNetworkId wifiId = new WifiNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
+                            APLNetworkId wifiId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
                             networkIds.add(wifiId);
                         }
                     }
 
-                    if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
-                    {
-                        App.getLogger().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
-                        App.getLogger().logIntent(TAG,caller, Log.ERROR);
-                    }
+//                    if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
+//                    {
+//                        App.getLogger().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
+//                        App.getLogger().logIntent(TAG, caller, Log.ERROR, true);
+//                    }
                 }
             }
         }
@@ -100,11 +101,9 @@ public class WifiSyncService extends EnhancedIntentService
         return networkIds;
     }
 
-    private void syncProxyConfigurations(List<WifiNetworkId> configurations)
+    private void syncProxyConfigurations(List<APLNetworkId> configurations)
     {
-        App.getLogger().startTrace(TAG, "syncProxyConfigurations", Log.ASSERT);
-
-        Map<WifiNetworkId, WifiConfiguration> configuredNetworks = APL.getConfiguredNetworks();
+        Map<APLNetworkId, WifiConfiguration> configuredNetworks = APL.getConfiguredNetworks();
 
         if (configurations.isEmpty())
         {
@@ -114,119 +113,26 @@ public class WifiSyncService extends EnhancedIntentService
 
         App.getLogger().d(TAG, String.format("Analyzing %d Wi-Fi AP configurations", configurations.size()));
 
-        for (WifiNetworkId wifiId : configurations)
+        for (APLNetworkId aplNetworkId : configurations)
         {
             try
             {
-                App.getLogger().d(TAG, "Checking Wi-Fi AP: " + wifiId.toString());
-
-                if (configuredNetworks.containsKey(wifiId))
+//                App.getLogger().d(TAG, "Checking Wi-Fi AP: " + wifiId.toString());
+                if (configuredNetworks.containsKey(aplNetworkId))
                 {
-                    WifiConfiguration wifiConfiguration = configuredNetworks.get(wifiId);
+                    WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
                     WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
                     WiFiAPEntity result = App.getDBManager().upsertWifiAP(wiFiAPConfig);
 
                     App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig, result);
-
-                    App.getLogger().d(TAG,"Upserted Wi-Fi AP: " + result.toString());
+                    App.getLogger().getPartial(TAG, "syncAP", "Upserted: " + result.toString(), Log.DEBUG);
                 }
                 else
                 {
-                    App.getEventsReporter().sendException(new Exception(String.format("Cannot find Wi-Fi ap %s into configured networks",wifiId.toString())));
+                    App.getDBManager().deleteWifiAP(aplNetworkId);
+                    App.getWifiNetworksManager().removeWifiConfig(aplNetworkId);
+                    App.getLogger().getPartial(TAG, "syncAP", "Deleted: " + aplNetworkId.toString(), Log.DEBUG);
                 }
-//                    long wifiConfId = App.getDBManager().findWifiAp(conf);
-//                    if (wifiConfId != -1)
-//                    {
-//                        foundUpdateWifiAp++;
-//
-//                        WiFiAPEntity wiFiAPEntity = App.getDBManager().getWifiAP(wifiConfId);
-//
-//
-//
-//
-//                        if (wiFiAPEntity.proxySetting == conf.getProxySetting())
-//                        {
-//                            ProxyEntity linkedProxy = wiFiAPEntity.getProxy();
-//                            if (linkedProxy.host == conf.getProxyHost() &&
-//                                linkedProxy.port == conf.getProxyPort() &&
-//                                linkedProxy.exclusion == conf.getProxyExclusionList())
-//                            {
-//                                // Same saved configuration -> do nothing!
-//                                changedConfiguration = false;
-//                            }
-//                        }
-//
-//                        if (changedConfiguration)
-//                        {
-//                            WiFiAPEntity updatedWifiAp = new WiFiAPEntity(wiFiAPEntity);
-//                            updatedWifiAp.proxySetting = conf.getProxySetting();
-//
-//                            updatedWifiAp.getProxy().host = conf.getProxyHost();
-//                            updatedWifiAp.getProxy().port = conf.getProxyPort();
-//                            updatedWifiAp.getProxy().exclusion = conf.getProxyExclusionList();
-//
-//                            App.getDBManager().upsertWifiAP(updatedWifiAp);
-//                        }
-//                    }
-//                    else
-//                    {
-//                        foundNewWifiAp++;
-//
-//                        WiFiAPEntity updatedWifiAp = new WiFiAPEntity();
-//                        updatedWifiAp.ssid = conf.ssid;
-//                        updatedWifiAp.securityType = conf.securityType;
-//                        App.getDBManager().createWifiAp()
-//
-//
-//                        if (updatedWifiAp.proxySetting == ProxySetting.STATIC)
-//                        {
-//                            updatedWifiAp.getProxy().host = conf.getProxyHost();
-//                            updatedWifiAp.getProxy().port = conf.getProxyPort();
-//                            updatedWifiAp.getProxy().exclusion = conf.getProxyExclusionList();
-//                        }
-//
-//                        App.getDBManager().upsertWifiAP(updatedWifiAp);
-//                    }
-
-//                    if (conf.getProxySetting() == ProxySetting.STATIC && conf.securityType != SecurityType.SECURITY_EAP)
-//                    {
-//                        if (conf.isValidProxyConfiguration())
-//                        {
-//                            App.getLogger().d(TAG, "Found proxy: " + conf.toShortString());
-//
-//                            long proxyId = App.getDBManager().findProxy(conf);
-//                            ProxyEntity pd = null;
-//                            if (proxyId != -1)
-//                            {
-//                                // Proxy already saved into DB
-//                                pd = App.getDBManager().getProxy(proxyId);
-//                                inUseProxies.add(pd.getId());
-//                                foundUpdateProxy++;
-//                            }
-//                            else
-//                            {
-//                                // Found new proxy
-//                                pd = new ProxyEntity();
-//                                pd.host = conf.getProxyHost();
-//                                pd.port = conf.getProxyPort();
-//                                pd.exclusion = conf.getProxyExclusionList();
-//                                pd.setInUse(true);
-//                                pd = App.getDBManager().upsertProxy(pd);
-//
-//                                foundNewProxy++;
-//                            }
-//
-//                            inUseProxies.add(pd.getId());
-//                        }
-//                        else
-//                        {
-////                            App.getLogger().d(TAG, "Found not valid proxy: " + conf.toShortString());
-//                        }
-//                    }
-//                    else
-//                    {
-////                        App.getLogger().d(TAG, "Proxy not enabled or cannot be read: " + conf.toShortString());
-//                    }
             }
             catch (Exception e)
             {
@@ -234,7 +140,8 @@ public class WifiSyncService extends EnhancedIntentService
             }
         }
 
-
-        App.getLogger().stopTrace(TAG, "syncProxyConfigurations", Log.ASSERT);
+        App.getLogger().d(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
+        Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
+        getApplicationContext().sendBroadcast(intent);
     }
 }

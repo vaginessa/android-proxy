@@ -125,6 +125,11 @@ public class LogWrapper
 
     public void getPartial(String tag, String key, int logLevel)
     {
+        getPartial(tag,key,"",logLevel);
+    }
+
+    public void getPartial(String tag, String key, String partialMsg, int logLevel)
+    {
         synchronized (startTraces)
         {
             if (startTraces != null && startTraces.containsKey(key))
@@ -132,7 +137,7 @@ public class LogWrapper
                 Date start = startTraces.get(key);
                 Date now = new Date();
                 long diff = now.getTime() - start.getTime();
-                log(tag, "PARTIAL " + key + " " + " %%%%%%%%%%%%% " + diff + " msec %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
+                log(tag, "PARTIAL " + key + " " + partialMsg + " %%%%%%%%%%%%% " + diff + " msec %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
             }
         }
     }

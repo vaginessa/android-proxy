@@ -127,7 +127,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         {
 //            callRefreshApplicationStatus();
             App.getWifiNetworksManager().updateProxyConfigurationList();
-            WiFiAPConfig conf = App.getWifiNetworksManager().getCurrentConfiguration();
+            WiFiAPConfig conf = App.getWifiNetworksManager().updateCurrentConfiguration();
             NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
             if (ni != null && ni.isAvailable() && ni.isConnected())
@@ -204,7 +204,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
 
         WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
         if (wiFiAPConfig == null)
-            wiFiAPConfig = App.getWifiNetworksManager().getCurrentConfiguration();
+            wiFiAPConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
 
         if (wiFiAPConfig != null)
         {

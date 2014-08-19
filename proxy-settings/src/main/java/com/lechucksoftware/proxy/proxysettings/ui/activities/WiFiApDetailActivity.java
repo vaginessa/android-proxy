@@ -15,7 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
-import be.shouldit.proxy.lib.WifiNetworkId;
+import be.shouldit.proxy.lib.APLNetworkId;
 
 /**
  * Created by marco on 17/05/13.
@@ -43,7 +43,7 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         Intent callerIntent = getIntent();
         if (callerIntent != null && callerIntent.hasExtra(Constants.SELECTED_AP_CONF_ARG))
         {
-            WifiNetworkId selectedId = (WifiNetworkId) callerIntent.getExtras().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+            APLNetworkId selectedId = (APLNetworkId) callerIntent.getExtras().getSerializable(Constants.SELECTED_AP_CONF_ARG);
 
             WiFiApDetailFragment detail = WiFiApDetailFragment.newInstance(selectedId);
             fm.beginTransaction()

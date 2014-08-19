@@ -28,7 +28,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private static final String TAG = WiFiAPConfig.class.getSimpleName();
 
     private final UUID id;
-    private final WifiNetworkId internalWifiNetworkId;
+    private final APLNetworkId internalWifiNetworkId;
 
     private ProxyStatus status;
 
@@ -77,7 +77,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         mRssi = Integer.MAX_VALUE;
         wifiConfig = wifiConf;
 
-        internalWifiNetworkId = new WifiNetworkId(getSSID(), getSecurityType());
+        internalWifiNetworkId = new APLNetworkId(getSSID(), getSecurityType());
 
         status = new ProxyStatus();
     }
@@ -630,7 +630,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         return id;
     }
 
-    public WifiNetworkId getInternalWifiNetworkId()
+    public APLNetworkId getAPLNetworkId()
     {
         return internalWifiNetworkId;
     }

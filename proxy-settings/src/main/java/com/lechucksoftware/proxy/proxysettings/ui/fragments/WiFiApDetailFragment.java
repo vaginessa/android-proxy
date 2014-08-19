@@ -26,9 +26,9 @@ import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 import java.util.List;
 
+import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.WifiNetworkId;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -51,7 +51,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private InputExclusionList proxyBypass;
 //    private InputTags proxyTags;
 
-    private WifiNetworkId wifiNetworkId;
+    private APLNetworkId wifiNetworkId;
     private RelativeLayout proxyFieldsLayout;
     private ImageButton proxyEditButton;
 
@@ -59,7 +59,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     /**
      * Create a new instance of WiFiApDetailFragment
      */
-    public static WiFiApDetailFragment newInstance(WifiNetworkId wifiNetworkId)
+    public static WiFiApDetailFragment newInstance(APLNetworkId wifiNetworkId)
     {
         WiFiApDetailFragment instance = new WiFiApDetailFragment();
 
@@ -75,7 +75,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     {
         super.onResume();
 
-        wifiNetworkId = (WifiNetworkId) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+        wifiNetworkId = (APLNetworkId) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
 //        LogWrapper.d(TAG,"confId: " + String.valueOf(confId));
         selectedWiFiAP = App.getWifiNetworksManager().getConfiguration(wifiNetworkId);
 

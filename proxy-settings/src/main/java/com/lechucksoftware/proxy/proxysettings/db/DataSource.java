@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
-import be.shouldit.proxy.lib.WifiNetworkId;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -357,11 +357,11 @@ public class DataSource
 
         if (configuration != null)
         {
-            if (configuration.getInternalWifiNetworkId() != null)
+            if (configuration.getAPLNetworkId() != null)
             {
                 WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
-                wiFiAPEntity.setSsid(configuration.getInternalWifiNetworkId().SSID);
-                wiFiAPEntity.setSecurityType(configuration.getInternalWifiNetworkId().Security);
+                wiFiAPEntity.setSsid(configuration.getAPLNetworkId().SSID);
+                wiFiAPEntity.setSecurityType(configuration.getAPLNetworkId().Security);
 
                 result = findWifiAp(wiFiAPEntity);
             }
@@ -372,10 +372,10 @@ public class DataSource
 
     public long findWifiAp(WiFiAPEntity wiFiAPEntity)
     {
-        return findWifiAp(new WifiNetworkId(wiFiAPEntity.getSsid(),wiFiAPEntity.getSecurityType()));
+        return findWifiAp(new APLNetworkId(wiFiAPEntity.getSsid(),wiFiAPEntity.getSecurityType()));
     }
 
-    public long findWifiAp(WifiNetworkId wifiId)
+    public long findWifiAp(APLNetworkId aplNetworkId)
     {
         App.getLogger().startTrace(TAG, "findWifiAp", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
@@ -385,19 +385,19 @@ public class DataSource
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " =?"
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE + "=?";
 
-        String[] selectionArgs = {wifiId.SSID, wifiId.Security.toString()};
+        String[] selectionArgs = {aplNetworkId.SSID, aplNetworkId.Security.toString()};
         Cursor cursor = database.rawQuery(query, selectionArgs);
 
         cursor.moveToFirst();
-        long proxyId = -1;
+        long wifiId = -1;
         if (!cursor.isAfterLast())
         {
-            proxyId = cursor.getLong(0);
+            wifiId = cursor.getLong(0);
         }
 
         cursor.close();
         App.getLogger().stopTrace(TAG, "findWifiAp", Log.DEBUG);
-        return proxyId;
+        return wifiId;
     }
 
     public long findProxy(WiFiAPConfig configuration)
@@ -700,6 +700,16 @@ public class DataSource
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         database.delete(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(wifiApId)});
+    }
+
+    public void deleteWifiAP(APLNetworkId aplNetworkId)
+    {
+        long wifiId = findWifiAp(aplNetworkId);
+
+        if (wifiId != -1)
+        {
+            deleteWifiAP(wifiId);
+        }
     }
 
     public void deleteProxyTagLink(long linkId)

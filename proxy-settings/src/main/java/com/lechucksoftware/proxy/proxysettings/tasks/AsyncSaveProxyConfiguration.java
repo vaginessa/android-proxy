@@ -44,7 +44,7 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
             // Calling refresh intent only after save of all configuration
             App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
             Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-            intent.putExtra(Intents.UPDATED_WIFI, configuration.getInternalWifiNetworkId());
+            intent.putExtra(Intents.UPDATED_WIFI, configuration.getAPLNetworkId());
             APL.getContext().sendBroadcast(intent);
         }
         else

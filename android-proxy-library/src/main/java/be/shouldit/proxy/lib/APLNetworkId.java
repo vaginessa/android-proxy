@@ -7,12 +7,12 @@ import java.io.Serializable;
 /**
  * Created by Marco on 08/06/13.
  */
-public class WifiNetworkId implements Serializable
+public class APLNetworkId implements Serializable
 {
     public String SSID;
     public SecurityType Security;
 
-    public WifiNetworkId(String ssid, SecurityType sec)
+    public APLNetworkId(String ssid, SecurityType sec)
     {
         SSID = ssid;
         Security = sec;
@@ -23,9 +23,9 @@ public class WifiNetworkId implements Serializable
     {
         Boolean result = false;
 
-        if ((another instanceof WifiNetworkId))
+        if ((another instanceof APLNetworkId))
         {
-            WifiNetworkId anotherWifi = (WifiNetworkId) another;
+            APLNetworkId anotherWifi = (APLNetworkId) another;
 
             if (SSID.equals(anotherWifi.SSID))
             {

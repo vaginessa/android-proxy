@@ -438,12 +438,12 @@ public class APL
         return proxySettings;
     }
 
-    public static Map<WifiNetworkId,WifiConfiguration> getConfiguredNetworks()
+    public static Map<APLNetworkId,WifiConfiguration> getConfiguredNetworks()
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        Map<WifiNetworkId,WifiConfiguration> networksMap = new HashMap<WifiNetworkId, WifiConfiguration>();
+        Map<APLNetworkId,WifiConfiguration> networksMap = new HashMap<APLNetworkId, WifiConfiguration>();
 
         APL.getLogger().startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
         List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
@@ -454,7 +454,7 @@ public class APL
         {
             for (WifiConfiguration wifiConf : configuredNetworks)
             {
-                WifiNetworkId networkId = new WifiNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
+                APLNetworkId networkId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
                 networksMap.put(networkId, wifiConf);
             }
         }
@@ -470,7 +470,7 @@ public class APL
 
         WifiConfiguration result=null;
 
-        Map<WifiNetworkId,WifiConfiguration> networksMap = getConfiguredNetworks();
+        Map<APLNetworkId,WifiConfiguration> networksMap = getConfiguredNetworks();
         for(WifiConfiguration configuration: networksMap.values())
         {
             if (configuration.networkId == androidNetworkId)
@@ -482,14 +482,14 @@ public class APL
         return result;
     }
 
-    public static WifiConfiguration getConfiguredNetwork(WifiNetworkId networkId)
+    public static WifiConfiguration getConfiguredNetwork(APLNetworkId networkId)
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
         WifiConfiguration result=null;
 
-        Map<WifiNetworkId,WifiConfiguration> networksMap = getConfiguredNetworks();
+        Map<APLNetworkId,WifiConfiguration> networksMap = getConfiguredNetworks();
         if (networksMap.containsKey(networkId))
         {
             result = networksMap.get(networkId);

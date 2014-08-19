@@ -10,6 +10,7 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
+import com.lechucksoftware.proxy.proxysettings.services.WifiStatusUpdateService;
 import com.lechucksoftware.proxy.proxysettings.services.WifiSyncService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import be.shouldit.proxy.lib.constants.APLIntents;
@@ -74,7 +75,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 
             WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
             if (wiFiAPConfig == null)
-                wiFiAPConfig = App.getWifiNetworksManager().getCurrentConfiguration();
+                wiFiAPConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
 
             if (wiFiAPConfig != null)
             {
@@ -107,22 +108,16 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 
     private void callUpdatedWifStatusService(Context context, Intent intent)
     {
-        Log.e(TAG,"NEED TO DEFINE A SERVICE TO UPDATE THE WIFI STATUS");
-        return;
-//
-////        if (App.getInstance().wifiActionEnabled)
-//        {
-//            try
-//            {
-//                Intent serviceIntent = new Intent(context, WifiSyncService.class);
-//                serviceIntent.putExtra(WifiSyncService.CALLER_INTENT, intent);
-//                context.startService(serviceIntent);
-//            }
-//            catch (Exception e)
-//            {
-//                App.getEventsReporter().sendException(e);
-//            }
-//        }
+        try
+        {
+            Intent serviceIntent = new Intent(context, WifiStatusUpdateService.class);
+            serviceIntent.putExtra(WifiStatusUpdateService.CALLER_INTENT, intent);
+            context.startService(serviceIntent);
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
     }
 
     private void callProxySettingsChecker(Context context, Intent intent)
