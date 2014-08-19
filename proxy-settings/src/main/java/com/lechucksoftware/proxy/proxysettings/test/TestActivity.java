@@ -280,7 +280,7 @@ public class TestActivity extends Activity
                 Utils.setDemoMode(_testActivity, !App.getInstance().demoMode);
                 Utils.checkDemoMode(_testActivity);
 
-                for (WiFiAPConfig conf : App.getWifiNetworksManager().getSortedConfigurationsList())
+                for (WiFiAPConfig conf : App.getWifiNetworksManager().getSortedWifiApConfigsList())
                 {
                     if (App.getInstance().demoMode)
                         conf.setAPDescription(UIUtils.getRandomCodeName().toString());

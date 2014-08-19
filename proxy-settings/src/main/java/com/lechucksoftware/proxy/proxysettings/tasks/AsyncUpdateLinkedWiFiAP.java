@@ -58,7 +58,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     {
         int updatedWiFiAP = 0;
 
-        List<WiFiAPConfig> configurations = App.getWifiNetworksManager().getSortedConfigurationsList();
+        List<WiFiAPConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
 
         if (configurations != null)
         {

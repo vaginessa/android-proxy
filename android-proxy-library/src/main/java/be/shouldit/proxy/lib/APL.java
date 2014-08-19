@@ -318,12 +318,12 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static WiFiAPConfig getAPConfiguration(WifiConfiguration wifiConf)
+    public static WiFiAPConfig getWiFiAPConfiguration(WifiConfiguration wifiConf)
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        APL.getLogger().startTrace(TAG,"getAPConfiguration",Log.DEBUG);
+        APL.getLogger().startTrace(TAG,"getWiFiAPConfiguration",Log.DEBUG);
 
         WiFiAPConfig proxyHost = null;
 
@@ -377,7 +377,7 @@ public class APL
             APL.getEventsReporter().sendException(e);
         }
 
-        APL.getLogger().stopTrace(TAG,"getAPConfiguration",Log.DEBUG);
+        APL.getLogger().stopTrace(TAG,"getWiFiAPConfiguration",Log.DEBUG);
 
         return proxyHost;
     }
@@ -463,6 +463,25 @@ public class APL
         return networksMap;
     }
 
+    public static WifiConfiguration getConfiguredNetwork(int androidNetworkId)
+    {
+        if (!sSetupCalled && gContext == null)
+            throw new RuntimeException("you need to call setup() first");
+
+        WifiConfiguration result=null;
+
+        Map<WifiNetworkId,WifiConfiguration> networksMap = getConfiguredNetworks();
+        for(WifiConfiguration configuration: networksMap.values())
+        {
+            if (configuration.networkId == androidNetworkId)
+            {
+                result = configuration;
+            }
+        }
+
+        return result;
+    }
+
     public static WifiConfiguration getConfiguredNetwork(WifiNetworkId networkId)
     {
         if (!sSetupCalled && gContext == null)
@@ -492,16 +511,16 @@ public class APL
         List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
         APL.getLogger().stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
 
-        APL.getLogger().startTrace(TAG,"getAPConfiguration", Log.DEBUG);
+        APL.getLogger().startTrace(TAG,"getWiFiAPConfiguration", Log.DEBUG);
         if (configuredNetworks != null)
         {
             for (WifiConfiguration wifiConf : configuredNetworks)
             {
-                WiFiAPConfig conf = getAPConfiguration(wifiConf);
+                WiFiAPConfig conf = getWiFiAPConfiguration(wifiConf);
                 WiFiAPConfigs.add(conf);
             }
         }
-        APL.getLogger().stopTrace(TAG,"getAPConfiguration", Log.DEBUG);
+        APL.getLogger().stopTrace(TAG,"getWiFiAPConfiguration", Log.DEBUG);
 
         return WiFiAPConfigs;
     }
@@ -656,7 +675,7 @@ public class APL
                     e.printStackTrace();
                 }
 
-                WiFiAPConfig savedConf = APL.getAPConfiguration(newConf);
+                WiFiAPConfig savedConf = APL.getWiFiAPConfiguration(newConf);
                 succesfullySaved = wiFiAPConfig.isSameConfiguration(savedConf);
 
                 if (succesfullySaved)

@@ -327,7 +327,7 @@ public class TestUtils
     {
 //        App.getInstance().wifiActionEnabled = false;
 
-        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedConfigurationsList())
+        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
@@ -363,7 +363,7 @@ public class TestUtils
 
 //        App.getInstance().wifiActionEnabled = false;
 
-        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedConfigurationsList())
+        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {

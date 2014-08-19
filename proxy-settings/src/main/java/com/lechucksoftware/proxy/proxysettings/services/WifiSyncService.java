@@ -50,9 +50,17 @@ public class WifiSyncService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        List<WifiNetworkId> configsToCheck = new ArrayList<WifiNetworkId>();
+        List<WifiNetworkId> configsToCheck = getConfigsToCheck(intent);
 
-        WiFiAPConfig wiFiAPConfig = null;
+        syncProxyConfigurations(configsToCheck);
+
+        isHandling = false;
+    }
+
+    private List<WifiNetworkId> getConfigsToCheck(Intent intent)
+    {
+        List<WifiNetworkId> networkIds = new ArrayList<WifiNetworkId>();
+
         if (intent != null && intent.hasExtra(WifiSyncService.CALLER_INTENT))
         {
             Intent caller = (Intent) intent.getExtras().get(WifiSyncService.CALLER_INTENT);
@@ -64,7 +72,7 @@ public class WifiSyncService extends EnhancedIntentService
                     if (caller.hasExtra(Intents.UPDATED_WIFI))
                     {
                         WifiNetworkId wifiId = (WifiNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
-                        configsToCheck.add(wifiId);
+                        networkIds.add(wifiId);
                     }
                 }
                 else
@@ -76,22 +84,20 @@ public class WifiSyncService extends EnhancedIntentService
                         if (wifiConf != null)
                         {
                             WifiNetworkId wifiId = new WifiNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
-                            configsToCheck.add(wifiId);
+                            networkIds.add(wifiId);
                         }
                     }
 
                     if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
                     {
                         App.getLogger().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
-                        App.getLogger().logIntent(TAG,caller,Log.ERROR);
+                        App.getLogger().logIntent(TAG,caller, Log.ERROR);
                     }
                 }
             }
         }
 
-        syncProxyConfigurations(configsToCheck);
-
-        isHandling = false;
+        return networkIds;
     }
 
     private void syncProxyConfigurations(List<WifiNetworkId> configurations)
@@ -117,8 +123,11 @@ public class WifiSyncService extends EnhancedIntentService
                 if (configuredNetworks.containsKey(wifiId))
                 {
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(wifiId);
-                    WiFiAPConfig wiFiAPConfig = APL.getAPConfiguration(wifiConfiguration);
+                    WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
                     WiFiAPEntity result = App.getDBManager().upsertWifiAP(wiFiAPConfig);
+
+                    App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig, result);
+
                     App.getLogger().d(TAG,"Upserted Wi-Fi AP: " + result.toString());
                 }
                 else

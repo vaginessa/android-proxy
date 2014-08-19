@@ -7,6 +7,8 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,26 +32,34 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 public class WifiNetworksManager
 {
     private static final String TAG = WifiNetworksManager.class.getSimpleName();
+
+    private Map<WifiNetworkId, WiFiAPConfig> wifiApConfigs;
+    private Map<WifiNetworkId, WiFiAPEntity> wifiApEntities;
+    private final Map<Integer, WifiConfiguration> wifiConfigurations;
+
     private WiFiAPConfig currentConfiguration;
     private Boolean updatedConfiguration;
-    private Map<WifiNetworkId, WiFiAPConfig> savedConfigurations;
-    private List<WiFiAPConfig> sortedConfigurationsList;
+
+    private List<WiFiAPConfig> wifiAPConfigList;
+
     private Map<WifiNetworkId, ScanResult> notConfiguredWifi; // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
 
     public WifiNetworksManager(Context ctx)
     {
         updatedConfiguration = false;
 
-        savedConfigurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, WiFiAPConfig>());
+        wifiConfigurations = Collections.synchronizedMap(new HashMap<Integer, WifiConfiguration>());
+        wifiApConfigs = Collections.synchronizedMap(new HashMap<WifiNetworkId, WiFiAPConfig>());
+        wifiApEntities = Collections.synchronizedMap(new HashMap<WifiNetworkId, WiFiAPEntity>());
         notConfiguredWifi = Collections.synchronizedMap(new HashMap<WifiNetworkId, ScanResult>());
     }
 
-    private Map<WifiNetworkId, WiFiAPConfig> getSavedConfigurations()
+    private Map<WifiNetworkId, WiFiAPConfig> getWifiApConfigs()
     {
-        if (savedConfigurations == null)
-            savedConfigurations = Collections.synchronizedMap(new HashMap<WifiNetworkId, WiFiAPConfig>());
+        if (wifiApConfigs == null)
+            wifiApConfigs = Collections.synchronizedMap(new HashMap<WifiNetworkId, WiFiAPConfig>());
 
-        return savedConfigurations;
+        return wifiApConfigs;
     }
 
     public Map<WifiNetworkId, ScanResult> getNotConfiguredWifi()
@@ -60,21 +70,21 @@ public class WifiNetworksManager
         return notConfiguredWifi;
     }
 
-    public List<WiFiAPConfig> getSortedConfigurationsList()
+    public List<WiFiAPConfig> getSortedWifiApConfigsList()
     {
-        if (sortedConfigurationsList == null)
+        if (wifiAPConfigList == null)
         {
-            sortedConfigurationsList = getConfigurationsList();
+            wifiAPConfigList = getConfigurationsList();
         }
 
-        return sortedConfigurationsList;
+        return wifiAPConfigList;
     }
 
     private String getConfigurationsString()
     {
-        if (!getSavedConfigurations().isEmpty())
+        if (!getWifiApConfigs().isEmpty())
         {
-            return TextUtils.join(", ", getSavedConfigurations().keySet());
+            return TextUtils.join(", ", getWifiApConfigs().keySet());
         }
         else
         {
@@ -93,26 +103,8 @@ public class WifiNetworksManager
             WifiInfo info = APL.getWifiManager().getConnectionInfo();
             if (info != null)
             {
-                if (getSavedConfigurations().isEmpty())
-                    updateProxyConfigurationList();
-
-                List<WifiConfiguration> wificonfigurations = APL.getWifiManager().getConfiguredNetworks();
-                if (wificonfigurations != null && !wificonfigurations.isEmpty())
-                {
-                    for (WifiConfiguration wifiConfig : wificonfigurations)
-                    {
-                        if (wifiConfig.networkId == info.getNetworkId())
-                        {
-                            String SSID = ProxyUtils.cleanUpSSID(info.getSSID());
-                            WifiNetworkId netId = new WifiNetworkId(SSID, ProxyUtils.getSecurity(wifiConfig));
-                            if (getSavedConfigurations().containsKey(netId))
-                            {
-                                conf = getSavedConfigurations().get(netId);
-                                break;
-                            }
-                        }
-                    }
-                }
+                WifiConfiguration wifiConfiguration = APL.getConfiguredNetwork(info.getNetworkId());
+                conf = APL.getWiFiAPConfiguration(wifiConfiguration);
 
                 if (currentConfiguration == null)
                 {
@@ -160,12 +152,30 @@ public class WifiNetworksManager
      */
     private List<WiFiAPConfig> getConfigurationsList()
     {
-        if (getSavedConfigurations().isEmpty())
-            updateProxyConfigurationList();
-
+//        if (getSavedConfigurations().isEmpty())
+//            updateProxyConfigurationList();
+//
         buildSortedConfigurationsList();
 
-        return sortedConfigurationsList;
+        return wifiAPConfigList;
+    }
+
+    public void updateWifiConfig(WiFiAPConfig wiFiAPConfig, WiFiAPEntity result)
+    {
+        if (wifiApConfigs != null)
+        {
+            WifiNetworkId networkId = wiFiAPConfig.getInternalWifiNetworkId();
+            if (wifiApConfigs.containsKey(networkId))
+            {
+                wifiApConfigs.get(networkId).updateProxyConfiguration(wiFiAPConfig);
+            }
+            else
+            {
+                wifiApConfigs.put(networkId,wiFiAPConfig);
+                wifiApEntities.put(networkId,result);
+                wifiConfigurations.put(wiFiAPConfig.getNetworkId(),wiFiAPConfig.getWifiConfig());
+            }
+        }
     }
 
     /**
@@ -188,7 +198,7 @@ public class WifiNetworksManager
         updateWifiApConfigs();
 
         // If the configuration has been updated sort again the list!!
-        if (updatedConfiguration && !getSavedConfigurations().isEmpty())
+        if (updatedConfiguration && !getWifiApConfigs().isEmpty())
         {
             App.getLogger().d(TAG, "Configuration updated -> need to create again the sorted list");
             buildSortedConfigurationsList();
@@ -204,9 +214,9 @@ public class WifiNetworksManager
         WifiInfo currentWifiInfo = APL.getWifiManager().getConnectionInfo();
 
         // update current WifiInfo information for each WifiApConfig
-        if (!getSavedConfigurations().isEmpty())
+        if (!getWifiApConfigs().isEmpty())
         {
-            for (WiFiAPConfig conf : getSavedConfigurations().values())
+            for (WiFiAPConfig conf : getWifiApConfigs().values())
             {
                 conf.updateWifiInfo(currentWifiInfo, null);
             }
@@ -220,9 +230,9 @@ public class WifiNetworksManager
             updatedConfiguration = true;
 
             // clear all the savedConfigurations AP status
-            if (!getSavedConfigurations().isEmpty())
+            if (!getWifiApConfigs().isEmpty())
             {
-                for (WiFiAPConfig conf : getSavedConfigurations().values())
+                for (WiFiAPConfig conf : getWifiApConfigs().values())
                 {
                     conf.clearScanStatus();
                 }
@@ -238,9 +248,9 @@ public class WifiNetworksManager
                 SecurityType security = ProxyUtils.getSecurity(res);
                 WifiNetworkId currWifiNet = new WifiNetworkId(currSSID, security);
 
-                if (getSavedConfigurations().containsKey(currWifiNet))
+                if (getWifiApConfigs().containsKey(currWifiNet))
                 {
-                    WiFiAPConfig conf = getSavedConfigurations().get(currWifiNet);
+                    WiFiAPConfig conf = getWifiApConfigs().get(currWifiNet);
                     if (conf != null)
                     {
                         conf.updateScanResults(res);
@@ -266,13 +276,13 @@ public class WifiNetworksManager
     private void removeNotMoreConfiguredSSID(List<WifiNetworkId> internalSavedSSID)
     {
 //        LogWrapper.startTrace(TAG,"removeNoMoreConfiguredSSID", Log.DEBUG);
-        if (!getSavedConfigurations().isEmpty())
+        if (!getWifiApConfigs().isEmpty())
         {
             for (WifiNetworkId netId : internalSavedSSID)
             {
-                if (getSavedConfigurations().containsKey(netId))
+                if (getWifiApConfigs().containsKey(netId))
                 {
-                    WiFiAPConfig removed = getSavedConfigurations().remove(netId);
+                    WiFiAPConfig removed = getWifiApConfigs().remove(netId);
                     updatedConfiguration = true;
                     App.getLogger().w(TAG, "Removing from Proxy Settings configuration a no more configured SSID: " + removed.toShortString());
                 }
@@ -296,13 +306,13 @@ public class WifiNetworksManager
             {
                 if (conf != null)
                 {
-                    savedConfigurations = getSavedConfigurations();
-                    if (savedConfigurations != null
+                    wifiApConfigs = getWifiApConfigs();
+                    if (wifiApConfigs != null
                             && conf.getInternalWifiNetworkId() != null
-                            && savedConfigurations.containsKey(conf.getInternalWifiNetworkId()))
+                            && wifiApConfigs.containsKey(conf.getInternalWifiNetworkId()))
                     {
                         // Updates already saved configuration
-                        WiFiAPConfig originalConf = getSavedConfigurations().get(conf.getInternalWifiNetworkId());
+                        WiFiAPConfig originalConf = getWifiApConfigs().get(conf.getInternalWifiNetworkId());
                         if (originalConf.updateProxyConfiguration(conf))
                             updatedConfiguration = true;
                     }
@@ -310,7 +320,7 @@ public class WifiNetworksManager
                     {
                         // Add new found configuration
 //                        App.getLogger().d(TAG, "Adding to list new Wi-Fi AP configuration: " + conf.toShortString());
-                        getSavedConfigurations().put(conf.getInternalWifiNetworkId(), conf);
+                        getWifiApConfigs().put(conf.getInternalWifiNetworkId(), conf);
                     }
 
                     if (internalSavedSSID.contains(conf.getInternalWifiNetworkId()))
@@ -336,9 +346,9 @@ public class WifiNetworksManager
         Collection<WifiNetworkId> savedNetworks = null;
         List<WifiNetworkId> internalSavedSSID = new ArrayList<WifiNetworkId>();
 
-        if (!getSavedConfigurations().isEmpty())
+        if (!getWifiApConfigs().isEmpty())
         {
-            savedNetworks = getSavedConfigurations().keySet();
+            savedNetworks = getWifiApConfigs().keySet();
             for (WifiNetworkId wifiNet : savedNetworks)
             {
                 internalSavedSSID.add(wifiNet);
@@ -352,18 +362,18 @@ public class WifiNetworksManager
 
     private void buildSortedConfigurationsList()
     {
-        if (!getSavedConfigurations().isEmpty())
+        if (!getWifiApConfigs().isEmpty())
         {
-            Collection<WiFiAPConfig> values = getSavedConfigurations().values();
+            Collection<WiFiAPConfig> values = getWifiApConfigs().values();
             if (values != null && values.size() > 0)
             {
                 App.getLogger().startTrace(TAG, "SortConfigurationList", Log.DEBUG);
 
-                sortedConfigurationsList = new ArrayList<WiFiAPConfig>(values);
+                wifiAPConfigList = new ArrayList<WiFiAPConfig>(values);
 
                 try
                 {
-                    Collections.sort(sortedConfigurationsList);
+                    Collections.sort(wifiAPConfigList);
                 }
                 catch (IllegalArgumentException e)
                 {
@@ -373,7 +383,7 @@ public class WifiNetworksManager
                 }
 
                 StringBuilder sb = new StringBuilder();
-                for (WiFiAPConfig conf : sortedConfigurationsList)
+                for (WiFiAPConfig conf : wifiAPConfigList)
                 {
                     sb.append(conf.getSSID() + ",");
                 }
@@ -413,7 +423,7 @@ public class WifiNetworksManager
         {
             JSONArray configurations = new JSONArray();
 
-            for (WiFiAPConfig conf : sortedConfigurationsList)
+            for (WiFiAPConfig conf : wifiAPConfigList)
             {
                 JSONObject jconf = new JSONObject();
                 configurations.put(conf.toJSON());
