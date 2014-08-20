@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -142,6 +141,10 @@ public class DataSource
                     proxy.setPort(config.getProxyPort());
                     proxy.setExclusion(config.getProxyExclusionList());
                     wiFiAPEntity.setProxy(proxy);
+                }
+                else
+                {
+                    wiFiAPEntity.setProxyId(-1L);
                 }
             }
             else
@@ -372,7 +375,7 @@ public class DataSource
 
     public long findWifiAp(WiFiAPEntity wiFiAPEntity)
     {
-        return findWifiAp(new APLNetworkId(wiFiAPEntity.getSsid(),wiFiAPEntity.getSecurityType()));
+        return findWifiAp(new APLNetworkId(wiFiAPEntity.getSsid(), wiFiAPEntity.getSecurityType()));
     }
 
     public long findWifiAp(APLNetworkId aplNetworkId)
@@ -538,6 +541,8 @@ public class DataSource
         long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, null, values);
         WiFiAPEntity newWifiAp = getWifiAP(insertId);
 
+        updateInUseFlag(newWifiAp.getProxyId());
+
         App.getLogger().stopTrace(TAG, "createWifiAp", Log.DEBUG);
 
         return newWifiAp;
@@ -663,9 +668,8 @@ public class DataSource
 
         long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{persistedWifiAp.getId().toString()});
 
-        // TODO, update here the proxy in used flag
-        clearInUseFlag(persistedWifiAp.getProxyId());
-        setInUseFlag(wiFiAPEntity.getProxyId());
+        updateInUseFlag(persistedWifiAp.getProxyId());
+        updateInUseFlag(wiFiAPEntity.getProxyId());
 
         WiFiAPEntity updatedTag = getWifiAP(persistedWifiAp.getId());
         return updatedTag;
@@ -688,6 +692,62 @@ public class DataSource
 
         TagEntity updatedTag = getTag(persistedTag.getId());
         return updatedTag;
+    }
+
+    private void updateInUseFlag(long proxyId)
+    {
+        if (proxyId == -1)
+            return;
+
+        App.getLogger().startTrace(TAG, "updateInUseFlag", Log.DEBUG);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.beginTransaction();
+
+        int inUseCount = -1;
+
+        try
+        {
+            String countQuery = "SELECT COUNT(1)" +
+                    " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP +
+                    " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " =?";
+
+            Cursor countCursor = database.rawQuery(countQuery, new String[]{String.valueOf(proxyId)});
+            countCursor.moveToFirst();
+            if (!countCursor.isAfterLast())
+            {
+                inUseCount = countCursor.getInt(0);
+            }
+
+            countCursor.close();
+
+            String updateQuery = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES +
+                    " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " =? " +
+                    " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
+
+            ContentValues values = new ContentValues();
+            values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, inUseCount);
+            long currentDate = System.currentTimeMillis();
+            values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+
+            long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(proxyId)});
+            database.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+        finally
+        {
+            database.endTransaction();
+        }
+
+//        if (BuildConfig.DEBUG)
+//        {
+//            ProxyEntity proxy = getProxy(proxyId);
+//            App.getLogger().d(TAG, "Updated in use flag for proxy: " + proxy);
+//        }
+
+        App.getLogger().stopTrace(TAG, "updateInUseFlag", String.format("Proxy #%d used by %d Wi-Fi AP",proxyId,inUseCount), Log.DEBUG);
     }
 
     public void deleteProxy(long proxyId)
@@ -891,103 +951,6 @@ public class DataSource
         return links;
     }
 
-    private void clearInUseFlag(Long... proxiesIDs)
-    {
-        App.getLogger().startTrace(TAG,"clearInUseFlag",Log.DEBUG);
-
-        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
-
-        long updatedRows = -1;
-        if (proxiesIDs != null && proxiesIDs.length > 0)
-        {
-            List<Long> ids = new ArrayList<Long>();
-            for (Long id:proxiesIDs)
-            {
-                if (id != null && id != -1)
-                {
-                    // Cleanup IDs with -1: no valid proxy
-                    ids.add(id);
-                }
-            }
-
-            if (ids != null && ids.size() > 0)
-            {
-                try
-                {
-                    database.beginTransaction();
-
-                    String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 0 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",", proxiesIDs) + ")";
-
-                    Cursor cursor = database.rawQuery(query, null);
-                    updatedRows = getUpdatedRowsFromRawQuery(database);
-                    cursor.close();
-
-                    database.setTransactionSuccessful();
-                }
-                catch (Exception e)
-                {
-                    App.getEventsReporter().sendException(e);
-                }
-                finally
-                {
-                    database.endTransaction();
-                }
-            }
-        }
-        else
-        {
-            updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, null, null);
-        }
-
-        if (updatedRows != -1)
-            App.getLogger().d(TAG, "Cleared in use flag for : " + updatedRows + " proxies");
-        else
-            App.getLogger().d(TAG, "Cleared in use flag, nothing done");
-
-        App.getLogger().stopTrace(TAG,"clearInUseFlag",Log.DEBUG);
-    }
-
-    private void setInUseFlag(Long... proxiesIDs)
-    {
-        App.getLogger().startTrace(TAG, "setInUseFlag", Log.DEBUG);
-
-        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
-
-        long updatedRows = -1;
-
-        if (proxiesIDs != null && proxiesIDs.length > 0)
-        {
-            List<Long> ids = new ArrayList<Long>();
-            for (Long id:proxiesIDs)
-            {
-                if (id != null && id != -1)
-                {
-                    // Cleanup IDs with -1: no valid proxy
-                    ids.add(id);
-                }
-            }
-
-            if (ids != null && ids.size() > 0)
-            {
-                String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 1 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",", ids) + ")";
-                Cursor cursor = database.rawQuery(query, null);
-                updatedRows = cursor.getCount();
-            }
-        }
-
-        if (updatedRows != -1)
-            App.getLogger().d(TAG, "Set in use flag for : " + updatedRows + " proxies");
-        else
-            App.getLogger().d(TAG, "Set in use flag, nothing done");
-
-        App.getLogger().stopTrace(TAG,"setInUseFlag",Log.DEBUG);
-    }
-
     private ProxyEntity cursorToProxy(Cursor cursor)
     {
         ProxyEntity proxy = new ProxyEntity();
@@ -996,7 +959,7 @@ public class DataSource
         proxy.setPort(cursor.getInt(2));
         proxy.setExclusion(cursor.getString(3));
         proxy.setCountryCode(cursor.getString(4));
-        proxy.setInUse(cursor.getInt(5) > 0);
+        proxy.setUsedByCount(cursor.getInt(5));
         proxy.setCreationDate(cursor.getLong(6));
         proxy.setModifiedDate(cursor.getLong(7));
 
@@ -1065,7 +1028,7 @@ public class DataSource
         try
         {
             cursor = db.rawQuery("SELECT changes() AS affected_row_count", null);
-            if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
             {
                 affectedRowCount = cursor.getLong(cursor.getColumnIndex("affected_row_count"));
                 Log.d("LOG", "affectedRowCount = " + affectedRowCount);
@@ -1075,14 +1038,14 @@ public class DataSource
                 // Some error occurred?
             }
         }
-        catch(SQLException e)
+        catch (SQLException e)
         {
             // Handle exception here.
             App.getEventsReporter().sendException(e);
         }
         finally
         {
-            if(cursor != null)
+            if (cursor != null)
             {
                 cursor.close();
             }

@@ -17,7 +17,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
     private String exclusion;
     private List<TagEntity> tags;
     private String countryCode;
-    private boolean inUse;
+    private int usedByCount;
 
     public ProxyEntity()
     {
@@ -25,7 +25,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         tags = new ArrayList<TagEntity>();
         exclusion = "";
         countryCode = null;
-        inUse = false;
+        usedByCount = 0;
     }
 
     public ProxyEntity(ProxyEntity proxy)
@@ -36,7 +36,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         this.exclusion = proxy.exclusion;
         this.countryCode = proxy.countryCode;
         this.tags = new ArrayList<TagEntity>();
-        this.inUse = proxy.inUse;
+        this.usedByCount = proxy.usedByCount;
 
         for(TagEntity t : proxy.tags)
         {
@@ -74,9 +74,14 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         this.exclusion = exclusion;
     }
 
-    public boolean isInUse()
+    public boolean getInUse()
     {
-        return inUse;
+        return usedByCount > 0;
+    }
+
+    public int getUsedByCount()
+    {
+        return usedByCount;
     }
 
     @Override
@@ -116,7 +121,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s:%d", host, port));
-        sb.append(String.format(" %s", inUse));
+        sb.append(String.format(" used by %s AP", usedByCount));
 
         if (getTags() != null)
         {
@@ -203,14 +208,9 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
             return null;
     }
 
-    public void setInUse(boolean inUse)
+    public void setUsedByCount(int usedBy)
     {
-        this.inUse = inUse;
-    }
-
-    public boolean getInUse()
-    {
-        return inUse;
+        this.usedByCount = usedBy;
     }
 
     @Override

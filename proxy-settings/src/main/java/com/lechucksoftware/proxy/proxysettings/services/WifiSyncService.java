@@ -30,7 +30,7 @@ public class WifiSyncService extends EnhancedIntentService
 
     public WifiSyncService()
     {
-        super("WifiSyncService");
+        super("WifiSyncService", android.os.Process.THREAD_PRIORITY_LESS_FAVORABLE);
     }
 
     public static WifiSyncService getInstance()
