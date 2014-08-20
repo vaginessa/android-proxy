@@ -122,10 +122,10 @@ public class WifiSyncService extends EnhancedIntentService
                 {
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
                     WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
-                    WiFiAPEntity result = App.getDBManager().upsertWifiAP(wiFiAPConfig);
+                    WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiAPConfig);
 
-                    App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig, result);
-                    App.getLogger().getPartial(TAG, "syncAP", "Upserted: " + result.toString(), Log.DEBUG);
+                    App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig);
+                    App.getLogger().getPartial(TAG, "syncAP", "Upserted: " + wiFiAPEntity.toString(), Log.DEBUG);
                 }
                 else
                 {

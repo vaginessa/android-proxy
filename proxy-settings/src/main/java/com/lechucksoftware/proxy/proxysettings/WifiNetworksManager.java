@@ -6,8 +6,6 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +31,7 @@ public class WifiNetworksManager
     private static final String TAG = WifiNetworksManager.class.getSimpleName();
 
     private Map<APLNetworkId, WiFiAPConfig> wifiApConfigsByAPLNetId;
-    private Map<APLNetworkId, WiFiAPEntity> wifiApEntitiesByAPLNetId;
+//    private Map<APLNetworkId, WiFiAPEntity> wifiApEntitiesByAPLNetId;
     private Map<Integer, WiFiAPConfig> wifiApConfigsByWifiNetworkId;
 
     private List<WiFiAPConfig> wifiAPConfigList;
@@ -46,14 +44,13 @@ public class WifiNetworksManager
     {
         wifiApConfigsByWifiNetworkId = Collections.synchronizedMap(new HashMap<Integer, WiFiAPConfig>());
         wifiApConfigsByAPLNetId = Collections.synchronizedMap(new HashMap<APLNetworkId, WiFiAPConfig>());
-        wifiApEntitiesByAPLNetId = Collections.synchronizedMap(new HashMap<APLNetworkId, WiFiAPEntity>());
+//        wifiApEntitiesByAPLNetId = Collections.synchronizedMap(new HashMap<APLNetworkId, WiFiAPEntity>());
 
         notConfiguredWifi = Collections.synchronizedMap(new HashMap<APLNetworkId, ScanResult>());
-
         wifiAPConfigList = Collections.synchronizedList(new ArrayList<WiFiAPConfig>());
     }
 
-    public void updateWifiConfig(WiFiAPConfig wiFiAPConfig, WiFiAPEntity result)
+    public void updateWifiConfig(WiFiAPConfig wiFiAPConfig)
     {
         if (wifiApConfigsByAPLNetId != null)
         {
@@ -66,7 +63,6 @@ public class WifiNetworksManager
             else
             {
                 wifiApConfigsByAPLNetId.put(aplNetworkId,wiFiAPConfig);
-                wifiApEntitiesByAPLNetId.put(aplNetworkId, result);
                 wifiApConfigsByWifiNetworkId.put(wiFiAPConfig.getNetworkId(), wiFiAPConfig);
                 wifiAPConfigList.add(wiFiAPConfig);
             }
@@ -79,10 +75,12 @@ public class WifiNetworksManager
     {
         if (aplNetworkId != null)
         {
-            wifiApConfigsByAPLNetId.remove(aplNetworkId);
-            wifiApEntitiesByAPLNetId.remove(aplNetworkId);
+            WiFiAPConfig wiFiAPConfig = wifiApConfigsByAPLNetId.remove(aplNetworkId);
+//            wifiApEntitiesByAPLNetId.remove(aplNetworkId);
+            wifiApConfigsByWifiNetworkId.remove(wiFiAPConfig.getNetworkId());
+            wifiAPConfigList.remove(wiFiAPConfig);
 
-            //TODO must rebuild wifiAPConfigList and wifiApConfigsByWifiNetworkId since there is no available index
+            buildSortedConfigurationsList();
         }
     }
 
@@ -146,6 +144,7 @@ public class WifiNetworksManager
     private void buildSortedConfigurationsList()
     {
         App.getLogger().startTrace(TAG, "buildSortedConfigurationsList", Log.DEBUG);
+
         try
         {
             synchronized (wifiAPConfigList)
@@ -159,41 +158,9 @@ public class WifiNetworksManager
             map.put("config_list", configListToDBG().toString());
             App.getEventsReporter().sendException(e, map);
         }
+
         App.getLogger().stopTrace(TAG, "buildSortedConfigurationsList", Log.DEBUG);
-
-//        if (wifiApConfigsByAPLNetId != null && !wifiApConfigsByAPLNetId.isEmpty())
-//        {
-//            Collection<WiFiAPConfig> values = wifiApConfigsByAPLNetId.values();
-//            if (values != null && values.size() > 0)
-//            {
-//                App.getLogger().startTrace(TAG, "SortConfigurationList", Log.DEBUG);
-//
-//                wifiAPConfigList = new ArrayList<WiFiAPConfig>(values);
-//
-//                try
-//                {
-//                    Collections.sort(wifiAPConfigList);
-//                }
-//                catch (IllegalArgumentException e)
-//                {
-//                    Map<String, String> map = new HashMap<String, String>();
-//                    map.put("config_list", configListToDBG().toString());
-//                    App.getEventsReporter().sendException(e, map);
-//                }
-//
-//                StringBuilder sb = new StringBuilder();
-//                for (WiFiAPConfig conf : wifiAPConfigList)
-//                {
-//                    sb.append(conf.getSSID() + ",");
-//                }
-//
-//                App.getLogger().d(TAG, "Sorted proxy configuration list: " + sb.toString());
-//
-//                App.getLogger().stopTrace(TAG, "SortConfigurationList", Log.DEBUG);
-//            }
-//        }
     }
-
 
     private Map<APLNetworkId, WiFiAPConfig> getWifiApConfigsByAPLNetId()
     {
@@ -298,6 +265,7 @@ public class WifiNetworksManager
     /**
      * Updates the proxy configuration list
      */
+
     public synchronized void updateProxyConfigurationList()
     {
         App.getLogger().startTrace(TAG, "updateProxyConfigurationList", Log.DEBUG);
