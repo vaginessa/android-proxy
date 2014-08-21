@@ -123,12 +123,12 @@ public class LogWrapper
         }
     }
 
-    public void getPartial(String tag, String key, int logLevel)
+    public void partialTrace(String tag, String key, int logLevel)
     {
-        getPartial(tag,key,"",logLevel);
+        partialTrace(tag, key, "", logLevel);
     }
 
-    public void getPartial(String tag, String key, String partialMsg, int logLevel)
+    public void partialTrace(String tag, String key, String partialMsg, int logLevel)
     {
         synchronized (startTraces)
         {

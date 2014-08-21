@@ -2,10 +2,12 @@ package com.lechucksoftware.proxy.proxysettings.loaders;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+
 import com.lechucksoftware.proxy.proxysettings.App;
-import be.shouldit.proxy.lib.WiFiAPConfig;
 
 import java.util.List;
+
+import be.shouldit.proxy.lib.WiFiAPConfig;
 
 /**
  * Created by marco on 04/10/13.
@@ -23,6 +25,7 @@ public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<WiFiAPCon
     @Override
     public List<WiFiAPConfig> loadInBackground()
     {
-        return App.getWifiNetworksManager().getSortedWifiApConfigsList();
+        List<WiFiAPConfig> result = App.getWifiNetworksManager().getSortedWifiApConfigsList();
+        return result;
     }
 }

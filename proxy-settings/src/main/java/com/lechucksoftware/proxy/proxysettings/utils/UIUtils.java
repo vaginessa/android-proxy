@@ -285,11 +285,11 @@ public class UIUtils
 
             });
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             webView.loadUrl(BASE_URL + filename);
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                     .setTitle(title)
@@ -311,7 +311,7 @@ public class UIUtils
                         }
                     });
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog dialog = builder.create();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
@@ -337,7 +337,7 @@ public class UIUtils
                 }
             });
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
         }
         catch (Exception e)
         {

@@ -18,7 +18,6 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -500,27 +499,26 @@ public class APL
 
     @Deprecated
     @TargetApi(12)
-    public static List<WiFiAPConfig> getWifiAPConfigurations()
+    public static Map<APLNetworkId,WiFiAPConfig> getWifiAPConfigurations()
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        List<WiFiAPConfig> WiFiAPConfigs = new ArrayList<WiFiAPConfig>();
+        Map<APLNetworkId,WiFiAPConfig> WiFiAPConfigs = new HashMap<APLNetworkId, WiFiAPConfig>();
 
-        APL.getLogger().startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
-        List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
-        APL.getLogger().stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+        APL.getLogger().startTrace(TAG,"getWifiAPConfigurations", Log.DEBUG);
+        Map<APLNetworkId,WifiConfiguration> configuredNetworks = getConfiguredNetworks();
+        APL.getLogger().partialTrace(TAG, "getWifiAPConfigurations", "getConfiguredNetworks", Log.DEBUG);
 
-        APL.getLogger().startTrace(TAG,"getWiFiAPConfiguration", Log.DEBUG);
         if (configuredNetworks != null)
         {
-            for (WifiConfiguration wifiConf : configuredNetworks)
+            for (WifiConfiguration wifiConf : configuredNetworks.values())
             {
                 WiFiAPConfig conf = getWiFiAPConfiguration(wifiConf);
-                WiFiAPConfigs.add(conf);
+                WiFiAPConfigs.put(conf.getAPLNetworkId(), conf);
             }
         }
-        APL.getLogger().stopTrace(TAG,"getWiFiAPConfiguration", Log.DEBUG);
+        APL.getLogger().stopTrace(TAG,"getWifiAPConfigurations", "calculatedConfigurations", Log.DEBUG);
 
         return WiFiAPConfigs;
     }
@@ -658,7 +656,7 @@ public class APL
 
             APL.getLogger().startTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
-            APL.getLogger().getPartial(TAG,"saveWifiConfiguration", Log.DEBUG);
+            APL.getLogger().partialTrace(TAG, "saveWifiConfiguration", Log.DEBUG);
             /***************************************************************************************
              * TODO: improve method adding callback in order to return the result of the operation
              */

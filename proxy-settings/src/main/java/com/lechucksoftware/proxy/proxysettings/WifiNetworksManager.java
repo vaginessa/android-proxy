@@ -50,6 +50,23 @@ public class WifiNetworksManager
         wifiAPConfigList = Collections.synchronizedList(new ArrayList<WiFiAPConfig>());
     }
 
+    public void updateWifiApConfigs()
+    {
+        synchronized (wifiApConfigsByAPLNetId)
+        {
+            App.getLogger().startTrace(TAG,"updateWifiApConfigs", Log.DEBUG, true);
+            App.getDBManager().getAllWifiAp();
+            App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
+            wifiApConfigsByAPLNetId = APL.getWifiAPConfigurations();
+            App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "getWifiAPConfigurations", Log.DEBUG);
+            wifiAPConfigList = Collections.synchronizedList(new ArrayList<WiFiAPConfig>(wifiApConfigsByAPLNetId.values()));
+            App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "new ArrayList<WiFiAPConfig>", Log.DEBUG);
+            buildSortedConfigurationsList();
+            App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "buildSortedConfigurationsList", Log.DEBUG);
+            App.getLogger().stopTrace(TAG,"updateWifiApConfigs", Log.DEBUG);
+        }
+    }
+
     public void updateWifiConfig(WiFiAPConfig wiFiAPConfig)
     {
         if (wifiApConfigsByAPLNetId != null)
@@ -86,15 +103,25 @@ public class WifiNetworksManager
 
     public void updateCurrentWifiInfo(WifiInfo currentWifiInfo)
     {
-        if (!wifiApConfigsByAPLNetId.isEmpty())
-        {
-            for (WiFiAPConfig conf : wifiApConfigsByAPLNetId.values())
-            {
-                conf.updateWifiInfo(currentWifiInfo, null);
-            }
+        App.getLogger().startTrace(TAG,"updateCurrentWifiInfo", Log.DEBUG);
 
-            buildSortedConfigurationsList();
+        synchronized (wifiApConfigsByAPLNetId)
+        {
+            if (!wifiApConfigsByAPLNetId.isEmpty())
+            {
+                synchronized (wifiApConfigsByAPLNetId)
+                {
+                    for (WiFiAPConfig conf : wifiApConfigsByAPLNetId.values())
+                    {
+                        conf.updateWifiInfo(currentWifiInfo, null);
+                    }
+                }
+
+                buildSortedConfigurationsList();
+            }
         }
+
+        App.getLogger().stopTrace(TAG,"updateCurrentWifiInfo", Log.DEBUG);
     }
 
     public void updateWifiConfigWithScanResults(List<ScanResult> scanResults)
@@ -172,10 +199,11 @@ public class WifiNetworksManager
 
     public List<WiFiAPConfig> getSortedWifiApConfigsList()
     {
-//        if (wifiAPConfigList == null)
-//        {
-//            wifiAPConfigList = getConfigurationsList();
-//        }
+        if (wifiAPConfigList == null || wifiAPConfigList.isEmpty())
+        {
+            updateWifiApConfigs();
+        }
+
         return wifiAPConfigList;
     }
 
@@ -318,7 +346,7 @@ public class WifiNetworksManager
 //        LogWrapper.startTrace(TAG,"getSavedConfigurations", Log.DEBUG);
 
         // Get updated list of Proxy savedConfigurations from APL
-        List<WiFiAPConfig> updatedConfigurations = APL.getWifiAPConfigurations();
+        List<WiFiAPConfig> updatedConfigurations = new ArrayList<WiFiAPConfig>(APL.getWifiAPConfigurations().values());
         if (updatedConfigurations != null)
         {
             for (WiFiAPConfig conf : updatedConfigurations)

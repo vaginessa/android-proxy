@@ -54,7 +54,9 @@ public class DataSource
             DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID,
             DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE,
             DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_SETTING,
-            DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID};
+            DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID,
+            DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
+            DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
 
     public DataSource(Context ctx)
     {
@@ -890,6 +892,26 @@ public class DataSource
         }
 
         return proxies;
+    }
+
+    public Map<Long, WiFiAPEntity> getAllWifiAp()
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        Map<Long, WiFiAPEntity> wifiAPs = new HashMap<Long, WiFiAPEntity>();
+
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, wifiApTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " ASC");
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            WiFiAPEntity wiFiAPEntity = cursorToWifiAP(cursor);
+            wifiAPs.put(wiFiAPEntity.getId(), wiFiAPEntity);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return wifiAPs;
     }
 
     public List<ProxyEntity> getProxyWithEmptyCountryCode()

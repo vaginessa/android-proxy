@@ -94,7 +94,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
 
-//        LogWrapper.getPartial(TAG, "onCreateView", Log.DEBUG);
+//        LogWrapper.partialTrace(TAG, "onCreateView", Log.DEBUG);
 
         progress = v.findViewById(R.id.progress);
         progress.setVisibility(View.GONE);

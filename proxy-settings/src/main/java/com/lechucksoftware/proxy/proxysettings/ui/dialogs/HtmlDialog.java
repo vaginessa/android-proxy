@@ -180,7 +180,7 @@ public class HtmlDialog extends BaseDialogFragment
 //        webView = (WebView) v.findViewById(R.id.dialog_webview);
 //        webView.setVisibility(View.GONE);
 //
-//        App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 //        webView.setWebViewClient(new WebViewClient(){
 //
@@ -220,9 +220,9 @@ public class HtmlDialog extends BaseDialogFragment
 //            }
 //        });
 //
-//        App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //        webView.loadUrl(fileName);
-//        App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 //        // Watch for button clicks.
 //        Button button = (Button) v.findViewById(R.id.dialog_close);

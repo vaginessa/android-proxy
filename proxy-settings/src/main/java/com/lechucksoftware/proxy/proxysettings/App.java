@@ -79,12 +79,12 @@ public class App extends Application
         // SETUP Libraries
         APL.setup(App.this, getLogger().getLogLevel(), getEventsReporter());
 
-        getLogger().getPartial(TAG,"STARTUP",Log.ERROR);
+        getLogger().partialTrace(TAG, "STARTUP", Log.ERROR);
 
         // TODO: evaluate moving to AsyncUpdateApplicationStatistics
         ApplicationStatistics.updateInstallationDetails(this);
 
-        getLogger().getPartial(TAG,"STARTUP",Log.ERROR);
+        getLogger().partialTrace(TAG, "STARTUP", Log.ERROR);
 
         getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));

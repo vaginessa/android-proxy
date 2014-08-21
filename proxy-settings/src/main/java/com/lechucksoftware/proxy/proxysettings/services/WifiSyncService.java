@@ -51,7 +51,7 @@ public class WifiSyncService extends EnhancedIntentService
 
         App.getLogger().startTrace(TAG, "syncAP", Log.ASSERT);
         List<APLNetworkId> configsToCheck = getConfigsToCheck(intent);
-        App.getLogger().getPartial(TAG, "syncAP", Log.ASSERT);
+        App.getLogger().partialTrace(TAG, "syncAP", Log.ASSERT);
         syncProxyConfigurations(configsToCheck);
         App.getLogger().stopTrace(TAG, "syncAP", Log.ASSERT);
 
@@ -123,15 +123,14 @@ public class WifiSyncService extends EnhancedIntentService
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
                     WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
                     WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiAPConfig);
-
                     App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig);
-                    App.getLogger().getPartial(TAG, "syncAP", "Upserted: " + wiFiAPEntity.toString(), Log.DEBUG);
+                    App.getLogger().partialTrace(TAG, "syncAP", "Upserted: " + wiFiAPEntity.toString(), Log.DEBUG);
                 }
                 else
                 {
                     App.getDBManager().deleteWifiAP(aplNetworkId);
                     App.getWifiNetworksManager().removeWifiConfig(aplNetworkId);
-                    App.getLogger().getPartial(TAG, "syncAP", "Deleted: " + aplNetworkId.toString(), Log.DEBUG);
+                    App.getLogger().partialTrace(TAG, "syncAP", "Deleted: " + aplNetworkId.toString(), Log.DEBUG);
                 }
             }
             catch (Exception e)
