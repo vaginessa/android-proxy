@@ -6,6 +6,8 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,15 +57,23 @@ public class WifiNetworksManager
         synchronized (wifiApConfigsByAPLNetId)
         {
             App.getLogger().startTrace(TAG,"updateWifiApConfigs", Log.DEBUG, true);
-            App.getDBManager().getAllWifiAp();
-            App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
+
+            Map<Long,WiFiAPEntity> persistedWifiAp = App.getDBManager().getAllWifiAp();
+            App.getLogger().partialTrace(TAG, "updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
+
             wifiApConfigsByAPLNetId = APL.getWifiAPConfigurations();
             App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "getWifiAPConfigurations", Log.DEBUG);
-            wifiAPConfigList = Collections.synchronizedList(new ArrayList<WiFiAPConfig>(wifiApConfigsByAPLNetId.values()));
+
+            wifiAPConfigList = new ArrayList<WiFiAPConfig>(wifiApConfigsByAPLNetId.values());
             App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "new ArrayList<WiFiAPConfig>", Log.DEBUG);
+
+            updateWifiConfigWithScanResults(APL.getWifiManager().getScanResults());
+            App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "updateWifiConfigWithScanResults", Log.DEBUG);
+
             buildSortedConfigurationsList();
             App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "buildSortedConfigurationsList", Log.DEBUG);
-            App.getLogger().stopTrace(TAG,"updateWifiApConfigs", Log.DEBUG);
+
+            App.getLogger().stopTrace(TAG, "updateWifiApConfigs", Log.DEBUG);
         }
     }
 
@@ -127,12 +137,14 @@ public class WifiNetworksManager
     public void updateWifiConfigWithScanResults(List<ScanResult> scanResults)
     {
         // clear all the savedConfigurations AP status
-        if (wifiApConfigsByAPLNetId.isEmpty())
+        if (!wifiApConfigsByAPLNetId.isEmpty())
         {
+            App.getLogger().startTrace(TAG,"Clear scan status from AP configs",Log.DEBUG);
             for (WiFiAPConfig conf : wifiApConfigsByAPLNetId.values())
             {
                 conf.clearScanStatus();
             }
+            App.getLogger().stopTrace(TAG, "Clear scan status from AP configs", Log.DEBUG);
         }
 
         List<String> scanResultsStrings = new ArrayList<String>();
