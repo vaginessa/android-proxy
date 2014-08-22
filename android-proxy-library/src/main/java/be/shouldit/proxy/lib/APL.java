@@ -129,6 +129,15 @@ public class APL
         wm.setWifiEnabled(true);
     }
 
+    public static void disableWifi() throws Exception
+    {
+        if (!sSetupCalled && gContext == null)
+            throw new RuntimeException("you need to call setup() first");
+
+        WifiManager wm = getWifiManager();
+        wm.setWifiEnabled(false);
+    }
+
     public static ConnectivityManager getConnectivityManager()
     {
         if (!sSetupCalled && gContext == null)

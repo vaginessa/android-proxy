@@ -47,6 +47,11 @@ android {
         versionName "2.16"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
+
+        testPackageName "com.lechucksoftware.proxy.proxysettings.test"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        testHandleProfiling true
+        testFunctionalTest true
     }
 
     signingConfigs {
