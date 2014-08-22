@@ -9,7 +9,7 @@ buildscript {
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
 repositories {
@@ -27,7 +27,7 @@ task printProps << {
 
 android {
 
-    compileSdkVersion 19
+    compileSdkVersion 20
     buildToolsVersion '20.0.0'
 
 //    Scheme for version codes: ##@@$$$%% , using:
@@ -42,13 +42,13 @@ android {
     defaultConfig {
 
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionCode 130021601
         versionName "2.16"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
 
-        testPackageName "com.lechucksoftware.proxy.proxysettings.test"
+        testApplicationId "com.lechucksoftware.proxy.proxysettings.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         testHandleProfiling true
         testFunctionalTest true
