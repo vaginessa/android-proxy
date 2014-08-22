@@ -5,10 +5,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 
-import java.util.List;
-
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.WiFiAPConfig;
 
 /**
  * Created by mpagliar on 22/08/2014.
@@ -30,15 +27,6 @@ public class WifiNetworksTests extends InstrumentationTestCase
         {
             toggleWifi();
         }
-    }
-
-    @SmallTest
-    public void testWifiNetworksManagerStartup() throws Exception
-    {
-        App.getInstance();
-        List<WiFiAPConfig> result = App.getWifiNetworksManager().getSortedWifiApConfigsList();
-        assertNotNull(result);
-        assertTrue(result.size() > 0);
     }
 
     public void toggleWifi() throws Exception

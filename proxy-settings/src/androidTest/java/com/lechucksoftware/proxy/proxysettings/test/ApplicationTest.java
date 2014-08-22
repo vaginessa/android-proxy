@@ -5,6 +5,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 
+import java.util.List;
+
+import be.shouldit.proxy.lib.WiFiAPConfig;
+
 /**
  * Created by mpagliar on 22/08/2014.
  */
@@ -19,23 +23,21 @@ public class ApplicationTest extends ApplicationTestCase<App>
     protected void setUp() throws Exception
     {
         super.setUp();
-    }
-
-    @SmallTest
-    public void testPreconditions()
-    {
-    }
-
-    @SmallTest
-    public void testSimpleCreate()
-    {
         createApplication();
     }
 
     @SmallTest
-    public void testSimpleTerminate()
+    public void testWifiNetworksManagerStartup() throws Exception
     {
-        terminateApplication();
+        List<WiFiAPConfig> result = App.getWifiNetworksManager().getSortedWifiApConfigsList();
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
     }
 
+    @Override
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+        terminateApplication();
+    }
 }
