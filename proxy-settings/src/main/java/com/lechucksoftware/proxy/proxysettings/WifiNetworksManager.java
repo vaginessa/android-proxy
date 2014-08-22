@@ -31,10 +31,12 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 public class WifiNetworksManager
 {
     private static final String TAG = WifiNetworksManager.class.getSimpleName();
-    private WifiNetworkStatus wifiNetworkStatus;
+    private final WifiNetworkStatus wifiNetworkStatus;
+    private final Context context;
 
     public WifiNetworksManager(Context ctx)
     {
+        context = ctx;
         wifiNetworkStatus = new WifiNetworkStatus();
     }
 
@@ -195,7 +197,25 @@ public class WifiNetworksManager
 
     private Map<APLNetworkId, WiFiAPConfig> getWifiApConfigsByAPLNetId()
     {
-        return wifiNetworkStatus.wifiApConfigsByAPLNetId;
+        Map<APLNetworkId, WiFiAPConfig> result = null;
+        synchronized (wifiNetworkStatus)
+        {
+            try
+            {
+                HashMap<APLNetworkId, WiFiAPConfig> hashMap = (HashMap<APLNetworkId, WiFiAPConfig>)wifiNetworkStatus.wifiApConfigsByAPLNetId;
+                Object cloned = hashMap.clone();
+                if (cloned instanceof Map)
+                {
+                    result = (Map<APLNetworkId, WiFiAPConfig>) cloned;
+                }
+            }
+            catch (Exception e)
+            {
+                App.getEventsReporter().sendException(e);
+            }
+        }
+
+        return result;
     }
 
     public List<WiFiAPConfig> getSortedWifiApConfigsList()
@@ -205,7 +225,13 @@ public class WifiNetworksManager
             updateWifiApConfigs();
         }
 
-        return wifiNetworkStatus.wifiAPConfigList;
+        List<WiFiAPConfig> result = null;
+        synchronized (wifiNetworkStatus)
+        {
+            result = (List<WiFiAPConfig>) ((ArrayList<WiFiAPConfig>) wifiNetworkStatus.wifiAPConfigList).clone();
+        }
+
+        return result;
     }
 
     private String getConfigurationsString()
@@ -260,7 +286,7 @@ public class WifiNetworksManager
                 App.getLogger().d(TAG, "updateCurrentConfiguration - Same configuration: no need to update it (both NULL)");
             }
         }
-        else if ((wifiNetworkStatus.currentConfiguration == null) || (updated != null && wifiNetworkStatus.currentConfiguration != null && wifiNetworkStatus.currentConfiguration.compareTo(updated) != 0))
+        else if (updated != null && wifiNetworkStatus.currentConfiguration.compareTo(updated) != 0)
         {
             // Update currentConfiguration only if it's different from the previous
             wifiNetworkStatus.currentConfiguration = updated;
