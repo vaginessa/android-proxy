@@ -10,9 +10,8 @@ DEPS="$ANDROID_HOME/installed-dependencies"
 echo ANDROID_HOME = $ANDROID_HOME
 echo DEPS = $DEPS
 
-ls -l /home
 ls -l /home/ubuntu
-ls -l /home/ubuntu/android
+tree /home/ubuntu
 
 # Use android list sdk -e -a in order to get all the available packages on Android SDK Manager
 
