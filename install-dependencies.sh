@@ -5,6 +5,15 @@ export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH"
 
 DEPS="$ANDROID_HOME/installed-dependencies"
 
+#Check ENV
+
+echo ANDROID_HOME = $ANDROID_HOME
+echo DEPS = $DEPS
+
+ls -l /home
+ls -l /home/ubuntu
+ls -l /home/ubuntu/android
+
 # Use android list sdk -e -a in order to get all the available packages on Android SDK Manager
 
 if [ ! -e $DEPS ]; then
