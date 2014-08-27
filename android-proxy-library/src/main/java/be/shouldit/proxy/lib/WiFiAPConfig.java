@@ -29,11 +29,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     private final UUID id;
     private final APLNetworkId internalWifiNetworkId;
-
     private ProxyStatus status;
-
-    private String apDescription;
-
     private ProxySetting proxySetting;
     private String proxyHost;
     private Integer proxyPort;
@@ -81,6 +77,29 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
         status = new ProxyStatus();
     }
+
+//    public WiFiAPConfig(WiFiAPConfig wiFiAPConfig)
+//    {
+//        id = wiFiAPConfig.id;
+//        internalWifiNetworkId = wiFiAPConfig.internalWifiNetworkId;
+//        status = wiFiAPConfig.status;
+//
+//        proxySetting = wiFiAPConfig.proxySetting;
+//        proxyHost = wiFiAPConfig.proxyHost;
+//        proxyPort = wiFiAPConfig.proxyPort;
+//        stringProxyExclusionList = wiFiAPConfig.stringProxyExclusionList;
+//        parsedProxyExclusionList = wiFiAPConfig.parsedProxyExclusionList;
+//
+//        ssid = wiFiAPConfig.ssid;
+//        bssid = wiFiAPConfig.bssid;
+//        securityType = wiFiAPConfig.securityType;
+//        networkId = wiFiAPConfig.networkId;
+//        pskType = wiFiAPConfig.pskType;
+//        wifiConfig = wiFiAPConfig.wifiConfig;
+//        mInfo = wiFiAPConfig.mInfo;
+//        mRssi = wiFiAPConfig.mRssi;
+//        mState = wiFiAPConfig.mState;
+//    }
 
     public boolean updateScanResults(ScanResult result)
     {
@@ -545,28 +564,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         return getStatus().getCheckingStatus();
     }
 
-    public void setAPDescription(String value)
-    {
-        apDescription = value;
-    }
-
-    public String getAPDescription()
-    {
-        if (!TextUtils.isEmpty(getApDescription()))
-            return getApDescription();
-        else
-        {
-            return ProxyUtils.cleanUpSSID(getSSID());
-        }
-    }
-//    public String getSecurityString()
-//    {
-//        if (ap != null)
-//        {
-//            return ap.getSecurity();
-//        }
-//    }
-
     public String getBSSID()
     {
         return bssid;
@@ -638,11 +635,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     public ProxyStatus getStatus()
     {
         return status;
-    }
-
-    public String getApDescription()
-    {
-        return apDescription;
     }
 
     public String getStringProxyExclusionList()

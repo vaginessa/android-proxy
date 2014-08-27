@@ -143,7 +143,7 @@ dependencies {
 //    compile 'com.github.tony19:logback-android-classic:1.0.7-1'
 
     compile 'com.bugsense.trace:bugsense:3.6.1'
-
+    compile 'com.google.code.gson:gson:2.3'
 //    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile files('libs/google-play-services.jar')

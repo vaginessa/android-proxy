@@ -126,7 +126,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         try
         {
 //            callRefreshApplicationStatus();
-            App.getWifiNetworksManager().updateProxyConfigurationList();
+//            App.getWifiNetworksManager().updateProxyConfigurationList();
             WiFiAPConfig conf = App.getWifiNetworksManager().updateCurrentConfiguration();
             NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 

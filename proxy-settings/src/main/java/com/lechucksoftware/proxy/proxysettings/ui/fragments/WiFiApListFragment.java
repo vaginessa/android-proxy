@@ -45,7 +45,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     private TextView emptyText;
     private Loader<List<WiFiAPConfig>> loader;
     private RelativeLayout progress;
-    private List<WiFiAPConfig> wiFiApConfigs;
+//    private List<WiFiAPConfig> wiFiApConfigs;
     private ActionsView actionsView;
     private RelativeLayout emptySection;
     private View footerView;
@@ -137,7 +137,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         loader.forceLoad();
     }
 
-    public void refreshLoaderResults()
+    public void refreshLoaderResults(List<WiFiAPConfig> wiFiApConfigs)
     {
         App.getLogger().startTrace(TAG,"refreshLoaderResults",Log.DEBUG);
 
@@ -230,9 +230,8 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         App.getLogger().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
         progress.setVisibility(View.GONE);
-        wiFiApConfigs = aps;
 
-        refreshLoaderResults();
+        refreshLoaderResults(aps);
 
         App.getLogger().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
         App.getLogger().stopTrace(TAG, "STARTUP", Log.ERROR);

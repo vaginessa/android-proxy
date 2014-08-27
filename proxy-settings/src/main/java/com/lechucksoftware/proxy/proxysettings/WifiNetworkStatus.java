@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
@@ -19,7 +20,7 @@ public class WifiNetworkStatus
     //    private Map<APLNetworkId, WiFiAPEntity> wifiApEntitiesByAPLNetId;
     public Map<Integer, WiFiAPConfig> wifiApConfigsByWifiNetworkId;
 
-    public List<WiFiAPConfig> wifiAPConfigList;
+    private List<WiFiAPConfig> wifiAPConfigList;
     public WiFiAPConfig currentConfiguration;
 
 //    private Boolean updatedConfiguration;
@@ -29,11 +30,15 @@ public class WifiNetworkStatus
 
     public WifiNetworkStatus()
     {
-        wifiApConfigsByWifiNetworkId = new HashMap<Integer, WiFiAPConfig>();
-        wifiApConfigsByAPLNetId = new HashMap<APLNetworkId, WiFiAPConfig>();
+        wifiApConfigsByWifiNetworkId = new ConcurrentHashMap<Integer, WiFiAPConfig>();
+        wifiApConfigsByAPLNetId = new ConcurrentHashMap<APLNetworkId, WiFiAPConfig>();
 //        wifiApEntitiesByAPLNetId = Collections.synchronizedMap(new HashMap<APLNetworkId, WiFiAPEntity>());
 
         notConfiguredWifi = new HashMap<APLNetworkId, ScanResult>();
-        wifiAPConfigList = new ArrayList<WiFiAPConfig>();
     }
+
+//    public List<WiFiAPConfig> getWifiAPConfigList()
+//    {
+//        return wifiAPConfigList;
+//    }
 }

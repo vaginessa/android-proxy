@@ -45,25 +45,38 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
 
         Boolean needsRefresh = false;
 
-        if (this.getCount() == confList.size())
-        {
-            for (int i = 0; i < this.getCount(); i++)
-            {
-                WiFiAPConfig conf = this.getItem(i);
+        //TODO: Needed refactoring here!!
+        // * The check if the order of SSID works
+        // * The check if a proxy configuration is changed without affecting the order doesn't work,
+        //   since the configuration inside the adapter is the same of the configuration passed to it
+        //   since they take this configuration from the in memory WifiNetworksManager
 
-                // Compare if it's changed the SSIDs order
-                if (conf.getSSID().compareTo(confList.get(i).getSSID()) != 0)
-                {
-                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", confList.get(i).getSSID(), conf.getSSID()));
-                    needsRefresh = true;
-                    break;
-                }
-            }
-        }
-        else
-        {
+//        if (this.getCount() == confList.size())
+//        {
+//            for (int i = 0; i < this.getCount(); i++)
+//            {
+//                WiFiAPConfig conf = this.getItem(i);
+//
+//                if (conf.getSSID().compareTo(confList.get(i).getSSID()) != 0)
+//                {
+//                    // Changed the SSIDs order
+//                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", confList.get(i).getSSID(), conf.getSSID()));
+//                    needsRefresh = true;
+//                    break;
+//                }
+//                else if (!conf.isSameConfiguration(confList.get(i)))
+//                {
+//                    // Same SSID order, but different configuration
+//                    App.getLogger().d(TAG,String.format("setData configuration changed: Expecting %s, Found %s", confList.get(i), conf));
+//                    needsRefresh = true;
+//                    break;
+//                }
+//            }
+//        }
+//        else
+//        {
             needsRefresh = true;
-        }
+//        }
 
         if (needsRefresh)
         {
@@ -120,7 +133,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
                 viewHolder.status.setAlpha(alpha);
             }
 
-            viewHolder.ssid.setText(listItem.getAPDescription());
+            viewHolder.ssid.setText(listItem.getSSID());
 
             viewHolder.status.setText(listItem.toStatusString());
 

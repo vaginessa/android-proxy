@@ -280,13 +280,13 @@ public class TestActivity extends Activity
                 Utils.setDemoMode(_testActivity, !App.getInstance().demoMode);
                 Utils.checkDemoMode(_testActivity);
 
-                for (WiFiAPConfig conf : App.getWifiNetworksManager().getSortedWifiApConfigsList())
-                {
-                    if (App.getInstance().demoMode)
-                        conf.setAPDescription(UIUtils.getRandomCodeName().toString());
-                    else
-                        conf.setAPDescription(null);
-                }
+//                for (WiFiAPConfig conf : App.getWifiNetworksManager().getSortedWifiApConfigsList())
+//                {
+//                    if (App.getInstance().demoMode)
+//                        conf.setAPDescription(UIUtils.getRandomCodeName().toString());
+//                    else
+//                        conf.setAPDescription(null);
+//                }
             }
             else if (_action == TestAction.SET_ALL_PROXIES)
             {

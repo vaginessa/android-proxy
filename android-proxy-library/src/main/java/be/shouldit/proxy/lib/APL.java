@@ -557,7 +557,7 @@ public class APL
         WifiConfiguration selectedConfiguration = null;
         for (WifiConfiguration conf : configuredNetworks)
         {
-            if (conf.networkId == wiFiAPConfig.getWifiConfig().networkId)
+            if (conf.networkId == wiFiAPConfig.getNetworkId())
             {
                 selectedConfiguration = conf;
                 break;

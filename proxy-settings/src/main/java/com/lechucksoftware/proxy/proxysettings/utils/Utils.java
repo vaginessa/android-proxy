@@ -13,8 +13,10 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -374,6 +376,16 @@ public class Utils
         }
     }
 
+    public static Object cloneThroughJson(Object t)
+    {
+        App.getLogger().startTrace(TAG,"cloneThroughJson", Log.DEBUG);
+        Gson gson = new Gson();
+        String json = gson.toJson(t);
+        Object result = gson.fromJson(json, t.getClass());
+        App.getLogger().stopTrace(TAG,"cloneThroughJson", Log.DEBUG);
+
+        return result;
+    }
 
     public static boolean airplaneModeEnabled(Context context)
     {
