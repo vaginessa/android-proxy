@@ -27,7 +27,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
 
     public WifiAPListAdapter(Context context)
     {
-        super(context, R.layout.ap_list_item);
+        super(context, R.layout.wifi_ap_list_item);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ctx = context;
     }
@@ -86,7 +86,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
     {
         if (view == null)
         {
-            view = inflater.inflate(R.layout.ap_list_item, parent, false);
+            view = inflater.inflate(R.layout.wifi_ap_list_item, parent, false);
 
             viewHolder = new ApViewHolder();
             viewHolder.ssid = (TextView) view.findViewById(R.id.list_item_ap_name);

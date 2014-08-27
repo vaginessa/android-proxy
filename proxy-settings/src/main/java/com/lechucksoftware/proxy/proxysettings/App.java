@@ -78,6 +78,8 @@ public class App extends Application
 
         // SETUP Libraries
         APL.setup(App.this, getLogger().getLogLevel(), getEventsReporter());
+        // Start ASAP a Wi-Fi scan
+//        APL.getWifiManager().startScan();
 
         getLogger().partialTrace(TAG, "STARTUP", Log.ERROR);
 

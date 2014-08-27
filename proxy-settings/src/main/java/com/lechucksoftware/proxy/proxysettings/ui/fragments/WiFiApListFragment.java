@@ -134,8 +134,12 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
     public void refreshUI()
     {
-        if (apListAdapter != null)
-            apListAdapter.notifyDataSetChanged();
+        loader.forceLoad();
+    }
+
+    public void refreshLoaderResults()
+    {
+        App.getLogger().startTrace(TAG,"refreshLoaderResults",Log.DEBUG);
 
         if (Utils.isAirplaneModeOn(getActivity()))
         {
@@ -151,8 +155,6 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         {
             if (APL.getWifiManager().isWifiEnabled())
             {
-                loader.forceLoad();
-
                 actionsView.wifiOnOffEnable(false);
 
                 if (wiFiApConfigs != null && wiFiApConfigs.size() > 0)
@@ -208,7 +210,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             }
         }
 
-//        Toast.makeText(getActivity(), TAG + " REFRESHUI ", Toast.LENGTH_SHORT).show();
+        App.getLogger().stopTrace(TAG,"refreshLoaderResults",Log.DEBUG);
     }
 
     @Override
@@ -230,7 +232,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         progress.setVisibility(View.GONE);
         wiFiApConfigs = aps;
 
-        refreshUI();
+        refreshLoaderResults();
 
         App.getLogger().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
         App.getLogger().stopTrace(TAG, "STARTUP", Log.ERROR);
@@ -239,7 +241,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     @Override
     public void onLoaderReset(Loader<List<WiFiAPConfig>> listLoader)
     {
-//        Toast.makeText(getActivity(), TAG + " LOADRESET", Toast.LENGTH_SHORT).show();
+        App.getLogger().d(TAG,"onLoaderReset");
     }
 
     /**
