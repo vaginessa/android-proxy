@@ -117,20 +117,25 @@ public class WifiSyncService extends EnhancedIntentService
         {
             try
             {
-//                App.getLogger().d(TAG, "Checking Wi-Fi AP: " + wifiId.toString());
+                App.getLogger().partialTrace(TAG, "syncAP", "Handling network: " + aplNetworkId.toString(), Log.DEBUG);
+
                 if (configuredNetworks.containsKey(aplNetworkId))
                 {
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
+                    App.getLogger().partialTrace(TAG, "syncAP", "Get WifiConfiguration", Log.DEBUG);
                     WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
+                    App.getLogger().partialTrace(TAG, "syncAP", "Get WiFiAPConfig", Log.DEBUG);
                     WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiAPConfig);
+                    App.getLogger().partialTrace(TAG, "syncAP", "Upsert WiFiAPEntity", Log.DEBUG);
                     App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig);
-                    App.getLogger().partialTrace(TAG, "syncAP", "Upserted: " + wiFiAPEntity.toString(), Log.DEBUG);
+                    App.getLogger().partialTrace(TAG, "syncAP", "updateWifiConfig: " + wiFiAPEntity.toString(), Log.DEBUG);
                 }
                 else
                 {
                     App.getDBManager().deleteWifiAP(aplNetworkId);
+                    App.getLogger().partialTrace(TAG, "syncAP", "deleteWifiAP: " + aplNetworkId.toString(), Log.DEBUG);
                     App.getWifiNetworksManager().removeWifiConfig(aplNetworkId);
-                    App.getLogger().partialTrace(TAG, "syncAP", "Deleted: " + aplNetworkId.toString(), Log.DEBUG);
+                    App.getLogger().partialTrace(TAG, "syncAP", "removeWifiConfig: " + aplNetworkId.toString(), Log.DEBUG);
                 }
             }
             catch (Exception e)

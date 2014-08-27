@@ -21,11 +21,12 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import be.shouldit.proxy.lib.constants.APLConstants;
-import comio.should.proxy.libLConstants.CheckStatusValues;
 import com.shio.should.proxy.libnstants.ProxyStatusProperties;
-import com.shoulio.should.proxy.libfiguration;
+
 import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.constants.APLConstants;
+import be.shouldit.proxy.lib.log.LogWrapper;
+import comio.should.proxy.libLConstants.CheckStatusValues;
 
 public class ProxyPreferencesActivity extends Activity
 {

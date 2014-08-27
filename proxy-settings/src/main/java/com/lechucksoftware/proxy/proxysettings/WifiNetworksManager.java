@@ -6,8 +6,6 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,8 +44,8 @@ public class WifiNetworksManager
         {
             App.getLogger().startTrace(TAG,"updateWifiApConfigs", Log.DEBUG, true);
 
-            Map<Long,WiFiAPEntity> persistedWifiAp = App.getDBManager().getAllWifiAp();
-            App.getLogger().partialTrace(TAG, "updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
+//            Map<Long,WiFiAPEntity> persistedWifiAp = App.getDBManager().getAllWifiAp();
+//            App.getLogger().partialTrace(TAG, "updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
 
             wifiNetworkStatus.wifiApConfigsByAPLNetId = APL.getWifiAPConfigurations();
             App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "getWifiAPConfigurations", Log.DEBUG);
@@ -60,7 +58,6 @@ public class WifiNetworksManager
 
             buildSortedConfigurationsList();
             App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "buildSortedConfigurationsList", Log.DEBUG);
-
             App.getLogger().stopTrace(TAG, "updateWifiApConfigs", Log.DEBUG);
         }
     }

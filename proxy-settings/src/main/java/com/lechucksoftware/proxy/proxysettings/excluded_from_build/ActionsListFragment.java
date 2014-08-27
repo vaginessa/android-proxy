@@ -195,9 +195,9 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
             listView.setItemChecked(index, true);
             ProxyEntity proxy = (ProxyEntity) listView.getItemAtPosition(index);
 
-            apConf.setProxyHost(proxy.host);
-            apConf.setProxyPort(proxy.port);
-            apConf.setProxyExclusionString(proxy.exclusion);
+            apConf.setProxyHost(proxy.getHost());
+            apConf.setProxyPort(proxy.getPort());
+            apConf.setProxyExclusionString(proxy.getExclusion());
             apConf.writeConfigurationToDevice();
         }
         catch (Exception e)
