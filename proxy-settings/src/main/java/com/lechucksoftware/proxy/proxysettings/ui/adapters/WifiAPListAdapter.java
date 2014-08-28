@@ -43,53 +43,48 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
     {
         App.getLogger().startTrace(TAG, "setData", Log.INFO);
 
-        Boolean needsRefresh = false;
+        Boolean needsListReplace = false;
 
-        //TODO: Needed refactoring here!!
-        // * The check if the order of SSID works
-        // * The check if a proxy configuration is changed without affecting the order doesn't work,
-        //   since the configuration inside the adapter is the same of the configuration passed to it
-        //   since they take this configuration from the in memory WifiNetworksManager
-
-//        if (this.getCount() == confList.size())
-//        {
-//            for (int i = 0; i < this.getCount(); i++)
-//            {
-//                WiFiAPConfig conf = this.getItem(i);
-//
-//                if (conf.getSSID().compareTo(confList.get(i).getSSID()) != 0)
-//                {
-//                    // Changed the SSIDs order
-//                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", confList.get(i).getSSID(), conf.getSSID()));
-//                    needsRefresh = true;
-//                    break;
-//                }
-//                else if (!conf.isSameConfiguration(confList.get(i)))
-//                {
-//                    // Same SSID order, but different configuration
-//                    App.getLogger().d(TAG,String.format("setData configuration changed: Expecting %s, Found %s", confList.get(i), conf));
-//                    needsRefresh = true;
-//                    break;
-//                }
-//            }
-//        }
-//        else
-//        {
-            needsRefresh = true;
-//        }
-
-        if (needsRefresh)
+        if (this.getCount() == confList.size())
         {
-            App.getLogger().d(TAG,"Adapter need to refresh its data");
+            // Check if the order of SSID is changed
+            for (int i = 0; i < this.getCount(); i++)
+            {
+                WiFiAPConfig conf = this.getItem(i);
 
+                if (conf.getSSID().compareTo(confList.get(i).getSSID()) != 0)
+                {
+                    // Changed the SSIDs order
+                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", confList.get(i).getSSID(), conf.getSSID()));
+                    needsListReplace = true;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            needsListReplace = true;
+        }
+
+        App.getLogger().partialTrace(TAG,"setData","Checked if adapter list needs replace",Log.DEBUG);
+
+        if (needsListReplace)
+        {
             setNotifyOnChange(false);
             clear();
             addAll(confList);
+            App.getLogger().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
+
             // note that a call to notifyDataSetChanged() implicitly sets the setNotifyOnChange back to 'true'!
             // That's why the call 'setNotifyOnChange(false) should be called first every time (see call before 'clear()').
             notifyDataSetChanged();
-
-            App.getLogger().d(TAG,"setData - notifyDataSetChanged");
+            App.getLogger().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+        }
+        else
+        {
+            // Just notifyDataSetChanged
+            notifyDataSetChanged();
+            App.getLogger().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
 
         App.getLogger().stopTrace(TAG, "setData", Log.INFO);
