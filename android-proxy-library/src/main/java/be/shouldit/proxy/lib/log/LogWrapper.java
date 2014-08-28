@@ -103,7 +103,12 @@ public class LogWrapper
         startTrace(tag, msg, logLevel, false);
     }
 
-    public void startTrace(String tag, String msg, int logLevel, boolean showStart)
+    public void startTrace(String tag, String key, int logLevel, boolean showStart)
+    {
+        startTrace(tag,key,"",logLevel,showStart);
+    }
+
+    public void startTrace(String tag, String key, String message, int logLevel, boolean showStart)
     {
         if (startTraces == null)
         {
@@ -114,12 +119,12 @@ public class LogWrapper
         DateFormat df = DateFormat.getDateTimeInstance();
         if (showStart)
         {
-            log(tag, "START " + msg + " ################## " + df.format(traceDate.getStartTime()) + " #####################################################################", logLevel);
+            log(tag, "START " + key + " " + message + " ################## " + df.format(traceDate.getStartTime()) + " #####################################################################", logLevel);
         }
 
         synchronized (startTraces)
         {
-            startTraces.put(msg, traceDate);
+            startTraces.put(key, traceDate);
         }
     }
 
