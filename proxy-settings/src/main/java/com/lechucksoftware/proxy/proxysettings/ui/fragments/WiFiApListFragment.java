@@ -20,7 +20,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter;
-import com.lechucksoftware.proxy.proxysettings.ui.base.BaseListFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -31,25 +31,29 @@ import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnItemClick;
 
 /**
  * Created by marco on 17/05/13.
  */
-public class WiFiApListFragment extends BaseListFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<WiFiAPConfig>>
+public class WiFiApListFragment extends BaseFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<WiFiAPConfig>>
 {
     private static final String TAG = WiFiApListFragment.class.getSimpleName();
     private static final int LOADER_PROXYCONFIGURATIONS = 1;
     private static WiFiApListFragment instance;
-    int mCurCheckPosition = 0;
+
     private WifiAPListAdapter apListAdapter;
-    private TextView emptyText;
     private Loader<List<WiFiAPConfig>> loader;
-    private RelativeLayout progress;
-//    private List<WiFiAPConfig> wiFiApConfigs;
-    private ActionsView actionsView;
-    private RelativeLayout emptySection;
-    private View footerView;
-    private TextView footerTextView;
+
+    @InjectView(R.id.progress) RelativeLayout progress;
+    @InjectView(R.id.actions_view) ActionsView actionsView;
+    @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
+    @InjectView(R.id.wifi_ap_footer_textview) TextView footerTextView;
+
+    @InjectView(android.R.id.empty) TextView emptyText;
+    @InjectView(android.R.id.list) ListView listView;
 
     public static WiFiApListFragment getInstance()
     {
@@ -59,14 +63,6 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         return instance;
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState)
-//    {
-//        super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-//        setMenuVisibility(true);
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -74,14 +70,18 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
         View v = inflater.inflate(R.layout.wifi_ap_list_fragment, container, false);
 
-        progress = (RelativeLayout) v.findViewById(R.id.progress);
-        actionsView = (ActionsView) v.findViewById(R.id.actions_view);
-        emptyText = (TextView) v.findViewById(android.R.id.empty);
-        emptySection = (RelativeLayout) v.findViewById(R.id.empty_message_section);
-        footerTextView = (TextView) v.findViewById(R.id.wifi_ap_footer_textview);
+        ButterKnife.inject(this, v);
 
         App.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+
+        ButterKnife.reset(this);
     }
 
     public void onActivityCreated(Bundle savedInstanceState)
@@ -93,14 +93,6 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE,
                                     ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE |    // ENABLE
                                     ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM);  // DISABLE
-
-//        getListView().addFooterView(footerView);
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id)
-    {
-        showDetails(position);
     }
 
     @Override
@@ -114,7 +106,8 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         actionsView.wifiConfigureEnable(false);
 
         footerTextView.setVisibility(View.GONE);
-        footerTextView.setOnClickListener(new View.OnClickListener() {
+        footerTextView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
@@ -125,7 +118,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
         if (apListAdapter == null)
         {
             apListAdapter = new WifiAPListAdapter(getActivity());
-            setListAdapter(apListAdapter);
+            listView.setAdapter(apListAdapter);
         }
 
         loader = getLoaderManager().initLoader(LOADER_PROXYCONFIGURATIONS, new Bundle(), this);
@@ -139,7 +132,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
 
     public void refreshLoaderResults(List<WiFiAPConfig> wiFiApConfigs)
     {
-        App.getLogger().startTrace(TAG,"refreshLoaderResults",Log.DEBUG);
+        App.getLogger().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
 
         if (Utils.isAirplaneModeOn(getActivity()))
         {
@@ -161,7 +154,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                 {
                     apListAdapter.setData(wiFiApConfigs);
 
-                    getListView().setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.VISIBLE);
                     emptySection.setVisibility(View.GONE);
                     emptyText.setVisibility(View.GONE);
 
@@ -186,7 +179,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
                 }
                 else
                 {
-                    getListView().setVisibility(View.GONE);
+                    listView.setVisibility(View.GONE);
                     emptySection.setVisibility(View.VISIBLE);
                     emptyText.setVisibility(View.VISIBLE);
                     emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
@@ -199,7 +192,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             {
                 // Do not display results when Wi-Fi is not enabled
 //            apListAdapter.setData(new ArrayList<WiFiAPConfig>());
-                getListView().setVisibility(View.GONE);
+                listView.setVisibility(View.GONE);
                 emptySection.setVisibility(View.VISIBLE);
                 emptyText.setVisibility(View.VISIBLE);
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
@@ -210,7 +203,7 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
             }
         }
 
-        App.getLogger().stopTrace(TAG,"refreshLoaderResults",Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "refreshLoaderResults", Log.DEBUG);
     }
 
     @Override
@@ -240,26 +233,19 @@ public class WiFiApListFragment extends BaseListFragment implements IBaseFragmen
     @Override
     public void onLoaderReset(Loader<List<WiFiAPConfig>> listLoader)
     {
-        App.getLogger().d(TAG,"onLoaderReset");
+        App.getLogger().d(TAG, "onLoaderReset");
     }
 
-    /**
-     * Helper function to show the details of a selected item, either by
-     * displaying a fragment in-place in the current UI, or starting a
-     * whole new activity in which it is displayed.
-     */
-
+    @OnItemClick(android.R.id.list)
     void showDetails(int index)
     {
-        mCurCheckPosition = index;
-
         try
         {
             // We can display everything in-place with fragments, so update
             // the list to highlight the selected item and show the data.
-            getListView().setItemChecked(index, true);
+            listView.setItemChecked(index, true);
 
-            WiFiAPConfig selectedConfiguration = (WiFiAPConfig) getListView().getItemAtPosition(index);
+            WiFiAPConfig selectedConfiguration = (WiFiAPConfig) listView.getItemAtPosition(index);
 
             if (selectedConfiguration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
