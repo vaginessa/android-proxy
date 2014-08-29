@@ -6,6 +6,11 @@ env:
     
 notifications:
   email: false
+  
+branches:
+  only:
+    - dev
+    - master
 
 android:
   components:
@@ -30,6 +35,13 @@ android:
     - sys-img-x86-android-20    
 
 before_script:
+  # for gradle output style
+  - export TERM=dumb
+
+  # environment info
+  - ./gradlew -v
+  - uname -a
+  
   # Create and start emulator
   #- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   #- emulator -avd test -no-skin -no-audio -no-window &
