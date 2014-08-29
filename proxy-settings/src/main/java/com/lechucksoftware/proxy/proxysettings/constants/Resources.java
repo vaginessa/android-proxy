@@ -14,7 +14,6 @@ public class Resources
     public static final String ABOUT = BASE_LOCALIZED_WWW + "about.html";
 
     public static final String CHANGELOG_HTML =  BASE_LOCALIZED_WWW + "changelog.html";
-    public static final String WHATSNEW_2_15_HTML = BASE_LOCALIZED_WWW + "whats_new_2_15.html";
     public static final String WHATSNEW_2_16_HTML = BASE_LOCALIZED_WWW + "whats_new_2_16.html";
 
     public static final String getWhatsNewHTML()
@@ -23,10 +22,6 @@ public class Resources
 
         switch (App.getAppMajorVersion())
         {
-            case 1300215:
-                resource = WHATSNEW_2_15_HTML;
-                break;
-
             case 1300216:
                 resource = WHATSNEW_2_16_HTML;
                 break;

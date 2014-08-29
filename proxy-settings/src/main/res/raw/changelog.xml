@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <!--Month abbreviation: http://library.princeton.edu/departments/tsd/katmandu/reference/months.html-->
+    <!--Jan.-->
+    <!--Feb.-->
+    <!--Mar.-->
+    <!--Apr.-->
+    <!--May-->
+    <!--June-->
+    <!--July-->
+    <!--Aug.-->
+    <!--Sept.-->
+    <!--Oct.-->
+    <!--Nov.-->
+    <!--Dec.-->
+
+    <changelogversion versionName="2.16" changeDate="Aug 28,2014">
+        <changelogimprovement>Added count of used proxies</changelogimprovement>
+        <changelogimprovement>Completely refactored application backend logic</changelogimprovement>
+    </changelogversion>
+
+    <changelogversion versionName="2.15" changeDate="June 11,2014">
+        <changelogimprovement>Improved support for 4.1, 4.2 and L Android API versions into [a href="https://github.com/shouldit/android-proxy"][b]APL[/b][/a]</changelogimprovement>
+        <changelogimprovement>Infrastructural changes on application dialogs</changelogimprovement>
+        <changelogbug>Several fixes on previous versions</changelogbug>
+    </changelogversion>
+
+    <changelogversion versionName="2.14" changeDate="Mar 23,2014">
+        <changelogbug>Improved overall application stability</changelogbug>
+    </changelogversion>
+
+    <changelogversion versionName="2.13" changeDate="Mar 20,2014">
+        <changelogimprovement>Added support for saving proxy configurations</changelogimprovement>
+        <changelogimprovement>Updated to latest version of APL with support for Android 4.4 devices</changelogimprovement>
+    </changelogversion>
+
+    <changelogversion versionName="2.12" changeDate="June 11,2014">
+        <changelogimprovement>Updated to latest version of APL, with better support of proxy change notification to system</changelogimprovement>
+        <changelogimprovement>>Added infrastructure for proxy saving feature that will be added in next version</changelogimprovement>
+        <changelogbug>Various bugfix</changelogbug>
+    </changelogversion>
+
+    <changelogversion versionName="2.12" changeDate="June 11,2014">
+        <changelogimprovement>Updated to latest version of APL, with better support of proxy change notification to system</changelogimprovement>
+        <changelogimprovement>>Added infrastructure for proxy saving feature that will be added in next version</changelogimprovement>
+        <changelogbug>Various bugfix</changelogbug>
+    </changelogversion>
+
+    <div class="row changelog">
+        <h2 class="text-center">Release: 2.11</h2>
+        <span class='date'>02/09/2013</span>
+        <ul>
+            <li>Added What's new dialog at application startup</li>
+            <li>Added Help section in application menu</li>
+        </ul>
+    </div>
+    <div class="row changelog">
+        <h2 class="text-center">Release: 2.10</h2>
+        <span class='date'>25/08/2013</span>
+        <ul>
+            <li>Fixed assets loading exception on some devices</li>
+        </ul>
+    </div>
+    <div class="row changelog">
+        <h2 class="text-center">Release: 2.09</h2>
+        <span class='date'>17/06/2013</span>
+        <ul>
+            <li>Fixed various bugs</li>
+            <li>Improved stability and overall application performances</li>
+        </ul>
+    </div>
+    <div class="row changelog">
+        <h2 class="text-center">Release: 2.07</h2>
+        <span class='date'>23/03/2014</span>
+        <ul>
+            <li>Temporary disabled editing of networks with Wi-Fi enterprise security (802.1X)</li>
+        </ul>
+    </div>
+    <div class="row changelog">
+        <h2 class="text-center">Release: 2.06</h2>
+        <span class='date'>07/06/2013</span>
+        <ul>
+            <li>Startup bug fixed</li>
+            <li>Various navigation bugifixes</li>
+        </ul>
+    </div>
+    <div class="row changelog">
+        <h2 class="text-center">Release: 2.04</h2>
+        <span class='date'>05/06/2013</span>
+        <ul>
+            <li>Added support for devices with API version greater than or equal to 11</li>
+        </ul>
+    </div>
+</changelog>

@@ -42,7 +42,6 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
             {
                 switch (action.actionType)
                 {
-                    case WHATSNEW_215:
                     case WHATSNEW_216:
                         HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
                         htmlDialog.show(activity.getFragmentManager(), "WhatsNewHTMLDialog");
