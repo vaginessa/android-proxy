@@ -34,6 +34,17 @@ android:
     - sys-img-armeabi-v7a-android-20
     - sys-img-x86-android-20    
 
+before_install:
+  
+  # Gradle has been updated to version 2.0. 
+  # This release contains potential breaking changes. 
+  # If you need to go back to version 1.11, add the following to your .travis.yml:
+  #
+  - sudo rm -r /usr/local/gradle
+  - curl -LO http://services.gradle.org/distributions/gradle-1.11-bin.zip
+  - unzip -q gradle-1.11-bin.zip
+  - sudo mv gradle-1.11 /usr/local/gradle
+
 before_script:
   # for gradle output style
   - export TERM=dumb
@@ -47,5 +58,7 @@ before_script:
   #- emulator -avd test -no-skin -no-audio -no-window &
   #- adb wait-for-device
   #- adb shell input keyevent 82 &
+  
+
 
 script: gradle assembleCI
