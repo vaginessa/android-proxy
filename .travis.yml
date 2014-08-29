@@ -52,6 +52,7 @@ before_script:
 
   # environment info
   - ./gradlew -v
+  - ./gradlew dependencies --info
   - uname -a
   
   # Create and start emulator
@@ -62,4 +63,4 @@ before_script:
   
 
 
-script: gradle assembleCI
+script: ./gradlew assembleCI
