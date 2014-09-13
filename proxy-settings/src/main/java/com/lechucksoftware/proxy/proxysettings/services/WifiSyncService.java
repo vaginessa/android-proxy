@@ -76,8 +76,7 @@ public class WifiSyncService extends EnhancedIntentService
                         networkIds.add(wifiId);
                     }
                 }
-                else
-                if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
+                else if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
                 {
                     if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
                     {
