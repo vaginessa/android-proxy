@@ -274,4 +274,12 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         if (loader != null)
             loader.forceLoad();
     }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+
+        ButterKnife.reset(this);
+    }
 }
