@@ -2,19 +2,26 @@ package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
+import java.lang.reflect.Proxy;
 import java.util.List;
+
+import be.shouldit.proxy.lib.WiFiAPConfig;
 
 public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
 {
+    private static final String TAG = ProxiesSelectorListAdapter.class.getSimpleName();
     private final LayoutInflater vi;
     private Context ctx;
 
@@ -36,14 +43,51 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
 
     public void setData(List<ProxyEntity> confList)
     {
-        clear();
-        if (confList != null)
+        App.getLogger().startTrace(TAG, "setData", Log.INFO);
+
+        Boolean needsListReplace = false;
+
+        if (this.getCount() == confList.size())
         {
-            for (ProxyEntity conf : confList)
+            // Check if the order of SSID is changed
+            for (int i = 0; i < this.getCount(); i++)
             {
-                add(conf);
+                ProxyEntity proxyEntity = this.getItem(i);
+
+                if (!proxyEntity.equals(confList.get(i)))
+                {
+                    // Changed the Proxies order
+                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", confList.get(i), proxyEntity));
+                    needsListReplace = true;
+                    break;
+                }
             }
         }
+        else
+        {
+            needsListReplace = true;
+        }
+
+        if (needsListReplace)
+        {
+            setNotifyOnChange(false);
+            clear();
+            addAll(confList);
+            App.getLogger().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
+
+            // note that a call to notifyDataSetChanged() implicitly sets the setNotifyOnChange back to 'true'!
+            // That's why the call 'setNotifyOnChange(false) should be called first every time (see call before 'clear()').
+            notifyDataSetChanged();
+            App.getLogger().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+        }
+        else
+        {
+            // Just notifyDataSetChanged
+            notifyDataSetChanged();
+            App.getLogger().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+        }
+
+        App.getLogger().stopTrace(TAG, "setData", Log.INFO);
     }
 
     public View getView(int position, View convertView, ViewGroup parent)

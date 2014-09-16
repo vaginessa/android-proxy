@@ -33,6 +33,7 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.Optional;
 
 /**
  * Created by marco on 17/05/13.
@@ -48,10 +49,12 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
     @InjectView(R.id.progress) RelativeLayout progress;
     @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
-    @InjectView(R.id.proxy_footer_textview) TextView footerTextView;
 
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
+
+    @Optional @InjectView(R.id.proxy_footer_textview) TextView footerTextView; // Footer not displayed into dialog
+    @Optional @InjectView(R.id.dialog_cancel) Button cancelDialogButton; // Cancel not displayed into full fragment
 
     private FragmentMode fragmentMode;
 
@@ -62,8 +65,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     private static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
     private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
     private WiFiAPConfig apConf;
-    private Button cancelDialogButton;
-
 
     public static ProxyListFragment newInstance()
     {
@@ -101,15 +102,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             v = inflater.inflate(R.layout.proxy_list_dialog, container, false);
 
             ButterKnife.inject(this, v);
-
-            cancelDialogButton = (Button) ButterKnife.findById(v,R.id.dialog_cancel);
-            cancelDialogButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view)
-                {
-                    dismiss();
-                }
-            });
         }
         else
         {
@@ -151,7 +143,21 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             }
         });
 
-        footerTextView.setVisibility(View.GONE);
+        if (fragmentMode == FragmentMode.DIALOG)
+        {
+            cancelDialogButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    dismiss();
+                }
+            });
+        }
+        else
+        {
+            footerTextView.setVisibility(View.GONE);
+        }
 
         loader = getLoaderManager().initLoader(LOADER_PROXYDB, new Bundle(), this);
         loader.forceLoad();
@@ -177,8 +183,12 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
             emptySection.setVisibility(View.GONE);
             emptyText.setVisibility(View.GONE);
-            footerTextView.setVisibility(View.VISIBLE);
-            footerTextView.setText(getString(R.string.num_proxies_configured, dbProxies.size()));
+
+            if (fragmentMode == FragmentMode.FULLSIZE)
+            {
+                footerTextView.setVisibility(View.VISIBLE);
+                footerTextView.setText(getString(R.string.num_proxies_configured, dbProxies.size()));
+            }
         }
         else
         {
@@ -188,7 +198,10 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             emptyText.setText(getResources().getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
 
-            footerTextView.setVisibility(View.GONE);
+            if (fragmentMode == FragmentMode.FULLSIZE)
+            {
+                footerTextView.setVisibility(View.GONE);
+            }
         }
 
         progress.setVisibility(View.GONE);
