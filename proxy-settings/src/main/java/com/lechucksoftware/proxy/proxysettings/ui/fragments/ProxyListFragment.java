@@ -24,12 +24,15 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by marco on 17/05/13.
@@ -40,11 +43,15 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 //    private static ProxyListFragment instance;
     int mCurCheckPosition = 0;
     private ProxiesSelectorListAdapter proxiesListAdapter;
-    private TextView emptyText;
-    private RelativeLayout progress;
 
     private Loader<List<ProxyEntity>> loader;
-    private ListView listView;
+
+    @InjectView(R.id.progress) RelativeLayout progress;
+    @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
+    @InjectView(R.id.proxy_footer_textview) TextView footerTextView;
+
+    @InjectView(android.R.id.empty) TextView emptyText;
+    @InjectView(android.R.id.list) ListView listView;
 
     private FragmentMode fragmentMode;
 
@@ -56,7 +63,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
     private WiFiAPConfig apConf;
     private Button cancelDialogButton;
-    private RelativeLayout emptySection;
 
 
     public static ProxyListFragment newInstance()
@@ -94,7 +100,9 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             getDialog().setTitle(R.string.select_proxy);
             v = inflater.inflate(R.layout.proxy_list_dialog, container, false);
 
-            cancelDialogButton = (Button) v.findViewById(R.id.dialog_cancel);
+            ButterKnife.inject(this, v);
+
+            cancelDialogButton = (Button) ButterKnife.findById(v,R.id.dialog_cancel);
             cancelDialogButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view)
@@ -105,15 +113,20 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         }
         else
         {
-            v = inflater.inflate(R.layout.standard_list, container, false);
+            v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
+
+            ButterKnife.inject(this, v);
         }
 
-        progress = (RelativeLayout) v.findViewById(R.id.progress);
-        progress.setVisibility(View.VISIBLE);
+        return v;
+    }
 
-        emptyText = (TextView) v.findViewById(android.R.id.empty);
-        emptySection = (RelativeLayout) v.findViewById(R.id.empty_message_section);
-        listView = (ListView) v.findViewById(android.R.id.list);
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        progress.setVisibility(View.VISIBLE);
 
         if (proxiesListAdapter == null)
         {
@@ -138,13 +151,10 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             }
         });
 
+        footerTextView.setVisibility(View.GONE);
+
         loader = getLoaderManager().initLoader(LOADER_PROXYDB, new Bundle(), this);
         loader.forceLoad();
-
-//        // Reset selected configuration
-//        App.setSelectedConfiguration(null);
-
-        return v;
     }
 
     /**
@@ -167,19 +177,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
             emptySection.setVisibility(View.GONE);
             emptyText.setVisibility(View.GONE);
-
-//            if (dbProxies.size() > 10)
-//            {
-//                listView.setFastScrollEnabled(true);
-//                listView.setFastScrollAlwaysVisible(true);
-//                listView.setSmoothScrollbarEnabled(true);
-//            }
-//            else
-//            {
-//                listView.setFastScrollEnabled(false);
-//                listView.setFastScrollAlwaysVisible(false);
-//                listView.setSmoothScrollbarEnabled(false);
-//            }
+            footerTextView.setVisibility(View.VISIBLE);
+            footerTextView.setText(getString(R.string.num_proxies_configured, dbProxies.size()));
         }
         else
         {
@@ -188,6 +187,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             emptySection.setVisibility(View.VISIBLE);
             emptyText.setText(getResources().getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
+
+            footerTextView.setVisibility(View.GONE);
         }
 
         progress.setVisibility(View.GONE);
@@ -257,9 +258,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
     public void refreshUI()
     {
-        if (proxiesListAdapter != null)
-            proxiesListAdapter.notifyDataSetChanged();
-
         if (loader != null)
             loader.forceLoad();
     }

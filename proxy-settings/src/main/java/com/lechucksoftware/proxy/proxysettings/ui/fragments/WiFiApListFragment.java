@@ -106,14 +106,14 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         actionsView.wifiConfigureEnable(false);
 
         footerTextView.setVisibility(View.GONE);
-        footerTextView.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                ProxyUtils.startAndroidWifiSettings(getActivity());
-            }
-        });
+//        footerTextView.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                ProxyUtils.startAndroidWifiSettings(getActivity());
+//            }
+//        });
 
         if (apListAdapter == null)
         {
@@ -128,7 +128,8 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
     public void refreshUI()
     {
-        loader.forceLoad();
+        if (loader != null)
+            loader.forceLoad();
     }
 
     public void refreshLoaderResults(List<WiFiAPConfig> wiFiApConfigs)
