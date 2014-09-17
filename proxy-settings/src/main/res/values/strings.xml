@@ -935,5 +935,6 @@
     <string name="airplane_mode_message">Proxy Settings cannot access your Wi-Fi information while Airplane mode is enabled</string>
     <string name="num_wifi_access_points_configured">%1$d Wi-Fi access points configured</string>
     <string name="num_proxies_configured">%1$d proxies saved</string>
+    <string name="delete">Delete</string>
 
 </resources>

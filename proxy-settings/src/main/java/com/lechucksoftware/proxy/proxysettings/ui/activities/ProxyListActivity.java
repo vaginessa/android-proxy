@@ -41,7 +41,8 @@ public class ProxyListActivity extends BaseWifiActivity
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(getResources().getString(R.string.proxy_list));
+        actionBar.setTitle("");
+//        actionBar.setTitle(getResources().getString(R.string.proxy_list));
     }
 
     @Override

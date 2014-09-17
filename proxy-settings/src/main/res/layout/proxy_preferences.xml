@@ -14,61 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <RelativeLayout
-                android:id="@+id/proxy_duplicated_banner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:orientation="horizontal"
-                android:background="@color/OrangeTransparent">
+        <include layout="@layout/proxy_duplicated_banner"/>
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/proxy_duplicated_img"
-                    android:text="@string/duplicated_proxy_warning"/>
-
-            <ImageView
-                    android:id="@+id/proxy_duplicated_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_action_alerts_and_states_warning"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/proxy_in_use_banner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:orientation="horizontal"
-            android:background="@color/RedTransparent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/proxy_locked_img"
-                android:text="@string/already_used_proxy_warning"/>
-
-            <ImageView
-                android:id="@+id/proxy_locked_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_action_device_access_secure"/>
-
-        </RelativeLayout>
+        <include layout="@layout/proxy_in_use_banner"/>
 
         <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                 android:id="@+id/proxy_host"

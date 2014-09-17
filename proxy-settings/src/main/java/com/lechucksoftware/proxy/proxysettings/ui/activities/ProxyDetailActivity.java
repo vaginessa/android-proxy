@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -47,7 +50,7 @@ public class ProxyDetailActivity extends BaseActivity
 
         FragmentManager fm = getFragmentManager();
 
-        createCancelSaveActionBar();
+//        createCancelSaveActionBar();
 
         Intent callerIntent = getIntent();
         if (callerIntent != null)
@@ -75,65 +78,87 @@ public class ProxyDetailActivity extends BaseActivity
             // TODO : only for DEBUG
             UIUtils.showError(getApplicationContext(), "DEBUG - No caller intent");
         }
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle("");
     }
 
-    private void createCancelSaveActionBar()
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
     {
-        final ActionBar actionBar = getActionBar();
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        final View customActionBarView = inflater.inflate(R.layout.save_cancel, null);
-        saveButton = customActionBarView.findViewById(R.id.actionbar_done);
-
-        saveButton.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View v)
-            {
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                        R.string.analytics_act_button_click,
-                        R.string.analytics_lab_save_proxy);
-                saveConfiguration();
-            }
-
-        });
-
-        cancelButton = customActionBarView.findViewById(R.id.actionbar_cancel);
-        cancelButton.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View view)
-            {
-
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                        R.string.analytics_act_button_click,
-                        R.string.analytics_lab_cancel_save_proxy);
-                App.getCacheManager().release(cachedProxyId);
-                finish();
-            }
-
-        });
-
-        // Show the custom action bar view and hide the normal Home icon and title.
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
-                ActionBar.DISPLAY_SHOW_CUSTOM |
-                        ActionBar.DISPLAY_HOME_AS_UP |
-                        ActionBar.DISPLAY_SHOW_HOME |
-                        ActionBar.DISPLAY_SHOW_TITLE
-        );
-
-
-//        actionBar.setCustomView(customActionBarView);
-
-        // Full size CANCEL-SAVE
-        actionBar.setCustomView(customActionBarView,
-                new ActionBar.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT)
-        );
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.proxy_details, menu);
+        return true;
     }
+
+//    private void createCancelSaveActionBar()
+//    {
+//        final ActionBar actionBar = getActionBar();
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//        final View customActionBarView = inflater.inflate(R.layout.save_cancel, null);
+//        saveButton = customActionBarView.findViewById(R.id.actionbar_done);
+//
+//        saveButton.setOnClickListener(new View.OnClickListener()
+//        {
+//
+//            @Override
+//            public void onClick(View v)
+//            {
+//                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
+//                        R.string.analytics_act_button_click,
+//                        R.string.analytics_lab_save_proxy);
+//                saveConfiguration();
+//            }
+//
+//        });
+//
+//        cancelButton = customActionBarView.findViewById(R.id.actionbar_cancel);
+//        cancelButton.setOnClickListener(new View.OnClickListener()
+//        {
+//
+//            @Override
+//            public void onClick(View view)
+//            {
+//
+//                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
+//                        R.string.analytics_act_button_click,
+//                        R.string.analytics_lab_cancel_save_proxy);
+//                App.getCacheManager().release(cachedProxyId);
+//                finish();
+//            }
+//
+//        });
+//
+//        // Show the custom action bar view and hide the normal Home icon and title.
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
+//                ActionBar.DISPLAY_SHOW_CUSTOM |
+//                        ActionBar.DISPLAY_HOME_AS_UP |
+//                        ActionBar.DISPLAY_SHOW_HOME |
+//                        ActionBar.DISPLAY_SHOW_TITLE
+//        );
+//
+//
+////        actionBar.setCustomView(customActionBarView);
+//
+//        // Full size CANCEL-SAVE
+//        actionBar.setCustomView(customActionBarView,
+//                new ActionBar.LayoutParams(
+//                        ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT)
+//        );
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item)
+//    {
+//        switch (item.getItemId())
+//        {
+//
+//        }
+//    }
 
     public void enableSave()
     {
