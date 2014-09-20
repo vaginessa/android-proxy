@@ -458,6 +458,7 @@ public class TestUtils
                 setupWEPWifiConfig(wc, ssid, password);
                 break;
             case 2:
+            default:
                 setupWPAWifiConfig(wc, ssid, password);
                 break;
 //            case 3:

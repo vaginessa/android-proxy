@@ -32,10 +32,10 @@
             android:onClick="addProxyClicked"/>
 
             <Button
+                android:id="@+id/add_wifi_networks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add TEST Wi-Fi Networks"
-                android:onClick="addWifiNetworks"/>
+                android:text="Add TEST Wi-Fi Networks"/>
 
             <Button
                 android:layout_width="match_parent"

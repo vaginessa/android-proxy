@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     @InjectView(R.id.actions_view) ActionsView actionsView;
     @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
     @InjectView(R.id.wifi_ap_footer_textview) TextView footerTextView;
+    @InjectView(R.id.wifi_ap_footer_progress) ProgressBar footerProgress;
 
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
@@ -106,6 +108,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         actionsView.wifiConfigureEnable(false);
 
         footerTextView.setVisibility(View.GONE);
+        footerProgress.setVisibility(View.GONE);
 //        footerTextView.setOnClickListener(new View.OnClickListener()
 //        {
 //            @Override
@@ -129,7 +132,10 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     public void refreshUI()
     {
         if (loader != null)
+        {
             loader.forceLoad();
+            footerProgress.setVisibility(View.VISIBLE);
+        }
     }
 
     public void refreshLoaderResults(List<WiFiAPConfig> wiFiApConfigs)
@@ -214,6 +220,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         App.getLogger().startTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         ProxyConfigurationTaskLoader proxyConfigurationTaskLoader = new ProxyConfigurationTaskLoader(getActivity());
+
         App.getLogger().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         return proxyConfigurationTaskLoader;
@@ -225,6 +232,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         App.getLogger().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
         progress.setVisibility(View.GONE);
+        footerProgress.setVisibility(View.GONE);
 
         refreshLoaderResults(aps);
 

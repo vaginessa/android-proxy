@@ -1,15 +1,19 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -19,14 +23,12 @@ import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import be.shouldit.proxy.lib.WiFiAPConfig;
 
 /**
  * Created by marco on 10/10/13.
@@ -36,6 +38,9 @@ public class TestActivity extends Activity
     public static final String TAG = TestActivity.class.getSimpleName();
     public LinearLayout testDBContainer;
     private ScrollView testLogScroll;
+    private Button addWifiNetworksBtn;
+    private TestActivity testActivity;
+
 
     public enum TestAction
     {
@@ -63,12 +68,57 @@ public class TestActivity extends Activity
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
         App.getLogger().d(TAG, "Creating TestActivity");
 
+        testActivity = this;
+
         setContentView(R.layout.test_layout);
+
+        addWifiNetworksBtn = (Button) findViewById(R.id.add_wifi_networks);
+        addWifiNetworksBtn.setOnTouchListener(new View.OnTouchListener() {
+
+            private Date touchEventStarted;
+            private Toast toast;
+            private Context context;
+            private Boolean touching;
+            public AsyncToast asyncToast;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                App.getLogger().d(TAG, "Touch Event: " + String.valueOf(motionEvent.getActionMasked()));
+                context = view.getContext();
+
+                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN)
+                {
+                    // Start touch
+                    touchEventStarted = new Date();
+                    touching = true;
+
+                    asyncToast = new AsyncToast(testActivity, touchEventStarted);
+                    asyncToast.execute();
+                }
+                else if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
+                {
+                    // End touch
+                    if (touchEventStarted != null)
+                    {
+                        Date touchEventEnd = new Date();
+                        Long diff = touchEventEnd.getTime() - touchEventStarted.getTime();
+                        int numWifis = (int) ((diff / 100) % 200) + 1;
+                        addWifiNetworks(view,numWifis);
+
+                        touching = false;
+                        asyncToast.stop();
+                    }
+                }
+
+                return true;
+            }
+
+        });
 
         testLogScroll = (ScrollView) findViewById(R.id.test_log);
         testDBContainer = (LinearLayout) findViewById(R.id.testDBContainer);
     }
-
 
     public void APNTest(View view)
     {
@@ -89,9 +139,9 @@ public class TestActivity extends Activity
         addAsyncProxy.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void addWifiNetworks(View view)
+    public void addWifiNetworks(View view, int numWifiToAdd)
     {
-        AsyncTest addAsyncWifiNetworks = new AsyncTest(this, TestAction.ADD_TEST_WIFI_NETWORKS);
+        AsyncTest addAsyncWifiNetworks = new AsyncTest(this, TestAction.ADD_TEST_WIFI_NETWORKS, numWifiToAdd);
         addAsyncWifiNetworks.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -198,14 +248,16 @@ public class TestActivity extends Activity
 
     public class AsyncTest extends AsyncTask<Void, String, Void>
     {
+        private final Object[] _params;
         TestActivity _testActivity;
         TextView textViewTest;
         TestAction _action;
 
-        public AsyncTest(TestActivity testActivity, TestAction action)
+        public AsyncTest(TestActivity testActivity, TestAction action, Object... params)
         {
             _testActivity = testActivity;
             _action = action;
+            _params = params;
         }
 
         @Override
@@ -255,8 +307,13 @@ public class TestActivity extends Activity
             }
             else if (_action == TestAction.ADD_TEST_WIFI_NETWORKS)
             {
-                String ssid = TestUtils.createFakeWifiNetwork(_testActivity);
-                publishProgress(String.format("Created #[%d] TEST Wi-Fi network: %s",1, ssid));
+                int numWifis = (Integer) _params[0];
+
+                for (int i=0;i<numWifis;i++)
+                {
+                    String ssid = TestUtils.createFakeWifiNetwork(_testActivity);
+                    publishProgress(String.format("Created #[%d] TEST Wi-Fi network: %s", 1, ssid));
+                }
             }
             else if (_action == TestAction.REMOVE_TEST_WIFI_NETWORKS)
             {
@@ -329,4 +386,75 @@ public class TestActivity extends Activity
         }
 
     }
+
+    private class AsyncToast extends AsyncTask<Void, String, Void>
+    {
+        private final Activity activity;
+        private final Date start;
+        Toast toast;
+        boolean run;
+
+        public AsyncToast(Activity callingActivity, Date eventStarted)
+        {
+            activity = callingActivity;
+            start = eventStarted;
+            run = true;
+        }
+
+        @Override
+        protected void onPostExecute(Void result)
+        {
+
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+
+        }
+
+        public void stop()
+        {
+            run = false;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... progress)
+        {
+            if (toast != null)
+            {
+                toast.cancel();
+            }
+
+            App.getLogger().d(TAG, progress[0]);
+            toast = Toast.makeText(activity, progress[0], Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+            while(run)
+            {
+                Date touchEventPartial = new Date();
+                Long diff = touchEventPartial.getTime() - start.getTime();
+                int numWifis = (int) ((diff / 100) % 200) + 1;
+
+                publishProgress("Num: " + String.valueOf(numWifis));
+
+                try
+                {
+                    Thread.sleep(100);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }
+
+    }
+
 }
