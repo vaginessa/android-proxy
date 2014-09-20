@@ -108,6 +108,7 @@ public class TestActivity extends Activity
 
                         touching = false;
                         asyncToast.stop();
+                        asyncToast.cancel(true);
                     }
                 }
 
@@ -309,10 +310,10 @@ public class TestActivity extends Activity
             {
                 int numWifis = (Integer) _params[0];
 
-                for (int i=0;i<numWifis;i++)
+                for (int i=0;i<=numWifis;i++)
                 {
                     String ssid = TestUtils.createFakeWifiNetwork(_testActivity);
-                    publishProgress(String.format("Created #[%d] TEST Wi-Fi network: %s", 1, ssid));
+                    publishProgress(String.format("Created #[%d / %d] TEST Wi-Fi network: %s", i , numWifis, ssid));
                 }
             }
             else if (_action == TestAction.REMOVE_TEST_WIFI_NETWORKS)
@@ -444,11 +445,16 @@ public class TestActivity extends Activity
 
                 try
                 {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 }
                 catch (InterruptedException e)
                 {
                     e.printStackTrace();
+                }
+
+                if (numWifis >= 200)
+                {
+                    run = false;
                 }
             }
 
