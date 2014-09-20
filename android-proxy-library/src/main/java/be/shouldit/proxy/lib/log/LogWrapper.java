@@ -166,6 +166,8 @@ public class LogWrapper
                 long diffFromStart = now.getTime() - start.getStartTime().getTime();
                 start.updateLast(now);
                 log(tag, "FINISH " + key + " " + msg + " %%%%%%%%%%%%% " + diffFromLast + " ms (Tot: " + diffFromStart  + " ms) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
+
+                startTraces.remove(key);
             }
         }
     }
