@@ -3,15 +3,13 @@ package com.lechucksoftware.proxy.proxysettings.ui.activities;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -19,6 +17,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
+import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.UpdateLinkedWifiAPAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment;
@@ -93,7 +92,38 @@ public class ProxyDetailActivity extends BaseActivity
         return true;
     }
 
-//    private void createCancelSaveActionBar()
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                break;
+
+            case R.id.menu_save:
+                saveProxy();
+                break;
+
+            case R.id.menu_delete:
+                deleteProxy();
+                break;
+
+            case R.id.menu_about:
+                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(helpIntent);
+                break;
+
+            case R.id.menu_developer:
+                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
+                startActivity(testIntent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //    private void createCancelSaveActionBar()
 //    {
 //        final ActionBar actionBar = getActionBar();
 //        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -110,7 +140,7 @@ public class ProxyDetailActivity extends BaseActivity
 //                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
 //                        R.string.analytics_act_button_click,
 //                        R.string.analytics_lab_save_proxy);
-//                saveConfiguration();
+//                saveProxy();
 //            }
 //
 //        });
@@ -172,7 +202,7 @@ public class ProxyDetailActivity extends BaseActivity
             saveButton.setEnabled(false);
     }
 
-    private void saveConfiguration()
+    private void saveProxy()
     {
         try
         {
@@ -185,6 +215,29 @@ public class ProxyDetailActivity extends BaseActivity
             else
             {
                 App.getDBManager().upsertProxy(proxy);
+                App.getCacheManager().release(cachedProxyId);
+                finish();
+            }
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+    }
+
+    private void deleteProxy()
+    {
+        try
+        {
+            ProxyEntity proxy = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
+            if (proxy.getInUse())
+            {
+                UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
+                updateDialog.show(getFragmentManager(), "UpdateLinkedWifiAPAlertDialog");
+            }
+            else
+            {
+                App.getDBManager().deleteProxy(proxy.getId());
                 App.getCacheManager().release(cachedProxyId);
                 finish();
             }
