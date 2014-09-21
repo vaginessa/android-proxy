@@ -96,7 +96,8 @@ public class TestActivity extends Activity
                     asyncToast = new AsyncToast(testActivity, touchEventStarted);
                     asyncToast.execute();
                 }
-                else if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
+                else if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP ||
+                         motionEvent.getActionMasked() == MotionEvent.ACTION_CANCEL)
                 {
                     // End touch
                     if (touchEventStarted != null)

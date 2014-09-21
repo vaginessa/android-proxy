@@ -443,11 +443,11 @@ public class TestUtils
     public static String createFakeWifiNetwork(Context ctx)
     {
         WifiConfiguration wc = new WifiConfiguration();
+        Random r = new Random();
 
-        String ssid = UIUtils.getRandomCodeName().name();
+        String ssid = UIUtils.getRandomCodeName().name() + String.valueOf(r.nextInt(10));
         String password = "\"aaabbb1234567\""; //This is the WEP Password
 
-        Random r = new Random();
         int securityType = r.nextInt(3);
         switch (securityType)
         {
