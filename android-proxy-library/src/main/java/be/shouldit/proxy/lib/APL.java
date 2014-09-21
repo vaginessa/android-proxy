@@ -112,10 +112,11 @@ public class APL
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        if (mWifiManager == null)
-        {
-            mWifiManager = (WifiManager) gContext.getSystemService(Context.WIFI_SERVICE);
-        }
+//        if (mWifiManager == null)
+//        {
+        // Always get updated WifiManager
+        mWifiManager = (WifiManager) gContext.getSystemService(Context.WIFI_SERVICE);
+//        }
 
         return mWifiManager;
     }

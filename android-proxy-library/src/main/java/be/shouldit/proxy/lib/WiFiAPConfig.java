@@ -41,7 +41,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private static final int[] STATE_SECURED = {R.attr.state_encrypted};
     private static final int[] STATE_NONE = {};
 
-    private static final int INVALID_NETWORK_ID = -1;
+    public static final int INVALID_NETWORK_ID = -1;
 
     private String ssid;
     private String bssid;
@@ -50,6 +50,12 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private PskType pskType = PskType.UNKNOWN;
     private transient WifiConfiguration wifiConfig;
     private WifiInfo mInfo;
+
+    public int getRssi()
+    {
+        return mRssi;
+    }
+
     private int mRssi;
     private NetworkInfo.DetailedState mState;
 
@@ -329,45 +335,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             return 1;
         }
 
-        WiFiAPConfig other = (WiFiAPConfig) wiFiAPConfig;
-
-        // Active one goes first.
-        if (isActive() && !other.isActive()) return -1;
-        if (!isActive() && other.isActive()) return 1;
-
-        // Reachable one goes before unreachable one.
-        if (isReachable() && !other.isReachable())
-        {
-            return -1;
-        }
-
-        if (!isReachable() && other.isReachable())
-        {
-            return 1;
-        }
-
-        // Configured one goes before unconfigured one.
-        if (getNetworkId() != INVALID_NETWORK_ID
-                && other.getNetworkId() == INVALID_NETWORK_ID)
-        {
-            return -1;
-        }
-
-        if (getNetworkId() == INVALID_NETWORK_ID
-                && other.getNetworkId() != INVALID_NETWORK_ID)
-        {
-            return 1;
-        }
-
-        // Sort by signal strength.
-        int difference = WifiManager.compareSignalLevel(other.mRssi, mRssi);
-        if (difference != 0)
-        {
-            return difference;
-        }
-
-        // Sort by ssid.
-        return getSSID().compareToIgnoreCase(other.getSSID());
+        return WifiApConfigComparator.compareWifiAp(this, (WiFiAPConfig) wiFiAPConfig);
     }
 
     public boolean isActive()

@@ -6,18 +6,16 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
@@ -49,7 +47,12 @@ public class WifiNetworksManager
 //            Map<Long,WiFiAPEntity> persistedWifiAp = App.getDBManager().getAllWifiAp();
 //            App.getLogger().partialTrace(TAG, "updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
 
-            wifiNetworkStatus.wifiApConfigsByAPLNetId = APL.getWifiAPConfigurations();
+            Map<APLNetworkId,WiFiAPConfig> configurations = APL.getWifiAPConfigurations();
+            for (APLNetworkId aplNetworkId : configurations.keySet())
+            {
+                wifiNetworkStatus.put(aplNetworkId,configurations.get(aplNetworkId));
+            }
+
             App.getLogger().partialTrace(TAG,"updateWifiApConfigs", "getWifiAPConfigurations", Log.DEBUG);
 
 //            wifiNetworkStatus.setWifiAPConfigList(new ArrayList<WiFiAPConfig>(wifiNetworkStatus.wifiApConfigsByAPLNetId.values()));
@@ -66,22 +69,20 @@ public class WifiNetworksManager
     {
         synchronized (wifiNetworkStatus)
         {
-            if (wifiNetworkStatus.wifiApConfigsByAPLNetId != null)
-            {
+//            if (wifiNetworkStatus.getWifiApConfigsByAPLNetId() != null)
+//            {
                 APLNetworkId aplNetworkId = updatedConfiguration.getAPLNetworkId();
 
-                if (wifiNetworkStatus.wifiApConfigsByAPLNetId.containsKey(aplNetworkId))
+                if (wifiNetworkStatus.containsKey(aplNetworkId))
                 {
-                    WiFiAPConfig currentConfiguration = wifiNetworkStatus.wifiApConfigsByAPLNetId.get(aplNetworkId);
+                    WiFiAPConfig currentConfiguration = wifiNetworkStatus.get(aplNetworkId);
                     currentConfiguration.updateProxyConfiguration(updatedConfiguration);
                 }
                 else
                 {
-                    wifiNetworkStatus.wifiApConfigsByAPLNetId.put(aplNetworkId, updatedConfiguration);
-                    wifiNetworkStatus.wifiApConfigsByWifiNetworkId.put(updatedConfiguration.getNetworkId(), updatedConfiguration);
-//                    wifiNetworkStatus.getWifiAPConfigList().add(wiFiAPConfig);
+                    wifiNetworkStatus.put(aplNetworkId, updatedConfiguration);
                 }
-            }
+//            }
         }
     }
 
@@ -91,10 +92,7 @@ public class WifiNetworksManager
         {
             if (aplNetworkId != null)
             {
-                WiFiAPConfig wiFiAPConfig = wifiNetworkStatus.wifiApConfigsByAPLNetId.remove(aplNetworkId);
-//            wifiApEntitiesByAPLNetId.remove(aplNetworkId);
-                wifiNetworkStatus.wifiApConfigsByWifiNetworkId.remove(wiFiAPConfig.getNetworkId());
-//                wifiNetworkStatus.getWifiAPConfigList().remove(wiFiAPConfig);
+                wifiNetworkStatus.remove(aplNetworkId);
             }
         }
     }
@@ -105,9 +103,9 @@ public class WifiNetworksManager
 
         synchronized (wifiNetworkStatus)
         {
-            if (!wifiNetworkStatus.wifiApConfigsByAPLNetId.isEmpty())
+            if (!wifiNetworkStatus.isEmpty())
             {
-                for (WiFiAPConfig conf : wifiNetworkStatus.wifiApConfigsByAPLNetId.values())
+                for (WiFiAPConfig conf : wifiNetworkStatus.values())
                 {
                     conf.updateWifiInfo(currentWifiInfo, null);
                 }
@@ -124,10 +122,10 @@ public class WifiNetworksManager
         synchronized (wifiNetworkStatus)
         {
             // clear all the savedConfigurations AP status
-            if (!wifiNetworkStatus.wifiApConfigsByAPLNetId.isEmpty())
+            if (!wifiNetworkStatus.isEmpty())
             {
                 App.getLogger().startTrace(TAG, "Clear scan status from AP configs", Log.DEBUG);
-                for (WiFiAPConfig conf : wifiNetworkStatus.wifiApConfigsByAPLNetId.values())
+                for (WiFiAPConfig conf : wifiNetworkStatus.values())
                 {
                     conf.clearScanStatus();
                 }
@@ -141,9 +139,9 @@ public class WifiNetworksManager
                 SecurityType security = ProxyUtils.getSecurity(res);
                 APLNetworkId aplNetworkId = new APLNetworkId(currSSID, security);
 
-                if (wifiNetworkStatus.wifiApConfigsByAPLNetId.containsKey(aplNetworkId))
+                if (wifiNetworkStatus.containsKey(aplNetworkId))
                 {
-                    WiFiAPConfig conf = wifiNetworkStatus.wifiApConfigsByAPLNetId.get(aplNetworkId);
+                    WiFiAPConfig conf = wifiNetworkStatus.get(aplNetworkId);
                     if (conf != null)
                     {
                         conf.updateScanResults(res);
@@ -151,12 +149,12 @@ public class WifiNetworksManager
                 }
                 else
                 {
-                    if (wifiNetworkStatus.notConfiguredWifi.containsKey(aplNetworkId))
+                    if (wifiNetworkStatus.getNotConfiguredWifi().containsKey(aplNetworkId))
                     {
-                        wifiNetworkStatus.notConfiguredWifi.remove(aplNetworkId);
+                        wifiNetworkStatus.getNotConfiguredWifi().remove(aplNetworkId);
                     }
 
-                    wifiNetworkStatus.notConfiguredWifi.put(aplNetworkId, res);
+                    wifiNetworkStatus.getNotConfiguredWifi().put(aplNetworkId, res);
                 }
             }
         }
@@ -173,24 +171,29 @@ public class WifiNetworksManager
     {
         App.getLogger().startTrace(TAG, "getSortedWifiApConfigsList", Log.DEBUG);
 
-        if (wifiNetworkStatus.wifiApConfigsByAPLNetId == null || wifiNetworkStatus.wifiApConfigsByAPLNetId.isEmpty())
+        if (wifiNetworkStatus.isEmpty())
         {
             updateWifiApConfigs();
             App.getLogger().partialTrace(TAG, "getSortedWifiApConfigsList", "updateWifiApConfigs", Log.DEBUG);
         }
 
-        List<WiFiAPConfig> list = new ArrayList<WiFiAPConfig>(wifiNetworkStatus.wifiApConfigsByAPLNetId.values());
-        App.getLogger().partialTrace(TAG, "getSortedWifiApConfigsList", "new ArrayList", Log.DEBUG);
+        List<WiFiAPConfig> list = null;
 
-        try
+        synchronized (wifiNetworkStatus)
         {
-            Collections.sort(list);
-        }
-        catch (IllegalArgumentException e)
-        {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("config_list", configListToDBG().toString());
-            App.getEventsReporter().sendException(e, map);
+            list = new ArrayList<WiFiAPConfig>(wifiNetworkStatus.values());
+            App.getLogger().partialTrace(TAG, "getSortedWifiApConfigsList", "new ArrayList", Log.DEBUG);
+
+            try
+            {
+                Collections.sort(list);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("config_list", configListToDBG().toString());
+                App.getEventsReporter().sendException(e, map);
+            }
         }
 
         App.getLogger().partialTrace(TAG, "getSortedWifiApConfigsList", "Collections.sort", Log.DEBUG);
@@ -205,12 +208,12 @@ public class WifiNetworksManager
 
         synchronized (wifiNetworkStatus)
         {
-            if (wifiNetworkStatus.wifiApConfigsByAPLNetId.containsKey(aplNetworkId))
+            if (wifiNetworkStatus.containsKey(aplNetworkId))
             {
 //                selected = new WiFiAPConfig(wifiNetworkStatus.wifiApConfigsByAPLNetId.get(aplNetworkId));
                 try
                 {
-                    selected = (WiFiAPConfig) wifiNetworkStatus.wifiApConfigsByAPLNetId.get(aplNetworkId);
+                    selected = (WiFiAPConfig) wifiNetworkStatus.get(aplNetworkId);
                 }
                 catch (Exception e)
                 {
@@ -246,9 +249,9 @@ public class WifiNetworksManager
             if (info != null)
             {
                 int networkId = info.getNetworkId();
-                if (wifiNetworkStatus.wifiApConfigsByWifiNetworkId.containsKey(networkId))
+                if (wifiNetworkStatus.containsKey(networkId))
                 {
-                    updatedConf = wifiNetworkStatus.wifiApConfigsByWifiNetworkId.get(networkId);
+                    updatedConf = wifiNetworkStatus.get(networkId);
                 }
 
                 mergeWithCurrentConfiguration(updatedConf);
@@ -262,11 +265,11 @@ public class WifiNetworksManager
 
     private void mergeWithCurrentConfiguration(WiFiAPConfig updated)
     {
-        if (wifiNetworkStatus.currentConfiguration == null)
+        if (wifiNetworkStatus.getCurrentConfiguration() == null)
         {
             if (updated != null)
             {
-                wifiNetworkStatus.currentConfiguration = updated;
+                wifiNetworkStatus.setCurrentConfiguration(updated);
                 App.getLogger().d(TAG, "updateCurrentConfiguration - Set current configuration (was NULL before)");
             }
             else
@@ -274,10 +277,10 @@ public class WifiNetworksManager
                 App.getLogger().d(TAG, "updateCurrentConfiguration - Same configuration: no need to update it (both NULL)");
             }
         }
-        else if (updated != null && wifiNetworkStatus.currentConfiguration.compareTo(updated) != 0)
+        else if (updated != null && wifiNetworkStatus.getCurrentConfiguration().compareTo(updated) != 0)
         {
             // Update currentConfiguration only if it's different from the previous
-            wifiNetworkStatus.currentConfiguration = updated;
+            wifiNetworkStatus.setCurrentConfiguration(updated);
             App.getLogger().d(TAG, "updateCurrentConfiguration - Updated current configuration");
         }
         else

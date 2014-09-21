@@ -103,6 +103,7 @@ public class WifiSyncService extends EnhancedIntentService
     private void syncProxyConfigurations(List<APLNetworkId> configurations)
     {
         Map<APLNetworkId, WifiConfiguration> configuredNetworks = APL.getConfiguredNetworks();
+        App.getLogger().d(TAG,String.format("Configured %d Wi-Fi on the device", configuredNetworks.size()));
 
         if (configurations.isEmpty())
         {
