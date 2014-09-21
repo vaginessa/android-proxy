@@ -512,6 +512,8 @@ public class TestUtils
         wc.hiddenSSID = false;
         wc.status = WifiConfiguration.Status.DISABLED;
         wc.priority = 40;
+
+        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
     }
 
     public static void setupWEPWifiConfig(WifiConfiguration wc, String ssid, String password)
@@ -554,7 +556,7 @@ public class TestUtils
         wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
         wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
-        wc.wepKeys[0] = password;
+        wc.preSharedKey = password;
         wc.wepTxKeyIndex = 0;
     }
 }

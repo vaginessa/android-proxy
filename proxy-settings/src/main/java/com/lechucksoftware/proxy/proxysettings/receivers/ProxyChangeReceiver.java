@@ -89,7 +89,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
     }
 
-    private void callWifiSyncService(Context context, Intent intent)
+    public static void callWifiSyncService(Context context, Intent intent)
     {
 //        if (App.getInstance().wifiActionEnabled)
         {
@@ -106,7 +106,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
     }
 
-    private void callUpdatedWifStatusService(Context context, Intent intent)
+    public static void callUpdatedWifStatusService(Context context, Intent intent)
     {
         try
         {

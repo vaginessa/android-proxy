@@ -461,11 +461,16 @@ public class APL
         APL.getLogger().startTrace(TAG,"createNetworksMap", Log.DEBUG);
         if (configuredNetworks != null)
         {
+            APL.getLogger().d(TAG,String.format("%d configured Wi-Fi networks",configuredNetworks.size()));
             for (WifiConfiguration wifiConf : configuredNetworks)
             {
                 APLNetworkId networkId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
                 networksMap.put(networkId, wifiConf);
             }
+        }
+        else
+        {
+            APL.getLogger().d(TAG,"NULL configured Wi-Fi networks");
         }
         APL.getLogger().stopTrace(TAG,"createNetworksMap", Log.DEBUG);
 

@@ -2,15 +2,18 @@ package com.lechucksoftware.proxy.proxysettings.services;
 
 import android.content.Intent;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.receivers.ProxyChangeReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
@@ -73,6 +76,12 @@ public class WifiStatusUpdateService extends EnhancedIntentService
         App.getLogger().d(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
+
+//        Map<APLNetworkId,WifiConfiguration> wiFiAPConfigMap = APL.getConfiguredNetworks();
+//        if (wiFiAPConfigMap.size() != App.getWifiNetworksManager().getSortedWifiApConfigsList().size())
+//        {
+//            ProxyChangeReceiver.callWifiSyncService(this, intent);
+//        }
 
         App.getLogger().stopTrace(TAG, "updateAfterScanResults", Log.DEBUG);
     }
