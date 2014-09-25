@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,45 +15,43 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 import java.util.List;
 
+import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
-import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 
 public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 {
     public static final String TAG = WiFiApDetailFragment.class.getSimpleName();
 
+    private APLNetworkId wifiNetworkId;
     private WiFiAPConfig selectedWiFiAP;
     private ProxyEntity selectedProxy;
 
-    private TextView wifiName;
-//    private TextView wifiStatus;
-    private WifiSignal wifiSignal;
-    private Switch proxySwitch;
-    private TextView proxySelector;
-    private ViewGroup wifiLayout;
-    private InputField proxyHost;
-    private InputField proxyPort;
-    private InputExclusionList proxyBypass;
-//    private InputTags proxyTags;
-
-    private APLNetworkId wifiNetworkId;
-    private RelativeLayout proxyFieldsLayout;
-    private ImageButton proxyEditButton;
-
+    @InjectView(R.id.wifi_signal) WifiSignal wifiSignal;
+    @InjectView(R.id.wifi_name) TextView wifiName;
+    @InjectView(R.id.wifi_layout) ViewGroup wifiLayout;
+    @InjectView(R.id.wifi_proxy_switch) Switch proxySwitch;
+    @InjectView(R.id.proxy_selector) TextView proxySelector;
+    @InjectView(R.id.proxy_host) InputField proxyHost;
+    @InjectView(R.id.proxy_port) InputField proxyPort;
+    @InjectView(R.id.proxy_bypass) InputExclusionList proxyBypass;
+    @InjectView(R.id.wifi_proxy_input_fields) RelativeLayout proxyFieldsLayout;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -93,80 +90,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         App.getLogger().startTrace(TAG, "onCreateView", Log.DEBUG);
 
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
+        ButterKnife.inject(this, v);
 
-//        LogWrapper.partialTrace(TAG, "onCreateView", Log.DEBUG);
-
-        progress = v.findViewById(R.id.progress);
-        progress.setVisibility(View.GONE);
-        content =  v.findViewById(R.id.content);
-        content.setVisibility(View.VISIBLE);
-
-
-        wifiLayout = (ViewGroup) v.findViewById(R.id.wifi_layout);
-//        wifiLayout.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                ActionsListFragment actionsListFragment = ActionsListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
-//                actionsListFragment.show(getFragmentManager(), TAG);
-//            }
-//        });
-
-        wifiName = (TextView) v.findViewById(R.id.wifi_name);
-//        wifiStatus = (TextView) v.findViewById(R.id.wifi_status);
-        wifiSignal = (WifiSignal) v.findViewById(R.id.wifi_signal);
-        proxySwitch = (Switch) v.findViewById(R.id.wifi_proxy_switch);
-        proxySwitch.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-
-                if (proxySwitch.isChecked())
-                {
-                    App.getLogger().d(TAG, "Set proxy settings = STATIC");
-                    selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
-                }
-                else
-                {
-                    App.getLogger().d(TAG, "Set proxy settings = NONE");
-                    selectedWiFiAP.setProxySetting(ProxySetting.NONE);
-                    selectedWiFiAP.setProxyHost(null);
-                    selectedWiFiAP.setProxyPort(0);
-                    selectedWiFiAP.setProxyExclusionString(null);
-                }
-
-                saveConfiguration();
-                refreshUI();
-            }
-        });
-
-        proxySelector = (TextView) v.findViewById(R.id.proxy_selector);
-        proxySelector.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                openProxySelectorDialog();
-            }
-        });
-
-        proxyFieldsLayout = (RelativeLayout) v.findViewById(R.id.wifi_proxy_input_fields);
-
-        proxyHost = (InputField) v.findViewById(R.id.proxy_host);
-//        proxyHost.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openProxyEditorDialog();
-//            }
-//        });
-
-
-        proxyPort = (InputField) v.findViewById(R.id.proxy_port);
-        proxyBypass = (InputExclusionList) v.findViewById(R.id.proxy_bypass);
 //        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
 
 //        proxyEditButton = (ImageButton) v.findViewById(R.id.edit_proxy_button);
@@ -181,20 +106,43 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //                startActivity(i);
 //            }
 //        });
-
         refreshUI();
 
         App.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
-//    private void openProxyEditorDialog()
-//    {
-//        ProxyDetailFragment dialog = ProxyDetailFragment.newInstance(selectedProxy);
-//        dialog.show(getFragmentManager(),TAG);
-//    }
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
 
-    private void openProxySelectorDialog()
+        ButterKnife.reset(this);
+    }
+
+    @OnClick(R.id.wifi_proxy_switch)
+    public void proxySwitchClicked()
+    {
+        if (proxySwitch.isChecked())
+        {
+            App.getLogger().d(TAG, "Set proxy settings = STATIC");
+            selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+        }
+        else
+        {
+            App.getLogger().d(TAG, "Set proxy settings = NONE");
+            selectedWiFiAP.setProxySetting(ProxySetting.NONE);
+            selectedWiFiAP.setProxyHost(null);
+            selectedWiFiAP.setProxyPort(0);
+            selectedWiFiAP.setProxyExclusionString(null);
+        }
+
+        saveConfiguration();
+        refreshUI();
+    }
+
+    @OnClick(R.id.proxy_selector)
+    public void openProxySelectorDialog()
     {
         List<ProxyEntity> availableProxies = App.getCacheManager().getAllProxiesList();
         if (availableProxies != null && availableProxies.size() > 0)
@@ -208,6 +156,12 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             noProxiesDefinedAltertDialog.show(getFragmentManager(),"NoProxiesDefinedAlertDialog");
         }
     }
+
+//    private void openProxyEditorDialog()
+//    {
+//        ProxyDetailFragment dialog = ProxyDetailFragment.newInstance(selectedProxy);
+//        dialog.show(getFragmentManager(),TAG);
+//    }
 
     private void refreshVisibility()
     {
