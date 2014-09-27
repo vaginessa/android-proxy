@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @InjectView(R.id.proxy_port) InputField proxyPort;
     @InjectView(R.id.proxy_bypass) InputExclusionList proxyBypass;
     @InjectView(R.id.wifi_proxy_input_fields) RelativeLayout proxyFieldsLayout;
+//    @InjectView(R.id.progress) RelativeLayout progress;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -123,6 +125,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @OnClick(R.id.wifi_proxy_switch)
     public void proxySwitchClicked()
     {
+//        progress.setVisibility(View.VISIBLE);
+
         if (proxySwitch.isChecked())
         {
             App.getLogger().d(TAG, "Set proxy settings = STATIC");
@@ -144,6 +148,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @OnClick(R.id.proxy_selector)
     public void openProxySelectorDialog()
     {
+//        progress.setVisibility(View.VISIBLE);
+
         List<ProxyEntity> availableProxies = App.getCacheManager().getAllProxiesList();
         if (availableProxies != null && availableProxies.size() > 0)
         {
@@ -185,6 +191,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             proxySelector.setVisibility(View.GONE);
             proxyFieldsLayout.setVisibility(View.GONE);
         }
+
+//        progress.setVisibility(View.GONE);
     }
 
     private void saveConfiguration()

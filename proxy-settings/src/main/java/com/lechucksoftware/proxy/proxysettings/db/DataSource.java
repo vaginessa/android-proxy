@@ -696,7 +696,7 @@ public class DataSource
         return updatedTag;
     }
 
-    private void updateInUseFlag(long proxyId)
+    public void updateInUseFlag(long proxyId)
     {
         if (proxyId == -1)
             return;
@@ -760,8 +760,20 @@ public class DataSource
 
     public void deleteWifiAP(long wifiApId)
     {
+        Long proxyIdToUpdate = -1L;
+        WiFiAPEntity wiFiAPEntity = getWifiAP(wifiApId);
+        if (wiFiAPEntity != null)
+        {
+            proxyIdToUpdate = wiFiAPEntity.getProxyId();
+        }
+
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         database.delete(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(wifiApId)});
+
+        if (proxyIdToUpdate != -1)
+        {
+            updateInUseFlag(proxyIdToUpdate);
+        }
     }
 
     public void deleteWifiAP(APLNetworkId aplNetworkId)

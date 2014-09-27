@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.net.Proxy;
 import java.util.List;
+import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.constants.APLConstants;
@@ -65,7 +66,7 @@ public class MaintenanceService extends EnhancedIntentService
                 {
                     if (callerIntent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
                     {
-                        checkDBstatus();
+                        checkDBConsistence();
                         checkProxiesCountryCodes();
                         Utils.checkDemoMode(getApplicationContext());
                     }
@@ -88,32 +89,36 @@ public class MaintenanceService extends EnhancedIntentService
         return;
     }
 
-    private void checkDBstatus()
+    private void checkDBConsistence()
     {
         /**
-         * Add IN USE TAG
+         * Check in Use proxy flag
          */
-//        getInUseProxyTag();
+        checkInUseProxyFlag();
     }
 
-//    private TagEntity getInUseProxyTag()
-//    {
-//        TagEntity inUseTag = null;
-//        long id  = App.getDBManager().findTag("IN USE");
-//        if (id != -1)
-//        {
-//            inUseTag = App.getDBManager().getTag(id);
-//        }
-//        else
-//        {
-//            inUseTag = new TagEntity();
-//            inUseTag.tag = "IN USE";
-//            inUseTag.tagColor = UIUtils.getTagsColor(this, 0);
-//            App.getDBManager().upsertTag(inUseTag);
-//        }
-//
-//        return inUseTag;
-//    }
+    private void checkInUseProxyFlag()
+    {
+        try
+        {
+            Map<Long, ProxyEntity> proxiesMap = App.getDBManager().getAllProxiesWithTAGs();
+            if (proxiesMap != null)
+            {
+                App.getLogger().startTrace(TAG,"checkInUseProxyTag",Log.DEBUG);
+
+                for (Long proxyID : proxiesMap.keySet())
+                {
+                    App.getDBManager().updateInUseFlag(proxyID);
+                }
+
+                App.getLogger().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
+            }
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+    }
 
     private void checkProxiesCountryCodes()
     {
