@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -49,25 +52,39 @@ public class WiFiApDetailActivity extends BaseWifiActivity
             fm.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.fragment_container, detail).commit();
+
+            ActionBar actionBar = getActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(selectedId.SSID);
+            actionBar.setDisplayUseLogoEnabled(false);
         }
         else
         {
             App.getEventsReporter().sendException(new Exception("Intent not received or not containing extra"));
             NavigationUtils.GoToMainActivity(this);
         }
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("");
-//        actionBar.setTitle(getResources().getString(R.string.app_name));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.ap_wifi_list, menu);
+        inflater.inflate(R.menu.ap_wifi_details, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                NavigationUtils.GoToMainActivity(getApplicationContext());
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
