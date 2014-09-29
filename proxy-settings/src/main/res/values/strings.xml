@@ -6,8 +6,6 @@
     <string name="app_codename">Build #PS-%1$d</string>
     <string name="title_changelog">@string/app_name</string>
     <string name="close">Close</string>
-
-
     <string name="accept">Accept</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
@@ -35,33 +33,26 @@
     <string name="network_status">Network status</string>
     <string name="proxy_status">Proxy status</string>
     <string name="ap_selection_title">Select the Wi-Fi access point:</string>
-    <string name="connected_to">%1$s &#8230;</string>
-
+    <string name="connected_to">%1$s …</string>
     <string name="no_proxy_defined">No proxies defined!</string>
-    <string name="enable_wifi_action">Enable Wi-Fi&#8230;</string>
-    <string name="setupap_wifi_action">Configure new Wi-Fi access point&#8230;</string>
+    <string name="enable_wifi_action">Enable Wi-Fi…</string>
+    <string name="setupap_wifi_action">Configure new Wi-Fi access point…</string>
     <string name="connect_to_wifi_action">Connect to %1$s</string>
     <string name="checking_action">Checking configuration</string>
-
     <string name="not_supported_network_8021x_error_message">Proxy Settings is currently not able to access and modify the settings for Wi-Fi networks with 802.1x security type.</string>
     <string name="exception_apl_writeconfig_error_message">Proxy Settings experienced an error writing the configuration on the device. Please try again.</string>
-
     <string name="wifi_empty_list_no_ap">No Wi-Fi networks configured</string>
     <string name="proxy_empty_list">No proxies saved</string>
     <string name="tags_empty_list">No tags saved</string>
-    <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50]-->
+    <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50] -->
     <string name="wifi_empty_list_wifi_off">To see available networks, turn Wi-Fi on.</string>
-
     <string name="ap_status_label">Status:</string>
     <string name="ap_security_label">Security:</string>
     <string name="ap_proxy_label">Proxy:</string>
-
-
-    <string name="validation_proxy_summary_checking">Checking configuration &#8230;</string>
-    <string name="validation_proxy_summary_warning">Validation warnings &#8230;</string>
-    <string name="validation_proxy_summary_errors">Validation errors &#8230;</string>
-    <string name="validation_proxy_summary_ok">Validation details &#8230;</string>
-
+    <string name="validation_proxy_summary_checking">Checking configuration …</string>
+    <string name="validation_proxy_summary_warning">Validation warnings …</string>
+    <string name="validation_proxy_summary_errors">Validation errors …</string>
+    <string name="validation_proxy_summary_ok">Validation details …</string>
     <string name="validation_wifi_enabled_title">Wi-Fi status</string>
     <string name="validation_wifi_selected_title">Connected Wi-Fi AP</string>
     <string name="validation_proxy_enabled_title">Proxy enabled</string>
@@ -69,147 +60,109 @@
     <string name="validation_proxy_port_title">Proxy Port</string>
     <string name="validation_proxy_reachable_title">Ping proxy host</string>
     <string name="validation_proxy_web_reachable_title">WEB reachability</string>
-
-
     <string name="pref_main_title">Proxy configuration</string>
     <string name="pref_tools_title">Tools</string>
-
     <string name="whatsnew">What\'s new</string>
     <string name="changelog">Changelog</string>
     <string name="pref_send_feedback">Send us a feedback!</string>
     <string name="pref_send_feedback_summary">Write a mail to SHOULDIT</string>
     <string name="pref_about_title">About</string>
-
     <string name="disclaimer_intro_title">Introduction</string>
-	<string name="disclaimer_intro_text">Congratulations and thank you for
+    <string name="disclaimer_intro_text">Congratulations and thank you for
 	    downloading <b>Proxy Settings</b>! Please read carefully the following
-	    introduction to the application and the Android\'s proxy issue.
-	</string>
-
+	    introduction to the application and the Android\'s proxy issue.</string>
     <string name="help_text_0_title">What</string>
-	<string name="help_text_0_subtitle">What does <b>Proxy Settings</b> offer?
-	</string>
-	<string name="help_text_0_description"><b>Proxy Settings</b> is an utility
+    <string name="help_text_0_subtitle">What does <b>Proxy Settings</b> offer?</string>
+    <string name="help_text_0_description"><b>Proxy Settings</b> is an utility
 		application that provides a set of tools to ease the access and the
-		modification of the proxy configuration into your Android device.
-	</string>
-
+		modification of the proxy configuration into your Android device.</string>
     <string name="help_text_1_title">Details</string>
-	<string name="help_text_1_subtitle">More information on <b>Proxy Settings</b>
-	</string>
-	<string name="help_text_1_description"><b>Proxy Settings</b> provides a
-		shortcut for calling a system application called <i>ProxySelector</i> 
-		(technically it\'s an <i>Activity</i>) hidden into Android, in order 
+    <string name="help_text_1_subtitle">More information on <b>Proxy Settings</b></string>
+    <string name="help_text_1_description"><b>Proxy Settings</b> provides a
+		shortcut for calling a system application called <i>ProxySelector</i> 		(technically it\'s an <i>Activity</i>) hidden into Android, in order 
 		to edit the system\'s proxy configuration of your device.
 		\n\nIn the majority of the Android ROMs the <i>ProxySelector 
 		Activity</i> is already present but hidden to the user:	what <b>Proxy 
-		Settings</b> does is to simply call this existing system utility.
-	</string>
-
+		Settings</b> does is to simply call this existing system utility.</string>
     <string name="help_text_2_title">Warning</string>
-	<string name="help_text_2_subtitle">Use <b>Proxy Settings</b> with caution!
-	</string>
-	<string name="help_text_2_description">When Google engineers released the
-		first versions of Android, they probably decided to hide the 
-		<i>ProxySelector Activity</i> because of the lack of support into both 
+    <string name="help_text_2_subtitle">Use <b>Proxy Settings</b> with caution!</string>
+    <string name="help_text_2_description">When Google engineers released the
+		first versions of Android, they probably decided to hide the  <i>ProxySelector Activity</i> because of the lack of support into both 
 		the	OS and developers API. <b>Proxy Settings</b> let you change these 
-		settings, but we suggest the users to do it very cautiously!
-	</string>
-	<string name="help_text_2_description_b"><b>Please remember</b> that
+		settings, but we suggest the users to do it very cautiously!</string>
+    <string name="help_text_2_description_b"><b>Please remember</b> that
 	    uninstalling this application doesn\'t automatically restore the default
 	    values of the proxy configuration of your device. You should explicitly
 	    clear the proxy configuration before uninstalling <b>Proxy Settings</b>!
 	    An improper use of the application could result in a wrong working of
-	    the network stack of your device!
-	</string>
-
+	    the network stack of your device!</string>
     <string name="help_text_3_title">Support</string>
-	<string name="help_text_3_subtitle">About the proxy support on <b>Android</b>
-	</string>
-	<string name="help_text_3_description">Configuring the proxy doesn\'t mean
+    <string name="help_text_3_subtitle">About the proxy support on <b>Android</b></string>
+    <string name="help_text_3_description">Configuring the proxy doesn\'t mean
 	    that all your applications will automatically start to
 		using these settings! This is due to a not easy understandable API for 
 		developers. If you are interested in a deeper analysis of this issue,
 		you can find a detailed explanation of the problem and leave your 
-		feedbacks/comments on the <b>Android Proxy Project</b> official website:
-	</string>
-	<string name="help_text_3_description_link">http://www.android-proxy.com
-	</string>
-	<string name="help_text_3_description_c">The project offers also an open
+		feedbacks/comments on the <b>Android Proxy Project</b> official website:</string>
+    <string name="help_text_3_description_link">http://www.android-proxy.com</string>
+    <string name="help_text_3_description_c">The project offers also an open
 		source module called <b>Android Proxy Library (APL)</b> that provides to
 		the	developers an easy way to access and use the proxy settings in
 		every Android application. So, if you want the <b>Proxy</b> support in
 		your favourite applications, start request this feature to their 
-		developers!
-	</string>
-
+		developers!</string>
     <string name="help_text_4_title">Tools</string>
     <string name="help_text_4_subtitle"><b>Proxy Settings</b> tools</string>
-	<string name="help_text_4_description"><b>Proxy Settings</b> offers to the
+    <string name="help_text_4_description"><b>Proxy Settings</b> offers to the
 		users a set of tools to check and troubleshoot the selected proxy 
-		configuration:
-	</string>
-	<string name="help_text_4_description_b">\n\n&#8226; A <b>Configuration
+		configuration:</string>
+    <string name="help_text_4_description_b">\n\n• A <b>Configuration
 	    checker</b>: it provides useful status indicators related to the proxy 
 	    configuration of your Android device.
-        \n\n&#8226; A <b>URL downloader</b>: it gives you the possibility to
+        \n\n• A <b>URL downloader</b>: it gives you the possibility to
         download a specific remote resource.
-        \n\n&#8226; A <b>URL browser</b>: it opens a WEB browser page with 
-        full proxy support on a selected URL.
-    </string>
-
+        \n\n• A <b>URL browser</b>: it opens a WEB browser page with 
+        full proxy support on a selected URL.</string>
     <string name="help_text_5_title">Check</string>
     <string name="help_text_5_subtitle">The <b>Configuration checker</b></string>
-	<string name="help_text_5_description"><b>Proxy Settings</b> provides an
+    <string name="help_text_5_description"><b>Proxy Settings</b> provides an
 		useful section, called <b>Configuration	checker</b> that let you
 		check the proxy configuration with useful status indicators, helping 
 		understand the issues you may find setting the proxy on your Android
-		device:
-	</string>
-    <string name="help_text_5_description_b">\n\n&#8226; <b>Proxy enabled</b>: 
+		device:</string>
+    <string name="help_text_5_description_b">\n\n• <b>Proxy enabled</b>: 
     	Tests if the selected proxy configuration contains a non empty value.
-        \n\n&#8226; <b>Proxy address</b>: Tests if the address of the selected
+        \n\n• <b>Proxy address</b>: Tests if the address of the selected
         proxy is a valid address.
-        \n\n&#8226; <b>Ping proxy host</b>: Tests if the address of the selected
+        \n\n• <b>Ping proxy host</b>: Tests if the address of the selected
         proxy can be reached with a ICMP PING.
-        \n\n&#8226; <b>Web reachability</b>: Tests if it\'s possible to retrieve 
-        an HTTP resource with the current proxy configuration.
-    </string>
-
+        \n\n• <b>Web reachability</b>: Tests if it\'s possible to retrieve 
+        an HTTP resource with the current proxy configuration.</string>
     <string name="proxysettingscalleractivity_dialog_title">Warning</string>
-	<string name="proxysettingscalleractivity_dialog_description">Starting from
+    <string name="proxysettingscalleractivity_dialog_description">Starting from
 	    Android 3.x you should modify the setting only for the current Wi-Fi
 	    network.\n\nYou can do it opening with a long press the Wi-Fi network
 	    edit dialog, specifying the Proxy settings to Manual, and typing
-	    proxy\'s hostname and port.
-	</string>
+	    proxy\'s hostname and port.</string>
     <string name="proxysettingscalleractivity_dialog_OK">OK. Go to Wi-Fi Settings</string>
-
     <string name="do_you_like">Do you like Proxy Settings?</string>
     <string name="app_rater_dialog_button_rate">Rate Proxy Settings</string>
     <string name="app_rater_dialog_button_remind">Remind me later</string>
     <string name="app_rater_dialog_button_nothanks">No, thanks</string>
-
     <string name="pref_key_proxy_settings_title">Basic settings</string>
     <string name="pref_key_proxy_settings_test_title">Help and troubleshooting</string>
-
     <string name="preference_applications_feedback_title">Applications Feedback</string>
     <string name="preference_applications_feedback_summary">Submit a feedback regarding the proxy support on third party applications</string>
-
     <string name="pref_key_proxy_settings_prefscreen_title">Test</string>
     <string name="pref_key_proxy_settings_prefscreen_description">Test proxy settings</string>
-
     <string name="preferences_statusbar_notification_title">Notification</string>
     <string name="preferences_statusbar_notification_description_enabled">Status bar notification enabled</string>
     <string name="preferences_statusbar_notification_description_disabled">Status bar notification disabled</string>
-
     <string name="preferences_statusbar_notification_persistance_title">Notification persistance</string>
     <string name="preferences_statusbar_notification_persistance_description_enabled">Status bar notification cannot be cleared</string>
     <string name="preferences_statusbar_notification_persistance_description_disabled">Status bar notification can be cleared</string>
-
     <string name="preference_proxy_host_port_title">Proxy selector</string>
     <string name="preference_proxy_host_port_summary_default">Not set</string>
-
     <string name="preference_test_proxy_configuration_title">Validate network connection</string>
     <string name="preference_test_proxy_configuration_summary">Start proxy configuration tests</string>
     <string name="preference_test_proxy_webview_title">URL browser</string>
@@ -222,16 +175,11 @@
     <string name="preference_test_proxy_urlretriever_dialog_file_exception">Exception downloading file: </string>
     <string name="preference_test_proxy_urlretriever_dialog_file_path_description">The provided URL will be downloaded and saved at the following path: </string>
     <string name="preference_test_proxy_urlbrowser_dialog_title">Insert an URL to open into a webview browser: </string>
-
-
     <string name="pref_key_proxy_settings_advanced_title">Application options</string>
     <string name="pref_key_proxy_settings_advanced_prefscreen_title">Configuration checker</string>
     <string name="pref_key_proxy_settings_advanced_prefscreen_description">Help and guide you checking and fixing your proxy settings configuration</string>
-
     <string name="validation_proxy_category">Tests list</string>
     <string name="other_tests_proxy_category">Other proxy tests</string>
-
-
     <string name="preference_proxy_authentication_screen_title">Proxy Authentication</string>
     <string name="preference_proxy_authentication_screen_summary">Set proxy authentication</string>
     <string name="preference_proxy_authentication_title">Authentication</string>
@@ -240,24 +188,18 @@
     <string name="preference_proxy_authentication_type_title">Authentication Type</string>
     <string name="preference_proxy_authentication_type_summary">HTTP</string>
     <string name="preference_proxy_authentication_user_title">Username</string>
-    <string name="preference_proxy_authentication_user_summary"/>
+    <string name="preference_proxy_authentication_user_summary"></string>
     <string name="preference_proxy_authentication_password_title">Password</string>
-    <string name="preference_proxy_authentication_password_summary"/>
-
+    <string name="preference_proxy_authentication_password_summary"></string>
     <string name="preference_help_screen_summary">Proxy settings support</string>
-
     <string name="preference_help_title">Documentation</string>
     <string name="preference_help_summary">Android proxy settings explained</string>
     <string name="preference_about_title">About</string>
     <string name="proxy_settings_about">Application version</string>
-
     <string name="preference_proxy_host_port_summary_exception">Invalid configuration</string>
-
     <string name="application_list_description">Please select the application that doesn\'t support the proxy settings:</string>
-    <string name="application_list_loading_dialog_description">"Loading applications &#8230;"</string>
-
+    <string name="application_list_loading_dialog_description">"Loading applications …"</string>
     <string name="application_feedback_dialog_title">Submit your feedback!</string>
-
     <string name="application_feedback_dialog_description">Only the following information will be sent in an anonymized way to our servers:</string>
     <!-- <string name="application_feedback_dialog_accept_description"></string> -->
     <string name="application_feedback_dialog_icon">Selected application icon</string>
@@ -272,7 +214,7 @@
     <string name="proxy_exclusionlist_title">Bypass list</string>
     <!-- HTTP proxy settings. The exclusion list label. -->
     <string name="proxy_exclusionlist_label">Bypass proxy for</string>
-    <!-- HTTP proxy settings. The hint text for proxy exclusion list. [CHAR LIMIT=50]-->
+    <!-- HTTP proxy settings. The hint text for proxy exclusion list. [CHAR LIMIT=50] -->
     <string name="proxy_exclusionlist_hint">Bypass list</string>
     <!-- HTTP proxy settings. The button to restore the defaults. -->
     <string name="proxy_defaultView_text">Restore defaults</string>
@@ -282,9 +224,9 @@
     <string name="proxy_hostname_label">Proxy IP/hostname</string>
     <!-- HTTP proxy settings. The hint text field for the hostname. [CHAR LIMIT=50] -->
     <string name="proxy_hostname_hint">Proxy host</string>
-    <!-- HTTP proxy settings. Title if there is an error-->
+    <!-- HTTP proxy settings. Title if there is an error -->
     <string name="proxy_error">Attention</string>
-    <!-- HTTP proxy settings. Button to get rid of error box-->
+    <!-- HTTP proxy settings. Button to get rid of error box -->
     <string name="proxy_error_dismiss">OK</string>
     <!-- HTTP proxy settings. The error if the hostname is not valid -->
     <string name="proxy_error_invalid_host">The hostname you typed isn\'t valid.</string>
@@ -296,20 +238,20 @@
     <string name="proxy_error_empty_host_set_port">The port field must be empty if the host field is empty.</string>
     <!-- HTTP proxy settings. Error msg -->
     <string name="proxy_error_invalid_port">The port you typed isn\'t valid.</string>
-    <!-- HTTP proxy settings. Warning message about limited application support [CHAR LIMIT=100]-->
+    <!-- HTTP proxy settings. Warning message about limited application support [CHAR LIMIT=100] -->
     <string name="proxy_warning_limited_support">The HTTP proxy is used by the browser but may not be used by the other apps.</string>
 
     <!-- Wifi Display settings. The title of the screen. [CHAR LIMIT=40] -->
     <string name="wifi_display_settings_title">Wireless display</string>
-    <!-- Wifi Display settings. Text displayed when Wifi display is off and device list is empty [CHAR LIMIT=80]-->
+    <!-- Wifi Display settings. Text displayed when Wifi display is off and device list is empty [CHAR LIMIT=80] -->
     <string name="wifi_display_settings_empty_list_wifi_display_off">To see devices, turn wireless display on.</string>
-    <!-- Wifi Display settings. Text displayed when Wifi Display is off and device list is empty [CHAR LIMIT=80]-->
+    <!-- Wifi Display settings. Text displayed when Wifi Display is off and device list is empty [CHAR LIMIT=80] -->
     <string name="wifi_display_settings_empty_list_wifi_display_disabled">Wireless display is disabled because Wi-Fi is off.</string>
     <!-- Wifi Display settings. The title of the action button that initiates a search for nearby devices [CHAR LIMIT=20] -->
     <string name="wifi_display_search_for_devices">Search for displays</string>
     <!-- Wifi Display settings. The title of the action button while a search for nearby devices is in progress [CHAR LIMIT=20] -->
     <string name="wifi_display_searching_for_devices">Searching\u2026</string>
-    <!-- Wifi Display settings. Text that appears when scanning for devices is finished and no nearby device was found [CHAR LIMIT=40]-->
+    <!-- Wifi Display settings. Text that appears when scanning for devices is finished and no nearby device was found [CHAR LIMIT=40] -->
     <string name="wifi_display_no_devices_found">No nearby wireless displays were found.</string>
     <!-- Wifi Display settings. The sub heading for devices which have already been paired with this device. [CHAR LIMIT=40] -->
     <string name="wifi_display_paired_devices">Paired displays</string>
@@ -346,12 +288,14 @@
     <string name="wifi_display_summary_disabled">Disabled</string>
 
     <!-- Wi-Fi Settings -->
-    <skip/>
+    <skip />
     <!-- Used in the 1st-level settings screen to turn on Wi-Fi -->
     <string name="wifi_quick_toggle_title">Wi-Fi</string>
     <!-- Used in the 1st-level settings screen as the turn-on summary -->
 
-    <!-- Used in the 1st-level settings screen to go to the 2nd-level settings screen  [CHAR LIMIT=20]-->
+
+    <!-- Used in the 1st-level settings screen to go to the 2nd-level settings screen  [CHAR LIMIT=20] -->
+
 
     <!-- Summary text of the Wi-fi settings screen -->
     <string name="wifi_settings_summary">Set up &amp; manage wireless access points</string>
@@ -383,17 +327,17 @@
     <string name="wifi_suspend_optimizations">Wi-Fi optimization</string>
     <!-- Checkbox summary for option to toggle suspend power optimizations -->
     <string name="wifi_suspend_optimizations_summary">Minimize battery usage when Wi-Fi is on</string>
-    <!-- Action bar text message to manually add a wifi network [CHAR LIMIT=20]-->
+    <!-- Action bar text message to manually add a wifi network [CHAR LIMIT=20] -->
     <string name="wifi_add_network">Add network</string>
-    <!-- Header for the list of wifi networks-->
+    <!-- Header for the list of wifi networks -->
     <string name="wifi_access_points">Wi-Fi networks</string>
-    <!-- Menu option to do WPS Push Button [CHAR LIMIT=25]-->
+    <!-- Menu option to do WPS Push Button [CHAR LIMIT=25] -->
     <string name="wifi_menu_wps_pbc">WPS Push Button</string>
     <!-- Content description for menu button in Wifi setup. Not shown on the screen. [CHAR LIMIT=NONE] -->
     <string name="wifi_menu_more_options">More options</string>
-    <!-- Menu option to do WPS Pin Entry [CHAR LIMIT=25]-->
+    <!-- Menu option to do WPS Pin Entry [CHAR LIMIT=25] -->
     <string name="wifi_menu_wps_pin">WPS Pin Entry</string>
-    <!-- Menu option to launch Wi-Fi Direct settings [CHAR LIMIT=20]-->
+    <!-- Menu option to launch Wi-Fi Direct settings [CHAR LIMIT=20] -->
     <string name="wifi_menu_p2p">Wi-Fi Direct</string>
     <!-- Menu option to scan Wi-Fi networks -->
     <string name="wifi_menu_scan">Scan</string>
@@ -406,19 +350,19 @@
     <!-- Menu option to modify a Wi-Fi network configuration -->
     <string name="wifi_menu_modify">Modify network</string>
 
-    <!-- Wi-Fi settings. text displayed when Wi-Fi is on and network list is empty [CHAR LIMIT=50]-->
+    <!-- Wi-Fi settings. text displayed when Wi-Fi is on and network list is empty [CHAR LIMIT=50] -->
     <string name="wifi_empty_list_wifi_on">Searching for Wi-Fi networks\u2026</string>
-    <!-- Wi-Fi settings. title for setup other network button [CHAR LIMIT=35]-->
+    <!-- Wi-Fi settings. title for setup other network button [CHAR LIMIT=35] -->
     <string name="wifi_other_network">Other network\u2026</string>
-    <!-- Wi-Fi settings. content description for more button [CHAR LIMIT=50]-->
+    <!-- Wi-Fi settings. content description for more button [CHAR LIMIT=50] -->
     <string name="wifi_more">More</string>
-    <!-- Wi-Fi settings. wps menu title [CHAR LIMIT=25]-->
+    <!-- Wi-Fi settings. wps menu title [CHAR LIMIT=25] -->
     <string name="wifi_setup_wps">Automatic setup (WPS)</string>
     <!-- Message informing that wifi is required during setup [CHAR LIMIT=NONE] -->
     <string name="wifi_required_info_text">To complete setup, your tablet needs access to Wi-Fi. After setup, you can switch between mobile data and Wi-Fi.</string>
 
     <!-- Dialog for Access Points -->
-    <skip/>
+    <skip />
     <!-- Label to show/hide advanced options -->
     <string name="wifi_show_advanced">Show advanced options</string>
     <!-- Title for the WPS setup dialog [CHAR LIMIT=50] -->
@@ -487,22 +431,32 @@
     <string name="wifi_disabled_generic">Disabled</string>
     <!-- Status for networked disabled from a DNS or DHCP failure -->
     <string name="wifi_disabled_network_failure">Avoided poor Internet connection</string>
-    <!-- Status for networks disabled from authentication failure (wrong password
-         or certificate). -->
+    <!--
+         Status for networks disabled from authentication failure (wrong password
+         or certificate).
+    -->
     <string name="wifi_disabled_password_failure">Authentication problem</string>
     <!-- Summary for the remembered network but currently not in range. -->
     <string name="wifi_not_in_range">Not in range</string>
-    <!-- Substring of status line when Wi-Fi Protected Setup (WPS) is available and
-         string is listed first [CHAR LIMIT=20]-->
+    <!--
+         Substring of status line when Wi-Fi Protected Setup (WPS) is available and
+         string is listed first [CHAR LIMIT=20]
+    -->
     <string name="wifi_wps_available_first_item">WPS available</string>
-    <!-- Substring of wifi status when Wi-Fi Protected Setup (WPS) is available and
-         string is listed after a wifi_secured_* string-->
+    <!--
+         Substring of wifi status when Wi-Fi Protected Setup (WPS) is available and
+         string is listed after a wifi_secured_* string
+    -->
     <string name="wifi_wps_available_second_item">\u0020(WPS available)</string>
-    <!-- Substring of wifi status for wifi with authentication.  This version is for when the
-         string is first in the list (titlecase in english) -->
+    <!--
+         Substring of wifi status for wifi with authentication.  This version is for when the
+         string is first in the list (titlecase in english)
+    -->
     <string name="wifi_secured_first_item">Secured with <xliff:g id="wifi_security_short">%1$s</xliff:g></string>
-    <!-- Substring of wifi status for wifi with authentication.  This version is for when the
-         string is not first in the list (lowercase in english) -->
+    <!--
+         Substring of wifi status for wifi with authentication.  This version is for when the
+         string is not first in the list (lowercase in english)
+    -->
     <string name="wifi_secured_second_item">, secured with <xliff:g id="wifi_security_short">%1$s</xliff:g></string>
 
     <!-- Do not translate.  Concise terminology for wifi with WEP security -->
@@ -534,7 +488,6 @@
     <!-- Do not translate.  Concise terminology for wifi with 802.1x EAP security -->
     <string name="wifi_security_eap">802.1x EAP</string>
 
-
     <!-- Button label to connect to a Wi-Fi network -->
     <string name="wifi_connect">Connect</string>
     <!-- Failured notification for connect -->
@@ -555,12 +508,12 @@
     <string name="wifi_dont_skip">Don\'t skip</string>
 
     <!-- Wi-Fi Advanced Settings -->
-    <skip/>
+    <skip />
     <!-- Wi-Fi settings screen, advanced, settings section.  This is a header shown above advanced wifi settings. -->
     <string name="wifi_advanced_titlebar">Advanced Wi-Fi</string>
-    <!-- Wi-Fi settings screen, setting title for setting the band [CHAR LIMIT=50]-->
+    <!-- Wi-Fi settings screen, setting title for setting the band [CHAR LIMIT=50] -->
     <string name="wifi_setting_frequency_band_title">Wi-Fi frequency band</string>
-    <!-- Wi-Fi settings screen, setting summary for setting the wifi frequency band [CHAR LIMIT=50]-->
+    <!-- Wi-Fi settings screen, setting summary for setting the wifi frequency band [CHAR LIMIT=50] -->
     <string name="wifi_setting_frequency_band_summary">Specify the frequency range of operation</string>
     <!-- Wi-Fi settings screen, error message when the frequency band could not be set [CHAR LIMIT=50]. -->
     <string name="wifi_setting_frequency_band_error">There was a problem setting the frequency band.</string>
@@ -570,25 +523,25 @@
     <!-- Wi-Fi settings screen, advanced, title of the item to show the Wi-Fi device's current IP address. -->
     <string name="wifi_advanced_ip_address_title">IP address</string>
 
-    <!-- Wifi Advanced settings.  Used as a label under the shortcut icon that goes to Wifi advanced settings. [CHAR LIMIT=20]-->
+    <!-- Wifi Advanced settings.  Used as a label under the shortcut icon that goes to Wifi advanced settings. [CHAR LIMIT=20] -->
     <string name="wifi_advanced_settings_label">IP settings</string>
     <!-- Menu item to save the IP settings -->
     <string name="wifi_ip_settings_menu_save">Save</string>
     <!-- Menu ietm to cancel the IP settings -->
     <string name="wifi_ip_settings_menu_cancel">Cancel</string>
-    <!-- Error message if the IP address is not valid [CHAR LIMIT=50]-->
+    <!-- Error message if the IP address is not valid [CHAR LIMIT=50] -->
     <string name="wifi_ip_settings_invalid_ip_address">Type a valid IP address.</string>
-    <!-- Error message if the gateway is not valid [CHAR LIMIT=50]-->
+    <!-- Error message if the gateway is not valid [CHAR LIMIT=50] -->
     <string name="wifi_ip_settings_invalid_gateway">Type a valid gateway address.</string>
-    <!-- Error message if the dns is not valid [CHAR LIMIT=50]-->
+    <!-- Error message if the dns is not valid [CHAR LIMIT=50] -->
     <string name="wifi_ip_settings_invalid_dns">Type a valid DNS address.</string>
-    <!-- Error message if the network prefix length is not valid [CHAR LIMIT=50]-->
+    <!-- Error message if the network prefix length is not valid [CHAR LIMIT=50] -->
     <string name="wifi_ip_settings_invalid_network_prefix_length">Type a network prefix length between 0 and 32.</string>
     <!-- Label for the DNS (first one) -->
     <string name="wifi_dns1">DNS 1</string>
     <!-- Hint text for DNS -->
     <string name="wifi_dns1_hint" translatable="false">8.8.8.8</string>
-    <!-- Label for the DNS (second one)-->
+    <!-- Label for the DNS (second one) -->
     <string name="wifi_dns2">DNS 2</string>
     <!-- Hint text for DNS -->
     <string name="wifi_dns2_hint" translatable="false">8.8.4.4</string>
@@ -596,7 +549,7 @@
     <string name="wifi_gateway">Gateway</string>
     <!-- Hint text for the gateway -->
     <string name="wifi_gateway_hint" translatable="false">192.168.1.1</string>
-    <!-- Label for the network prefix of the network [CHAR LIMIT=25]-->
+    <!-- Label for the network prefix of the network [CHAR LIMIT=25] -->
     <string name="wifi_network_prefix_length">Network prefix length</string>
     <!-- Hint text for network prefix length -->
     <string name="wifi_network_prefix_length_hint" translatable="false">24</string>
@@ -606,11 +559,11 @@
     <string name="wifi_p2p_settings_title">Wi-Fi Direct</string>
     <string name="wifi_p2p_device_info">Device information</string>
     <string name="wifi_p2p_persist_network">Remember this connection</string>
-    <!-- Menu option to discover peers-->
+    <!-- Menu option to discover peers -->
     <string name="wifi_p2p_menu_search">Search for devices</string>
     <!-- Menu option when discovery is in progress [CHAR LIMIT=25] -->
     <string name="wifi_p2p_menu_searching">Searching\u2026</string>
-    <!-- Menu option to Rename-->
+    <!-- Menu option to Rename -->
     <string name="wifi_p2p_menu_rename">Rename device</string>
     <!-- Title for available p2p devices -->
     <string name="wifi_p2p_peer_devices">Peer devices</string>
@@ -622,18 +575,18 @@
     <string name="wifi_p2p_failed_rename_message">Failed to rename device.</string>
     <!-- Title for disconnect dialog -->
     <string name="wifi_p2p_disconnect_title">Disconnect?</string>
-    <!-- Message text for disconnection from one device-->
+    <!-- Message text for disconnection from one device -->
     <string name="wifi_p2p_disconnect_message">If you disconnect, your connection with <xliff:g id="peer_name">%1$s</xliff:g> will end.</string>
-    <!-- Message text for disconnection from multiple devices-->
+    <!-- Message text for disconnection from multiple devices -->
     <string name="wifi_p2p_disconnect_multiple_message">If you disconnect, your connection with <xliff:g id="peer_name">%1$s</xliff:g> and <xliff:g id="peer_count">%2$s</xliff:g> other devices will end.</string>
     <!-- Title for cancel connect dialog -->
     <string name="wifi_p2p_cancel_connect_title">Cancel invitation?</string>
-    <!-- Message text for disconnection from one device-->
+    <!-- Message text for disconnection from one device -->
     <string name="wifi_p2p_cancel_connect_message">Do you want to cancel invitation to connect with <xliff:g id="peer_name">%1$s</xliff:g>?</string>
-    <!-- Message text for remembered group deletion-->
+    <!-- Message text for remembered group deletion -->
     <string name="wifi_p2p_delete_group_message">Forget this group?</string>
 
-    <!-- Wifi AP settings-->
+    <!-- Wifi AP settings -->
     <!-- Label for wifi tether checkbox. Toggles Access Point on/off -->
     <string name="wifi_tether_checkbox_text">Portable Wi-Fi hotspot</string>
     <!-- Summary text when turning hotspot on -->
@@ -651,71 +604,113 @@
     <!-- Default access point SSID used for tethering -->
     <string name="wifi_tether_configure_ssid_default">AndroidHotspot</string>
 
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Wi-Fi Testing on the diagnostic screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Wi-Fi Testing on the diagnostic screen
+    -->
     <string name="testing_wifi_info" translatable="false">Wi-Fi information</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Menu item for WifiManager disableNetwork API-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Menu item for WifiManager disableNetwork API
+    -->
     <string name="disableNetwork" translatable="false">disableNetwork</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Menu item for WifiManager enableNetwork API-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Menu item for WifiManager enableNetwork API
+    -->
     <string name="enableNetwork" translatable="false">enableNetwork</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Menu item for WifiManager disconnect API-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Menu item for WifiManager disconnect API
+    -->
     <string name="disconnect" translatable="false">disconnect</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Menu item for WifiManager getConfiguredNetworks API-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Menu item for WifiManager getConfiguredNetworks API
+    -->
     <string name="getConfiguredNetworks" translatable="false">getConfiguredNetworks</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Menu item for WifiManager getConnectionInfo API-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Menu item for WifiManager getConnectionInfo API
+    -->
     <string name="getConnectionInfo" translatable="false">getConnectionInfo</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Menu item on Wifi information screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Menu item on Wifi information screen
+    -->
     <string name="wifi_api_test" translatable="false">Wi-Fi API</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Menu item on Wifi information screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Menu item on Wifi information screen
+    -->
     <string name="wifi_status_test" translatable="false">Wi-Fi status</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Button text on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Button text on Wifi Status screen
+    -->
     <string name="wifi_update" translatable="false">Refresh stats</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="wifi_state_label" translatable="false">Wi-Fi state:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="network_state_label" translatable="false">Network state:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-        Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+        Label on Wifi Status screen
+    -->
     <string name="supplicant_state_label" translatable="false">Supplicant state:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="rssi_label" translatable="false">RSSI:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="bssid_label" translatable="false">BSSID:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="ssid_label" translatable="false">SSID:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="hidden_ssid_label" translatable="false">Hidden SSID:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="ipaddr_label" translatable="false">IPaddr:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="macaddr_label" translatable="false">MAC addr:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="networkid_label" translatable="false">Network ID:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="link_speed_label" translatable="false">Link speed:</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Status screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Status screen
+    -->
     <string name="scan_list_label" translatable="false">Scan results:</string>
 
-    <!-- wifi state values-->
+    <!-- wifi state values -->
     <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary -->
     <string name="wifi_state_disabling" translatable="false">Disabling</string>
     <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary -->
@@ -727,23 +722,24 @@
     <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary -->
     <string name="wifi_state_unknown" translatable="false">Unknown</string>
 
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Menu item on Wifi information screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Menu item on Wifi information screen
+    -->
     <string name="wifi_config_info" translatable="false">Wi-Fi config</string>
-    <!-- Do not translate. Used for diagnostic screens, precise translation is not necessary
-         Label on Wifi Configuration screen-->
+    <!--
+         Do not translate. Used for diagnostic screens, precise translation is not necessary
+         Label on Wifi Configuration screen
+    -->
     <string name="config_list_label" translatable="false">Configured networks</string>
-
 
     <!-- Disclaimer part -->
 
     <string name="disclaimer_end_title">Disclaimer</string>
-	<string name="disclaimer_end_text"><b>END-USER LICENSE AGREEMENT FOR 
-		\'PROXY SETTINGS\'</b>
-	</string>
+    <string name="disclaimer_end_text"><b>END-USER LICENSE AGREEMENT FOR 
+		\'PROXY SETTINGS\'</b></string>
     <string name="disclaimer_accept">I read and accept the terms and conditions</string>
-	
-	<string name="disclaimer_license">IMPORTANT PLEASE READ THE TERMS AND 
+    <string name="disclaimer_license">IMPORTANT PLEASE READ THE TERMS AND 
 		CONDITIONS OF THIS LICENSE AGREEMENT CAREFULLY BEFORE USING	THIS 
 		PROGRAM:
 		
@@ -844,8 +840,7 @@
 		omissions contained therein, libel, infringements of rights of 
 		publicity, privacy, trademark rights, business interruption, personal 
 		injury, loss of privacy, moral rights or the disclosure of confidential 
-		information.
-	</string>
+		information.</string>
     <string name="about_copyright">\u00A9 SHOULDIT 2014</string>
     <string name="about_opensource">Proxy Settings is an open source software created by <b><a href="mailto:info@shouldit.net">SHOULDIT</a></b>. You can find the source code <a href="https://github.com/shouldit/proxy-settings">HERE</a></string>
     <string name="about_github">https://github.com/shouldit/proxy-settings</string>
@@ -857,34 +852,30 @@
     <string name="pref_rate_app">Application feedback</string>
     <string name="pref_rate_app_summary">Write a review and rate Proxy Settings!</string>
     <string name="pref_help_changelog_summary">Show full application changelog</string>
-
     <string name="beta_testing">Beta testing</string>
     <string name="beta_testing_request">Do you want to join the Beta Testing program?</string>
 
-    <!--<string name="beta_testing_community_title">In order to be part of the Beta Testing program, you need to join the \"Proxy Settings - Beta Testers\" Community on Google+.</string>-->
-    <!--<string name="beta_testing_community">In order to be part of the Beta Testing program, you need to join the \"Proxy Settings - Beta Testers\" Community on Google+.</string>-->
+    <!-- <string name="beta_testing_community_title">In order to be part of the Beta Testing program, you need to join the \"Proxy Settings - Beta Testers\" Community on Google+.</string> -->
+    <!-- <string name="beta_testing_community">In order to be part of the Beta Testing program, you need to join the \"Proxy Settings - Beta Testers\" Community on Google+.</string> -->
 
     <string name="no_problem">No problem!</string>
     <string name="beta_testing_dismissed">You will find a link to join the Beta Testing program into the Help section.</string>
-
     <string name="welcome_aboard">Welcome aboard!</string>
     <string name="beta_testing_instructions">Join the Beta Testing program on Google+, and follow the instructions you will find on the Community page.</string>
-
     <string name="ok">OK</string>
     <string name="cont">Continue</string>
     <string name="pref_share_app">Spread the voice</string>
     <string name="pref_share_app_summary">Share what you think about Proxy Settings with your friends!</string>
     <string name="pref_issues">Issues and feature requests</string>
     <string name="pref_issues_summary">Let us know if you have feature requests or if you experienced issues using Proxy
-        Settings
-    </string>
+        Settings</string>
     <string name="proxy_configurations">Proxy configurations</string>
     <string name="proxy_description_hint">Enter a name/description for the proxy</string>
     <string name="proxy_description_title">Proxy description</string>
     <string name="proxy_description">Description</string>
     <string name="pref_developers">Developer options</string>
-    <string name="loading">Loading &#8230;</string>
-    <string name="loading_data">Loading data &#8230;</string>
+    <string name="loading">Loading …</string>
+    <string name="loading_data">Loading data …</string>
     <string name="saved_n_proxies">Saved %1$d Proxies</string>
     <string name="save">Save</string>
     <string name="undo">undo</string>
@@ -903,7 +894,6 @@
     <string name="yes">Yes</string>
     <string name="not_now">Not now</string>
     <string name="thank_you">Thank you!</string>
-
     <string name="sorry_for_that">Sorry for that!</string>
     <string name="mail_feedback_dialog">Please let us know how to make Proxy Settings better for you!</string>
     <string name="rate_app">It\'d be really helpful if you rated Proxy Settings.</string>
@@ -925,7 +915,6 @@
     <string name="analytics_lab_beta_test_dialog">Beta test dialog</string>
     <string name="analytics_lab_beta_test_community_dialog">Beta test dialog for Google+</string>
     <string name="analytics_lab_beta_test_dismiss_dialog">Beta test dismiss dialog</string>
-
     <string name="analytics_lab_like_app_dialog">Application like dialog</string>
     <string name="analytics_lab_like_app_mail_feedback">Doesn\'t like application, mail feedback</string>
     <string name="analytics_lab_like_app_rate">Like application, rate it</string>
@@ -936,5 +925,14 @@
     <string name="num_wifi_access_points_configured">%1$d Wi-Fi access points configured</string>
     <string name="num_proxies_configured">%1$d proxies saved</string>
     <string name="delete">Delete</string>
+    <string name="proxies_list">Proxies list</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -1,19 +1,16 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
 import java.util.List;
 import java.util.UUID;
 
-import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
@@ -114,9 +111,9 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                                 }
 
                                 // Calling refresh intent only after save of all AP configurations
-                                App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-                                Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-                                APL.getContext().sendBroadcast(intent);
+//                                App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//                                Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+//                                APL.getContext().sendBroadcast(intent);
                             }
                         }
                     }

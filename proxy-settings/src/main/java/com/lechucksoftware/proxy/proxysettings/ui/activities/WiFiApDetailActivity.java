@@ -12,8 +12,6 @@ import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
@@ -81,7 +79,10 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         switch (item.getItemId())
         {
             case android.R.id.home:
-                NavigationUtils.GoToMainActivity(getApplicationContext());
+                Intent mainIntent = new Intent(this, WiFiApListActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(mainIntent);
                 return true;
         }
 

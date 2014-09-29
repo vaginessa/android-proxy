@@ -33,13 +33,13 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             callWifiSyncService(context, intent);
             callMaintenanceService(context, intent);
         }
-        else if (intent.getAction().equals(Intents.WIFI_AP_UPDATED))
-        {
-            // INTERNAL (PS): Called when a Wi-Fi configuration is written to the device
-            //App.getLogger().logIntent(TAG, intent, Log.DEBUG);
-            //callProxySettingsChecker(context, intent);
-            //callWifiSyncService(context, intent);
-        }
+//        else if (intent.getAction().equals(Intents.WIFI_AP_UPDATED))
+//        {
+//            // INTERNAL (PS): Called when a Wi-Fi configuration is written to the device
+//            //App.getLogger().logIntent(TAG, intent, Log.DEBUG);
+//            //callProxySettingsChecker(context, intent);
+//            //callWifiSyncService(context, intent);
+//        }
         else if (intent.getAction().equals(Intents.PROXY_SAVED))
         {
             // INTERNAL (PS) : Saved a Proxy configuration on DB

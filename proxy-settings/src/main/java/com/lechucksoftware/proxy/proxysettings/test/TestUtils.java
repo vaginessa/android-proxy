@@ -10,7 +10,6 @@ import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -25,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -352,9 +351,9 @@ public class TestUtils
 //        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-        APL.getContext().sendBroadcast(intent);
+//        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+//        APL.getContext().sendBroadcast(intent);
     }
 
     public static void setAllProxies(Context ctx)
@@ -388,9 +387,9 @@ public class TestUtils
 //        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-        APL.getContext().sendBroadcast(intent);
+//        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+//        APL.getContext().sendBroadcast(intent);
     }
 
     @TargetApi(19)

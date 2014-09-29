@@ -5,11 +5,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -17,11 +15,9 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
-import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.UpdateLinkedWifiAPAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.UUID;
 
@@ -31,8 +27,7 @@ public class ProxyDetailActivity extends BaseActivity
 
     private static ProxyDetailActivity instance;
     private UUID cachedProxyId;
-    private View saveButton;
-    private View cancelButton;
+    private boolean saveEnabled;
 
     public static ProxyDetailActivity getInstance()
     {
@@ -45,11 +40,11 @@ public class ProxyDetailActivity extends BaseActivity
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
 
         instance = this;
+        saveEnabled = true;
+
         setContentView(R.layout.main_layout);
 
         FragmentManager fm = getFragmentManager();
-
-//        createCancelSaveActionBar();
 
         Intent callerIntent = getIntent();
         if (callerIntent != null)
@@ -65,23 +60,25 @@ public class ProxyDetailActivity extends BaseActivity
                 fm.beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .add(R.id.fragment_container, detail).commit();
+
+                ActionBar actionBar = getActionBar();
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setDisplayShowHomeEnabled(false);
+                actionBar.setDisplayShowTitleEnabled(true);
+
+                ProxyEntity pe = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
+                actionBar.setTitle(pe.getHost());
+                actionBar.setDisplayUseLogoEnabled(false);
             }
             else
             {
-                // TODO : only for DEBUG
-                UIUtils.showError(getApplicationContext(), "DEBUG - No extras");
+                App.getEventsReporter().sendException(new Exception("No selected proxy received into caller intent"));
             }
         }
         else
         {
-            // TODO : only for DEBUG
-            UIUtils.showError(getApplicationContext(), "DEBUG - No caller intent");
+            App.getEventsReporter().sendException(new Exception("No caller intent received"));
         }
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("");
     }
 
     @Override
@@ -93,113 +90,51 @@ public class ProxyDetailActivity extends BaseActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        MenuItem saveMenuItem = menu.findItem(R.id.menu_save);
+        if (saveMenuItem != null)
+        {
+            saveMenuItem.setVisible(saveEnabled);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
         {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                break;
+                Intent mainIntent = new Intent(this, ProxyListActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(mainIntent);
+                return true;
 
             case R.id.menu_save:
                 saveProxy();
-                break;
+                return true;
 
             case R.id.menu_delete:
                 deleteProxy();
-                break;
-
-            case R.id.menu_about:
-                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
-                startActivity(helpIntent);
-                break;
-
-            case R.id.menu_developer:
-                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-                startActivity(testIntent);
-                break;
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    //    private void createCancelSaveActionBar()
-//    {
-//        final ActionBar actionBar = getActionBar();
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//        final View customActionBarView = inflater.inflate(R.layout.save_cancel, null);
-//        saveButton = customActionBarView.findViewById(R.id.actionbar_done);
-//
-//        saveButton.setOnClickListener(new View.OnClickListener()
-//        {
-//
-//            @Override
-//            public void onClick(View v)
-//            {
-//                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-//                        R.string.analytics_act_button_click,
-//                        R.string.analytics_lab_save_proxy);
-//                saveProxy();
-//            }
-//
-//        });
-//
-//        cancelButton = customActionBarView.findViewById(R.id.actionbar_cancel);
-//        cancelButton.setOnClickListener(new View.OnClickListener()
-//        {
-//
-//            @Override
-//            public void onClick(View view)
-//            {
-//
-//                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-//                        R.string.analytics_act_button_click,
-//                        R.string.analytics_lab_cancel_save_proxy);
-//                App.getCacheManager().release(cachedProxyId);
-//                finish();
-//            }
-//
-//        });
-//
-//        // Show the custom action bar view and hide the normal Home icon and title.
-//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
-//                ActionBar.DISPLAY_SHOW_CUSTOM |
-//                        ActionBar.DISPLAY_HOME_AS_UP |
-//                        ActionBar.DISPLAY_SHOW_HOME |
-//                        ActionBar.DISPLAY_SHOW_TITLE
-//        );
-//
-//
-////        actionBar.setCustomView(customActionBarView);
-//
-//        // Full size CANCEL-SAVE
-//        actionBar.setCustomView(customActionBarView,
-//                new ActionBar.LayoutParams(
-//                        ViewGroup.LayoutParams.MATCH_PARENT,
-//                        ViewGroup.LayoutParams.MATCH_PARENT)
-//        );
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item)
-//    {
-//        switch (item.getItemId())
-//        {
-//
-//        }
-//    }
-
     public void enableSave()
     {
-        if (saveButton != null)
-            saveButton.setEnabled(true);
+        saveEnabled = true;
+        invalidateOptionsMenu();
     }
 
     public void disableSave()
     {
-        if (saveButton != null)
-            saveButton.setEnabled(false);
+        saveEnabled = false;
+        invalidateOptionsMenu();
     }
 
     private void saveProxy()

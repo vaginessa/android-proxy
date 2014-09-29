@@ -68,15 +68,16 @@ public class WifiSyncService extends EnhancedIntentService
 
             if (caller != null)
             {
-                if (caller.getAction().equals(Intents.WIFI_AP_UPDATED))
-                {
-                    if (caller.hasExtra(Intents.UPDATED_WIFI))
-                    {
-                        APLNetworkId wifiId = (APLNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
-                        networkIds.add(wifiId);
-                    }
-                }
-                else if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
+//                if (caller.getAction().equals(Intents.WIFI_AP_UPDATED))
+//                {
+//                    if (caller.hasExtra(Intents.UPDATED_WIFI))
+//                    {
+//                        APLNetworkId wifiId = (APLNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
+//                        networkIds.add(wifiId);
+//                    }
+//                }
+//                else
+                if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
                 {
                     if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
                     {

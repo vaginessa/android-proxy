@@ -38,7 +38,7 @@ public class BaseWifiActivity extends BaseActivity
         // Start register the status receivers
         IntentFilter ifilt = new IntentFilter();
 
-        ifilt.addAction(Intents.WIFI_AP_UPDATED);
+//        ifilt.addAction(Intents.WIFI_AP_UPDATED);
         ifilt.addAction(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK);
         ifilt.addAction(Intents.PROXY_REFRESH_UI);
 
@@ -81,15 +81,16 @@ public class BaseWifiActivity extends BaseActivity
 
             App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
 
-            if (action.equals(Intents.WIFI_AP_UPDATED))
-            {
-//                if (App.getInstance().wifiActionEnabled)
-                {
-                    App.getLogger().d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
-                    refreshUI();
-                }
-            }
-            else if (action.equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK))
+//            if (action.equals(Intents.WIFI_AP_UPDATED))
+//            {
+////                if (App.getInstance().wifiActionEnabled)
+//                {
+//                    App.getLogger().d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
+//                    refreshUI();
+//                }
+//            }
+//            else
+            if (action.equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK))
             {
                 App.getLogger().d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();
