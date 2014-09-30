@@ -64,6 +64,12 @@ public class ProxyDetailFragment extends BaseDialogFragment
         return instance;
     }
 
+    public static ProxyDetailFragment newInstance()
+    {
+        ProxyDetailFragment instance = new ProxyDetailFragment();
+        return instance;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -90,8 +96,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
 
         if (selectedProxy == null)
         {
-            // TODO: temporary fix. needs improvements. remove cachemanager!
-            NavigationUtils.GoToMainActivity(getActivity());
+            selectedProxy = new ProxyEntity();
         }
 
         uiHandler.callRefreshUI();
