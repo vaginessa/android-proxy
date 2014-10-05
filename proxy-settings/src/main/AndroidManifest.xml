@@ -16,7 +16,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/ProxySettingsTheme" >
-
         <activity
             android:name=".ui.activities.WiFiApListActivity"
             android:configChanges="orientation|screenSize"
@@ -29,20 +28,16 @@
             </intent-filter>
         </activity>
 
-        <!--<activity-->
-            <!--android:name=".ui.activities.MainActivity"-->
-            <!--android:configChanges="orientation|screenSize"-->
-            <!--android:label="@string/title_activity_main"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:icon="@drawable/shouldit_logo">-->
+        <activity
+            android:name=".ui.activities.MasterActivity"
+            android:icon="@drawable/shouldit_logo"
+            android:label="@string/title_activity_main">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-
-        <!--</activity>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activities.WiFiApDetailActivity"

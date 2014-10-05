@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.Intent;
@@ -86,16 +85,16 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         ButterKnife.reset(this);
     }
 
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.app_name));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE,
-                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE |    // ENABLE
-                                    ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM);  // DISABLE
-    }
+//    public void onActivityCreated(Bundle savedInstanceState)
+//    {
+//        super.onActivityCreated(savedInstanceState);
+//
+//        ActionBar actionBar = getActivity().getActionBar();
+//        actionBar.setTitle(getResources().getString(R.string.app_name));
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE,
+//                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE |    // ENABLE
+//                                    ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM);  // DISABLE
+//    }
 
     @Override
     public void onResume()

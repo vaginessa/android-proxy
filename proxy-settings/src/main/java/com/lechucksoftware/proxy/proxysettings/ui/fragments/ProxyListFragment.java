@@ -24,7 +24,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 
 import java.util.ArrayList;
 import java.util.List;

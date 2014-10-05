@@ -134,22 +134,21 @@ android {
 }
 
 dependencies {
-    
 
 // https://github.com/tony19/logback-android
 //    compile 'org.slf4j:slf4j-api:1.7.1'
 //    compile 'com.github.tony19:logback-android-core:1.0.7-1'
 //    compile 'com.github.tony19:logback-android-classic:1.0.7-1'
 
-    //    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile files('libs/google-play-services.jar')
     compile project(':android-proxy-library')
-    compile 'com.crashlytics.android:crashlytics:1.+'
-    compile 'com.google.android.gms:play-services:5.0.77'
-    compile 'com.bugsense.trace:bugsense:3.6.1'
+
+    //    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.google.android.gms:play-services:5.2.08'
     compile 'com.google.code.gson:gson:2.3'
+    compile 'com.crashlytics.android:crashlytics:1.1.13'
+    compile 'com.bugsense.trace:bugsense:3.6.1'
     compile 'com.jakewharton:butterknife:5.1.2'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
-    compile 'com.android.support:support-v4:20.0.0'
 }

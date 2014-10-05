@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 
 import butterknife.ButterKnife;
@@ -24,11 +23,8 @@ import butterknife.OnClick;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainStatusFragment extends Fragment
+public class WifiListFragment extends Fragment
 {
-    @InjectView(R.id.main_see_wifi_list) Button seeWifiListBtn;
-    @InjectView(R.id.main_see_proxies_list) Button seeProxiesListBtn;
-
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -39,44 +35,24 @@ public class MainStatusFragment extends Fragment
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static MainStatusFragment newInstance(int sectionNumber)
+    public static WifiListFragment newInstance(int sectionNumber)
     {
-        MainStatusFragment fragment = new MainStatusFragment();
+        WifiListFragment fragment = new WifiListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public MainStatusFragment()
+    public WifiListFragment()
     {
 
-    }
-
-    @OnClick(R.id.main_see_proxies_list)
-    public void openProxiesList()
-    {
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, ProxyListFragment.newInstance())
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @OnClick(R.id.main_see_wifi_list)
-    public void openWiFiApList()
-    {
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, WiFiApListFragment.getInstance())
-                .addToBackStack(null)
-                .commit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.main_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.wifi_ap_list, container, false);
         ButterKnife.inject(this, rootView);
 
         return rootView;
@@ -93,7 +69,6 @@ public class MainStatusFragment extends Fragment
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-
         ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 }

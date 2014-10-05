@@ -1,20 +1,22 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
+import android.app.Activity;
+
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v4.widget.DrawerLayout;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.MainStatusFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.WifiListFragment;
 
-public class MainActivity extends BaseWifiActivity implements NavDrawFragment.NavigationDrawerCallbacks
+public class MasterActivity extends Activity implements NavDrawFragment.NavigationDrawerCallbacks
 {
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -30,7 +32,7 @@ public class MainActivity extends BaseWifiActivity implements NavDrawFragment.Na
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_master);
 
         mNavigationDrawerFragment = (NavDrawFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -42,6 +44,7 @@ public class MainActivity extends BaseWifiActivity implements NavDrawFragment.Na
     @Override
     public void onNavigationDrawerItemSelected(int position)
     {
+        // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
 
         switch (position)
@@ -49,21 +52,21 @@ public class MainActivity extends BaseWifiActivity implements NavDrawFragment.Na
             case 0:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, MainStatusFragment.newInstance(position + 1))
-                        .addToBackStack(null)
+                        .addToBackStack(MainStatusFragment.class.getSimpleName())
                         .commit();
                 break;
 
             case 1:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, WiFiApListFragment.getInstance())
-                        .addToBackStack(null)
+                        .addToBackStack(WiFiApListFragment.class.getSimpleName())
                         .commit();
                 break;
 
             case 2:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, ProxyListFragment.newInstance())
-                        .addToBackStack(null)
+                        .addToBackStack(ProxyListFragment.class.getSimpleName())
                         .commit();
                 break;
         }
@@ -74,13 +77,13 @@ public class MainActivity extends BaseWifiActivity implements NavDrawFragment.Na
         switch (number)
         {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.app_name);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.wifi_access_points);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.proxies_list);
                 break;
         }
     }
@@ -102,11 +105,10 @@ public class MainActivity extends BaseWifiActivity implements NavDrawFragment.Na
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.master, menu);
             restoreActionBar();
             return true;
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -117,16 +119,10 @@ public class MainActivity extends BaseWifiActivity implements NavDrawFragment.Na
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         if (id == R.id.action_settings)
         {
             return true;
         }
-        else if (id == android.R.id.home)
-        {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }
