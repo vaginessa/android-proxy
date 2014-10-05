@@ -46,6 +46,12 @@ public class ProxyDetailActivity extends BaseActivity
 
         FragmentManager fm = getFragmentManager();
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(false);
+
         Intent callerIntent = getIntent();
         if (callerIntent != null)
         {
@@ -57,23 +63,18 @@ public class ProxyDetailActivity extends BaseActivity
 
                 detail = ProxyDetailFragment.newInstance(cachedProxyId);
 
-                fm.beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .add(R.id.fragment_container, detail).commit();
-
-                ActionBar actionBar = getActionBar();
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setDisplayShowHomeEnabled(false);
-                actionBar.setDisplayShowTitleEnabled(true);
-
                 ProxyEntity pe = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
                 actionBar.setTitle(pe.getHost());
-                actionBar.setDisplayUseLogoEnabled(false);
             }
             else
             {
-                App.getEventsReporter().sendException(new Exception("No selected proxy received into caller intent"));
+                detail = ProxyDetailFragment.newInstance(cachedProxyId);
+                actionBar.setTitle(getString(R.string.new_proxy));
             }
+
+            fm.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .add(R.id.fragment_container, detail).commit();
         }
         else
         {
