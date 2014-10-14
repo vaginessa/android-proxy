@@ -13,7 +13,6 @@ import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.HelpActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyListActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 /**
@@ -112,18 +111,13 @@ public class BaseActivity extends Activity
                 NavigationUtils.GoToMainActivity(getApplicationContext());
                 break;
 
-            case R.id.menu_proxies:
-                Intent proxyIntent = new Intent(getApplicationContext(), ProxyListActivity.class);
-                startActivity(proxyIntent);
-                break;
-
             case R.id.menu_add_new_proxy:
                 Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
                 startActivity(i);
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action, R.string.analytics_act_button_click, R.string.analytics_lab_create_new_proxy);
                 break;
 
-            case R.id.menu_about:
+            case R.id.menu_help:
                 Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(helpIntent);
                 break;
@@ -136,19 +130,10 @@ public class BaseActivity extends Activity
 //            case R.id.menu_feedbacks:
 //                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
 //                return true;
-
-//            case android.R.id.home:
-//                // Do nothing
-//                break;
 //
 //            case R.id.menu_about:
 //                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
 //                startActivity(helpIntent);
-//                break;
-//
-//            case R.id.menu_developer:
-//                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-//                startActivity(testIntent);
 //                break;
         }
 

@@ -273,6 +273,7 @@ public class NavDrawFragment extends Fragment
             inflater.inflate(R.menu.global, menu);
             showGlobalContextActionBar();
         }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

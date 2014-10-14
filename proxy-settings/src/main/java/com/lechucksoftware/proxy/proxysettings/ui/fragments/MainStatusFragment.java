@@ -9,12 +9,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.MainActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 
 import butterknife.ButterKnife;
@@ -76,6 +77,8 @@ public class MainStatusFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        setHasOptionsMenu(true);
+
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
         ButterKnife.inject(this, rootView);
 
@@ -95,5 +98,22 @@ public class MainStatusFragment extends Fragment
         super.onAttach(activity);
 
         ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        MasterActivity master = (MasterActivity) getActivity();
+
+        if (master != null && !master.isDrawerOpen())
+        {
+            // Only show items in the action bar relevant to this screen
+            // if the drawer is not showing. Otherwise, let the drawer
+            // decide what to show in the action bar.
+            inflater.inflate(R.menu.main, menu);
+            master.restoreActionBar();
+        }
     }
 }
