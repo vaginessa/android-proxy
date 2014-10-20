@@ -59,7 +59,7 @@ public class MainStatusFragment extends Fragment
     {
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, ProxyListFragment.newInstance())
+                .replace(R.id.container, ProxyListFragment.newInstance(1))
                 .addToBackStack(null)
                 .commit();
     }
@@ -69,7 +69,7 @@ public class MainStatusFragment extends Fragment
     {
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, WiFiApListFragment.getInstance())
+                .replace(R.id.container, WiFiApListFragment.newInstance(2))
                 .addToBackStack(null)
                 .commit();
     }

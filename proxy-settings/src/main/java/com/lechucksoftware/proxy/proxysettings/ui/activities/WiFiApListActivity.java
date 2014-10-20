@@ -43,7 +43,7 @@ public class WiFiApListActivity extends BaseWifiActivity
         // Add the WiFiApListFragment to the main fragment_container
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.fragment_container, WiFiApListFragment.getInstance()).commit();
+                .add(R.id.fragment_container, WiFiApListFragment.newInstance(1)).commit();
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

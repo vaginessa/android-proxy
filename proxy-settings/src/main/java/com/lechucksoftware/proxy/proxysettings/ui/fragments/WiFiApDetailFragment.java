@@ -153,7 +153,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         List<ProxyEntity> availableProxies = App.getCacheManager().getAllProxiesList();
         if (availableProxies != null && availableProxies.size() > 0)
         {
-            ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(FragmentMode.DIALOG, selectedWiFiAP);
+            ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(0, FragmentMode.DIALOG, selectedWiFiAP);
             proxiesListFragment.show(getFragmentManager(), TAG);
         }
         else

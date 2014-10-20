@@ -100,45 +100,39 @@ public class BaseActivity extends Activity
         return super.onPrepareOptionsMenu(menu);
     }
 
-
-    //TODO: remove handling of menu from the BaseActivity class
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                NavigationUtils.GoToMainActivity(getApplicationContext());
-                break;
-
-            case R.id.menu_add_new_proxy:
-                Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
-                startActivity(i);
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action, R.string.analytics_act_button_click, R.string.analytics_lab_create_new_proxy);
-                break;
-
-            case R.id.menu_help:
-                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
-                startActivity(helpIntent);
-                break;
-
-            case R.id.menu_developer:
-                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-                startActivity(testIntent);
-                break;
-
-//            case R.id.menu_feedbacks:
-//                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
-//                return true;
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item)
+//    {
+//        switch (item.getItemId())
+//        {
+//            case R.id.menu_add_new_proxy:
+//                Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
+//                startActivity(i);
+//                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action, R.string.analytics_act_button_click, R.string.analytics_lab_create_new_proxy);
+//                break;
 //
-//            case R.id.menu_about:
+//            case R.id.menu_help:
 //                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
 //                startActivity(helpIntent);
 //                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//
+//            case R.id.menu_developer:
+//                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
+//                startActivity(testIntent);
+//                break;
+//
+////            case R.id.menu_feedbacks:
+////                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
+////                return true;
+////
+////            case R.id.menu_about:
+////                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
+////                startActivity(helpIntent);
+////                break;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public void refreshUI()
     {

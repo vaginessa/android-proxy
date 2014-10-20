@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 
 /**
@@ -16,7 +17,7 @@ public class NavigationUtils
 {
     public static void GoToMainActivity(Context context)
     {
-        Intent mainIntent = new Intent(context, WiFiApListActivity.class);
+        Intent mainIntent = new Intent(context, MasterActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(mainIntent);

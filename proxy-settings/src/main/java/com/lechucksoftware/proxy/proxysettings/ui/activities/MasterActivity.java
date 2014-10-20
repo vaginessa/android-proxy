@@ -3,16 +3,21 @@ package com.lechucksoftware.proxy.proxysettings.ui.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.MainStatusFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
 
-public class MasterActivity extends Activity implements NavDrawFragment.NavigationDrawerCallbacks
+public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.NavigationDrawerCallbacks
 {
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -54,14 +59,14 @@ public class MasterActivity extends Activity implements NavDrawFragment.Navigati
 
             case 1:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, WiFiApListFragment.getInstance())
+                        .replace(R.id.container, WiFiApListFragment.newInstance(position + 1))
                         .addToBackStack(WiFiApListFragment.class.getSimpleName())
                         .commit();
                 break;
 
             case 2:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, ProxyListFragment.newInstance())
+                        .replace(R.id.container, ProxyListFragment.newInstance(position + 1))
                         .addToBackStack(ProxyListFragment.class.getSimpleName())
                         .commit();
                 break;
@@ -122,4 +127,23 @@ public class MasterActivity extends Activity implements NavDrawFragment.Navigati
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.menu_help:
+                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(helpIntent);
+                break;
+
+            case R.id.menu_developer:
+                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
+                startActivity(testIntent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

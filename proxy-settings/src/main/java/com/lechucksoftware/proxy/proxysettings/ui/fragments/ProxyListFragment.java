@@ -1,10 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +23,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
@@ -65,21 +69,23 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
     private WiFiAPConfig apConf;
 
-    public static ProxyListFragment newInstance()
+    public static ProxyListFragment newInstance(int sectionNumber)
     {
-        return newInstance(FragmentMode.FULLSIZE, null);
+        return newInstance(sectionNumber, FragmentMode.FULLSIZE, null);
     }
 
-    public static ProxyListFragment newInstance(FragmentMode mode, WiFiAPConfig apConf)
+    public static ProxyListFragment newInstance(int sectionNumber, FragmentMode mode, WiFiAPConfig apConf)
     {
-        ProxyListFragment instance = new ProxyListFragment();
+        ProxyListFragment fragment = new ProxyListFragment();
 
         Bundle args = new Bundle();
+
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putSerializable(FRAGMENT_MODE_ARG, mode);
         args.putSerializable(PROXY_CONF_ARG, apConf);
-        instance.setArguments(args);
+        fragment.setArguments(args);
 
-        return instance;
+        return fragment;
     }
 
     @Override
@@ -94,6 +100,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v;
+
+        setHasOptionsMenu(true);
 
         if (fragmentMode == FragmentMode.DIALOG)
         {
@@ -280,5 +288,29 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         super.onDestroyView();
 
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+        ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        MasterActivity master = (MasterActivity) getActivity();
+
+        if (master != null && !master.isDrawerOpen())
+        {
+            // Only show items in the action bar relevant to this screen
+            // if the drawer is not showing. Otherwise, let the drawer
+            // decide what to show in the action bar.
+            inflater.inflate(R.menu.proxy_list, menu);
+            master.restoreActionBar();
+        }
     }
 }

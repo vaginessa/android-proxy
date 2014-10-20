@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
@@ -57,18 +59,21 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
 
-    public static WiFiApListFragment getInstance()
+    public static WiFiApListFragment newInstance(int sectionNumber)
     {
-        if (instance == null)
-            instance = new WiFiApListFragment();
-
-        return instance;
+        WiFiApListFragment fragment = new WiFiApListFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         App.getLogger().startTrace(TAG, "onCreateView", Log.DEBUG);
+
+        setHasOptionsMenu(true);
 
         View v = inflater.inflate(R.layout.wifi_ap_list_fragment, container, false);
 
@@ -285,8 +290,26 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     }
 
     @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+        ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        inflater.inflate(R.menu.ap_wifi_list, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+        MasterActivity master = (MasterActivity) getActivity();
+
+        if (master != null && !master.isDrawerOpen())
+        {
+            // Only show items in the action bar relevant to this screen
+            // if the drawer is not showing. Otherwise, let the drawer
+            // decide what to show in the action bar.
+            inflater.inflate(R.menu.ap_wifi_list, menu);
+            master.restoreActionBar();
+        }
     }
 }
