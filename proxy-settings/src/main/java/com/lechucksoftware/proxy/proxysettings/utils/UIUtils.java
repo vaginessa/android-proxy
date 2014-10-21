@@ -30,6 +30,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -594,8 +595,15 @@ public class UIUtils
         List<NavDrawerItem> list = new ArrayList<NavDrawerItem>();
 
         list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_house_icon, true, "22" ));
-        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_house_icon, true, "50+" ));
-        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_house_icon));
+        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_wifi_signal_4, true, "50+" ));
+        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_shuffle, true, "50+" ));
+        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_settings, true, "50+" ));
+        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_ic_help, true, "50+" ));
+
+        if (BuildConfig.DEBUG)
+        {
+            list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_debug_bug_icon));
+        }
 
         return list;
     }
