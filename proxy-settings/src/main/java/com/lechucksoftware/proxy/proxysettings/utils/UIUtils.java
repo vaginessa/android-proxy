@@ -34,9 +34,12 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.io.File;
 import java.net.Proxy.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
@@ -585,4 +588,16 @@ public class UIUtils
         int pick = new Random().nextInt(CodeNames.values().length);
         return CodeNames.values()[pick];
     }
+
+    public static List<NavDrawerItem> getNavDrawerItems(Context ctx)
+    {
+        List<NavDrawerItem> list = new ArrayList<NavDrawerItem>();
+
+        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_house_icon, true, "22" ));
+        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_house_icon, true, "50+" ));
+        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_house_icon));
+
+        return list;
+    }
+
 }
