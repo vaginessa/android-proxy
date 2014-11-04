@@ -594,15 +594,15 @@ public class UIUtils
     {
         List<NavDrawerItem> list = new ArrayList<NavDrawerItem>();
 
-        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_house_icon, true, "22" ));
-        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_wifi_signal_4, true, "50+" ));
-        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_shuffle, true, "50+" ));
-        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_settings, true, "50+" ));
-        list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_ic_help, true, "50+" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.settings), "", R.drawable.ic_action_settings, false, "50+" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+" ));
 
         if (BuildConfig.DEBUG)
         {
-            list.add(new NavDrawerItem("TITLE", "TAG", R.drawable.ic_action_debug_bug_icon));
+            list.add(new NavDrawerItem(ctx.getString(R.string.developers_options), "", R.drawable.ic_action_debug_bug_icon));
         }
 
         return list;

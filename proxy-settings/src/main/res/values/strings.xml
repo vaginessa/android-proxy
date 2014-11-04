@@ -873,7 +873,7 @@
     <string name="proxy_description_hint">Enter a name/description for the proxy</string>
     <string name="proxy_description_title">Proxy description</string>
     <string name="proxy_description">Description</string>
-    <string name="pref_developers">Developer options</string>
+    <string name="developers_options">Developer options</string>
     <string name="loading">Loading …</string>
     <string name="loading_data">Loading data …</string>
     <string name="saved_n_proxies">Saved %1$d Proxies</string>
@@ -937,4 +937,5 @@
     <string name="title_activity_master">MasterActivity</string>
     <string name="new_proxy">New proxy</string>
     <string name="desc_list_item_icon">Drawer item icon</string>
+    <string name="home">Home</string>
 </resources>
