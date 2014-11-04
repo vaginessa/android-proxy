@@ -294,7 +294,11 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+
+        if (activity instanceof MasterActivity)
+        {
+            ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+        }
     }
 
     @Override
@@ -302,15 +306,18 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     {
         super.onCreateOptionsMenu(menu, inflater);
 
-        MasterActivity master = (MasterActivity) getActivity();
-
-        if (master != null && !master.isDrawerOpen())
+        if (getActivity() instanceof  MasterActivity)
         {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            inflater.inflate(R.menu.proxy_list, menu);
-            master.restoreActionBar();
+            MasterActivity master = (MasterActivity) getActivity();
+
+            if (master != null && !master.isDrawerOpen())
+            {
+                // Only show items in the action bar relevant to this screen
+                // if the drawer is not showing. Otherwise, let the drawer
+                // decide what to show in the action bar.
+                inflater.inflate(R.menu.proxy_list, menu);
+                master.restoreActionBar();
+            }
         }
     }
 }
