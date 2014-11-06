@@ -1,5 +1,6 @@
 package be.shouldit.proxy.lib.reflection;
 
+import android.net.ProxyInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -14,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.reflection.android.WifiServiceHandler;
 
 public class ReflectionUtils
@@ -488,5 +491,220 @@ public class ReflectionUtils
         }
 
         return new Field[]{};
+    }
+
+    public static WifiConfiguration setProxyFieldsOnWifiConfiguration(WiFiAPConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
+    {
+        if (Build.VERSION.SDK_INT >= 20)
+        {
+            return setFieldsOnWifiConfigurationSDK21(wiFiAPConfig, selectedConfiguration);
+        }
+        else
+        {
+            return setFieldsOnWifiConfiguration(wiFiAPConfig, selectedConfiguration);
+        }
+    }
+
+    private static WifiConfiguration setFieldsOnWifiConfigurationSDK21(WiFiAPConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
+    {
+        Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];
+        WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance(selectedConfiguration);
+
+        Field mIpConfigurationField = getField(newConf.getClass().getDeclaredFields(), "mIpConfiguration");
+        if (mIpConfigurationField != null)
+        {
+            mIpConfigurationField.setAccessible(true);
+            Object mIpConfiguration = mIpConfigurationField.get(newConf);
+            if (mIpConfiguration != null)
+            {
+                Field proxySettingsField = getField(mIpConfiguration.getClass().getFields(), "proxySettings");
+                proxySettingsField.set(mIpConfiguration, (Object) proxySettingsField.getType().getEnumConstants()[wiFiAPConfig.getProxySetting().ordinal()]);
+            }
+        }
+
+        Object proxySettings = ReflectionUtils.getProxySetting(newConf);
+        int ordinal = ((Enum) proxySettings).ordinal();
+        if (ordinal != wiFiAPConfig.getProxySetting().ordinal())
+            throw new Exception("Cannot set proxySettings variable");
+
+        Object mIpConfiguration = null;
+        Field mHttpProxyField = null;
+
+        if (mIpConfigurationField != null)
+        {
+            mIpConfigurationField.setAccessible(true);
+            mIpConfiguration = mIpConfigurationField.get(newConf);
+            if (mIpConfiguration != null)
+            {
+                mHttpProxyField = getField(mIpConfiguration.getClass().getFields(), "httpProxy");
+            }
+        }
+
+        Constructor constr;
+        Object proxyInfo;
+        constr = ProxyInfo.class.getConstructors()[4];
+
+        if (wiFiAPConfig.getProxySetting() == ProxySetting.NONE || wiFiAPConfig.getProxySetting() == ProxySetting.UNASSIGNED)
+        {
+            proxyInfo = constr.newInstance("localhost", -1, " ");
+            mHttpProxyField.set(mIpConfiguration, proxyInfo);
+        }
+        else if (wiFiAPConfig.getProxySetting() == ProxySetting.STATIC)
+        {
+            Integer port = wiFiAPConfig.getProxyPort();
+
+            if (!wiFiAPConfig.isValidProxyConfiguration())
+            {
+                proxyInfo = constr.newInstance("localhost", -1, "");
+                mHttpProxyField.set(mIpConfiguration, proxyInfo);
+            }
+            else
+            {
+                proxyInfo = constr.newInstance(wiFiAPConfig.getProxyHostString(), port, wiFiAPConfig.getProxyExclusionList());
+                mHttpProxyField.set(mIpConfiguration, proxyInfo);
+            }
+        }
+
+        return newConf;
+    }
+
+    private static WifiConfiguration setFieldsOnWifiConfiguration(WiFiAPConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
+    {
+        Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];
+        WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance(selectedConfiguration);
+
+        Field proxySettingsField = newConf.getClass().getField("proxySettings");
+        proxySettingsField.set(newConf, (Object) proxySettingsField.getType().getEnumConstants()[wiFiAPConfig.getProxySetting().ordinal()]);
+
+        Object proxySettings = ReflectionUtils.getProxySetting(newConf);
+        int ordinal = ((Enum) proxySettings).ordinal();
+        if (ordinal != wiFiAPConfig.getProxySetting().ordinal())
+            throw new Exception("Cannot set proxySettings variable");
+
+        Object linkProperties = null;
+        Field mHttpProxyField = null;
+
+        Field linkPropertiesField = newConf.getClass().getField("linkProperties");
+        linkProperties = linkPropertiesField.get(newConf);
+
+        mHttpProxyField = getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
+        mHttpProxyField.setAccessible(true);
+
+        if (wiFiAPConfig.getProxySetting() == ProxySetting.NONE || wiFiAPConfig.getProxySetting() == ProxySetting.UNASSIGNED)
+        {
+            mHttpProxyField.set(linkProperties, null);
+        }
+        else if (wiFiAPConfig.getProxySetting() == ProxySetting.STATIC)
+        {
+            Class proxyPropertiesClass = mHttpProxyField.getType();
+            Integer port = wiFiAPConfig.getProxyPort();
+
+            if (port == null)
+            {
+                Constructor constr = proxyPropertiesClass.getConstructors()[0];
+                Object ProxyProperties = constr.newInstance((Object) null);
+                mHttpProxyField.set(linkProperties, ProxyProperties);
+            }
+            else
+            {
+                Constructor constr;
+                Object proxyProperties;
+
+                // NOTE: Hardcoded sdk version number.
+                // Instead of comparing against Build.VERSION_CODES.KITKAT, we directly compare against the version
+                // number to allow devs to compile with an older version of the sdk.
+                if (Build.VERSION.SDK_INT < 19)
+                {
+                    constr = proxyPropertiesClass.getConstructors()[1];
+                }
+                else
+                {
+                    // SDK 19, 20 = KITKAT, KITKAT_WATCH
+                    constr = proxyPropertiesClass.getConstructors()[3];
+                }
+
+                proxyProperties = constr.newInstance(wiFiAPConfig.getProxyHostString(), port, wiFiAPConfig.getProxyExclusionList());
+                mHttpProxyField.set(linkProperties, proxyProperties);
+            }
+        }
+
+        return newConf;
+    }
+
+    public static Object getHttpProxy(WifiConfiguration wifiConf) throws Exception
+    {
+        Field mHttpProxyField = null;
+        Object httpProxy = null;
+
+        if (Build.VERSION.SDK_INT >= 20)
+        {
+            httpProxy = ReflectionUtils.getProxyInfo(wifiConf);
+        }
+        else
+        {
+            Object linkProperties = ReflectionUtils.getProxyInfo(wifiConf);
+
+            mHttpProxyField = getField(linkProperties.getClass().getDeclaredFields(), "mHttpProxy");
+            mHttpProxyField.setAccessible(true);
+            httpProxy = mHttpProxyField.get(linkProperties);
+        }
+
+        return httpProxy;
+    }
+
+    public static Object getProxySetting(WifiConfiguration wifiConf) throws Exception
+    {
+        Field proxySettingsField = null;
+        Object proxySettings = null;
+
+        if (Build.VERSION.SDK_INT >= 20)
+        {
+            Field mIpConfigurationField = getField(wifiConf.getClass().getDeclaredFields(), "mIpConfiguration");
+            if (mIpConfigurationField != null)
+            {
+                mIpConfigurationField.setAccessible(true);
+                Object mIpConfiguration = mIpConfigurationField.get(wifiConf);
+                if (mIpConfiguration != null)
+                {
+                    proxySettingsField = getField(mIpConfiguration.getClass().getFields(), "proxySettings");
+                    proxySettings = proxySettingsField.get(mIpConfiguration);
+                }
+            }
+        }
+        else
+        {
+            proxySettingsField = getField(wifiConf.getClass().getFields(), "proxySettings");
+            proxySettings = proxySettingsField.get(wifiConf);
+        }
+
+        return proxySettings;
+    }
+
+    private static Object getProxyInfo(WifiConfiguration wifiConf) throws Exception
+    {
+        Field proxySettingsField = null;
+        Object proxySettings = null;
+
+        if (Build.VERSION.SDK_INT >= 20)
+        {
+            Field mIpConfigurationField = getField(wifiConf.getClass().getDeclaredFields(), "mIpConfiguration");
+            if (mIpConfigurationField != null)
+            {
+                mIpConfigurationField.setAccessible(true);
+                Object mIpConfiguration = mIpConfigurationField.get(wifiConf);
+                if (mIpConfiguration != null)
+                {
+                    proxySettingsField = getField(mIpConfiguration.getClass().getFields(), "httpProxy");
+                    proxySettings = proxySettingsField.get(mIpConfiguration);
+                }
+            }
+        }
+        else
+        {
+            proxySettingsField = getField(wifiConf.getClass().getFields(), "linkProperties");
+            proxySettings = proxySettingsField.get(wifiConf);
+        }
+
+        return proxySettings;
     }
 }
