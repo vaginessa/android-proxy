@@ -18,7 +18,7 @@ public class ApplicationStatistics
     private static final String TAG = ApplicationStatistics.class.getSimpleName();
     public long LaunchCount;
     public Date LaunhcFirstDate;
-    public int CrashesCount;
+//    public int CrashesCount;
 
     public static void updateInstallationDetails(Context applicationContext)
     {
@@ -38,7 +38,7 @@ public class ApplicationStatistics
         if (BuildConfig.DEBUG)
         {
             // During debug there is no need to mantain the total number of crashes
-            App.getEventsReporter().clearTotalCrashesNum();
+//            App.getEventsReporter().clearTotalCrashesNum();
         }
 
         editor.commit();
@@ -55,7 +55,7 @@ public class ApplicationStatistics
         // Get date of first launch
         details.LaunhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
 
-        details.CrashesCount = App.getEventsReporter().getCrashesCount();
+//        details.CrashesCount = App.getEventsReporter().getCrashesCount();
 
         App.getLogger().a(TAG,details.toString());
 
@@ -66,7 +66,7 @@ public class ApplicationStatistics
     public String toString()
     {
         DateFormat df = DateFormat.getDateTimeInstance();
-        String msg = String.format("App launched #%d times (%d crashes) since %s", LaunchCount, CrashesCount, df.format(LaunhcFirstDate));
+        String msg = String.format("App launched #%d times since %s", LaunchCount, df.format(LaunhcFirstDate));
         return msg;
     }
 }

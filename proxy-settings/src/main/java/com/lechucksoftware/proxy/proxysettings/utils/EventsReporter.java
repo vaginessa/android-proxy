@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bugsense.trace.BugSenseHandler;
+//import com.bugsense.trace.BugSenseHandler;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -44,7 +44,7 @@ public class EventsReporter implements IEventReporting
     public void setup()
     {
         analyticsSetupDone = setupAnalytics(context);
-        bugSenseSetupDone = setupBugSense(context);
+//        bugSenseSetupDone = setupBugSense(context);
         crashLyticsSetupDone = setupCrashLytics(context);
 //        crittercismSetupDone = getInstance().setupCrittercism(ctx);
     }
@@ -60,31 +60,31 @@ public class EventsReporter implements IEventReporting
         return setupDone;
     }
 
-    private boolean setupBugSense(Context ctx)
-    {
-        String key;
-        Boolean setupDone;
-
-        key = BuildConfig.BUGSENSE_LICENSE;
-
-        if (key == null || key.length() != 8)
-        {
-            CharSequence text = "No valid BugSense keyfile found";
-//            int duration = Toast.LENGTH_LONG;
-//            Toast toast = Toast.makeText(ctx, text, duration);
-//            toast.show();
-            App.getLogger().e(TAG, text.toString());
-            setupDone = false;
-        }
-        else
-        {
-            App.getLogger().i(TAG, String.format("BugSense setup [%s]", key));
-            BugSenseHandler.initAndStartSession(ctx, key);
-            setupDone = true;
-        }
-
-        return setupDone;
-    }
+//    private boolean setupBugSense(Context ctx)
+//    {
+//        String key;
+//        Boolean setupDone;
+//
+//        key = BuildConfig.BUGSENSE_LICENSE;
+//
+//        if (key == null || key.length() != 8)
+//        {
+//            CharSequence text = "No valid BugSense keyfile found";
+////            int duration = Toast.LENGTH_LONG;
+////            Toast toast = Toast.makeText(ctx, text, duration);
+////            toast.show();
+//            App.getLogger().e(TAG, text.toString());
+//            setupDone = false;
+//        }
+//        else
+//        {
+//            App.getLogger().i(TAG, String.format("BugSense setup [%s]", key));
+//            BugSenseHandler.initAndStartSession(ctx, key);
+//            setupDone = true;
+//        }
+//
+//        return setupDone;
+//    }
 
 //    public boolean setupCrittercism(Context context)
 //    {
@@ -181,17 +181,17 @@ public class EventsReporter implements IEventReporting
         }
     }
 
-    public int getCrashesCount()
-    {
-        // Get the total number of crashes
-        int totalCrashes = BugSenseHandler.getTotalCrashesNum();
-        return totalCrashes;
-    }
+//    public int getCrashesCount()
+//    {
+//        // Get the total number of crashes
+//        int totalCrashes = BugSenseHandler.getTotalCrashesNum();
+//        return totalCrashes;
+//    }
 
-    public void clearTotalCrashesNum()
-    {
-        BugSenseHandler.clearTotalCrashesNum();
-    }
+//    public void clearTotalCrashesNum()
+//    {
+//        BugSenseHandler.clearTotalCrashesNum();
+//    }
 
     public void sendEvent(final int categoryId, final int actionId, final int labelId)
     {

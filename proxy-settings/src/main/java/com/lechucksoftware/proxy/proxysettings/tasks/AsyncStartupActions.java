@@ -54,17 +54,17 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                         break;
 
                     case RATE_DIALOG:
-                        if (statistics != null && statistics.CrashesCount != 0)
-                        {
-                            // Avoid rating if application has crashed
-                            // TODO: If the application crashed ask the user to sendEvent information to support team
-                            action.updateStatus(StartupActionStatus.NOT_APPLICABLE);
-                        }
-                        else
-                        {
+//                        if (statistics != null && statistics.CrashesCount != 0)
+//                        {
+//                            // Avoid rating if application has crashed
+//                            // TODO: If the application crashed ask the user to sendEvent information to support team
+//                            action.updateStatus(StartupActionStatus.NOT_APPLICABLE);
+//                        }
+//                        else
+//                        {
                             LikeAppDialog likeAppDialog = LikeAppDialog.newInstance(action);
                             likeAppDialog.show(activity.getFragmentManager(), "LikeAppDialog");
-                        }
+//                        }
                         break;
 
                     case BETA_TEST_DIALOG:
