@@ -2,18 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_proxies"
-        android:icon="@drawable/ic_action_shuffle"
-        android:showAsAction="always|withText"
-        android:title="@string/proxy_list"/>
-
-    <!--<item-->
-    <!--android:id="@+id/menu_feedbacks"-->
-    <!--android:icon="@drawable/ic_action_notvalid"-->
-    <!--android:showAsAction="always|withText"-->
-    <!--android:title="@string/pref_send_feedback"/>-->
-
-    <item
         android:id="@+id/overflowSection"
         android:icon="@drawable/ic_action_core_overflow"
         android:showAsAction="always"
@@ -25,11 +13,5 @@
                 android:title="@string/help"/>
         </menu>
     </item>
-
-    <item
-        android:id="@+id/menu_developer"
-        android:icon="@drawable/ic_action_debug_bug_icon"
-        android:showAsAction="always"
-        android:title="@string/developers_options"/>
 
 </menu>

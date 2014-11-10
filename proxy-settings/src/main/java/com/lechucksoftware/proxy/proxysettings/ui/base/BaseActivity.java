@@ -3,17 +3,11 @@ package com.lechucksoftware.proxy.proxysettings.ui.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
-import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.HelpActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 /**
  * Created by marco on 07/11/13.
@@ -89,16 +83,16 @@ public class BaseActivity extends Activity
         // Intentionally left blank
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        if (!BuildConfig.DEBUG)
-        {
-            menu.removeItem(R.id.menu_developer);
-        }
-
-        return super.onPrepareOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu)
+//    {
+//        if (!BuildConfig.DEBUG)
+//        {
+//            menu.removeItem(R.id.menu_developer);
+//        }
+//
+//        return super.onPrepareOptionsMenu(menu);
+//    }
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item)

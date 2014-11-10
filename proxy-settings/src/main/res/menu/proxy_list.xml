@@ -21,10 +21,4 @@
 
     </item>
 
-    <item
-        android:id="@+id/menu_developer"
-        android:icon="@drawable/ic_action_debug_bug_icon"
-        android:showAsAction="always"
-        android:title="@string/developers_options"/>
-
 </menu>
