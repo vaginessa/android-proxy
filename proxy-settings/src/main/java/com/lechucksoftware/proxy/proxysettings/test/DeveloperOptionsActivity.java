@@ -33,13 +33,13 @@ import java.util.Map;
 /**
  * Created by marco on 10/10/13.
  */
-public class TestActivity extends Activity
+public class DeveloperOptionsActivity extends Activity
 {
-    public static final String TAG = TestActivity.class.getSimpleName();
+    public static final String TAG = DeveloperOptionsActivity.class.getSimpleName();
     public LinearLayout testDBContainer;
     private ScrollView testLogScroll;
     private Button addWifiNetworksBtn;
-    private TestActivity testActivity;
+    private DeveloperOptionsActivity developerOptionsActivity;
 
 
     public enum TestAction
@@ -68,7 +68,7 @@ public class TestActivity extends Activity
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
         App.getLogger().d(TAG, "Creating TestActivity");
 
-        testActivity = this;
+        developerOptionsActivity = this;
 
         setContentView(R.layout.test_layout);
 
@@ -93,7 +93,7 @@ public class TestActivity extends Activity
                     touchEventStarted = new Date();
                     touching = true;
 
-                    asyncToast = new AsyncToast(testActivity, touchEventStarted);
+                    asyncToast = new AsyncToast(developerOptionsActivity, touchEventStarted);
                     asyncToast.execute();
                 }
                 else if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP ||
@@ -251,13 +251,13 @@ public class TestActivity extends Activity
     public class AsyncTest extends AsyncTask<Void, String, Void>
     {
         private final Object[] _params;
-        TestActivity _testActivity;
+        DeveloperOptionsActivity _developerOptionsActivity;
         TextView textViewTest;
         TestAction _action;
 
-        public AsyncTest(TestActivity testActivity, TestAction action, Object... params)
+        public AsyncTest(DeveloperOptionsActivity developerOptionsActivity, TestAction action, Object... params)
         {
-            _testActivity = testActivity;
+            _developerOptionsActivity = developerOptionsActivity;
             _action = action;
             _params = params;
         }
@@ -265,15 +265,15 @@ public class TestActivity extends Activity
         @Override
         protected void onPostExecute(Void result)
         {
-            _testActivity.testLogScroll.fullScroll(View.FOCUS_DOWN);
+            _developerOptionsActivity.testLogScroll.fullScroll(View.FOCUS_DOWN);
         }
 
         @Override
         protected void onPreExecute()
         {
-            textViewTest = new TextView(_testActivity);
+            textViewTest = new TextView(_developerOptionsActivity);
             textViewTest.setText("Started AsyncTestAction: " + _action);
-            _testActivity.testDBContainer.addView(textViewTest);
+            _developerOptionsActivity.testDBContainer.addView(textViewTest);
         }
 
         @Override
@@ -293,7 +293,7 @@ public class TestActivity extends Activity
         {
             if (_action == TestAction.CLEAR_ALL)
             {
-                SharedPreferences preferences = _testActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_MULTI_PROCESS);
+                SharedPreferences preferences = _developerOptionsActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_MULTI_PROCESS);
 
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.clear();
@@ -305,7 +305,7 @@ public class TestActivity extends Activity
             }
             else if (_action == TestAction.ADD_EXAMPLE_PROXIES)
             {
-                TestUtils.addProxyExamples(_testActivity);
+                TestUtils.addProxyExamples(_developerOptionsActivity);
             }
             else if (_action == TestAction.ADD_TEST_WIFI_NETWORKS)
             {
@@ -313,31 +313,31 @@ public class TestActivity extends Activity
 
                 for (int i=0;i<=numWifis;i++)
                 {
-                    String ssid = TestUtils.createFakeWifiNetwork(_testActivity);
+                    String ssid = TestUtils.createFakeWifiNetwork(_developerOptionsActivity);
                     publishProgress(String.format("Created #[%d / %d] TEST Wi-Fi network: %s", i , numWifis, ssid));
                 }
             }
             else if (_action == TestAction.REMOVE_TEST_WIFI_NETWORKS)
             {
-                int removedCount = TestUtils.deleteFakeWifiNetworks(_testActivity);
+                int removedCount = TestUtils.deleteFakeWifiNetworks(_developerOptionsActivity);
                 publishProgress(String.format("Removed #[%d] TEST Wi-Fi networks", removedCount));
             }
             else if (_action == TestAction.RUN_STARTUP_ACTIONS)
             {
-                ApplicationStatistics.updateInstallationDetails(_testActivity);
+                ApplicationStatistics.updateInstallationDetails(_developerOptionsActivity);
 
-                ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(_testActivity);
+                ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(_developerOptionsActivity);
                 publishProgress(statistics.toString());
 
-                AsyncStartupActions async = new AsyncStartupActions(_testActivity);
+                AsyncStartupActions async = new AsyncStartupActions(_developerOptionsActivity);
                 async.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
             else if (_action == TestAction.TOGGLE_DEMO_MODE)
             {
                 // TODO: improve handling of preference cache
-                Utils.checkDemoMode(_testActivity);
-                Utils.setDemoMode(_testActivity, !App.getInstance().demoMode);
-                Utils.checkDemoMode(_testActivity);
+                Utils.checkDemoMode(_developerOptionsActivity);
+                Utils.setDemoMode(_developerOptionsActivity, !App.getInstance().demoMode);
+                Utils.checkDemoMode(_developerOptionsActivity);
 
 //                for (WiFiAPConfig conf : App.getWifiNetworksManager().getSortedWifiApConfigsList())
 //                {
@@ -349,11 +349,11 @@ public class TestActivity extends Activity
             }
             else if (_action == TestAction.SET_ALL_PROXIES)
             {
-                TestUtils.setAllProxies(_testActivity);
+                TestUtils.setAllProxies(_developerOptionsActivity);
             }
             else if (_action == TestAction.CLEAR_ALL_PROXIES)
             {
-                TestUtils.clearAllProxies(_testActivity);
+                TestUtils.clearAllProxies(_developerOptionsActivity);
             }
             else if (_action == TestAction.TEST_VALIDATION)
             {

@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.MainStatusFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
@@ -66,6 +67,16 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
                         .replace(R.id.container, ProxyListFragment.newInstance(position + 1))
                         .addToBackStack(ProxyListFragment.class.getSimpleName())
                         .commit();
+                break;
+
+            case 3:
+                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(helpIntent);
+                break;
+
+            case 4:
+                Intent testIntent = new Intent(getApplicationContext(), DeveloperOptionsActivity.class);
+                startActivity(testIntent);
                 break;
         }
     }
@@ -134,11 +145,6 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
                 Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(helpIntent);
                 break;
-
-//            case R.id.menu_developer:
-//                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-//                startActivity(testIntent);
-//                break;
         }
 
         return super.onOptionsItemSelected(item);

@@ -78,7 +78,7 @@
         </activity>
 
         <activity
-            android:name=".test.TestActivity"
+            android:name=".test.DeveloperOptionsActivity"
             android:exported="false" >
         </activity>
 
