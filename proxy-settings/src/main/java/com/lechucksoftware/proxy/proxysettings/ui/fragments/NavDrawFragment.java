@@ -121,6 +121,7 @@ public class NavDrawFragment extends Fragment
         mDrawerListView.setAdapter(new NavDrawerListAdapter(getActivity(), UIUtils.getNavDrawerItems(getActivity())));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
         return mDrawerListView;
     }
 
@@ -215,14 +216,17 @@ public class NavDrawFragment extends Fragment
     private void selectItem(int position)
     {
         mCurrentSelectedPosition = position;
+
         if (mDrawerListView != null)
         {
             mDrawerListView.setItemChecked(position, true);
         }
+
         if (mDrawerLayout != null)
         {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
+
         if (mCallbacks != null)
         {
             mCallbacks.onNavigationDrawerItemSelected(position);

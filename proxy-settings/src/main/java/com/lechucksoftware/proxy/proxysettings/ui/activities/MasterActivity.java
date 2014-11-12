@@ -40,6 +40,15 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
+//    @Override
+//    public void onBackStackChanged()
+//    {
+//        if(getFragmentManager().getBackStackEntryCount() == 0)
+//        {
+//            finish();
+//        }
+//    }
+
     @Override
     public void onNavigationDrawerItemSelected(int position)
     {
@@ -50,21 +59,21 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         {
             case 0:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, MainStatusFragment.newInstance(position + 1))
-                        .addToBackStack(MainStatusFragment.class.getSimpleName())
+                        .replace(R.id.container, MainStatusFragment.newInstance(position))
+//                        .addToBackStack(null)
                         .commit();
                 break;
 
             case 1:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, WiFiApListFragment.newInstance(position + 1))
+                        .replace(R.id.container, WiFiApListFragment.newInstance(position))
                         .addToBackStack(WiFiApListFragment.class.getSimpleName())
                         .commit();
                 break;
 
             case 2:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, ProxyListFragment.newInstance(position + 1))
+                        .replace(R.id.container, ProxyListFragment.newInstance(position))
                         .addToBackStack(ProxyListFragment.class.getSimpleName())
                         .commit();
                 break;
@@ -85,13 +94,13 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
     {
         switch (number)
         {
-            case 1:
+            case 0:
                 mTitle = getString(R.string.app_name);
                 break;
-            case 2:
+            case 1:
                 mTitle = getString(R.string.wifi_access_points);
                 break;
-            case 3:
+            case 2:
                 mTitle = getString(R.string.proxies_list);
                 break;
         }

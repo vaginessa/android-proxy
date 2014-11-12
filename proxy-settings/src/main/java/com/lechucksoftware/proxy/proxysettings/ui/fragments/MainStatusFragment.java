@@ -54,22 +54,22 @@ public class MainStatusFragment extends Fragment
 
     }
 
-    @OnClick(R.id.main_see_proxies_list)
-    public void openProxiesList()
-    {
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, ProxyListFragment.newInstance(1))
-                .addToBackStack(null)
-                .commit();
-    }
-
     @OnClick(R.id.main_see_wifi_list)
     public void openWiFiApList()
     {
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, WiFiApListFragment.newInstance(2))
+                .replace(R.id.container, WiFiApListFragment.newInstance(1))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @OnClick(R.id.main_see_proxies_list)
+    public void openProxiesList()
+    {
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, ProxyListFragment.newInstance(2))
                 .addToBackStack(null)
                 .commit();
     }
