@@ -1,15 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
@@ -18,6 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.fragments.MainStatusFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
 public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.NavigationDrawerCallbacks
 {
@@ -54,87 +52,25 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         switch (position)
         {
             case 0:
-                changeFragment(MainStatusFragment.newInstance(position), false);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, MainStatusFragment.newInstance(position), false);
                 break;
 
             case 1:
-                changeFragment(WiFiApListFragment.newInstance(position), true);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, WiFiApListFragment.newInstance(position), true);
                 break;
 
             case 2:
-                changeFragment(ProxyListFragment.newInstance(position), true);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, ProxyListFragment.newInstance(position), true);
                 break;
 
             case 3:
-                changeFragment(HelpPrefsFragment.newInstance(position), true);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, HelpPrefsFragment.newInstance(position), true);
                 break;
 
             case 4:
                 Intent testIntent = new Intent(getApplicationContext(), DeveloperOptionsActivity.class);
                 startActivity(testIntent);
                 break;
-        }
-    }
-
-    private void changeFragment(Fragment fragment, boolean addToBackStack)
-    {
-        String newFragmentName = fragment.getClass().getName();
-        String currentFragmentName = "";
-
-        try
-        {
-            FragmentManager manager = getFragmentManager();
-            Fragment currentFragment = manager.findFragmentById(R.id.container);
-
-            if (currentFragment != null)
-            {
-                currentFragmentName = currentFragment.getClass().getName();
-                App.getLogger().d(TAG, String.format("changeFragment from '%s' to '%s' ", currentFragmentName, newFragmentName));
-
-                if (currentFragmentName.equals(newFragmentName))
-                {
-                    // No need to do anything the fragment just return
-                    // TODO: Evaluate if at least a refresh of the current fragment can be executed
-                    return;
-                }
-            }
-            else
-            {
-                App.getLogger().d(TAG, String.format("changeFragment add '%s' ", newFragmentName));
-            }
-
-            boolean fragmentPopped = manager.popBackStackImmediate(newFragmentName, 0);
-            App.getLogger().d(TAG, "fragmentPopped: " + fragmentPopped);
-
-            if (!fragmentPopped)
-            {
-                //Fragment not in back stack, create it.
-                FragmentTransaction ft = manager.beginTransaction();
-
-//                TODO: Add animation to the transaction
-//                ft.setCustomAnimations(enter, exit, pop_enter, pop_exit);
-
-                if (currentFragment == null)
-                {
-                    ft.add(R.id.container, fragment);
-                }
-                else
-                {
-                    ft.replace(R.id.container, fragment);
-                }
-
-                if (addToBackStack)
-                {
-                    App.getLogger().d(TAG, "fragment added to back stack");
-                    ft.addToBackStack(newFragmentName);
-                }
-
-                ft.commit();
-            }
-        }
-        catch (IllegalStateException e)
-        {
-            App.getEventsReporter().sendException(new Exception("Unable to commit fragment, could be activity as been killed in background. ", e));
         }
     }
 

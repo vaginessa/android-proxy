@@ -14,7 +14,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
 import be.shouldit.proxy.lib.APLNetworkId;
 
@@ -61,7 +61,6 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         else
         {
             App.getEventsReporter().sendException(new Exception("Intent not received or not containing extra"));
-            NavigationUtils.GoToMainActivity(this);
         }
     }
 

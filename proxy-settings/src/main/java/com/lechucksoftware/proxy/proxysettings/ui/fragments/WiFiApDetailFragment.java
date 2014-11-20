@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -22,7 +21,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
 import java.util.List;
 
@@ -80,7 +79,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         if (selectedWiFiAP == null)
         {
-            NavigationUtils.GoToMainActivity(getActivity());
+            FragmentsUtils.goToMainActivity(getActivity());
         }
 
         refreshUI();
@@ -210,7 +209,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         if (!APL.getWifiManager().isWifiEnabled())
         {
-            NavigationUtils.GoToMainActivity(getActivity());
+            FragmentsUtils.goToMainActivity(getActivity());
         }
 
         if (selectedWiFiAP != null)
@@ -254,7 +253,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        else
 //        {
 //            LogWrapper.d(TAG,"selectedWiFiAP is NULL: " + String.valueOf(confId));
-////            NavigationUtils.GoToMainActivity(getActivity());
+////            NavigationUtils.goToMainActivity(getActivity());
 //        }
 
 //        LogWrapper.stopTrace(TAG, "refreshUI", Log.DEBUG);
