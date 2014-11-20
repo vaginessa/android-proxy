@@ -306,7 +306,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     {
         super.onCreateOptionsMenu(menu, inflater);
 
-        if (getActivity() instanceof  MasterActivity)
+        if (getActivity() instanceof MasterActivity)
         {
             MasterActivity master = (MasterActivity) getActivity();
 

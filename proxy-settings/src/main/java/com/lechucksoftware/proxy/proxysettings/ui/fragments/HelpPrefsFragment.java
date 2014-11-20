@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,7 +27,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 public class HelpPrefsFragment extends BasePreferenceFragment
 {
-    public static HelpPrefsFragment instance;
     private Preference whatsNewPref;
     private Preference changeLogPref;
     private Preference aboutPref;
@@ -54,14 +55,14 @@ public class HelpPrefsFragment extends BasePreferenceFragment
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.help_preferences);
-
-        instance = this;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         changeLogPref = findPreference("pref_full_changelog");
         changeLogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -105,6 +106,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
 
             }
         });
+
         aboutPref.setSummary(appVersionName);
 
         appRatePref = findPreference("pref_issues");
@@ -194,5 +196,22 @@ public class HelpPrefsFragment extends BasePreferenceFragment
     {
         AlertDialog dialog = UIUtils.getBetaTestDialog(getActivity());
         dialog.show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        MasterActivity master = (MasterActivity) getActivity();
+
+        if (master != null && !master.isDrawerOpen())
+        {
+            // Only show items in the action bar relevant to this screen
+            // if the drawer is not showing. Otherwise, let the drawer
+            // decide what to show in the action bar.
+//            inflater.inflate(R.menu.main, menu);
+            master.restoreActionBar();
+        }
     }
 }
