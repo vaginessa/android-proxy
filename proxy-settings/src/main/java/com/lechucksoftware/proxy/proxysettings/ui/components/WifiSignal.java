@@ -42,7 +42,7 @@ public class WifiSignal extends LinearLayout
 
         if (inflater != null)
         {
-            layout = (ViewGroup) v.findViewById(R.id.ap_layout);
+            layout = (ViewGroup) v.findViewById(R.id.wifi_signal_layout);
             iconImageView = (ImageView) v.findViewById(R.id.ap_icon);
             securityTextView = (TextView) v.findViewById(R.id.ap_security);
         }

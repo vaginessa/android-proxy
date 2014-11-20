@@ -15,18 +15,18 @@
     <!--Nov.-->
     <!--Dec.-->
 
-    <changelogversion versionName="2.16" changeDate="Aug 28,2014">
+    <changelogversion versionName="2.16" versionCode=""  changeDate="Aug 28,2014">
         <changelogimprovement>Added count of used proxies</changelogimprovement>
         <changelogimprovement>Completely refactored application backend logic</changelogimprovement>
     </changelogversion>
 
-    <changelogversion versionName="2.15" changeDate="June 11,2014">
+    <changelogversion versionName="2.15" versionCode="130021514" changeDate="June 11,2014">
         <changelogimprovement>Improved support for 4.1, 4.2 and L Android API versions into [a href="https://github.com/shouldit/android-proxy"][b]APL[/b][/a]</changelogimprovement>
         <changelogimprovement>Infrastructural changes on application dialogs</changelogimprovement>
         <changelogbug>Several fixes on previous versions</changelogbug>
     </changelogversion>
 
-    <changelogversion versionName="2.14" changeDate="Mar 23,2014">
+    <changelogversion versionName="2.14" versionCode="13002145" changeDate="Mar 23,2014">
         <changelogbug>Improved overall application stability</changelogbug>
     </changelogversion>
 

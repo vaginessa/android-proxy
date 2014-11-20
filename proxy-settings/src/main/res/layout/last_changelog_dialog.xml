@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:chg="http://schemas.android.com/apk/res-auto"
+      class="it.gmariotti.changelibs.library.view.ChangeLogListView"
+      android:textColor="@android:color/primary_text_dark"
+      android:background="@android:color/background_light"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
+      chg:rowHeaderLayoutId="@layout/custom_changelogrowheader_layout"
+      chg:rowLayoutId="@layout/custom_changelogrow_layout"
+
+      android:id="@+id/view"
+    />
+
+    <!--chg:changeLogMinimumVersionCode="@android:string/version_code"-->

@@ -33,7 +33,7 @@ public class HelpActivity extends BaseWifiActivity
 
         FragmentManager fm = getFragmentManager();
 
-        HelpPrefsFragment helpPrefsFragment = HelpPrefsFragment.getInstance();
+        HelpPrefsFragment helpPrefsFragment = HelpPrefsFragment.newInstance(0);
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

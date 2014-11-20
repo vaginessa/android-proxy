@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.MainStatusFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
@@ -79,8 +80,10 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
                 break;
 
             case 3:
-                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
-                startActivity(helpIntent);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, HelpPrefsFragment.newInstance(position))
+                        .addToBackStack(HelpPrefsFragment.class.getSimpleName())
+                        .commit();
                 break;
 
             case 4:
@@ -102,6 +105,9 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
                 break;
             case 2:
                 mTitle = getString(R.string.proxies_list);
+                break;
+            case 3:
+                mTitle = getString(R.string.help);
                 break;
         }
     }

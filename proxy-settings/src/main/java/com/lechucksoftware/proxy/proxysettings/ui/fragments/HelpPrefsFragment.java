@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,13 +14,16 @@ import android.view.ViewGroup;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
+import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.ChangeLogDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
-public class HelpPrefsFragment extends PreferenceFragment
+public class HelpPrefsFragment extends BasePreferenceFragment
 {
     public static HelpPrefsFragment instance;
     private Preference whatsNewPref;
@@ -32,12 +36,17 @@ public class HelpPrefsFragment extends PreferenceFragment
     private Preference contactPref;
 //    private Preference aboutPref;
 
-    public static HelpPrefsFragment getInstance()
-    {
-        if (instance == null)
-            instance = new HelpPrefsFragment();
 
-        return instance;
+    public static HelpPrefsFragment newInstance(int sectionNumber)
+    {
+        HelpPrefsFragment fragment = new HelpPrefsFragment();
+
+        Bundle args = new Bundle();
+
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -168,6 +177,17 @@ public class HelpPrefsFragment extends PreferenceFragment
 
 
         return v;
+    }
+
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+
+        if (activity instanceof MasterActivity)
+        {
+            ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+        }
     }
 
     private void showBetaTestDialog()
