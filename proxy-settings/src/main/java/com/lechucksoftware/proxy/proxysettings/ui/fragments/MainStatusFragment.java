@@ -6,7 +6,6 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +16,7 @@ import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -57,21 +57,13 @@ public class MainStatusFragment extends Fragment
     @OnClick(R.id.main_see_wifi_list)
     public void openWiFiApList()
     {
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, WiFiApListFragment.newInstance(1))
-                .addToBackStack(null)
-                .commit();
+        FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, WiFiApListFragment.newInstance(1), true);
     }
 
     @OnClick(R.id.main_see_proxies_list)
     public void openProxiesList()
     {
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, ProxyListFragment.newInstance(2))
-                .addToBackStack(null)
-                .commit();
+        FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, ProxyListFragment.newInstance(2), true);
     }
 
     @Override

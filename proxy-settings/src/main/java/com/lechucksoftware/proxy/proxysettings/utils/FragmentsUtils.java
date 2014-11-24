@@ -51,7 +51,7 @@ public class FragmentsUtils
             }
 
             boolean fragmentPopped = fragmentManager.popBackStackImmediate(newFragmentName, 0);
-            App.getLogger().d(TAG, "fragmentPopped: " + fragmentPopped);
+            App.getLogger().d(TAG, "Popped fragment: " + fragmentPopped);
 
             if (!fragmentPopped)
             {
@@ -63,17 +63,19 @@ public class FragmentsUtils
 
                 if (currentFragment == null)
                 {
+                    App.getLogger().d(TAG, "Add fragment: " + fragment);
                     ft.add(frameId, fragment);
                 }
                 else
                 {
+                    App.getLogger().d(TAG, "Replace current with fragment: " + fragment);
                     ft.replace(frameId, fragment);
-                }
 
-                if (addToBackStack)
-                {
-                    App.getLogger().d(TAG, "fragment added to back stack");
-                    ft.addToBackStack(newFragmentName);
+                    if (addToBackStack)
+                    {
+                        App.getLogger().d(TAG, "Fragment added to back stack");
+                        ft.addToBackStack(newFragmentName);
+                    }
                 }
 
                 ft.commit();
