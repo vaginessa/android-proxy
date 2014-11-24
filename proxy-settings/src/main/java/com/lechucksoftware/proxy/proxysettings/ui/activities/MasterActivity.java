@@ -56,15 +56,15 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 //                break;
 
             case 0:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, WiFiApListFragment.newInstance(position), false);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, WiFiApListFragment.newInstance(position), false);
                 break;
 
             case 1:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, ProxyListFragment.newInstance(position), true);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(position), true);
                 break;
 
             case 2:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, HelpPrefsFragment.newInstance(position), true);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, HelpPrefsFragment.newInstance(position), true);
                 break;
 
             case 3:
@@ -78,16 +78,16 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
     {
         switch (number)
         {
+//            case 0:
+//                mTitle = getString(R.string.app_name);
+//                break;
             case 0:
-                mTitle = getString(R.string.app_name);
-                break;
-            case 1:
                 mTitle = getString(R.string.wifi_access_points);
                 break;
-            case 2:
+            case 1:
                 mTitle = getString(R.string.proxies_list);
                 break;
-            case 3:
+            case 2:
                 mTitle = getString(R.string.help);
                 break;
         }

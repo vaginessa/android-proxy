@@ -87,7 +87,7 @@ public class BaseActivity extends Activity
     {
         try
         {
-            Fragment containedFragment = getFragmentManager().findFragmentById(R.id.container);
+            Fragment containedFragment = getFragmentManager().findFragmentById(R.id.fragment_container);
             if (containedFragment instanceof IBaseFragment)
             {
                 IBaseFragment f = (IBaseFragment) containedFragment;

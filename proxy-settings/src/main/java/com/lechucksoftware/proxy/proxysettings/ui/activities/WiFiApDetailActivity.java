@@ -63,28 +63,4 @@ public class WiFiApDetailActivity extends BaseWifiActivity
             App.getEventsReporter().sendException(new Exception("Intent not received or not containing extra"));
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.ap_wifi_details, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                Intent mainIntent = new Intent(this, WiFiApListActivity.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(mainIntent);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

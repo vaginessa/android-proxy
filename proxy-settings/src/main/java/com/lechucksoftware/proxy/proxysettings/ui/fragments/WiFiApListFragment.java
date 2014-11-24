@@ -147,6 +147,9 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     {
         App.getLogger().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
 
+        progress.setVisibility(View.GONE);
+        footerProgress.setVisibility(View.GONE);
+
         if (Utils.isAirplaneModeOn(getActivity()))
         {
             emptySection.setVisibility(View.VISIBLE);
@@ -236,9 +239,6 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     {
         App.getLogger().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
-        progress.setVisibility(View.GONE);
-        footerProgress.setVisibility(View.GONE);
-
         refreshLoaderResults(aps);
 
         App.getLogger().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
@@ -308,7 +308,8 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            inflater.inflate(R.menu.ap_wifi_list, menu);
+
+//            inflater.inflate(R.menu.ap_wifi_list, menu);
             master.restoreActionBar();
         }
     }

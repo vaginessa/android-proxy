@@ -25,6 +25,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -213,7 +214,8 @@ public class DeveloperOptionsActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
-        List<ProxyEntity> list = App.getCacheManager().getAllProxiesList();
+        Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
+        List<ProxyEntity> list = new ArrayList<ProxyEntity>(savedProxies.values());
         for (ProxyEntity p : list)
         {
             textViewTest.append(p.toString() + "\n\n");

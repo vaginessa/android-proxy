@@ -57,13 +57,13 @@ public class MainStatusFragment extends Fragment
     @OnClick(R.id.main_see_wifi_list)
     public void openWiFiApList()
     {
-        FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, WiFiApListFragment.newInstance(1), true);
+        FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, WiFiApListFragment.newInstance(1), true);
     }
 
     @OnClick(R.id.main_see_proxies_list)
     public void openProxiesList()
     {
-        FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, ProxyListFragment.newInstance(2), true);
+        FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(2), true);
     }
 
     @Override

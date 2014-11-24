@@ -61,16 +61,16 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
 
-        if (args != null && args.containsKey(DBPROXY_ARG))
-        {
-            cachedObjId = (UUID) getArguments().getSerializable(DBPROXY_ARG);
-            selectedProxy = (ProxyEntity) App.getCacheManager().get(cachedObjId);
-        }
-        else
-        {
-            // TODO: Add handling here
-            App.getEventsReporter().sendException(new Exception("NO PROXY RECEIVED"));
-        }
+//        if (args != null && args.containsKey(DBPROXY_ARG))
+//        {
+//            cachedObjId = (UUID) getArguments().getSerializable(DBPROXY_ARG);
+//            selectedProxy = (ProxyEntity) App.getCacheManager().get(cachedObjId);
+//        }
+//        else
+//        {
+//            // TODO: Add handling here
+//            App.getEventsReporter().sendException(new Exception("NO PROXY RECEIVED"));
+//        }
     }
 
     @Override

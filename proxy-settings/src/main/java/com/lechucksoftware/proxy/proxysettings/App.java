@@ -145,14 +145,14 @@ public class App extends Application
         return getInstance().dbManager;
     }
 
-    public static CacheManager getCacheManager()
-    {
-        if (getInstance().cacheManager == null)
-        {
-            getEventsReporter().sendException(new Exception("Cannot find valid instance of CacheManager, trying to instanciate a new one"));
-            getInstance().cacheManager = new CacheManager(getInstance());
-        }
-
-        return getInstance().cacheManager;
-    }
+//    public static CacheManager getCacheManager()
+//    {
+//        if (getInstance().cacheManager == null)
+//        {
+//            getEventsReporter().sendException(new Exception("Cannot find valid instance of CacheManager, trying to instanciate a new one"));
+//            getInstance().cacheManager = new CacheManager(getInstance());
+//        }
+//
+//        return getInstance().cacheManager;
+//    }
 }

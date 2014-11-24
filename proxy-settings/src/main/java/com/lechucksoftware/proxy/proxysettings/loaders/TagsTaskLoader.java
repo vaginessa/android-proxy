@@ -16,29 +16,29 @@ import java.util.UUID;
 public class TagsTaskLoader extends AsyncTaskLoader<List<TagEntity>>
 {
     private final Context ctx;
-    private final ProxyEntity selectedProxy;
+//    private final ProxyEntity selectedProxy;
 
     public TagsTaskLoader(Context context, UUID cachedProxyID)
     {
         super(context);
         ctx = context;
-        selectedProxy = (ProxyEntity) App.getCacheManager().get(cachedProxyID);
+//        selectedProxy = (ProxyEntity) App.getCacheManager().get(cachedProxyID);
     }
 
     @Override
     public List<TagEntity> loadInBackground()
     {
         List<TagEntity> dbTags = App.getDBManager().getAllTags();
-        List<TagEntity> tags = selectedProxy.getTags();
+//        List<TagEntity> tags = selectedProxy.getTags();
 
-        for(TagEntity tag: dbTags)
-        {
-            if (tags != null)
-            {
-                tag.setSelected(tags.contains(tag));
-            }
-        }
-
+//        for(TagEntity tag: dbTags)
+//        {
+//            if (tags != null)
+//            {
+//                tag.setSelected(tags.contains(tag));
+//            }
+//        }
+//
         return dbTags;
     }
 }

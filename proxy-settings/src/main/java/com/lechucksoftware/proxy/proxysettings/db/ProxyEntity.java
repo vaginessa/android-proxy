@@ -93,24 +93,28 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         {
             ProxyEntity anotherProxy = (ProxyEntity) another;
 
-            if (this.isPersisted() && anotherProxy.isPersisted())
-            {
-                return anotherProxy.getId() == this.getId();
-            }
-            else
-            {
+//            if (this.isPersisted() && anotherProxy.isPersisted())
+//            {
+//                return anotherProxy.getId() == this.getId();
+//            }
+//            else
+//            {
                 if (anotherProxy.host.equalsIgnoreCase(this.host)
                        && anotherProxy.port.equals(this.port)
                        && anotherProxy.exclusion.equalsIgnoreCase(this.exclusion))
                 {
                     // TODO: compare also linked TAGS?
+
+
                     result = true;
+
+
                 }
                 else
                 {
                     result = false;
                 }
-            }
+//            }
         }
 
         return result;

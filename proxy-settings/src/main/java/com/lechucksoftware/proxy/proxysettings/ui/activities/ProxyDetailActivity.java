@@ -26,8 +26,7 @@ public class ProxyDetailActivity extends BaseActivity
     public static String TAG = ProxyDetailActivity.class.getSimpleName();
 
     private static ProxyDetailActivity instance;
-    private UUID cachedProxyId;
-    private boolean saveEnabled;
+    private Long proxyId;
 
     public static ProxyDetailActivity getInstance()
     {
@@ -40,7 +39,6 @@ public class ProxyDetailActivity extends BaseActivity
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
 
         instance = this;
-        saveEnabled = true;
 
         setContentView(R.layout.main_layout);
 
@@ -57,19 +55,19 @@ public class ProxyDetailActivity extends BaseActivity
         {
             Bundle extras = callerIntent.getExtras();
             ProxyDetailFragment detail = null;
+
             if (extras != null && extras.containsKey(Constants.SELECTED_PROXY_CONF_ARG))
             {
-                cachedProxyId = (UUID) extras.getSerializable(Constants.SELECTED_PROXY_CONF_ARG);
-
-                detail = ProxyDetailFragment.newInstance(cachedProxyId);
-
-                ProxyEntity pe = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
-                actionBar.setTitle(pe.getHost());
+                proxyId = (Long) extras.getSerializable(Constants.SELECTED_PROXY_CONF_ARG);
+                detail = ProxyDetailFragment.newInstance(proxyId);
+                ProxyEntity proxy = App.getDBManager().getProxy(proxyId);
+                actionBar.setTitle(proxy.getHost());
             }
             else
             {
-                detail = ProxyDetailFragment.newInstance(cachedProxyId);
+                detail = ProxyDetailFragment.newInstance();
                 actionBar.setTitle(getString(R.string.new_proxy));
+
             }
 
             fm.beginTransaction()
@@ -83,114 +81,13 @@ public class ProxyDetailActivity extends BaseActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.proxy_details, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        MenuItem saveMenuItem = menu.findItem(R.id.menu_save);
-        if (saveMenuItem != null)
-        {
-            saveMenuItem.setVisible(saveEnabled);
-        }
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                Intent mainIntent = new Intent(this, ProxyListActivity.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(mainIntent);
-                return true;
-
-            case R.id.menu_save:
-                saveProxy();
-                return true;
-
-            case R.id.menu_delete:
-                deleteProxy();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void enableSave()
-    {
-        saveEnabled = true;
-        invalidateOptionsMenu();
-    }
-
-    public void disableSave()
-    {
-        saveEnabled = false;
-        invalidateOptionsMenu();
-    }
-
-    private void saveProxy()
-    {
-        try
-        {
-            ProxyEntity proxy = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
-            if (proxy.getInUse())
-            {
-                UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
-                updateDialog.show(getFragmentManager(), "UpdateLinkedWifiAPAlertDialog");
-            }
-            else
-            {
-                App.getDBManager().upsertProxy(proxy);
-                App.getCacheManager().release(cachedProxyId);
-                finish();
-            }
-        }
-        catch (Exception e)
-        {
-            App.getEventsReporter().sendException(e);
-        }
-    }
-
-    private void deleteProxy()
-    {
-        try
-        {
-            ProxyEntity proxy = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
-            if (proxy.getInUse())
-            {
-                UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
-                updateDialog.show(getFragmentManager(), "UpdateLinkedWifiAPAlertDialog");
-            }
-            else
-            {
-                App.getDBManager().deleteProxy(proxy.getId());
-                App.getCacheManager().release(cachedProxyId);
-                finish();
-            }
-        }
-        catch (Exception e)
-        {
-            App.getEventsReporter().sendException(e);
-        }
-    }
-
-    @Override
     public void onDialogResult(int requestCode, int resultCode, Bundle arguments)
     {
         if (requestCode == Requests.UPDATE_LINKED_WIFI_AP)
         {
-            ProxyEntity updated = (ProxyEntity) App.getCacheManager().get(cachedProxyId);
-            ProxyEntity current = (ProxyEntity) App.getDBManager().getProxy(updated.getId());
+            ProxyEntity updated = App.getDBManager().getProxy(proxyId);
+            ProxyEntity current = App.getDBManager().getProxy(updated.getId());
+
             AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(this, current, updated);
             asyncUpdateLinkedWiFiAP.execute();
 

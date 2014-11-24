@@ -1,8 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -15,6 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
@@ -23,7 +28,9 @@ import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
@@ -148,8 +155,9 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     public void openProxySelectorDialog()
     {
 //        progress.setVisibility(View.VISIBLE);
+        Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
+        List<ProxyEntity> availableProxies = new ArrayList<ProxyEntity>(savedProxies.values());
 
-        List<ProxyEntity> availableProxies = App.getCacheManager().getAllProxiesList();
         if (availableProxies != null && availableProxies.size() > 0)
         {
             ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(0, FragmentMode.DIALOG, selectedWiFiAP);
@@ -278,5 +286,28 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             proxyBypass.setExclusionString("");
 //            proxyTags.setTags(null);
         }
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.ap_wifi_details, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                Intent mainIntent = new Intent(getActivity(), MasterActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(mainIntent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

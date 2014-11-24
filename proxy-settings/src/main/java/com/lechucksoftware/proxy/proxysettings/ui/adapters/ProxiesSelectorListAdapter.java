@@ -52,12 +52,13 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
             // Check if the order of SSID is changed
             for (int i = 0; i < this.getCount(); i++)
             {
-                ProxyEntity proxyEntity = this.getItem(i);
+                ProxyEntity adapterProxyItem = this.getItem(i);
+                ProxyEntity newProxyItem = confList.get(i);
 
-                if (!proxyEntity.equals(confList.get(i)))
+                if (!adapterProxyItem.equals(newProxyItem))
                 {
                     // Changed the Proxies order
-                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", confList.get(i), proxyEntity));
+                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", newProxyItem, adapterProxyItem));
                     needsListReplace = true;
                     break;
                 }

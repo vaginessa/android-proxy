@@ -40,9 +40,9 @@ public class NoProxiesDefinedAlertDialog extends BaseDialogFragment
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
                 Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
-                ProxyEntity emptyProxy = new ProxyEntity();
-                App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
-                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
+//                ProxyEntity emptyProxy = new ProxyEntity();
+//                App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
+//                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
 //                onResult(Activity.RESULT_OK);
             }

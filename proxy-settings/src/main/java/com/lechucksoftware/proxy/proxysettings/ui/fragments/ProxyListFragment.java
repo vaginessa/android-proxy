@@ -5,9 +5,11 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -170,6 +172,14 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         loader.forceLoad();
     }
 
+    public void refreshUI()
+    {
+        if (loader != null)
+        {
+            loader.forceLoad();
+        }
+    }
+
     /**
      * LoaderManager Interface methods
      * */
@@ -177,12 +187,27 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @Override
     public Loader<List<ProxyEntity>> onCreateLoader(int i, Bundle bundle)
     {
+        App.getLogger().startTrace(TAG, "onCreateLoader", Log.DEBUG);
+
         ProxyDBTaskLoader proxyDBTaskLoader = new ProxyDBTaskLoader(getActivity());
+
+        App.getLogger().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
+
         return proxyDBTaskLoader;
     }
 
     @Override
     public void onLoadFinished(Loader<List<ProxyEntity>> listLoader, List<ProxyEntity> dbProxies)
+    {
+        App.getLogger().startTrace(TAG, "onLoadFinished", Log.DEBUG);
+
+        refreshLoaderResults(dbProxies);
+
+        App.getLogger().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getLogger().stopTrace(TAG, "STARTUP", Log.ERROR);
+    }
+
+    private void refreshLoaderResults(List<ProxyEntity> dbProxies)
     {
         if (dbProxies != null && dbProxies.size() > 0)
         {
@@ -217,7 +242,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @Override
     public void onLoaderReset(Loader<List<ProxyEntity>> listLoader)
     {
-
+        App.getLogger().d(TAG, "onLoaderReset");
     }
 
     /**
@@ -240,8 +265,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             App.getLogger().d(TAG, "Selected proxy configuration: " + selectedProxy.toString());
 
             Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
-            App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
-            i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getUUID());
+//            App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
+            i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getId());
             startActivity(i);
         }
         catch (Exception e)
@@ -274,12 +299,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         {
             App.getEventsReporter().sendException(new Exception("Exception during WiFiApListFragment selectProxy(" + index + ") " + e.toString()));
         }
-    }
-
-    public void refreshUI()
-    {
-        if (loader != null)
-            loader.forceLoad();
     }
 
     @Override
@@ -319,5 +338,21 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
                 master.restoreActionBar();
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.menu_add_new_proxy:
+                Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
+                addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(addNewProxyIntent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
