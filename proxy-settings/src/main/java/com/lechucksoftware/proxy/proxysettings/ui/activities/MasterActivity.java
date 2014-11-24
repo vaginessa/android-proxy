@@ -51,23 +51,23 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 
         switch (position)
         {
-            case 0:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, MainStatusFragment.newInstance(position), false);
-                break;
+//            case 0:
+//                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, MainStatusFragment.newInstance(position), false);
+//                break;
 
-            case 1:
+            case 0:
                 FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, WiFiApListFragment.newInstance(position), true);
                 break;
 
-            case 2:
+            case 1:
                 FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, ProxyListFragment.newInstance(position), true);
                 break;
 
-            case 3:
+            case 2:
                 FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, HelpPrefsFragment.newInstance(position), true);
                 break;
 
-            case 4:
+            case 3:
                 Intent testIntent = new Intent(getApplicationContext(), DeveloperOptionsActivity.class);
                 startActivity(testIntent);
                 break;

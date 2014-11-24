@@ -594,7 +594,7 @@ public class UIUtils
     {
         List<NavDrawerItem> list = new ArrayList<NavDrawerItem>();
 
-        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
+//        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
         list.add(new NavDrawerItem(ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+" ));
         list.add(new NavDrawerItem(ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+" ));
 //        list.add(new NavDrawerItem(ctx.getString(R.string.settings), "", R.drawable.ic_action_settings, false, "50+" ));
