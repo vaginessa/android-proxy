@@ -52,7 +52,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         switch (position)
         {
             case 0:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, MainStatusFragment.newInstance(position), false);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, MainStatusFragment.newInstance(position), true);
                 break;
 
             case 1:
