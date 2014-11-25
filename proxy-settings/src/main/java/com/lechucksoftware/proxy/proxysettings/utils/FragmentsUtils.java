@@ -40,8 +40,8 @@ public class FragmentsUtils
 
                 if (currentFragmentName.equals(newFragmentName))
                 {
-                    // No need to do anything the fragment just return
                     // TODO: Evaluate if at least a refresh of the current fragment can be executed
+                    App.getLogger().d(TAG, String.format("No need to do anything the fragment is the same (%s = %s ), just return!", currentFragmentName, newFragmentName));
                     return;
                 }
             }

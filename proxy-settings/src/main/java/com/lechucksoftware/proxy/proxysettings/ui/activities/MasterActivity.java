@@ -11,7 +11,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.HelpPrefsFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.MainStatusFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
@@ -60,11 +59,11 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
                 break;
 
             case 1:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(position), true);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(position), false);
                 break;
 
             case 2:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, HelpPrefsFragment.newInstance(position), true);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, HelpPrefsFragment.newInstance(position), false);
                 break;
 
             case 3:
