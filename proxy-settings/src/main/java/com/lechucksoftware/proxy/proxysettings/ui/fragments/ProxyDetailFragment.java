@@ -60,8 +60,6 @@ public class ProxyDetailFragment extends BaseDialogFragment
     private ScrollView proxyScrollView;
     private Map<ProxyStatusProperties,CharSequence> validationErrors;
 
-
-
     public static ProxyDetailFragment newInstance(Long proxyId)
     {
         ProxyDetailFragment instance = new ProxyDetailFragment();

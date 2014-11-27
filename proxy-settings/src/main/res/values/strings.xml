@@ -935,7 +935,9 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_master">MasterActivity</string>
-    <string name="new_proxy">New proxy</string>
+    <string name="create_new_proxy">Create new proxy</string>
     <string name="desc_list_item_icon">Drawer item icon</string>
     <string name="home">Home</string>
+    <string name="edit_proxy">Edit proxy</string>
+    <string name="edit_wifi_ap">Edit Wi-Fi access point</string>
 </resources>

@@ -5,16 +5,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
 import be.shouldit.proxy.lib.APLNetworkId;
 
@@ -55,7 +51,7 @@ public class WiFiApDetailActivity extends BaseWifiActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(false);
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(selectedId.SSID);
+            actionBar.setTitle(getString(R.string.edit_wifi_ap));
             actionBar.setDisplayUseLogoEnabled(false);
         }
         else

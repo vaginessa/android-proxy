@@ -5,9 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -16,10 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.UpdateLinkedWifiAPAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment;
-
-import java.util.UUID;
 
 public class ProxyDetailActivity extends BaseActivity
 {
@@ -60,14 +54,12 @@ public class ProxyDetailActivity extends BaseActivity
             {
                 proxyId = (Long) extras.getSerializable(Constants.SELECTED_PROXY_CONF_ARG);
                 detail = ProxyDetailFragment.newInstance(proxyId);
-                ProxyEntity proxy = App.getDBManager().getProxy(proxyId);
-                actionBar.setTitle(proxy.getHost());
+                actionBar.setTitle(getString(R.string.edit_proxy));
             }
             else
             {
                 detail = ProxyDetailFragment.newInstance();
-                actionBar.setTitle(getString(R.string.new_proxy));
-
+                actionBar.setTitle(getString(R.string.create_new_proxy));
             }
 
             fm.beginTransaction()
