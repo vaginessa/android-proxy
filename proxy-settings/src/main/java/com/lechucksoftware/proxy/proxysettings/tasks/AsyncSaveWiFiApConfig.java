@@ -15,13 +15,13 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
  */
 
 
-public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean>
+public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
 {
     private final Fragment callerFragment;
     private final WiFiAPConfig configuration;
-    private static final String TAG = AsyncSaveProxyConfiguration.class.getSimpleName();
+    private static final String TAG = AsyncSaveWiFiApConfig.class.getSimpleName();
 
-    public AsyncSaveProxyConfiguration(Fragment caller, WiFiAPConfig conf)
+    public AsyncSaveWiFiApConfig(Fragment caller, WiFiAPConfig conf)
     {
         callerFragment = caller;
         configuration = conf;

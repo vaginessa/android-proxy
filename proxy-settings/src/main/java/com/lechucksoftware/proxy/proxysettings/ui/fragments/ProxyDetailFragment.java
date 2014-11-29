@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,8 @@ import android.widget.ScrollView;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncDeleteProxy;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxy;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
@@ -384,7 +387,8 @@ public class ProxyDetailFragment extends BaseDialogFragment
             }
             else
             {
-                App.getDBManager().upsertProxy(selectedProxy);
+                AsyncSaveProxy asyncSaveProxy = new AsyncSaveProxy(this,selectedProxy);
+                asyncSaveProxy.execute();
                 getActivity().finish();
             }
         }
@@ -400,12 +404,13 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             if (selectedProxy.getInUse())
             {
-                UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
-                updateDialog.show(getFragmentManager(), "UpdateLinkedWifiAPAlertDialog");
+//                UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
+//                updateDialog.show(getFragmentManager(), "UpdateLinkedWifiAPAlertDialog");
             }
             else
             {
-                App.getDBManager().deleteProxy(selectedProxy.getId());
+                AsyncDeleteProxy asyncDeleteProxy = new AsyncDeleteProxy(this,selectedProxy);
+                asyncDeleteProxy.execute();
                 getActivity().finish();
             }
         }

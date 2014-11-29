@@ -24,7 +24,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxyConfiguration;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveWiFiApConfig;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
@@ -292,8 +292,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             apConf.setProxyExclusionString(proxy.getExclusion());
             apConf.writeConfigurationToDevice();
 
-            AsyncSaveProxyConfiguration asyncSaveProxyConfiguration = new AsyncSaveProxyConfiguration(this, apConf);
-            asyncSaveProxyConfiguration.execute();
+            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, apConf);
+            asyncSaveWiFiApConfig.execute();
         }
         catch (Exception e)
         {

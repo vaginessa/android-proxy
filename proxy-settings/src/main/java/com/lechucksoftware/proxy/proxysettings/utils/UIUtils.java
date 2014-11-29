@@ -115,6 +115,7 @@ public class UIUtils
         return dp;
     }
 
+
     public static int booleanToVisibility(boolean b)
     {
         if (b)
