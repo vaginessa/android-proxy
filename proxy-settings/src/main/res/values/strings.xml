@@ -939,5 +939,5 @@
     <string name="desc_list_item_icon">Drawer item icon</string>
     <string name="home">Home</string>
     <string name="edit_proxy">Edit proxy</string>
-    <string name="edit_wifi_ap">Edit Wi-Fi access point</string>
+    <string name="edit_wifi_ap">Edit Wi-Fi</string>
 </resources>

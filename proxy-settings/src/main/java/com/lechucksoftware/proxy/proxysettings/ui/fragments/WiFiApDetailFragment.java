@@ -97,6 +97,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     {
         App.getLogger().startTrace(TAG, "onCreateView", Log.DEBUG);
 
+        setHasOptionsMenu(true);
+
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
         ButterKnife.inject(this, v);
 
