@@ -3,11 +3,13 @@ package com.lechucksoftware.proxy.proxysettings.ui.activities;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.HelpPrefsFragment;
@@ -28,6 +30,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private AsyncStartupActions asyncStartupActionsTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +43,9 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        asyncStartupActionsTask = new AsyncStartupActions(this);
+        asyncStartupActionsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override

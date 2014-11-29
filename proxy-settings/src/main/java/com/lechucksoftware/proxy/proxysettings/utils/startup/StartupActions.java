@@ -23,11 +23,11 @@ public class StartupActions
         ArrayList<StartupAction> actions = new ArrayList<StartupAction>();
 
         // SHOW Quick tour at first start
-        StartupAction quickTour = new StartupAction(activity,
-                StartupActionType.FIRST_QUICK_TOUR,
-                StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(1, null, null));
-        actions.add(quickTour);
+//        StartupAction quickTour = new StartupAction(activity,
+//                StartupActionType.FIRST_QUICK_TOUR,
+//                StartupActionStatus.NOT_AVAILABLE,
+//                new StartupCondition(1, null, null));
+//        actions.add(quickTour);
 
         // SHOW Whats new at first start for 2.16 version
         StartupAction whatsNew216 = new StartupAction(activity,
