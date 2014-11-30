@@ -943,5 +943,5 @@
     <string name="edit_wifi_ap">Edit Wi-Fi</string>
     <string name="proxy_deleted">Proxy deleted</string>
     <string name="proxy_saved">Proxy saved</string>
-    <string name="proxy_in_use_cannot_delete">Can not delete a Proxy while it\'s used by one or more of the configured Wi-Fi networks</string>
+    <string name="proxy_in_use_cannot_delete">Can not delete a Proxy used by one or more of the configured Wi-Fi networks</string>
 </resources>
