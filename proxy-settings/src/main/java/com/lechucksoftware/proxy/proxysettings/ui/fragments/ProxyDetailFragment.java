@@ -404,8 +404,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             if (selectedProxy.getInUse())
             {
-//                UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
-//                updateDialog.show(getFragmentManager(), "UpdateLinkedWifiAPAlertDialog");
+                UIUtils.showError(getActivity(), R.string.proxy_in_use_cannot_delete);
             }
             else
             {

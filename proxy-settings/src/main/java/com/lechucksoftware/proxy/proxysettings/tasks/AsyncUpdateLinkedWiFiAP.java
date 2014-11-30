@@ -40,14 +40,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
         final int updatedWifi = updatedWiFiAP;
 
-        if (updatedWifi == 1)
-        {
-            Toast.makeText(callerActivity, String.format(callerActivity.getString(R.string.updated_wifi_access_point), updatedWifi), Toast.LENGTH_SHORT).show();
-        }
-        else if (updatedWifi > 1)
-        {
-            Toast.makeText(callerActivity, String.format(callerActivity.getString(R.string.updated_wifi_access_points), updatedWifi), Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(callerActivity, callerActivity.getResources().getQuantityString(R.plurals.updated_wifi_networks, updatedWifi, updatedWifi), Toast.LENGTH_SHORT).show();
     }
 
     @Override

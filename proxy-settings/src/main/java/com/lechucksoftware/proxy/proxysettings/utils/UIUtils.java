@@ -54,18 +54,11 @@ public class UIUtils
     public static int PROXY_NOTIFICATION_ID = 1;
     public static int URL_DOWNLOADER_COMPLETED_ID = 2;
 
-    public static void showError(Context ctx, String errorMessage)
+    public static void showError(Context ctx, int error)
     {
         try
         {
-            if (!TextUtils.isEmpty(errorMessage))
-            {
-                new AlertDialog.Builder(ctx)
-                        .setTitle(R.string.proxy_error)
-                        .setMessage(errorMessage)
-                        .setPositiveButton(R.string.proxy_error_dismiss, null)
-                        .show();
-            }
+            showError(ctx, ctx.getResources().getString(error));
         }
         catch (Exception e)
         {
@@ -73,11 +66,46 @@ public class UIUtils
         }
     }
 
-    public static void showError(Context ctx, int error)
+    public static void showError(Context ctx, String errorMessage)
     {
         try
         {
-            showError(ctx, ctx.getResources().getString(error));
+            showDialog(ctx, errorMessage, ctx.getString(R.string.proxy_error));
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+    }
+
+    public static void showDialog(Context ctx, int message, int title)
+    {
+        try
+        {
+            new AlertDialog.Builder(ctx)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+    }
+
+    public static void showDialog(Context ctx, String message, String title)
+    {
+        try
+        {
+            if (!TextUtils.isEmpty(message))
+            {
+                new AlertDialog.Builder(ctx)
+                        .setTitle(title)
+                        .setMessage(message)
+                        .setPositiveButton(R.string.ok, null)
+                        .show();
+            }
         }
         catch (Exception e)
         {

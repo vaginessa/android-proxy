@@ -21,22 +21,22 @@
     <string name="about">About</string>
     <string name="oops">Oops</string>
     <string name="create_new">Create new</string>
-    <string name="wifi_disabled">Wi-Fi disabled: no Access Point can be selected</string>
+    <string name="wifi_disabled">Wi-Fi disabled: no Wi-Fi network can be selected</string>
     <string name="wifi_enabled">Wi-Fi enabled</string>
-    <string name="no_ap_active">Not connected to any Wi-Fi Access Point</string>
+    <string name="no_ap_active">Not connected to any Wi-Fi network</string>
     <string name="wifi_settings">Wi-Fi settings</string>
-    <string name="ap_selector">Wi-Fi Access Point</string>
+    <string name="ap_selector">Wi-Fi network</string>
     <string name="go_to_wifi_settings">Go to system Wi-Fi settings</string>
     <string name="wifi_toggle_on_summary">Turn on Wi-Fi</string>
     <string name="wifi_toggle_off_summary">Turn off Wi-Fi</string>
     <string name="not_available">Not available</string>
     <string name="network_status">Network status</string>
     <string name="proxy_status">Proxy status</string>
-    <string name="ap_selection_title">Select the Wi-Fi access point:</string>
+    <string name="ap_selection_title">Select the Wi-Fi network:</string>
     <string name="connected_to">%1$s …</string>
     <string name="no_proxy_defined">No proxies defined!</string>
     <string name="enable_wifi_action">Enable Wi-Fi…</string>
-    <string name="setupap_wifi_action">Configure new Wi-Fi access point…</string>
+    <string name="setupap_wifi_action">Configure new Wi-Fi network…</string>
     <string name="connect_to_wifi_action">Connect to %1$s</string>
     <string name="checking_action">Checking configuration</string>
     <string name="not_supported_network_8021x_error_message">Proxy Settings is currently not able to access and modify the settings for Wi-Fi networks with 802.1x security type.</string>
@@ -298,7 +298,7 @@
 
 
     <!-- Summary text of the Wi-fi settings screen -->
-    <string name="wifi_settings_summary">Set up &amp; manage wireless access points</string>
+    <string name="wifi_settings_summary">Set up &amp; manage wireless network</string>
     <!-- Used in the 1st-level settings screen to turn on Wi-Fi  [CHAR LIMIT=60] -->
     <string name="wifi_setup_wizard_title">Select Wi-Fi</string>
     <!-- Summary text when turning Wi-Fi or bluetooth on -->
@@ -883,12 +883,13 @@
     <string name="add_new_proxy">Add new proxy</string>
     <string name="select_proxy_clickable">Select a Proxy ...</string>
     <string name="select_proxy">Select a Proxy</string>
-    <string name="already_used_proxy_warning">This proxy configuration is currently in use in one or more of your Wi-Fi access points</string>
-    <string name="duplicated_proxy_warning">One or more proxy configurations with same HOSTNAME and PORT are defined</string>
+    <string name="already_used_proxy_warning">This proxy is used by one or more of your Wi-Fi networks</string>
+    <string name="duplicated_proxy_warning">Already defined one or more proxy with same HOSTNAME and PORT</string>
     <string name="warning">Warning</string>
     <string name="wifi_ap_will_be_updated">The updated proxy configuration will be applied to the Wi-Fi access points that used the previous version of the configuration</string>
-    <string name="updated_wifi_access_point">Updated %d Wi-Fi access point configuration</string>
-    <string name="updated_wifi_access_points">Updated %d Wi-Fi access points configurations</string>
+
+
+
     <string name="market_not_found">Cannot find valid Market application</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
@@ -942,4 +943,5 @@
     <string name="edit_wifi_ap">Edit Wi-Fi</string>
     <string name="proxy_deleted">Proxy deleted</string>
     <string name="proxy_saved">Proxy saved</string>
+    <string name="proxy_in_use_cannot_delete">Can not delete a Proxy while it\'s used by one or more of the configured Wi-Fi access points</string>
 </resources>
