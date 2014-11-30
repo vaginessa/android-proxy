@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,14 +20,17 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
 
 public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
 {
-    private final Fragment callerFragment;
-    private final ProxyEntity proxyEntity;
+    private Context context;
+    private ProxyEntity proxyEntity;
     private static final String TAG = AsyncSaveProxy.class.getSimpleName();
 
     public AsyncSaveProxy(Fragment caller, ProxyEntity proxy)
     {
-        callerFragment = caller;
-        proxyEntity = proxy;
+        if (caller != null)
+        {
+            context = caller.getActivity().getBaseContext();
+            proxyEntity = proxy;
+        }
     }
 
     @Override
@@ -36,11 +40,11 @@ public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
 
         if (result)
         {
-            Toast.makeText(callerFragment.getActivity(), callerFragment.getString(R.string.proxy_saved), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.proxy_saved), Toast.LENGTH_SHORT).show();
         }
         else
         {
-            UIUtils.showError(callerFragment.getActivity(), R.string.exception_apl_writeconfig_error_message);
+            UIUtils.showError(context, R.string.exception_apl_writeconfig_error_message);
         }
     }
 
