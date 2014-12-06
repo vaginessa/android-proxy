@@ -7,8 +7,6 @@ DEPS="$ANDROID_HOME/installed-dependencies"
 
 #Check ENV
 gradle -v
-apt-cache search gradle
-apt-cache show gradle
 
 echo ANDROID_HOME = $ANDROID_HOME
 echo DEPS = $DEPS
