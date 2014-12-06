@@ -8,6 +8,7 @@ dependencies:
     - ~/android
   override:
     - ./install-dependencies.sh
+    - ./gradlew -v
     - ./gradlew dependencies --info
 test:
   override:
