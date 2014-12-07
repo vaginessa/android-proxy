@@ -22,7 +22,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 
 public class DisclaimerEndFragment extends Fragment
 {
-	public static final String TAG = "DisclaimerEndFragment";
+	public static final String TAG = DisclaimerEndFragment.class.getSimpleName();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

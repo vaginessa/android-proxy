@@ -11,20 +11,20 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.ProxyManager;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
-import com.lechucksoftware.proxy.proxysettings.exception.ProxyException;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import be.shouldit.proxy.lib.ProxyConfiguration;
 
@@ -33,7 +33,7 @@ import be.shouldit.proxy.lib.ProxyConfiguration;
  */
 public class TestActivity extends Activity
 {
-    public static final String TAG = "TestActivity";
+    public static final String TAG = TestActivity.class.getSimpleName();
     public LinearLayout testDBContainer;
     private ScrollView testLogScroll;
 
@@ -146,14 +146,16 @@ public class TestActivity extends Activity
 
     public void testBugReporting(View caller)
     {
-        EventReportingUtils.sendException(new Exception("EXCEPTION ONLY FOR TEST"));
-        EventReportingUtils.sendException(new ProxyException(App.getProxyManager().getSortedConfigurationsList()));
-        EventReportingUtils.sendEvent("EVENT ONLY FOR TEST");
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("config_list", App.getProxyManager().configListToDBG().toString());
 
-        GoogleAnalytics.getInstance(this).dispatchLocalHits();
+        App.getEventsReporter().sendException(new Exception("EXCEPTION ONLY FOR TEST"), map);
+        App.getEventsReporter().sendEvent("EVENT ONLY FOR TEST");
+
+//        GoogleAnalytics.getInstance(this).dispatchLocalHits();
 
         // Force a CRASH
-        throw new RuntimeException("Application forced to crash!");
+//        throw new RuntimeException("Application forced to crash!");
     }
 
     public void listDBProxies(View caller)

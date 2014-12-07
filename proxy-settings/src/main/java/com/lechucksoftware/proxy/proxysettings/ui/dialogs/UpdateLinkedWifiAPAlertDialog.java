@@ -13,7 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 
 public class UpdateLinkedWifiAPAlertDialog extends BaseDialogFragment
 {
-    public static String TAG = "LikeAppDialog";
+    public static String TAG = UpdateLinkedWifiAPAlertDialog.class.getSimpleName();
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)

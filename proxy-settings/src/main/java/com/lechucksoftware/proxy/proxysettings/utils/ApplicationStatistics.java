@@ -38,7 +38,7 @@ public class ApplicationStatistics
         if (BuildConfig.DEBUG)
         {
             // During debug there is no need to mantain the total number of crashes
-            EventReportingUtils.clearTotalCrashes();
+            App.getEventsReporter().clearTotalCrashesNum();
         }
 
         editor.commit();
@@ -55,7 +55,7 @@ public class ApplicationStatistics
         // Get date of first launch
         details.LaunhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
 
-        details.CrashesCount = EventReportingUtils.getTotalCrashes();
+        details.CrashesCount = App.getEventsReporter().getCrashesCount();
 
         App.getLogger().a(TAG,details.toString());
 

@@ -18,7 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
@@ -291,7 +291,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         else
         {
             // TODO: Add handling here
-            EventReportingUtils.sendException(new Exception("NO PROXY SELECTED"));
+            App.getEventsReporter().sendException(new Exception("NO PROXY SELECTED"));
         }
     }
 

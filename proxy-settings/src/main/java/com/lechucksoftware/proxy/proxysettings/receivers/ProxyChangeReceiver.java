@@ -13,13 +13,12 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService;
 import com.lechucksoftware.proxy.proxysettings.services.ProxySyncService;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import be.shouldit.proxy.lib.APLIntents;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
 {
-    public static String TAG = "ProxyChangeReceiver";
+    public static String TAG = ProxyChangeReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -98,7 +97,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(e);
+                App.getEventsReporter().sendException(e);
             }
         }
     }
@@ -126,7 +125,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(e);
+                App.getEventsReporter().sendException(e);
             }
         }
     }
@@ -152,7 +151,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 }

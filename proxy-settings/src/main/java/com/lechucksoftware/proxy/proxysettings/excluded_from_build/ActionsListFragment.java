@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
@@ -18,7 +19,6 @@ import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +179,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
+            App.getEventsReporter().sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
         }
     }
 
@@ -202,7 +202,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(new Exception("Exception during WiFiApListFragment selectProxy(" + index + ") " + e.toString()));
+            App.getEventsReporter().sendException(new Exception("Exception during WiFiApListFragment selectProxy(" + index + ") " + e.toString()));
         }
     }
 

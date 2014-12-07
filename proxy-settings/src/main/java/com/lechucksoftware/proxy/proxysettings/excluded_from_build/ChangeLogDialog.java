@@ -42,7 +42,7 @@ import java.util.Date;
  */
 public class ChangeLogDialog
 {
-    private static final String TAG = "ChangeLogDialog";
+    private static final String TAG = ChangeLogDialog.class.getSimpleName();
 
     private final Context mContext;
     private String mStyle = "";

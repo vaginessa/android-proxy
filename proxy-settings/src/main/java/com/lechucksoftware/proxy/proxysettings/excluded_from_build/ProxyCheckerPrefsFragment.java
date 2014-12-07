@@ -32,7 +32,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
     private ValidationPreference wifiSelectedPref;
     private Preference startCheckPref;
 
-    public static final String TAG = "ProxyCheckerPrefsFragment";
+    public static final String TAG = ProxyCheckerPrefsFragment.class.getSimpleName();
 
 
     @Override

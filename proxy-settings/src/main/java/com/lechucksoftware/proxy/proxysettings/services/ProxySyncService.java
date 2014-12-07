@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +113,7 @@ public class ProxySyncService extends IntentService
                 }
                 catch (Exception e)
                 {
-                    EventReportingUtils.sendException(new Exception("Exception during ProxySyncService",e));
+                    App.getEventsReporter().sendException(new Exception("Exception during ProxySyncService", e));
                 }
             }
 

@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+
 import be.shouldit.proxy.lib.APL;
 
 
@@ -20,7 +20,7 @@ import be.shouldit.proxy.lib.APL;
  */
 public class StatusFragment extends BaseFragment
 {
-    private static final String TAG = "StatusFragment";
+    private static final String TAG = StatusFragment.class.getSimpleName();
     public static StatusFragment instance;
     private Button statusButton;
 
@@ -133,7 +133,7 @@ public class StatusFragment extends BaseFragment
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(new Exception("Exception during StatusFragment enableWifi action", e));
+                App.getEventsReporter().sendException(new Exception("Exception during StatusFragment enableWifi action", e));
             }
 
             setStatus(StatusFragmentStates.CHECKING);
@@ -155,7 +155,7 @@ public class StatusFragment extends BaseFragment
             }
             catch (Exception e)
             {
-                EventReportingUtils.sendException(new Exception("Exception during StatusFragment connectToWifi action", e));
+                App.getEventsReporter().sendException(new Exception("Exception during StatusFragment connectToWifi action", e));
             }
 
             setStatus(StatusFragmentStates.CHECKING);

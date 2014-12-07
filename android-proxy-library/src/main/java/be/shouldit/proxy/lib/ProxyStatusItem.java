@@ -1,5 +1,8 @@
 package be.shouldit.proxy.lib;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -77,5 +80,35 @@ public class ProxyStatusItem
         sb.append(String.format("%s %s/%s", statusCode, status, result));
 
         return sb.toString();
+    }
+
+    public JSONObject toJSON()
+    {
+        JSONObject jsonObject = new JSONObject();
+
+        try
+        {
+            jsonObject.put("status", statusCode);
+            jsonObject.put("effective", effective);
+            jsonObject.put("status",status);
+            jsonObject.put("result",result);
+
+            if (checkedDate != null)
+            {
+                DateFormat df = DateFormat.getDateTimeInstance();
+                jsonObject.put("checked_date",df.format(checkedDate));
+            }
+            else
+            {
+                jsonObject.put("checked_date",null);
+            }
+
+            jsonObject.put("message",message);
+        }
+        catch (JSONException e)
+        {
+            APL.getEventsReporter().sendException(e);
+        }
+        return jsonObject;
     }
 }

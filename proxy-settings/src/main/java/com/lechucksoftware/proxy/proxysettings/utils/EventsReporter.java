@@ -17,11 +17,11 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.log.IEventReporting;
 
-public class EventReportingUtils implements IEventReporting
+public class EventsReporter implements IEventReporting
 {
-    private static final String TAG = "EventReportingUtils";
+    private static final String TAG = EventsReporter.class.getSimpleName();
 //    private Boolean setupDone;
-    private static EventReportingUtils instance;
+    private static EventsReporter instance;
 //    private static boolean crittercismSetupDone;
     private static boolean bugSenseSetupDone;
     private static boolean analyticsSetupDone;
@@ -30,31 +30,22 @@ public class EventReportingUtils implements IEventReporting
     private Tracker defaultTracker;
 //    private static Tracker tracker;
 
-    private EventReportingUtils()
+    public EventsReporter(Context ctx)
     {
-//        crittercismSetupDone = false;
+        context = ctx;
+
         bugSenseSetupDone = false;
         analyticsSetupDone = false;
         crashLyticsSetupDone = false;
+
+        setup();
     }
 
-    public static EventReportingUtils getInstance()
+    public void setup()
     {
-        if (instance == null)
-        {
-            instance = new EventReportingUtils();
-        }
-
-        return instance;
-    }
-
-    public static void setup(Context ctx)
-    {
-        getInstance().context = ctx;
-
-        analyticsSetupDone = getInstance().setupAnalytics(ctx);
-        bugSenseSetupDone = getInstance().setupBugSense(ctx);
-        crashLyticsSetupDone = getInstance().setupCrashLytics(ctx);
+        analyticsSetupDone = setupAnalytics(context);
+        bugSenseSetupDone = setupBugSense(context);
+        crashLyticsSetupDone = setupCrashLytics(context);
 //        crittercismSetupDone = getInstance().setupCrittercism(ctx);
     }
 
@@ -142,40 +133,15 @@ public class EventReportingUtils implements IEventReporting
         return setupDone;
     }
 
-    public static Tracker getDefaultTracker()
+    public void sendException(Exception e)
     {
-        return getInstance().defaultTracker;
+        sendException(e, null);
     }
 
-    public static void sendException(Exception e)
-    {
-        getInstance().send(e);
-    }
-
-    public static void sendException(Exception e, Map<String, String> map)
-    {
-        getInstance().send(e, map);
-    }
-
-//    public static void addExtraData(String level, String secondLevel)
-//    {
-//        getInstance().addCrashExtraData(level,secondLevel);
-//    }
-//
-//    public void addCrashExtraData(String level, String secondLevel)
-//    {
-//        BugSenseHandler.addCrashExtraData(level,secondLevel);
-//    }
-
-    public void send(Exception e)
-    {
-        send(e, null);
-    }
-
-    public void send(Exception e, Map<String,String> params)
+    public void sendException(Exception e, Map<String, String> params)
     {
         App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
-        App.getLogger().e(TAG, "Handled exception stack trace: " + TextUtils.join("\n", e.getStackTrace()));
+        App.getLogger().e(TAG, "Handled exception stack trace: " + Log.getStackTraceString(e));
 
         if (crashLyticsSetupDone)
         {
@@ -183,11 +149,14 @@ public class EventReportingUtils implements IEventReporting
             {
                 for (String key : params.keySet())
                 {
-                    Crashlytics.log(0, key, params.get(key)); // Priority = 0
+                    String value = params.get(key);
+                    Crashlytics.log(0, key, value); // Priority = 0
+                    App.getLogger().e(TAG,String.format("Added log '%s': '%s'",key,value));
                 }
             }
 
             Crashlytics.logException(e);
+            App.getLogger().e(TAG,String.format("Sent exception to Crashlytics"));
         }
 
         if (analyticsSetupDone)
@@ -203,23 +172,13 @@ public class EventReportingUtils implements IEventReporting
 
                 eb.setDescription(TextUtils.join("             ",new Object[]{title,stackTrace}));
 
-                getDefaultTracker().send(eb.build());
+                defaultTracker.send(eb.build());
             }
         }
         else
         {
             setupAnalytics(App.getInstance().getApplicationContext());
         }
-    }
-
-    public static int getTotalCrashes()
-    {
-        return getInstance().getCrashesCount();
-    }
-
-    public static void clearTotalCrashes()
-    {
-        getInstance().clearTotalCrashesNum();
     }
 
     public int getCrashesCount()
@@ -234,43 +193,23 @@ public class EventReportingUtils implements IEventReporting
         BugSenseHandler.clearTotalCrashesNum();
     }
 
-    public static void sendEvent(String s)
+    public void sendEvent(final int categoryId, final int actionId, final int labelId)
     {
-        getInstance().send(s);
+        sendEvent(categoryId, actionId, labelId, null);
     }
 
-    public static void sendEvent(final int categoryId, final int actionId, final int labelId)
-    {
-        getInstance().send(categoryId, actionId, labelId);
-    }
-
-    public static void sendEvent(final int categoryId, final int actionId, final int labelId, final Long eventValue)
-    {
-        getInstance().send(categoryId, actionId, labelId, eventValue);
-    }
-
-    public static void sendEvent(final String category, final String action, final String label, final Long eventValue)
-    {
-        getInstance().send(category, action, label, eventValue);
-    }
-
-    public void send(final int categoryId, final int actionId, final int labelId)
-    {
-        send(categoryId, actionId, labelId, null);
-    }
-
-    public void send(final int categoryId, final int actionId, final int labelId, final Long eventValue)
+    public void sendEvent(final int categoryId, final int actionId, final int labelId, final Long eventValue)
     {
         String category = context.getString(categoryId);
         String action = context.getString(actionId);
         String label = context.getString(labelId);
 
-        send(category, action, label, eventValue);
+        sendEvent(category, action, label, eventValue);
     }
 
-    public void send(final String category, final String action, final String label, final Long eventValue)
+    public void sendEvent(final String category, final String action, final String label, final Long eventValue)
     {
-        if (bugSenseSetupDone)
+        if (analyticsSetupDone)
         {
             HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder();
 
@@ -282,11 +221,7 @@ public class EventReportingUtils implements IEventReporting
                 builder.setValue(eventValue);
 
             Map<String, String> map = builder.build();
-            Tracker tracker = getDefaultTracker();
-            if(tracker != null)
-            {
-                tracker.send(map);
-            }
+            defaultTracker.send(map);
         }
         else
         {
@@ -300,12 +235,12 @@ public class EventReportingUtils implements IEventReporting
         }
     }
 
-    public void send(String s)
+    public void sendEvent(String s)
     {
-        send("", "", s, null);
+        sendEvent("", "", s, null);
     }
 
-    public static void sendScreenView(String screenName)
+    public void sendScreenView(String screenName)
     {
         // DO nothing, since enableAutoActivityTracking = true
 
@@ -313,7 +248,7 @@ public class EventReportingUtils implements IEventReporting
 //        if (tracker != null)
 //        {
 //            tracker.setScreenName(screenName);
-//            tracker.send(new HitBuilders.AppViewBuilder().build());
+//            tracker.sendEvent(new HitBuilders.AppViewBuilder().build());
 //        }
     }
 }

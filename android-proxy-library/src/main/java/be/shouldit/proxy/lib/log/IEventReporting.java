@@ -5,6 +5,6 @@ package be.shouldit.proxy.lib.log;
  */
 public interface IEventReporting
 {
-    public void send(Exception e);
-    public void send(String s);
+    public void sendException(Exception e);
+    public void sendEvent(String s);
 }

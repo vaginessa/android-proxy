@@ -16,8 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.HelpActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyListActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 /**
@@ -34,7 +33,7 @@ public class BaseActivity extends Activity
 
         App.getLogger().d(this.getClass().getSimpleName(), "onCreate");
 
-        EventReportingUtils.sendScreenView(this.getClass().getSimpleName());
+        App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
 
     @Override
@@ -127,7 +126,7 @@ public class BaseActivity extends Activity
                 App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
                 i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
-                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action, R.string.analytics_act_button_click,R.string.analytics_lab_create_new_proxy);
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action, R.string.analytics_act_button_click, R.string.analytics_lab_create_new_proxy);
                 break;
 
             case R.id.menu_about:

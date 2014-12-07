@@ -35,7 +35,7 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 {
-    public static final String TAG = "WiFiApDetailFragment";
+    public static final String TAG = WiFiApDetailFragment.class.getSimpleName();
 
     private ProxyConfiguration selectedWiFiAP;
     private ProxyEntity selectedProxy;
@@ -293,7 +293,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        {
 //            LogWrapper.d(TAG,"selectedWiFiAP is NULL: " + String.valueOf(confId));
 ////            NavigationUtils.GoToMainActivity(getActivity());
-//            EventReportingUtils.sendException(new Exception("NO WIFI AP SELECTED"));
 //        }
 
 //        LogWrapper.stopTrace(TAG, "refreshUI", Log.DEBUG);

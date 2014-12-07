@@ -5,14 +5,15 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 public class BetaTestCommunityDialog extends BaseDialogFragment
 {
-	public static String TAG = "LikeAppDialog";
+	public static String TAG = BetaTestCommunityDialog.class.getSimpleName();
 
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -25,7 +26,7 @@ public class BetaTestCommunityDialog extends BaseDialogFragment
 		{
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 			{
-                EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
                         R.string.analytics_lab_beta_test_community_dialog, 1L);
 
@@ -42,7 +43,7 @@ public class BetaTestCommunityDialog extends BaseDialogFragment
     {
         super.onCancel(dialog);
 
-        EventReportingUtils.sendEvent(R.string.analytics_cat_user_action,
+        App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                 R.string.analytics_act_dialog_button_click,
                 R.string.analytics_lab_beta_test_community_dialog, 2L);
     }

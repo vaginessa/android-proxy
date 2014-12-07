@@ -36,14 +36,14 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
  */
 public class APL
 {
-    public static final String TAG = "APL";
+    public static final String TAG = APL.class.getSimpleName();
 
     private static ConnectivityManager mConnManager;
     private static WifiManager mWifiManager;
     private static Context gContext;
     private static boolean sSetupCalled;
     private static int deviceVersion;
-    private static IEventReporting eventReport;
+    private static IEventReporting eventsReporter;
 
     public static LogWrapper getLogger()
     {
@@ -75,19 +75,19 @@ public class APL
 
         if (eRep != null)
         {
-            eventReport = eRep;
+            eventsReporter = eRep;
         }
         else
         {
-            eventReport = new DefaultEventReport();
+            eventsReporter = new DefaultEventReport();
         }
 
         return sSetupCalled;
     }
 
-    public static IEventReporting getEventReport()
+    public static IEventReporting getEventsReporter()
     {
-        return eventReport;
+        return eventsReporter;
     }
 
     public static Context getContext()
@@ -304,7 +304,7 @@ public class APL
                 }
                 catch (NumberFormatException e)
                 {
-                    APL.getEventReport().send(new Exception("Port is not a number: " + proxyParts[1],e));
+                    APL.getEventsReporter().sendException(new Exception("Port is not a number: " + proxyParts[1], e));
                 }
             }
         }
@@ -365,13 +365,13 @@ public class APL
             }
             else
             {
-                APL.getEventReport().send(new Exception("Cannot find "));
+                APL.getEventsReporter().sendException(new Exception("Cannot find "));
                 proxyHost = new ProxyConfiguration(ProxySetting.NONE, null, null, "", wifiConf);
             }
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(e);
+            APL.getEventsReporter().sendException(e);
         }
 
         return proxyHost;

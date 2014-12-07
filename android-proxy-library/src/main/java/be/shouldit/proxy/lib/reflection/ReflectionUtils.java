@@ -18,7 +18,7 @@ import be.shouldit.proxy.lib.reflection.android.WifiServiceHandler;
 
 public class ReflectionUtils
 {
-    public static final String TAG = "ReflectionUtils";
+    public static final String TAG = ReflectionUtils.class.getSimpleName();
 
     /* Events from WifiService */
     /** @hide */
@@ -29,7 +29,7 @@ public class ReflectionUtils
 
     /**
      * Command sent when the channel is half connected. Half connected
-     * means that the channel can be used to send commends to the destination
+     * means that the channel can be used to sendEvent commends to the destination
      * but the destination is unaware that the channel exists. The first
      * command sent to the destination is typically CMD_CHANNEL_FULL_CONNECTION if
      * it is desired to establish a long term connection, but any command maybe
@@ -46,7 +46,7 @@ public class ReflectionUtils
     public static final int STATUS_SUCCESSFUL = 0;
     /** Error attempting to bind on a connect */
     public static final int STATUS_BINDING_UNSUCCESSFUL = 1;
-    /** Error attempting to send a message */
+    /** Error attempting to sendEvent a message */
     public static final int STATUS_SEND_UNSUCCESSFUL = 2;
 
     public static void connectToWifi(WifiManager wifiManager, Integer networkId) throws Exception
@@ -71,7 +71,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(e);
+            APL.getEventsReporter().sendException(e);
         }
 
         if (!internalConnectDone)
@@ -130,7 +130,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            APL.getEventReport().send(e);
+            APL.getEventsReporter().sendException(e);
         }
 
 //        if (!internalSaveDone)
@@ -141,7 +141,7 @@ public class ReflectionUtils
 //            }
 //            catch (Exception e)
 //            {
-//                APL.getEventReport().send(e);
+//                APL.getEventsReporter().sendEvent(e);
 //            }
 //        }
 
@@ -287,7 +287,7 @@ public class ReflectionUtils
             }
             else
             {
-                APL.getEventReport().send(new Exception("Not handled WifiManager.save method. Found params: " + paramsTypes.length));
+                APL.getEventsReporter().sendException(new Exception("Not handled WifiManager.save method. Found params: " + paramsTypes.length));
             }
         }
 

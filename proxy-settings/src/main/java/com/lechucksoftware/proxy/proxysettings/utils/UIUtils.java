@@ -45,7 +45,7 @@ import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 
 public class UIUtils
 {
-    public static final String TAG = "UIUtils";
+    public static final String TAG = UIUtils.class.getSimpleName();
 
     public static int PROXY_NOTIFICATION_ID = 1;
     public static int URL_DOWNLOADER_COMPLETED_ID = 2;
@@ -65,7 +65,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 
@@ -77,7 +77,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 
@@ -341,7 +341,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
             return;
         }
 
@@ -442,7 +442,7 @@ public class UIUtils
     {
         if (conf == null)
         {
-            EventReportingUtils.sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
+            App.getEventsReporter().sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
             return;
         }
 
@@ -574,7 +574,7 @@ public class UIUtils
                 }
                 catch (Exception e)
                 {
-                    EventReportingUtils.sendException(e);
+                    App.getEventsReporter().sendException(e);
                 }
             }
         }

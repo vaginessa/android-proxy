@@ -15,7 +15,7 @@ import com.viewpagerindicator.TitlePageIndicator;
 
 public class HelpFragmentActivity extends FragmentActivity
 {
-	public static final String TAG = "HelpFragmentActivity";
+	public static final String TAG = HelpFragmentActivity.class.getSimpleName();
 	public static final int FRAGMENTS_COUNT = 6;
 
 	private ViewPager _mViewPager;

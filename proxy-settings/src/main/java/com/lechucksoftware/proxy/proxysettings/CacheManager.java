@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class CacheManager
 {
-    private static final String TAG = "CacheManager";
+    private static final String TAG = CacheManager.class.getSimpleName();
     private final Context context;
     private final Map<UUID, Object> cachedObjects;
 //    private Map<Long, ProxyEntity> savedProxies;

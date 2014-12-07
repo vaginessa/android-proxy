@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
 import be.shouldit.proxy.lib.APLIntents;
 
@@ -48,7 +48,7 @@ public class BaseWifiActivity extends BaseActivity
         }
         catch (IllegalArgumentException e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
 
         refreshUI();
@@ -68,7 +68,7 @@ public class BaseWifiActivity extends BaseActivity
         }
         catch (IllegalArgumentException e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
         }
     }
 

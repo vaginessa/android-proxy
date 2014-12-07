@@ -8,7 +8,6 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.APL;
@@ -72,7 +71,7 @@ public class AsyncSaveProxyConfiguration extends AsyncTask<Void, String, Boolean
         }
         catch (Exception e)
         {
-            EventReportingUtils.sendException(e);
+            App.getEventsReporter().sendException(e);
             return false;
         }
     }

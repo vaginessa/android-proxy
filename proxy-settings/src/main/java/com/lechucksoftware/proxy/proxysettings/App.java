@@ -8,7 +8,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.EventReportingUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.log.LogWrapper;
@@ -26,6 +26,7 @@ public class App extends Application
     public Boolean demoMode;
     public Boolean wifiActionEnabled;
     private LogWrapper logger;
+    private EventsReporter eventsReporter;
 
     public static int getAppMajorVersion()
     {
@@ -47,7 +48,6 @@ public class App extends Application
 //        Logger LOG = LoggerFactory.getLogger(App.class);
 //        LOG.info("hello world");
 
-
         mInstance = this;
 
         if (BuildConfig.DEBUG)
@@ -62,6 +62,8 @@ public class App extends Application
 
         getLogger().startTrace(TAG, "STARTUP", Log.ERROR, true);
 
+        eventsReporter = new EventsReporter(App.this);
+
         proxyManager = new ProxyManager(App.this);
         dbManager = new DataSource(App.this);
         cacheManager = new CacheManager(App.this);
@@ -75,8 +77,7 @@ public class App extends Application
 //        readAppConfigurationFile();
 
         // SETUP Libraries
-        EventReportingUtils.setup(App.this);
-        APL.setup(App.this, getLogger().getLogLevel(), EventReportingUtils.getInstance());
+        APL.setup(App.this, getLogger().getLogLevel(), getEventsReporter());
 
         getLogger().getPartial(TAG,"STARTUP",Log.ERROR);
 
@@ -148,6 +149,16 @@ public class App extends Application
 //        LogWrapper.stopTrace(TAG, "readAppConfigurationFile", Log.INFO);
 //    }
 
+    public static EventsReporter getEventsReporter()
+    {
+        if (getInstance().eventsReporter == null)
+        {
+            getInstance().eventsReporter = new EventsReporter(App.getInstance());
+        }
+
+        return getInstance().eventsReporter;
+    }
+
     public static LogWrapper getLogger()
     {
         if (getInstance().logger == null)
@@ -162,7 +173,7 @@ public class App extends Application
     {
         if (mInstance == null)
         {
-            EventReportingUtils.sendException(new Exception("Cannot find valid instance of App, trying to instanciate a new one"));
+            getEventsReporter().sendException(new Exception("Cannot find valid instance of App, trying to instanciate a new one"));
             mInstance = new App();
         }
 
@@ -173,7 +184,7 @@ public class App extends Application
     {
         if (getInstance().proxyManager == null)
         {
-            EventReportingUtils.sendException(new Exception("Cannot find valid instance of ProxyManager, trying to instanciate a new one"));
+            getEventsReporter().sendException(new Exception("Cannot find valid instance of ProxyManager, trying to instanciate a new one"));
             getInstance().proxyManager = new ProxyManager(getInstance());
         }
 
@@ -184,7 +195,7 @@ public class App extends Application
     {
         if (getInstance().dbManager == null)
         {
-            EventReportingUtils.sendException(new Exception("Cannot find valid instance of DataSource, trying to instanciate a new one"));
+            getEventsReporter().sendException(new Exception("Cannot find valid instance of DataSource, trying to instanciate a new one"));
             getInstance().dbManager = new DataSource(getInstance());
         }
 
@@ -195,7 +206,7 @@ public class App extends Application
     {
         if (getInstance().cacheManager == null)
         {
-            EventReportingUtils.sendException(new Exception("Cannot find valid instance of CacheManager, trying to instanciate a new one"));
+            getEventsReporter().sendException(new Exception("Cannot find valid instance of CacheManager, trying to instanciate a new one"));
             getInstance().cacheManager = new CacheManager(getInstance());
         }
 
