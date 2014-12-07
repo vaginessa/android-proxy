@@ -70,12 +70,14 @@ android {
 
         release {
 
-//            runProguard false
+            // As long as proxy settings is open source this shouldn't be needed
+            minifyEnabled false
+            shrinkResources false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 
             debuggable false
 
-            buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_release + "\""
             buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_release + "\""
 
             signingConfig project.hasProperty('android_keystore') ? signingConfigs.release : signingConfigs.debug
@@ -89,19 +91,22 @@ android {
 
         debug {
 
-//            runProguard false
+            minifyEnabled false
+            shrinkResources false
+
             debuggable true
 
             versionNameSuffix "-DEBUG"
 
-            buildConfigField "String", "BUGSENSE_LICENSE", "\"" + bugsense_debug + "\""
             buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_debug + "\""
         }
 
         CI {
 
             debuggable true
-//            runProguard false
+            shrinkResources false
+
+            minifyEnabled false
 
             versionNameSuffix "-CI"
 
