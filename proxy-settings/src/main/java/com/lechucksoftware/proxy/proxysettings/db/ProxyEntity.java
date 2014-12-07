@@ -101,14 +101,11 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
 //            {
                 if (anotherProxy.host.equalsIgnoreCase(this.host)
                        && anotherProxy.port.equals(this.port)
-                       && anotherProxy.exclusion.equalsIgnoreCase(this.exclusion))
+                       && anotherProxy.exclusion.equalsIgnoreCase(this.exclusion)
+                       && anotherProxy.getInUse() == this.getInUse())
                 {
                     // TODO: compare also linked TAGS?
-
-
                     result = true;
-
-
                 }
                 else
                 {
