@@ -42,11 +42,7 @@ public class UpdateLinkedWifiAPAlertDialog extends BaseDialogFragment
 
     protected void onResult(final int resultCode)
     {
-        final BaseActivity activity = (BaseActivity) getActivity();
-        if (activity != null)
-        {
-            activity.onDialogResult(Requests.UPDATE_LINKED_WIFI_AP, resultCode, null);
-        }
+        getTargetFragment().onActivityResult(Requests.UPDATE_LINKED_WIFI_AP, resultCode, null);
     }
 
     public static UpdateLinkedWifiAPAlertDialog newInstance()

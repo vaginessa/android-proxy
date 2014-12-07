@@ -71,20 +71,4 @@ public class ProxyDetailActivity extends BaseActivity
             App.getEventsReporter().sendException(new Exception("No caller intent received"));
         }
     }
-
-    @Override
-    public void onDialogResult(int requestCode, int resultCode, Bundle arguments)
-    {
-        if (requestCode == Requests.UPDATE_LINKED_WIFI_AP)
-        {
-            ProxyEntity updated = App.getDBManager().getProxy(proxyId);
-            ProxyEntity current = App.getDBManager().getProxy(updated.getId());
-
-            AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(this, current, updated);
-            asyncUpdateLinkedWiFiAP.execute();
-
-            App.getDBManager().upsertProxy(updated);
-            finish();
-        }
-    }
 }
