@@ -78,7 +78,7 @@ android {
 
             debuggable false
 
-            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_release + "\""
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + (project.hasProperty('analytics_track_id_release') ? analytics_track_id_release : 1234)  + "\""
 
             signingConfig project.hasProperty('android_keystore') ? signingConfigs.release : signingConfigs.debug
 
@@ -98,7 +98,7 @@ android {
 
             versionNameSuffix "-DEBUG"
 
-            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + analytics_track_id_debug + "\""
+            buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + (project.hasProperty('analytics_track_id_debug') ? analytics_track_id_debug : 1234)  + "\""
         }
 
         CI {
@@ -110,7 +110,6 @@ android {
 
             versionNameSuffix "-CI"
 
-            buildConfigField "String", "BUGSENSE_LICENSE", 'null'
             buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
             ext.enableCrashlytics = false
         }
@@ -122,6 +121,7 @@ android {
             project.hasProperty('android_key_password')) {
 
         println 'Signing Configurations succesfully found'
+
         android.signingConfigs.release.storeFile = file(android_keystore)
         android.signingConfigs.release.storePassword = android_keystore_password
         android.signingConfigs.release.keyAlias = android_key_alias
