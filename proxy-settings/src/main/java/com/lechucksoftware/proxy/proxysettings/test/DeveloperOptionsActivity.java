@@ -244,7 +244,21 @@ public class DeveloperOptionsActivity extends Activity
         List<TagEntity> list = App.getDBManager().getAllTags();
         for (TagEntity t : list)
         {
-            textViewTest.append(t.toString() + "\n\n");
+            textViewTest.append(t.toString() + "\n");
+        }
+    }
+
+    public void listPrefs(View view)
+    {
+        TextView textViewTest = new TextView(this);
+        testDBContainer.addView(textViewTest);
+        textViewTest.setTextSize(10);
+
+        SharedPreferences preferences = this.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_MULTI_PROCESS);
+        Map<String, ?> prefsMap = preferences.getAll();
+        for (String key : prefsMap.keySet())
+        {
+            textViewTest.append("'" + key + "': " +  prefsMap.get(key) + "\n");
         }
     }
 
