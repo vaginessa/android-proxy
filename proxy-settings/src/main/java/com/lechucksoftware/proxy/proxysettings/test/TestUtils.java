@@ -130,7 +130,7 @@ public class TestUtils
         return proxies;
     }
 
-    public static ProxyEntity getRandomProxy()
+    public static ProxyEntity createRandomProxy()
     {
         ProxyEntity pd = new ProxyEntity();
         pd.setHost(getRandomIP());
@@ -193,7 +193,7 @@ public class TestUtils
 
     public static void addProxy()
     {
-        ProxyEntity pd = getRandomProxy();
+        ProxyEntity pd = createRandomProxy();
 
         ProxyEntity savedProxy = App.getDBManager().upsertProxy(pd);
 
@@ -322,7 +322,7 @@ public class TestUtils
         result = ProxyUtils.isProxyValidExclusionAddress("*.shouldit.it");
     }
 
-    public static void clearAllProxies(Context ctx)
+    public static void clearProxyForAllAP(Context ctx)
     {
 //        App.getInstance().wifiActionEnabled = false;
 
@@ -356,9 +356,18 @@ public class TestUtils
 //        APL.getContext().sendBroadcast(intent);
     }
 
-    public static void setAllProxies(Context ctx)
+    public static void setProxyForAllAP(Context ctx)
     {
-        ProxyEntity p = getRandomProxy();
+        ProxyEntity p;
+
+        if (App.getDBManager().getProxiesCount() > 0)
+        {
+            p = App.getDBManager().getRandomProxy();
+        }
+        else
+        {
+            p = createRandomProxy();
+        }
 
 //        App.getInstance().wifiActionEnabled = false;
 
@@ -374,6 +383,7 @@ public class TestUtils
             configuration.setProxyHost(p.getHost());
             configuration.setProxyPort(p.getPort());
             configuration.setProxyExclusionString(p.getExclusion());
+
             try
             {
                 configuration.writeConfigurationToDevice();
@@ -477,6 +487,8 @@ public class TestUtils
     {
         int removedNetworks = 0;
         List<WifiConfiguration> configurations = APL.getWifiManager().getConfiguredNetworks();
+        List<Integer> networksToDelete = new ArrayList<Integer>();
+
         if (configurations != null && configurations.size() > 0)
         {
             for(WifiConfiguration conf: configurations)
@@ -486,15 +498,21 @@ public class TestUtils
                 {
                     if (SSID.contains(codename.toString()))
                     {
-                        boolean res = APL.getWifiManager().removeNetwork(conf.networkId);
-                        App.getLogger().d(TAG, "removeNetwork returned " + res);
-                        boolean es = APL.getWifiManager().saveConfiguration();
-                        App.getLogger().d(TAG, "saveConfiguration returned " + es);
-
-                        removedNetworks++;
+                        networksToDelete.add(conf.networkId);
                     }
                 }
             }
+        }
+
+        for(int i=0;i<networksToDelete.size();i++)
+        {
+            int networkId = networksToDelete.get(i);
+            boolean res = APL.getWifiManager().removeNetwork(networkId);
+            App.getLogger().d(TAG, "removeNetwork returned " + res);
+            boolean es = APL.getWifiManager().saveConfiguration();
+            App.getLogger().d(TAG, "saveConfiguration returned " + es);
+
+            removedNetworks++;
         }
 
         return removedNetworks;

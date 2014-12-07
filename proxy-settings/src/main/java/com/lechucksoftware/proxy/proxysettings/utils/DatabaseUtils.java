@@ -50,7 +50,7 @@ public class DatabaseUtils
         try
         {
             FileInputStream fis = new FileInputStream(dbFile);
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String outFileName = String.format("%s/proxy_settings_backup_%s.db",Environment.getExternalStorageDirectory(),df.format(new Date()));
 
             // Open the empty db as the output stream

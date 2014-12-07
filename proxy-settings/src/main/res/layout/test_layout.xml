@@ -13,126 +13,155 @@
         android:layout_width="match_parent"
         android:layout_height="250dp">
 
-        <LinearLayout
+        <GridLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:columnCount="2">
 
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <LinearLayout
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test APN settings"
-                android:onClick="APNTest"/>
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-            <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add proxies"
-            android:onClick="addProxyClicked"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test APN settings"
+                    android:onClick="APNTest"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:id="@+id/add_wifi_networks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add TEST Wi-Fi Networks"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add proxies"
+                    android:onClick="addProxyClicked"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Remove TEST Wi-Fi Networks"
-                android:onClick="removeWifiNetworks"/>
+                <Button
+                    android:id="@+id/add_wifi_networks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add TEST Wi-Fi Networks"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add example proxies"
-                android:onClick="addExampleProxyClicked"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Remove TEST Wi-Fi Networks"
+                    android:onClick="removeWifiNetworks"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add tags"
-                android:onClick="addTagsDBClicked"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add example proxies"
+                    android:onClick="addExampleProxyClicked"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Set proxy for all AP"
-                android:onClick="setProxyForAllAp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add tags"
+                    android:onClick="addTagsDBClicked"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Clear proxy for all AP"
-                android:onClick="clearProxyForAllAp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test serialization"
+                    android:onClick="testSerializationClicked"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test serialization"
-                android:onClick="testSerializationClicked"
-                app:layout_newLine="true"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test proxy validations"
+                    android:onClick="testProxyValidations"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Clear proxy in use"
-                android:onClick="clearProxyInUse"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Toggle DEMO mode"
+                    android:onClick="toggleDemoModeClicked"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test proxy validations"
-                android:onClick="testProxyValidations"/>
+            </LinearLayout>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Toggle DEMO mode"
-                android:onClick="toggleDemoModeClicked"/>
+            <LinearLayout
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Run StartupActions"
-                android:onClick="startStartupActions"/>
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test bug reporting"
-                android:onClick="testBugReporting"
-                app:layout_newLine="true"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Set proxy for all AP"
+                    android:onClick="setProxyForAllAp"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="List proxies"
-                android:onClick="listDBProxies"
-                app:layout_newLine="true"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Clear proxy for all AP"
+                    android:onClick="clearProxyForAllAp"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="List tags"
-                android:onClick="listDBTags"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Run StartupActions"
+                    android:onClick="startStartupActions"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Backup DB"
-                android:onClick="backupDB"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test bug reporting"
+                    android:onClick="testBugReporting"
+                    android:textSize="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Clear PREF &amp; DP"
-                android:onClick="clearPrefAndDB"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="List proxies"
+                    android:onClick="listDBProxies"
+                    android:textSize="10dp"/>
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="List wifi networks"
+                    android:onClick="listDBWifiAp"
+                    android:textSize="10dp"/>
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="List tags"
+                    android:onClick="listDBTags"
+                    android:textSize="10dp"/>
 
-        </LinearLayout>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Backup DB"
+                    android:onClick="backupDB"
+                    android:textSize="10dp"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Clear PREF &amp; DP"
+                    android:onClick="clearPrefAndDB"
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
+
+        </GridLayout>
 
     </ScrollView>
 

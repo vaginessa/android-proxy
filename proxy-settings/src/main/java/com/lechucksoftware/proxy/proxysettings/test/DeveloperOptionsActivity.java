@@ -20,6 +20,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
+import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
@@ -41,7 +42,6 @@ public class DeveloperOptionsActivity extends Activity
     private ScrollView testLogScroll;
     private Button addWifiNetworksBtn;
     private DeveloperOptionsActivity developerOptionsActivity;
-
 
     public enum TestAction
     {
@@ -214,11 +214,25 @@ public class DeveloperOptionsActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
+        textViewTest.setTextSize(10);
         Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
         List<ProxyEntity> list = new ArrayList<ProxyEntity>(savedProxies.values());
         for (ProxyEntity p : list)
         {
-            textViewTest.append(p.toString() + "\n\n");
+            textViewTest.append(p.toString() + "\n");
+        }
+    }
+
+    public void listDBWifiAp(View caller)
+    {
+        TextView textViewTest = new TextView(this);
+        textViewTest.setTextSize(10);
+        testDBContainer.addView(textViewTest);
+        Map<Long, WiFiAPEntity> savedAp = App.getDBManager().getAllWifiAp();
+        List<WiFiAPEntity> list = new ArrayList<WiFiAPEntity>(savedAp.values());
+        for (WiFiAPEntity p : list)
+        {
+            textViewTest.append(p.toString() + "\n");
         }
     }
 
@@ -226,6 +240,7 @@ public class DeveloperOptionsActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
+        textViewTest.setTextSize(10);
         List<TagEntity> list = App.getDBManager().getAllTags();
         for (TagEntity t : list)
         {
@@ -275,6 +290,7 @@ public class DeveloperOptionsActivity extends Activity
         {
             textViewTest = new TextView(_developerOptionsActivity);
             textViewTest.setText("Started AsyncTestAction: " + _action);
+            textViewTest.setTextSize(10);
             _developerOptionsActivity.testDBContainer.addView(textViewTest);
         }
 
@@ -351,11 +367,11 @@ public class DeveloperOptionsActivity extends Activity
             }
             else if (_action == TestAction.SET_ALL_PROXIES)
             {
-                TestUtils.setAllProxies(_developerOptionsActivity);
+                TestUtils.setProxyForAllAP(_developerOptionsActivity);
             }
             else if (_action == TestAction.CLEAR_ALL_PROXIES)
             {
-                TestUtils.clearAllProxies(_developerOptionsActivity);
+                TestUtils.clearProxyForAllAP(_developerOptionsActivity);
             }
             else if (_action == TestAction.TEST_VALIDATION)
             {
