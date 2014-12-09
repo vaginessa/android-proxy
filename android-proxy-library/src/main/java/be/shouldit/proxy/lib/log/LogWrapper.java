@@ -35,7 +35,7 @@ public class LogWrapper
         mLogLevel = logLevel;
     }
 
-    private Map<String, Date> startTraces;
+    private Map<String, TraceDate> startTraces;
 
     public void d(String tag, String msg)
     {
@@ -103,36 +103,48 @@ public class LogWrapper
         startTrace(tag, msg, logLevel, false);
     }
 
-    public void startTrace(String tag, String msg, int logLevel, boolean showStart)
+    public void startTrace(String tag, String key, int logLevel, boolean showStart)
+    {
+        startTrace(tag,key,"",logLevel,showStart);
+    }
+
+    public void startTrace(String tag, String key, String message, int logLevel, boolean showStart)
     {
         if (startTraces == null)
         {
-            startTraces = new ConcurrentHashMap<String, Date>();
+            startTraces = new ConcurrentHashMap<String, TraceDate>();
         }
 
-        Date now = new Date();
+        TraceDate traceDate = new TraceDate();
         DateFormat df = DateFormat.getDateTimeInstance();
         if (showStart)
         {
-            log(tag, "START " + msg + " ################## " + df.format(now) + " #####################################################################", logLevel);
+            log(tag, "START " + key + " " + message + " ################## " + df.format(traceDate.getStartTime()) + " #####################################################################", logLevel);
         }
 
         synchronized (startTraces)
         {
-            startTraces.put(msg, now);
+            startTraces.put(key, traceDate);
         }
     }
 
-    public void getPartial(String tag, String key, int logLevel)
+    public void partialTrace(String tag, String key, int logLevel)
+    {
+        partialTrace(tag, key, "", logLevel);
+    }
+
+    public void partialTrace(String tag, String key, String partialMsg, int logLevel)
     {
         synchronized (startTraces)
         {
             if (startTraces != null && startTraces.containsKey(key))
             {
-                Date start = startTraces.get(key);
+                TraceDate start = startTraces.get(key);
                 Date now = new Date();
-                long diff = now.getTime() - start.getTime();
-                log(tag, "PARTIAL " + key + " " + " %%%%%%%%%%%%% " + diff + " msec %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
+                long diffFromLast = now.getTime() - start.getLastTime().getTime();
+                long diffFromStart = now.getTime() - start.getStartTime().getTime();
+                start.updateLast(now);
+                log(tag, "PARTIAL " + key + " " + partialMsg + " %%%%%%%%%%%%% " + diffFromLast + " ms (Tot: " + diffFromStart  + " ms) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
             }
         }
     }
@@ -148,17 +160,15 @@ public class LogWrapper
         {
             if (startTraces != null && startTraces.containsKey(key))
             {
-                Date start = startTraces.remove(key);
+                TraceDate start = startTraces.get(key);
                 Date now = new Date();
-                long diff = now.getTime() - start.getTime();
-                log(tag, "FINISH " + key + " " + msg + " ################## " + diff + " msec #####################################################################", logLevel);
-            }
+                long diffFromLast = now.getTime() - start.getLastTime().getTime();
+                long diffFromStart = now.getTime() - start.getStartTime().getTime();
+                start.updateLast(now);
+                log(tag, "FINISH " + key + " " + msg + " %%%%%%%%%%%%% " + diffFromLast + " ms (Tot: " + diffFromStart  + " ms) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
 
-//        else
-//        {
-//            DateFormat df = DateFormat.getDateTimeInstance();
-//            log(tag, msg + " ################## " +  df.format(new Date()) + " #####################################################################", logLevel);
-//        }
+                startTraces.remove(key);
+            }
         }
     }
 

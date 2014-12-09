@@ -1,23 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
-import com.lechucksoftware.proxy.proxysettings.test.TestActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.HelpActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyListActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
-import com.lechucksoftware.proxy.proxysettings.utils.NavigationUtils;
 
 /**
  * Created by marco on 07/11/13.
@@ -87,90 +78,25 @@ public class BaseActivity extends Activity
         active = false;
     }
 
-
     public void onDialogResult(int requestCode, int resultCode, Bundle arguments)
     {
         // Intentionally left blank
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        if (!BuildConfig.DEBUG)
-        {
-            menu.removeItem(R.id.menu_developer);
-        }
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-
-    //TODO: remove handling of menu from the BaseActivity class
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                NavigationUtils.GoToMainActivity(getApplicationContext());
-                break;
-
-            case R.id.menu_proxies:
-                Intent proxyIntent = new Intent(getApplicationContext(), ProxyListActivity.class);
-                startActivity(proxyIntent);
-                break;
-
-            case R.id.menu_add_new_proxy:
-                Intent i = new Intent(getApplicationContext(), ProxyDetailActivity.class);
-                ProxyEntity emptyProxy = new ProxyEntity();
-                App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
-                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
-                startActivity(i);
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action, R.string.analytics_act_button_click, R.string.analytics_lab_create_new_proxy);
-                break;
-
-            case R.id.menu_about:
-                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
-                startActivity(helpIntent);
-                break;
-
-            case R.id.menu_developer:
-                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-                startActivity(testIntent);
-                break;
-
-//            case R.id.menu_feedbacks:
-//                NavigationUtils.GoToAppFeedbacks(getFragmentManager());
-//                return true;
-
-//            case android.R.id.home:
-//                // Do nothing
-//                break;
-//
-//            case R.id.menu_about:
-//                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
-//                startActivity(helpIntent);
-//                break;
-//
-//            case R.id.menu_developer:
-//                Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-//                startActivity(testIntent);
-//                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void refreshUI()
     {
         try
         {
-            IBaseFragment f = (IBaseFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-            f.refreshUI();
+            Fragment containedFragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+            if (containedFragment instanceof IBaseFragment)
+            {
+                IBaseFragment f = (IBaseFragment) containedFragment;
+                f.refreshUI();
+            }
         }
         catch (Exception e)
         {
-            App.getLogger().e(this.getClass().getSimpleName(), "cannot call refresh fragment");
+            App.getEventsReporter().sendException(new Exception(String.format("Exception during IBaseFragment refresh from %s",this.getClass().getSimpleName()),e));
         }
     }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <!--Month abbreviation: http://library.princeton.edu/departments/tsd/katmandu/reference/months.html-->
+    <!--Jan.-->
+    <!--Feb.-->
+    <!--Mar.-->
+    <!--Apr.-->
+    <!--May-->
+    <!--June-->
+    <!--July-->
+    <!--Aug.-->
+    <!--Sept.-->
+    <!--Oct.-->
+    <!--Nov.-->
+    <!--Dec.-->
+
+    <changelogversion versionName="2.16" versionCode=""  changeDate="Aug 28,2014">
+        <changelogimprovement>Added support for Lollipop devices (still missing PAC setup)</changelogimprovement>
+        <changelogimprovement>Added count of used proxies</changelogimprovement>
+        <changelogimprovement>Added possibility to delete a not used Proxy</changelogimprovement>
+        <changelogimprovement>Completely refactored application backend logic</changelogimprovement>
+        <changelogimprovement>Improved performances for devices with large number of Wi-Fi networks</changelogimprovement>
+        <changelogbug>Solved bug related to application close and restart</changelogbug>
+    </changelogversion>
+
+    <changelogversion versionName="2.15" versionCode="130021514" changeDate="June 11,2014">
+        <changelogimprovement>Improved support for 4.1, 4.2 and L Android API versions into [a href="https://github.com/shouldit/android-proxy"][b]APL[/b][/a]</changelogimprovement>
+        <changelogimprovement>Infrastructural changes on application dialogs</changelogimprovement>
+        <changelogbug>Several fixes on previous versions</changelogbug>
+    </changelogversion>
+
+    <changelogversion versionName="2.14" versionCode="13002145" changeDate="Mar 23,2014">
+        <changelogbug>Improved overall application stability</changelogbug>
+    </changelogversion>
+
+    <changelogversion versionName="2.13" changeDate="Mar 20,2014">
+        <changelogimprovement>Added support for saving proxy configurations</changelogimprovement>
+        <changelogimprovement>Updated to latest version of APL with support for Android 4.4 devices</changelogimprovement>
+    </changelogversion>
+
+    <changelogversion versionName="2.12" changeDate="June 11,2014">
+        <changelogimprovement>Updated to latest version of APL, with better support of proxy change notification to system</changelogimprovement>
+        <changelogimprovement>>Added infrastructure for proxy saving feature that will be added in next version</changelogimprovement>
+        <changelogbug>Various bugfix</changelogbug>
+    </changelogversion>
+
+    <changelogversion versionName="2.12" changeDate="June 11,2014">
+        <changelogimprovement>Updated to latest version of APL, with better support of proxy change notification to system</changelogimprovement>
+        <changelogimprovement>>Added infrastructure for proxy saving feature that will be added in next version</changelogimprovement>
+        <changelogbug>Various bugfix</changelogbug>
+    </changelogversion>
+
+</changelog>

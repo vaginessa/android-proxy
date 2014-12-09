@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.lechucksoftware.proxy.proxysettings.ui.activities.MainActivity" >
+
+    <item
+        android:id="@+id/overflowSection"
+        android:icon="@drawable/ic_action_core_overflow"
+        android:showAsAction="always"
+        android:title="More">
+        <menu>
+
+            <item
+                android:id="@+id/menu_help"
+                android:title="@string/help"/>
+
+            <!--<item-->
+            <!--android:id="@+id/menu_feedbacks"-->
+            <!--android:icon="@drawable/ic_action_notvalid"-->
+            <!--android:showAsAction="always|withText"-->
+            <!--android:title="@string/pref_send_feedback"/>-->
+        </menu>
+    </item>
+
+</menu>

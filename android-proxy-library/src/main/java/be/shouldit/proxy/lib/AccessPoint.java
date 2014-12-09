@@ -3,26 +3,16 @@ package be.shouldit.proxy.lib;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+
+import java.io.Serializable;
+
 import be.shouldit.proxy.lib.enums.PskType;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
-import java.io.Serializable;
-
 public class AccessPoint implements Comparable<AccessPoint>, Serializable
 {
 	static final String TAG = AccessPoint.class.getSimpleName();
-
-	public static final int INVALID_NETWORK_ID = -1;
-	private static final int DISABLED_UNKNOWN_REASON = 0;
-	private static final int DISABLED_DNS_FAILURE = 1;
-	private static final int DISABLED_DHCP_FAILURE = 2;
-	private static final int DISABLED_AUTH_FAILURE = 3;
-
-	private static final String KEY_DETAILEDSTATE = "key_detailedstate";
-	private static final String KEY_WIFIINFO = "key_wifiinfo";
-	private static final String KEY_SCANRESULT = "key_scanresult";
-	private static final String KEY_CONFIG = "key_config";
 
 	public static final int[] STATE_SECURED = { R.attr.state_encrypted };
 	public static final int[] STATE_NONE = {};
@@ -34,36 +24,6 @@ public class AccessPoint implements Comparable<AccessPoint>, Serializable
 	public PskType pskType = PskType.UNKNOWN;
 	public transient WifiConfiguration wifiConfig;
 	private int mRssi;
-
-//
-//    @Override
-//    public int describeContents()
-//    {
-//        return 0;
-//    }
-
-//    @Override
-//    public void writeToParcel(Parcel parcel, int i)
-//    {
-//        parcel.writeString(ssid);
-//        parcel.writeString(bssid);
-//        parcel.writeSerializable(security);
-//        parcel.writeInt(networkId);
-//        parcel.writeSerializable(pskType);
-//        parcel.writeParcelable(wifiConfig,0);
-//        parcel.writeInt(mRssi);
-//    }
-//
-//    public AccessPoint(Parcel p)
-//    {
-//        ssid = p.readString();
-//        bssid = p.readString();
-//        security = (SecurityType) p.readSerializable();
-//        networkId = p.readInt();
-//        pskType = (PskType) p.readSerializable();
-//        wifiConfig = p.readParcelable(WifiConfiguration.class.getClassLoader());
-//        mRssi = p.readInt();
-//    }
 
 	public AccessPoint(WifiConfiguration config)
 	{
@@ -102,11 +62,13 @@ public class AccessPoint implements Comparable<AccessPoint>, Serializable
 		{
 			return (mRssi != Integer.MAX_VALUE) ? -1 : 1;
 		}
+
 		// Configured one goes before unconfigured one.
 		if ((networkId ^ other.networkId) < 0)
 		{
 			return (networkId != -1) ? -1 : 1;
 		}
+
 		// Sort by signal strength.
 //		int difference = WifiManager.compareSignalLevel(other.mRssi, mRssi);
 //		if (difference != 0)

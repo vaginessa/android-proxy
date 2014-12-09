@@ -4,9 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -17,7 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.APLNetworkId;
+import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by Marco on 13/09/13.
@@ -45,6 +49,15 @@ public class DataSource
             DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
             DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
 
+    private String[] wifiApTableColumns = {
+            DatabaseSQLiteOpenHelper.COLUMN_ID,
+            DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID,
+            DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE,
+            DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_SETTING,
+            DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID,
+            DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
+            DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
+
     public DataSource(Context ctx)
     {
         context = ctx;
@@ -67,7 +80,7 @@ public class DataSource
     public ProxyEntity upsertProxy(ProxyEntity proxyData)
     {
         long proxyId = -1;
-        if (proxyData.isPersisted)
+        if (proxyData.isPersisted())
         {
             proxyId = proxyData.getId();
         }
@@ -95,7 +108,7 @@ public class DataSource
 
     public TagEntity upsertTag(TagEntity tag)
     {
-        long tagId = findTag(tag.tag);
+        long tagId = findTag(tag.getTag());
 
         if (tagId == -1)
         {
@@ -110,9 +123,75 @@ public class DataSource
         }
     }
 
+    public WiFiAPEntity upsertWifiAP(WiFiAPConfig config)
+    {
+        WiFiAPEntity result = null;
+
+        if (config != null)
+        {
+            WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
+            wiFiAPEntity.setSsid(config.getSSID());
+            wiFiAPEntity.setSecurityType(config.getSecurityType());
+            wiFiAPEntity.setProxySetting(config.getProxySetting());
+
+            if (wiFiAPEntity.getProxySetting() == ProxySetting.STATIC)
+            {
+                if (ProxyUtils.isValidProxyConfiguration(config))
+                {
+                    ProxyEntity proxy = new ProxyEntity();
+                    proxy.setHost(config.getProxyHost());
+                    proxy.setPort(config.getProxyPort());
+                    proxy.setExclusion(config.getProxyExclusionList());
+                    wiFiAPEntity.setProxy(proxy);
+                }
+                else
+                {
+                    wiFiAPEntity.setProxyId(-1L);
+                }
+            }
+            else
+            {
+                wiFiAPEntity.setProxyId(-1L);
+            }
+
+            result = upsertWifiAP(wiFiAPEntity);
+        }
+
+        return result;
+    }
+
+    public WiFiAPEntity upsertWifiAP(WiFiAPEntity wiFiAPEntity)
+    {
+        long wifiApId = -1;
+        if (wiFiAPEntity.isPersisted())
+        {
+            wifiApId = wiFiAPEntity.getId();
+        }
+        else
+        {
+            wifiApId = findWifiAp(wiFiAPEntity);
+        }
+
+        WiFiAPEntity result = null;
+
+        if (wifiApId == -1)
+        {
+//            LogWrapper.d(TAG,"Insert new Proxy: " + proxyData);
+            result = createWifiAp(wiFiAPEntity);
+        }
+        else
+        {
+            // Update
+//            LogWrapper.d(TAG,"Update Proxy: " + proxyData);
+            result = updateWifiAP(wifiApId, wiFiAPEntity);
+        }
+
+        return result;
+    }
+
     public ProxyEntity getRandomProxy()
     {
-        App.getLogger().startTrace(TAG, "getRandomProxy", Log.INFO);
+        App.getLogger().startTrace(TAG, "createRandomProxy", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -134,9 +213,32 @@ public class DataSource
         else
         {
             proxyData.setTags(getTagsForProxy(proxyData.getId()));
-            App.getLogger().stopTrace(TAG, "getRandomProxy", proxyData.toString(), Log.INFO);
+            App.getLogger().stopTrace(TAG, "createRandomProxy", proxyData.toString(), Log.INFO);
             return proxyData;
         }
+    }
+
+    public WiFiAPEntity getWifiAP(long wifiId)
+    {
+        App.getLogger().startTrace(TAG, "getWifiAP", Log.DEBUG);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        String query = "SELECT * "
+                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
+                + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
+
+        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(wifiId)});
+        cursor.moveToFirst();
+        WiFiAPEntity wiFiAPEntity = null;
+        if (!cursor.isAfterLast())
+        {
+            wiFiAPEntity = cursorToWifiAP(cursor);
+        }
+
+        cursor.close();
+
+        App.getLogger().stopTrace(TAG, "getWifiAP", wiFiAPEntity.toString(), Log.DEBUG);
+        return wiFiAPEntity;
     }
 
     public ProxyEntity getProxy(long proxyId)
@@ -254,7 +356,56 @@ public class DataSource
         }
     }
 
-    public long findProxy(ProxyConfiguration configuration)
+    public long findWifiAp(WiFiAPConfig configuration)
+    {
+        long result = -1;
+
+        if (configuration != null)
+        {
+            if (configuration.getAPLNetworkId() != null)
+            {
+                WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
+                wiFiAPEntity.setSsid(configuration.getAPLNetworkId().SSID);
+                wiFiAPEntity.setSecurityType(configuration.getAPLNetworkId().Security);
+
+                result = findWifiAp(wiFiAPEntity);
+            }
+        }
+
+        return result;
+    }
+
+    public long findWifiAp(WiFiAPEntity wiFiAPEntity)
+    {
+        return findWifiAp(new APLNetworkId(wiFiAPEntity.getSsid(), wiFiAPEntity.getSecurityType()));
+    }
+
+    public long findWifiAp(APLNetworkId aplNetworkId)
+    {
+        App.getLogger().startTrace(TAG, "findWifiAp", Log.DEBUG);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
+                + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " =?"
+                + " AND " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE + "=?";
+
+        String[] selectionArgs = {aplNetworkId.SSID, aplNetworkId.Security.toString()};
+        Cursor cursor = database.rawQuery(query, selectionArgs);
+
+        cursor.moveToFirst();
+        long wifiId = -1;
+        if (!cursor.isAfterLast())
+        {
+            wifiId = cursor.getLong(0);
+        }
+
+        cursor.close();
+        App.getLogger().stopTrace(TAG, "findWifiAp", Log.DEBUG);
+        return wifiId;
+    }
+
+    public long findProxy(WiFiAPConfig configuration)
     {
         long result = -1;
 
@@ -263,9 +414,9 @@ public class DataSource
             if (configuration.isValidProxyConfiguration())
             {
                 ProxyEntity proxy = new ProxyEntity();
-                proxy.host = configuration.getProxyHost();
-                proxy.port = configuration.getProxyPort();
-                proxy.exclusion = configuration.getProxyExclusionList();
+                proxy.setHost(configuration.getProxyHost());
+                proxy.setPort(configuration.getProxyPort());
+                proxy.setExclusion(configuration.getProxyExclusionList());
 
                 result = findProxy(proxy);
             }
@@ -279,9 +430,9 @@ public class DataSource
         if (proxyHost != null && proxyPort != null)
         {
             ProxyEntity proxy = new ProxyEntity();
-            proxy.host = proxyHost;
-            proxy.port = proxyPort;
-            proxy.exclusion = proxyExclusion;
+            proxy.setHost(proxyHost);
+            proxy.setPort(proxyPort);
+            proxy.setExclusion(proxyExclusion);
 
             return findProxy(proxy);
         }
@@ -336,7 +487,7 @@ public class DataSource
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT + "=?"
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION + "=?";
 
-        String[] selectionArgs = {proxyData.host, Integer.toString(proxyData.port), proxyData.exclusion};
+        String[] selectionArgs = {proxyData.getHost(), Integer.toString(proxyData.getPort()), proxyData.getExclusion()};
         Cursor cursor = database.rawQuery(query, selectionArgs);
 
         cursor.moveToFirst();
@@ -374,17 +525,42 @@ public class DataSource
         return tagId;
     }
 
+    public WiFiAPEntity createWifiAp(WiFiAPEntity wiFiAPEntity)
+    {
+        App.getLogger().startTrace(TAG, "createWifiAp", Log.DEBUG, true);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID, wiFiAPEntity.getSsid());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE, wiFiAPEntity.getSecurityType().toString());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_SETTING, wiFiAPEntity.getProxySetting().toString());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID, wiFiAPEntity.getProxyId());
+
+        long currentDate = System.currentTimeMillis();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE, currentDate);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+
+        long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, null, values);
+        WiFiAPEntity newWifiAp = getWifiAP(insertId);
+
+        updateInUseFlag(newWifiAp.getProxyId());
+
+        App.getLogger().stopTrace(TAG, "createWifiAp", Log.DEBUG);
+
+        return newWifiAp;
+    }
+
     public ProxyEntity createProxy(ProxyEntity proxyData)
     {
         App.getLogger().startTrace(TAG, "createProxy", Log.DEBUG, true);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST, proxyData.host);
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT, proxyData.port);
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, proxyData.exclusion);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST, proxyData.getHost());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT, proxyData.getPort());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, proxyData.getExclusion());
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE, proxyData.getCountryCode());
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, proxyData.getInUse());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, proxyData.getUsedByCount());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE, currentDate);
@@ -412,8 +588,8 @@ public class DataSource
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_TAG, tag.tag);
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_TAG_COLOR, tag.tagColor);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_TAG, tag.getTag());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_TAG_COLOR, tag.getTagColor());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE, currentDate);
@@ -451,11 +627,11 @@ public class DataSource
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST, newData.host);
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT, newData.port);
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, newData.exclusion);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST, newData.getHost());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT, newData.getPort());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, newData.getExclusion());
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE, newData.getCountryCode());
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, newData.getInUse());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, newData.getUsedByCount());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
@@ -479,80 +655,26 @@ public class DataSource
         return updatedProxy;
     }
 
-    public void clearInUseFlag(Long... proxyIDs)
+    private WiFiAPEntity updateWifiAP(long wifiApId, WiFiAPEntity wiFiAPEntity)
     {
+        WiFiAPEntity persistedWifiAp = getWifiAP(wifiApId);
+
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+
         ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_SETTING, wiFiAPEntity.getProxySetting().toString());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID, wiFiAPEntity.getProxyId());
 
-        long updatedRows = 0;
-        if (proxyIDs != null && proxyIDs.length > 0)
-        {
-            String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 0 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",", proxyIDs) + ")";
+        long currentDate = System.currentTimeMillis();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
-            Cursor cursor = database.rawQuery(query, null);
-            updatedRows = cursor.getCount();
-            cursor.close();
-        }
-        else
-        {
-            updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, null, null);
-        }
+        long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{persistedWifiAp.getId().toString()});
 
-        App.getLogger().d(TAG, "Cleared in use flag for : " + updatedRows + " proxies");
-    }
+        updateInUseFlag(persistedWifiAp.getProxyId());
+        updateInUseFlag(wiFiAPEntity.getProxyId());
 
-    public void setInUseFlag(Long... inUseProxies)
-    {
-        try
-        {
-            SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
-            database.beginTransaction();
-
-            try
-            {
-                clearInUseFlag();
-
-                ContentValues values = new ContentValues();
-                values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, false);
-
-                long updatedRows = 0;
-                if (inUseProxies != null && inUseProxies.length > 0)
-                {
-                    String query = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " = 1 WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " IN (" + TextUtils.join(",", inUseProxies) + ")";
-
-                    Cursor cursor = database.rawQuery(query, null);
-                    updatedRows = cursor.getCount();
-                    cursor.close();
-                }
-                App.getLogger().d(TAG, "Set in use flag for : " + updatedRows + " proxies");
-                database.setTransactionSuccessful();
-            }
-            catch (Exception e)
-            {
-                App.getEventsReporter().sendException(e);
-            }
-            finally
-            {
-                database.endTransaction();
-            }
-        }
-        catch (Exception e)
-        {
-            App.getEventsReporter().sendException(e);
-        }
-    }
-
-    private void notifyProxyChange()
-    {
-        context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
-        context.sendBroadcast(new Intent(Intents.PROXY_SAVED));
-    }
-
-    private void notifyDBReset()
-    {
-        context.sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
-        context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
+        WiFiAPEntity updatedTag = getWifiAP(persistedWifiAp.getId());
+        return updatedTag;
     }
 
     public TagEntity updateTag(long tagId, TagEntity newData)
@@ -562,8 +684,8 @@ public class DataSource
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_TAG, newData.tag);
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_TAG_COLOR, newData.tagColor);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_TAG, newData.getTag());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_TAG_COLOR, newData.getTagColor());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
@@ -574,10 +696,94 @@ public class DataSource
         return updatedTag;
     }
 
+    public void updateInUseFlag(long proxyId)
+    {
+        if (proxyId == -1)
+            return;
+
+        App.getLogger().startTrace(TAG, "updateInUseFlag", Log.DEBUG);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.beginTransaction();
+
+        int inUseCount = -1;
+
+        try
+        {
+            String countQuery = "SELECT COUNT(1)" +
+                    " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP +
+                    " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " =?";
+
+            Cursor countCursor = database.rawQuery(countQuery, new String[]{String.valueOf(proxyId)});
+            countCursor.moveToFirst();
+            if (!countCursor.isAfterLast())
+            {
+                inUseCount = countCursor.getInt(0);
+            }
+
+            countCursor.close();
+
+            String updateQuery = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES +
+                    " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " =? " +
+                    " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
+
+            ContentValues values = new ContentValues();
+            values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, inUseCount);
+            long currentDate = System.currentTimeMillis();
+            values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+
+            long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(proxyId)});
+            database.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+        finally
+        {
+            database.endTransaction();
+        }
+
+//        if (BuildConfig.DEBUG)
+//        {
+//            ProxyEntity proxy = getProxy(proxyId);
+//            App.getLogger().d(TAG, "Updated in use flag for proxy: " + proxy);
+//        }
+
+        App.getLogger().stopTrace(TAG, "updateInUseFlag", String.format("Proxy #%d used by %d Wi-Fi AP",proxyId,inUseCount), Log.DEBUG);
+    }
+
     public void deleteProxy(long proxyId)
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         database.delete(DatabaseSQLiteOpenHelper.TABLE_PROXIES, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(proxyId)});
+    }
+
+    public void deleteWifiAP(long wifiApId)
+    {
+        Long proxyIdToUpdate = -1L;
+        WiFiAPEntity wiFiAPEntity = getWifiAP(wifiApId);
+        if (wiFiAPEntity != null)
+        {
+            proxyIdToUpdate = wiFiAPEntity.getProxyId();
+        }
+
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.delete(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(wifiApId)});
+
+        if (proxyIdToUpdate != -1)
+        {
+            updateInUseFlag(proxyIdToUpdate);
+        }
+    }
+
+    public void deleteWifiAP(APLNetworkId aplNetworkId)
+    {
+        long wifiId = findWifiAp(aplNetworkId);
+
+        if (wifiId != -1)
+        {
+            deleteWifiAP(wifiId);
+        }
     }
 
     public void deleteProxyTagLink(long linkId)
@@ -630,6 +836,33 @@ public class DataSource
         return result;
     }
 
+    public long getWifiApCount()
+    {
+        long result = 0;
+
+        try
+        {
+            SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+            String query = "SELECT COUNT(*)"
+                    + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP;
+
+            Cursor cursor = database.rawQuery(query, null);
+            cursor.moveToFirst();
+            result = cursor.getLong(0);
+
+            // Make sure to close the cursor
+            cursor.close();
+        }
+        catch (SQLiteException e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+
+        return result;
+    }
+
+
     public long getTagsCount()
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
@@ -671,6 +904,26 @@ public class DataSource
         }
 
         return proxies;
+    }
+
+    public Map<Long, WiFiAPEntity> getAllWifiAp()
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        Map<Long, WiFiAPEntity> wifiAPs = new HashMap<Long, WiFiAPEntity>();
+
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, wifiApTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " ASC");
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            WiFiAPEntity wiFiAPEntity = cursorToWifiAP(cursor);
+            wifiAPs.put(wiFiAPEntity.getId(), wiFiAPEntity);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return wifiAPs;
     }
 
     public List<ProxyEntity> getProxyWithEmptyCountryCode()
@@ -759,6 +1012,60 @@ public class DataSource
         return links;
     }
 
+    private ProxyEntity cursorToProxy(Cursor cursor)
+    {
+        ProxyEntity proxy = new ProxyEntity();
+        proxy.setId(cursor.getLong(0));
+        proxy.setHost(cursor.getString(1));
+        proxy.setPort(cursor.getInt(2));
+        proxy.setExclusion(cursor.getString(3));
+        proxy.setCountryCode(cursor.getString(4));
+        proxy.setUsedByCount(cursor.getInt(5));
+        proxy.setCreationDate(cursor.getLong(6));
+        proxy.setModifiedDate(cursor.getLong(7));
+
+        proxy.setPersisted(true);
+
+        return proxy;
+    }
+
+    private WiFiAPEntity cursorToWifiAP(Cursor cursor)
+    {
+        WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
+        wiFiAPEntity.setId(cursor.getLong(0));
+
+        wiFiAPEntity.setSsid(cursor.getString(1));
+        wiFiAPEntity.setSecurityType(SecurityType.valueOf(cursor.getString(2)));
+
+        wiFiAPEntity.setProxySetting(ProxySetting.valueOf(cursor.getString(3)));
+
+        if (cursor.isNull(4))
+            wiFiAPEntity.setProxyId(-1L);
+        else
+            wiFiAPEntity.setProxyId(cursor.getLong(4));
+
+        wiFiAPEntity.setCreationDate(cursor.getLong(5));
+        wiFiAPEntity.setModifiedDate(cursor.getLong(6));
+
+        wiFiAPEntity.setPersisted(true);
+
+        return wiFiAPEntity;
+    }
+
+    private TagEntity cursorToTag(Cursor cursor)
+    {
+        TagEntity tag = new TagEntity();
+        tag.setId(cursor.getLong(0));
+        tag.setTag(cursor.getString(1));
+        tag.setTagColor(cursor.getInt(2));
+        tag.setCreationDate(cursor.getLong(3));
+        tag.setModifiedDate(cursor.getLong(4));
+
+        tag.setPersisted(true);
+
+        return tag;
+    }
+
     private ProxyTagLinkEntity cursorToProxyTagLink(Cursor cursor)
     {
         ProxyTagLinkEntity link = new ProxyTagLinkEntity();
@@ -769,39 +1076,54 @@ public class DataSource
         link.setCreationDate(cursor.getLong(3));
         link.setModifiedDate(cursor.getLong(4));
 
-        link.isPersisted = true;
+        link.setPersisted(true);
 
         return link;
     }
 
-    private ProxyEntity cursorToProxy(Cursor cursor)
+    private long getUpdatedRowsFromRawQuery(SQLiteDatabase db)
     {
-        ProxyEntity proxy = new ProxyEntity();
-        proxy.setId(cursor.getLong(0));
-        proxy.host = cursor.getString(1);
-        proxy.port = cursor.getInt(2);
-        proxy.exclusion = cursor.getString(3);
-        proxy.setCountryCode(cursor.getString(4));
-        proxy.setInUse(cursor.getInt(5) > 0);
-        proxy.setCreationDate(cursor.getLong(6));
-        proxy.setModifiedDate(cursor.getLong(7));
+        Cursor cursor = null;
+        long affectedRowCount = -1L;
 
-        proxy.isPersisted = true;
+        try
+        {
+            cursor = db.rawQuery("SELECT changes() AS affected_row_count", null);
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
+            {
+                affectedRowCount = cursor.getLong(cursor.getColumnIndex("affected_row_count"));
+                Log.d("LOG", "affectedRowCount = " + affectedRowCount);
+            }
+            else
+            {
+                // Some error occurred?
+            }
+        }
+        catch (SQLException e)
+        {
+            // Handle exception here.
+            App.getEventsReporter().sendException(e);
+        }
+        finally
+        {
+            if (cursor != null)
+            {
+                cursor.close();
+            }
+        }
 
-        return proxy;
+        return affectedRowCount;
     }
 
-    private TagEntity cursorToTag(Cursor cursor)
+    private void notifyProxyChange()
     {
-        TagEntity tag = new TagEntity();
-        tag.setId(cursor.getLong(0));
-        tag.tag = cursor.getString(1);
-        tag.tagColor = cursor.getInt(2);
-        tag.setCreationDate(cursor.getLong(3));
-        tag.setModifiedDate(cursor.getLong(4));
+        context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
+        context.sendBroadcast(new Intent(Intents.PROXY_SAVED));
+    }
 
-        tag.isPersisted = true;
-
-        return tag;
+    private void notifyDBReset()
+    {
+        context.sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
+        context.sendBroadcast(new Intent(Intents.PROXY_REFRESH_UI));
     }
 }

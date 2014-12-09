@@ -36,12 +36,14 @@ public class ProxyListActivity extends BaseWifiActivity
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.fragment_container, ProxyListFragment.newInstance()).commit();
+                .add(R.id.fragment_container, ProxyListFragment.newInstance(1)).commit();
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(getResources().getString(R.string.proxy_list));
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(getString(R.string.proxies_list));
+        actionBar.setDisplayUseLogoEnabled(false);
     }
 
     @Override

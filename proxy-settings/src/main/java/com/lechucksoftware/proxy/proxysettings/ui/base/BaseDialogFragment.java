@@ -29,6 +29,12 @@ public class BaseDialogFragment extends DialogFragment
      *  onStop()	 Fragment becomes not visible.
      */
 
+    /**
+     * The fragment argument representing the section number for this
+     * fragment.
+     */
+    protected static final String ARG_SECTION_NUMBER = "section_number";
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -38,7 +44,6 @@ public class BaseDialogFragment extends DialogFragment
 
         App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
-
 
     @Override
     public void onResume()

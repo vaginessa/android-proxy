@@ -2,19 +2,14 @@ package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.View;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 
 /**
  * Created by marco on 24/05/13.
  */
 public class BaseFragment extends Fragment
 {
-    public View progress;
-    public View content;
-
     /**
      *  Fragment life-cycle
      *
@@ -32,6 +27,12 @@ public class BaseFragment extends Fragment
      *
      *  onStop()	 Fragment becomes not visible.
      */
+
+    /**
+     * The fragment argument representing the section number for this
+     * fragment.
+     */
+    protected static final String ARG_SECTION_NUMBER = "section_number";
 
     @Override
     public void onCreate(Bundle savedInstanceState)

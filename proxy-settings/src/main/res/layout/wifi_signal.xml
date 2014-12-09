@@ -3,9 +3,9 @@
 
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/ap_layout"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:id="@+id/wifi_signal_layout"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:background="@color/Holo_Blue_Dark"
         android:orientation="vertical">
 
@@ -25,9 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ap_icon"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
             android:text="WPA/WPA2"
             android:textColor="@color/White"
-            android:textSize="10sp">
+            android:textSize="9sp">
     </TextView>
 </RelativeLayout>

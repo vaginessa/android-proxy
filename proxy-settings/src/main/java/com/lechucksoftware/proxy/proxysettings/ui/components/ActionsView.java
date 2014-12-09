@@ -1,8 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.components;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.wifi.WifiManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +9,10 @@ import android.widget.LinearLayout;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by Marco on 15/06/14.
@@ -37,7 +35,7 @@ public class ActionsView extends LinearLayout
         if (v != null)
         {
             getUIComponents(v);
-//            refreshUI();
+            refreshUI();
         }
     }
 
@@ -83,6 +81,7 @@ public class ActionsView extends LinearLayout
             }
 
             view.setVisibility(GONE);
+            refreshUI();
         }
     };
 
@@ -102,6 +101,7 @@ public class ActionsView extends LinearLayout
             }
 
             view.setVisibility(GONE);
+            refreshUI();
         }
     };
 
@@ -110,26 +110,43 @@ public class ActionsView extends LinearLayout
         @Override
         public void onClick(View view)
         {
-
-            Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
-            getContext().startActivity(intent);
+            ProxyUtils.startAndroidWifiSettings(getContext());
 
             view.setVisibility(GONE);
+            refreshUI();
         }
     };
 
-//    public void airplaneModeAction(boolean b)
+    //    public void airplaneModeAction(boolean b)
 //    {
 //        airplaneModeActionBtn.setVisibility(UIUtils.booleanToVisibility(b));
 //    }
 
-    public void enableWifiAction(boolean b)
+    public void wifiOnOffEnable(boolean b)
     {
         enableWifiActionBtn.setVisibility(UIUtils.booleanToVisibility(b));
+
+        refreshUI();
     }
 
-    public void configureWifiAction(boolean b)
+    public void wifiConfigureEnable(boolean b)
     {
         configureWifiActionBtn.setVisibility(UIUtils.booleanToVisibility(b));
+
+        refreshUI();
+    }
+
+    private void refreshUI()
+    {
+        if (
+                enableWifiActionBtn.getVisibility() == GONE &&
+                configureWifiActionBtn.getVisibility() == GONE)
+        {
+            this.setVisibility(GONE);
+        }
+        else
+        {
+            this.setVisibility(VISIBLE);
+        }
     }
 }

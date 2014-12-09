@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="BlackTransparent">#aa000000</color>
     <color name="GreyTransparent">#33777777</color>
     <color name="GreyDisable">#99222222</color>
     <color name="RedTransparent">#99CC0000</color>
@@ -84,6 +85,7 @@
     <color name="Thistle">#D8BFD8</color>
 
     <color name="DarkGrey">#333333</color>
+    <color name="MediumDarkGrey">#555555</color>
     <color name="Grey">#777777</color>
     <color name="LightGrey">#D3D3D3</color>
 

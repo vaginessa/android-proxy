@@ -12,13 +12,12 @@ import java.util.List;
  */
 public class ProxyEntity extends BaseEntity implements Serializable, Comparable<ProxyEntity>
 {
-
-    public String host;
-    public Integer port;
-    public String exclusion;
+    private String host;
+    private Integer port;
+    private String exclusion;
     private List<TagEntity> tags;
     private String countryCode;
-    private boolean inUse;
+    private int usedByCount;
 
     public ProxyEntity()
     {
@@ -26,7 +25,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         tags = new ArrayList<TagEntity>();
         exclusion = "";
         countryCode = null;
-        inUse = false;
+        usedByCount = 0;
     }
 
     public ProxyEntity(ProxyEntity proxy)
@@ -37,12 +36,52 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         this.exclusion = proxy.exclusion;
         this.countryCode = proxy.countryCode;
         this.tags = new ArrayList<TagEntity>();
-        this.inUse = proxy.inUse;
+        this.usedByCount = proxy.usedByCount;
 
         for(TagEntity t : proxy.tags)
         {
             this.tags.add(new TagEntity(t));
         }
+    }
+
+    public String getHost()
+    {
+        return host;
+    }
+
+    public void setHost(String host)
+    {
+        this.host = host;
+    }
+
+    public Integer getPort()
+    {
+        return port;
+    }
+
+    public void setPort(Integer port)
+    {
+        this.port = port;
+    }
+
+    public String getExclusion()
+    {
+        return exclusion;
+    }
+
+    public void setExclusion(String exclusion)
+    {
+        this.exclusion = exclusion;
+    }
+
+    public boolean getInUse()
+    {
+        return usedByCount > 0;
+    }
+
+    public int getUsedByCount()
+    {
+        return usedByCount;
     }
 
     @Override
@@ -54,15 +93,16 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
         {
             ProxyEntity anotherProxy = (ProxyEntity) another;
 
-            if (this.isPersisted && anotherProxy.isPersisted)
-            {
-                return anotherProxy.getId() == this.getId();
-            }
-            else
-            {
+//            if (this.isPersisted() && anotherProxy.isPersisted())
+//            {
+//                return anotherProxy.getId() == this.getId();
+//            }
+//            else
+//            {
                 if (anotherProxy.host.equalsIgnoreCase(this.host)
                        && anotherProxy.port.equals(this.port)
-                       && anotherProxy.exclusion.equalsIgnoreCase(this.exclusion))
+                       && anotherProxy.exclusion.equalsIgnoreCase(this.exclusion)
+                       && anotherProxy.getInUse() == this.getInUse())
                 {
                     // TODO: compare also linked TAGS?
                     result = true;
@@ -71,7 +111,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
                 {
                     result = false;
                 }
-            }
+//            }
         }
 
         return result;
@@ -82,7 +122,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s:%d", host, port));
-        sb.append(String.format(" %s", inUse));
+        sb.append(String.format(" used by %s AP", usedByCount));
 
         if (getTags() != null)
         {
@@ -169,14 +209,9 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
             return null;
     }
 
-    public void setInUse(boolean inUse)
+    public void setUsedByCount(int usedBy)
     {
-        this.inUse = inUse;
-    }
-
-    public boolean getInUse()
-    {
-        return inUse;
+        this.usedByCount = usedBy;
     }
 
     @Override

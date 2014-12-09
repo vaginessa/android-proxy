@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/proxy_list_header"
+        layout="@layout/proxy_list_fragment_header"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"/>
+
+    <include
+        layout="@layout/standard_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/proxy_list_header"
+        android:layout_above="@+id/proxy_list_footer"
+        android:layout_margin="2dp" />
+
+    <include
+        android:id="@+id/proxy_list_footer"
+        layout="@layout/proxy_list_fragment_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

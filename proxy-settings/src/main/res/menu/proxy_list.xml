@@ -7,24 +7,18 @@
             android:showAsAction="always|withText"
             android:title="@string/add_new_proxy"/>
 
-    <item
-        android:id="@+id/overflowSection"
-        android:icon="@drawable/ic_action_core_overflow"
-        android:showAsAction="always"
-        android:title="More">
+    <!--<item-->
+        <!--android:id="@+id/overflowSection"-->
+        <!--android:icon="@drawable/ic_action_core_overflow"-->
+        <!--android:showAsAction="always"-->
+        <!--android:title="More">-->
 
-        <menu>
-            <item
-                android:id="@+id/menu_about"
-                android:title="@string/help"/>
-        </menu>
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/menu_help"-->
+                <!--android:title="@string/help"/>-->
+        <!--</menu>-->
 
-    </item>
-
-    <item
-        android:id="@+id/menu_developer"
-        android:icon="@drawable/ic_action_debug_bug_icon"
-        android:showAsAction="always"
-        android:title="@string/pref_developers"/>
+    <!--</item>-->
 
 </menu>

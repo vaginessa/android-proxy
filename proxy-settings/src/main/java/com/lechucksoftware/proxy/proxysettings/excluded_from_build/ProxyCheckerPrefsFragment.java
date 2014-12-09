@@ -15,11 +15,11 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
+
+import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
-import comio.should.proxy.liboxyConfiguration;
-import com.shio.should.proxy.libStatusItem;
-import com.shoulio.should.proxy.liboxyStatusProperties;
-import be.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
 
 public class ProxyCheckerPrefsFragment extends PreferenceFragment
 {
@@ -60,7 +60,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
         {
             public boolean onPreferenceClick(Preference preference)
             {
-                LogWrapper.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
+                App.getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
                 getActivity().sendBroadcast(new Intent(Intents.PROXY_SETTINGS_MANUAL_REFRESH));
                 return true;
             }
@@ -77,30 +77,30 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
     public void refreshUIComponents()
     {
-        ProxyConfiguration conf = App.getProxyManager().getCachedConfiguration();
+        WiFiAPConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
 
-        if (conf.status.getCheckingStatus() == CheckStatusValues.CHECKING)
+        if (conf.getStatus().getCheckingStatus() == CheckStatusValues.CHECKING)
         {
             startCheckPref.setEnabled(false);
-            String checkedDate = conf.status.getCheckedDateString();
+            String checkedDate = conf.getStatus().getCheckedDateString();
             if (!TextUtils.isEmpty(checkedDate))
                 startCheckPref.setSummary("Start checking on: " + checkedDate);
         }
         else
         {
             startCheckPref.setEnabled(true);
-            String checkedDate = conf.status.getCheckedDateString();
+            String checkedDate = conf.getStatus().getCheckedDateString();
             if (checkedDate != null && checkedDate.length() > 0)
                 startCheckPref.setSummary("Last checked on: " + checkedDate);
         }
 
-        ProxyStatusItem wifi = conf.status.getProperty(ProxyStatusProperties.WIFI_ENABLED);
-        ProxyStatusItem wifiSelected = conf.status.getProperty(ProxyStatusProperties.WIFI_SELECTED);
-        ProxyStatusItem enabled = conf.status.getProperty(ProxyStatusProperties.PROXY_ENABLED);
-        ProxyStatusItem hostname = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
-        ProxyStatusItem port = conf.status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT);
-        ProxyStatusItem ping = conf.status.getProperty(ProxyStatusProperties.PROXY_REACHABLE);
-        ProxyStatusItem web = conf.status.getProperty(ProxyStatusProperties.WEB_REACHABLE);
+        ProxyStatusItem wifi = conf.getStatus().getProperty(ProxyStatusProperties.WIFI_ENABLED);
+        ProxyStatusItem wifiSelected = conf.getStatus().getProperty(ProxyStatusProperties.WIFI_SELECTED);
+        ProxyStatusItem enabled = conf.getStatus().getProperty(ProxyStatusProperties.PROXY_ENABLED);
+        ProxyStatusItem hostname = conf.getStatus().getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME);
+        ProxyStatusItem port = conf.getStatus().getProperty(ProxyStatusProperties.PROXY_VALID_PORT);
+        ProxyStatusItem ping = conf.getStatus().getProperty(ProxyStatusProperties.PROXY_REACHABLE);
+        ProxyStatusItem web = conf.getStatus().getProperty(ProxyStatusProperties.WEB_REACHABLE);
 
         checkProxyStatusItem(wifi, wifiEnabledPref);
         checkProxyStatusItem(wifiSelected, wifiSelectedPref);

@@ -6,12 +6,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
 
 /**
  * Created by Marco on 13/09/13.
  */
 public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 {
+    public static final String TABLE_WIFI_AP = "wifiap";
     public static final String TABLE_PROXIES = "proxies";
     public static final String TABLE_TAGS = "tags";
     public static final String TABLE_PROXY_TAG_LINKS = "taggedproxies";
@@ -32,8 +34,13 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_PROXY_ID = "proxyId";
     public static final String COLUMN_TAG_ID = "tagId";
 
+    public static final String COLUMN_WIFI_SSID = "ssid";
+    public static final String COLUMN_WIFI_SECURITY_TYPE = "securitytype";
+    public static final String COLUMN_WIFI_PROXY_SETTING = "proxysetting";
+    public static final String COLUMN_WIFI_PROXY_ID = "proxyid";
+
     public static final String DATABASE_NAME = "proxysettings.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     // Database creation sql statement
 
@@ -71,6 +78,17 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + ");";
 
     private static final String TAG = DatabaseSQLiteOpenHelper.class.getSimpleName();
+    private static final String CREATE_TABLE_WIFI_AP = "create table "
+            + TABLE_WIFI_AP
+            + "("
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + COLUMN_WIFI_SSID + " text not null, "
+            + COLUMN_WIFI_SECURITY_TYPE + " text not null, "
+            + COLUMN_WIFI_PROXY_SETTING + " text not null, "
+            + COLUMN_WIFI_PROXY_ID + " integer not null, "
+            + COLUMN_CREATION_DATE + " integer not null, "
+            + COLUMN_MODIFIED_DATE + " integer not null"
+            + ");";
 
     private static DatabaseSQLiteOpenHelper instance;
 
@@ -113,12 +131,11 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
         }
 
         // Se example of upgrade planning here: http://grepcode.com/file_/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.1_r1/com/android/providers/calendar/CalendarDatabaseHelper.java/?v=source
-
-//        if (oldVersion == 3)
-//        {
-//            // Do something for v3
-//            oldVersion = 4;
-//        }
+        if (oldVersion == 2)
+        {
+            // Do something for v3
+            upgradeToVersion3(db);
+        }
 //
 //        if (oldVersion == 4)
 //        {
@@ -126,21 +143,37 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 //        }
     }
 
+    private void upgradeToVersion3(SQLiteDatabase db)
+    {
+        /**
+         * Changes from version 2 to version 3:
+         *
+         * - Added TABLE_WIFI_AP (Wi-Fi access points table)
+         * */
+        db.execSQL(CREATE_TABLE_WIFI_AP);
+     }
+
     public void createDB(SQLiteDatabase db)
     {
         App.getLogger().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
-        db.execSQL(CREATE_TABLE_PROXIES);
-        db.execSQL(CREATE_TABLE_TAGS);
-        db.execSQL(CREATE_TABLE_TAGGED_PROXIES);
+
+        DatabaseUtils.execSQL(db, CREATE_TABLE_PROXIES);
+        DatabaseUtils.execSQL(db, CREATE_TABLE_TAGS);
+        DatabaseUtils.execSQL(db, CREATE_TABLE_TAGGED_PROXIES);
+        DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
+
         App.getLogger().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
 
     public void dropDB(SQLiteDatabase db)
     {
         App.getLogger().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXIES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAGS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
+
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXIES);
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_TAGS);
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_WIFI_AP);
+
         App.getLogger().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }
 }

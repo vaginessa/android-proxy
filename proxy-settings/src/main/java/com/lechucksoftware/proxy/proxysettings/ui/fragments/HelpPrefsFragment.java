@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,21 +8,25 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
+import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.ContactsDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.ChangeLogDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
-public class HelpPrefsFragment extends PreferenceFragment
+public class HelpPrefsFragment extends BasePreferenceFragment
 {
-    public static HelpPrefsFragment instance;
     private Preference whatsNewPref;
     private Preference changeLogPref;
     private Preference aboutPref;
@@ -32,12 +37,17 @@ public class HelpPrefsFragment extends PreferenceFragment
     private Preference contactPref;
 //    private Preference aboutPref;
 
-    public static HelpPrefsFragment getInstance()
-    {
-        if (instance == null)
-            instance = new HelpPrefsFragment();
 
-        return instance;
+    public static HelpPrefsFragment newInstance(int sectionNumber)
+    {
+        HelpPrefsFragment fragment = new HelpPrefsFragment();
+
+        Bundle args = new Bundle();
+
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -45,14 +55,14 @@ public class HelpPrefsFragment extends PreferenceFragment
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.help_preferences);
-
-        instance = this;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         changeLogPref = findPreference("pref_full_changelog");
         changeLogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -61,8 +71,8 @@ public class HelpPrefsFragment extends PreferenceFragment
             public boolean onPreferenceClick(Preference preference)
             {
 
-                HtmlDialog htmlDialog = HtmlDialog.newInstance(getActivity().getString(R.string.changelog), Resources.CHANGELOG_HTML);
-                htmlDialog.show(getActivity().getFragmentManager(), "ChangelogHTMLDialog");
+                ChangeLogDialog changeLogDialog = new ChangeLogDialog();
+                changeLogDialog.show(getActivity().getFragmentManager(), "ChangelogHTMLDialog");
                 return true;
             }
         });
@@ -96,6 +106,7 @@ public class HelpPrefsFragment extends PreferenceFragment
 
             }
         });
+
         aboutPref.setSummary(appVersionName);
 
         appRatePref = findPreference("pref_issues");
@@ -170,9 +181,37 @@ public class HelpPrefsFragment extends PreferenceFragment
         return v;
     }
 
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+
+        if (activity instanceof MasterActivity)
+        {
+            ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
     private void showBetaTestDialog()
     {
         AlertDialog dialog = UIUtils.getBetaTestDialog(getActivity());
         dialog.show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        MasterActivity master = (MasterActivity) getActivity();
+
+        if (master != null && !master.isDrawerOpen())
+        {
+            // Only show items in the action bar relevant to this screen
+            // if the drawer is not showing. Otherwise, let the drawer
+            // decide what to show in the action bar.
+//            inflater.inflate(R.menu.main, menu);
+            master.restoreActionBar();
+        }
     }
 }

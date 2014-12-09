@@ -74,8 +74,8 @@ public class TagsView extends LinearLayout
                 {
                     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     TextView t = (TextView) inflater.inflate(R.layout.tag, getEnabledContainer(), false);
-                    t.setBackgroundColor(UIUtils.getTagsColor(getContext(), tag.tagColor));
-                    t.setText(tag.tag);
+                    t.setBackgroundColor(UIUtils.getTagsColor(getContext(), tag.getTagColor()));
+                    t.setText(tag.getTag());
                     t.setTextSize(textSize);
                     getEnabledContainer().addView(t);
                 }

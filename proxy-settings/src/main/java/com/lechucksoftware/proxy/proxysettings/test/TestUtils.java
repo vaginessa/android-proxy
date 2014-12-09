@@ -10,7 +10,6 @@ import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -26,8 +25,8 @@ import java.util.List;
 import java.util.Random;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.ProxyConfiguration;
 import be.shouldit.proxy.lib.ProxyStatusItem;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -109,8 +108,8 @@ public class TestUtils
                         {
                             ProxyEntity p = new ProxyEntity();
                             String[] host_port = line.split(":");
-                            p.host = host_port[0];
-                            p.port = Integer.parseInt(host_port[1]);
+                            p.setHost(host_port[0]);
+                            p.setPort(Integer.parseInt(host_port[1]));
                             proxies.add(p);
                         }
                     }
@@ -131,12 +130,12 @@ public class TestUtils
         return proxies;
     }
 
-    public static ProxyEntity getRandomProxy()
+    public static ProxyEntity createRandomProxy()
     {
         ProxyEntity pd = new ProxyEntity();
-        pd.host = getRandomIP();
-        pd.port = getRandomPort();
-        pd.exclusion = getRandomExclusionList();
+        pd.setHost(getRandomIP());
+        pd.setPort(getRandomPort());
+        pd.setExclusion(getRandomExclusionList());
 
         Random r = new Random();
         int tagNum = r.nextInt(MAX_TAGS) + MIN_TAGS;
@@ -164,13 +163,13 @@ public class TestUtils
             switch (typeOfModification)
             {
                 case 0:
-                    pd.host = getRandomIP();
+                    pd.setHost(getRandomIP());
                     break;
                 case 1:
-                    pd.port = getRandomPort();
+                    pd.setPort(getRandomPort());
                     break;
                 case 2:
-                    pd.exclusion = getRandomExclusionList();
+                    pd.setExclusion(getRandomExclusionList());
                     break;
                 case 3:
                     TagEntity tag = App.getDBManager().getRandomTag();
@@ -194,7 +193,7 @@ public class TestUtils
 
     public static void addProxy()
     {
-        ProxyEntity pd = getRandomProxy();
+        ProxyEntity pd = createRandomProxy();
 
         ProxyEntity savedProxy = App.getDBManager().upsertProxy(pd);
 
@@ -231,14 +230,14 @@ public class TestUtils
     {
         TagEntity tag = new TagEntity();
         Random r = new Random();
-        tag.tag = getRandomTag();
-        tag.tagColor = r.nextInt(4) + 1;
+        tag.setTag(getRandomTag());
+        tag.setTagColor(r.nextInt(4) + 1);
         App.getDBManager().upsertTag(tag);
     }
 
-//    public static void assignProxies(ProxyConfiguration conf, ProxyEntity proxy) throws Exception
+//    public static void assignProxies(WiFiAPConfig conf, ProxyEntity proxy) throws Exception
 //    {
-//        ProxySetting originalSettings = conf.getProxySettings();
+//        ProxySetting originalSettings = conf.getProxySetting();
 //        ProxyEntity originalData = new ProxyEntity();
 //
 //        if (originalSettings == ProxySetting.STATIC)
@@ -251,7 +250,7 @@ public class TestUtils
 //        conf.setProxySetting(ProxySetting.STATIC);
 //        conf.setProxyHost(proxy.host);
 //        conf.setProxyPort(proxy.port);
-//        conf.setProxyExclusionList(proxy.exclusion);
+//        conf.setProxyExclusionString(proxy.exclusion);
 //
 //        conf.writeConfigurationToDevice();
 //
@@ -261,9 +260,9 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            ProxyConfiguration updatedConf = App.getProxyManager().getConfiguration(conf.id);
+//            WiFiAPConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
 //
-//            if (updatedConf.getProxySettings() == ProxySetting.STATIC &&
+//            if (updatedConf.getProxySetting() == ProxySetting.STATIC &&
 //                    updatedConf.getProxyHost() == proxy.host &&
 //                    updatedConf.getProxyPort() == proxy.port &&
 //                    updatedConf.getProxyExclusionList() == proxy.exclusion)
@@ -279,7 +278,7 @@ public class TestUtils
 //        conf.setProxySetting(ProxySetting.NONE);
 //        conf.setProxyHost(null);
 //        conf.setProxyPort(null);
-//        conf.setProxyExclusionList(null);
+//        conf.setProxyExclusionString(null);
 //        conf.writeConfigurationToDevice();
 //
 //        Thread.sleep(5000);
@@ -288,9 +287,9 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            ProxyConfiguration updatedConf = App.getProxyManager().getConfiguration(conf.id);
+//            WiFiAPConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
 //
-//            if (updatedConf.getProxySettings() == ProxySetting.NONE &&
+//            if (updatedConf.getProxySetting() == ProxySetting.NONE &&
 //                    (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
 //                    (updatedConf.getProxyPort() == null || updatedConf.getProxyPort() == -1) &&
 //                    (updatedConf.getProxyExclusionList() == null || updatedConf.getProxyExclusionList() == ""))
@@ -308,36 +307,11 @@ public class TestUtils
 //        {
 //            conf.setProxyHost(originalData.host);
 //            conf.setProxyPort(originalData.port);
-//            conf.setProxyExclusionList(originalData.exclusion);
+//            conf.setProxyExclusionString(originalData.exclusion);
 //        }
 //        conf.writeConfigurationToDevice();
 //        Thread.sleep(5000);
 //    }
-
-    public static void clearInUse()
-    {
-        ProxyEntity pd = App.getDBManager().getRandomProxy();
-
-        if (pd != null)
-        {
-            App.getDBManager().clearInUseFlag(pd.getId());
-        }
-        else
-        {
-            App.getDBManager().clearInUseFlag();
-        }
-
-        ProxyEntity pd1 = App.getDBManager().getRandomProxy();
-        ProxyEntity pd2 = App.getDBManager().getRandomProxy();
-        ProxyEntity pd3 = App.getDBManager().getRandomProxy();
-
-        if (pd1 != null && pd2 != null && pd3 != null)
-        {
-            App.getDBManager().clearInUseFlag(pd1.getId(), pd2.getId(), pd3.getId());
-        }
-
-        App.getDBManager().clearInUseFlag();
-    }
 
     public static void testValidation()
     {
@@ -348,13 +322,13 @@ public class TestUtils
         result = ProxyUtils.isProxyValidExclusionAddress("*.shouldit.it");
     }
 
-    public static void clearAllProxies(Context ctx)
+    public static void clearProxyForAllAP(Context ctx)
     {
-        App.getInstance().wifiActionEnabled = false;
+//        App.getInstance().wifiActionEnabled = false;
 
-        for (ProxyConfiguration configuration : App.getProxyManager().getSortedConfigurationsList())
+        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
-            if (configuration.ap.security == SecurityType.SECURITY_EAP)
+            if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
                 // skip 802.1x security networks
                 continue;
@@ -365,7 +339,7 @@ public class TestUtils
                 configuration.setProxySetting(ProxySetting.NONE);
                 configuration.setProxyHost("");
                 configuration.setProxyPort(0);
-                configuration.setProxyExclusionList("");
+                configuration.setProxyExclusionString("");
                 configuration.writeConfigurationToDevice();
             }
             catch (Exception e)
@@ -374,32 +348,42 @@ public class TestUtils
             }
         }
 
-        App.getInstance().wifiActionEnabled = true;
+//        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-        APL.getContext().sendBroadcast(intent);
+//        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+//        APL.getContext().sendBroadcast(intent);
     }
 
-    public static void setAllProxies(Context ctx)
+    public static void setProxyForAllAP(Context ctx)
     {
-        ProxyEntity p = getRandomProxy();
+        ProxyEntity p;
 
-        App.getInstance().wifiActionEnabled = false;
-
-        for (ProxyConfiguration configuration : App.getProxyManager().getSortedConfigurationsList())
+        if (App.getDBManager().getProxiesCount() > 0)
         {
-            if (configuration.ap.security == SecurityType.SECURITY_EAP)
+            p = App.getDBManager().getRandomProxy();
+        }
+        else
+        {
+            p = createRandomProxy();
+        }
+
+//        App.getInstance().wifiActionEnabled = false;
+
+        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
+        {
+            if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
                 // skip 802.1x security networks
                 continue;
             }
 
             configuration.setProxySetting(ProxySetting.STATIC);
-            configuration.setProxyHost(p.host);
-            configuration.setProxyPort(p.port);
-            configuration.setProxyExclusionList(p.exclusion);
+            configuration.setProxyHost(p.getHost());
+            configuration.setProxyPort(p.getPort());
+            configuration.setProxyExclusionString(p.getExclusion());
+
             try
             {
                 configuration.writeConfigurationToDevice();
@@ -410,12 +394,12 @@ public class TestUtils
             }
         }
 
-        App.getInstance().wifiActionEnabled = true;
+//        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-        APL.getContext().sendBroadcast(intent);
+//        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+//        APL.getContext().sendBroadcast(intent);
     }
 
     @TargetApi(19)
@@ -434,41 +418,45 @@ public class TestUtils
     public static void testSerialization()
     {
         String s = null;
-        ProxyConfiguration conf = App.getProxyManager().getCurrentConfiguration();
+        WiFiAPConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
 
         ObjectOutputStream out = null;
-        try
-        {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            out = new ObjectOutputStream(baos);
-            out.writeObject(conf);
-            out.close();
 
-            s = new String(baos.toByteArray());
-
-            if (TextUtils.isEmpty(s))
-            {
-                App.getLogger().e(TAG,"Not serialized correctly");
-            }
-            else
-            {
-                App.getLogger().d(TAG,s);
-            }
-        }
-        catch (IOException ex)
+        if (conf != null)
         {
-            ex.printStackTrace();
+            try
+            {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                out = new ObjectOutputStream(baos);
+                out.writeObject(conf);
+                out.close();
+
+                s = new String(baos.toByteArray());
+
+                if (TextUtils.isEmpty(s))
+                {
+                    App.getLogger().e(TAG, "Not serialized correctly");
+                }
+                else
+                {
+                    App.getLogger().d(TAG, s);
+                }
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 
     public static String createFakeWifiNetwork(Context ctx)
     {
         WifiConfiguration wc = new WifiConfiguration();
-
-        String ssid = UIUtils.getRandomCodeName().name();
-        String password = "\"aaabbb1234\""; //This is the WEP Password
-
         Random r = new Random();
+
+        String ssid = UIUtils.getRandomCodeName().name() + String.valueOf(r.nextInt(10));
+        String password = "\"aaabbb1234567\""; //This is the WEP Password
+
         int securityType = r.nextInt(3);
         switch (securityType)
         {
@@ -479,6 +467,7 @@ public class TestUtils
                 setupWEPWifiConfig(wc, ssid, password);
                 break;
             case 2:
+            default:
                 setupWPAWifiConfig(wc, ssid, password);
                 break;
 //            case 3:
@@ -498,6 +487,8 @@ public class TestUtils
     {
         int removedNetworks = 0;
         List<WifiConfiguration> configurations = APL.getWifiManager().getConfiguredNetworks();
+        List<Integer> networksToDelete = new ArrayList<Integer>();
+
         if (configurations != null && configurations.size() > 0)
         {
             for(WifiConfiguration conf: configurations)
@@ -507,15 +498,21 @@ public class TestUtils
                 {
                     if (SSID.contains(codename.toString()))
                     {
-                        boolean res = APL.getWifiManager().removeNetwork(conf.networkId);
-                        App.getLogger().d(TAG, "removeNetwork returned " + res);
-                        boolean es = APL.getWifiManager().saveConfiguration();
-                        App.getLogger().d(TAG, "saveConfiguration returned " + es);
-
-                        removedNetworks++;
+                        networksToDelete.add(conf.networkId);
                     }
                 }
             }
+        }
+
+        for(int i=0;i<networksToDelete.size();i++)
+        {
+            int networkId = networksToDelete.get(i);
+            boolean res = APL.getWifiManager().removeNetwork(networkId);
+            App.getLogger().d(TAG, "removeNetwork returned " + res);
+            boolean es = APL.getWifiManager().saveConfiguration();
+            App.getLogger().d(TAG, "saveConfiguration returned " + es);
+
+            removedNetworks++;
         }
 
         return removedNetworks;
@@ -532,6 +529,8 @@ public class TestUtils
         wc.hiddenSSID = false;
         wc.status = WifiConfiguration.Status.DISABLED;
         wc.priority = 40;
+
+        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
     }
 
     public static void setupWEPWifiConfig(WifiConfiguration wc, String ssid, String password)
@@ -574,7 +573,7 @@ public class TestUtils
         wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
         wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
-        wc.wepKeys[0] = password;
+        wc.preSharedKey = password;
         wc.wepTxKeyIndex = 0;
     }
 }

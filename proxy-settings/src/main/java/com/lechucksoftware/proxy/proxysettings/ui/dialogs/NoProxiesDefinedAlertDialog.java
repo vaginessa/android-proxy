@@ -40,9 +40,9 @@ public class NoProxiesDefinedAlertDialog extends BaseDialogFragment
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
                 Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
-                ProxyEntity emptyProxy = new ProxyEntity();
-                App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
-                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
+//                ProxyEntity emptyProxy = new ProxyEntity();
+//                App.getCacheManager().put(emptyProxy.getUUID(), emptyProxy);
+//                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, emptyProxy.getUUID());
                 startActivity(i);
 //                onResult(Activity.RESULT_OK);
             }
@@ -61,11 +61,7 @@ public class NoProxiesDefinedAlertDialog extends BaseDialogFragment
 
     protected void onResult(final int resultCode)
     {
-        final BaseActivity activity = (BaseActivity) getActivity();
-        if (activity != null)
-        {
-            activity.onDialogResult(Requests.CREATE_NEW_PROXY, resultCode, null);
-        }
+        getTargetFragment().onActivityResult(Requests.CREATE_NEW_PROXY, resultCode, null);
     }
 
     public static NoProxiesDefinedAlertDialog newInstance()

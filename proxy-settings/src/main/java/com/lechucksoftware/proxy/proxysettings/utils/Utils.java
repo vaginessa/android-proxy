@@ -13,8 +13,10 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -32,6 +34,7 @@ import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
@@ -41,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.utils.HttpAnswer;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -58,12 +62,12 @@ public class Utils
     {
         String result = null;
 
-        String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + proxy.host).trim();
+        String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + proxy.getHost()).trim();
         result = getProxyCountryCode(stringUrl, proxy);
 
         if (TextUtils.isEmpty(result))
         {
-            stringUrl = (HTTP_TELIZE_NET_JSON_STRING + proxy.host).trim();
+            stringUrl = (HTTP_TELIZE_NET_JSON_STRING + proxy.getHost()).trim();
             result = getProxyCountryCode(stringUrl, proxy);
         }
 
@@ -96,7 +100,12 @@ public class Utils
         {
             try
             {
-                answer = ProxyUtils.getHttpAnswerURI(uri, App.getProxyManager().getCurrentConfiguration().getProxy(), timeout);
+                WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
+                Proxy proxyConf = Proxy.NO_PROXY;
+                if (wiFiAPConfig != null)
+                    proxyConf = wiFiAPConfig.getProxy();
+
+                answer = ProxyUtils.getHttpAnswerURI(uri,proxyConf, timeout);
             }
             catch (IOException e)
             {
@@ -367,6 +376,16 @@ public class Utils
         }
     }
 
+    public static Object cloneThroughJson(Object t)
+    {
+        App.getLogger().startTrace(TAG,"cloneThroughJson", Log.DEBUG);
+        Gson gson = new Gson();
+        String json = gson.toJson(t);
+        Object result = gson.fromJson(json, t.getClass());
+        App.getLogger().stopTrace(TAG,"cloneThroughJson", Log.DEBUG);
+
+        return result;
+    }
 
     public static boolean airplaneModeEnabled(Context context)
     {

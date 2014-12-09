@@ -19,6 +19,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.annotation.IntDef;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -30,16 +31,22 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.net.Proxy.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 
@@ -50,18 +57,11 @@ public class UIUtils
     public static int PROXY_NOTIFICATION_ID = 1;
     public static int URL_DOWNLOADER_COMPLETED_ID = 2;
 
-    public static void showError(Context ctx, String errorMessage)
+    public static void showError(Context ctx, int error)
     {
         try
         {
-            if (!TextUtils.isEmpty(errorMessage))
-            {
-                new AlertDialog.Builder(ctx)
-                        .setTitle(R.string.proxy_error)
-                        .setMessage(errorMessage)
-                        .setPositiveButton(R.string.proxy_error_dismiss, null)
-                        .show();
-            }
+            showError(ctx, ctx.getResources().getString(error));
         }
         catch (Exception e)
         {
@@ -69,11 +69,46 @@ public class UIUtils
         }
     }
 
-    public static void showError(Context ctx, int error)
+    public static void showError(Context ctx, String errorMessage)
     {
         try
         {
-            showError(ctx, ctx.getResources().getString(error));
+            showDialog(ctx, errorMessage, ctx.getString(R.string.proxy_error));
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+    }
+
+    public static void showDialog(Context ctx, int message, int title)
+    {
+        try
+        {
+            new AlertDialog.Builder(ctx)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+        }
+        catch (Exception e)
+        {
+            App.getEventsReporter().sendException(e);
+        }
+    }
+
+    public static void showDialog(Context ctx, String message, String title)
+    {
+        try
+        {
+            if (!TextUtils.isEmpty(message))
+            {
+                new AlertDialog.Builder(ctx)
+                        .setTitle(title)
+                        .setMessage(message)
+                        .setPositiveButton(R.string.ok, null)
+                        .show();
+            }
         }
         catch (Exception e)
         {
@@ -111,6 +146,11 @@ public class UIUtils
         return dp;
     }
 
+    @IntDef({View.VISIBLE, View.INVISIBLE, View.GONE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Visibility {}
+
+    @Visibility
     public static int booleanToVisibility(boolean b)
     {
         if (b)
@@ -285,11 +325,11 @@ public class UIUtils
 
             });
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             webView.loadUrl(BASE_URL + filename);
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                     .setTitle(title)
@@ -311,7 +351,7 @@ public class UIUtils
                         }
                     });
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog dialog = builder.create();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
@@ -337,7 +377,7 @@ public class UIUtils
                 }
             });
 
-            App.getLogger().getPartial(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
         }
         catch (Exception e)
         {
@@ -418,7 +458,7 @@ public class UIUtils
         webView.loadUrl(htmlFile);
     }
 
-    public static String GetStatusSummary(ProxyConfiguration conf, Context ctx)
+    public static String GetStatusSummary(WiFiAPConfig conf, Context ctx)
     {
         //		if (App.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
         {
@@ -438,11 +478,11 @@ public class UIUtils
         //		}
     }
 
-    public static void UpdateStatusBarNotification(ProxyConfiguration conf, Context context)
+    public static void UpdateStatusBarNotification(WiFiAPConfig conf, Context context)
     {
         if (conf == null)
         {
-            App.getEventsReporter().sendException(new Exception("Cannot find valid instance of ProxyConfiguration"));
+            App.getEventsReporter().sendException(new Exception("Cannot find valid instance of WiFiAPConfig"));
             return;
         }
 
@@ -466,7 +506,7 @@ public class UIUtils
     /**
      * Notification related methods
      */
-    public static void SetProxyNotification(ProxyConfiguration conf, Context callerContext)
+    public static void SetProxyNotification(WiFiAPConfig conf, Context callerContext)
     {
         SharedPreferences prefs = callerContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
 
@@ -585,4 +625,23 @@ public class UIUtils
         int pick = new Random().nextInt(CodeNames.values().length);
         return CodeNames.values()[pick];
     }
+
+    public static List<NavDrawerItem> getNavDrawerItems(Context ctx)
+    {
+        List<NavDrawerItem> list = new ArrayList<NavDrawerItem>();
+
+//        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+" ));
+//        list.add(new NavDrawerItem(ctx.getString(R.string.settings), "", R.drawable.ic_action_settings, false, "50+" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+" ));
+
+        if (BuildConfig.DEBUG)
+        {
+            list.add(new NavDrawerItem(ctx.getString(R.string.developers_options), "", R.drawable.ic_action_debug_bug_icon));
+        }
+
+        return list;
+    }
+
 }

@@ -1,20 +1,19 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
 import java.util.List;
 import java.util.UUID;
 
-import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
@@ -24,16 +23,16 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 {
-    private final Activity callerActivity;
+    private final Context context;
     private final ProxyEntity currentProxy;
     private final ProxyEntity updatedProxy;
     private static final String TAG = AsyncUpdateLinkedWiFiAP.class.getSimpleName();
 
-    public AsyncUpdateLinkedWiFiAP(Activity caller, ProxyEntity current, ProxyEntity updated)
+    public AsyncUpdateLinkedWiFiAP(Context caller, ProxyEntity current, ProxyEntity updated)
     {
         currentProxy = current;
         updatedProxy = updated;
-        callerActivity = caller;
+        context = caller;
     }
 
     @Override
@@ -43,14 +42,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
         final int updatedWifi = updatedWiFiAP;
 
-        if (updatedWifi == 1)
-        {
-            Toast.makeText(callerActivity, String.format(callerActivity.getString(R.string.updated_wifi_access_point), updatedWifi), Toast.LENGTH_SHORT).show();
-        }
-        else if (updatedWifi > 1)
-        {
-            Toast.makeText(callerActivity, String.format(callerActivity.getString(R.string.updated_wifi_access_points), updatedWifi), Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(context, context.getResources().getQuantityString(R.plurals.updated_wifi_networks, updatedWifi, updatedWifi), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -58,22 +50,22 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     {
         int updatedWiFiAP = 0;
 
-        List<ProxyConfiguration> configurations = App.getProxyManager().getSortedConfigurationsList();
+        List<WiFiAPConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
 
         if (configurations != null)
         {
-//            List<ProxyConfiguration> configurations = new ArrayList<ProxyConfiguration>(sortedConfigurations);
+//            List<WiFiAPConfig> configurations = new ArrayList<WiFiAPConfig>(sortedConfigurations);
 
             App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
             App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());
 
-            App.getInstance().wifiActionEnabled = false;
+//            App.getInstance().wifiActionEnabled = false;
 
             if (configurations != null)
             {
-                for (ProxyConfiguration conf : configurations)
+                for (WiFiAPConfig conf : configurations)
                 {
-                    if (conf.getProxySettings() == ProxySetting.STATIC)
+                    if (conf.getProxySetting() == ProxySetting.STATIC)
                     {
                         App.getLogger().d(TAG, "Checking AP: " + conf.toShortString());
 
@@ -83,13 +75,13 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                             Integer port = conf.getProxyPort();
                             String exclusion = conf.getProxyExclusionList();
 
-                            if (host.equalsIgnoreCase(currentProxy.host)
-                                    && port.equals(currentProxy.port)
-                                    && exclusion.equalsIgnoreCase(currentProxy.exclusion))
+                            if (host.equalsIgnoreCase(currentProxy.getHost())
+                                    && port.equals(currentProxy.getPort())
+                                    && exclusion.equalsIgnoreCase(currentProxy.getExclusion()))
                             {
-                                conf.setProxyHost(updatedProxy.host);
-                                conf.setProxyPort(updatedProxy.port);
-                                conf.setProxyExclusionList(updatedProxy.exclusion);
+                                conf.setProxyHost(updatedProxy.getHost());
+                                conf.setProxyPort(updatedProxy.getPort());
+                                conf.setProxyExclusionString(updatedProxy.getExclusion());
 
                                 App.getLogger().d(TAG, "Writing updated AP configuration on device: " + conf.toShortString());
 
@@ -114,9 +106,9 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                                 }
 
                                 // Calling refresh intent only after save of all AP configurations
-                                App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-                                Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-                                APL.getContext().sendBroadcast(intent);
+//                                App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//                                Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
+//                                APL.getContext().sendBroadcast(intent);
                             }
                         }
                     }
@@ -124,7 +116,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             }
         }
 
-        App.getInstance().wifiActionEnabled = true;
+//        App.getInstance().wifiActionEnabled = true;
 
         App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
         App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());

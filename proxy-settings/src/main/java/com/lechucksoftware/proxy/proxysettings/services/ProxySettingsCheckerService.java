@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,12 +14,12 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import java.util.Date;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.APLConstants;
-import be.shouldit.proxy.lib.ProxyConfiguration;
+import be.shouldit.proxy.lib.constants.APLConstants;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
-public class ProxySettingsCheckerService extends IntentService
+public class ProxySettingsCheckerService extends EnhancedIntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = ProxySettingsCheckerService.class.getSimpleName();
@@ -73,9 +72,9 @@ public class ProxySettingsCheckerService extends IntentService
                         || callerAction.equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
                         || callerAction.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
                         || callerAction.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
-                        || callerAction.equals(Intents.WIFI_AP_UPDATED)
+//                        || callerAction.equals(Intents.WIFI_AP_UPDATED)
                         || callerAction.equals(Proxy.PROXY_CHANGE_ACTION)
-                        || callerAction.equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGE"))
+                        || callerAction.equals("android.net.wifi.CONFIGURED_NETWORKS_CHANGED_ACTION"))
                 {
                     checkProxySettings();
                 }
@@ -127,9 +126,8 @@ public class ProxySettingsCheckerService extends IntentService
         try
         {
 //            callRefreshApplicationStatus();
-            App.getProxyManager().updateProxyConfigurationList();
-            ProxyConfiguration conf = App.getProxyManager().getCurrentConfiguration();
-
+//            App.getWifiNetworksManager().updateProxyConfigurationList();
+            WiFiAPConfig conf = App.getWifiNetworksManager().updateCurrentConfiguration();
             NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
             if (ni != null && ni.isAvailable() && ni.isConnected())
@@ -139,10 +137,10 @@ public class ProxySettingsCheckerService extends IntentService
                 {
                     App.getLogger().d(TAG, "Checking configuration: " + conf.toShortString());
 
-                    if (conf.status != null
-                            && conf.status.checkedDate != null)
+                    if (conf.getStatus() != null
+                            && conf.getStatus().checkedDate != null)
                     {
-                        long diffMsec = new Date().getTime() - conf.status.checkedDate.getTime();
+                        long diffMsec = new Date().getTime() - conf.getStatus().checkedDate.getTime();
                         long diffSeconds = diffMsec / 1000;
                         long diffMinutes = diffMsec / (60 * 1000);
 
@@ -162,14 +160,14 @@ public class ProxySettingsCheckerService extends IntentService
                 else
                 {
                     // newconf cannot be null!!
-                    App.getLogger().d(TAG, "Not found new configuration -> needs to check the proxy status");
-                    App.getEventsReporter().sendException(new Exception("Cannot have a null ProxyConfiguration"));
+                    App.getLogger().d(TAG, "Not found valid configuration");
+//                    App.getEventsReporter().sendException(new Exception("Cannot have a null WiFiAPConfig"));
                 }
 
                 if (checkNewConf)
                 {
                     App.getLogger().d(TAG, "Changed current proxy configuration: calling refresh of proxy status");
-                    ProxyUtils.acquireProxyStatus(conf, conf.status, ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
+                    ProxyUtils.acquireProxyStatus(conf, conf.getStatus(), ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
                     App.getLogger().d(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
                 }
                 else
@@ -204,6 +202,13 @@ public class ProxySettingsCheckerService extends IntentService
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 
-        UIUtils.UpdateStatusBarNotification(App.getProxyManager().getCachedConfiguration(), getApplicationContext());
+        WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
+        if (wiFiAPConfig == null)
+            wiFiAPConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
+
+        if (wiFiAPConfig != null)
+        {
+            UIUtils.UpdateStatusBarNotification(wiFiAPConfig, getApplicationContext());
+        }
     }
 }

@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.lechucksoftware.proxy.proxysettings.ui.activities.MainActivity">
+
+    <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/GreyTransparent">
+
+        <TextView
+            android:id="@+id/current_status_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current proxy configuration:"/>
+
+        <TextView
+            android:id="@+id/current_status_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AAA BBBB CCCC DDDD"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/main_see_wifi_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wi-fi ap list"/>
+
+    <Button
+        android:id="@+id/main_see_proxies_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proxies list"/>
+
+</LinearLayout>

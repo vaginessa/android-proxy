@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:showIn="@layout/wifi_ap_list_fragment"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true">
+
+    <com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView
+        android:id="@+id/actions_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/list_header_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:text="All Wi-Fi access point"/>-->
+
+</LinearLayout>

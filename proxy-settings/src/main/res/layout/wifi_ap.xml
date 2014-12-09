@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wifi_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/Holo_Blue_Dark"
+    android:paddingBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/wifi_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:singleLine="true"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textColor="@android:color/primary_text_dark"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/wifi_signal"
+        android:text="WIFI sa f asdf asdfa sdfas dfasdfas dfasdf asdfasdf"/>
+
+    <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
+        android:id="@+id/wifi_signal"
+        android:layout_alignParentRight="true"
+        android:paddingRight="12dp"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
