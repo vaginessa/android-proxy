@@ -2,6 +2,7 @@ package be.shouldit.proxy.lib;
 
 import android.annotation.TargetApi;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -27,6 +28,14 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 {
     private static final String TAG = WiFiAPConfig.class.getSimpleName();
 
+    public static final int INVALID_NETWORK_ID = -1;
+    public static final String LOCAL_EXCL_LIST = "";
+    public static final int LOCAL_PORT = -1;
+    public static final String LOCAL_HOST = "localhost";
+
+    public static final int[] STATE_SECURED = {R.attr.state_encrypted};
+    public static final int[] STATE_NONE = {};
+
     private final UUID id;
     private final APLNetworkId internalWifiNetworkId;
     private ProxyStatus status;
@@ -34,15 +43,11 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private String proxyHost;
     private Integer proxyPort;
     private String stringProxyExclusionList;
+    private Uri pacFileUrl;
     private String[] parsedProxyExclusionList;
 
     /* AccessPoint class fields */
 //    public AccessPoint ap;
-    private static final int[] STATE_SECURED = {R.attr.state_encrypted};
-    private static final int[] STATE_NONE = {};
-
-    public static final int INVALID_NETWORK_ID = -1;
-
     private String ssid;
     private String bssid;
     private SecurityType securityType;
@@ -60,7 +65,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private NetworkInfo.DetailedState mState;
 
 
-    public WiFiAPConfig(WifiConfiguration wifiConf, ProxySetting setting, String host, Integer port, String exclusionList)
+    public WiFiAPConfig(WifiConfiguration wifiConf, ProxySetting setting, String host, Integer port, String exclusionList, Uri pacFile)
     {
         if (wifiConf == null)
             throw new IllegalArgumentException("WifiConfiguration parameter cannot be null");
@@ -68,9 +73,11 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         id = UUID.randomUUID();
 
         setProxySetting(setting);
+
         proxyHost = host;
         proxyPort = port;
         setProxyExclusionString(exclusionList);
+        pacFileUrl = pacFile;
 
         ssid = (wifiConf.SSID == null ? "" : removeDoubleQuotes(wifiConf.SSID));
         bssid = wifiConf.BSSID;
@@ -83,29 +90,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
         status = new ProxyStatus();
     }
-
-//    public WiFiAPConfig(WiFiAPConfig wiFiAPConfig)
-//    {
-//        id = wiFiAPConfig.id;
-//        internalWifiNetworkId = wiFiAPConfig.internalWifiNetworkId;
-//        status = wiFiAPConfig.status;
-//
-//        proxySetting = wiFiAPConfig.proxySetting;
-//        proxyHost = wiFiAPConfig.proxyHost;
-//        proxyPort = wiFiAPConfig.proxyPort;
-//        stringProxyExclusionList = wiFiAPConfig.stringProxyExclusionList;
-//        parsedProxyExclusionList = wiFiAPConfig.parsedProxyExclusionList;
-//
-//        ssid = wiFiAPConfig.ssid;
-//        bssid = wiFiAPConfig.bssid;
-//        securityType = wiFiAPConfig.securityType;
-//        networkId = wiFiAPConfig.networkId;
-//        pskType = wiFiAPConfig.pskType;
-//        wifiConfig = wiFiAPConfig.wifiConfig;
-//        mInfo = wiFiAPConfig.mInfo;
-//        mRssi = wiFiAPConfig.mRssi;
-//        mState = wiFiAPConfig.mState;
-//    }
 
     public boolean updateScanResults(ScanResult result)
     {
@@ -347,63 +331,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     {
         return mRssi != Integer.MAX_VALUE;
     }
-
-//    @Override
-//    public int compareTo(WiFiAPConfig another)
-//    {
-//        int result = 0;
-//
-//        if (this.isCurrentNetwork())
-//        {
-//            if (another.isCurrentNetwork())
-//            {
-//                result = 0;
-//            }
-//            else
-//            {
-//                result = -1;
-//            }
-//        }
-//        else
-//        {
-//            if (another.isCurrentNetwork())
-//            {
-//                result = +1;
-//            }
-//            else
-//            {
-//                result = 0;
-//            }
-//        }
-//
-//        if (result == 0)
-//        {
-//            if (ap != null)
-//            {
-//                if (another.ap != null)
-//                {
-//                    result = ap.compareTo(another.ap);
-//                }
-//                else
-//                {
-//                    result = -1;
-//                }
-//            }
-//            else
-//            {
-//                if (another.ap != null)
-//                {
-//                    result = +1;
-//                }
-//                else
-//                {
-//                    result = 0;
-//                }
-//            }
-//        }
-//
-//        return result;
-//    }
 
     @Override
     public String toString()

@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -17,6 +18,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -345,9 +347,9 @@ public class APL
 
                 if (ordinal == ProxySetting.NONE.ordinal() || ordinal == ProxySetting.UNASSIGNED.ordinal())
                 {
-                    wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
+                    wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "", Uri.EMPTY);
                 }
-                else
+                else if (ordinal == ProxySetting.STATIC.ordinal())
                 {
                     Object mHttpProxy = ReflectionUtils.getHttpProxy(wifiConf);
 
@@ -367,14 +369,22 @@ public class APL
 
                         //LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-                        wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList);
+                        wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList, Uri.EMPTY);
                     }
+                }
+                else if (ordinal == ProxySetting.PAC.ordinal())
+                {
+                    wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, null, null, null, Uri.EMPTY);
+                }
+                else
+                {
+                    APL.getEventsReporter().sendException(new InvalidParameterException("Not valid ProxySetting value: " + ordinal));
                 }
             }
             else
             {
                 APL.getEventsReporter().sendException(new Exception("Cannot find "));
-                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
+                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "", Uri.EMPTY);
             }
         }
         catch (Exception e)

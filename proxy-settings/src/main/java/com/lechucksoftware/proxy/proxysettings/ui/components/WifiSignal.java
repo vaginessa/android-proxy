@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.lechucksoftware.proxy.proxysettings.R;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
-import be.shouldit.proxy.lib.AccessPoint;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -83,7 +82,7 @@ public class WifiSignal extends LinearLayout
         {
             iconImageView.setImageLevel(configuration.getLevel());
             iconImageView.setImageResource(R.drawable.wifi_signal);
-            iconImageView.setImageState((configuration.getSecurityType() != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
+            iconImageView.setImageState((configuration.getSecurityType() != SecurityType.SECURITY_NONE) ? WiFiAPConfig.STATE_SECURED : WiFiAPConfig.STATE_NONE, true);
 
             if (configuration.isActive())
             {
