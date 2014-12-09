@@ -633,7 +633,7 @@ public class UIUtils
 //        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
         list.add(new NavDrawerItem(ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+" ));
         list.add(new NavDrawerItem(ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+" ));
-//        list.add(new NavDrawerItem(ctx.getString(R.string.settings), "", R.drawable.ic_action_settings, false, "50+" ));
+        list.add(new NavDrawerItem(ctx.getString(R.string.pac_list), "", R.drawable.ic_action_file, false, "50+" ));
         list.add(new NavDrawerItem(ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+" ));
 
         if (BuildConfig.DEBUG)

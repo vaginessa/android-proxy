@@ -69,10 +69,14 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
                 break;
 
             case 2:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, HelpPrefsFragment.newInstance(position), false);
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(position), false);
                 break;
 
             case 3:
+                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, HelpPrefsFragment.newInstance(position), false);
+                break;
+
+            case 4:
                 Intent testIntent = new Intent(getApplicationContext(), DeveloperOptionsActivity.class);
                 startActivity(testIntent);
                 break;
@@ -93,6 +97,9 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
                 mTitle = getString(R.string.proxies_list);
                 break;
             case 2:
+                mTitle = getString(R.string.pac_list);
+                break;
+            case 3:
                 mTitle = getString(R.string.help);
                 break;
         }
