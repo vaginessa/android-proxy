@@ -16,8 +16,12 @@
     <!--Dec.-->
 
     <changelogversion versionName="2.16" versionCode=""  changeDate="Aug 28,2014">
+        <changelogimprovement>Added support for Lollipop devices (still missing PAC setup)</changelogimprovement>
         <changelogimprovement>Added count of used proxies</changelogimprovement>
+        <changelogimprovement>Added possibility to delete a not used Proxy</changelogimprovement>
         <changelogimprovement>Completely refactored application backend logic</changelogimprovement>
+        <changelogimprovement>Improved performances for devices with large number of Wi-Fi networks</changelogimprovement>
+        <changelogbug>Solved bug related to application close and restart</changelogbug>
     </changelogversion>
 
     <changelogversion versionName="2.15" versionCode="130021514" changeDate="June 11,2014">
@@ -47,49 +51,4 @@
         <changelogbug>Various bugfix</changelogbug>
     </changelogversion>
 
-    <div class="row changelog">
-        <h2 class="text-center">Release: 2.11</h2>
-        <span class='date'>02/09/2013</span>
-        <ul>
-            <li>Added What's new dialog at application startup</li>
-            <li>Added Help section in application menu</li>
-        </ul>
-    </div>
-    <div class="row changelog">
-        <h2 class="text-center">Release: 2.10</h2>
-        <span class='date'>25/08/2013</span>
-        <ul>
-            <li>Fixed assets loading exception on some devices</li>
-        </ul>
-    </div>
-    <div class="row changelog">
-        <h2 class="text-center">Release: 2.09</h2>
-        <span class='date'>17/06/2013</span>
-        <ul>
-            <li>Fixed various bugs</li>
-            <li>Improved stability and overall application performances</li>
-        </ul>
-    </div>
-    <div class="row changelog">
-        <h2 class="text-center">Release: 2.07</h2>
-        <span class='date'>23/03/2014</span>
-        <ul>
-            <li>Temporary disabled editing of networks with Wi-Fi enterprise security (802.1X)</li>
-        </ul>
-    </div>
-    <div class="row changelog">
-        <h2 class="text-center">Release: 2.06</h2>
-        <span class='date'>07/06/2013</span>
-        <ul>
-            <li>Startup bug fixed</li>
-            <li>Various navigation bugifixes</li>
-        </ul>
-    </div>
-    <div class="row changelog">
-        <h2 class="text-center">Release: 2.04</h2>
-        <span class='date'>05/06/2013</span>
-        <ul>
-            <li>Added support for devices with API version greater than or equal to 11</li>
-        </ul>
-    </div>
 </changelog>

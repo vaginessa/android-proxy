@@ -18,9 +18,11 @@ import android.widget.ScrollView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncDeleteProxy;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxy;
+import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
@@ -383,6 +385,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
             if (selectedProxy.getInUse())
             {
                 UpdateLinkedWifiAPAlertDialog updateDialog = UpdateLinkedWifiAPAlertDialog.newInstance();
+                updateDialog.setTargetFragment(this, Requests.UPDATE_LINKED_WIFI_AP);
                 updateDialog.show(getFragmentManager(), "UpdateLinkedWifiAPAlertDialog");
             }
             else
@@ -429,5 +432,19 @@ public class ProxyDetailFragment extends BaseDialogFragment
     {
         saveEnabled = false;
         getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == Requests.UPDATE_LINKED_WIFI_AP)
+        {
+            ProxyEntity persistedProxy = App.getDBManager().getProxy(selectedProxy.getId());
+
+            AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(getActivity(), persistedProxy, selectedProxy);
+            asyncUpdateLinkedWiFiAP.execute();
+
+            App.getDBManager().upsertProxy(selectedProxy);
+        }
     }
 }

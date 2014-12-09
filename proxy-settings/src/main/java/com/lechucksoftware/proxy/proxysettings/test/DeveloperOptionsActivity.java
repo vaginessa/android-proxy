@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,11 +16,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
+import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
@@ -41,7 +44,6 @@ public class DeveloperOptionsActivity extends Activity
     private ScrollView testLogScroll;
     private Button addWifiNetworksBtn;
     private DeveloperOptionsActivity developerOptionsActivity;
-
 
     public enum TestAction
     {
@@ -199,10 +201,16 @@ public class DeveloperOptionsActivity extends Activity
     public void testBugReporting(View caller)
     {
         Map<String,String> map = new HashMap<String, String>();
-        map.put("config_list", App.getWifiNetworksManager().configListToDBG().toString());
 
+        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 1");
+        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 2");
+        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 3");
+
+        map.put("config_list", App.getWifiNetworksManager().configListToDBG().toString());
         App.getEventsReporter().sendException(new Exception("EXCEPTION ONLY FOR TEST"), map);
+
         App.getEventsReporter().sendEvent("EVENT ONLY FOR TEST");
+
 
 //        GoogleAnalytics.getInstance(this).dispatchLocalHits();
 
@@ -214,11 +222,25 @@ public class DeveloperOptionsActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
+        textViewTest.setTextSize(10);
         Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
         List<ProxyEntity> list = new ArrayList<ProxyEntity>(savedProxies.values());
         for (ProxyEntity p : list)
         {
-            textViewTest.append(p.toString() + "\n\n");
+            textViewTest.append(p.toString() + "\n");
+        }
+    }
+
+    public void listDBWifiAp(View caller)
+    {
+        TextView textViewTest = new TextView(this);
+        textViewTest.setTextSize(10);
+        testDBContainer.addView(textViewTest);
+        Map<Long, WiFiAPEntity> savedAp = App.getDBManager().getAllWifiAp();
+        List<WiFiAPEntity> list = new ArrayList<WiFiAPEntity>(savedAp.values());
+        for (WiFiAPEntity p : list)
+        {
+            textViewTest.append(p.toString() + "\n");
         }
     }
 
@@ -226,10 +248,25 @@ public class DeveloperOptionsActivity extends Activity
     {
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
+        textViewTest.setTextSize(10);
         List<TagEntity> list = App.getDBManager().getAllTags();
         for (TagEntity t : list)
         {
-            textViewTest.append(t.toString() + "\n\n");
+            textViewTest.append(t.toString() + "\n");
+        }
+    }
+
+    public void listPrefs(View view)
+    {
+        TextView textViewTest = new TextView(this);
+        testDBContainer.addView(textViewTest);
+        textViewTest.setTextSize(10);
+
+        SharedPreferences preferences = this.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_MULTI_PROCESS);
+        Map<String, ?> prefsMap = preferences.getAll();
+        for (String key : prefsMap.keySet())
+        {
+            textViewTest.append("'" + key + "': " +  prefsMap.get(key) + "\n");
         }
     }
 
@@ -275,6 +312,7 @@ public class DeveloperOptionsActivity extends Activity
         {
             textViewTest = new TextView(_developerOptionsActivity);
             textViewTest.setText("Started AsyncTestAction: " + _action);
+            textViewTest.setTextSize(10);
             _developerOptionsActivity.testDBContainer.addView(textViewTest);
         }
 
@@ -351,11 +389,11 @@ public class DeveloperOptionsActivity extends Activity
             }
             else if (_action == TestAction.SET_ALL_PROXIES)
             {
-                TestUtils.setAllProxies(_developerOptionsActivity);
+                TestUtils.setProxyForAllAP(_developerOptionsActivity);
             }
             else if (_action == TestAction.CLEAR_ALL_PROXIES)
             {
-                TestUtils.clearAllProxies(_developerOptionsActivity);
+                TestUtils.clearProxyForAllAP(_developerOptionsActivity);
             }
             else if (_action == TestAction.TEST_VALIDATION)
             {

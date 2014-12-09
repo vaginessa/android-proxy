@@ -8,9 +8,10 @@ dependencies:
     - ~/android
   override:
     - ./install-dependencies.sh
-    - gradle dependencies --info
+    - ./gradlew -v
+    - ./gradlew dependencies --info
 test:
   override:
-    - gradle assembleCI
+    - ./gradlew assembleCI
 
     # More info here: https://circleci.com/docs/android

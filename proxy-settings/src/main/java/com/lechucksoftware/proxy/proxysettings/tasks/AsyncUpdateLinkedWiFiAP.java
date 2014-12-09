@@ -1,6 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -21,16 +23,16 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 {
-    private final Activity callerActivity;
+    private final Context context;
     private final ProxyEntity currentProxy;
     private final ProxyEntity updatedProxy;
     private static final String TAG = AsyncUpdateLinkedWiFiAP.class.getSimpleName();
 
-    public AsyncUpdateLinkedWiFiAP(Activity caller, ProxyEntity current, ProxyEntity updated)
+    public AsyncUpdateLinkedWiFiAP(Context caller, ProxyEntity current, ProxyEntity updated)
     {
         currentProxy = current;
         updatedProxy = updated;
-        callerActivity = caller;
+        context = caller;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
         final int updatedWifi = updatedWiFiAP;
 
-        Toast.makeText(callerActivity, callerActivity.getResources().getQuantityString(R.plurals.updated_wifi_networks, updatedWifi, updatedWifi), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getResources().getQuantityString(R.plurals.updated_wifi_networks, updatedWifi, updatedWifi), Toast.LENGTH_SHORT).show();
     }
 
     @Override

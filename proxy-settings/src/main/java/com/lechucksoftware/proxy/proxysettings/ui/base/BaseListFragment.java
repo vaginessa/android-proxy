@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 import android.app.ListFragment;
+import android.os.Bundle;
 
 /**
  * Created by marco on 24/05/13.

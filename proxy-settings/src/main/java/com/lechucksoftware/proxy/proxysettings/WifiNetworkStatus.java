@@ -14,6 +14,7 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
  */
 public class WifiNetworkStatus
 {
+    private static final String TAG = WifiNetworkStatus.class.getSimpleName();
     private Map<APLNetworkId, WiFiAPConfig> wifiApConfigsByAPLNetId;
     private Map<Integer, WiFiAPConfig> wifiApConfigsByWifiNetworkId;
     private Map<APLNetworkId, ScanResult> notConfiguredWifi; // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
@@ -54,14 +55,51 @@ public class WifiNetworkStatus
 
     public void put(APLNetworkId aplNetworkId, WiFiAPConfig wiFiAPConfig)
     {
+        if (aplNetworkId == null)
+        {
+            App.getEventsReporter().sendException(new Exception("Trying to put a Wi-Fi network using a NULL APLNetworkId"));
+            return;
+        }
+
+        if (wiFiAPConfig == null)
+        {
+            App.getEventsReporter().sendException(new Exception("Trying to put a Wi-Fi network using a NULL WiFiAPConfig"));
+            return;
+        }
+
+        App.getLogger().d(TAG,String.format("Adding '%s' Wi-Fi network to WifiNetworkStatus object", wiFiAPConfig.getSSID()));
         wifiApConfigsByAPLNetId.put(aplNetworkId, wiFiAPConfig);
         wifiApConfigsByWifiNetworkId.put(wiFiAPConfig.getNetworkId(), wiFiAPConfig);
     }
 
     public void remove(APLNetworkId aplNetworkId)
     {
-        WiFiAPConfig toRemove = wifiApConfigsByAPLNetId.remove(aplNetworkId);
-        wifiApConfigsByWifiNetworkId.remove(toRemove.getNetworkId());
+        if (aplNetworkId == null)
+        {
+            App.getEventsReporter().sendException(new Exception("Trying to remove a Wi-Fi network using a NULL APLNetworkId"));
+            return;
+        }
+
+        App.getLogger().d(TAG,String.format("Removing '%s' Wi-Fi network from WifiNetworkStatus object", aplNetworkId.SSID));
+
+        WiFiAPConfig toRemove = null;
+        if (wifiApConfigsByAPLNetId.containsKey(aplNetworkId))
+        {
+            toRemove = wifiApConfigsByAPLNetId.remove(aplNetworkId);
+        }
+        else
+        {
+            App.getEventsReporter().sendException(new Exception("Trying to remove a Wi-Fi network not available into the wifiApConfigsByAPLNetId MAP"));
+        }
+
+        if (toRemove != null && wifiApConfigsByWifiNetworkId.containsKey(toRemove.getNetworkId()))
+        {
+            wifiApConfigsByWifiNetworkId.remove(toRemove.getNetworkId());
+        }
+        else
+        {
+            App.getEventsReporter().sendException(new Exception("Trying to remove a Wi-Fi network not available into the wifiApConfigsByWifiNetworkId MAP"));
+        }
     }
 
     public Collection<WiFiAPConfig> values()

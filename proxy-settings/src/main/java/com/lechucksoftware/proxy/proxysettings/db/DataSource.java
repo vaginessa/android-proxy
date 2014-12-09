@@ -191,7 +191,7 @@ public class DataSource
 
     public ProxyEntity getRandomProxy()
     {
-        App.getLogger().startTrace(TAG, "getRandomProxy", Log.INFO);
+        App.getLogger().startTrace(TAG, "createRandomProxy", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -213,7 +213,7 @@ public class DataSource
         else
         {
             proxyData.setTags(getTagsForProxy(proxyData.getId()));
-            App.getLogger().stopTrace(TAG, "getRandomProxy", proxyData.toString(), Log.INFO);
+            App.getLogger().stopTrace(TAG, "createRandomProxy", proxyData.toString(), Log.INFO);
             return proxyData;
         }
     }

@@ -45,7 +45,6 @@ public class BaseDialogFragment extends DialogFragment
         App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
 
-
     @Override
     public void onResume()
     {

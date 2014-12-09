@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
@@ -231,12 +230,16 @@ public class WifiNetworksManager
             if (info != null)
             {
                 int networkId = info.getNetworkId();
-                if (wifiNetworkStatus.containsKey(networkId))
-                {
-                    updatedConf = wifiNetworkStatus.get(networkId);
-                }
 
-                mergeWithCurrentConfiguration(updatedConf);
+                synchronized (wifiNetworkStatus)
+                {
+                    if (wifiNetworkStatus.containsKey(networkId))
+                    {
+                        updatedConf = wifiNetworkStatus.get(networkId);
+                    }
+
+                    mergeWithCurrentConfiguration(updatedConf);
+                }
             }
         }
 

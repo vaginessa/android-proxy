@@ -61,11 +61,7 @@ public class NoProxiesDefinedAlertDialog extends BaseDialogFragment
 
     protected void onResult(final int resultCode)
     {
-        final BaseActivity activity = (BaseActivity) getActivity();
-        if (activity != null)
-        {
-            activity.onDialogResult(Requests.CREATE_NEW_PROXY, resultCode, null);
-        }
+        getTargetFragment().onActivityResult(Requests.CREATE_NEW_PROXY, resultCode, null);
     }
 
     public static NoProxiesDefinedAlertDialog newInstance()

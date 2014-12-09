@@ -6,7 +6,6 @@ export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH"
 DEPS="$ANDROID_HOME/installed-dependencies"
 
 #Check ENV
-
 echo ANDROID_HOME = $ANDROID_HOME
 echo DEPS = $DEPS
 

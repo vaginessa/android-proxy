@@ -17,9 +17,11 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
+import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveWiFiApConfig;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
@@ -168,6 +170,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         else
         {
             NoProxiesDefinedAlertDialog noProxiesDefinedAltertDialog = NoProxiesDefinedAlertDialog.newInstance();
+            noProxiesDefinedAltertDialog.setTargetFragment(this, Requests.CREATE_NEW_PROXY);
             noProxiesDefinedAltertDialog.show(getFragmentManager(),"NoProxiesDefinedAlertDialog");
         }
     }
@@ -311,5 +314,14 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
+        addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(addNewProxyIntent);
     }
 }

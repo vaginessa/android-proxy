@@ -19,6 +19,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.annotation.IntDef;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -38,6 +39,8 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.net.Proxy.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +146,11 @@ public class UIUtils
         return dp;
     }
 
+    @IntDef({View.VISIBLE, View.INVISIBLE, View.GONE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Visibility {}
 
+    @Visibility
     public static int booleanToVisibility(boolean b)
     {
         if (b)
