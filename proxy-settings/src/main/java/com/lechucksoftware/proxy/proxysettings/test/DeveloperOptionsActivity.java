@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -199,10 +201,16 @@ public class DeveloperOptionsActivity extends Activity
     public void testBugReporting(View caller)
     {
         Map<String,String> map = new HashMap<String, String>();
-        map.put("config_list", App.getWifiNetworksManager().configListToDBG().toString());
 
+        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 1");
+        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 2");
+        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 3");
+
+        map.put("config_list", App.getWifiNetworksManager().configListToDBG().toString());
         App.getEventsReporter().sendException(new Exception("EXCEPTION ONLY FOR TEST"), map);
+
         App.getEventsReporter().sendEvent("EVENT ONLY FOR TEST");
+
 
 //        GoogleAnalytics.getInstance(this).dispatchLocalHits();
 
