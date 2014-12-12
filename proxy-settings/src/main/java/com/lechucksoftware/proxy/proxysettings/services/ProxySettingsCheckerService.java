@@ -49,11 +49,11 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getLogutils().startTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "checkProxySettings", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        App.getLogutils().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
         isHandling = false;
     }
 
@@ -67,7 +67,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
             if (callerIntent != null)
             {
                 String callerAction = callerIntent.getAction();
-                App.getLogutils().logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
+                App.getTraceUtils().logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
 
                 if (callerAction.equals(Intents.PROXY_SETTINGS_STARTED)
                         || callerAction.equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
@@ -122,7 +122,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
 
     private void checkProxySettings()
     {
-        App.getLogutils().startTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "checkProxySettings", Log.DEBUG);
 
         try
         {
@@ -191,7 +191,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
             e.printStackTrace();
         }
 
-        App.getLogutils().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
     }
 
     public void callRefreshApplicationStatus()

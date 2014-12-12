@@ -39,7 +39,7 @@ public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
 //        Toast.makeText(callerFragment.getActivity(), String.format("Updated %s Wi-Fi access point configuration", result.toString()), Toast.LENGTH_SHORT).show();
 
             // Calling refresh intent only after save of all configuration
-//            App.getLogutils().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//            App.getTraceUtils().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
 //            Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
 //            intent.putExtra(Intents.UPDATED_WIFI, configuration.getAPLNetworkId());
 //            APL.getContext().sendBroadcast(intent);
@@ -53,7 +53,7 @@ public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
     @Override
     protected Boolean doInBackground(Void... voids)
     {
-        App.getLogutils().startTrace(TAG, "saveConfiguration", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "saveConfiguration", Log.DEBUG);
 
         try
         {
@@ -64,7 +64,7 @@ public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
 //                App.getInstance().wifiActionEnabled = true;
             }
 
-            App.getLogutils().stopTrace(TAG, "saveConfiguration", Log.DEBUG);
+            App.getTraceUtils().stopTrace(TAG, "saveConfiguration", Log.DEBUG);
             return true;
         }
         catch (Exception e)

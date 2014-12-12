@@ -157,25 +157,25 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 
     public void createDB(SQLiteDatabase db)
     {
-        App.getLogutils().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
 
         DatabaseUtils.execSQL(db, CREATE_TABLE_PROXIES);
         DatabaseUtils.execSQL(db, CREATE_TABLE_TAGS);
         DatabaseUtils.execSQL(db, CREATE_TABLE_TAGGED_PROXIES);
         DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
 
-        App.getLogutils().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
 
     public void dropDB(SQLiteDatabase db)
     {
-        App.getLogutils().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
 
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXIES);
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_TAGS);
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_WIFI_AP);
 
-        App.getLogutils().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }
 }

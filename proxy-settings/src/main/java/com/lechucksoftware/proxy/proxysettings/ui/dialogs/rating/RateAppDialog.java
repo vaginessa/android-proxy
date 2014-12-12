@@ -33,7 +33,7 @@ public class RateAppDialog extends BaseDialogFragment
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
 
-//                App.getLogutils().d(TAG, "Starting Market activity");
+//                App.getTraceUtils().d(TAG, "Starting Market activity");
                 startupAction.updateStatus(StartupActionStatus.DONE);
                 Utils.startMarketActivity(getActivity());
             }

@@ -50,13 +50,13 @@ public class WifiSyncService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getLogutils().startTrace(TAG, "syncAP", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "syncAP", Log.INFO);
 
         List<APLNetworkId> configsToCheck = getConfigsToCheck(intent);
-        App.getLogutils().partialTrace(TAG, "syncAP", Log.INFO);
+        App.getTraceUtils().partialTrace(TAG, "syncAP", Log.INFO);
 
         syncProxyConfigurations(configsToCheck);
-        App.getLogutils().stopTrace(TAG, "syncAP", Log.INFO);
+        App.getTraceUtils().stopTrace(TAG, "syncAP", Log.INFO);
 
         isHandling = false;
     }
@@ -94,8 +94,8 @@ public class WifiSyncService extends EnhancedIntentService
 
 //                    if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
 //                    {
-//                        App.getLogutils().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
-//                        App.getLogutils().logIntent(TAG, caller, Log.ERROR, true);
+//                        App.getTraceUtils().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
+//                        App.getTraceUtils().logIntent(TAG, caller, Log.ERROR, true);
 //                    }
                 }
             }
@@ -121,29 +121,29 @@ public class WifiSyncService extends EnhancedIntentService
         {
             try
             {
-                App.getLogutils().partialTrace(TAG, "syncAP", "Handling network: " + aplNetworkId.toString(), Log.DEBUG);
+                App.getTraceUtils().partialTrace(TAG, "syncAP", "Handling network: " + aplNetworkId.toString(), Log.DEBUG);
 
                 if (configuredNetworks.containsKey(aplNetworkId))
                 {
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
-                    App.getLogutils().partialTrace(TAG, "syncAP", "Get WifiConfiguration", Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WifiConfiguration", Log.DEBUG);
 
                     WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
-                    App.getLogutils().partialTrace(TAG, "syncAP", "Get WiFiAPConfig", Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WiFiAPConfig", Log.DEBUG);
 
                     WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiAPConfig);
-                    App.getLogutils().partialTrace(TAG, "syncAP", "Upsert WiFiAPEntity", Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Upsert WiFiAPEntity", Log.DEBUG);
 
                     App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig);
-                    App.getLogutils().partialTrace(TAG, "syncAP", "updateWifiConfig: " + wiFiAPEntity.toString(), Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", "updateWifiConfig: " + wiFiAPEntity.toString(), Log.DEBUG);
                 }
                 else
                 {
                     App.getDBManager().deleteWifiAP(aplNetworkId);
-                    App.getLogutils().partialTrace(TAG, "syncAP", "deleteWifiAP: " + aplNetworkId.toString(), Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", "deleteWifiAP: " + aplNetworkId.toString(), Log.DEBUG);
 
                     App.getWifiNetworksManager().removeWifiConfig(aplNetworkId);
-                    App.getLogutils().partialTrace(TAG, "syncAP", "removeWifiConfig: " + aplNetworkId.toString(), Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", "removeWifiConfig: " + aplNetworkId.toString(), Log.DEBUG);
                 }
             }
             catch (Exception e)

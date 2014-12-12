@@ -98,7 +98,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        App.getLogutils().startTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onCreateView", Log.DEBUG);
 
         setHasOptionsMenu(true);
 
@@ -121,7 +121,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        });
         refreshUI();
 
-        App.getLogutils().stopTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 

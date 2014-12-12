@@ -379,11 +379,11 @@ public class Utils
 
     public static Object cloneThroughJson(Object t)
     {
-        App.getLogutils().startTrace(TAG,"cloneThroughJson", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG,"cloneThroughJson", Log.DEBUG);
         Gson gson = new Gson();
         String json = gson.toJson(t);
         Object result = gson.fromJson(json, t.getClass());
-        App.getLogutils().stopTrace(TAG,"cloneThroughJson", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG,"cloneThroughJson", Log.DEBUG);
 
         return result;
     }

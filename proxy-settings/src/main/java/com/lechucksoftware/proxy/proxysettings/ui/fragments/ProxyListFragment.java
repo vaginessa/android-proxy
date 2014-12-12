@@ -188,11 +188,11 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @Override
     public Loader<List<ProxyEntity>> onCreateLoader(int i, Bundle bundle)
     {
-        App.getLogutils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         ProxyDBTaskLoader proxyDBTaskLoader = new ProxyDBTaskLoader(getActivity());
 
-        App.getLogutils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         return proxyDBTaskLoader;
     }
@@ -200,12 +200,12 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @Override
     public void onLoadFinished(Loader<List<ProxyEntity>> listLoader, List<ProxyEntity> dbProxies)
     {
-        App.getLogutils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
         refreshLoaderResults(dbProxies);
 
-        App.getLogutils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getLogutils().stopTrace(TAG, "STARTUP", Log.ERROR);
+        App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.ERROR);
     }
 
     private void refreshLoaderResults(List<ProxyEntity> dbProxies)

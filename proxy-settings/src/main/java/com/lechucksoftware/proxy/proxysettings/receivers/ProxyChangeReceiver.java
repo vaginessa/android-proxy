@@ -25,7 +25,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        App.getLogutils().logIntent(TAG, intent, Log.DEBUG, true);
+        App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG, true);
 
         if (intent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
         {
@@ -37,7 +37,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 //        else if (intent.getAction().equals(Intents.WIFI_AP_UPDATED))
 //        {
 //            // INTERNAL (PS): Called when a Wi-Fi configuration is written to the device
-//            //App.getLogutils().logIntent(TAG, intent, Log.DEBUG);
+//            //App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
 //            //callProxySettingsChecker(context, intent);
 //            //callWifiSyncService(context, intent);
 //        }
@@ -72,7 +72,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                     || intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK)
                 )
         {
-            App.getLogutils().logIntent(TAG, intent, Log.DEBUG);
+            App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
 
             WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
             if (wiFiAPConfig == null)
@@ -85,7 +85,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else
         {
-            App.getLogutils().logIntent(TAG, intent, Log.ERROR);
+            App.getTraceUtils().logIntent(TAG, intent, Log.ERROR);
             Timber.e(TAG, "Intent not found into handled list!");
         }
     }
@@ -132,7 +132,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 //        {
 //            if (instance.isHandlingIntent())
 //            {
-//                App.getLogutils().d(TAG, "Already checking proxy.. skip another call");
+//                App.getTraceUtils().d(TAG, "Already checking proxy.. skip another call");
 //                return;
 //            }
 //        }

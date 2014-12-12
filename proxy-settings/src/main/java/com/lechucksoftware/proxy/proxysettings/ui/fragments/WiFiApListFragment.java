@@ -72,7 +72,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        App.getLogutils().startTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onCreateView", Log.DEBUG);
 
         setHasOptionsMenu(true);
 
@@ -80,7 +80,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
         ButterKnife.inject(this, v);
 
-        App.getLogutils().stopTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -146,7 +146,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
     public void refreshLoaderResults(List<WiFiAPConfig> wiFiApConfigs)
     {
-        App.getLogutils().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
 
         progress.setVisibility(View.GONE);
         footerProgress.setVisibility(View.GONE);
@@ -220,17 +220,17 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             }
         }
 
-        App.getLogutils().stopTrace(TAG, "refreshLoaderResults", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "refreshLoaderResults", Log.DEBUG);
     }
 
     @Override
     public Loader<List<WiFiAPConfig>> onCreateLoader(int i, Bundle bundle)
     {
-        App.getLogutils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         ProxyConfigurationTaskLoader proxyConfigurationTaskLoader = new ProxyConfigurationTaskLoader(getActivity());
 
-        App.getLogutils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         return proxyConfigurationTaskLoader;
     }
@@ -238,12 +238,12 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     @Override
     public void onLoadFinished(Loader<List<WiFiAPConfig>> listLoader, List<WiFiAPConfig> aps)
     {
-        App.getLogutils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
         refreshLoaderResults(aps);
 
-        App.getLogutils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getLogutils().stopTrace(TAG, "STARTUP", Log.ERROR);
+        App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.ERROR);
     }
 
     @Override

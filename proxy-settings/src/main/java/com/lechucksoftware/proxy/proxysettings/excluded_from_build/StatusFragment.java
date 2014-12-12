@@ -61,7 +61,7 @@ public class StatusFragment extends BaseFragment
 
     public void setStatus(StatusFragmentStates status, String message, Boolean isInProgress)
     {
-        App.getLogutils().d(TAG, String.format("setStatus: %s ->  %s (%s)", clickedStatus, status.toString(), message));
+        App.getTraceUtils().d(TAG, String.format("setStatus: %s ->  %s (%s)", clickedStatus, status.toString(), message));
 
         if (clickedStatus != null)
         {
@@ -73,7 +73,7 @@ public class StatusFragment extends BaseFragment
                 default:
                     if (status == clickedStatus)
                     {
-                        App.getLogutils().d(TAG, String.format("already into status: %s", status.toString()));
+                        App.getTraceUtils().d(TAG, String.format("already into status: %s", status.toString()));
                         return;
                     }
             }

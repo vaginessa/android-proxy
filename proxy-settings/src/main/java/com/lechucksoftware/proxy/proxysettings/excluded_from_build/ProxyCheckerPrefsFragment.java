@@ -60,7 +60,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
         {
             public boolean onPreferenceClick(Preference preference)
             {
-                App.getLogutils().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
+                App.getTraceUtils().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
                 getActivity().sendBroadcast(new Intent(Intents.PROXY_SETTINGS_MANUAL_REFRESH));
                 return true;
             }

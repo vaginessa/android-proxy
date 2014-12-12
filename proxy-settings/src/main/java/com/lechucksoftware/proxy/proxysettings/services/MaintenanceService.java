@@ -47,11 +47,11 @@ public class MaintenanceService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getLogutils().startTrace(TAG, "maintenanceService", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "maintenanceService", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        App.getLogutils().stopTrace(TAG, "maintenanceService", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "maintenanceService", Log.DEBUG);
         isHandling = false;
     }
 
@@ -105,14 +105,14 @@ public class MaintenanceService extends EnhancedIntentService
             Map<Long, ProxyEntity> proxiesMap = App.getDBManager().getAllProxiesWithTAGs();
             if (proxiesMap != null)
             {
-                App.getLogutils().startTrace(TAG,"checkInUseProxyTag",Log.DEBUG);
+                App.getTraceUtils().startTrace(TAG,"checkInUseProxyTag",Log.DEBUG);
 
                 for (Long proxyID : proxiesMap.keySet())
                 {
                     App.getDBManager().updateInUseFlag(proxyID);
                 }
 
-                App.getLogutils().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
+                App.getTraceUtils().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
             }
         }
         catch (Exception e)
@@ -140,7 +140,7 @@ public class MaintenanceService extends EnhancedIntentService
 
             for (ProxyEntity pe : proxies)
             {
-                App.getLogutils().startTrace(TAG, "Get proxy country code", Log.DEBUG);
+                App.getTraceUtils().startTrace(TAG, "Get proxy country code", Log.DEBUG);
 
                 try
                 {
@@ -157,7 +157,7 @@ public class MaintenanceService extends EnhancedIntentService
                     break;
                 }
 
-                App.getLogutils().stopTrace(TAG, "Get proxy country code", pe.toString(), Log.DEBUG);
+                App.getTraceUtils().stopTrace(TAG, "Get proxy country code", pe.toString(), Log.DEBUG);
             }
         }
     }

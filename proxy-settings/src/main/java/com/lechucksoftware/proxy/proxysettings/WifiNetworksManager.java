@@ -42,10 +42,10 @@ public class WifiNetworksManager
     {
         synchronized (wifiNetworkStatus)
         {
-            App.getLogutils().startTrace(TAG,"updateWifiApConfigs", Log.DEBUG, true);
+            App.getTraceUtils().startTrace(TAG,"updateWifiApConfigs", Log.DEBUG, true);
 
 //            Map<Long,WiFiAPEntity> persistedWifiAp = App.getDBManager().getAllWifiAp();
-//            App.getLogutils().partialTrace(TAG, "updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG, "updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
 
             Map<APLNetworkId,WiFiAPConfig> configurations = APL.getWifiAPConfigurations();
             for (APLNetworkId aplNetworkId : configurations.keySet())
@@ -53,15 +53,15 @@ public class WifiNetworksManager
                 wifiNetworkStatus.put(aplNetworkId,configurations.get(aplNetworkId));
             }
 
-            App.getLogutils().partialTrace(TAG,"updateWifiApConfigs", "getWifiAPConfigurations", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "getWifiAPConfigurations", Log.DEBUG);
 
 //            wifiNetworkStatus.setWifiAPConfigList(new ArrayList<WiFiAPConfig>(wifiNetworkStatus.wifiApConfigsByAPLNetId.values()));
-            App.getLogutils().partialTrace(TAG,"updateWifiApConfigs", "new ArrayList<WiFiAPConfig>", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "new ArrayList<WiFiAPConfig>", Log.DEBUG);
 
             updateWifiConfigWithScanResults(APL.getWifiManager().getScanResults());
-            App.getLogutils().partialTrace(TAG,"updateWifiApConfigs", "updateWifiConfigWithScanResults", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "updateWifiConfigWithScanResults", Log.DEBUG);
 
-            App.getLogutils().stopTrace(TAG, "updateWifiApConfigs", Log.DEBUG);
+            App.getTraceUtils().stopTrace(TAG, "updateWifiApConfigs", Log.DEBUG);
         }
     }
 
@@ -99,7 +99,7 @@ public class WifiNetworksManager
 
     public void updateCurrentWifiInfo(WifiInfo currentWifiInfo)
     {
-        App.getLogutils().startTrace(TAG,"updateCurrentWifiInfo", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG,"updateCurrentWifiInfo", Log.DEBUG);
 
         synchronized (wifiNetworkStatus)
         {
@@ -112,7 +112,7 @@ public class WifiNetworksManager
             }
         }
 
-        App.getLogutils().stopTrace(TAG,"updateCurrentWifiInfo", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG,"updateCurrentWifiInfo", Log.DEBUG);
     }
 
     public void updateWifiConfigWithScanResults(List<ScanResult> scanResults)
@@ -124,12 +124,12 @@ public class WifiNetworksManager
             // clear all the savedConfigurations AP status
             if (!wifiNetworkStatus.isEmpty())
             {
-                App.getLogutils().startTrace(TAG, "Clear scan status from AP configs", Log.DEBUG);
+                App.getTraceUtils().startTrace(TAG, "Clear scan status from AP configs", Log.DEBUG);
                 for (WiFiAPConfig conf : wifiNetworkStatus.values())
                 {
                     conf.clearScanStatus();
                 }
-                App.getLogutils().stopTrace(TAG, "Clear scan status from AP configs", Log.DEBUG);
+                App.getTraceUtils().stopTrace(TAG, "Clear scan status from AP configs", Log.DEBUG);
             }
 
             for (ScanResult res : scanResults)
@@ -164,12 +164,12 @@ public class WifiNetworksManager
 
     public List<WiFiAPConfig> getSortedWifiApConfigsList()
     {
-        App.getLogutils().startTrace(TAG, "getSortedWifiApConfigsList", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "getSortedWifiApConfigsList", Log.DEBUG);
 
         if (wifiNetworkStatus.isEmpty())
         {
             updateWifiApConfigs();
-            App.getLogutils().partialTrace(TAG, "getSortedWifiApConfigsList", "updateWifiApConfigs", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "getSortedWifiApConfigsList", "updateWifiApConfigs", Log.DEBUG);
         }
 
         List<WiFiAPConfig> list = null;
@@ -177,7 +177,7 @@ public class WifiNetworksManager
         synchronized (wifiNetworkStatus)
         {
             list = new ArrayList<WiFiAPConfig>(wifiNetworkStatus.values());
-            App.getLogutils().partialTrace(TAG, "getSortedWifiApConfigsList", "new ArrayList", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "getSortedWifiApConfigsList", "new ArrayList", Log.DEBUG);
 
             try
             {
@@ -191,8 +191,8 @@ public class WifiNetworksManager
             }
         }
 
-        App.getLogutils().partialTrace(TAG, "getSortedWifiApConfigsList", "Collections.sort", Log.DEBUG);
-        App.getLogutils().stopTrace(TAG, "getSortedWifiApConfigsList", Log.DEBUG);
+        App.getTraceUtils().partialTrace(TAG, "getSortedWifiApConfigsList", "Collections.sort", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "getSortedWifiApConfigsList", Log.DEBUG);
 
         return list;
     }
@@ -223,7 +223,7 @@ public class WifiNetworksManager
     {
         WiFiAPConfig updatedConf = null;
 
-        App.getLogutils().startTrace(TAG, "updateCurrentConfiguration", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "updateCurrentConfiguration", Log.INFO);
 
         if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
         {
@@ -244,7 +244,7 @@ public class WifiNetworksManager
             }
         }
 
-        App.getLogutils().stopTrace(TAG, "updateCurrentConfiguration", Log.INFO);
+        App.getTraceUtils().stopTrace(TAG, "updateCurrentConfiguration", Log.INFO);
 
         return updatedConf;
     }

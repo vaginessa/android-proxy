@@ -80,7 +80,7 @@ public class BaseWifiActivity extends BaseActivity
         {
             String action = intent.getAction();
 
-            App.getLogutils().logIntent(TAG, intent, Log.DEBUG, true);
+            App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG, true);
 
 //            if (action.equals(Intents.WIFI_AP_UPDATED))
 //            {

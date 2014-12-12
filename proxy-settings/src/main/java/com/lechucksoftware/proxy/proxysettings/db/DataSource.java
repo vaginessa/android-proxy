@@ -191,7 +191,7 @@ public class DataSource
 
     public ProxyEntity getRandomProxy()
     {
-        App.getLogutils().startTrace(TAG, "createRandomProxy", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "createRandomProxy", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -213,14 +213,14 @@ public class DataSource
         else
         {
             proxyData.setTags(getTagsForProxy(proxyData.getId()));
-            App.getLogutils().stopTrace(TAG, "createRandomProxy", proxyData.toString(), Log.INFO);
+            App.getTraceUtils().stopTrace(TAG, "createRandomProxy", proxyData.toString(), Log.INFO);
             return proxyData;
         }
     }
 
     public WiFiAPEntity getWifiAP(long wifiId)
     {
-        App.getLogutils().startTrace(TAG, "getWifiAP", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "getWifiAP", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -237,13 +237,13 @@ public class DataSource
 
         cursor.close();
 
-        App.getLogutils().stopTrace(TAG, "getWifiAP", wiFiAPEntity.toString(), Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "getWifiAP", wiFiAPEntity.toString(), Log.DEBUG);
         return wiFiAPEntity;
     }
 
     public ProxyEntity getProxy(long proxyId)
     {
-        App.getLogutils().startTrace(TAG, "getProxy", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "getProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -261,13 +261,13 @@ public class DataSource
         cursor.close();
 
         proxyData.setTags(getTagsForProxy(proxyId));
-        App.getLogutils().stopTrace(TAG, "getProxy", proxyData.toString(), Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "getProxy", proxyData.toString(), Log.DEBUG);
         return proxyData;
     }
 
     public TagEntity getRandomTag()
     {
-        App.getLogutils().startTrace(TAG, "getTag", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "getTag", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -291,7 +291,7 @@ public class DataSource
         }
         else
         {
-            App.getLogutils().stopTrace(TAG, "getTag", tag.toString(), Log.INFO);
+            App.getTraceUtils().stopTrace(TAG, "getTag", tag.toString(), Log.INFO);
             return tag;
         }
     }
@@ -327,7 +327,7 @@ public class DataSource
 
     public ProxyTagLinkEntity getProxyTagLink(long linkId)
     {
-        App.getLogutils().startTrace(TAG, "getProxyTagLink", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "getProxyTagLink", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -346,12 +346,12 @@ public class DataSource
 
         if (link == null)
         {
-            App.getLogutils().stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
+            App.getTraceUtils().stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
             return null;
         }
         else
         {
-            App.getLogutils().stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
+            App.getTraceUtils().stopTrace(TAG, "getProxyTagLink", link.toString(), Log.DEBUG);
             return link;
         }
     }
@@ -382,7 +382,7 @@ public class DataSource
 
     public long findWifiAp(APLNetworkId aplNetworkId)
     {
-        App.getLogutils().startTrace(TAG, "findWifiAp", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "findWifiAp", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
@@ -401,7 +401,7 @@ public class DataSource
         }
 
         cursor.close();
-        App.getLogutils().stopTrace(TAG, "findWifiAp", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "findWifiAp", Log.DEBUG);
         return wifiId;
     }
 
@@ -442,7 +442,7 @@ public class DataSource
 
     public List<Long> findDuplicatedProxy(String proxyHost, Integer proxyPort)
     {
-        App.getLogutils().startTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         List<Long> duplicatedProxiesID = new ArrayList<Long>();
@@ -472,13 +472,13 @@ public class DataSource
         cursor.close();
 
         cursor.close();
-        App.getLogutils().stopTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
         return duplicatedProxiesID;
     }
 
     public long findProxy(ProxyEntity proxyData)
     {
-        App.getLogutils().startTrace(TAG, "findProxy", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "findProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
@@ -498,13 +498,13 @@ public class DataSource
         }
 
         cursor.close();
-        App.getLogutils().stopTrace(TAG, "findProxy", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "findProxy", Log.DEBUG);
         return proxyId;
     }
 
     public long findTag(String tagName)
     {
-        App.getLogutils().startTrace(TAG, "findTag", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "findTag", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
@@ -521,13 +521,13 @@ public class DataSource
         }
 
         cursor.close();
-        App.getLogutils().stopTrace(TAG, "findTag", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "findTag", Log.DEBUG);
         return tagId;
     }
 
     public WiFiAPEntity createWifiAp(WiFiAPEntity wiFiAPEntity)
     {
-        App.getLogutils().startTrace(TAG, "createWifiAp", Log.DEBUG, true);
+        App.getTraceUtils().startTrace(TAG, "createWifiAp", Log.DEBUG, true);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -545,14 +545,14 @@ public class DataSource
 
         updateInUseFlag(newWifiAp.getProxyId());
 
-        App.getLogutils().stopTrace(TAG, "createWifiAp", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createWifiAp", Log.DEBUG);
 
         return newWifiAp;
     }
 
     public ProxyEntity createProxy(ProxyEntity proxyData)
     {
-        App.getLogutils().startTrace(TAG, "createProxy", Log.DEBUG, true);
+        App.getTraceUtils().startTrace(TAG, "createProxy", Log.DEBUG, true);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -575,7 +575,7 @@ public class DataSource
             createProxyTagLink(newProxy.getId(), tag.getId());
         }
 
-        App.getLogutils().stopTrace(TAG, "createProxy", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createProxy", Log.DEBUG);
 
         notifyProxyChange();
 
@@ -584,7 +584,7 @@ public class DataSource
 
     public TagEntity createTag(TagEntity tag)
     {
-        App.getLogutils().startTrace(TAG, "createTag", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "createTag", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -598,13 +598,13 @@ public class DataSource
         long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_TAGS, null, values);
 
         TagEntity newTag = getTag(insertId);
-        App.getLogutils().stopTrace(TAG, "createTag", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createTag", Log.DEBUG);
         return newTag;
     }
 
     public ProxyTagLinkEntity createProxyTagLink(long proxyId, long tagId)
     {
-        App.getLogutils().startTrace(TAG, "createProxyTagLink", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "createProxyTagLink", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -618,7 +618,7 @@ public class DataSource
         long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS, null, values);
 
         ProxyTagLinkEntity newLink = getProxyTagLink(insertId);
-        App.getLogutils().stopTrace(TAG, "createProxyTagLink", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createProxyTagLink", Log.DEBUG);
         return newLink;
     }
 
@@ -701,7 +701,7 @@ public class DataSource
         if (proxyId == -1)
             return;
 
-        App.getLogutils().startTrace(TAG, "updateInUseFlag", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "updateInUseFlag", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         database.beginTransaction();
 
@@ -746,10 +746,10 @@ public class DataSource
 //        if (BuildConfig.DEBUG)
 //        {
 //            ProxyEntity proxy = getProxy(proxyId);
-//            App.getLogutils().d(TAG, "Updated in use flag for proxy: " + proxy);
+//            App.getTraceUtils().d(TAG, "Updated in use flag for proxy: " + proxy);
 //        }
 
-        App.getLogutils().stopTrace(TAG, "updateInUseFlag", String.format("Proxy #%d used by %d Wi-Fi AP",proxyId,inUseCount), Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("Proxy #%d used by %d Wi-Fi AP",proxyId,inUseCount), Log.DEBUG);
     }
 
     public void deleteProxy(long proxyId)

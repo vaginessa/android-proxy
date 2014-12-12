@@ -28,7 +28,7 @@ public class App extends Application
     private CacheManager cacheManager;
     public Boolean demoMode;
 //    public Boolean wifiActionEnabled;
-    private TraceUtils logutils;
+    private TraceUtils traceUtils;
     private EventsReporting eventsReporter;
 
     public static int getAppMajorVersion()
@@ -49,7 +49,7 @@ public class App extends Application
         mInstance = this;
 
         eventsReporter = new EventsReporting(App.this);
-        logutils = new TraceUtils();
+        traceUtils = new TraceUtils();
 
         CrashlyticsTree crashlyticsTree = new CrashlyticsTree();
         Timber.plant(crashlyticsTree);
@@ -61,9 +61,9 @@ public class App extends Application
             Timber.plant(debugTree);
         }
 
-        APL.setup(App.this, Timber.asTree());
+        APL.setup(App.this);
 
-        getLogutils().startTrace(TAG, "STARTUP", Log.ERROR, true);
+        getTraceUtils().startTrace(TAG, "STARTUP", Log.ERROR, true);
 
         wifiNetworksManager = new WifiNetworksManager(App.this);
         dbManager = new DataSource(App.this);
@@ -76,12 +76,12 @@ public class App extends Application
         // Start ASAP a Wi-Fi scan
 //        APL.getWifiManager().startScan();
 
-        getLogutils().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
 
         // TODO: evaluate moving to AsyncUpdateApplicationStatistics
         ApplicationStatistics.updateInstallationDetails(this);
 
-        getLogutils().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
 
         Timber.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
@@ -97,14 +97,14 @@ public class App extends Application
         return getInstance().eventsReporter;
     }
 
-    public static TraceUtils getLogutils()
+    public static TraceUtils getTraceUtils()
     {
-        if (getInstance().logutils == null)
+        if (getInstance().traceUtils == null)
         {
-            getInstance().logutils = new TraceUtils();
+            getInstance().traceUtils = new TraceUtils();
         }
 
-        return getInstance().logutils;
+        return getInstance().traceUtils;
     }
 
     public static App getInstance()

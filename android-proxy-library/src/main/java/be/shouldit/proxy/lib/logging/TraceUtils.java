@@ -28,6 +28,8 @@ public class TraceUtils
 
     private static void log(String tag, String msg, int logLevel)
     {
+        Timber.tag(tag);
+
         switch (logLevel)
         {
             case Log.DEBUG:

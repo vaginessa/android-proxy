@@ -42,7 +42,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
 
     public void setData(List<WiFiAPConfig> confList)
     {
-        App.getLogutils().startTrace(TAG, "setData", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "setData", Log.INFO);
 
         Boolean needsListReplace = false;
 
@@ -67,28 +67,28 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
             needsListReplace = true;
         }
 
-        App.getLogutils().partialTrace(TAG,"setData","Checked if adapter list needs replace",Log.DEBUG);
+        App.getTraceUtils().partialTrace(TAG,"setData","Checked if adapter list needs replace",Log.DEBUG);
 
         if (needsListReplace)
         {
             setNotifyOnChange(false);
             clear();
             addAll(confList);
-            App.getLogutils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
 
             // note that a call to notifyDataSetChanged() implicitly sets the setNotifyOnChange back to 'true'!
             // That's why the call 'setNotifyOnChange(false) should be called first every time (see call before 'clear()').
             notifyDataSetChanged();
-            App.getLogutils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
         else
         {
             // Just notifyDataSetChanged
             notifyDataSetChanged();
-            App.getLogutils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
 
-        App.getLogutils().stopTrace(TAG, "setData", Log.INFO);
+        App.getTraceUtils().stopTrace(TAG, "setData", Log.INFO);
     }
 
     public View getView(int position, View view, ViewGroup parent)

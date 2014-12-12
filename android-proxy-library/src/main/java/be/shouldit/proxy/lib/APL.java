@@ -51,11 +51,6 @@ public class APL
 
     public static boolean setup(Context context)
     {
-        return setup(context, new Timber.DebugTree());
-    }
-
-    public static boolean setup(Context context, Timber.Tree tree)
-    {
         gContext = context;
         deviceVersion = Build.VERSION.SDK_INT;
 
@@ -69,7 +64,6 @@ public class APL
 
         traceUtils = new TraceUtils();
 
-        Timber.plant(tree);
         Timber.d("APL setup executed");
 
         return sSetupCalled;

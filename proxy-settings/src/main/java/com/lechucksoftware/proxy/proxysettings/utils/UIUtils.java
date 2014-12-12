@@ -306,7 +306,7 @@ public class UIUtils
     {
         String BASE_URL = "file:///android_asset/www/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
 
-        App.getLogutils().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
         try
         {
@@ -325,11 +325,11 @@ public class UIUtils
 
             });
 
-            App.getLogutils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             webView.loadUrl(BASE_URL + filename);
 
-            App.getLogutils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                     .setTitle(title)
@@ -351,7 +351,7 @@ public class UIUtils
                         }
                     });
 
-            App.getLogutils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog dialog = builder.create();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
@@ -377,7 +377,7 @@ public class UIUtils
                 }
             });
 
-            App.getLogutils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
         }
         catch (Exception e)
         {
@@ -385,7 +385,7 @@ public class UIUtils
             return;
         }
 
-        App.getLogutils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
     }
 
     public static void showHTMLAlertDialog(final Context ctx, String title, String htmlFile, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)

@@ -51,7 +51,7 @@ public class WifiStatusUpdateService extends EnhancedIntentService
 
     private void updatedWifiStatus()
     {
-        App.getLogutils().startTrace(TAG, "updateAfterScanResults", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "updateAfterScanResults", Log.DEBUG);
         WifiInfo currentWifiInfo = APL.getWifiManager().getConnectionInfo();
 
         // update current WifiInfo information for each WifiApConfig
@@ -75,6 +75,6 @@ public class WifiStatusUpdateService extends EnhancedIntentService
 //            ProxyChangeReceiver.callWifiSyncService(this, intent);
 //        }
 
-        App.getLogutils().stopTrace(TAG, "updateAfterScanResults", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "updateAfterScanResults", Log.DEBUG);
     }
 }

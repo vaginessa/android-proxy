@@ -65,7 +65,7 @@ public class HtmlDialog extends BaseDialogFragment
             @Override
             public void onPageFinished(WebView view, String url)
             {
-                App.getLogutils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+                App.getTraceUtils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
 //                try
 //                {
@@ -175,14 +175,14 @@ public class HtmlDialog extends BaseDialogFragment
 //    {
 //        View v = inflater.inflate(R.layout.dialog_html, container, false);
 //
-//        App.getLogutils().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getTraceUtils().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 //        getDialog().setTitle(title);
 //
 //        webView = (WebView) v.findViewById(R.id.dialog_webview);
 //        webView.setVisibility(View.GONE);
 //
-//        App.getLogutils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 //        webView.setWebViewClient(new WebViewClient(){
 //
@@ -198,7 +198,7 @@ public class HtmlDialog extends BaseDialogFragment
 //            @Override
 //            public void onPageFinished(WebView view, String url)
 //            {
-//                App.getLogutils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//                App.getTraceUtils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 ////                webView.requestLayout();
 //
@@ -222,9 +222,9 @@ public class HtmlDialog extends BaseDialogFragment
 //            }
 //        });
 //
-//        App.getLogutils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //        webView.loadUrl(fileName);
-//        App.getLogutils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 //        // Watch for button clicks.
 //        Button button = (Button) v.findViewById(R.id.dialog_close);
