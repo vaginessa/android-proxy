@@ -50,13 +50,13 @@ public class WifiSyncService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getLogutils().startTrace(TAG, "syncAP", Log.ASSERT);
+        App.getLogutils().startTrace(TAG, "syncAP", Log.INFO);
 
         List<APLNetworkId> configsToCheck = getConfigsToCheck(intent);
-        App.getLogutils().partialTrace(TAG, "syncAP", Log.ASSERT);
+        App.getLogutils().partialTrace(TAG, "syncAP", Log.INFO);
 
         syncProxyConfigurations(configsToCheck);
-        App.getLogutils().stopTrace(TAG, "syncAP", Log.ASSERT);
+        App.getLogutils().stopTrace(TAG, "syncAP", Log.INFO);
 
         isHandling = false;
     }

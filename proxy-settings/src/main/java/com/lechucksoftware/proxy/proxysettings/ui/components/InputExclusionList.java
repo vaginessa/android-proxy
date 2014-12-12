@@ -183,7 +183,7 @@ public class InputExclusionList extends LinearLayout
 
     private void refreshUI()
     {
-        App.getLogutils().startTrace(TAG, "refreshUI", Log.ASSERT, true);
+        App.getLogutils().startTrace(TAG, "refreshUI", Log.DEBUG, true);
         // Layout
         if (singleLine)
         {
@@ -207,7 +207,7 @@ public class InputExclusionList extends LinearLayout
         titleTextView.setTextSize(titleSize);
         readonlyValueTextView.setTextSize(textSize);
 
-        App.getLogutils().stopTrace(TAG, "refreshUI", Log.ASSERT);
+        App.getLogutils().stopTrace(TAG, "refreshUI", Log.DEBUG);
     }
 
     private void refreshExclusionList()
@@ -262,14 +262,14 @@ public class InputExclusionList extends LinearLayout
 
     private void addEmptyItem()
     {
-        App.getLogutils().startTrace(TAG, "addEmptyItem", Log.ASSERT, true);
+        App.getLogutils().startTrace(TAG, "addEmptyItem", Log.DEBUG, true);
 
         InputField i = createExclusionInputField();
         i.setValue("");
         exclusionInputFieldsMap.put(i.getUUID(), i);
 //        uiHandler.callRefreshExclusionList();
 
-        App.getLogutils().stopTrace(TAG, "addEmptyItem", Log.ASSERT);
+        App.getLogutils().stopTrace(TAG, "addEmptyItem", Log.DEBUG);
     }
 
     private class UIHandler extends Handler

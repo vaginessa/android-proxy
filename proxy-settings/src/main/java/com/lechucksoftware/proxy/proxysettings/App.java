@@ -49,25 +49,19 @@ public class App extends Application
         mInstance = this;
 
         eventsReporter = new EventsReporting(App.this);
+        logutils = new TraceUtils();
 
         CrashlyticsTree crashlyticsTree = new CrashlyticsTree();
         Timber.plant(crashlyticsTree);
 
         if (BuildConfig.DEBUG)
         {
-            logutils = new TraceUtils();
-
+            // Enable DEBUG tree on DEBUG builds
             Timber.DebugTree debugTree = new Timber.DebugTree();
             Timber.plant(debugTree);
+        }
 
-            APL.setup(App.this, debugTree);
-        }
-        else
-        {
-            // Disable all LOGS on RELEASE
-            logutils = new TraceUtils();
-            APL.setup(App.this, crashlyticsTree);
-        }
+        APL.setup(App.this, Timber.asTree());
 
         getLogutils().startTrace(TAG, "STARTUP", Log.ERROR, true);
 

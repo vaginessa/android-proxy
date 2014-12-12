@@ -24,14 +24,9 @@ public class TraceUtils
      * ASSERT	Constant Value: 7 (0x00000007)
      */
 
-    public TraceUtils()
-    {
-
-    }
-
     private Map<String, TraceDate> startTraces;
 
-    private void log(String tag, String msg, int logLevel)
+    private static void log(String tag, String msg, int logLevel)
     {
         switch (logLevel)
         {
@@ -44,9 +39,6 @@ public class TraceUtils
             case Log.INFO:
                 Timber.i(tag, msg);
                 break;
-//            case Log.ASSERT:
-//                Timber.a(tag, msg);
-//                break;
             case Log.WARN:
                 Timber.w(tag, msg);
                 break;
@@ -130,22 +122,22 @@ public class TraceUtils
         }
     }
 
-    public void logIntent(String tag, String msg, Intent intent, int logLevel)
+    public static void logIntent(String tag, String msg, Intent intent, int logLevel)
     {
         logIntent(tag, msg, intent, logLevel, false);
     }
 
-    public void logIntent(String tag, Intent intent, int logLevel)
+    public static void logIntent(String tag, Intent intent, int logLevel)
     {
         logIntent(tag, null, intent, logLevel, false);
     }
 
-    public void logIntent(String tag, Intent intent, int logLevel, boolean logExtras)
+    public static void logIntent(String tag, Intent intent, int logLevel, boolean logExtras)
     {
         logIntent(tag, null, intent, logLevel, logExtras);
     }
 
-    public void logIntent(String tag, String msg, Intent intent, int logLevel, boolean logExtras)
+    public static void logIntent(String tag, String msg, Intent intent, int logLevel, boolean logExtras)
     {
         StringBuilder sb = new StringBuilder();
 
