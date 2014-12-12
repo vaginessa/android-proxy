@@ -8,6 +8,8 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
 
+import timber.log.Timber;
+
 /**
  * Created by Marco on 13/09/13.
  */
@@ -117,7 +119,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        App.getLogger().d(TAG, String.format("DB - onUpgrade: %d -> %d", oldVersion, newVersion));
+        Timber.d("DB - onUpgrade: %d -> %d", oldVersion, newVersion);
 
         if (oldVersion < 2)
         {
@@ -155,25 +157,25 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 
     public void createDB(SQLiteDatabase db)
     {
-        App.getLogger().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
+        App.getLogutils().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
 
         DatabaseUtils.execSQL(db, CREATE_TABLE_PROXIES);
         DatabaseUtils.execSQL(db, CREATE_TABLE_TAGS);
         DatabaseUtils.execSQL(db, CREATE_TABLE_TAGGED_PROXIES);
         DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
 
-        App.getLogger().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
+        App.getLogutils().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
 
     public void dropDB(SQLiteDatabase db)
     {
-        App.getLogger().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
+        App.getLogutils().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
 
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXIES);
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_TAGS);
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_WIFI_AP);
 
-        App.getLogger().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
+        App.getLogutils().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }
 }

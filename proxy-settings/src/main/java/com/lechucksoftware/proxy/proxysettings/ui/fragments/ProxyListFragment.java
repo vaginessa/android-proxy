@@ -39,6 +39,7 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
+import timber.log.Timber;
 
 /**
  * Created by marco on 17/05/13.
@@ -187,11 +188,11 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @Override
     public Loader<List<ProxyEntity>> onCreateLoader(int i, Bundle bundle)
     {
-        App.getLogger().startTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getLogutils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         ProxyDBTaskLoader proxyDBTaskLoader = new ProxyDBTaskLoader(getActivity());
 
-        App.getLogger().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getLogutils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         return proxyDBTaskLoader;
     }
@@ -199,12 +200,12 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @Override
     public void onLoadFinished(Loader<List<ProxyEntity>> listLoader, List<ProxyEntity> dbProxies)
     {
-        App.getLogger().startTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getLogutils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
         refreshLoaderResults(dbProxies);
 
-        App.getLogger().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getLogger().stopTrace(TAG, "STARTUP", Log.ERROR);
+        App.getLogutils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getLogutils().stopTrace(TAG, "STARTUP", Log.ERROR);
     }
 
     private void refreshLoaderResults(List<ProxyEntity> dbProxies)
@@ -242,7 +243,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @Override
     public void onLoaderReset(Loader<List<ProxyEntity>> listLoader)
     {
-        App.getLogger().d(TAG, "onLoaderReset");
+        Timber.d("onLoaderReset");
     }
 
     /**
@@ -262,7 +263,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             listView.setItemChecked(index, true);
 
             ProxyEntity selectedProxy = (ProxyEntity) listView.getItemAtPosition(index);
-            App.getLogger().d(TAG, "Selected proxy configuration: " + selectedProxy.toString());
+            Timber.d("Selected proxy configuration: " + selectedProxy.toString());
 
             Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
 //            App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);

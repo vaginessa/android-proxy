@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
+import timber.log.Timber;
 
 /**
  * Created by Marco on 21/08/14.
@@ -67,7 +68,7 @@ public class WifiNetworkStatus
             return;
         }
 
-        App.getLogger().d(TAG,String.format("Adding '%s' Wi-Fi network to WifiNetworkStatus object", wiFiAPConfig.getSSID()));
+        Timber.d("Adding '%s' Wi-Fi network to WifiNetworkStatus object", wiFiAPConfig.getSSID());
         wifiApConfigsByAPLNetId.put(aplNetworkId, wiFiAPConfig);
         wifiApConfigsByWifiNetworkId.put(wiFiAPConfig.getNetworkId(), wiFiAPConfig);
     }
@@ -80,7 +81,7 @@ public class WifiNetworkStatus
             return;
         }
 
-        App.getLogger().d(TAG,String.format("Removing '%s' Wi-Fi network from WifiNetworkStatus object", aplNetworkId.SSID));
+        Timber.d("Removing '%s' Wi-Fi network from WifiNetworkStatus object", aplNetworkId.SSID);
 
         WiFiAPConfig toRemove = null;
         if (wifiApConfigsByAPLNetId.containsKey(aplNetworkId))

@@ -9,10 +9,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.help.DisclaimerFragmentActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 
-import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.logging.TraceUtils;
 
 
 public class ProxySettingsMainActivity extends FragmentActivity
@@ -25,7 +23,7 @@ public class ProxySettingsMainActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 
-        LogWrapper.startTrace(TAG,"STARTUP", Log.ERROR,true);
+        TraceUtils.startTrace(TAG, "STARTUP", Log.ERROR, true);
 
 //        LogWrapper.d(TAG, "Creating ProxySettingsMainActivity");
 
@@ -35,13 +33,13 @@ public class ProxySettingsMainActivity extends FragmentActivity
 
 		if (acceptedDisclaimer || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1)) // Disable disclaimer for API 12 = Honeycomb 3.1
 		{
-			LogWrapper.d(TAG, "Starting ProxySettingsCallerActivity activity");
+			TraceUtils.d(TAG, "Starting ProxySettingsCallerActivity activity");
 			Intent i = new Intent(getApplicationContext(), ProxySettingsCallerActivity.class);
 			startActivity(i);
 		}
 		else
 		{
-			LogWrapper.d(TAG, "Starting DisclaimerActivity activity");
+			TraceUtils.d(TAG, "Starting DisclaimerActivity activity");
 			Intent disclaimer = new Intent(getApplicationContext(), DisclaimerFragmentActivity.class);
 			startActivity(disclaimer);
 		}

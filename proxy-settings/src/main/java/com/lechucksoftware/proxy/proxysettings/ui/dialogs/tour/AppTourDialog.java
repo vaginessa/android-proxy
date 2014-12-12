@@ -10,7 +10,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.MailFeedbackDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.RateAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class AppTourDialog extends BaseDialogFragment

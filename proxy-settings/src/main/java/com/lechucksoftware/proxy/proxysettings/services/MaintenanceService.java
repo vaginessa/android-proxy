@@ -16,6 +16,7 @@ import java.util.Map;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.constants.APLConstants;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class MaintenanceService extends EnhancedIntentService
 {
@@ -27,7 +28,7 @@ public class MaintenanceService extends EnhancedIntentService
     public MaintenanceService()
     {
         super("MaintenanceService");
-        App.getLogger().v(TAG, "MaintenanceService constructor");
+        Timber.v("MaintenanceService constructor");
     }
 
     public static MaintenanceService getInstance()
@@ -46,11 +47,11 @@ public class MaintenanceService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getLogger().startTrace(TAG, "maintenanceService", Log.DEBUG);
+        App.getLogutils().startTrace(TAG, "maintenanceService", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        App.getLogger().stopTrace(TAG, "maintenanceService", Log.DEBUG);
+        App.getLogutils().stopTrace(TAG, "maintenanceService", Log.DEBUG);
         isHandling = false;
     }
 
@@ -76,7 +77,7 @@ public class MaintenanceService extends EnhancedIntentService
                     }
                     else
                     {
-                        App.getLogger().e(TAG, "Intent not handled: " + callerIntent.toString());
+                        Timber.e("Intent not handled: " + callerIntent.toString());
                     }
                 }
                 catch (Exception e)
@@ -104,14 +105,14 @@ public class MaintenanceService extends EnhancedIntentService
             Map<Long, ProxyEntity> proxiesMap = App.getDBManager().getAllProxiesWithTAGs();
             if (proxiesMap != null)
             {
-                App.getLogger().startTrace(TAG,"checkInUseProxyTag",Log.DEBUG);
+                App.getLogutils().startTrace(TAG,"checkInUseProxyTag",Log.DEBUG);
 
                 for (Long proxyID : proxiesMap.keySet())
                 {
                     App.getDBManager().updateInUseFlag(proxyID);
                 }
 
-                App.getLogger().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
+                App.getLogutils().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
             }
         }
         catch (Exception e)
@@ -139,7 +140,7 @@ public class MaintenanceService extends EnhancedIntentService
 
             for (ProxyEntity pe : proxies)
             {
-                App.getLogger().startTrace(TAG, "Get proxy country code", Log.DEBUG);
+                App.getLogutils().startTrace(TAG, "Get proxy country code", Log.DEBUG);
 
                 try
                 {
@@ -156,7 +157,7 @@ public class MaintenanceService extends EnhancedIntentService
                     break;
                 }
 
-                App.getLogger().stopTrace(TAG, "Get proxy country code", pe.toString(), Log.DEBUG);
+                App.getLogutils().stopTrace(TAG, "Get proxy country code", pe.toString(), Log.DEBUG);
             }
         }
     }

@@ -25,7 +25,7 @@ public class ContactsDialog extends BaseDialogFragment
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
 
-//                App.getLogger().d(TAG, "Starting Market activity");
+//                App.getLogutils().d(TAG, "Starting Market activity");
                 Utils.startMarketActivity(getActivity());
             }
         });

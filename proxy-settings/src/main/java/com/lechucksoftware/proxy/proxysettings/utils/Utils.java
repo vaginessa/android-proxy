@@ -47,6 +47,7 @@ import java.util.Stack;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.utils.HttpAnswer;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class Utils
 {
@@ -109,7 +110,7 @@ public class Utils
             }
             catch (IOException e)
             {
-                App.getLogger().w(TAG, "Exception on getProxyCountryCode: " + e.toString());
+                Timber.w("Exception on getProxyCountryCode: " + e.toString());
             }
 
             if (answer != null)
@@ -131,7 +132,7 @@ public class Utils
                     {
                         //It's a common error to receive wrong answers due to the proxy servers
                         //between the Android device that make the request and the geoIP services
-                        App.getLogger().e(TAG,String.format("%s reading string: '%s'",e.toString(),answerBody));
+                        Timber.e("%s reading string: '%s'", e.toString(), answerBody);
                     }
                     catch (Exception e)
                     {
@@ -378,11 +379,11 @@ public class Utils
 
     public static Object cloneThroughJson(Object t)
     {
-        App.getLogger().startTrace(TAG,"cloneThroughJson", Log.DEBUG);
+        App.getLogutils().startTrace(TAG,"cloneThroughJson", Log.DEBUG);
         Gson gson = new Gson();
         String json = gson.toJson(t);
         Object result = gson.fromJson(json, t.getClass());
-        App.getLogger().stopTrace(TAG,"cloneThroughJson", Log.DEBUG);
+        App.getLogutils().stopTrace(TAG,"cloneThroughJson", Log.DEBUG);
 
         return result;
     }

@@ -50,7 +50,7 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
     @Override
     protected Boolean doInBackground(Void... voids)
     {
-        App.getLogger().startTrace(TAG, "saveProxy", Log.DEBUG);
+        App.getLogutils().startTrace(TAG, "saveProxy", Log.DEBUG);
 
         try
         {
@@ -59,7 +59,7 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
                 App.getDBManager().deleteProxy(proxyEntity.getId());
             }
 
-            App.getLogger().stopTrace(TAG, "saveProxy", Log.DEBUG);
+            App.getLogutils().stopTrace(TAG, "saveProxy", Log.DEBUG);
             return true;
         }
         catch (Exception e)

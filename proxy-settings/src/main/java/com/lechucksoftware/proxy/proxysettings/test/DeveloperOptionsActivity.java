@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import timber.log.Timber;
+
 /**
  * Created by marco on 10/10/13.
  */
@@ -69,7 +71,7 @@ public class DeveloperOptionsActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
-        App.getLogger().d(TAG, "Creating TestActivity");
+        Timber.d("Creating TestActivity");
 
         developerOptionsActivity = this;
 
@@ -87,7 +89,7 @@ public class DeveloperOptionsActivity extends Activity
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent)
             {
-                App.getLogger().d(TAG, "Touch Event: " + String.valueOf(motionEvent.getActionMasked()));
+                Timber.d("Touch Event: " + String.valueOf(motionEvent.getActionMasked()));
                 context = view.getContext();
 
                 if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN)
@@ -468,7 +470,7 @@ public class DeveloperOptionsActivity extends Activity
                 toast.cancel();
             }
 
-            App.getLogger().d(TAG, progress[0]);
+            Timber.d(progress[0]);
             toast = Toast.makeText(activity, progress[0], Toast.LENGTH_SHORT);
             toast.show();
         }

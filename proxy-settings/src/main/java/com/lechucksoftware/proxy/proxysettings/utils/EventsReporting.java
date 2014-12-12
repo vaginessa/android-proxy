@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-//import com.bugsense.trace.BugSenseHandler;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -15,17 +14,18 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 
 import java.util.Map;
 
-import be.shouldit.proxy.lib.log.IEventReporting;
+import timber.log.Timber;
 
-public class EventsReporter implements IEventReporting
+//import com.bugsense.trace.BugSenseHandler;
+
+public class EventsReporting
 {
-    private static final String TAG = EventsReporter.class.getSimpleName();
     private static boolean analyticsSetupDone;
     private static boolean crashLyticsSetupDone;
     private Context context;
     private Tracker defaultTracker;
 
-    public EventsReporter(Context ctx)
+    public EventsReporting(Context ctx)
     {
         context = ctx;
 
@@ -83,8 +83,8 @@ public class EventsReporter implements IEventReporting
 
     public void sendException(Exception e, Map<String, String> params)
     {
-        App.getLogger().e(TAG, "Handled exception message: " + e.getMessage());
-        App.getLogger().e(TAG, "Handled exception stack trace: " + Log.getStackTraceString(e));
+        Timber.e("Handled exception message: " + e.getMessage());
+        Timber.e("Handled exception stack trace: " + Log.getStackTraceString(e));
 
         if (crashLyticsSetupDone)
         {
@@ -94,12 +94,12 @@ public class EventsReporter implements IEventReporting
                 {
                     String value = params.get(key);
                     Crashlytics.log(0, key, value); // Priority = 0
-                    App.getLogger().e(TAG,String.format("Added log '%s': '%s'",key,value));
+                    Timber.e(String.format("Added log '%s': '%s'",key,value));
                 }
             }
 
             Crashlytics.logException(e);
-            App.getLogger().e(TAG,String.format("Sent exception to Crashlytics"));
+            Timber.e("Sent exception to Crashlytics");
         }
 
         if (analyticsSetupDone)
@@ -162,7 +162,7 @@ public class EventsReporter implements IEventReporting
             else
                 msg = String.format("Logging event: %s %s %s", category, action, label);
 
-            App.getLogger().e(TAG, msg);
+            Timber.e(msg);
         }
     }
 

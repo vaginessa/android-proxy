@@ -15,10 +15,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
+
+import timber.log.Timber;
 
 public class DisclaimerEndFragment extends Fragment
 {
@@ -58,7 +59,7 @@ public class DisclaimerEndFragment extends Fragment
 				editor.commit();
 
 				Intent i = new Intent(getActivity().getApplicationContext(), WiFiApListActivity.class);
-                App.getLogger().d(TAG, "Starting WiFiApListActivity activity");
+                Timber.d("Starting WiFiApListActivity activity");
 				startActivity(i);
 				getActivity().finish();
 			}

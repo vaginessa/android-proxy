@@ -1,4 +1,4 @@
-package be.shouldit.proxy.lib.log;
+package be.shouldit.proxy.lib.logging;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class LogWrapper
+import timber.log.Timber;
+
+public class TraceUtils
 {
     /**
      * ANDROID LOG LEVELS
@@ -22,78 +24,34 @@ public class LogWrapper
      * ASSERT	Constant Value: 7 (0x00000007)
      */
 
-//	private int mLogLevel = Integer.MAX_VALUE;
-    private int mLogLevel = Integer.MIN_VALUE;
-
-    public int getLogLevel()
+    public TraceUtils()
     {
-        return mLogLevel;
-    }
 
-    public LogWrapper(int logLevel)
-    {
-        mLogLevel = logLevel;
     }
 
     private Map<String, TraceDate> startTraces;
-
-    public void d(String tag, String msg)
-    {
-        if (mLogLevel <= Log.DEBUG)
-            Log.d(tag, msg);
-    }
-
-    public void v(String tag, String msg)
-    {
-        if (mLogLevel <= Log.VERBOSE)
-            Log.v(tag, msg);
-    }
-
-    public void e(String tag, String msg)
-    {
-        if (mLogLevel <= Log.ERROR)
-            Log.e(tag, msg);
-    }
-
-    public void i(String tag, String msg)
-    {
-        if (mLogLevel <= Log.INFO)
-            Log.i(tag, msg);
-    }
-
-    public void w(String tag, String msg)
-    {
-        if (mLogLevel <= Log.WARN)
-            Log.w(tag, msg);
-    }
-
-    public void a(String tag, String msg)
-    {
-        if (mLogLevel <= Log.ASSERT)
-            Log.println(Log.ASSERT, tag, msg);
-    }
 
     private void log(String tag, String msg, int logLevel)
     {
         switch (logLevel)
         {
             case Log.DEBUG:
-                d(tag, msg);
+                Timber.d(msg);
                 break;
             case Log.ERROR:
-                e(tag, msg);
+                Timber.e(tag, msg);
                 break;
             case Log.INFO:
-                i(tag, msg);
+                Timber.i(tag, msg);
                 break;
-            case Log.ASSERT:
-                a(tag, msg);
-                break;
+//            case Log.ASSERT:
+//                Timber.a(tag, msg);
+//                break;
             case Log.WARN:
-                w(tag, msg);
+                Timber.w(tag, msg);
                 break;
             default:
-                v(tag, msg);
+                Timber.v(tag, msg);
                 break;
         }
     }

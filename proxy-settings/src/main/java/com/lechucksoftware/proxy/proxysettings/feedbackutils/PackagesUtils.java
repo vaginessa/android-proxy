@@ -21,9 +21,9 @@ public class PackagesUtils
 		if (packages == null)
 		{
             /* false = no system packages */
-            App.getLogger().startTrace(TAG, "getInstalledApps()", Log.INFO);
+            App.getLogutils().startTrace(TAG, "getInstalledApps()", Log.INFO);
 			ArrayList<PInfo> apps = getInstalledApps(callerContext, false);
-            App.getLogger().stopTrace(TAG, "getInstalledApps()", Log.INFO);
+            App.getLogutils().stopTrace(TAG, "getInstalledApps()", Log.INFO);
 			packages = apps;
 		}
 			
@@ -39,9 +39,9 @@ public class PackagesUtils
 //		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 //		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 //		final List pkgAppsList = callerContext.getPackageManager().queryIntentActivities(mainIntent, 0);
-        App.getLogger().startTrace(TAG, "getInstalledPackages()", Log.INFO);
+        App.getLogutils().startTrace(TAG, "getInstalledPackages()", Log.INFO);
 		List<PackageInfo> packs = callerContext.getPackageManager().getInstalledPackages(0);
-        App.getLogger().stopTrace(TAG, "getInstalledPackages()", Log.INFO);
+        App.getLogutils().stopTrace(TAG, "getInstalledPackages()", Log.INFO);
 
 		for (int i = 0; i < packs.size(); i++)
 		{

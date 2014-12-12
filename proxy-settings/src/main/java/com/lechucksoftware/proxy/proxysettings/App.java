@@ -7,11 +7,14 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
+import com.lechucksoftware.proxy.proxysettings.logging.CrashlyticsTree;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporting;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.logging.TraceUtils;
+import timber.log.Timber;
 
 
 public class App extends Application
@@ -25,8 +28,8 @@ public class App extends Application
     private CacheManager cacheManager;
     public Boolean demoMode;
 //    public Boolean wifiActionEnabled;
-    private LogWrapper logger;
-    private EventsReporter eventsReporter;
+    private TraceUtils logutils;
+    private EventsReporting eventsReporter;
 
     public static int getAppMajorVersion()
     {
@@ -43,26 +46,30 @@ public class App extends Application
     {
         super.onCreate();
 
-        // TODO: evaluate implementation of Logback library
-//        // SLF4J
-//        Logger LOG = LoggerFactory.getLogger(App.class);
-//        LOG.info("hello world");
-
         mInstance = this;
+
+        eventsReporter = new EventsReporting(App.this);
+
+        CrashlyticsTree crashlyticsTree = new CrashlyticsTree();
+        Timber.plant(crashlyticsTree);
 
         if (BuildConfig.DEBUG)
         {
-            logger = new LogWrapper(Log.VERBOSE);
+            logutils = new TraceUtils();
+
+            Timber.DebugTree debugTree = new Timber.DebugTree();
+            Timber.plant(debugTree);
+
+            APL.setup(App.this, debugTree);
         }
         else
         {
             // Disable all LOGS on RELEASE
-            logger = new LogWrapper(Integer.MAX_VALUE);
+            logutils = new TraceUtils();
+            APL.setup(App.this, crashlyticsTree);
         }
 
-        getLogger().startTrace(TAG, "STARTUP", Log.ERROR, true);
-
-        eventsReporter = new EventsReporter(App.this);
+        getLogutils().startTrace(TAG, "STARTUP", Log.ERROR, true);
 
         wifiNetworksManager = new WifiNetworksManager(App.this);
         dbManager = new DataSource(App.this);
@@ -71,45 +78,39 @@ public class App extends Application
         activeMarket = Utils.getInstallerMarket(App.this);
 
         demoMode = false;
-//        wifiActionEnabled = true;
 
-        // READ configuration file
-//        readAppConfigurationFile();
-
-        // SETUP Libraries
-        APL.setup(App.this, getLogger().getLogLevel(), getEventsReporter());
         // Start ASAP a Wi-Fi scan
 //        APL.getWifiManager().startScan();
 
-        getLogger().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getLogutils().partialTrace(TAG, "STARTUP", Log.ERROR);
 
         // TODO: evaluate moving to AsyncUpdateApplicationStatistics
         ApplicationStatistics.updateInstallationDetails(this);
 
-        getLogger().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getLogutils().partialTrace(TAG, "STARTUP", Log.ERROR);
 
-        getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
+        Timber.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
 
-    public static EventsReporter getEventsReporter()
+    public static EventsReporting getEventsReporter()
     {
         if (getInstance().eventsReporter == null)
         {
-            getInstance().eventsReporter = new EventsReporter(App.getInstance());
+            getInstance().eventsReporter = new EventsReporting(App.getInstance());
         }
 
         return getInstance().eventsReporter;
     }
 
-    public static LogWrapper getLogger()
+    public static TraceUtils getLogutils()
     {
-        if (getInstance().logger == null)
+        if (getInstance().logutils == null)
         {
-            getInstance().logger = new LogWrapper(Log.VERBOSE);
+            getInstance().logutils = new TraceUtils();
         }
 
-        return getInstance().logger;
+        return getInstance().logutils;
     }
 
     public static App getInstance()

@@ -17,6 +17,7 @@ import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 /**
  * Created by Marco on 09/03/14.
@@ -49,13 +50,13 @@ public class WifiSyncService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getLogger().startTrace(TAG, "syncAP", Log.ASSERT);
+        App.getLogutils().startTrace(TAG, "syncAP", Log.ASSERT);
 
         List<APLNetworkId> configsToCheck = getConfigsToCheck(intent);
-        App.getLogger().partialTrace(TAG, "syncAP", Log.ASSERT);
+        App.getLogutils().partialTrace(TAG, "syncAP", Log.ASSERT);
 
         syncProxyConfigurations(configsToCheck);
-        App.getLogger().stopTrace(TAG, "syncAP", Log.ASSERT);
+        App.getLogutils().stopTrace(TAG, "syncAP", Log.ASSERT);
 
         isHandling = false;
     }
@@ -93,8 +94,8 @@ public class WifiSyncService extends EnhancedIntentService
 
 //                    if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
 //                    {
-//                        App.getLogger().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
-//                        App.getLogger().logIntent(TAG, caller, Log.ERROR, true);
+//                        App.getLogutils().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
+//                        App.getLogutils().logIntent(TAG, caller, Log.ERROR, true);
 //                    }
                 }
             }
@@ -106,43 +107,43 @@ public class WifiSyncService extends EnhancedIntentService
     private void syncProxyConfigurations(List<APLNetworkId> configurations)
     {
         Map<APLNetworkId, WifiConfiguration> configuredNetworks = APL.getConfiguredNetworks();
-        App.getLogger().d(TAG,String.format("Configured %d Wi-Fi on the device", configuredNetworks.size()));
+        Timber.d("Configured %d Wi-Fi on the device", configuredNetworks.size());
 
         if (configurations.isEmpty())
         {
-            App.getLogger().d(TAG,"No configurations specificed, must sync all of them!");
+            Timber.d("No configurations specificed, must sync all of them!");
             configurations.addAll(configuredNetworks.keySet());
         }
 
-        App.getLogger().d(TAG, String.format("Analyzing %d Wi-Fi AP configurations", configurations.size()));
+        Timber.d(String.format("Analyzing %d Wi-Fi AP configurations", configurations.size()));
 
         for (APLNetworkId aplNetworkId : configurations)
         {
             try
             {
-                App.getLogger().partialTrace(TAG, "syncAP", "Handling network: " + aplNetworkId.toString(), Log.DEBUG);
+                App.getLogutils().partialTrace(TAG, "syncAP", "Handling network: " + aplNetworkId.toString(), Log.DEBUG);
 
                 if (configuredNetworks.containsKey(aplNetworkId))
                 {
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
-                    App.getLogger().partialTrace(TAG, "syncAP", "Get WifiConfiguration", Log.DEBUG);
+                    App.getLogutils().partialTrace(TAG, "syncAP", "Get WifiConfiguration", Log.DEBUG);
 
                     WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
-                    App.getLogger().partialTrace(TAG, "syncAP", "Get WiFiAPConfig", Log.DEBUG);
+                    App.getLogutils().partialTrace(TAG, "syncAP", "Get WiFiAPConfig", Log.DEBUG);
 
                     WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiAPConfig);
-                    App.getLogger().partialTrace(TAG, "syncAP", "Upsert WiFiAPEntity", Log.DEBUG);
+                    App.getLogutils().partialTrace(TAG, "syncAP", "Upsert WiFiAPEntity", Log.DEBUG);
 
                     App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig);
-                    App.getLogger().partialTrace(TAG, "syncAP", "updateWifiConfig: " + wiFiAPEntity.toString(), Log.DEBUG);
+                    App.getLogutils().partialTrace(TAG, "syncAP", "updateWifiConfig: " + wiFiAPEntity.toString(), Log.DEBUG);
                 }
                 else
                 {
                     App.getDBManager().deleteWifiAP(aplNetworkId);
-                    App.getLogger().partialTrace(TAG, "syncAP", "deleteWifiAP: " + aplNetworkId.toString(), Log.DEBUG);
+                    App.getLogutils().partialTrace(TAG, "syncAP", "deleteWifiAP: " + aplNetworkId.toString(), Log.DEBUG);
 
                     App.getWifiNetworksManager().removeWifiConfig(aplNetworkId);
-                    App.getLogger().partialTrace(TAG, "syncAP", "removeWifiConfig: " + aplNetworkId.toString(), Log.DEBUG);
+                    App.getLogutils().partialTrace(TAG, "syncAP", "removeWifiConfig: " + aplNetworkId.toString(), Log.DEBUG);
                 }
             }
             catch (Exception e)
@@ -151,7 +152,7 @@ public class WifiSyncService extends EnhancedIntentService
             }
         }
 
-        App.getLogger().d(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
+        Timber.d(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
     }

@@ -30,6 +30,7 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 /**
  * Created by marco on 10/10/13.
@@ -118,12 +119,12 @@ public class TestUtils
         }
         catch (IOException e)
         {
-            App.getLogger().e(TAG, "No proxy examples found");
+            Timber.e("No proxy examples found");
             return null;
         }
         catch (Exception e)
         {
-            App.getLogger().e(TAG, "Generic exception during read of proxy examples: " + e.toString());
+            Timber.e("Generic exception during read of proxy examples: " + e.toString());
             return null;
         }
 
@@ -351,7 +352,7 @@ public class TestUtils
 //        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-//        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
 //        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
 //        APL.getContext().sendBroadcast(intent);
     }
@@ -397,7 +398,7 @@ public class TestUtils
 //        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-//        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
 //        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
 //        APL.getContext().sendBroadcast(intent);
     }
@@ -435,11 +436,11 @@ public class TestUtils
 
                 if (TextUtils.isEmpty(s))
                 {
-                    App.getLogger().e(TAG, "Not serialized correctly");
+                    Timber.e("Not serialized correctly");
                 }
                 else
                 {
-                    App.getLogger().d(TAG, s);
+                    Timber.d(s);
                 }
             }
             catch (IOException ex)
@@ -476,9 +477,9 @@ public class TestUtils
         }
 
         int res = APL.getWifiManager().addNetwork(wc);
-        App.getLogger().d(TAG, "add Network returned " + res );
+        Timber.d("add Network returned " + res );
         boolean es = APL.getWifiManager().saveConfiguration();
-        App.getLogger().d(TAG, "saveConfiguration returned " + es );
+        Timber.d("saveConfiguration returned " + es );
 
         return wc.SSID;
     }
@@ -508,9 +509,9 @@ public class TestUtils
         {
             int networkId = networksToDelete.get(i);
             boolean res = APL.getWifiManager().removeNetwork(networkId);
-            App.getLogger().d(TAG, "removeNetwork returned " + res);
+            Timber.d("removeNetwork returned " + res);
             boolean es = APL.getWifiManager().saveConfiguration();
-            App.getLogger().d(TAG, "saveConfiguration returned " + es);
+            Timber.d("saveConfiguration returned " + es);
 
             removedNetworks++;
         }

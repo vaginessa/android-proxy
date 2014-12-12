@@ -9,11 +9,12 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.feedbackutils.PInfo;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by marco on 04/10/13.
@@ -67,7 +68,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
         }
         catch (Exception e)
         {
-            App.getLogger().i(TAG, e.toString());
+            Timber.i(e.toString());
         }
         return view;
     }
@@ -106,7 +107,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
             position = getPositionForSection(section - 1);
         }
 
-        App.getLogger().d(TAG, String.format("Section %d (%s) -> Position %d", section, sectionChar, position));
+        Timber.d("Section %d (%s) -> Position %d", section, sectionChar, position);
         return position;
     }
 
@@ -123,7 +124,7 @@ public class PInfoAdapter extends ArrayAdapter<PInfo> implements SectionIndexer
         else
             section = index;
 
-        App.getLogger().d(TAG, String.format("Position %d (%c) -> Section %d", position, c, section));
+        Timber.d("Position %d (%c) -> Section %d", position, c, section);
         return section;
     }
 

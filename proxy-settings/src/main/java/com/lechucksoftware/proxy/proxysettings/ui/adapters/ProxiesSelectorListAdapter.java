@@ -14,10 +14,9 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
-import java.lang.reflect.Proxy;
 import java.util.List;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import timber.log.Timber;
 
 public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
 {
@@ -43,7 +42,7 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
 
     public void setData(List<ProxyEntity> confList)
     {
-        App.getLogger().startTrace(TAG, "setData", Log.INFO);
+        App.getLogutils().startTrace(TAG, "setData", Log.INFO);
 
         Boolean needsListReplace = false;
 
@@ -58,7 +57,7 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
                 if (!adapterProxyItem.equals(newProxyItem))
                 {
                     // Changed the Proxies order
-                    App.getLogger().d(TAG,String.format("setData order: Expecting %s, Found %s", newProxyItem, adapterProxyItem));
+                    Timber.d("setData order: Expecting %s, Found %s", newProxyItem, adapterProxyItem);
                     needsListReplace = true;
                     break;
                 }
@@ -74,21 +73,21 @@ public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
             setNotifyOnChange(false);
             clear();
             addAll(confList);
-            App.getLogger().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
+            App.getLogutils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
 
             // note that a call to notifyDataSetChanged() implicitly sets the setNotifyOnChange back to 'true'!
             // That's why the call 'setNotifyOnChange(false) should be called first every time (see call before 'clear()').
             notifyDataSetChanged();
-            App.getLogger().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+            App.getLogutils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
         else
         {
             // Just notifyDataSetChanged
             notifyDataSetChanged();
-            App.getLogger().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+            App.getLogutils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
 
-        App.getLogger().stopTrace(TAG, "setData", Log.INFO);
+        App.getLogutils().stopTrace(TAG, "setData", Log.INFO);
     }
 
     public View getView(int position, View convertView, ViewGroup parent)

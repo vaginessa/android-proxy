@@ -1,7 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -15,6 +13,7 @@ import java.util.UUID;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import timber.log.Timber;
 
 /**
  * Created by Marco on 29/11/13.
@@ -56,8 +55,8 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
         {
 //            List<WiFiAPConfig> configurations = new ArrayList<WiFiAPConfig>(sortedConfigurations);
 
-            App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
-            App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());
+            Timber.d("Current proxy: " + currentProxy.toString());
+            Timber.d("Updated proxy: " + updatedProxy.toString());
 
 //            App.getInstance().wifiActionEnabled = false;
 
@@ -67,7 +66,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                 {
                     if (conf.getProxySetting() == ProxySetting.STATIC)
                     {
-                        App.getLogger().d(TAG, "Checking AP: " + conf.toShortString());
+                        Timber.d("Checking AP: " + conf.toShortString());
 
                         if (conf.isValidProxyConfiguration())
                         {
@@ -83,7 +82,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                                 conf.setProxyPort(updatedProxy.getPort());
                                 conf.setProxyExclusionString(updatedProxy.getExclusion());
 
-                                App.getLogger().d(TAG, "Writing updated AP configuration on device: " + conf.toShortString());
+                                Timber.d("Writing updated AP configuration on device: " + conf.toShortString());
 
                                 try
                                 {
@@ -106,7 +105,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                                 }
 
                                 // Calling refresh intent only after save of all AP configurations
-//                                App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//                                Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
 //                                Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
 //                                APL.getContext().sendBroadcast(intent);
                             }
@@ -118,8 +117,8 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
 //        App.getInstance().wifiActionEnabled = true;
 
-        App.getLogger().d(TAG, "Current proxy: " + currentProxy.toString());
-        App.getLogger().d(TAG, "Updated proxy: " + updatedProxy.toString());
+        Timber.d("Current proxy: " + currentProxy.toString());
+        Timber.d("Updated proxy: " + updatedProxy.toString());
 
 //        App.getDBManager().upsertProxy(updatedProxy);
 

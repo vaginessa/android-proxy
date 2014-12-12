@@ -98,7 +98,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
     {
         StartupAction result = null;
 
-        App.getLogger().startTrace(TAG, "getStartupAction", Log.DEBUG);
+        App.getLogutils().startTrace(TAG, "getStartupAction", Log.DEBUG);
 
         for (StartupAction action : StartupActions.getAvailableActions(activity))
         {
@@ -109,7 +109,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
             }
         }
 
-        App.getLogger().stopTrace(TAG, "getStartupAction", Log.DEBUG);
+        App.getLogutils().stopTrace(TAG, "getStartupAction", Log.DEBUG);
 
         return result;
     }

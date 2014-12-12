@@ -1,23 +1,22 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.db.DatabaseSQLiteOpenHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import timber.log.Timber;
 
 
 /**
@@ -31,7 +30,7 @@ public class DatabaseUtils
     {
         try
         {
-            App.getLogger().d(TAG, "EXEC SQL: " + sql);
+            Timber.d("EXEC SQL: " + sql);
             db.execSQL(sql);
         }
         catch (Exception e)

@@ -16,6 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
 import java.net.URL;
 
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class WebViewWithProxyActivity extends FragmentActivity
 {
@@ -54,7 +55,7 @@ public class WebViewWithProxyActivity extends FragmentActivity
 				// Activities and WebViews measure progress with different
 				// scales. The progress meter will automatically disappear when we reach 100%
 				int activityProgress = progress * 100;
-                		App.getLogger().d(TAG, "webprogress,activityprogress: " + progress + "," + activityProgress);
+                		Timber.d("webprogress,activityprogress: " + progress + "," + activityProgress);
 				activity.setProgress(activityProgress);
 
 
@@ -96,34 +97,34 @@ public class WebViewWithProxyActivity extends FragmentActivity
 
 		setProgressBarVisibility(true);
 
-        App.getLogger().d(TAG, "Start");
+        Timber.d("Start");
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-        App.getLogger().d(TAG, "Resume");
+        Timber.d("Resume");
 	}
 
 	@Override
 	protected void onPause()
 	{
 		super.onPause();
-        App.getLogger().d(TAG, "Pause");
+        Timber.d("Pause");
 	}
 
 	@Override
 	protected void onStop()
 	{
-        App.getLogger().d(TAG, "Stop");
+        Timber.d("Stop");
 		super.onStop();
 	}
 
 	@Override
 	protected void onDestroy()
 	{
-        App.getLogger().d(TAG, "Destroy");
+        Timber.d("Destroy");
 		super.onDestroy();
 	}
 }

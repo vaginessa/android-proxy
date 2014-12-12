@@ -42,6 +42,7 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 
 public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
@@ -97,7 +98,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        App.getLogger().startTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getLogutils().startTrace(TAG, "onCreateView", Log.DEBUG);
 
         setHasOptionsMenu(true);
 
@@ -120,7 +121,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        });
         refreshUI();
 
-        App.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getLogutils().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -139,12 +140,12 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         if (proxySwitch.isChecked())
         {
-            App.getLogger().d(TAG, "Set proxy settings = STATIC");
+            Timber.d(TAG, "Set proxy settings = STATIC");
             selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
         }
         else
         {
-            App.getLogger().d(TAG, "Set proxy settings = NONE");
+            Timber.d(TAG, "Set proxy settings = NONE");
             selectedWiFiAP.setProxySetting(ProxySetting.NONE);
             selectedWiFiAP.setProxyHost(null);
             selectedWiFiAP.setProxyPort(0);
@@ -229,14 +230,14 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         {
             if (selectedWiFiAP.getProxySetting() == ProxySetting.STATIC)
             {
-                App.getLogger().d(TAG, "Set proxy switch = ON");
+                Timber.d("Set proxy switch = ON");
                 proxySwitch.setChecked(true);
                 proxySwitch.setText(R.string.status_proxy_enabled);
                 refreshFieldsValues();
             }
             else
             {
-                App.getLogger().d(TAG, "Set proxy switch = OFF");
+                Timber.d("Set proxy switch = OFF");
                 proxySwitch.setChecked(false);
                 proxySwitch.setText(R.string.status_proxy_disabled);
             }

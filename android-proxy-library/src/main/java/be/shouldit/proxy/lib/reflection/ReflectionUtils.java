@@ -18,6 +18,7 @@ import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.reflection.android.WifiServiceHandler;
+import timber.log.Timber;
 
 public class ReflectionUtils
 {
@@ -74,7 +75,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception trying to connetToWifi");
         }
 
         if (!internalConnectDone)
@@ -133,7 +134,7 @@ public class ReflectionUtils
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception on saveWifiConfiguration");
         }
 
 //        if (!internalSaveDone)
@@ -274,7 +275,6 @@ public class ReflectionUtils
 
         }
 
-
         if (internalSave != null)
         {
             Class<?>[] paramsTypes = internalSave.getParameterTypes();
@@ -290,7 +290,7 @@ public class ReflectionUtils
             }
             else
             {
-                APL.getEventsReporter().sendException(new Exception("Not handled WifiManager.save method. Found params: " + paramsTypes.length));
+                Timber.e("Not handled WifiManager.save method. Found params: " + paramsTypes.length);
             }
         }
 
@@ -425,11 +425,11 @@ public class ReflectionUtils
 
         if (className.isInterface())
         {
-            APL.getLogger().d(TAG, "Interface: " + name);
+            Timber.d("Interface: " + name);
         }
         else
         {
-            APL.getLogger().d(TAG, "Class: " + name);
+            Timber.d("Class: " + name);
             displayInterfaces(className.getInterfaces());
             displayConstructors(className.getDeclaredConstructors());
         }
@@ -437,16 +437,16 @@ public class ReflectionUtils
 
     static void displayModifiers(int m)
     {
-        APL.getLogger().d(TAG, "Modifiers: " + Modifier.toString(m));
+        Timber.d("Modifiers: " + Modifier.toString(m));
     }
 
     static void displayInterfaces(Class[] interfaces)
     {
         if (interfaces.length > 0)
         {
-            APL.getLogger().d(TAG, "Interfaces: ");
+            Timber.d("Interfaces: ");
             for (int i = 0; i < interfaces.length; ++i)
-                APL.getLogger().d("", interfaces[i].getName());
+                Timber.d(interfaces[i].getName());
         }
     }
 
@@ -454,9 +454,9 @@ public class ReflectionUtils
     {
         if (fields.length > 0)
         {
-            APL.getLogger().d(TAG, "Fields: ");
+            Timber.d("Fields: ");
             for (int i = 0; i < fields.length; ++i)
-                APL.getLogger().d(TAG, fields[i].toString());
+                Timber.d(fields[i].toString());
         }
     }
 
@@ -464,9 +464,9 @@ public class ReflectionUtils
     {
         if (constructors.length > 0)
         {
-            APL.getLogger().d(TAG, "Constructors: ");
+            Timber.d("Constructors: ");
             for (int i = 0; i < constructors.length; ++i)
-                APL.getLogger().d(TAG, constructors[i].toString());
+                Timber.d(constructors[i].toString());
         }
     }
 
@@ -474,9 +474,9 @@ public class ReflectionUtils
     {
         if (methods.length > 0)
         {
-            APL.getLogger().d(TAG, "Methods: ");
+            Timber.d("Methods: ");
             for (int i = 0; i < methods.length; ++i)
-                APL.getLogger().d(TAG, methods[i].toString());
+                Timber.d(methods[i].toString());
         }
     }
 

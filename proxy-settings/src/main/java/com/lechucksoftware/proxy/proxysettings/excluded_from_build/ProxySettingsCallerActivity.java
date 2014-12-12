@@ -21,8 +21,8 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 
-        App.getLogger().d(TAG, "SDK Version");
-        App.getLogger().d(TAG, "SDK Version: " + Build.VERSION.SDK_INT);
+        App.getLogutils().d(TAG, "SDK Version");
+        App.getLogutils().d(TAG, "SDK Version: " + Build.VERSION.SDK_INT);
 
 //        if (showAppRate())
 //		{
@@ -44,7 +44,7 @@ public class ProxySettingsCallerActivity extends FragmentActivity
 
     public void onBackPressed() 
     {
-    	App.getLogger().d(TAG, "Back Pressed");
+    	App.getLogutils().d(TAG, "Back Pressed");
     	return;
     }
     
