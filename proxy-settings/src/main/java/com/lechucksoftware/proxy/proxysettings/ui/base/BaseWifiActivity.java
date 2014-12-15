@@ -49,7 +49,7 @@ public class BaseWifiActivity extends BaseActivity
         }
         catch (IllegalArgumentException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception resuming BaseWifiActivity");
         }
 
         refreshUI();
@@ -69,7 +69,7 @@ public class BaseWifiActivity extends BaseActivity
         }
         catch (IllegalArgumentException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception pausing BaseWifiActivity");
         }
     }
 

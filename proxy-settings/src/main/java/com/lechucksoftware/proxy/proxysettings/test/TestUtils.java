@@ -345,7 +345,7 @@ public class TestUtils
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(e);
+                Timber.e(e, "Exception clearing proxy for all Wi-Fi AP");
             }
         }
 
@@ -391,7 +391,7 @@ public class TestUtils
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(e);
+                Timber.e(e, "Exception writing configuration to device");
             }
         }
 
@@ -412,7 +412,7 @@ public class TestUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception testing APN activity");
         }
     }
 

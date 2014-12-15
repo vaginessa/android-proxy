@@ -49,6 +49,7 @@ import java.util.Random;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.utils.ProxyUIUtils;
+import timber.log.Timber;
 
 public class UIUtils
 {
@@ -65,7 +66,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showError");
         }
     }
 
@@ -77,7 +78,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showError");
         }
     }
 
@@ -93,7 +94,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showDialog");
         }
     }
 
@@ -112,7 +113,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showDialog");
         }
     }
 
@@ -381,7 +382,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showHTMLAssetsAlertDialog");
             return;
         }
 
@@ -482,7 +483,7 @@ public class UIUtils
     {
         if (conf == null)
         {
-            App.getEventsReporter().sendException(new Exception("Cannot find valid instance of WiFiAPConfig"));
+            Timber.e(new Exception(),"Cannot find valid instance of WiFiAPConfig");
             return;
         }
 
@@ -614,7 +615,7 @@ public class UIUtils
                 }
                 catch (Exception e)
                 {
-                    App.getEventsReporter().sendException(e);
+                    Timber.e(e,"Exception during DisableProxyNotification");
                 }
             }
         }

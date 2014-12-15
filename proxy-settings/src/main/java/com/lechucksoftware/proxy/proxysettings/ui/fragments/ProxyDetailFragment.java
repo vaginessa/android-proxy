@@ -309,7 +309,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         else
         {
             // TODO: Add handling here
-            App.getEventsReporter().sendException(new Exception("NO PROXY SELECTED"));
+            Timber.e(new Exception(),"NO PROXY SELECTED");
         }
     }
 
@@ -396,7 +396,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception saving proxy");
         }
     }
 
@@ -417,7 +417,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception deleting proxy");
         }
     }
 

@@ -15,6 +15,8 @@ import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment;
 
+import timber.log.Timber;
+
 public class ProxyDetailActivity extends BaseActivity
 {
     public static String TAG = ProxyDetailActivity.class.getSimpleName();
@@ -68,7 +70,7 @@ public class ProxyDetailActivity extends BaseActivity
         }
         else
         {
-            App.getEventsReporter().sendException(new Exception("No caller intent received"));
+            Timber.e(new Exception(),"No caller intent received");
         }
     }
 }

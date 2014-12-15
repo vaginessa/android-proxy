@@ -35,7 +35,7 @@ public class DatabaseUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during execSQL");
         }
     }
 
@@ -71,7 +71,7 @@ public class DatabaseUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during DB backup");
         }
     }
 }

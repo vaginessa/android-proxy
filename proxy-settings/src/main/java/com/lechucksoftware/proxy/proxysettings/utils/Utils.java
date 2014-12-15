@@ -94,7 +94,7 @@ public class Utils
         }
         catch (URISyntaxException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception parsing URI on getProxyCountryCode");
         }
 
         if (uri != null)
@@ -136,9 +136,7 @@ public class Utils
                     }
                     catch (Exception e)
                     {
-                        Map<String,String> map = new HashMap<String, String>();
-                        map.put("CONTENT", answerBody);
-                        App.getEventsReporter().sendException(e, map);
+                        Timber.e(e,"Unhandled exception parsing JSON answer: '%s'",answerBody);
                     }
 
                     if (jsonObject != null && jsonObject.has("country_code"))
@@ -178,7 +176,7 @@ public class Utils
         }
         catch (PackageManager.NameNotFoundException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on getAppInfo");
         }
 
         return pInfo;
@@ -197,7 +195,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception starting Market activity: '%s",marketUri.toString());
         }
 
         if (!marketShown)
@@ -243,7 +241,7 @@ public class Utils
             res = AndroidMarket.OTHER;
 
             if (!BuildConfig.DEBUG)
-                App.getEventsReporter().sendException(new Exception("No InstallerPackageName recognized: " + market));
+                Timber.e(new Exception(),"Got a not recognizable InstallerPackageName: '%s' ",market);
             else
                 res = AndroidMarket.PLAY;
         }
@@ -282,7 +280,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception getting Full Asset");
         }
 
         return text;
@@ -373,7 +371,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Unhandled exception starting email client activity");
         }
     }
 
@@ -398,7 +396,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception getting airplaneModeEnabled");
         }
 
         return result;

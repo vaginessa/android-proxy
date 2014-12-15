@@ -98,7 +98,7 @@ public class BaseActivity extends Activity
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(new Exception(String.format("Exception during IBaseFragment refresh from %s",this.getClass().getSimpleName()),e));
+            Timber.e(e, "Exception during IBaseFragment refresh from %s",this.getClass().getSimpleName());
         }
     }
 }

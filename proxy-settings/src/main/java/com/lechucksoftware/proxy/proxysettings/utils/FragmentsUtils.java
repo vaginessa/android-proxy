@@ -85,7 +85,7 @@ public class FragmentsUtils
         }
         catch (IllegalStateException e)
         {
-            App.getEventsReporter().sendException(new Exception("Unable to commit fragment, could be activity as been killed in background. ", e));
+            Timber.e(e,"Unable to commit fragment, could be activity as been killed in background. ");
         }
     }
 }

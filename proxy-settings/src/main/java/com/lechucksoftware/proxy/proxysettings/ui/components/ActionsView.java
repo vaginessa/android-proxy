@@ -13,6 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 /**
  * Created by Marco on 15/06/14.
@@ -77,7 +78,7 @@ public class ActionsView extends LinearLayout
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(new Exception("Exception during ActionsView airplaneModeClickListener action", e));
+                Timber.e(e,"Exception during ActionsView airplaneModeClickListener action");
             }
 
             view.setVisibility(GONE);
@@ -97,7 +98,7 @@ public class ActionsView extends LinearLayout
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(new Exception("Exception during ActionsView enableWifiClickListener action", e));
+                Timber.e(e,"Exception during ActionsView enableWifiClickListener action");
             }
 
             view.setVisibility(GONE);

@@ -286,7 +286,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
+            Timber.e(e,"Exception during WiFiApListFragment showDetails(%d)",index);
         }
     }
 

@@ -272,7 +272,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
+            Timber.e(e,"Exception during WiFiApListFragment showDetails(%d)", index);
         }
     }
 
@@ -298,7 +298,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(new Exception("Exception during WiFiApListFragment selectProxy(" + index + ") " + e.toString()));
+            Timber.e(e,"Exception during WiFiApListFragment selectProxy(%d)",index);
         }
     }
 
