@@ -11,6 +11,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
+import timber.log.Timber;
+
 /**
  * Created by Marco on 29/11/13.
  */
@@ -64,7 +66,7 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception deleting proxies in doInBackground");
             return false;
         }
     }

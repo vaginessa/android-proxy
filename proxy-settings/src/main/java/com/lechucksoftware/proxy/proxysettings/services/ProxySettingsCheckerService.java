@@ -186,9 +186,8 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception checking active proxy configuration");
             UIUtils.DisableProxyNotification(App.getInstance());
-            e.printStackTrace();
         }
 
         App.getTraceUtils().stopTrace(TAG, "checkProxySettings", Log.DEBUG);

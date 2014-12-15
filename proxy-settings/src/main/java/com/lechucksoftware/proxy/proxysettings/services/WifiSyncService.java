@@ -148,7 +148,7 @@ public class WifiSyncService extends EnhancedIntentService
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(new Exception("Exception during ProxySyncService", e));
+                Timber.e(e,"Exception during ProxySyncService");
             }
         }
 

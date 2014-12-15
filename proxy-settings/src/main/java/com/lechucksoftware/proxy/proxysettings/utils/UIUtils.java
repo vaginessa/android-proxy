@@ -35,7 +35,7 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.io.File;
@@ -518,7 +518,7 @@ public class UIUtils
 
             // The PendingIntent will launch activity if the user selects this
             // notification
-            Intent preferencesIntent = new Intent(callerContext, WiFiApListActivity.class);
+            Intent preferencesIntent = new Intent(callerContext, MasterActivity.class);
             EnableProxyNotification(callerContext, preferencesIntent, notificationTitle, notificationDescription);
         }
         else
@@ -586,7 +586,7 @@ public class UIUtils
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(callerContext);
 
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(WiFiApListActivity.class);
+        stackBuilder.addParentStack(MasterActivity.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(intentToCall);
 

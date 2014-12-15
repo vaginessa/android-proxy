@@ -82,7 +82,7 @@ public class MaintenanceService extends EnhancedIntentService
                 }
                 catch (Exception e)
                 {
-                    App.getEventsReporter().sendException(new Exception("Exception during maintenanceService", e));
+                    Timber.e(e,"Exception during maintenanceService");
                 }
             }
         }
@@ -117,7 +117,7 @@ public class MaintenanceService extends EnhancedIntentService
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during checkInUseProxyFlag");
         }
     }
 
@@ -131,7 +131,7 @@ public class MaintenanceService extends EnhancedIntentService
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception getting current HTTP proxy configuration in checkProxiesCountryCodes");
         }
 
         if (proxy != null && ProxyUtils.canGetWebResources(proxy, APLConstants.DEFAULT_TIMEOUT))
@@ -153,7 +153,7 @@ public class MaintenanceService extends EnhancedIntentService
                 }
                 catch (Exception e)
                 {
-                    App.getEventsReporter().sendException(e);
+                    Timber.e(e,"Exception upserting Proxy with Country code in checkProxiesCountryCodes");
                     break;
                 }
 

@@ -90,7 +90,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
                                 }
                                 catch (Exception e)
                                 {
-                                    App.getEventsReporter().sendException(e);
+                                    Timber.e(e,"Exception on writeConfigurationToDevice");
                                 }
 
                                 updatedWiFiAP++;

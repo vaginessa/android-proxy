@@ -22,6 +22,7 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 /**
  * Created by Marco on 13/09/13.
@@ -736,7 +737,7 @@ public class DataSource
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during updateInUseFlag");
         }
         finally
         {
@@ -830,7 +831,7 @@ public class DataSource
         }
         catch (SQLiteException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during getProxiesCount");
         }
 
         return result;
@@ -856,7 +857,7 @@ public class DataSource
         }
         catch (SQLiteException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during getWifiApCount");
         }
 
         return result;
@@ -1102,7 +1103,7 @@ public class DataSource
         catch (SQLException e)
         {
             // Handle exception here.
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during getUpdatedRowsFromRawQuery");
         }
         finally
         {

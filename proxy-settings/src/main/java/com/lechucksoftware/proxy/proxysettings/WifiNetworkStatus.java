@@ -58,13 +58,13 @@ public class WifiNetworkStatus
     {
         if (aplNetworkId == null)
         {
-            App.getEventsReporter().sendException(new Exception("Trying to put a Wi-Fi network using a NULL APLNetworkId"));
+            Timber.e(new Exception(),"Trying to put a Wi-Fi network using a NULL APLNetworkId");
             return;
         }
 
         if (wiFiAPConfig == null)
         {
-            App.getEventsReporter().sendException(new Exception("Trying to put a Wi-Fi network using a NULL WiFiAPConfig"));
+            Timber.e(new Exception(),"Trying to put a Wi-Fi network using a NULL WiFiAPConfig");
             return;
         }
 
@@ -77,7 +77,7 @@ public class WifiNetworkStatus
     {
         if (aplNetworkId == null)
         {
-            App.getEventsReporter().sendException(new Exception("Trying to remove a Wi-Fi network using a NULL APLNetworkId"));
+            Timber.e(new Exception(),"Trying to remove a Wi-Fi network using a NULL APLNetworkId");
             return;
         }
 
@@ -90,7 +90,7 @@ public class WifiNetworkStatus
         }
         else
         {
-            App.getEventsReporter().sendException(new Exception("Trying to remove a Wi-Fi network not available into the wifiApConfigsByAPLNetId MAP"));
+            Timber.e(new Exception(),"Trying to remove a Wi-Fi network not available into the wifiApConfigsByAPLNetId MAP");
         }
 
         if (toRemove != null && wifiApConfigsByWifiNetworkId.containsKey(toRemove.getNetworkId()))
@@ -99,7 +99,7 @@ public class WifiNetworkStatus
         }
         else
         {
-            App.getEventsReporter().sendException(new Exception("Trying to remove a Wi-Fi network not available into the wifiApConfigsByWifiNetworkId MAP"));
+            Timber.e(new Exception(),"Trying to remove a Wi-Fi network not available into the wifiApConfigsByWifiNetworkId MAP");
         }
     }
 

@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +43,6 @@ public class WifiNetworksManager
         {
             App.getTraceUtils().startTrace(TAG,"updateWifiApConfigs", Log.DEBUG, true);
 
-//            Map<Long,WiFiAPEntity> persistedWifiAp = App.getDBManager().getAllWifiAp();
-//            App.getTraceUtils().partialTrace(TAG, "updateWifiApConfigs", "getAllWifiAp", Log.DEBUG);
-
             Map<APLNetworkId,WiFiAPConfig> configurations = APL.getWifiAPConfigurations();
             for (APLNetworkId aplNetworkId : configurations.keySet())
             {
@@ -55,10 +51,10 @@ public class WifiNetworksManager
 
             App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "getWifiAPConfigurations", Log.DEBUG);
 
-//            wifiNetworkStatus.setWifiAPConfigList(new ArrayList<WiFiAPConfig>(wifiNetworkStatus.wifiApConfigsByAPLNetId.values()));
             App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "new ArrayList<WiFiAPConfig>", Log.DEBUG);
 
             updateWifiConfigWithScanResults(APL.getWifiManager().getScanResults());
+
             App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "updateWifiConfigWithScanResults", Log.DEBUG);
 
             App.getTraceUtils().stopTrace(TAG, "updateWifiApConfigs", Log.DEBUG);
@@ -132,30 +128,37 @@ public class WifiNetworksManager
                 App.getTraceUtils().stopTrace(TAG, "Clear scan status from AP configs", Log.DEBUG);
             }
 
-            for (ScanResult res : scanResults)
+            if (scanResults != null)
             {
-                scanResultsStrings.add(res.SSID + " level: " + res.level);
-                String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
-                SecurityType security = ProxyUtils.getSecurity(res);
-                APLNetworkId aplNetworkId = new APLNetworkId(currSSID, security);
-
-                if (wifiNetworkStatus.containsKey(aplNetworkId))
+                for (ScanResult res : scanResults)
                 {
-                    WiFiAPConfig conf = wifiNetworkStatus.get(aplNetworkId);
-                    if (conf != null)
+                    scanResultsStrings.add(res.SSID + " level: " + res.level);
+                    String currSSID = ProxyUtils.cleanUpSSID(res.SSID);
+                    SecurityType security = ProxyUtils.getSecurity(res);
+                    APLNetworkId aplNetworkId = new APLNetworkId(currSSID, security);
+
+                    if (wifiNetworkStatus.containsKey(aplNetworkId))
                     {
-                        conf.updateScanResults(res);
+                        WiFiAPConfig conf = wifiNetworkStatus.get(aplNetworkId);
+                        if (conf != null)
+                        {
+                            conf.updateScanResults(res);
+                        }
+                    }
+                    else
+                    {
+                        if (wifiNetworkStatus.getNotConfiguredWifi().containsKey(aplNetworkId))
+                        {
+                            wifiNetworkStatus.getNotConfiguredWifi().remove(aplNetworkId);
+                        }
+
+                        wifiNetworkStatus.getNotConfiguredWifi().put(aplNetworkId, res);
                     }
                 }
-                else
-                {
-                    if (wifiNetworkStatus.getNotConfiguredWifi().containsKey(aplNetworkId))
-                    {
-                        wifiNetworkStatus.getNotConfiguredWifi().remove(aplNetworkId);
-                    }
-
-                    wifiNetworkStatus.getNotConfiguredWifi().put(aplNetworkId, res);
-                }
+            }
+            else
+            {
+                Timber.w("No ScanResults available for updateWifiConfigWithScanResults");
             }
         }
 
@@ -185,9 +188,8 @@ public class WifiNetworksManager
             }
             catch (IllegalArgumentException e)
             {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("config_list", configListToDBG().toString());
-                App.getEventsReporter().sendException(e, map);
+                Timber.e("config_list", configListToDBG().toString());
+                Timber.e(e, "Exception during sort of WiFiAPConfigs");
             }
         }
 
@@ -211,7 +213,7 @@ public class WifiNetworksManager
                 }
                 catch (Exception e)
                 {
-                    App.getEventsReporter().sendException(e);
+                    Timber.e(e,"Exception retrieving WiFiAPConfig from APLNetworkId");
                 }
             }
         }

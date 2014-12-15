@@ -17,6 +17,8 @@ import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
 
+import timber.log.Timber;
+
 /**
  * Created by mpagliar on 04/04/2014.
  */
@@ -79,7 +81,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during AsyncStartupActions postExecute");
         }
     }
 

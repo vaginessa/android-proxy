@@ -102,7 +102,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(e);
+                Timber.e(e,"Exception during callWifiSyncService");
             }
         }
     }
@@ -117,7 +117,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during callUpdatedWifStatusService");
         }
     }
 
@@ -173,7 +173,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during callMaintenanceService");
         }
     }
 }
