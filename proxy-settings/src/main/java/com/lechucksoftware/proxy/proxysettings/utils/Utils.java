@@ -94,7 +94,7 @@ public class Utils
         }
         catch (URISyntaxException e)
         {
-            Timber.e(e,"Exception parsing URI on getProxyCountryCode");
+            Timber.e(e, "Exception parsing URI on getProxyCountryCode");
         }
 
         if (uri != null)
@@ -240,10 +240,16 @@ public class Utils
         {
             res = AndroidMarket.OTHER;
 
-            if (!BuildConfig.DEBUG)
-                Timber.e(new Exception(),"Got a not recognizable InstallerPackageName: '%s' ",market);
-            else
+            if (BuildConfig.DEBUG)
+            {
                 res = AndroidMarket.PLAY;
+                Timber.d("Enabling Play market because during debug the InstallerPackageName is not filled: '%s'", market);
+            }
+            else
+            {
+                Timber.e(new Exception(),"Got a not recognizable InstallerPackageName: '%s' ",market);
+
+            }
         }
 
         return res;
