@@ -31,6 +31,22 @@ task printProps << {
 
 }
 
+dependencies {
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':android-proxy-library')
+
+// Enable for adding support to material design
+//    compile 'com.android.support:appcompat-v7:21.0.+'
+
+    compile 'com.google.android.gms:play-services-base:6.5.+'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.crashlytics.android:crashlytics:1.1.13'
+    compile 'com.jakewharton.timber:timber:2.5.0'
+    compile 'com.jakewharton:butterknife:5.1.2'
+    compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
+}
+
 android {
 
     compileSdkVersion 21
@@ -55,15 +71,18 @@ android {
         applicationId "com.lechucksoftware.proxy.proxysettings"
 
         testApplicationId "com.lechucksoftware.proxy.proxysettings.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         testHandleProfiling true
         testFunctionalTest true
     }
 
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'NOTICE.txt'
+    }
+
     signingConfigs {
-
         release
-
     }
 
     buildTypes {
@@ -131,7 +150,6 @@ android {
 
         println 'Signing Configurations not found'
         buildTypes.release.signingConfig = null
-
     }
 
     sourceSets {
@@ -148,18 +166,3 @@ android {
     }
 }
 
-dependencies {
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':android-proxy-library')
-
-// Enable for adding support to material design
-//    compile 'com.android.support:appcompat-v7:21.0.+'
-
-    compile 'com.google.android.gms:play-services-base:6.5.+'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.crashlytics.android:crashlytics:1.1.13'
-    compile 'com.jakewharton.timber:timber:2.5.0'
-    compile 'com.jakewharton:butterknife:5.1.2'
-    compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
-}
