@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
+package com.lechucksoftware.proxy.proxysettings.excluded;
 
 /**
  * Created by Marco on 06/08/13.

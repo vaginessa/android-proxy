@@ -17,9 +17,11 @@ public class MailFeedbackDialog extends BaseDialogFragment
     public static String TAG = MailFeedbackDialog.class.getSimpleName();
     private StartupAction startupAction;
 
-    public MailFeedbackDialog(StartupAction action)
+    @Override
+    public void onCreate(Bundle savedInstanceState)
     {
-        startupAction = action;
+        super.onCreate(savedInstanceState);
+        startupAction = (StartupAction) getArguments().getSerializable("ACTION");
     }
 
     @Override
@@ -73,7 +75,12 @@ public class MailFeedbackDialog extends BaseDialogFragment
 
     public static MailFeedbackDialog newInstance(StartupAction action)
     {
-        MailFeedbackDialog frag = new MailFeedbackDialog(action);
+        MailFeedbackDialog frag = new MailFeedbackDialog();
+
+        Bundle b = new Bundle();
+        b.putSerializable("ACTION", action);
+        frag.setArguments(b);
+
         return frag;
     }
 }

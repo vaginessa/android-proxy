@@ -17,9 +17,12 @@ public class AppTourDialog extends BaseDialogFragment
     public static String TAG = AppTourDialog.class.getSimpleName();
     private StartupAction startupAction;
 
-    public AppTourDialog(StartupAction action)
+    @Override
+    public void onCreate(Bundle savedInstanceState)
     {
-        startupAction = action;
+        super.onCreate(savedInstanceState);
+        Bundle b = getArguments();
+        startupAction = (StartupAction) b.getSerializable("ACTION");
     }
 
     @Override
@@ -74,7 +77,12 @@ public class AppTourDialog extends BaseDialogFragment
 
     public static AppTourDialog newInstance(StartupAction action)
     {
-        AppTourDialog frag = new AppTourDialog(action);
+        AppTourDialog frag = new AppTourDialog();
+
+        Bundle b = new Bundle();
+        b.putSerializable("ACTION", action);
+        frag.setArguments(b);
+
         return frag;
     }
 }

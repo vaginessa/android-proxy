@@ -91,11 +91,6 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
 
-
-        <!-- <activity android:name=".ui.help.HelpFragmentActivity"> -->
-        <!-- </activity> -->
-
-
         <!--
              Added activity to handle application uninstall. See the link for more 
 			information.
