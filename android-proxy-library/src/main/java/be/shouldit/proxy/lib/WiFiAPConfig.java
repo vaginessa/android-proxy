@@ -455,9 +455,8 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     public String toShortString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(getId().toString());
 
-        sb.append(String.format("SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getSSID(), mRssi, getLevel(), getNetworkId()));
+        sb.append(String.format("INTERNAL Id: %s, SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getId().toString(), getSSID(), mRssi, getLevel(), getNetworkId()));
 
         sb.append(" - " + toStatusString());
         sb.append(" " + getProxyExclusionList());
