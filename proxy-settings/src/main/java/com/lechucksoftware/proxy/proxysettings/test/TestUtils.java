@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.net.wifi.WifiConfiguration;
 import android.provider.Telephony;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -30,6 +32,7 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 /**
  * Created by marco on 10/10/13.
@@ -118,12 +121,12 @@ public class TestUtils
         }
         catch (IOException e)
         {
-            App.getLogger().e(TAG, "No proxy examples found");
+            Timber.e("No proxy examples found");
             return null;
         }
         catch (Exception e)
         {
-            App.getLogger().e(TAG, "Generic exception during read of proxy examples: " + e.toString());
+            Timber.e("Generic exception during read of proxy examples: " + e.toString());
             return null;
         }
 
@@ -313,6 +316,15 @@ public class TestUtils
 //        Thread.sleep(5000);
 //    }
 
+    public static void resetPreferences(Context ctx)
+    {
+        SharedPreferences preferences = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+
     public static void testValidation()
     {
         ProxyStatusItem result = ProxyUtils.isProxyValidExclusionAddress("shouldit.it");
@@ -344,14 +356,14 @@ public class TestUtils
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(e);
+                Timber.e(e, "Exception clearing proxy for all Wi-Fi AP");
             }
         }
 
 //        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-//        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
 //        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
 //        APL.getContext().sendBroadcast(intent);
     }
@@ -390,14 +402,14 @@ public class TestUtils
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(e);
+                Timber.e(e, "Exception writing configuration to device");
             }
         }
 
 //        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
-//        App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
 //        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
 //        APL.getContext().sendBroadcast(intent);
     }
@@ -411,7 +423,7 @@ public class TestUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception testing APN activity");
         }
     }
 
@@ -435,11 +447,11 @@ public class TestUtils
 
                 if (TextUtils.isEmpty(s))
                 {
-                    App.getLogger().e(TAG, "Not serialized correctly");
+                    Timber.e("Not serialized correctly");
                 }
                 else
                 {
-                    App.getLogger().d(TAG, s);
+                    Timber.d(s);
                 }
             }
             catch (IOException ex)
@@ -476,9 +488,9 @@ public class TestUtils
         }
 
         int res = APL.getWifiManager().addNetwork(wc);
-        App.getLogger().d(TAG, "add Network returned " + res );
+        Timber.d("add Network returned " + res );
         boolean es = APL.getWifiManager().saveConfiguration();
-        App.getLogger().d(TAG, "saveConfiguration returned " + es );
+        Timber.d("saveConfiguration returned " + es );
 
         return wc.SSID;
     }
@@ -508,9 +520,9 @@ public class TestUtils
         {
             int networkId = networksToDelete.get(i);
             boolean res = APL.getWifiManager().removeNetwork(networkId);
-            App.getLogger().d(TAG, "removeNetwork returned " + res);
+            Timber.d("removeNetwork returned " + res);
             boolean es = APL.getWifiManager().saveConfiguration();
-            App.getLogger().d(TAG, "saveConfiguration returned " + es);
+            Timber.d("saveConfiguration returned " + es);
 
             removedNetworks++;
         }

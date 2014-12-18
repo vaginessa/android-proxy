@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
+package com.lechucksoftware.proxy.proxysettings.excluded;
 
 import android.app.LoaderManager;
 import android.content.Loader;

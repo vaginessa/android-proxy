@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +15,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -33,6 +31,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import timber.log.Timber;
 
 /**
  * Created by marco on 10/10/13.
@@ -69,7 +69,7 @@ public class DeveloperOptionsActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);   // DO NOT LOAD savedInstanceState since onSaveInstanceState(Bundle) is not overridden
-        App.getLogger().d(TAG, "Creating TestActivity");
+        Timber.d("Creating TestActivity");
 
         developerOptionsActivity = this;
 
@@ -87,7 +87,7 @@ public class DeveloperOptionsActivity extends Activity
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent)
             {
-                App.getLogger().d(TAG, "Touch Event: " + String.valueOf(motionEvent.getActionMasked()));
+                Timber.d("Touch Event: " + String.valueOf(motionEvent.getActionMasked()));
                 context = view.getContext();
 
                 if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN)
@@ -202,12 +202,13 @@ public class DeveloperOptionsActivity extends Activity
     {
         Map<String,String> map = new HashMap<String, String>();
 
-        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 1");
-        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 2");
-        Crashlytics.log(Log.ERROR,TAG,"Test bug reporting log 3");
+        Timber.v("Test bug reporting log 0");
+        Timber.i("Test bug reporting log 1");
+        Timber.w("Test bug reporting log 2");
+        Timber.d("Test bug reporting log 3");
 
-        map.put("config_list", App.getWifiNetworksManager().configListToDBG().toString());
-        App.getEventsReporter().sendException(new Exception("EXCEPTION ONLY FOR TEST"), map);
+        Timber.e("config_list", App.getWifiNetworksManager().configListToDBG().toString());
+        Timber.e(new Exception(),"EXCEPTION ONLY FOR TEST");
 
         App.getEventsReporter().sendEvent("EVENT ONLY FOR TEST");
 
@@ -333,14 +334,7 @@ public class DeveloperOptionsActivity extends Activity
         {
             if (_action == TestAction.CLEAR_ALL)
             {
-                SharedPreferences preferences = _developerOptionsActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_MULTI_PROCESS);
-
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.clear();
-                editor.commit();
-
-//                ApplicationStatistics.updateInstallationDetails(getApplicationContext());
-
+                TestUtils.resetPreferences(_developerOptionsActivity);
                 App.getDBManager().resetDB();
             }
             else if (_action == TestAction.ADD_EXAMPLE_PROXIES)
@@ -468,7 +462,7 @@ public class DeveloperOptionsActivity extends Activity
                 toast.cancel();
             }
 
-            App.getLogger().d(TAG, progress[0]);
+            Timber.d(progress[0]);
             toast = Toast.makeText(activity, progress[0], Toast.LENGTH_SHORT);
             toast.show();
         }

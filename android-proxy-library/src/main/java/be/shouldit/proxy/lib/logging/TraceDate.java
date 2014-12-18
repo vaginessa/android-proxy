@@ -1,4 +1,4 @@
-package be.shouldit.proxy.lib.log;
+package be.shouldit.proxy.lib.logging;
 
 import java.util.Date;
 

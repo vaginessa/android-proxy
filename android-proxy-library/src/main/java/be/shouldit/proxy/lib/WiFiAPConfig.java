@@ -22,6 +22,7 @@ import be.shouldit.proxy.lib.enums.PskType;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 {
@@ -149,7 +150,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         //TODO: Add all required fields for updating an old configuration with an updated version
         if (!this.isSameConfiguration(updated))
         {
-            APL.getLogger().d(TAG, "Updating proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
+            Timber.d("Updating proxy configuration: \n%s\n%s",this.toShortString(), updated.toShortString());
 
             setProxySetting(updated.getProxySetting());
             proxyHost = updated.proxyHost;
@@ -159,7 +160,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
             getStatus().clear();
 
-            APL.getLogger().d(TAG, "Updated proxy configuration: \n" + this.toShortString() + "\n" + updated.toShortString());
+            Timber.d("Updated proxy configuration: \n%s\n%s", this.toShortString(), updated.toShortString());
 
             return true;
         }
@@ -184,7 +185,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
                 }
                 catch (Exception e)
                 {
-                    APL.getEventsReporter().sendException(new Exception("Failed creating unresolved", e));
+                    Timber.e(e, "Failed creating unresolved", e);
                 }
             }
 
@@ -240,7 +241,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     {
         if (!(another instanceof WiFiAPConfig))
         {
-            APL.getLogger().e(TAG, "Not a WiFiAPConfig object");
+            Timber.e("Not a WiFiAPConfig object");
             return false;
         }
 
@@ -248,7 +249,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
         {
-            APL.getLogger().d(TAG, String.format("Different proxy settings toggle status: '%s' - '%s'", this.proxySetting, anotherConf.proxySetting));
+            Timber.d("Different proxy settings toggle status: '%s' - '%s'", this.proxySetting, anotherConf.proxySetting);
             return false;
         }
 
@@ -256,7 +257,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         {
             if (!this.proxyHost.equalsIgnoreCase(anotherConf.proxyHost))
             {
-                APL.getLogger().d(TAG, String.format("Different proxy host value: '%s' - '%s'", this.proxyHost, anotherConf.proxyHost));
+                Timber.d("Different proxy host value: '%s' - '%s'", this.proxyHost, anotherConf.proxyHost);
                 return false;
             }
         }
@@ -270,9 +271,9 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             }
             else
             {
-                APL.getLogger().d(TAG, String.format("Different proxy host set"));
-                APL.getLogger().d(TAG, TextUtils.isEmpty(this.proxyHost) ? "" : this.proxyHost);
-                APL.getLogger().d(TAG, TextUtils.isEmpty(anotherConf.proxyHost) ? "" : anotherConf.proxyHost);
+                Timber.d("Different proxy host set");
+                Timber.d(TextUtils.isEmpty(this.proxyHost) ? "" : this.proxyHost);
+                Timber.d(TextUtils.isEmpty(anotherConf.proxyHost) ? "" : anotherConf.proxyHost);
                 return false;
             }
         }
@@ -281,7 +282,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         {
             if (!this.proxyPort.equals(anotherConf.proxyPort))
             {
-                APL.getLogger().d(TAG, String.format("Different proxy port value: '%d' - '%d'", this.proxyPort, anotherConf.proxyPort));
+                Timber.d("Different proxy port value: '%d' - '%d'", this.proxyPort, anotherConf.proxyPort);
                 return false;
             }
         }
@@ -295,7 +296,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             }
             else
             {
-                APL.getLogger().d(TAG, "Different proxy port set");
+                Timber.d("Different proxy port set");
                 return false;
             }
         }
@@ -304,7 +305,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         {
             if (!this.getStringProxyExclusionList().equalsIgnoreCase(anotherConf.getStringProxyExclusionList()))
             {
-                APL.getLogger().d(TAG, String.format("Different proxy exclusion list value: '%s' - '%s'", this.getStringProxyExclusionList(), anotherConf.getStringProxyExclusionList()));
+                Timber.d("Different proxy exclusion list value: '%s' - '%s'", this.getStringProxyExclusionList(), anotherConf.getStringProxyExclusionList());
                 return false;
             }
         }
@@ -318,7 +319,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             }
             else
             {
-                APL.getLogger().d(TAG, "Different proxy exclusion list set");
+                Timber.d("Different proxy exclusion list set");
                 return false;
             }
         }
@@ -445,7 +446,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         }
         catch (JSONException e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception converting to JSON object WiFiAPConfig");
         }
 
         return jsonObject;
@@ -454,9 +455,8 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     public String toShortString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(getId().toString());
 
-        sb.append(String.format("SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getSSID(), mRssi, getLevel(), getNetworkId()));
+        sb.append(String.format("INTERNAL Id: %s, SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getId().toString(), getSSID(), mRssi, getLevel(), getNetworkId()));
 
         sb.append(" - " + toStatusString());
         sb.append(" " + getProxyExclusionList());

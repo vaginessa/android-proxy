@@ -35,7 +35,7 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApListActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.io.File;
@@ -49,6 +49,7 @@ import java.util.Random;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.utils.ProxyUIUtils;
+import timber.log.Timber;
 
 public class UIUtils
 {
@@ -65,7 +66,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showError");
         }
     }
 
@@ -77,7 +78,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showError");
         }
     }
 
@@ -93,7 +94,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showDialog");
         }
     }
 
@@ -112,7 +113,7 @@ public class UIUtils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showDialog");
         }
     }
 
@@ -306,7 +307,7 @@ public class UIUtils
     {
         String BASE_URL = "file:///android_asset/www/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
 
-        App.getLogger().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
         try
         {
@@ -325,11 +326,11 @@ public class UIUtils
 
             });
 
-            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             webView.loadUrl(BASE_URL + filename);
 
-            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                     .setTitle(title)
@@ -351,7 +352,7 @@ public class UIUtils
                         }
                     });
 
-            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
             final AlertDialog dialog = builder.create();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
@@ -377,15 +378,15 @@ public class UIUtils
                 }
             });
 
-            App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on showHTMLAssetsAlertDialog");
             return;
         }
 
-        App.getLogger().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
     }
 
     public static void showHTMLAlertDialog(final Context ctx, String title, String htmlFile, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
@@ -482,7 +483,7 @@ public class UIUtils
     {
         if (conf == null)
         {
-            App.getEventsReporter().sendException(new Exception("Cannot find valid instance of WiFiAPConfig"));
+            Timber.e(new Exception(),"Cannot find valid instance of WiFiAPConfig");
             return;
         }
 
@@ -518,7 +519,7 @@ public class UIUtils
 
             // The PendingIntent will launch activity if the user selects this
             // notification
-            Intent preferencesIntent = new Intent(callerContext, WiFiApListActivity.class);
+            Intent preferencesIntent = new Intent(callerContext, MasterActivity.class);
             EnableProxyNotification(callerContext, preferencesIntent, notificationTitle, notificationDescription);
         }
         else
@@ -586,7 +587,7 @@ public class UIUtils
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(callerContext);
 
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(WiFiApListActivity.class);
+        stackBuilder.addParentStack(MasterActivity.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(intentToCall);
 
@@ -614,7 +615,7 @@ public class UIUtils
                 }
                 catch (Exception e)
                 {
-                    App.getEventsReporter().sendException(e);
+                    Timber.e(e,"Exception during DisableProxyNotification");
                 }
             }
         }

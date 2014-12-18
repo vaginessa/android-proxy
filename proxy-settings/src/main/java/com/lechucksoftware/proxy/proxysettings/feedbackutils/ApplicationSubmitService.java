@@ -4,14 +4,13 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
-import com.lechucksoftware.proxy.proxysettings.App;
-
 import java.net.Proxy;
 import java.net.URI;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.constants.APLConstants;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class ApplicationSubmitService extends IntentService 
 {
@@ -32,7 +31,7 @@ public class ApplicationSubmitService extends IntentService
     @Override
     public void onDestroy() 
     {
-        App.getLogger().d(TAG, "ApplicationSubmitService destroying");
+        Timber.d("ApplicationSubmitService destroying");
     }
     
 	/**

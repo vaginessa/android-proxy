@@ -3,12 +3,13 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 
 import java.text.DateFormat;
 import java.util.Date;
+
+import timber.log.Timber;
 
 /**
  * Created by marco on 18/09/13.
@@ -57,7 +58,7 @@ public class ApplicationStatistics
 
 //        details.CrashesCount = App.getEventsReporter().getCrashesCount();
 
-        App.getLogger().a(TAG,details.toString());
+        Timber.i(details.toString());
 
         return details;
     }

@@ -17,6 +17,8 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 
+import timber.log.Timber;
+
 public class HtmlDialog extends BaseDialogFragment
 {
     public static String TAG = HtmlDialog.class.getSimpleName();
@@ -63,7 +65,7 @@ public class HtmlDialog extends BaseDialogFragment
             @Override
             public void onPageFinished(WebView view, String url)
             {
-                App.getLogger().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+                App.getTraceUtils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 
 //                try
 //                {
@@ -119,7 +121,7 @@ public class HtmlDialog extends BaseDialogFragment
         {
             Bundle b = message.getData();
 
-            App.getLogger().w(TAG, "handleMessage: " + b.toString());
+            Timber.w(TAG, "handleMessage: " + b.toString());
 
             if (b.containsKey(SHOW_DIALOG_ACTION))
             {
@@ -173,14 +175,14 @@ public class HtmlDialog extends BaseDialogFragment
 //    {
 //        View v = inflater.inflate(R.layout.dialog_html, container, false);
 //
-//        App.getLogger().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getTraceUtils().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 //        getDialog().setTitle(title);
 //
 //        webView = (WebView) v.findViewById(R.id.dialog_webview);
 //        webView.setVisibility(View.GONE);
 //
-//        App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 //        webView.setWebViewClient(new WebViewClient(){
 //
@@ -196,7 +198,7 @@ public class HtmlDialog extends BaseDialogFragment
 //            @Override
 //            public void onPageFinished(WebView view, String url)
 //            {
-//                App.getLogger().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//                App.getTraceUtils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 ////                webView.requestLayout();
 //
@@ -220,9 +222,9 @@ public class HtmlDialog extends BaseDialogFragment
 //            }
 //        });
 //
-//        App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //        webView.loadUrl(fileName);
-//        App.getLogger().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
 //
 //        // Watch for button clicks.
 //        Button button = (Button) v.findViewById(R.id.dialog_close);

@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.excluded_from_build;
+package com.lechucksoftware.proxy.proxysettings.excluded;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -60,7 +60,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
         {
             public boolean onPreferenceClick(Preference preference)
             {
-                App.getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
+                App.getTraceUtils().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_MANUAL_REFRESH);
                 getActivity().sendBroadcast(new Intent(Intents.PROXY_SETTINGS_MANUAL_REFRESH));
                 return true;
             }

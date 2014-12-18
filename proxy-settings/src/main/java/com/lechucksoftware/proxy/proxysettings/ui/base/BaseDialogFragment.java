@@ -4,7 +4,8 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
+
+import timber.log.Timber;
 
 /**
  * Created by marco on 24/05/13.
@@ -35,12 +36,17 @@ public class BaseDialogFragment extends DialogFragment
      */
     protected static final String ARG_SECTION_NUMBER = "section_number";
 
+    public BaseDialogFragment()
+    {}
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        App.getLogger().d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
+        // TODO: Check if the TAG is correct here
+//        Timber.d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
+        Timber.d("onResume " + this.getClass().getSimpleName());
 
         App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
@@ -49,13 +55,13 @@ public class BaseDialogFragment extends DialogFragment
     public void onResume()
     {
         super.onResume();
-        App.getLogger().d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
+        Timber.d("onResume " + this.getClass().getSimpleName());
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        App.getLogger().d(this.getClass().getSimpleName(), "onPause " + this.getClass().getSimpleName());
+        Timber.d("onPause " + this.getClass().getSimpleName());
     }
 }

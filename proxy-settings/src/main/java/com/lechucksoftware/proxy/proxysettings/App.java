@@ -7,11 +7,14 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
+import com.lechucksoftware.proxy.proxysettings.logging.CrashlyticsTree;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
+import com.lechucksoftware.proxy.proxysettings.utils.EventsReporting;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.logging.TraceUtils;
+import timber.log.Timber;
 
 
 public class App extends Application
@@ -25,8 +28,8 @@ public class App extends Application
     private CacheManager cacheManager;
     public Boolean demoMode;
 //    public Boolean wifiActionEnabled;
-    private LogWrapper logger;
-    private EventsReporter eventsReporter;
+    private TraceUtils traceUtils;
+    private EventsReporting eventsReporter;
 
     public static int getAppMajorVersion()
     {
@@ -43,26 +46,24 @@ public class App extends Application
     {
         super.onCreate();
 
-        // TODO: evaluate implementation of Logback library
-//        // SLF4J
-//        Logger LOG = LoggerFactory.getLogger(App.class);
-//        LOG.info("hello world");
-
         mInstance = this;
+
+        eventsReporter = new EventsReporting(App.this);
+        traceUtils = new TraceUtils();
+
+        CrashlyticsTree crashlyticsTree = new CrashlyticsTree();
+        Timber.plant(crashlyticsTree);
 
         if (BuildConfig.DEBUG)
         {
-            logger = new LogWrapper(Log.VERBOSE);
-        }
-        else
-        {
-            // Disable all LOGS on RELEASE
-            logger = new LogWrapper(Integer.MAX_VALUE);
+            // Enable DEBUG tree on DEBUG builds
+            Timber.DebugTree debugTree = new Timber.DebugTree();
+            Timber.plant(debugTree);
         }
 
-        getLogger().startTrace(TAG, "STARTUP", Log.ERROR, true);
+        APL.setup(App.this);
 
-        eventsReporter = new EventsReporter(App.this);
+        getTraceUtils().startTrace(TAG, "STARTUP", Log.ERROR, true);
 
         wifiNetworksManager = new WifiNetworksManager(App.this);
         dbManager = new DataSource(App.this);
@@ -71,52 +72,46 @@ public class App extends Application
         activeMarket = Utils.getInstallerMarket(App.this);
 
         demoMode = false;
-//        wifiActionEnabled = true;
 
-        // READ configuration file
-//        readAppConfigurationFile();
-
-        // SETUP Libraries
-        APL.setup(App.this, getLogger().getLogLevel(), getEventsReporter());
         // Start ASAP a Wi-Fi scan
 //        APL.getWifiManager().startScan();
 
-        getLogger().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
 
         // TODO: evaluate moving to AsyncUpdateApplicationStatistics
         ApplicationStatistics.updateInstallationDetails(this);
 
-        getLogger().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
 
-        getLogger().d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
+        Timber.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
 
-    public static EventsReporter getEventsReporter()
+    public static EventsReporting getEventsReporter()
     {
         if (getInstance().eventsReporter == null)
         {
-            getInstance().eventsReporter = new EventsReporter(App.getInstance());
+            getInstance().eventsReporter = new EventsReporting(App.getInstance());
         }
 
         return getInstance().eventsReporter;
     }
 
-    public static LogWrapper getLogger()
+    public static TraceUtils getTraceUtils()
     {
-        if (getInstance().logger == null)
+        if (getInstance().traceUtils == null)
         {
-            getInstance().logger = new LogWrapper(Log.VERBOSE);
+            getInstance().traceUtils = new TraceUtils();
         }
 
-        return getInstance().logger;
+        return getInstance().traceUtils;
     }
 
     public static App getInstance()
     {
         if (mInstance == null)
         {
-            getEventsReporter().sendException(new Exception("Cannot find valid instance of App, trying to instanciate a new one"));
+            Timber.e(new Exception(),"Cannot find valid instance of App, trying to instanciate a new one");
             mInstance = new App();
         }
 
@@ -127,7 +122,7 @@ public class App extends Application
     {
         if (getInstance().wifiNetworksManager == null)
         {
-            getEventsReporter().sendException(new Exception("Cannot find valid instance of WifiNetworksManager, trying to instanciate a new one"));
+            Timber.e(new Exception(),"Cannot find valid instance of WifiNetworksManager, trying to instanciate a new one");
             getInstance().wifiNetworksManager = new WifiNetworksManager(getInstance());
         }
 
@@ -138,7 +133,7 @@ public class App extends Application
     {
         if (getInstance().dbManager == null)
         {
-            getEventsReporter().sendException(new Exception("Cannot find valid instance of DataSource, trying to instanciate a new one"));
+            Timber.e(new Exception(),"Cannot find valid instance of DataSource, trying to instanciate a new one");
             getInstance().dbManager = new DataSource(getInstance());
         }
 

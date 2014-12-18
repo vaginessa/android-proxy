@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.EventsReporter;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class LikeAppDialog extends BaseDialogFragment
@@ -16,9 +15,11 @@ public class LikeAppDialog extends BaseDialogFragment
     public static String TAG = LikeAppDialog.class.getSimpleName();
     private StartupAction startupAction;
 
-    public LikeAppDialog(StartupAction action)
+    @Override
+    public void onCreate(Bundle savedInstanceState)
     {
-        startupAction = action;
+        super.onCreate(savedInstanceState);
+        startupAction = (StartupAction) getArguments().getSerializable("ACTION");
     }
 
     @Override
@@ -73,7 +74,12 @@ public class LikeAppDialog extends BaseDialogFragment
 
     public static LikeAppDialog newInstance(StartupAction action)
     {
-        LikeAppDialog frag = new LikeAppDialog(action);
+        LikeAppDialog frag = new LikeAppDialog();
+
+        Bundle b = new Bundle();
+        b.putSerializable("ACTION", action);
+        frag.setArguments(b);
+
         return frag;
     }
 }

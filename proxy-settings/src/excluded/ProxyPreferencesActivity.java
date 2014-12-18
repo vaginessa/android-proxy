@@ -25,7 +25,7 @@ import com.shio.should.proxy.libnstants.ProxyStatusProperties;
 
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.constants.APLConstants;
-import be.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.logging.TraceUtils;
 import comio.should.proxy.libLConstants.CheckStatusValues;
 
 public class ProxyPreferencesActivity extends Activity
@@ -175,7 +175,7 @@ public class ProxyPreferencesActivity extends Activity
 
 		// Wi-Fi Supplicant state
 		SupplicantState ss = App.getWifiManager().getConnectionInfo().getSupplicantState();
-		LogWrapper.d(TAG, "Supplicant state: " + ss.toString());
+		TraceUtils.d(TAG, "Supplicant state: " + ss.toString());
 
 		if (wifiEnabled)
 		{
@@ -295,22 +295,22 @@ public class ProxyPreferencesActivity extends Activity
 			String action = intent.getAction();
 			if (action.equals(APLConstants.APL_UPDATED_PROXY_CONFIGURATION))
 			{
-				LogWrapper.d(TAG, "Received broadcast for updated proxy configuration - RefreshUI");
+				TraceUtils.d(TAG, "Received broadcast for updated proxy configuration - RefreshUI");
 				refreshUI();
 			}
 			else if (action.equals(APLConstants.APL_UPDATED_PROXY_STATUS_CHECK))
 			{
-				LogWrapper.d(TAG, "Received broadcast for partial update to proxy configuration - RefreshUI");
+				TraceUtils.d(TAG, "Received broadcast for partial update to proxy configuration - RefreshUI");
 				refreshUI();
 			}
 			else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION) || action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION) || action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION) || action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION))
 			{
-				LogWrapper.logIntent(TAG, intent, Log.DEBUG, true);
+				TraceUtils.logIntent(TAG, intent, Log.DEBUG, true);
 				refreshUI();
 			}
 			else
 			{
-				LogWrapper.e(TAG, "Received intent not handled: " + intent.getAction());
+				TraceUtils.e(TAG, "Received intent not handled: " + intent.getAction());
 			}
 		}
 	};

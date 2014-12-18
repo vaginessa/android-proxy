@@ -16,6 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
+import timber.log.Timber;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
 {
@@ -24,7 +25,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
+        App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG, true);
 
         if (intent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
         {
@@ -36,7 +37,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 //        else if (intent.getAction().equals(Intents.WIFI_AP_UPDATED))
 //        {
 //            // INTERNAL (PS): Called when a Wi-Fi configuration is written to the device
-//            //App.getLogger().logIntent(TAG, intent, Log.DEBUG);
+//            //App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
 //            //callProxySettingsChecker(context, intent);
 //            //callWifiSyncService(context, intent);
 //        }
@@ -71,7 +72,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
                     || intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK)
                 )
         {
-            App.getLogger().logIntent(TAG, intent, Log.DEBUG);
+            App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
 
             WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
             if (wiFiAPConfig == null)
@@ -84,8 +85,8 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         else
         {
-            App.getLogger().logIntent(TAG, intent, Log.ERROR);
-            App.getLogger().e(TAG, "Intent not found into handled list!");
+            App.getTraceUtils().logIntent(TAG, intent, Log.ERROR);
+            Timber.e(TAG, "Intent not found into handled list!");
         }
     }
 
@@ -101,7 +102,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
             }
             catch (Exception e)
             {
-                App.getEventsReporter().sendException(e);
+                Timber.e(e,"Exception during callWifiSyncService");
             }
         }
     }
@@ -116,7 +117,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during callUpdatedWifStatusService");
         }
     }
 
@@ -131,7 +132,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 //        {
 //            if (instance.isHandlingIntent())
 //            {
-//                App.getLogger().d(TAG, "Already checking proxy.. skip another call");
+//                App.getTraceUtils().d(TAG, "Already checking proxy.. skip another call");
 //                return;
 //            }
 //        }
@@ -159,7 +160,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             if (instance.isHandlingIntent())
             {
-                App.getLogger().d(TAG, "Already working.. skip another call");
+                Timber.d("Already working.. skip another call");
                 return;
             }
         }
@@ -172,7 +173,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during callMaintenanceService");
         }
     }
 }

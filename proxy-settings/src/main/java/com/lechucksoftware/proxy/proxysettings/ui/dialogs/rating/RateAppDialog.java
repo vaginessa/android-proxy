@@ -16,9 +16,11 @@ public class RateAppDialog extends BaseDialogFragment
     public static String TAG = RateAppDialog.class.getSimpleName();
     private StartupAction startupAction;
 
-    public RateAppDialog(StartupAction action)
+    @Override
+    public void onCreate(Bundle savedInstanceState)
     {
-        startupAction = action;
+        super.onCreate(savedInstanceState);
+        startupAction = (StartupAction) getArguments().getSerializable("ACTION");
     }
 
     @Override
@@ -33,7 +35,7 @@ public class RateAppDialog extends BaseDialogFragment
             public void onClick(DialogInterface paramDialogInterface, int paramInt)
             {
 
-//                App.getLogger().d(TAG, "Starting Market activity");
+//                App.getTraceUtils().d(TAG, "Starting Market activity");
                 startupAction.updateStatus(StartupActionStatus.DONE);
                 Utils.startMarketActivity(getActivity());
             }
@@ -54,7 +56,12 @@ public class RateAppDialog extends BaseDialogFragment
 
     public static RateAppDialog newInstance(StartupAction action)
     {
-        RateAppDialog frag = new RateAppDialog(action);
+        RateAppDialog frag = new RateAppDialog();
+
+        Bundle b = new Bundle();
+        b.putSerializable("ACTION", action);
+        frag.setArguments(b);
+
         return frag;
     }
 }

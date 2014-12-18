@@ -62,9 +62,9 @@ public class StartupActions
     {
         if (availableActions == null)
         {
-            App.getLogger().startTrace(TAG, "build startup actions list", Log.DEBUG);
+            App.getTraceUtils().startTrace(TAG, "build startup actions list", Log.DEBUG);
             availableActions = buildStartupActions(activity);
-            App.getLogger().stopTrace(TAG, "build startup actions list", Log.DEBUG);
+            App.getTraceUtils().stopTrace(TAG, "build startup actions list", Log.DEBUG);
         }
 
         return availableActions;
