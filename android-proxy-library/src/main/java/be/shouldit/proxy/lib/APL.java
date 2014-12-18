@@ -357,13 +357,13 @@ public class APL
                 }
                 else
                 {
-		    Timber.e(new InvalidParameterException(),Not valid ProxySetting value: " + ordinal);
+		            Timber.e(new InvalidParameterException(),"Not valid ProxySetting value: " + ordinal);
                 }
             }
             else
             {
                 Timber.e("Cannot find proxySettings object");
-                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
+                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "" , Uri.EMPTY);
             }
         }
         catch (Exception e)
