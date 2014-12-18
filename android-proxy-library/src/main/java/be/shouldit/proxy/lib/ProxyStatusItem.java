@@ -8,6 +8,7 @@ import java.util.Date;
 
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
+import timber.log.Timber;
 
 public class ProxyStatusItem
 {
@@ -107,7 +108,7 @@ public class ProxyStatusItem
         }
         catch (JSONException e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception converting to JSON object ProxyStatusItem");
         }
         return jsonObject;
     }

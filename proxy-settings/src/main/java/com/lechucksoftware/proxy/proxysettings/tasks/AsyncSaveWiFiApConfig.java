@@ -9,6 +9,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
+import timber.log.Timber;
 
 /**
  * Created by Marco on 29/11/13.
@@ -39,7 +40,7 @@ public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
 //        Toast.makeText(callerFragment.getActivity(), String.format("Updated %s Wi-Fi access point configuration", result.toString()), Toast.LENGTH_SHORT).show();
 
             // Calling refresh intent only after save of all configuration
-//            App.getLogger().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
+//            App.getTraceUtils().i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
 //            Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
 //            intent.putExtra(Intents.UPDATED_WIFI, configuration.getAPLNetworkId());
 //            APL.getContext().sendBroadcast(intent);
@@ -53,7 +54,7 @@ public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
     @Override
     protected Boolean doInBackground(Void... voids)
     {
-        App.getLogger().startTrace(TAG, "saveConfiguration", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "saveConfiguration", Log.DEBUG);
 
         try
         {
@@ -64,12 +65,12 @@ public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
 //                App.getInstance().wifiActionEnabled = true;
             }
 
-            App.getLogger().stopTrace(TAG, "saveConfiguration", Log.DEBUG);
+            App.getTraceUtils().stopTrace(TAG, "saveConfiguration", Log.DEBUG);
             return true;
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception saving WifiAPConfig in doInBackground");
             return false;
         }
     }

@@ -3,9 +3,9 @@ package com.lechucksoftware.proxy.proxysettings.feedbackutils;
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 
-import com.lechucksoftware.proxy.proxysettings.App;
-
 import java.io.Serializable;
+
+import timber.log.Timber;
 
 public class PInfo implements Serializable 
 {
@@ -25,6 +25,6 @@ public class PInfo implements Serializable
     
     void prettyPrint() 
     {
-        App.getLogger().d(TAG, appname + "\t" + pname + "\t" + versionName + "\t" + versionCode);
+        Timber.d("%s\t%s\t%s\t%s",appname, pname, versionName, versionCode);
     }
 }

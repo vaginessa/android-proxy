@@ -4,15 +4,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import be.shouldit.proxy.lib.enums.CheckStatusValues;
-import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import be.shouldit.proxy.lib.enums.CheckStatusValues;
+import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
+import timber.log.Timber;
 
 public class ProxyStatus implements Serializable
 {
@@ -131,7 +132,7 @@ public class ProxyStatus implements Serializable
 			}
 			else
 			{
-                		APL.getLogger().e(TAG, "Cannot find status code: " + psp);
+                Timber.e("Cannot find status code: " + psp);
 			}
 		}
 	}
@@ -227,7 +228,7 @@ public class ProxyStatus implements Serializable
         }
         catch (JSONException e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception converting to JSON object ProxyStatus");
         }
 
         return jsonObject;

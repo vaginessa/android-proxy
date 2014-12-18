@@ -10,6 +10,8 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 
+import timber.log.Timber;
+
 /**
  * Created by marco on 07/11/13.
  */
@@ -22,7 +24,7 @@ public class BaseActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
-        App.getLogger().d(this.getClass().getSimpleName(), "onCreate");
+        Timber.d("onCreate");
 
         App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
@@ -30,14 +32,14 @@ public class BaseActivity extends Activity
     @Override
     protected void onNewIntent(Intent intent)
     {
-        App.getLogger().d(this.getClass().getSimpleName(), "onNewIntent");
+        Timber.d("onNewIntent");
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        App.getLogger().d(this.getClass().getSimpleName(), "onDestroy");
+        Timber.d("onDestroy");
         ViewServer.get(this).removeWindow(this);
     }
 
@@ -52,21 +54,21 @@ public class BaseActivity extends Activity
             ViewServer.get(this).setFocusedWindow(this);
         }
 
-        App.getLogger().d(this.getClass().getSimpleName(), "onResume");
+        Timber.d("onResume");
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        App.getLogger().d(this.getClass().getSimpleName(), "onPause");
+        Timber.d("onPause");
     }
 
     @Override
     public void onStart()
     {
         super.onStart();
-        App.getLogger().d(this.getClass().getSimpleName(), "onStart");
+        Timber.d("onStart");
         active = true;
     }
 
@@ -74,7 +76,7 @@ public class BaseActivity extends Activity
     public void onStop()
     {
         super.onStop();
-        App.getLogger().d(this.getClass().getSimpleName(), "onStop");
+        Timber.d("onStop");
         active = false;
     }
 
@@ -96,7 +98,7 @@ public class BaseActivity extends Activity
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(new Exception(String.format("Exception during IBaseFragment refresh from %s",this.getClass().getSimpleName()),e));
+            Timber.e(e, "Exception during IBaseFragment refresh from %s",this.getClass().getSimpleName());
         }
     }
 }

@@ -13,6 +13,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
 
 import be.shouldit.proxy.lib.APLNetworkId;
+import timber.log.Timber;
 
 /**
  * Created by marco on 17/05/13.
@@ -56,7 +57,7 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         }
         else
         {
-            App.getEventsReporter().sendException(new Exception("Intent not received or not containing extra"));
+            Timber.e(new Exception(),"Intent not received or not containing extra");
         }
     }
 }

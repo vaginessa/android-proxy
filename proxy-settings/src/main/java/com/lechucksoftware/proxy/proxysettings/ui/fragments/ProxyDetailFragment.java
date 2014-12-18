@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,10 +23,9 @@ import com.lechucksoftware.proxy.proxysettings.tasks.AsyncDeleteProxy;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxy;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
-import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.UpdateLinkedWifiAPAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
@@ -38,6 +36,7 @@ import java.util.Map;
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class ProxyDetailFragment extends BaseDialogFragment
 {
@@ -191,7 +190,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
     private boolean validateBypass()
     {
         String value = proxyBypass.getExclusionString();
-        App.getLogger().d(TAG, "Exclusion list updated: " + value);
+        Timber.d("Exclusion list updated: " + value);
 
         ProxyStatusItem item = ProxyUtils.isProxyValidExclusionList(value);
         validationErrors.remove(item.statusCode);
@@ -310,7 +309,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         else
         {
             // TODO: Add handling here
-            App.getEventsReporter().sendException(new Exception("NO PROXY SELECTED"));
+            Timber.e(new Exception(),"NO PROXY SELECTED");
         }
     }
 
@@ -321,7 +320,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             Bundle b = message.getData();
 
-            App.getLogger().w(TAG, "handleMessage: " + b.toString());
+            Timber.w("handleMessage: " + b.toString());
 
             refreshUI();
         }
@@ -397,7 +396,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception saving proxy");
         }
     }
 
@@ -418,7 +417,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception deleting proxy");
         }
     }
 

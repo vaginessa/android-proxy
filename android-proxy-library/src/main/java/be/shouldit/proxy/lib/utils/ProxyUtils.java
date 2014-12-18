@@ -45,6 +45,7 @@ import be.shouldit.proxy.lib.enums.PskType;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.ReflectionUtils;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import timber.log.Timber;
 
 public class ProxyUtils
 {
@@ -218,11 +219,11 @@ public class ProxyUtils
         }
         catch (UnknownHostException e)
         {
-            APL.getLogger().e(TAG,e.toString());
+            Timber.e(e.toString());
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during standardAPIPingHost");
         }
 
         return result;
@@ -296,7 +297,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "LowLevelPingHost - Exception getting proxyAddress string from InetAddress");
         }
 
         if (proxyAddress == null)
@@ -308,7 +309,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getEventsReporter().sendException(e);
+                Timber.e(e, "LowLevelPingHost - Exception getting proxyAddress string from InetSocketAddress");
             }
         }
 
@@ -322,7 +323,7 @@ public class ProxyUtils
                 proc.waitFor();
                 exitValue = proc.exitValue();
 
-                APL.getLogger().d(TAG, "Ping exit value: " + exitValue);
+                Timber.d("Ping exit value: " + exitValue);
 
                 if (exitValue == 0)
                 {
@@ -333,22 +334,14 @@ public class ProxyUtils
                     return false;
                 }
             }
-            catch (IOException e)
-            {
-                APL.getEventsReporter().sendException(e);
-            }
-            catch (InterruptedException e)
-            {
-                APL.getEventsReporter().sendException(e);
-            }
             catch (Exception e)
             {
-                APL.getEventsReporter().sendException(e);
+                Timber.e(e, "LowLevelPingHost - Exception executing PING");
             }
         }
         else
         {
-            APL.getLogger().w(TAG,"Cannot find available address to ping the proxy host");
+            Timber.w("Cannot find available address to ping the proxy host");
         }
 
         return false;
@@ -386,7 +379,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getLogger().w(TAG, e.toString());
+                Timber.w(e.toString());
             }
 
             step++;
@@ -397,7 +390,7 @@ public class ProxyUtils
             }
             catch (InterruptedException e)
             {
-                APL.getEventsReporter().sendException(e);
+                Timber.e(e, "InterruptedException during thread sleep on testHTTPConnection");
                 return -1;
             }
         }
@@ -456,7 +449,7 @@ public class ProxyUtils
         }
         catch (URISyntaxException e)
         {
-            APL.getLogger().w(TAG, e.toString());
+            Timber.w(e.toString());
 //            APL.getEventsReporter().sendEvent(e);
         }
 
@@ -488,7 +481,7 @@ public class ProxyUtils
             }
             catch (Exception e)
             {
-                APL.getEventsReporter().sendException(e);
+                Timber.e(e,"Exception setting proxy for WebView");
             }
         }
     }
@@ -519,7 +512,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(new Exception("Exception setting WebKit proxy settings", e));
+           Timber.e(e,"Exception setting WebKit proxy settings");
         }
         return ret;
     }
@@ -672,7 +665,7 @@ public class ProxyUtils
         }
         else
         {
-            Log.w(TAG, "Received abnormal flag string: " + result.capabilities);
+            Timber.w("Received abnormal flag string: " + result.capabilities);
             return PskType.UNKNOWN;
         }
     }
@@ -706,7 +699,7 @@ public class ProxyUtils
         if (checkOptions.contains(ProxyCheckOptions.ONLINE_CHECK))
         {
             // Always check if WEB is reachable
-            APL.getLogger().d(TAG, "Checking if web is reachable ...");
+            Timber.d("Checking if web is reachable ...");
             status.set(isWebReachable(conf, timeout));
             broadCastUpdatedStatus();
         }
@@ -722,17 +715,17 @@ public class ProxyUtils
         status.set(ProxyStatusProperties.WIFI_ENABLED, CheckStatusValues.NOT_CHECKED, false, false);
         status.set(ProxyStatusProperties.WIFI_SELECTED, CheckStatusValues.NOT_CHECKED, false, false);
 
-        APL.getLogger().d(TAG, "Checking if proxy is enabled ...");
+        Timber.d("Checking if proxy is enabled ...");
         status.set(isProxyEnabled(conf));
         broadCastUpdatedStatus();
 
         if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
         {
-            APL.getLogger().d(TAG, "Checking if proxy is valid hostname ...");
+            Timber.d("Checking if proxy is valid hostname ...");
             status.set(isProxyValidHostname(conf));
             broadCastUpdatedStatus();
 
-            APL.getLogger().d(TAG, "Checking if proxy is valid port ...");
+            Timber.d("Checking if proxy is valid port ...");
             status.set(isProxyValidPort(conf));
             broadCastUpdatedStatus();
 
@@ -740,7 +733,7 @@ public class ProxyUtils
                     && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
                     && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
             {
-                APL.getLogger().d(TAG, "Checking if proxy is reachable ...");
+                Timber.d("Checking if proxy is reachable ...");
                 status.set(isProxyReachable(conf, APLConstants.DEFAULT_TIMEOUT));
                 broadCastUpdatedStatus();
             }
@@ -757,30 +750,30 @@ public class ProxyUtils
 
     private static void acquireProxyStatusSDK12(WiFiAPConfig conf, ProxyStatus status, EnumSet<ProxyCheckOptions> checkOptions)
     {
-        APL.getLogger().d(TAG, "Checking if Wi-Fi is enabled ...");
+        Timber.d("Checking if Wi-Fi is enabled ...");
         status.set(isWifiEnabled(conf));
         broadCastUpdatedStatus();
 
         if (status.getProperty(ProxyStatusProperties.WIFI_ENABLED).result)
         {
-            APL.getLogger().d(TAG, "Checking if Wi-Fi is selected ...");
+            Timber.d("Checking if Wi-Fi is selected ...");
             status.set(isWifiSelected(conf));
             broadCastUpdatedStatus();
 
             if (status.getProperty(ProxyStatusProperties.WIFI_SELECTED).result)
             {
                 // Wi-Fi enabled & selected
-                APL.getLogger().d(TAG, "Checking if proxy is enabled ...");
+                Timber.d("Checking if proxy is enabled ...");
                 status.set(isProxyEnabled(conf));
                 broadCastUpdatedStatus();
 
                 if (status.getProperty(ProxyStatusProperties.PROXY_ENABLED).result)
                 {
-                    APL.getLogger().d(TAG, "Checking if proxy is valid hostname ...");
+                    Timber.d("Checking if proxy is valid hostname ...");
                     status.set(isProxyValidHostname(conf));
                     broadCastUpdatedStatus();
 
-                    APL.getLogger().d(TAG, "Checking if proxy is valid port ...");
+                    Timber.d("Checking if proxy is valid port ...");
                     status.set(isProxyValidPort(conf));
                     broadCastUpdatedStatus();
 
@@ -788,7 +781,7 @@ public class ProxyUtils
                             && status.getProperty(ProxyStatusProperties.PROXY_VALID_HOSTNAME).result
                             && status.getProperty(ProxyStatusProperties.PROXY_VALID_PORT).result)
                     {
-                        APL.getLogger().d(TAG, "Checking if proxy is reachable ...");
+                        Timber.d("Checking if proxy is reachable ...");
                         status.set(isProxyReachable(conf, APLConstants.DEFAULT_TIMEOUT));
                         broadCastUpdatedStatus();
                     }
@@ -940,7 +933,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception parsing hostname");
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_hostname_notvalid));
@@ -978,7 +971,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception parsing exclusion list");
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_notvalid));
@@ -1004,7 +997,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception parsing exclusion address");
         }
 
         return new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_EXCLUSION_ITEM, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_exclusion_item_notvalid));

@@ -16,6 +16,7 @@ import java.util.Map;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.constants.APLConstants;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class MaintenanceService extends EnhancedIntentService
 {
@@ -27,7 +28,7 @@ public class MaintenanceService extends EnhancedIntentService
     public MaintenanceService()
     {
         super("MaintenanceService");
-        App.getLogger().v(TAG, "MaintenanceService constructor");
+        Timber.v("MaintenanceService constructor");
     }
 
     public static MaintenanceService getInstance()
@@ -46,11 +47,11 @@ public class MaintenanceService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getLogger().startTrace(TAG, "maintenanceService", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "maintenanceService", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        App.getLogger().stopTrace(TAG, "maintenanceService", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "maintenanceService", Log.DEBUG);
         isHandling = false;
     }
 
@@ -76,12 +77,12 @@ public class MaintenanceService extends EnhancedIntentService
                     }
                     else
                     {
-                        App.getLogger().e(TAG, "Intent not handled: " + callerIntent.toString());
+                        Timber.e("Intent not handled: " + callerIntent.toString());
                     }
                 }
                 catch (Exception e)
                 {
-                    App.getEventsReporter().sendException(new Exception("Exception during maintenanceService", e));
+                    Timber.e(e,"Exception during maintenanceService");
                 }
             }
         }
@@ -104,19 +105,19 @@ public class MaintenanceService extends EnhancedIntentService
             Map<Long, ProxyEntity> proxiesMap = App.getDBManager().getAllProxiesWithTAGs();
             if (proxiesMap != null)
             {
-                App.getLogger().startTrace(TAG,"checkInUseProxyTag",Log.DEBUG);
+                App.getTraceUtils().startTrace(TAG,"checkInUseProxyTag",Log.DEBUG);
 
                 for (Long proxyID : proxiesMap.keySet())
                 {
                     App.getDBManager().updateInUseFlag(proxyID);
                 }
 
-                App.getLogger().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
+                App.getTraceUtils().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
             }
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception during checkInUseProxyFlag");
         }
     }
 
@@ -130,7 +131,7 @@ public class MaintenanceService extends EnhancedIntentService
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception getting current HTTP proxy configuration in checkProxiesCountryCodes");
         }
 
         if (proxy != null && ProxyUtils.canGetWebResources(proxy, APLConstants.DEFAULT_TIMEOUT))
@@ -139,7 +140,7 @@ public class MaintenanceService extends EnhancedIntentService
 
             for (ProxyEntity pe : proxies)
             {
-                App.getLogger().startTrace(TAG, "Get proxy country code", Log.DEBUG);
+                App.getTraceUtils().startTrace(TAG, "Get proxy country code", Log.DEBUG);
 
                 try
                 {
@@ -152,11 +153,11 @@ public class MaintenanceService extends EnhancedIntentService
                 }
                 catch (Exception e)
                 {
-                    App.getEventsReporter().sendException(e);
+                    Timber.e(e,"Exception upserting Proxy with Country code in checkProxiesCountryCodes");
                     break;
                 }
 
-                App.getLogger().stopTrace(TAG, "Get proxy country code", pe.toString(), Log.DEBUG);
+                App.getTraceUtils().stopTrace(TAG, "Get proxy country code", pe.toString(), Log.DEBUG);
             }
         }
     }

@@ -40,7 +40,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
     private ProxyEntity selectedProxy;
     private UUID cachedObjId;
 
-    private TagsListFragment()
+    public TagsListFragment()
     {}
 
     public static TagsListFragment newInstance(UUID cachedProxyUUID)

@@ -47,6 +47,7 @@ import java.util.Stack;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.utils.HttpAnswer;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class Utils
 {
@@ -93,7 +94,7 @@ public class Utils
         }
         catch (URISyntaxException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception parsing URI on getProxyCountryCode");
         }
 
         if (uri != null)
@@ -109,7 +110,7 @@ public class Utils
             }
             catch (IOException e)
             {
-                App.getLogger().w(TAG, "Exception on getProxyCountryCode: " + e.toString());
+                Timber.w("Exception on getProxyCountryCode: " + e.toString());
             }
 
             if (answer != null)
@@ -131,13 +132,11 @@ public class Utils
                     {
                         //It's a common error to receive wrong answers due to the proxy servers
                         //between the Android device that make the request and the geoIP services
-                        App.getLogger().e(TAG,String.format("%s reading string: '%s'",e.toString(),answerBody));
+                        Timber.e("%s reading string: '%s'", e.toString(), answerBody);
                     }
                     catch (Exception e)
                     {
-                        Map<String,String> map = new HashMap<String, String>();
-                        map.put("CONTENT", answerBody);
-                        App.getEventsReporter().sendException(e, map);
+                        Timber.e(e,"Unhandled exception parsing JSON answer: '%s'",answerBody);
                     }
 
                     if (jsonObject != null && jsonObject.has("country_code"))
@@ -177,7 +176,7 @@ public class Utils
         }
         catch (PackageManager.NameNotFoundException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception on getAppInfo");
         }
 
         return pInfo;
@@ -196,7 +195,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception starting Market activity: '%s",marketUri.toString());
         }
 
         if (!marketShown)
@@ -241,10 +240,16 @@ public class Utils
         {
             res = AndroidMarket.OTHER;
 
-            if (!BuildConfig.DEBUG)
-                App.getEventsReporter().sendException(new Exception("No InstallerPackageName recognized: " + market));
-            else
+            if (BuildConfig.DEBUG)
+            {
                 res = AndroidMarket.PLAY;
+                Timber.d("Enabling Play market because during debug the InstallerPackageName is not filled: '%s'", market);
+            }
+            else
+            {
+                Timber.e(new Exception(),"Got a not recognizable InstallerPackageName: '%s' ",market);
+
+            }
         }
 
         return res;
@@ -281,7 +286,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception getting Full Asset");
         }
 
         return text;
@@ -372,17 +377,17 @@ public class Utils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Unhandled exception starting email client activity");
         }
     }
 
     public static Object cloneThroughJson(Object t)
     {
-        App.getLogger().startTrace(TAG,"cloneThroughJson", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG,"cloneThroughJson", Log.DEBUG);
         Gson gson = new Gson();
         String json = gson.toJson(t);
         Object result = gson.fromJson(json, t.getClass());
-        App.getLogger().stopTrace(TAG,"cloneThroughJson", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG,"cloneThroughJson", Log.DEBUG);
 
         return result;
     }
@@ -397,7 +402,7 @@ public class Utils
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception getting airplaneModeEnabled");
         }
 
         return result;

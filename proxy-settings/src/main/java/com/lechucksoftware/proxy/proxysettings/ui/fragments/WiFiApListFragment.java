@@ -37,6 +37,7 @@ import be.shouldit.proxy.lib.enums.SecurityType;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
+import timber.log.Timber;
 
 /**
  * Created by marco on 17/05/13.
@@ -71,7 +72,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        App.getLogger().startTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onCreateView", Log.DEBUG);
 
         setHasOptionsMenu(true);
 
@@ -79,7 +80,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
         ButterKnife.inject(this, v);
 
-        App.getLogger().stopTrace(TAG, "onCreateView", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
     }
 
@@ -145,7 +146,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
     public void refreshLoaderResults(List<WiFiAPConfig> wiFiApConfigs)
     {
-        App.getLogger().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
 
         progress.setVisibility(View.GONE);
         footerProgress.setVisibility(View.GONE);
@@ -219,17 +220,17 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             }
         }
 
-        App.getLogger().stopTrace(TAG, "refreshLoaderResults", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "refreshLoaderResults", Log.DEBUG);
     }
 
     @Override
     public Loader<List<WiFiAPConfig>> onCreateLoader(int i, Bundle bundle)
     {
-        App.getLogger().startTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         ProxyConfigurationTaskLoader proxyConfigurationTaskLoader = new ProxyConfigurationTaskLoader(getActivity());
 
-        App.getLogger().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
 
         return proxyConfigurationTaskLoader;
     }
@@ -237,18 +238,18 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     @Override
     public void onLoadFinished(Loader<List<WiFiAPConfig>> listLoader, List<WiFiAPConfig> aps)
     {
-        App.getLogger().startTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
         refreshLoaderResults(aps);
 
-        App.getLogger().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getLogger().stopTrace(TAG, "STARTUP", Log.ERROR);
+        App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.ERROR);
     }
 
     @Override
     public void onLoaderReset(Loader<List<WiFiAPConfig>> listLoader)
     {
-        App.getLogger().d(TAG, "onLoaderReset");
+        Timber.d("onLoaderReset");
     }
 
     @OnItemClick(android.R.id.list)
@@ -276,7 +277,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             }
             else
             {
-                App.getLogger().d(TAG, "Selected proxy configuration: " + selectedConfiguration.toShortString());
+                Timber.d("Selected proxy configuration: " + selectedConfiguration.toShortString());
 
                 Intent i = new Intent(getActivity(), WiFiApDetailActivity.class);
                 i.putExtra(Constants.SELECTED_AP_CONF_ARG, selectedConfiguration.getAPLNetworkId());
@@ -285,7 +286,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(new Exception("Exception during WiFiApListFragment showDetails(" + index + ") " + e.toString()));
+            Timber.e(e,"Exception during WiFiApListFragment showDetails(%d)",index);
         }
     }
 

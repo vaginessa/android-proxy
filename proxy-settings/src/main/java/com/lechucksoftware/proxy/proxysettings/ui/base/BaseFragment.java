@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 
+import timber.log.Timber;
+
 /**
  * Created by marco on 24/05/13.
  */
@@ -39,7 +41,7 @@ public class BaseFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        App.getLogger().d(this.getClass().getSimpleName(), "onCreate " + this.getClass().getSimpleName());
+        Timber.d("onCreate " + this.getClass().getSimpleName());
 
         App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
@@ -48,13 +50,13 @@ public class BaseFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        App.getLogger().d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
+        Timber.d("onResume " + this.getClass().getSimpleName());
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        App.getLogger().d(this.getClass().getSimpleName(), "onPause " + this.getClass().getSimpleName());
+        Timber.d("onPause " + this.getClass().getSimpleName());
     }
 }

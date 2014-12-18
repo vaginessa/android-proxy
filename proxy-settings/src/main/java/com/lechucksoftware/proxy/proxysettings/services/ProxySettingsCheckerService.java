@@ -18,6 +18,7 @@ import be.shouldit.proxy.lib.constants.APLConstants;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 public class ProxySettingsCheckerService extends EnhancedIntentService
 {
@@ -48,11 +49,11 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getLogger().startTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "checkProxySettings", Log.DEBUG);
 
         handleIntentLogic(intent);
 
-        App.getLogger().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
         isHandling = false;
     }
 
@@ -66,7 +67,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
             if (callerIntent != null)
             {
                 String callerAction = callerIntent.getAction();
-                App.getLogger().logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
+                App.getTraceUtils().logIntent(TAG, "onHandleIntent: ", callerIntent, Log.DEBUG);
 
                 if (callerAction.equals(Intents.PROXY_SETTINGS_STARTED)
                         || callerAction.equals(Intents.PROXY_SETTINGS_MANUAL_REFRESH)
@@ -96,17 +97,17 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
                     }
                     else
                     {
-                        App.getLogger().d(TAG, "Do not check proxy settings if network is not available!");
+                        Timber.d("Do not check proxy settings if network is not available!");
                     }
                 }
                 else
                 {
-                    App.getLogger().e(TAG, "Intent ACTION not handled: " + callerAction);
+                    Timber.e("Intent ACTION not handled: " + callerAction);
                 }
             }
             else
             {
-                App.getLogger().e(TAG, "Received Intent NULL ACTION");
+                Timber.e("Received Intent NULL ACTION");
             }
         }
 
@@ -121,7 +122,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
 
     private void checkProxySettings()
     {
-        App.getLogger().startTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "checkProxySettings", Log.DEBUG);
 
         try
         {
@@ -135,7 +136,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
                 boolean checkNewConf = false;
                 if (conf != null)
                 {
-                    App.getLogger().d(TAG, "Checking configuration: " + conf.toShortString());
+                    Timber.d("Checking configuration: " + conf.toShortString());
 
                     if (conf.getStatus() != null
                             && conf.getStatus().checkedDate != null)
@@ -148,49 +149,48 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
                         {
                             checkNewConf = true;
                             // Skip check when configuration is the same
-                            App.getLogger().d(TAG, "Same configuration for 30 minutes check again!");
+                            Timber.d("Same configuration for 30 minutes check again!");
                         }
                     }
                     else
                     {
-                        App.getLogger().d(TAG, "Current configuration has not been checked -> needs to check the proxy status");
+                        Timber.d("Current configuration has not been checked -> needs to check the proxy status");
                         checkNewConf = true;
                     }
                 }
                 else
                 {
                     // newconf cannot be null!!
-                    App.getLogger().d(TAG, "Not found valid configuration");
+                    Timber.d("Not found valid configuration");
 //                    App.getEventsReporter().sendException(new Exception("Cannot have a null WiFiAPConfig"));
                 }
 
                 if (checkNewConf)
                 {
-                    App.getLogger().d(TAG, "Changed current proxy configuration: calling refresh of proxy status");
+                    Timber.d("Changed current proxy configuration: calling refresh of proxy status");
                     ProxyUtils.acquireProxyStatus(conf, conf.getStatus(), ProxyCheckOptions.ALL, APLConstants.DEFAULT_TIMEOUT);
-                    App.getLogger().d(TAG, "Acquired refreshed proxy configuration: " + conf.toShortString());
+                    Timber.d("Acquired refreshed proxy configuration: " + conf.toShortString());
                 }
                 else
                 {
                     // Skip check when configuration is the same
-                    App.getLogger().d(TAG, "No need to check the configuration. Skip...");
+                    Timber.d("No need to check the configuration. Skip...");
                 }
             }
             else
             {
-                App.getLogger().d(TAG, "Network is not available, cannot check proxy settings");
+                Timber.d("Network is not available, cannot check proxy settings");
             }
 
             callRefreshApplicationStatus();
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception checking active proxy configuration");
             UIUtils.DisableProxyNotification(App.getInstance());
-            e.printStackTrace();
         }
 
-        App.getLogger().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "checkProxySettings", Log.DEBUG);
     }
 
     public void callRefreshApplicationStatus()
@@ -198,7 +198,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         /**
          * Call the update of the UI
          * */
-        App.getLogger().d(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
+        Timber.d("Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 

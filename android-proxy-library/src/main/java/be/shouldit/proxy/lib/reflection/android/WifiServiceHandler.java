@@ -3,8 +3,8 @@ package be.shouldit.proxy.lib.reflection.android;
 import android.os.Handler;
 import android.os.Message;
 
-import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.reflection.ReflectionUtils;
+import timber.log.Timber;
 
 public class WifiServiceHandler extends Handler
 {
@@ -24,11 +24,11 @@ public class WifiServiceHandler extends Handler
                 else
                 {
 //                        //AsyncChannel set up failure, ignore
-                        APL.getLogger().e(TAG, "Failed to establish AsyncChannel connection");
+                    Timber.e("Failed to establish AsyncChannel connection");
                 }
                 break;
             case ReflectionUtils.CMD_WPS_COMPLETED:
-                APL.getLogger().d(TAG, "WPS result not handled");
+                Timber.d("WPS result not handled");
 //                try
 //                {
 //                    Class classToInvestigate = Class.forName("android.net.wifi.WpsResult");
@@ -64,7 +64,7 @@ public class WifiServiceHandler extends Handler
             //TODO: more connectivity feedback
             default:
                 //Ignore
-                APL.getLogger().d(TAG, msg.toString());
+                Timber.d(msg.toString());
                 break;
         }
     }

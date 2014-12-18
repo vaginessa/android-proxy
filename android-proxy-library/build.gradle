@@ -11,7 +11,7 @@ apply plugin: 'signing'
 android {
 
     compileSdkVersion 21
-    buildToolsVersion '21.1.1'
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
         minSdkVersion 8
@@ -29,6 +29,12 @@ android {
         }
     }
 }
+
+dependencies {
+
+    compile 'com.jakewharton.timber:timber:2.5.0'
+}
+
 
 version = "4.1.0"
 //version = '2.9.0-SNAPSHOT'

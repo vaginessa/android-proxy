@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler;
 
 import be.shouldit.proxy.lib.constants.APLIntents;
+import timber.log.Timber;
 
 /**
  * Created by marco on 07/11/13.
@@ -48,7 +49,7 @@ public class BaseWifiActivity extends BaseActivity
         }
         catch (IllegalArgumentException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception resuming BaseWifiActivity");
         }
 
         refreshUI();
@@ -68,7 +69,7 @@ public class BaseWifiActivity extends BaseActivity
         }
         catch (IllegalArgumentException e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e,"Exception pausing BaseWifiActivity");
         }
     }
 
@@ -79,30 +80,30 @@ public class BaseWifiActivity extends BaseActivity
         {
             String action = intent.getAction();
 
-            App.getLogger().logIntent(TAG, intent, Log.DEBUG, true);
+            App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG, true);
 
 //            if (action.equals(Intents.WIFI_AP_UPDATED))
 //            {
 ////                if (App.getInstance().wifiActionEnabled)
 //                {
-//                    App.getLogger().d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
+//                    Timber.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
 //                    refreshUI();
 //                }
 //            }
 //            else
             if (action.equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK))
             {
-                App.getLogger().d(TAG, "Received broadcast for partial update on status of proxy configuration - RefreshUI");
+                Timber.d("Received broadcast for partial update on status of proxy configuration - RefreshUI");
                 refreshUI();
             }
             else if (action.equals(Intents.PROXY_REFRESH_UI))
             {
-                App.getLogger().d(TAG, "Received broadcast for update the Proxy Settings UI - RefreshUI");
+                Timber.d("Received broadcast for update the Proxy Settings UI - RefreshUI");
                 refreshUI();
             }
             else
             {
-                App.getLogger().e(TAG, "Received intent not handled: " + intent.getAction());
+                Timber.e("Received intent not handled: " + intent.getAction());
             }
         }
     };

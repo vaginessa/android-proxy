@@ -11,7 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import timber.log.Timber;
 
 /**
  * Created by Marco on 29/11/13.
@@ -51,7 +51,7 @@ public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
     @Override
     protected Boolean doInBackground(Void... voids)
     {
-        App.getLogger().startTrace(TAG, "saveProxy", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "saveProxy", Log.DEBUG);
 
         try
         {
@@ -60,12 +60,12 @@ public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
                 App.getDBManager().upsertProxy(proxyEntity);
             }
 
-            App.getLogger().stopTrace(TAG, "saveProxy", Log.DEBUG);
+            App.getTraceUtils().stopTrace(TAG, "saveProxy", Log.DEBUG);
             return true;
         }
         catch (Exception e)
         {
-            App.getEventsReporter().sendException(e);
+            Timber.e(e, "Exception saving proxies in doInBackground");
             return false;
         }
     }

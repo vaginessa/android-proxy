@@ -12,10 +12,12 @@ import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
+import java.io.Serializable;
+
 /**
  * Created by Marco on 12/04/14.
  */
-public class StartupAction
+public class StartupAction implements Serializable
 {
     private static String keyPrefix = "STARTUP_ACTION_";
     private Activity activity;

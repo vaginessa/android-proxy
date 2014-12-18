@@ -6,7 +6,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.App;
+import timber.log.Timber;
 
 public class LocalWebViewClient extends WebViewClient
 {
@@ -30,7 +30,7 @@ public class LocalWebViewClient extends WebViewClient
 	public void onLoadResource(WebView view, String url)
 	{
 		super.onLoadResource(view, url);
-        App.getLogger().d(TAG, "onLoadResource: " + (url.length() > 50 ? url.substring(0, 50) : url));
+        Timber.d("onLoadResource: " + (url.length() > 50 ? url.substring(0, 50) : url));
 	}
 
 	@Override

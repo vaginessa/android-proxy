@@ -25,12 +25,11 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.log.DefaultEventReport;
-import be.shouldit.proxy.lib.log.IEventReporting;
-import be.shouldit.proxy.lib.log.LogWrapper;
+import be.shouldit.proxy.lib.logging.TraceUtils;
 import be.shouldit.proxy.lib.reflection.ReflectionUtils;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import timber.log.Timber;
 
 /**
  * Main class that contains utilities for getting the proxy configuration of the
@@ -45,21 +44,14 @@ public class APL
     private static Context gContext;
     private static boolean sSetupCalled;
     private static int deviceVersion;
-    private static IEventReporting eventsReporter;
+    private static TraceUtils traceUtils;
 
-    public static LogWrapper getLogger()
+    public static TraceUtils getTraceUtils()
     {
-        return logger;
+        return traceUtils;
     }
-
-    private static LogWrapper logger;
 
     public static boolean setup(Context context)
-    {
-        return setup(context, Log.ERROR, null);
-    }
-
-    public static boolean setup(Context context, int logLevel, IEventReporting eRep)
     {
         gContext = context;
         deviceVersion = Build.VERSION.SDK_INT;
@@ -71,25 +63,12 @@ public class APL
         }
 
         sSetupCalled = true;
-        logger = new LogWrapper(logLevel);
 
-        getLogger().d(TAG,"APL setup executed");
+        traceUtils = new TraceUtils();
 
-        if (eRep != null)
-        {
-            eventsReporter = eRep;
-        }
-        else
-        {
-            eventsReporter = new DefaultEventReport();
-        }
+        Timber.d("APL setup executed");
 
         return sSetupCalled;
-    }
-
-    public static IEventReporting getEventsReporter()
-    {
-        return eventsReporter;
     }
 
     public static Context getContext()
@@ -231,7 +210,7 @@ public class APL
         if (proxyList.size() > 0)
         {
             proxy = proxyList.get(0);
-            getLogger().d(TAG, "Current Proxy Configuration: " + proxy.toString());
+            Timber.d("Current Proxy Configuration: %s", proxy.toString());
         }
         else
             throw new Exception("Not found valid proxy configuration!");
@@ -315,7 +294,7 @@ public class APL
                 }
                 catch (NumberFormatException e)
                 {
-                    APL.getEventsReporter().sendException(new Exception("Port is not a number: " + proxyParts[1], e));
+                    Timber.e(e, "Port is not a number: " + proxyParts[1]);
                 }
             }
         }
@@ -333,7 +312,7 @@ public class APL
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        APL.getLogger().startTrace(TAG,"getWiFiAPConfiguration",Log.DEBUG);
+        APL.getTraceUtils().startTrace(TAG, "getWiFiAPConfiguration", Log.DEBUG);
 
         WiFiAPConfig wiFiAPConfig = null;
 
@@ -378,21 +357,21 @@ public class APL
                 }
                 else
                 {
-                    APL.getEventsReporter().sendException(new InvalidParameterException("Not valid ProxySetting value: " + ordinal));
+		    Timber.e(new InvalidParameterException(),Not valid ProxySetting value: " + ordinal);
                 }
             }
             else
             {
-                APL.getEventsReporter().sendException(new Exception("Cannot find "));
-                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "", Uri.EMPTY);
+                Timber.e("Cannot find proxySettings object");
+                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
             }
         }
         catch (Exception e)
         {
-            APL.getEventsReporter().sendException(e);
+            Timber.e(e, "Problem getting WiFiAPConfig from WifiConfiguration");
         }
 
-        APL.getLogger().stopTrace(TAG,"getWiFiAPConfiguration",Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG, "getWiFiAPConfiguration", Log.DEBUG);
 
         return wiFiAPConfig;
     }
@@ -404,14 +383,14 @@ public class APL
 
         Map<APLNetworkId,WifiConfiguration> networksMap = new HashMap<APLNetworkId, WifiConfiguration>();
 
-        APL.getLogger().startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+        APL.getTraceUtils().startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
         List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
-        APL.getLogger().stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
 
-        APL.getLogger().startTrace(TAG,"createNetworksMap", Log.DEBUG);
+        APL.getTraceUtils().startTrace(TAG, "createNetworksMap", Log.DEBUG);
         if (configuredNetworks != null)
         {
-            APL.getLogger().d(TAG,String.format("%d configured Wi-Fi networks",configuredNetworks.size()));
+            Timber.d("%d configured Wi-Fi networks", configuredNetworks.size());
             for (WifiConfiguration wifiConf : configuredNetworks)
             {
                 APLNetworkId networkId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
@@ -420,9 +399,9 @@ public class APL
         }
         else
         {
-            APL.getLogger().d(TAG,"NULL configured Wi-Fi networks");
+            Timber.d("NULL configured Wi-Fi networks");
         }
-        APL.getLogger().stopTrace(TAG,"createNetworksMap", Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG, "createNetworksMap", Log.DEBUG);
 
         return networksMap;
     }
@@ -471,9 +450,9 @@ public class APL
 
         Map<APLNetworkId,WiFiAPConfig> WiFiAPConfigs = new HashMap<APLNetworkId, WiFiAPConfig>();
 
-        APL.getLogger().startTrace(TAG,"getWifiAPConfigurations", Log.DEBUG);
+        APL.getTraceUtils().startTrace(TAG,"getWifiAPConfigurations", Log.DEBUG);
         Map<APLNetworkId,WifiConfiguration> configuredNetworks = getConfiguredNetworks();
-        APL.getLogger().partialTrace(TAG, "getWifiAPConfigurations", "getConfiguredNetworks", Log.DEBUG);
+        APL.getTraceUtils().partialTrace(TAG, "getWifiAPConfigurations", "getConfiguredNetworks", Log.DEBUG);
 
         if (configuredNetworks != null)
         {
@@ -483,7 +462,7 @@ public class APL
                 WiFiAPConfigs.put(conf.getAPLNetworkId(), conf);
             }
         }
-        APL.getLogger().stopTrace(TAG,"getWifiAPConfigurations", "calculatedConfigurations", Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG, "getWifiAPConfigurations", "calculatedConfigurations", Log.DEBUG);
 
         return WiFiAPConfigs;
     }
@@ -522,13 +501,13 @@ public class APL
 
         if (selectedConfiguration != null)
         {
-            APL.getLogger().startTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
+            APL.getTraceUtils().startTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
 
             WifiConfiguration newConf = ReflectionUtils.setProxyFieldsOnWifiConfiguration(wiFiAPConfig, selectedConfiguration);
-            APL.getLogger().partialTrace(TAG, "setProxyFieldsOnWifiConfiguration", Log.DEBUG);
+            APL.getTraceUtils().partialTrace(TAG, "setProxyFieldsOnWifiConfiguration", Log.DEBUG);
 
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
-            APL.getLogger().partialTrace(TAG, "saveWifiConfiguration", Log.DEBUG);
+            APL.getTraceUtils().partialTrace(TAG, "saveWifiConfiguration", Log.DEBUG);
 
             /***************************************************************************************
              * TODO: improve method adding callback in order to return the result of the operation
@@ -564,12 +543,12 @@ public class APL
             }
             /**************************************************************************************/
 
-            APL.getLogger().stopTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
+            APL.getTraceUtils().stopTrace(TAG, "saveWifiConfiguration", Log.DEBUG);
             wiFiAPConfig.getStatus().clear();
 
-            APL.getLogger().d(TAG, String.format("Succesfully updated configuration %s, after %d tries", wiFiAPConfig.toShortString(), tries));
+            Timber.d("Succesfully updated configuration %s, after %d tries", wiFiAPConfig.toShortString(), tries);
 
-            APL.getLogger().i(TAG, "Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
+            Timber.i("Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             APL.getContext().sendBroadcast(intent);
         }
