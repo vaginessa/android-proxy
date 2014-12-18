@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.net.wifi.WifiConfiguration;
 import android.provider.Telephony;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -313,6 +315,15 @@ public class TestUtils
 //        conf.writeConfigurationToDevice();
 //        Thread.sleep(5000);
 //    }
+
+    public static void resetPreferences(Context ctx)
+    {
+        SharedPreferences preferences = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+    }
+
 
     public static void testValidation()
     {

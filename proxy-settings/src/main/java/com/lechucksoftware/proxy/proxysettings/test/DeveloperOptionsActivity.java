@@ -334,14 +334,7 @@ public class DeveloperOptionsActivity extends Activity
         {
             if (_action == TestAction.CLEAR_ALL)
             {
-                SharedPreferences preferences = _developerOptionsActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_MULTI_PROCESS);
-
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.clear();
-                editor.commit();
-
-//                ApplicationStatistics.updateInstallationDetails(getApplicationContext());
-
+                TestUtils.resetPreferences(_developerOptionsActivity);
                 App.getDBManager().resetDB();
             }
             else if (_action == TestAction.ADD_EXAMPLE_PROXIES)
