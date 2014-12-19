@@ -36,16 +36,16 @@ public class TraceUtils
                 Timber.d(msg);
                 break;
             case Log.ERROR:
-                Timber.e(tag, msg);
+                Timber.e(msg);
                 break;
             case Log.INFO:
-                Timber.i(tag, msg);
+                Timber.i(msg);
                 break;
             case Log.WARN:
-                Timber.w(tag, msg);
+                Timber.w(msg);
                 break;
             default:
-                Timber.v(tag, msg);
+                Timber.v(msg);
                 break;
         }
     }
