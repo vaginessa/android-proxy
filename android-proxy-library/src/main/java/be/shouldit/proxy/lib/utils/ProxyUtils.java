@@ -11,7 +11,6 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.apache.http.HttpHost;
 
