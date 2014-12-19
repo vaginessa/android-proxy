@@ -52,6 +52,8 @@ public class WifiSyncService extends EnhancedIntentService
 
         App.getTraceUtils().startTrace(TAG, "syncAP", Log.INFO);
 
+        App.getTraceUtils().logIntent(TAG,"syncAP intent handling",intent,Log.INFO, true);
+
         List<APLNetworkId> configsToCheck = getConfigsToCheck(intent);
         App.getTraceUtils().partialTrace(TAG, "syncAP", Log.INFO);
 
