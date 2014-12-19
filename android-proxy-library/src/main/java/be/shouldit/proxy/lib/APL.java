@@ -401,6 +401,7 @@ public class APL
         {
             Timber.d("NULL configured Wi-Fi networks");
         }
+
         APL.getTraceUtils().stopTrace(TAG, "createNetworksMap", Log.DEBUG);
 
         return networksMap;
