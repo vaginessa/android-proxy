@@ -53,6 +53,9 @@ public class CrashlyticsTree extends Timber.HollowTree
 
     private void logMessage(String message, Object... args)
     {
-        Crashlytics.log(String.format(message, args));
+        if (args.length > 0)
+            Crashlytics.log(String.format(message, args));
+        else
+            Crashlytics.log(message);
     }
 }
