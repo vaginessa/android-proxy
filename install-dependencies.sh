@@ -13,6 +13,7 @@ echo "List android SDK packages available for installation"
 android list sdk -e
 
 # Use android list sdk -e -a in order to get all the available packages on Android SDK Manager
+
 if [ ! -e $DEPS ]; then
 
   cp -r /usr/local/android-sdk-linux $ANDROID_HOME &&
