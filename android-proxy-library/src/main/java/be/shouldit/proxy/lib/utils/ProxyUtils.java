@@ -1,5 +1,6 @@
 package be.shouldit.proxy.lib.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.apache.http.HttpHost;
 
@@ -29,6 +29,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.EnumSet;
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
@@ -49,8 +50,6 @@ import timber.log.Timber;
 
 public class ProxyUtils
 {
-    public static final String TAG = ProxyUtils.class.getSimpleName();
-
     public static void startWifiScan()
     {
         if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
@@ -347,6 +346,22 @@ public class ProxyUtils
         return false;
     }
 
+    @SuppressLint("NewApi")
+    public static String getProxyHost(Proxy proxy)
+    {
+        SocketAddress sa = proxy.address();
+        InetSocketAddress isa = (InetSocketAddress) sa;
+
+        if (Build.VERSION.SDK_INT >= 19)
+        {
+            return isa.getHostString();
+        }
+        else
+        {
+            return isa.getHostName();
+        }
+    }
+
     public static int testHTTPConnection(URI uri, Proxy proxy, int timeout)
     {
         int step = 0;
@@ -360,7 +375,9 @@ public class ProxyUtils
                 {
                     SocketAddress sa = proxy.address();
                     InetSocketAddress isa = (InetSocketAddress) sa;
-                    System.setProperty("http.proxyHost", isa.getHostString());
+
+                    String proxyHost = getProxyHost(proxy);
+                    System.setProperty("http.proxyHost", proxyHost);
                     System.setProperty("http.proxyPort", String.valueOf(isa.getPort()));
                 }
                 else
