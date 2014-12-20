@@ -107,6 +107,17 @@ android {
         }
     }
 
+    productFlavors {
+
+        play {
+            buildConfigField "String", "MARKET_URI", "\"com.android.vending\""
+        }
+
+        amazon {
+            buildConfigField "String", "MARKET_URI", "\"com.amazon.venezia\""
+        }
+    }
+
     buildTypes {
 
         release {

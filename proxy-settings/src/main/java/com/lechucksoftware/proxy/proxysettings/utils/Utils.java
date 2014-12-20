@@ -219,18 +219,15 @@ public class Utils
 
     public static AndroidMarket getInstallerMarket(Context ctx)
     {
-        String market;
-        market = ctx.getPackageManager().getInstallerPackageName(getAppInfo(ctx).packageName);
-
         AndroidMarket res = null;
 
-        if (market != null)
+        if (BuildConfig.MARKET_URI != null)
         {
-            if (market.equals(Constants.PLAY_MARKET_PACKAGE))
+            if (BuildConfig.MARKET_URI.equals(Constants.PLAY_MARKET_PACKAGE))
             {
                 res = AndroidMarket.PLAY;
             }
-            else if (market.equals(Constants.AMAZON_MARKET_PACKAGE))
+            else if (BuildConfig.MARKET_URI.equals(Constants.AMAZON_MARKET_PACKAGE))
             {
                 res = AndroidMarket.AMAZON;
             }
@@ -243,11 +240,11 @@ public class Utils
             if (BuildConfig.DEBUG)
             {
                 res = AndroidMarket.PLAY;
-                Timber.d("Enabling Play market because during debug the InstallerPackageName is not filled: '%s'", market);
+                Timber.d("Enabling Play market because during debug the InstallerPackageName is not filled: '%s'", BuildConfig.MARKET_URI);
             }
             else
             {
-                Timber.e(new Exception(),"Got a not recognizable InstallerPackageName: '%s' ",market);
+                Timber.e(new Exception(),"Got a not recognizable InstallerPackageName: '%s' ",BuildConfig.MARKET_URI);
 
             }
         }
