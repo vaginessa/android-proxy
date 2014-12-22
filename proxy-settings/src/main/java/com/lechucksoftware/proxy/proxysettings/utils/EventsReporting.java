@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 
 import java.util.Map;
 
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 //import com.bugsense.trace.BugSenseHandler;
@@ -40,10 +41,17 @@ public class EventsReporting
 
     private boolean setupCrashLytics(Context ctx)
     {
-        String key;
         Boolean setupDone;
 
-        Crashlytics.start(ctx);
+        if (!Fabric.isInitialized()) {
+
+            final Fabric fabric = new Fabric.Builder(ctx)
+                    .kits(new Crashlytics())
+                    .debuggable(true)
+                    .build();
+            Fabric.with(fabric);
+        }
+
         setupDone = true;
 
         return setupDone;
