@@ -361,7 +361,8 @@ public class APL
             Timber.e(e, "Problem getting WiFiAPConfig from WifiConfiguration");
         }
 
-        APL.getTraceUtils().stopTrace(TAG, "getWiFiAPConfiguration", Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG, "getWiFiAPConfiguration", String.format("Got configuration for %s",wiFiAPConfig.getAPLNetworkId().toString()), Log.DEBUG);
+
 
         return wiFiAPConfig;
     }
@@ -375,9 +376,8 @@ public class APL
 
         APL.getTraceUtils().startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
         List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
-        APL.getTraceUtils().stopTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
+        APL.getTraceUtils().partialTrace(TAG,"getConfiguredNetworks", "Got configured networks from WifiManager", Log.DEBUG);
 
-        APL.getTraceUtils().startTrace(TAG, "createNetworksMap", Log.DEBUG);
         if (configuredNetworks != null)
         {
             Timber.d("Found %d configured Wi-Fi networks", configuredNetworks.size());
@@ -385,7 +385,7 @@ public class APL
             {
                 APLNetworkId networkId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
                 networksMap.put(networkId, wifiConf);
-                Timber.d("Added %s network to networks map");
+                APL.getTraceUtils().partialTrace(TAG,"getConfiguredNetworks",String.format("Added %s to configured networks map", networkId.toString()),Log.DEBUG);
             }
         }
         else
@@ -393,7 +393,7 @@ public class APL
             Timber.d("NULL configured Wi-Fi networks");
         }
 
-        APL.getTraceUtils().stopTrace(TAG, "createNetworksMap", Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG, "getConfiguredNetworks", String.format("Built configured newtworks map (#%d)",networksMap.size()), Log.DEBUG);
 
         return networksMap;
     }
@@ -444,7 +444,7 @@ public class APL
 
         APL.getTraceUtils().startTrace(TAG,"getWifiAPConfigurations", Log.DEBUG);
         Map<APLNetworkId,WifiConfiguration> configuredNetworks = getConfiguredNetworks();
-        APL.getTraceUtils().partialTrace(TAG, "getWifiAPConfigurations", "getConfiguredNetworks", Log.DEBUG);
+        APL.getTraceUtils().partialTrace(TAG, "getWifiAPConfigurations", "Got configured networks", Log.DEBUG);
 
         if (configuredNetworks != null)
         {
@@ -454,7 +454,8 @@ public class APL
                 WiFiAPConfigs.put(conf.getAPLNetworkId(), conf);
             }
         }
-        APL.getTraceUtils().stopTrace(TAG, "getWifiAPConfigurations", "calculatedConfigurations", Log.DEBUG);
+
+        APL.getTraceUtils().stopTrace(TAG, "getWifiAPConfigurations", "Got WiFiAPConfig for configured networks", Log.DEBUG);
 
         return WiFiAPConfigs;
     }

@@ -49,14 +49,11 @@ public class WifiNetworksManager
                 wifiNetworkStatus.put(aplNetworkId,configurations.get(aplNetworkId));
             }
 
-            App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "getWifiAPConfigurations", Log.DEBUG);
-
-            App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "new ArrayList<WiFiAPConfig>", Log.DEBUG);
+            App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "Got WifiAPConfigurations from APL", Log.DEBUG);
 
             updateWifiConfigWithScanResults(APL.getWifiManager().getScanResults());
 
-            App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "updateWifiConfigWithScanResults", Log.DEBUG);
-
+            App.getTraceUtils().partialTrace(TAG,"updateWifiApConfigs", "Updated wifi network status with ScanResults", Log.DEBUG);
             App.getTraceUtils().stopTrace(TAG, "updateWifiApConfigs", Log.DEBUG);
         }
     }
