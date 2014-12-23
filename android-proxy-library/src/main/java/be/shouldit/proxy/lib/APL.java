@@ -380,17 +380,19 @@ public class APL
         APL.getTraceUtils().startTrace(TAG, "createNetworksMap", Log.DEBUG);
         if (configuredNetworks != null)
         {
-            Timber.d("%d configured Wi-Fi networks", configuredNetworks.size());
+            Timber.d("Found %d configured Wi-Fi networks", configuredNetworks.size());
             for (WifiConfiguration wifiConf : configuredNetworks)
             {
                 APLNetworkId networkId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
                 networksMap.put(networkId, wifiConf);
+                Timber.d("Added %s network to networks map");
             }
         }
         else
         {
             Timber.d("NULL configured Wi-Fi networks");
         }
+
         APL.getTraceUtils().stopTrace(TAG, "createNetworksMap", Log.DEBUG);
 
         return networksMap;
