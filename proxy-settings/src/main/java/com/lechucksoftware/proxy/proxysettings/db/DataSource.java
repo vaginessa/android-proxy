@@ -785,6 +785,10 @@ public class DataSource
         {
             deleteWifiAP(wifiId);
         }
+        else
+        {
+            Timber.w("Cannot find Wi-Fi network to delete: %s", aplNetworkId.toString());
+        }
     }
 
     public void deleteProxyTagLink(long linkId)

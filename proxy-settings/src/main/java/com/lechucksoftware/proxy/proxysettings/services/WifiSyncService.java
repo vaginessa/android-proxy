@@ -52,8 +52,6 @@ public class WifiSyncService extends EnhancedIntentService
 
         App.getTraceUtils().startTrace(TAG, "syncAP", Log.INFO);
 
-        App.getTraceUtils().logIntent(TAG,"syncAP intent handling",intent,Log.INFO, true);
-
         List<APLNetworkId> configsToCheck = getConfigsToCheck(intent);
         App.getTraceUtils().partialTrace(TAG, "syncAP", Log.INFO);
 
@@ -73,15 +71,6 @@ public class WifiSyncService extends EnhancedIntentService
 
             if (caller != null)
             {
-//                if (caller.getAction().equals(Intents.WIFI_AP_UPDATED))
-//                {
-//                    if (caller.hasExtra(Intents.UPDATED_WIFI))
-//                    {
-//                        APLNetworkId wifiId = (APLNetworkId) caller.getExtras().get(Intents.UPDATED_WIFI);
-//                        networkIds.add(wifiId);
-//                    }
-//                }
-//                else
                 if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
                 {
                     if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
@@ -94,11 +83,10 @@ public class WifiSyncService extends EnhancedIntentService
                         }
                     }
 
-//                    if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
-//                    {
-//                        App.getTraceUtils().e(TAG,"EXTRA_MULTIPLE_NETWORKS_CHANGED not handled");
-//                        App.getTraceUtils().logIntent(TAG, caller, Log.ERROR, true);
-//                    }
+                    if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
+                    {
+                        Timber.e("EXTRA_MULTIPLE_NETWORKS_CHANGED not handled at the moment");
+                    }
                 }
             }
         }
