@@ -15,9 +15,14 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
 {
     private String ssid;
     private SecurityType securityType;
+
     private ProxySetting proxySetting;
+
     private Long proxyId;
+    private Long pacId;
+
     private ProxyEntity proxyEntity;
+    private PacEntity pacEntity;
 
     public WiFiAPEntity()
     {
@@ -30,8 +35,12 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
         this.setSsid(ap.getSsid());
         this.setSecurityType(ap.getSecurityType());
         this.setProxySetting(ap.getProxySetting());
+
         this.proxyId = ap.proxyId;
         this.proxyEntity = ap.proxyEntity;
+
+        this.pacId = ap.pacId;
+        this.pacEntity = ap.pacEntity;
     }
 
     public void setProxy(ProxyEntity proxy)
@@ -62,6 +71,20 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
         else
         {
             proxyEntity = null;
+        }
+    }
+
+    public void setPACId(Long id)
+    {
+        pacId = id;
+
+        if (id != -1)
+        {
+            pacEntity = App.getDBManager().getPAC(id);
+        }
+        else
+        {
+            pacEntity = null;
         }
     }
 
@@ -100,10 +123,22 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
     {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s - %s ", getSsid(), getSecurityType()));
-        if (proxyId != -1)
+
+        if (proxySetting == ProxySetting.STATIC)
         {
-            sb.append(getProxy().toString());
+            if (proxyId != -1)
+            {
+                sb.append(getProxy().toString());
+            }
         }
+        else if (proxySetting == ProxySetting.PAC)
+        {
+            if (pacId != -1)
+            {
+                sb.append(getProxyPAC().toString());
+            }
+        }
+
         return sb.toString();
     }
 
@@ -155,5 +190,20 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
     public void setProxySetting(ProxySetting proxySetting)
     {
         this.proxySetting = proxySetting;
+    }
+
+    public void setProxyPAC(PacEntity PAC)
+    {
+        this.pacEntity = PAC;
+    }
+
+    public PacEntity getProxyPAC()
+    {
+        return this.pacEntity;
+    }
+
+    public Long getPacId()
+    {
+        return pacId;
     }
 }

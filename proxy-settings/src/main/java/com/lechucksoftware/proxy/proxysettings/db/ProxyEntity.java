@@ -121,7 +121,7 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s:%d", host, port));
+        sb.append(String.format("HTTP Proxy: '%s:%d'", host, port));
         sb.append(String.format(" used by %s AP", usedByCount));
 
         if (getTags() != null)

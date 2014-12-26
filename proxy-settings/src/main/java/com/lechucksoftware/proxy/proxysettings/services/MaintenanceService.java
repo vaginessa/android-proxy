@@ -15,6 +15,7 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.constants.APLConstants;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
@@ -109,7 +110,7 @@ public class MaintenanceService extends EnhancedIntentService
 
                 for (Long proxyID : proxiesMap.keySet())
                 {
-                    App.getDBManager().updateInUseFlag(proxyID);
+                    App.getDBManager().updateInUseFlag(proxyID, ProxySetting.STATIC);
                 }
 
                 App.getTraceUtils().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
