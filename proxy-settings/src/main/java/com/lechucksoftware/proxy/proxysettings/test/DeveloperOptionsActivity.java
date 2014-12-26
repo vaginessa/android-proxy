@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -210,13 +211,8 @@ public class DeveloperOptionsActivity extends Activity
         Timber.e("config_list", App.getWifiNetworksManager().configListToDBG().toString());
         Timber.e(new Exception(),"EXCEPTION ONLY FOR TEST");
 
-        App.getEventsReporter().sendEvent("EVENT ONLY FOR TEST");
-
-
-//        GoogleAnalytics.getInstance(this).dispatchLocalHits();
-
         // Force a CRASH
-//        throw new RuntimeException("Application forced to crash!");
+        throw new RuntimeException("Application forced to crash!");
     }
 
     public void listDBProxies(View caller)

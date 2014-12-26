@@ -7,7 +7,7 @@ import android.util.Log;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
-import com.lechucksoftware.proxy.proxysettings.logging.CrashlyticsTree;
+import com.lechucksoftware.proxy.proxysettings.logging.CustomCrashlyticsTree;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventsReporting;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -51,15 +51,8 @@ public class App extends Application
         eventsReporter = new EventsReporting(App.this);
         traceUtils = new TraceUtils();
 
-        CrashlyticsTree crashlyticsTree = new CrashlyticsTree();
-        Timber.plant(crashlyticsTree);
-
-        if (BuildConfig.DEBUG)
-        {
-            // Enable DEBUG tree on DEBUG builds
-            Timber.DebugTree debugTree = new Timber.DebugTree();
-            Timber.plant(debugTree);
-        }
+        CustomCrashlyticsTree customCrashlyticsTree = new CustomCrashlyticsTree();
+        Timber.plant(customCrashlyticsTree);
 
         APL.setup(App.this);
 

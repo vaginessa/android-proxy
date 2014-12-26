@@ -1,5 +1,6 @@
 package be.shouldit.proxy.lib.reflection;
 
+import android.annotation.TargetApi;
 import android.net.ProxyInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -505,6 +506,7 @@ public class ReflectionUtils
         }
     }
 
+    @TargetApi(21)
     private static WifiConfiguration setFieldsOnWifiConfigurationSDK21(WiFiAPConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
     {
         Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];

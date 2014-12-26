@@ -51,6 +51,6 @@ public class APLNetworkId implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s - %s", SSID, Security);
+        return String.format("'%s' - '%s'", SSID, Security);
     }
 }
