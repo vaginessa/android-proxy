@@ -346,14 +346,25 @@ public class APL
                         mExclusionListField.setAccessible(true);
                         String mExclusionList = (String) mExclusionListField.get(mHttpProxy);
 
-                        //LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
+                        Timber.d("Read HTTP proxy configuration: '%s:%d' (el: '%s')",mHost,mPort,mExclusionList);
 
                         wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList, Uri.EMPTY);
                     }
                 }
                 else if (ordinal == ProxySetting.PAC.ordinal())
                 {
-                    wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, null, null, null, Uri.EMPTY);
+                    Object mHttpProxy = ReflectionUtils.getHttpProxy(wifiConf);
+
+                    if (mHttpProxy != null)
+                    {
+                        Field mPacFileUrlField = ReflectionUtils.getField(mHttpProxy.getClass().getDeclaredFields(), "mPacFileUrl");
+                        mPacFileUrlField.setAccessible(true);
+                        Uri mPacFileUrl = (Uri) mPacFileUrlField.get(mHttpProxy);
+
+                        Timber.d("Read PAC proxy configuration: '%s'", mPacFileUrl.toString());
+
+                        wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.PAC, null, null, null, mPacFileUrl);
+                    }
                 }
                 else
                 {
