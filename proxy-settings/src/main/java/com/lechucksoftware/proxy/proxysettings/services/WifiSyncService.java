@@ -50,13 +50,13 @@ public class WifiSyncService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getTraceUtils().startTrace(TAG, "syncAP", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "syncAP", "Started handling intent", Log.INFO, true);
 
         List<APLNetworkId> configsToCheck = getConfigsToCheck(intent);
-        App.getTraceUtils().partialTrace(TAG, "syncAP", Log.INFO);
+        App.getTraceUtils().partialTrace(TAG, "syncAP", "Got configurations to check", Log.INFO);
 
         syncProxyConfigurations(configsToCheck);
-        App.getTraceUtils().stopTrace(TAG, "syncAP", Log.INFO);
+        App.getTraceUtils().stopTrace(TAG, "syncAP", "Sync-ed configurations", Log.INFO);
 
         isHandling = false;
     }
@@ -76,10 +76,19 @@ public class WifiSyncService extends EnhancedIntentService
                     if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
                     {
                         WifiConfiguration wifiConf = (WifiConfiguration) caller.getExtras().get(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION);
-                        if (wifiConf != null)
+                        if (wifiConf != null && wifiConf.networkId != -1)
                         {
-                            APLNetworkId wifiId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
-                            networkIds.add(wifiId);
+                            Timber.d("Got change for WifiConfig #%d", wifiConf.networkId);
+
+                            // Instead of using the WifiConfiguration passed into the Intent,
+                            // get the WifiConfiguration based on the network Id
+                            WifiConfiguration conf = APL.getConfiguredNetwork(wifiConf.networkId);
+                            if (conf != null)
+                            {
+                                APLNetworkId wifiId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
+                                Timber.d("Adding network %s to list to be checked", wifiId.toString());
+                                networkIds.add(wifiId);
+                            }
                         }
                     }
 
@@ -142,7 +151,7 @@ public class WifiSyncService extends EnhancedIntentService
             }
         }
 
-        Timber.i(TAG, "Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
+        Timber.i("Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
     }
