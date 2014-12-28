@@ -48,19 +48,13 @@ public class BasicAppTest extends ActivityInstrumentationTestCase2<MasterActivit
 
         assertTrue(solo.waitForText(getActivity().getString(R.string.create_new_proxy)));
 
-//        final InputField hostEdit = (InputField) solo.getView(R.id.proxy_host);
-//        final InputField hostPort = (InputField) solo.getView(R.id.proxy_port);
-
-//        EditText hostEditText = RobotiumUtils.filterViews(EditText.class, solo.getViews(hostEdit)).get(0);
-//        EditText portEditText = RobotiumUtils.filterViews(EditText.class, solo.getViews(hostPort)).get(0);
-
         String proxyIp = TestUtils.getRandomIP();
         int proxyPort = TestUtils.getRandomPort();
 
         solo.enterText(0,proxyIp);
         solo.enterText(1,String.valueOf(proxyPort));
 
-        solo.waitForView(R.id.menu_save);
+        assertTrue(solo.waitForView(R.id.menu_save));
 
         solo.clickOnActionBarItem(R.id.menu_save);
 
