@@ -2,15 +2,11 @@ package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.View;
-import android.widget.EditText;
+import android.test.suitebuilder.annotation.LargeTest;
+import android.test.suitebuilder.annotation.Smoke;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
-import com.robotium.solo.Condition;
-import com.robotium.solo.RobotiumUtils;
 import com.robotium.solo.Solo;
 import com.squareup.spoon.Spoon;
 
@@ -29,6 +25,7 @@ public class BasicAppTest extends ActivityInstrumentationTestCase2<MasterActivit
         solo = new Solo(getInstrumentation(), getActivity());
     }
 
+    @Smoke
     public void testCreateNewProxy() throws Exception
     {
         Spoon.screenshot(getActivity(), "init");
@@ -61,6 +58,30 @@ public class BasicAppTest extends ActivityInstrumentationTestCase2<MasterActivit
         Spoon.screenshot(getActivity(), "end");
     }
 
+    @Smoke
+    public void testEnableProxyForWifiNetwork()
+    {
+        Spoon.screenshot(getActivity(), "init");
+
+        assertTrue(solo.waitForActivity(MasterActivity.class));
+
+        dismissAnyStartupDialog();
+
+        openNavigationDrawer();
+
+        assertTrue(solo.waitForText(getActivity().getString(R.string.wifi_access_points)));
+        solo.clickOnText(getActivity().getString(R.string.wifi_access_points));
+
+        assertTrue(solo.waitForText(getActivity().getString(R.string.wifi_access_points)));
+
+        solo.scrollListToTop(0);
+        solo.clickInList(0);
+
+        assertTrue(solo.waitForText(getActivity().getString(R.string.edit_wifi_ap)));
+
+        Spoon.screenshot(getActivity(), "end");
+    }
+
     /**
      * Open the navigation drawer with a drag gesture. Click based triggering is
      * flaky on SDK < 18
@@ -80,36 +101,19 @@ public class BasicAppTest extends ActivityInstrumentationTestCase2<MasterActivit
         solo.drag(fromX, toX, fromY, toY, 1);
     }
 
-//    private void openNavigationDrawer()
-//    {
-//
-////      NOT WORKING AT THE MOMENT:
-////        solo.setNavigationDrawer(Solo.OPENED);
-//
-//        assertTrue(solo.waitForFragmentById(R.id.navigation_drawer));
-//        NavDrawFragment navDrawerFragment = (NavDrawFragment) getActivity().getFragmentManager().findFragmentById(R.id.navigation_drawer);
-//
-//        if (!navDrawerFragment.isDrawerOpen())
-//        {
-//            navDrawerFragment.forceOpenDrawer();
-//        }
-//
-//        try
-//        {
-//            Thread.sleep(1000);
-//        }
-//        catch (InterruptedException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-
     private void dismissAnyStartupDialog()
     {
         if (solo.waitForDialogToOpen(1000))
         {
-            assertTrue(solo.getButton(getActivity().getString(R.string.ok)).callOnClick());
-            assertTrue(solo.waitForDialogToClose());
+            if (solo.waitForText(getActivity().getString(R.string.ok)))
+            {
+                assertTrue(solo.getButton(getActivity().getString(R.string.ok)).callOnClick());
+                assertTrue(solo.waitForDialogToClose());
+            }
+            else
+            {
+                solo.goBack();
+            }
         }
     }
 
