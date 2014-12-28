@@ -47,8 +47,6 @@ public class BaseDialogFragment extends DialogFragment
         // TODO: Check if the TAG is correct here
 //        Timber.d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
         Timber.d("onResume " + this.getClass().getSimpleName());
-
-        App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
 
     @Override

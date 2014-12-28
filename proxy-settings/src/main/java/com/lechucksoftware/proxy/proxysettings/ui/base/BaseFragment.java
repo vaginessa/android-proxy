@@ -42,8 +42,6 @@ public class BaseFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         Timber.d("onCreate " + this.getClass().getSimpleName());
-
-        App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
 
     @Override

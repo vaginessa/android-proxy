@@ -81,54 +81,6 @@ public class EventsReporting
         return setupDone;
     }
 
-//    public void sendException(Exception e)
-//    {
-//        sendException(e, null);
-//    }
-//
-//    public void sendException(Exception e, Map<String, String> params)
-//    {
-//        Timber.e("Handled exception message: " + e.getMessage());
-//        Timber.e("Handled exception stack trace: " + Log.getStackTraceString(e));
-//
-//        if (crashLyticsSetupDone)
-//        {
-//            if (params != null)
-//            {
-//                for (String key : params.keySet())
-//                {
-//                    String value = params.get(key);
-//                    Crashlytics.log(0, key, value); // Priority = 0
-//                    Timber.e(String.format("Added log '%s': '%s'",key,value));
-//                }
-//            }
-//
-//            Crashlytics.logException(e);
-//            Timber.e("Sent exception to Crashlytics");
-//        }
-//
-//        if (analyticsSetupDone)
-//        {
-//            if (e != null)
-//            {
-//                HitBuilders.ExceptionBuilder eb = new HitBuilders.ExceptionBuilder();
-//                StandardExceptionParser sep = new StandardExceptionParser(context, null);
-//
-//                eb.setFatal(false);
-//                String title = sep.getDescription(Thread.currentThread().getName(), e);
-//                String stackTrace = Log.getStackTraceString(e);
-//
-//                eb.setDescription(TextUtils.join("             ",new Object[]{title,stackTrace}));
-//
-//                defaultTracker.send(eb.build());
-//            }
-//        }
-//        else
-//        {
-//            setupAnalytics(App.getInstance().getApplicationContext());
-//        }
-//    }
-
     public void sendEvent(final int categoryId, final int actionId, final int labelId)
     {
         sendEvent(categoryId, actionId, labelId, null);
@@ -174,17 +126,5 @@ public class EventsReporting
     public void sendEvent(String s)
     {
         sendEvent("", "", s, null);
-    }
-
-    public void sendScreenView(String screenName)
-    {
-        // DO nothing, since enableAutoActivityTracking = true
-
-//        Tracker tracker = getDefaultTracker();
-//        if (tracker != null)
-//        {
-//            tracker.setScreenName(screenName);
-//            tracker.sendEvent(new HitBuilders.AppViewBuilder().build());
-//        }
     }
 }

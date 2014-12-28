@@ -25,8 +25,6 @@ public class BaseActivity extends Activity
         super.onCreate(savedInstanceState);
 
         Timber.d("onCreate");
-
-        App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
 
     @Override
