@@ -3,8 +3,6 @@ package com.lechucksoftware.proxy.proxysettings.ui.base;
 import android.app.Fragment;
 import android.os.Bundle;
 
-import com.lechucksoftware.proxy.proxysettings.App;
-
 import timber.log.Timber;
 
 /**
@@ -41,20 +39,25 @@ public class BaseFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        Timber.d("onCreate " + this.getClass().getSimpleName());
+        Timber.tag(this.getClass().getSimpleName());
+        Timber.d("onCreate");
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        Timber.d("onResume " + this.getClass().getSimpleName());
+
+        Timber.tag(this.getClass().getSimpleName());
+        Timber.d("onResume");
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        Timber.d("onPause " + this.getClass().getSimpleName());
+
+        Timber.tag(this.getClass().getSimpleName());
+        Timber.d("onPause");
     }
 }
