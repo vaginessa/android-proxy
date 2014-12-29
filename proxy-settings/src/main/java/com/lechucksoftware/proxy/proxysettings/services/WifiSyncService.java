@@ -80,9 +80,9 @@ public class WifiSyncService extends EnhancedIntentService
                     if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
                     {
                         WifiConfiguration wifiConf = (WifiConfiguration) caller.getExtras().get(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION);
-                        if (wifiConf != null && wifiConf.networkId != -1)
+                        if (wifiConf != null)
                         {
-                            Timber.d("Got change for WifiConfig #%d", wifiConf.networkId);
+                            Timber.d("Got change for WifiConfig: %s", wifiConf.toString());
 
                             APLNetworkId wifiId = null;
 
