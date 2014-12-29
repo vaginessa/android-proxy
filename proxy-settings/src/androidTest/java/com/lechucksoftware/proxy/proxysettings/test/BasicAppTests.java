@@ -2,7 +2,6 @@ package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.Smoke;
 
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -10,11 +9,11 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.robotium.solo.Solo;
 import com.squareup.spoon.Spoon;
 
-public class BasicAppTest extends ActivityInstrumentationTestCase2<MasterActivity>
+public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivity>
 {
     private Solo solo;
 
-    public BasicAppTest()
+    public BasicAppTests()
     {
         super(MasterActivity.class);
     }

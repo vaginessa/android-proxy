@@ -1,10 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 
@@ -12,9 +12,9 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 * Created by mpagliar on 22/08/2014.
 */
 
-public class ApplicationTest extends ActivityInstrumentationTestCase2<MasterActivity>
+public class EspressoTests extends ActivityInstrumentationTestCase2<MasterActivity>
 {
-    public ApplicationTest()
+    public EspressoTests()
     {
         super(MasterActivity.class);
     }
