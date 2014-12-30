@@ -25,7 +25,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        App.getTraceUtils().logIntent(TAG, intent, Log.INFO, true);
+        App.getTraceUtils().logIntent(TAG, intent, Log.INFO);
 
         if (intent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
         {

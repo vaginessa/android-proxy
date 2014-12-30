@@ -130,6 +130,22 @@ public class NavDrawFragment extends Fragment
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
 
+    public void forceOpenDrawer()
+    {
+        getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run()
+            {
+                if (mDrawerLayout != null)
+                {
+                    mDrawerLayout.openDrawer(mFragmentContainerView);
+                }
+            }
+
+        });
+    }
+
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
      *

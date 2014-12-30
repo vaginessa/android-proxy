@@ -3,8 +3,6 @@ package com.lechucksoftware.proxy.proxysettings.ui.base;
 import android.app.DialogFragment;
 import android.os.Bundle;
 
-import com.lechucksoftware.proxy.proxysettings.App;
-
 import timber.log.Timber;
 
 /**
@@ -44,24 +42,25 @@ public class BaseDialogFragment extends DialogFragment
     {
         super.onCreate(savedInstanceState);
 
-        // TODO: Check if the TAG is correct here
-//        Timber.d(this.getClass().getSimpleName(), "onResume " + this.getClass().getSimpleName());
-        Timber.d("onResume " + this.getClass().getSimpleName());
-
-        App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
+        Timber.tag(this.getClass().getSimpleName());
+        Timber.d("onResume");
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        Timber.d("onResume " + this.getClass().getSimpleName());
+
+        Timber.tag(this.getClass().getSimpleName());
+        Timber.d("onResume");
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        Timber.d("onPause " + this.getClass().getSimpleName());
+
+        Timber.tag(this.getClass().getSimpleName());
+        Timber.d("onPause");
     }
 }
