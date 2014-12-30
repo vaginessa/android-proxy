@@ -42,8 +42,6 @@ public class BasePreferenceFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
 
         Timber.d("onCreate " + this.getClass().getSimpleName());
-
-        App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
 
     @Override

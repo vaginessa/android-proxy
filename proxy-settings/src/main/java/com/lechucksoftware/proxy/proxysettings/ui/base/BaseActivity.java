@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
@@ -24,14 +23,14 @@ public class BaseActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
+        Timber.tag(this.getClass().getSimpleName());
         Timber.d("onCreate");
-
-        App.getEventsReporter().sendScreenView(this.getClass().getSimpleName());
     }
 
     @Override
     protected void onNewIntent(Intent intent)
     {
+        Timber.tag(this.getClass().getSimpleName());
         Timber.d("onNewIntent");
     }
 
@@ -39,6 +38,8 @@ public class BaseActivity extends Activity
     public void onDestroy()
     {
         super.onDestroy();
+
+        Timber.tag(this.getClass().getSimpleName());
         Timber.d("onDestroy");
         ViewServer.get(this).removeWindow(this);
     }
@@ -54,6 +55,7 @@ public class BaseActivity extends Activity
             ViewServer.get(this).setFocusedWindow(this);
         }
 
+        Timber.tag(this.getClass().getSimpleName());
         Timber.d("onResume");
     }
 
@@ -61,6 +63,8 @@ public class BaseActivity extends Activity
     public void onPause()
     {
         super.onPause();
+
+        Timber.tag(this.getClass().getSimpleName());
         Timber.d("onPause");
     }
 
@@ -68,6 +72,8 @@ public class BaseActivity extends Activity
     public void onStart()
     {
         super.onStart();
+
+        Timber.tag(this.getClass().getSimpleName());
         Timber.d("onStart");
         active = true;
     }
@@ -76,6 +82,8 @@ public class BaseActivity extends Activity
     public void onStop()
     {
         super.onStop();
+
+        Timber.tag(this.getClass().getSimpleName());
         Timber.d("onStop");
         active = false;
     }
