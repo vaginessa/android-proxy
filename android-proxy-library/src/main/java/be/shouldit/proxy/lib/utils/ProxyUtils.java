@@ -39,6 +39,7 @@ import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.ProxyStatus;
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.R;
+import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
@@ -1134,4 +1135,27 @@ public class ProxyUtils
         }
     }
 
+
+    public static String networksChangedReasonString(int reason)
+    {
+        String result = "Not valid";
+
+        switch (reason)
+        {
+            case APLReflectionConstants.CHANGE_REASON_ADDED:
+                result = "Added";
+                break;
+
+            case APLReflectionConstants.CHANGE_REASON_REMOVED:
+                result = "Removed";
+                break;
+
+            case APLReflectionConstants.CHANGE_REASON_CONFIG_CHANGE:
+                result = "Configuration changed";
+                break;
+
+        }
+
+        return result;
+    }
 }
