@@ -310,12 +310,12 @@ public class APL
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        APL.getTraceUtils().startTrace(TAG, "getWiFiAPConfiguration", Log.DEBUG);
-
         WiFiAPConfig wiFiAPConfig = null;
 
         try
         {
+            APL.getTraceUtils().startTrace(TAG, "getWiFiAPConfiguration", Log.DEBUG);
+
             Object proxySetting = ReflectionUtils.getProxySetting(wifiConf);
 
             if (proxySetting != null)
@@ -350,19 +350,19 @@ public class APL
                     }
                 }
             }
-            else
+
+            if (wiFiAPConfig == null)
             {
-                Timber.e("Cannot find proxySettings object");
+                Timber.e("Cannot get proxy information from WifiConfiguration object");
                 wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
             }
+
+            APL.getTraceUtils().stopTrace(TAG, "getWiFiAPConfiguration", String.format("Got configuration for %s",wiFiAPConfig.getAPLNetworkId().toString()), Log.DEBUG);
         }
         catch (Exception e)
         {
             Timber.e(e, "Problem getting WiFiAPConfig from WifiConfiguration");
         }
-
-        APL.getTraceUtils().stopTrace(TAG, "getWiFiAPConfiguration", String.format("Got configuration for %s",wiFiAPConfig.getAPLNetworkId().toString()), Log.DEBUG);
-
 
         return wiFiAPConfig;
     }
