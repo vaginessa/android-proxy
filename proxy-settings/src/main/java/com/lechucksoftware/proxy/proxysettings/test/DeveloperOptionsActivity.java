@@ -19,6 +19,7 @@ import com.crashlytics.android.Crashlytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
@@ -220,9 +221,17 @@ public class DeveloperOptionsActivity extends Activity
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
         textViewTest.setTextSize(10);
+
         Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
         List<ProxyEntity> list = new ArrayList<ProxyEntity>(savedProxies.values());
         for (ProxyEntity p : list)
+        {
+            textViewTest.append(p.toString() + "\n");
+        }
+
+        Map<Long, PacEntity> savedPac = App.getDBManager().getAllPac();
+        List<PacEntity> pacslist = new ArrayList<PacEntity>(savedPac.values());
+        for (PacEntity p : pacslist)
         {
             textViewTest.append(p.toString() + "\n");
         }

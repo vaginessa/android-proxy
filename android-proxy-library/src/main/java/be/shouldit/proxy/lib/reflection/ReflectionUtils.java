@@ -566,6 +566,10 @@ public class ReflectionUtils
                 mHttpProxyField.set(mIpConfiguration, proxyInfo);
             }
         }
+        else if (wiFiAPConfig.getProxySetting() == ProxySetting.PAC)
+        {
+            // TODO add PAC support
+        }
 
         return newConf;
     }

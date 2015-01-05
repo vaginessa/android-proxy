@@ -90,19 +90,19 @@ public class DownloadService extends IntentService
 		{
 			HttpURLConnection con = null;
 
-            WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
+//            WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
+//
+//			if (wiFiAPConfig != null && wiFiAPConfig.getProxyType()==Type.HTTP)
+//			{
+//				System.setProperty("http.proxyHost", wiFiAPConfig.getProxyIPHost());
+//				System.setProperty("http.proxyPort", wiFiAPConfig.getProxyPort().toString());
+//			}
+//			else
+//			{
+//				System.setProperty("http.proxyHost", "");
+//				System.setProperty("http.proxyPort", "");
+//			}
 
-			if (wiFiAPConfig != null && wiFiAPConfig.getProxyType()==Type.HTTP)
-			{
-				System.setProperty("http.proxyHost", wiFiAPConfig.getProxyIPHost());
-				System.setProperty("http.proxyPort", wiFiAPConfig.getProxyPort().toString());
-			}
-			else
-			{
-				System.setProperty("http.proxyHost", "");
-				System.setProperty("http.proxyPort", "");
-			}
-			
 			con = (HttpURLConnection) urlToDownload.openConnection();
 			con.setReadTimeout(60000);
 			con.setConnectTimeout(60000);

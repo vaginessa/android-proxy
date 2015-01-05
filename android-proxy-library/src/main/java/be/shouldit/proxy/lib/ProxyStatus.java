@@ -87,6 +87,7 @@ public class ProxyStatus implements Serializable
 			properties.put(ProxyStatusProperties.PROXY_VALID_HOSTNAME, new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_HOSTNAME));
 			properties.put(ProxyStatusProperties.PROXY_VALID_PORT, new ProxyStatusItem(ProxyStatusProperties.PROXY_VALID_PORT));
 			properties.put(ProxyStatusProperties.PROXY_REACHABLE, new ProxyStatusItem(ProxyStatusProperties.PROXY_REACHABLE));
+            properties.put(ProxyStatusProperties.PAC_VALID_URI, new ProxyStatusItem(ProxyStatusProperties.PAC_VALID_URI));
 		}
 	}
 

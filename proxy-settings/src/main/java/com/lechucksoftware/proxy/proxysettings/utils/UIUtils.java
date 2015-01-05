@@ -48,6 +48,7 @@ import java.util.Random;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 import timber.log.Timber;
 
@@ -489,14 +490,17 @@ public class UIUtils
 
         if (conf.getCheckingStatus() == CheckStatusValues.CHECKED)
         {
-            if (conf.getProxy().type() == Type.DIRECT)
-            {
-                DisableProxyNotification(context);
-            }
-            else
-            {
-                SetProxyNotification(conf, context);
-            }
+            DisableProxyNotification(context);
+
+            //TODO: Re-enable notification
+//            if (conf.getProxySetting() == ProxySetting.NONE)
+//            {
+//
+//            }
+//            else
+//            {
+//                SetProxyNotification(conf, context);
+//            }
         }
         else
         {

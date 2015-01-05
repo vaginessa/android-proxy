@@ -35,6 +35,7 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
@@ -42,6 +43,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
+import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.utils.HttpAnswer;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -99,14 +101,10 @@ public class Utils
         {
             try
             {
-                WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
-                Proxy proxyConf = Proxy.NO_PROXY;
-                if (wiFiAPConfig != null)
-                    proxyConf = wiFiAPConfig.getProxy();
-
+                Proxy proxyConf = APL.getProxySelectorConfiguration(uri);
                 answer = ProxyUtils.getHttpAnswerURI(uri,proxyConf, 10000, timeout);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 Timber.w("Exception on getProxyCountryCode: " + e.toString());
             }

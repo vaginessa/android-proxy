@@ -45,9 +45,16 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
 
     public void setProxy(ProxyEntity proxy)
     {
-        ProxyEntity upsetedProxy = App.getDBManager().upsertProxy(proxy);
-        proxyEntity = upsetedProxy;
-        proxyId = upsetedProxy.getId();
+        ProxyEntity upsertedProxy = App.getDBManager().upsertProxy(proxy);
+        proxyEntity = upsertedProxy;
+        proxyId = upsertedProxy.getId();
+    }
+
+    public void setProxyPAC(PacEntity pac)
+    {
+        PacEntity upsertedPac = App.getDBManager().upsertPac(pac);
+        pacEntity = upsertedPac;
+        pacId = upsertedPac.getId();
     }
 
     public ProxyEntity getProxy()
@@ -80,7 +87,7 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
 
         if (id != -1)
         {
-            pacEntity = App.getDBManager().getPAC(id);
+            pacEntity = App.getDBManager().getPac(id);
         }
         else
         {
@@ -132,7 +139,7 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
                 break;
 
             case STATIC:
-                if (proxyId != -1)
+                if (proxyId != null && proxyId != -1)
                 {
                     sb.append(getProxy().toString());
                 }
@@ -143,7 +150,7 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
                 break;
 
             case PAC:
-                if (pacId != -1)
+                if (pacId != null && pacId != -1)
                 {
                     sb.append(getProxyPAC().toString());
                 }
@@ -208,11 +215,6 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
     public void setProxySetting(ProxySetting proxySetting)
     {
         this.proxySetting = proxySetting;
-    }
-
-    public void setProxyPAC(PacEntity PAC)
-    {
-        this.pacEntity = PAC;
     }
 
     public PacEntity getProxyPAC()

@@ -107,4 +107,9 @@ public class PacEntity extends BaseEntity implements Serializable, Comparable<Pa
     {
         this.pacUrlFile = pacUrlFile;
     }
+
+    public Uri getPacUriFile()
+    {
+        return pacUriFile;
+    }
 }

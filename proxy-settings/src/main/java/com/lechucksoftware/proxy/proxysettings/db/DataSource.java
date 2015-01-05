@@ -43,6 +43,13 @@ public class DataSource
             DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
             DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
 
+    private String[] pacTableColumns = {
+            DatabaseSQLiteOpenHelper.COLUMN_ID,
+            DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE,
+            DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE,
+            DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
+            DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
+
     private String[] tagsTableColumns = {
             DatabaseSQLiteOpenHelper.COLUMN_ID,
             DatabaseSQLiteOpenHelper.COLUMN_TAG,
@@ -78,6 +85,32 @@ public class DataSource
         notifyDBReset();
     }
 
+    public PacEntity upsertPac(PacEntity pacData)
+    {
+        long pacId = -1;
+        if (pacData.isPersisted())
+        {
+            pacId = pacData.getId();
+        }
+        else
+        {
+            pacId = findPac(pacData);
+        }
+
+        PacEntity result = null;
+
+        if (pacId == -1)
+        {
+            result = createPac(pacData);
+        }
+        else
+        {
+            result = updatePac(pacId, pacData);
+        }
+
+        return result;
+    }
+
     public ProxyEntity upsertProxy(ProxyEntity proxyData)
     {
         long proxyId = -1;
@@ -94,13 +127,10 @@ public class DataSource
 
         if (proxyId == -1)
         {
-//            LogWrapper.d(TAG,"Insert new Proxy: " + proxyData);
             result = createProxy(proxyData);
         }
         else
         {
-            // Update
-//            LogWrapper.d(TAG,"Update Proxy: " + proxyData);
             result = updateProxy(proxyId, proxyData);
         }
 
@@ -137,30 +167,31 @@ public class DataSource
             wiFiAPEntity.setSecurityType(config.getSecurityType());
             wiFiAPEntity.setProxySetting(config.getProxySetting());
 
+            wiFiAPEntity.setProxyId(-1L);
+            wiFiAPEntity.setPACId(-1L);
+
             if (wiFiAPEntity.getProxySetting() == ProxySetting.STATIC)
             {
-                if (ProxyUtils.isValidProxyConfiguration(config))
+                if (config.isValidProxyConfiguration())
                 {
                     ProxyEntity proxy = new ProxyEntity();
                     proxy.setHost(config.getProxyHost());
                     proxy.setPort(config.getProxyPort());
                     proxy.setExclusion(config.getProxyExclusionList());
                     wiFiAPEntity.setProxy(proxy);
-                }
-                else
-                {
-                    wiFiAPEntity.setProxyId(-1L);
+                    wiFiAPEntity.setPACId(-1L);
                 }
             }
             else if (wiFiAPEntity.getProxySetting() == ProxySetting.PAC)
             {
-                PacEntity pac = new PacEntity();
-                pac.setPacUrlFile(config.getProxyHost());
-                wiFiAPEntity.setProxyPAC(pac);
-            }
-            else
-            {
-                wiFiAPEntity.setProxyId(-1L);
+                if (config.isValidProxyConfiguration())
+                {
+                    PacEntity pac = new PacEntity();
+                    pac.setPacUrlFile(config.getProxyHost());
+                    wiFiAPEntity.setProxyPAC(pac);
+                    wiFiAPEntity.setProxyId(-1L);
+                    wiFiAPEntity.setPACId(-1L);
+                }
             }
 
             Timber.d("Upsert Wi-Fi entity to DB: %s", wiFiAPEntity.toString());
@@ -275,9 +306,9 @@ public class DataSource
         return proxyData;
     }
 
-    public PacEntity getPAC(Long pacId)
+    public PacEntity getPac(Long pacId)
     {
-        App.getTraceUtils().startTrace(TAG, "getProxy", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "getPac", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -294,7 +325,7 @@ public class DataSource
 
         cursor.close();
 
-        App.getTraceUtils().stopTrace(TAG, "getProxy", pacData.toString(), Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "getPac", pacData.toString(), Log.DEBUG);
         return pacData;
     }
 
@@ -509,6 +540,31 @@ public class DataSource
         return duplicatedProxiesID;
     }
 
+    public long findPac(PacEntity pacEntity)
+    {
+        App.getTraceUtils().startTrace(TAG, "findPac", Log.DEBUG);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC
+                + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE + " =?";
+
+        String[] selectionArgs = {pacEntity.getPacUriFile().toString()};
+        Cursor cursor = database.rawQuery(query, selectionArgs);
+
+        cursor.moveToFirst();
+        long pacId = -1;
+        if (!cursor.isAfterLast())
+        {
+            pacId = cursor.getLong(0);
+        }
+
+        cursor.close();
+        App.getTraceUtils().stopTrace(TAG, "findPac", Log.DEBUG);
+        return pacId;
+    }
+
+
     public long findProxy(ProxyEntity proxyData)
     {
         App.getTraceUtils().startTrace(TAG, "findProxy", Log.DEBUG);
@@ -617,6 +673,29 @@ public class DataSource
         return newProxy;
     }
 
+    public PacEntity createPac(PacEntity pacEntity)
+    {
+        App.getTraceUtils().startTrace(TAG, "createPac", Log.DEBUG, true);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE, pacEntity.getPacUriFile().toString());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE, pacEntity.getUsedByCount());
+
+        long currentDate = System.currentTimeMillis();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE, currentDate);
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+
+        long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_PROXIES, null, values);
+        PacEntity newPac = getPac(insertId);
+
+        App.getTraceUtils().stopTrace(TAG, "createPac", Log.DEBUG);
+
+        notifyProxyChange();
+
+        return newPac;
+    }
+
     public TagEntity createTag(TagEntity tag)
     {
         App.getTraceUtils().startTrace(TAG, "createTag", Log.DEBUG);
@@ -690,6 +769,26 @@ public class DataSource
         return updatedProxy;
     }
 
+    public PacEntity updatePac(long pacId, PacEntity newData)
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE, newData.getPacUriFile().toString());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE, newData.getUsedByCount());
+
+        long currentDate = System.currentTimeMillis();
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+
+        long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PAC, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(pacId)});
+
+        PacEntity updatedPac = getPac(pacId);
+
+        notifyProxyChange();
+
+        return updatedPac;
+    }
+
     private WiFiAPEntity updateWifiAP(long wifiApId, WiFiAPEntity wiFiAPEntity)
     {
         WiFiAPEntity persistedWifiAp = getWifiAP(wifiApId);
@@ -699,6 +798,7 @@ public class DataSource
         ContentValues values = new ContentValues();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_SETTING, wiFiAPEntity.getProxySetting().toString());
         values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID, wiFiAPEntity.getProxyId());
+        values.put(DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID, wiFiAPEntity.getPacId());
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
@@ -784,7 +884,7 @@ public class DataSource
 //            App.getTraceUtils().d(TAG, "Updated in use flag for proxy: " + proxy);
 //        }
 
-        App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("Proxy #%d used by %d Wi-Fi AP",proxyId,inUseCount), Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("Proxy #%d used by %d Wi-Fi AP", proxyId, inUseCount), Log.DEBUG);
     }
 
     public void deleteProxy(long proxyId)
@@ -942,6 +1042,26 @@ public class DataSource
         }
 
         return proxies;
+    }
+
+    public Map<Long, PacEntity> getAllPac()
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        Map<Long, PacEntity> pacs = new HashMap<Long, PacEntity>();
+
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PAC, pacTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " ASC");
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            PacEntity pacEntity = cursorToPAC(cursor);
+            pacs.put(pacEntity.getId(), pacEntity);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return pacs;
     }
 
     public Map<Long, WiFiAPEntity> getAllWifiAp()

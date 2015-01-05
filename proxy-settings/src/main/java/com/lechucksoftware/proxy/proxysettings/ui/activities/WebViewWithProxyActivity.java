@@ -15,6 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
 
 import java.net.URL;
 
+import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
@@ -34,8 +35,17 @@ public class WebViewWithProxyActivity extends FragmentActivity
 		setContentView(R.layout.webview);
 
 		if (Build.VERSION.SDK_INT < 12)
-			ProxyUtils.setWebViewProxy(getApplicationContext(), App.getWifiNetworksManager().getCachedConfiguration()); // Only
-																								  // for
+        {
+            try
+            {
+                ProxyUtils.setWebViewProxy(getApplicationContext(), APL.getCurrentHttpProxyConfiguration()); // Only
+            }
+            catch (Exception e)
+            {
+                Timber.e(e,"Exception setting proxy for WebView");
+            }
+        }																					  // for
+
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setDomStorageEnabled(true);

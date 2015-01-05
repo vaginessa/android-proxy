@@ -13,9 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.SocketAddress;
 import java.util.UUID;
 
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
@@ -44,7 +41,8 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private String proxyHost;
     private Integer proxyPort;
     private String stringProxyExclusionList;
-    private Uri pacFileUrl;
+
+    private Uri pacFileUri;
     private String[] parsedProxyExclusionList;
 
     /* AccessPoint class fields */
@@ -78,7 +76,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         proxyHost = host;
         proxyPort = port;
         setProxyExclusionString(exclusionList);
-        pacFileUrl = pacFile;
+        pacFileUri = pacFile;
 
         ssid = (wifiConf.SSID == null ? "" : removeDoubleQuotes(wifiConf.SSID));
         bssid = wifiConf.BSSID;
@@ -141,6 +139,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             proxyPort = updated.proxyPort;
             stringProxyExclusionList = updated.getStringProxyExclusionList();
             parsedProxyExclusionList = ProxyUtils.parseExclusionList(getStringProxyExclusionList());
+            pacFileUri = updated.pacFileUri;
 
             getStatus().clear();
 
@@ -152,35 +151,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         {
 //            LogWrapper.d(TAG,"No need to update proxy configuration: " + this.toShortString());
             return false;
-        }
-    }
-
-    public Proxy getProxy()
-    {
-        if (getProxySetting() == ProxySetting.STATIC && proxyHost != null && proxyPort != null)
-        {
-            SocketAddress sa = null;
-
-            if (isValidProxyConfiguration())
-            {
-                try
-                {
-                    sa = InetSocketAddress.createUnresolved(proxyHost, proxyPort);
-                }
-                catch (Exception e)
-                {
-                    Timber.e(e, "Failed creating unresolved", e);
-                }
-            }
-
-            if (sa != null)
-                return new Proxy(Proxy.Type.HTTP, sa);
-            else
-                return Proxy.NO_PROXY;
-        }
-        else
-        {
-            return Proxy.NO_PROXY;
         }
     }
 
@@ -386,7 +356,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         sb.append(String.format("INTERNAL Id: %s, SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getId().toString(), getSSID(), mRssi, getLevel(), getNetworkId()));
 
         sb.append(" - " + toStatusString());
-        sb.append(" " + getProxyExclusionList());
+//        sb.append(" " + getProxyExclusionList());
 
         if (getStatus() != null)
             sb.append(" - " + getStatus().toShortString());
@@ -407,11 +377,11 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         {
             return APL.getContext().getResources().getString(R.string.direct_connection);
         }
-        else
+        else if (setting == ProxySetting.STATIC)
         {
             StringBuilder sb = new StringBuilder();
             if (!TextUtils.isEmpty(proxyHost) && proxyPort != null && proxyPort > 0)
-                sb.append(String.format("%s:%s", proxyHost, proxyPort));
+                sb.append(String.format("HTTP: %s:%s", proxyHost, proxyPort));
             else
             {
                 sb.append(APL.getContext().getResources().getString(R.string.not_set));
@@ -419,11 +389,21 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
             return sb.toString();
         }
-    }
+        else if (setting == ProxySetting.PAC)
+        {
+            StringBuilder sb = new StringBuilder();
 
-    public Proxy.Type getProxyType()
-    {
-        return getProxy().type();
+            if (!TextUtils.isEmpty(pacFileUri.toString()))
+                sb.append(String.format("PAC: %s", pacFileUri));
+            else
+            {
+                sb.append(APL.getContext().getResources().getString(R.string.not_set));
+            }
+
+            return sb.toString();
+        }
+
+        return APL.getContext().getResources().getString(R.string.not_valid_proxy_setting);
     }
 
     public String getProxyHostString()
@@ -452,6 +432,11 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             return "";
         else
             return getStringProxyExclusionList();
+    }
+
+    public Uri getPacFileUri()
+    {
+        return pacFileUri;
     }
 
     public CheckStatusValues getCheckingStatus()

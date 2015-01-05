@@ -43,6 +43,10 @@ public class ProxyUIUtils
 							description = callerContext.getResources().getString(R.string.status_title_web_not_reachable);
 							break;
 
+                        case PAC_VALID_URI:
+                            description = callerContext.getResources().getString(R.string.status_title_invalid_pac);
+                            break;
+
 						default:
 							description = "";
 					}

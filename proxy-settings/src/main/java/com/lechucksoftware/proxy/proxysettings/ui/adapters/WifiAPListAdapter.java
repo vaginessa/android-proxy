@@ -132,7 +132,6 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
             viewHolder.ssid.setText(listItem.getSSID());
 
             viewHolder.status.setText(listItem.toStatusString());
-
         }
 
         return view;
