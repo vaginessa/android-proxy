@@ -28,7 +28,7 @@ public class HttpAnswer
         return contentType;
     }
 
-    public HttpAnswer(HttpURLConnection connection) throws IOException
+    public HttpAnswer(HttpURLConnection connection, int maxLen) throws IOException
     {
         httpURLConnection = connection;
         status = httpURLConnection.getResponseCode();
@@ -43,10 +43,14 @@ public class HttpAnswer
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String temp;
             StringBuilder sb = new StringBuilder();
+
             while ((temp = bufferedReader.readLine()) != null)
             {
                 // LogWrapper.d(TAG, temp);
                 sb.append(temp);
+
+                if (sb.length() >= maxLen)
+                    break;
             }
 
             body = sb.toString();

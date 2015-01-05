@@ -90,7 +90,7 @@ public class WifiNetworkStatus
         }
         else
         {
-            Timber.e(new Exception(),"Trying to remove a Wi-Fi network not available into the wifiApConfigsByAPLNetId MAP");
+            Timber.w("Trying to remove a Wi-Fi network not available into the wifiApConfigsByAPLNetId MAP");
         }
 
         if (toRemove != null && wifiApConfigsByWifiNetworkId.containsKey(toRemove.getNetworkId()))
@@ -99,7 +99,7 @@ public class WifiNetworkStatus
         }
         else
         {
-            Timber.e(new Exception(),"Trying to remove a Wi-Fi network not available into the wifiApConfigsByWifiNetworkId MAP");
+            Timber.w("Trying to remove a Wi-Fi network not available into the wifiApConfigsByWifiNetworkId MAP");
         }
     }
 

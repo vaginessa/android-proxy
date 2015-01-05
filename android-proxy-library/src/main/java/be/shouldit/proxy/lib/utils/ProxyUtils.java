@@ -29,7 +29,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.EnumSet;
-import java.util.Locale;
 import java.util.regex.Matcher;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
@@ -39,6 +38,7 @@ import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.ProxyStatus;
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.R;
+import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
@@ -415,7 +415,8 @@ public class ProxyUtils
         return -1;
     }
 
-    public static HttpAnswer getHttpAnswerURI(URI uri, Proxy proxy, int timeout) throws IOException
+
+    public static HttpAnswer getHttpAnswerURI(URI uri, Proxy proxy, int maxLen, int timeout) throws IOException
     {
         URL url = uri.toURL();
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
@@ -423,13 +424,13 @@ public class ProxyUtils
         httpURLConnection.setReadTimeout(timeout);
         httpURLConnection.setConnectTimeout(timeout);
 
-        HttpAnswer answer = new HttpAnswer(httpURLConnection);
+        HttpAnswer answer = new HttpAnswer(httpURLConnection, maxLen);
         return answer;
     }
 
-    public static String getURI(URI uri, Proxy proxy, int timeout) throws IOException
+    public static String getURI(URI uri, Proxy proxy, int maxLen, int timeout) throws IOException
     {
-        HttpAnswer answer = getHttpAnswerURI(uri, proxy, timeout);
+        HttpAnswer answer = getHttpAnswerURI(uri, proxy, maxLen, timeout);
 
         if (answer.getStatus() == HttpURLConnection.HTTP_OK)
         {
@@ -1134,4 +1135,27 @@ public class ProxyUtils
         }
     }
 
+
+    public static String networksChangedReasonString(int reason)
+    {
+        String result = "Not valid";
+
+        switch (reason)
+        {
+            case APLReflectionConstants.CHANGE_REASON_ADDED:
+                result = "Added";
+                break;
+
+            case APLReflectionConstants.CHANGE_REASON_REMOVED:
+                result = "Removed";
+                break;
+
+            case APLReflectionConstants.CHANGE_REASON_CONFIG_CHANGE:
+                result = "Configuration changed";
+                break;
+
+        }
+
+        return result;
+    }
 }

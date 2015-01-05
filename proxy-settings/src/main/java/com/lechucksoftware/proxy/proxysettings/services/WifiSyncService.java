@@ -77,58 +77,68 @@ public class WifiSyncService extends EnhancedIntentService
 
                 if (caller.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
                 {
-                    if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
-                    {
-                        WifiConfiguration wifiConf = (WifiConfiguration) caller.getExtras().get(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION);
-                        if (wifiConf != null)
-                        {
-                            Timber.d("Got change for WifiConfig: %s", wifiConf.toString());
-
-                            APLNetworkId wifiId = null;
-
-                            String SSID = ProxyUtils.cleanUpSSID(wifiConf.SSID);
-                            SecurityType securityType = ProxyUtils.getSecurity(wifiConf);
-
-                            if (!TextUtils.isEmpty(wifiConf.SSID) && securityType != null)
-                            {
-                                wifiId = new APLNetworkId(SSID,securityType);
-                            }
-
-                            if (wifiId == null)
-                            {
-                                // Instead of using the WifiConfiguration passed into the Intent,
-                                // get the WifiConfiguration based on the network Id
-                                Timber.d("Cannot prepare APLNetworkId from WifiConfiguration, trying getting from the configured networks");
-                                WifiConfiguration conf = APL.getConfiguredNetwork(wifiConf.networkId);
-                                if (conf != null)
-                                {
-                                    wifiId = new APLNetworkId(ProxyUtils.cleanUpSSID(conf.SSID), ProxyUtils.getSecurity(conf));
-                                }
-                            }
-
-                            if (wifiId != null)
-                            {
-                                Timber.d("Adding network %s to list to be checked", wifiId.toString());
-                                networkIds.add(wifiId);
-                            }
-                            else
-                            {
-                                Timber.e("Cannot get WifiConfiguration from Intent");
-                            }
-                        }
-                    }
+                    boolean multipleChanges = false;
+                    int changeReason = -1;
+                    WifiConfiguration wifiConf = null;
 
                     if (caller.hasExtra(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED))
                     {
-                        boolean multipleChanges = (boolean) caller.getExtras().get(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED);
-                        if (multipleChanges)
+                        multipleChanges = (boolean) caller.getExtras().get(APLReflectionConstants.EXTRA_MULTIPLE_NETWORKS_CHANGED);
+                    }
+
+                    if (caller.hasExtra(APLReflectionConstants.EXTRA_CHANGE_REASON))
+                    {
+                        changeReason = (int) caller.getExtras().get(APLReflectionConstants.EXTRA_CHANGE_REASON);
+                    }
+
+                    if (caller.hasExtra(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION))
+                    {
+                        wifiConf = (WifiConfiguration) caller.getExtras().get(APLReflectionConstants.EXTRA_WIFI_CONFIGURATION);
+                    }
+
+                    Timber.d("Multiple networks changed: %s", multipleChanges);
+                    Timber.d("Network change reason: %s", ProxyUtils.networksChangedReasonString(changeReason));
+
+                    if (wifiConf != null)
+                    {
+                        Timber.d("Got change for WifiConfig: %s", wifiConf.toString());
+
+                        APLNetworkId wifiId = null;
+
+                        String SSID = ProxyUtils.cleanUpSSID(wifiConf.SSID);
+                        SecurityType securityType = ProxyUtils.getSecurity(wifiConf);
+
+                        if (!TextUtils.isEmpty(wifiConf.SSID) && securityType != null)
                         {
-                            Timber.e("EXTRA_MULTIPLE_NETWORKS_CHANGED not handled at the moment");
+                            wifiId = new APLNetworkId(SSID, securityType);
+                        }
+
+                        if (wifiId == null)
+                        {
+                            // Instead of using the WifiConfiguration passed into the Intent,
+                            // get the WifiConfiguration based on the network Id
+                            Timber.d("Cannot prepare APLNetworkId from WifiConfiguration, trying getting from the configured networks");
+                            WifiConfiguration conf = APL.getConfiguredNetwork(wifiConf.networkId);
+                            if (conf != null)
+                            {
+                                wifiId = new APLNetworkId(ProxyUtils.cleanUpSSID(conf.SSID), ProxyUtils.getSecurity(conf));
+                            }
+                        }
+
+                        if (wifiId != null)
+                        {
+                            Timber.d("Adding network %s to list to be checked", wifiId.toString());
+                            networkIds.add(wifiId);
+                        }
+                        else
+                        {
+                            Timber.e("Cannot get WifiConfiguration from Intent");
                         }
                     }
                 }
             }
         }
+        
 
         return networkIds;
     }
@@ -184,7 +194,7 @@ public class WifiSyncService extends EnhancedIntentService
             }
             catch (Exception e)
             {
-                Timber.e(e,"Exception during ProxySyncService");
+                Timber.e(e, "Exception during ProxySyncService");
             }
         }
 

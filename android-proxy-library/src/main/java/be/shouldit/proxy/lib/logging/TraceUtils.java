@@ -142,43 +142,60 @@ public class TraceUtils
     public static void logIntent(String tag, String msg, Intent intent, int logLevel, boolean logExtras)
     {
         StringBuilder sb = new StringBuilder();
+        String logString = null;
 
-        if (msg != null)
+        try
         {
-            sb.append(msg);
-            sb.append(intent.toString());
-        }
-        else
-        {
-            sb.append("LOG Intent: ");
-            sb.append(intent.toString());
-        }
 
-        if (intent.getAction() != null)
-        {
-            sb.append(intent.getAction());
-            sb.append(" ");
-        }
-
-        if (intent.getDataString() != null)
-        {
-            sb.append(intent.getDataString());
-            sb.append(" ");
-        }
-
-        if (logExtras)
-        {
-            Bundle extras = intent.getExtras();
-            if (extras != null)
+            if (msg != null)
             {
-                for (String key : extras.keySet())
+                sb.append(msg);
+                sb.append(intent.toString());
+            }
+            else
+            {
+                sb.append("LOG Intent: ");
+                sb.append(intent.toString());
+            }
+
+            logString = sb.toString();
+
+            if (intent.getAction() != null)
+            {
+                sb.append(intent.getAction());
+                sb.append(" ");
+            }
+
+            logString = sb.toString();
+
+            if (intent.getDataString() != null)
+            {
+                sb.append(intent.getDataString());
+                sb.append(" ");
+            }
+
+            logString = sb.toString();
+
+            if (logExtras)
+            {
+                Bundle extras = intent.getExtras();
+                if (extras != null)
                 {
-                    String extra = String.valueOf(extras.get(key));
-                    sb.append(String.format("EXTRA [\"%s\"]: %s ",key,extra));
+                    for (String key : extras.keySet())
+                    {
+                        String extra = String.valueOf(extras.get(key));
+                        sb.append(String.format("EXTRA [\"%s\"]: %s ", key, extra));
+                    }
                 }
             }
+
+            logString = sb.toString();
+        }
+        catch (OutOfMemoryError e)
+        {
+            Timber.e(e,"OutOfMemoryError preparing intent log");
         }
 
-        log(tag, sb.toString(), logLevel);
+        log(tag, logString, logLevel);
     }
 }

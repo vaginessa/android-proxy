@@ -104,7 +104,7 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
             else
             {
                 if (otherAp.getSsid().equalsIgnoreCase(this.getSsid())
-                       && otherAp.getSecurityType().equals(this.getSecurityType()))
+                        && otherAp.getSecurityType().equals(this.getSecurityType()))
                 {
                     result = true;
                 }
@@ -122,21 +122,39 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s - %s ", getSsid(), getSecurityType()));
+        sb.append(String.format("'%s' - '%s', ", getSsid(), getSecurityType()));
 
-        if (proxySetting == ProxySetting.STATIC)
+        switch (proxySetting)
         {
-            if (proxyId != -1)
-            {
-                sb.append(getProxy().toString());
-            }
-        }
-        else if (proxySetting == ProxySetting.PAC)
-        {
-            if (pacId != -1)
-            {
-                sb.append(getProxyPAC().toString());
-            }
+            case NONE:
+            case UNASSIGNED:
+                sb.append(String.format("Proxy NOT enabled (%s)", proxySetting.toString()));
+                break;
+
+            case STATIC:
+                if (proxyId != -1)
+                {
+                    sb.append(getProxy().toString());
+                }
+                else
+                {
+                    sb.append("STATIC proxy enabled but not assigned");
+                }
+                break;
+
+            case PAC:
+                if (pacId != -1)
+                {
+                    sb.append(getProxyPAC().toString());
+                }
+                else
+                {
+                    sb.append("PAC proxy enabled but not assigned");
+                }
+                break;
+
+            default:
+                sb.append(String.format("Inconsistent proxySetting value (%s)", proxySetting.toString()));
         }
 
         return sb.toString();
@@ -151,7 +169,7 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
             {
                 String name = f.getName();
                 String value = f.get(this).toString();
-                sb.append(String.format("%s: %s ",name,value));
+                sb.append(String.format("%s: %s ", name, value));
             }
             catch (IllegalAccessException e)
             {
