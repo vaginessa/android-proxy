@@ -39,9 +39,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
@@ -106,7 +104,7 @@ public class Utils
                 if (wiFiAPConfig != null)
                     proxyConf = wiFiAPConfig.getProxy();
 
-                answer = ProxyUtils.getHttpAnswerURI(uri,proxyConf, timeout);
+                answer = ProxyUtils.getHttpAnswerURI(uri,proxyConf, 10000, timeout);
             }
             catch (IOException e)
             {
