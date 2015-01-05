@@ -130,6 +130,8 @@ public class DataSource
 
         if (config != null)
         {
+            Timber.d("Upserting Wi-fi configuration %s",config.toShortString());
+
             WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
             wiFiAPEntity.setSsid(config.getSSID());
             wiFiAPEntity.setSecurityType(config.getSecurityType());
@@ -155,6 +157,7 @@ public class DataSource
                 wiFiAPEntity.setProxyId(-1L);
             }
 
+            Timber.d("Upsert Wi-Fi entity to DB: %s", wiFiAPEntity.toString());
             result = upsertWifiAP(wiFiAPEntity);
         }
 

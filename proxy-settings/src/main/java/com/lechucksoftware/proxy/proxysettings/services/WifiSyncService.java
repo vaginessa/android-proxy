@@ -98,7 +98,6 @@ public class WifiSyncService extends EnhancedIntentService
 
                     Timber.d("Multiple networks changed: %s", multipleChanges);
                     Timber.d("Network change reason: %s", ProxyUtils.networksChangedReasonString(changeReason));
-                    Timber.d("Got change for WifiConfig: %s", wifiConf.toString());
 
                     if (wifiConf != null)
                     {

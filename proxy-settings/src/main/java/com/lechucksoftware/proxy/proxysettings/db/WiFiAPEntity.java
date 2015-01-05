@@ -99,11 +99,30 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s - %s ", getSsid(), getSecurityType()));
-        if (proxyId != -1)
+        sb.append(String.format("'%s' - '%s', ", getSsid(), getSecurityType()));
+
+        switch (proxySetting)
         {
-            sb.append(getProxy().toString());
+            case NONE:
+            case UNASSIGNED:
+                sb.append(String.format("Proxy NOT enabled (%s)", proxySetting.toString()));
+                break;
+
+            case STATIC:
+                if (proxyId != -1)
+                {
+                    sb.append(getProxy().toString());
+                }
+                else
+                {
+                    sb.append("STATIC proxy enabled but not assigned");
+                }
+                break;
+
+            default:
+                sb.append(String.format("Inconsistent proxySetting value (%s)", proxySetting.toString()));
         }
+
         return sb.toString();
     }
 
