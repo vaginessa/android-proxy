@@ -72,7 +72,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             {
 
                 ChangeLogDialog changeLogDialog = new ChangeLogDialog();
-                changeLogDialog.show(getActivity().getFragmentManager(), "ChangelogHTMLDialog");
+                changeLogDialog.show(getActivity().getSupportFragmentManager(), "ChangelogHTMLDialog");
                 return true;
             }
         });

@@ -18,8 +18,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 
 public class NoProxiesDefinedAlertDialog extends BaseDialogFragment
 {
-    public static String TAG = NoProxiesDefinedAlertDialog.class.getSimpleName();
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {

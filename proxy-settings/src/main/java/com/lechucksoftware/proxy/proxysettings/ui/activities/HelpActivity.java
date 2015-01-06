@@ -1,10 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -31,7 +31,7 @@ public class HelpActivity extends BaseWifiActivity
 
         setContentView(R.layout.main_layout);
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         HelpPrefsFragment helpPrefsFragment = HelpPrefsFragment.newInstance(0);
 

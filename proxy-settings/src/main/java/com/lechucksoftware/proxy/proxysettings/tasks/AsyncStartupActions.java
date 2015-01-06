@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.tasks;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -25,10 +26,10 @@ import timber.log.Timber;
 public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 {
     private static final String TAG = AsyncStartupActions.class.getSimpleName();
-    private final Activity activity;
+    private final FragmentActivity activity;
     private ApplicationStatistics statistics;
 
-    public AsyncStartupActions(Activity a)
+    public AsyncStartupActions(FragmentActivity a)
     {
         activity = a;
     }
@@ -46,7 +47,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                 {
                     case WHATSNEW_216:
                         HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
-                        htmlDialog.show(activity.getFragmentManager(), "WhatsNewHTMLDialog");
+                        htmlDialog.show(activity.getSupportFragmentManager(), "WhatsNewHTMLDialog");
                         action.updateStatus(StartupActionStatus.DONE);
                         break;
 
@@ -65,13 +66,13 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 //                        else
 //                        {
                             LikeAppDialog likeAppDialog = LikeAppDialog.newInstance(action);
-                            likeAppDialog.show(activity.getFragmentManager(), "LikeAppDialog");
+                            likeAppDialog.show(activity.getSupportFragmentManager(), "LikeAppDialog");
 //                        }
                         break;
 
                     case BETA_TEST_DIALOG:
                         BetaTestAppDialog betaDialog = BetaTestAppDialog.newInstance(action);
-                        betaDialog.show(activity.getFragmentManager(), "BetaTestApplicationAlertDialog");
+                        betaDialog.show(activity.getSupportFragmentManager(), "BetaTestApplicationAlertDialog");
 
                     default:
                     case NONE:

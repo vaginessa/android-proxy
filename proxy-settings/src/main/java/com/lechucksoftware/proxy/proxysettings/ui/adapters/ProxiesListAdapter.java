@@ -18,13 +18,13 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class ProxiesSelectorListAdapter extends ArrayAdapter<ProxyEntity>
+public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
 {
-    private static final String TAG = ProxiesSelectorListAdapter.class.getSimpleName();
+    private static final String TAG = ProxiesListAdapter.class.getSimpleName();
     private final LayoutInflater vi;
     private Context ctx;
 
-    public ProxiesSelectorListAdapter(Context context)
+    public ProxiesListAdapter(Context context)
     {
         super(context, R.layout.proxy_list_item);
         vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

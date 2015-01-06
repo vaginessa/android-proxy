@@ -11,8 +11,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 public class ContactsDialog extends BaseDialogFragment
 {
-    public static String TAG = ContactsDialog.class.getSimpleName();
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {

@@ -159,7 +159,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @OnClick(R.id.proxy_selector)
     public void openProxySelectorDialog()
     {
-//        progress.setVisibility(View.VISIBLE);
         Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
         List<ProxyEntity> availableProxies = new ArrayList<ProxyEntity>(savedProxies.values());
 

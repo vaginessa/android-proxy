@@ -1,10 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -36,7 +37,7 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         instance = this;
         setContentView(R.layout.main_layout);
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         Intent callerIntent = getIntent();
         if (callerIntent != null && callerIntent.hasExtra(Constants.SELECTED_AP_CONF_ARG))

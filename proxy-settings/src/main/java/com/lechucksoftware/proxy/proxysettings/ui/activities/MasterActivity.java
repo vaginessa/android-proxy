@@ -1,10 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
@@ -52,7 +52,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
     public void onNavigationDrawerItemSelected(int position)
     {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
 
         switch (position)
         {
@@ -61,19 +61,31 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 //                break;
 
             case 0:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, WiFiApListFragment.newInstance(position), false);
+                FragmentsUtils.changeFragment(fragmentManager,
+                        R.id.fragment_container,
+                        WiFiApListFragment.newInstance(position),
+                        false);
                 break;
 
             case 1:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(position), false);
+                FragmentsUtils.changeFragment(fragmentManager,
+                        R.id.fragment_container,
+                        ProxyListFragment.newInstance(position),
+                        false);
                 break;
 
             case 2:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(position), false);
+                FragmentsUtils.changeFragment(fragmentManager,
+                        R.id.fragment_container,
+                        ProxyListFragment.newInstance(position),
+                        false);
                 break;
 
             case 3:
-                FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, HelpPrefsFragment.newInstance(position), false);
+                FragmentsUtils.changeFragment(fragmentManager,
+                        R.id.fragment_container,
+                        HelpPrefsFragment.newInstance(position),
+                        false);
                 break;
 
             case 4:

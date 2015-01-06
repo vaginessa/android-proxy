@@ -1,10 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.app.Activity;
-import android.app.LoaderManager;
+
 import android.content.Intent;
-import android.content.Loader;
+
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +29,7 @@ import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveWiFiApConfig;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesSelectorListAdapter;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 
@@ -49,7 +51,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     private static final String TAG = ProxyListFragment.class.getSimpleName();
 //    private static ProxyListFragment instance;
     int mCurCheckPosition = 0;
-    private ProxiesSelectorListAdapter proxiesListAdapter;
+    private ProxiesListAdapter proxiesListAdapter;
 
     private Loader<List<ProxyEntity>> loader;
 
@@ -132,7 +134,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
         if (proxiesListAdapter == null)
         {
-            proxiesListAdapter = new ProxiesSelectorListAdapter(getActivity());
+            proxiesListAdapter = new ProxiesListAdapter(getActivity());
         }
 
         listView.setAdapter(proxiesListAdapter);

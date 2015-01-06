@@ -1,7 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
-import android.app.Fragment;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;

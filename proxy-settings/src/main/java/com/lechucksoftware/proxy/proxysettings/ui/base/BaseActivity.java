@@ -1,9 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.ui.base;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -14,7 +14,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 07/11/13.
  */
-public class BaseActivity extends Activity
+public class BaseActivity extends FragmentActivity
 {
     private static boolean active = false;
 

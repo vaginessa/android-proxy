@@ -1,9 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -32,7 +33,7 @@ public class ProxyListActivity extends BaseWifiActivity
 
         setContentView(R.layout.main_layout);
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

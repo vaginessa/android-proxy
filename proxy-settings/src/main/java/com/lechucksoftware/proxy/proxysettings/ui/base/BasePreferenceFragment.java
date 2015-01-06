@@ -1,9 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.ui.base;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 
-import com.lechucksoftware.proxy.proxysettings.App;
+import com.github.machinarius.preferencefragment.PreferenceFragment;
 
 import timber.log.Timber;
 
