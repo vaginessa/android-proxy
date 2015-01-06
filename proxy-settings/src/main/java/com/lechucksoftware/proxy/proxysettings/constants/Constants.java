@@ -23,13 +23,18 @@ public class Constants
     public final static int BETATEST_DAYS_UNTIL_PROMPT = 14;
     public final static int BETATEST_LAUNCHES_UNTIL_PROMPT = 50;
 
-    // Extra arguments
-    public static final String SELECTED_AP_CONF_ARG = "SELECTED_AP_CONF_ARG";
-    public static final String SELECTED_PROXY_CONF_ARG = "SELECTED_PROXY_CONF_ARG";
-
+    // URL
     public static final String AMAZON_MARKET_PACKAGE = "com.amazon.venezia";
     public static final String PLAY_MARKET_PACKAGE = "com.android.vending";
 
     public static final Uri AMAZON_MARKET_URL = Uri.parse("http://www.amazon.com/gp/mas/dl/android?p=com.lechucksoftware.proxy.proxysettings");
     public static final Uri PLAY_MARKET_URL = Uri.parse("market://details?id=com.lechucksoftware.proxy.proxysettings");
+
+
+    // Arguments
+    public static final String SELECTED_AP_CONF_ARG = "SELECTED_AP_CONF_ARG";
+    public static final String SELECTED_PROXY_CONF_ARG = "SELECTED_PROXY_CONF_ARG";
+
+    public static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
+    public static final String WIFI_AP_NETWORK_ARG = "WIFI_AP_NETWORK_ARG";
 }

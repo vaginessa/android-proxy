@@ -69,10 +69,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     // Loaders
     private static final int LOADER_PROXYDB = 1;
 
-    // Arguments
-    private static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
-    private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
-    private WiFiAPConfig apConf;
+    private WiFiAPConfig wiFiAPConfig;
 
     public static ProxyListFragment newInstance(int sectionNumber)
     {
@@ -86,8 +83,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         Bundle args = new Bundle();
 
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        args.putSerializable(FRAGMENT_MODE_ARG, mode);
-        args.putSerializable(PROXY_CONF_ARG, apConf);
+        args.putSerializable(Constants.FRAGMENT_MODE_ARG, mode);
+        args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, apConf);
         fragment.setArguments(args);
 
         return fragment;
@@ -97,8 +94,21 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        fragmentMode = (FragmentMode) getArguments().getSerializable(FRAGMENT_MODE_ARG);
-        apConf = (WiFiAPConfig) getArguments().getSerializable(PROXY_CONF_ARG);
+
+        Bundle args = getArguments();
+
+        if (args != null)
+        {
+            if (args.containsKey(Constants.FRAGMENT_MODE_ARG))
+            {
+                fragmentMode = (FragmentMode) getArguments().getSerializable(Constants.FRAGMENT_MODE_ARG);
+            }
+
+            if (args.containsKey(Constants.WIFI_AP_NETWORK_ARG))
+            {
+                wiFiAPConfig = (WiFiAPConfig) getArguments().getSerializable(Constants.WIFI_AP_NETWORK_ARG);
+            }
+        }
     }
 
     @Override
@@ -143,6 +153,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
+
                 if (fragmentMode == FragmentMode.FULLSIZE)
                 {
                     showDetails(i);
@@ -150,8 +161,12 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
                 else if (fragmentMode == FragmentMode.DIALOG)
                 {
                     selectProxy(i);
-                    dismiss();
+//                    Intent intent = getActivity().getIntent();
+//                    intent
+//                    getActivity().setResult();
+                    getActivity().finish();
                 }
+
             }
         });
 
@@ -289,13 +304,13 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             listView.setItemChecked(index, true);
             ProxyEntity proxy = (ProxyEntity) listView.getItemAtPosition(index);
 
-            apConf.setProxySetting(ProxySetting.STATIC);
-            apConf.setProxyHost(proxy.getHost());
-            apConf.setProxyPort(proxy.getPort());
-            apConf.setProxyExclusionString(proxy.getExclusion());
-            apConf.writeConfigurationToDevice();
+            wiFiAPConfig.setProxySetting(ProxySetting.STATIC);
+            wiFiAPConfig.setProxyHost(proxy.getHost());
+            wiFiAPConfig.setProxyPort(proxy.getPort());
+            wiFiAPConfig.setProxyExclusionString(proxy.getExclusion());
+            wiFiAPConfig.writeConfigurationToDevice();
 
-            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, apConf);
+            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
             asyncSaveWiFiApConfig.execute();
         }
         catch (Exception e)

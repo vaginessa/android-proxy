@@ -686,7 +686,7 @@ public class DataSource
         values.put(DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE, currentDate);
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
-        long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_PROXIES, null, values);
+        long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_PAC, null, values);
         PacEntity newPac = getPac(insertId);
 
         App.getTraceUtils().stopTrace(TAG, "createPac", Log.DEBUG);
@@ -1192,9 +1192,9 @@ public class DataSource
         PacEntity pac = new PacEntity();
         pac.setId(cursor.getLong(0));
         pac.setPacUrlFile(cursor.getString(1));
-        pac.setUsedByCount(cursor.getInt(5));
-        pac.setCreationDate(cursor.getLong(6));
-        pac.setModifiedDate(cursor.getLong(7));
+        pac.setUsedByCount(cursor.getInt(2));
+        pac.setCreationDate(cursor.getLong(3));
+        pac.setModifiedDate(cursor.getLong(4));
 
         pac.setPersisted(true);
 

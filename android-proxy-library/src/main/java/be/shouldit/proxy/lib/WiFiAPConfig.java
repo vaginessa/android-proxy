@@ -42,7 +42,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private Integer proxyPort;
     private String stringProxyExclusionList;
 
-    private Uri pacFileUri;
+    private String pacFileUri;
     private String[] parsedProxyExclusionList;
 
     /* AccessPoint class fields */
@@ -76,7 +76,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         proxyHost = host;
         proxyPort = port;
         setProxyExclusionString(exclusionList);
-        pacFileUri = pacFile;
+        pacFileUri = pacFile.toString();
 
         ssid = (wifiConf.SSID == null ? "" : removeDoubleQuotes(wifiConf.SSID));
         bssid = wifiConf.BSSID;
@@ -436,7 +436,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public Uri getPacFileUri()
     {
-        return pacFileUri;
+        return Uri.parse(pacFileUri);
     }
 
     public CheckStatusValues getCheckingStatus()

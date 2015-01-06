@@ -3,6 +3,7 @@ package be.shouldit.proxy.lib;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
 import timber.log.Timber;
 
-public class ProxyStatusItem
+public class ProxyStatusItem implements Serializable
 {
 	public ProxyStatusProperties statusCode;
 	public CheckStatusValues status;
