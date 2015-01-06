@@ -310,7 +310,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         sb.append(String.format("ID: %s\n", getId().toString()));
         sb.append(String.format("Wi-Fi Configuration Info: %s\n", getSSID()));
         sb.append(String.format("Proxy setting: %s\n", getProxySetting().toString()));
-        sb.append(String.format("Proxy: %s\n", toStatusString()));
+        sb.append(String.format("Proxy: %s\n", getProxyStatusString()));
         sb.append(String.format("Is current network: %B\n", isActive()));
         sb.append(String.format("Proxy status checker results: %s\n", getStatus().toString()));
 
@@ -332,7 +332,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             jsonObject.put("SSID", getSSID());
 
             jsonObject.put("proxy_setting", getProxySetting().toString());
-            jsonObject.put("proxy_status", toStatusString());
+            jsonObject.put("proxy_status", getProxyStatusString());
             jsonObject.put("is_current", isActive());
             jsonObject.put("status", getStatus().toJSON());
 
@@ -355,7 +355,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
         sb.append(String.format("INTERNAL Id: %s, SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getId().toString(), getSSID(), mRssi, getLevel(), getNetworkId()));
 
-        sb.append(" - " + toStatusString());
+        sb.append(" - " + getProxyStatusString());
 //        sb.append(" " + getProxyExclusionList());
 
         if (getStatus() != null)
@@ -364,7 +364,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         return sb.toString();
     }
 
-    public String toStatusString()
+    public String getProxyStatusString()
     {
         ProxySetting setting = getProxySetting();
 
@@ -381,7 +381,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         {
             StringBuilder sb = new StringBuilder();
             if (!TextUtils.isEmpty(proxyHost) && proxyPort != null && proxyPort > 0)
-                sb.append(String.format("HTTP: %s:%s", proxyHost, proxyPort));
+                sb.append(String.format("%s:%d", proxyHost, proxyPort));
             else
             {
                 sb.append(APL.getContext().getResources().getString(R.string.not_set));
@@ -394,7 +394,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
             StringBuilder sb = new StringBuilder();
 
             if (!TextUtils.isEmpty(pacFileUri.toString()))
-                sb.append(String.format("PAC: %s", pacFileUri));
+                sb.append(String.format("%s", pacFileUri));
             else
             {
                 sb.append(APL.getContext().getResources().getString(R.string.not_set));

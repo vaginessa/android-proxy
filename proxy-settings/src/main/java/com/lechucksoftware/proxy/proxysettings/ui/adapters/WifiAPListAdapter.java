@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -38,6 +39,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
         TextView ssid;
         TextView status;
         WifiSignal security;
+        ImageView proxySetting;
     }
 
     public void setData(List<WiFiAPConfig> confList)
@@ -101,6 +103,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
             viewHolder.ssid = (TextView) view.findViewById(R.id.list_item_ap_name);
             viewHolder.status = (TextView) view.findViewById(R.id.list_item_ap_status);
             viewHolder.security = (WifiSignal) view.findViewById(R.id.list_item_wifi_signal);
+            viewHolder.proxySetting = (ImageView) view.findViewById(R.id.list_item_ap_proxy_setting);
 
             view.setTag(viewHolder);
         }
@@ -131,7 +134,26 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
 
             viewHolder.ssid.setText(listItem.getSSID());
 
-            viewHolder.status.setText(listItem.toStatusString());
+            switch (listItem.getProxySetting())
+            {
+                case NONE:
+                case UNASSIGNED:
+                default:
+                    viewHolder.proxySetting.setVisibility(View.GONE);
+                    break;
+
+                case STATIC:
+                    viewHolder.proxySetting.setVisibility(View.VISIBLE);
+                    viewHolder.proxySetting.setImageResource(R.drawable.ic_action_shuffle);
+                    break;
+
+                case PAC:
+                    viewHolder.proxySetting.setVisibility(View.VISIBLE);
+                    viewHolder.proxySetting.setImageResource(R.drawable.ic_action_file);
+                    break;
+            }
+
+            viewHolder.status.setText(listItem.getProxyStatusString());
         }
 
         return view;

@@ -108,7 +108,7 @@ public class ProxyUIUtils
 				else
 				{
 					description = callerContext.getResources().getString(R.string.status_description_enabled);
-					description = description + " " + conf.toStatusString();
+					description = description + " " + conf.getProxyStatusString();
 					break;
 				}
 
@@ -129,7 +129,7 @@ public class ProxyUIUtils
 
 	public static String ProxyConfigToStatusString(WiFiAPConfig conf, Context callerContext)
 	{
-		String message = String.format("%s", conf.toStatusString());
+		String message = String.format("%s", conf.getProxyStatusString());
 
 		message += " - " + GetStatusTitle(conf, callerContext);
 

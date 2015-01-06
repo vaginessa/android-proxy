@@ -28,18 +28,36 @@
             android:text="AP NAME">
     </TextView>
 
+    <ImageView
+        android:id="@+id/list_item_ap_proxy_setting"
+        android:layout_width="15dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_shuffle"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@+id/list_item_wifi_signal"
+        android:layout_alignBottom="@+id/list_item_wifi_signal"
+        android:layout_below="@id/list_item_ap_name"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="0dp"
+        />
+
+
     <TextView
             android:id="@+id/list_item_ap_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/list_item_wifi_signal"
+            android:layout_toRightOf="@+id/list_item_ap_proxy_setting"
             android:layout_below="@id/list_item_ap_name"
+            android:gravity="center_vertical"
+            android:layout_alignTop="@+id/list_item_ap_proxy_setting"
+            android:layout_alignBottom="@+id/list_item_wifi_signal"
             android:singleLine="true"
             android:lines="1"
             android:ellipsize="end"
             android:textSize="13sp"
             android:text="STATUS DESC"
-            android:padding="3dp">
+            android:padding="3dp"
+            >
     </TextView>
 
 </RelativeLayout>

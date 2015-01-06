@@ -259,7 +259,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             }
 
             wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
-    //        wifiStatus.setText(selectedWiFiAP.toStatusString());
+    //        wifiStatus.setText(selectedWiFiAP.getProxyStatusString());
             wifiSignal.setConfiguration(selectedWiFiAP);
 
             refreshVisibility();
