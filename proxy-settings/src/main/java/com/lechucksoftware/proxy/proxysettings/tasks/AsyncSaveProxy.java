@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
@@ -22,6 +23,7 @@ public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
 {
     private Context context;
     private ProxyEntity proxyEntity;
+    private PacEntity pacEntity;
     private static final String TAG = AsyncSaveProxy.class.getSimpleName();
 
     public AsyncSaveProxy(Fragment caller, ProxyEntity proxy)
@@ -33,6 +35,15 @@ public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
         }
     }
 
+    public AsyncSaveProxy(Fragment caller, PacEntity pac)
+    {
+        if (caller != null)
+        {
+            context = caller.getActivity().getBaseContext();
+            pacEntity = pac;
+        }
+    }
+
     @Override
     protected void onPostExecute(Boolean result)
     {
@@ -40,7 +51,15 @@ public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
 
         if (result)
         {
-            Toast.makeText(context, context.getString(R.string.proxy_saved), Toast.LENGTH_SHORT).show();
+            if (proxyEntity != null)
+            {
+                Toast.makeText(context, context.getString(R.string.proxy_saved), Toast.LENGTH_SHORT).show();
+            }
+
+            if (pacEntity != null)
+            {
+                Toast.makeText(context, context.getString(R.string.pac_saved), Toast.LENGTH_SHORT).show();
+            }
         }
         else
         {
@@ -58,6 +77,11 @@ public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
             if (proxyEntity != null)
             {
                 App.getDBManager().upsertProxy(proxyEntity);
+            }
+
+            if (pacEntity != null)
+            {
+                App.getDBManager().upsertPac(pacEntity);
             }
 
             App.getTraceUtils().stopTrace(TAG, "saveProxy", Log.DEBUG);

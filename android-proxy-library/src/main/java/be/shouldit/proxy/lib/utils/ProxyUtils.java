@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -1245,18 +1246,24 @@ public class ProxyUtils
         return result;
     }
 
-    private static ProxyStatusItem isPACValidURI(WiFiAPConfig config)
+    public static ProxyStatusItem isPACValidURI(WiFiAPConfig conf)
+    {
+        Uri pacFileUri = conf.getPacFileUri();
+        return isPACValidURI(pacFileUri.toString());
+    }
+
+    public static ProxyStatusItem isPACValidURI(String pacFileUrl)
     {
         String pacFile = null;
         URI uri = null;
 
         try
         {
-            uri = new URI(config.getPacFileUri().toString());
+            uri = new URI(pacFileUrl);
         }
         catch (URISyntaxException e)
         {
-            Timber.e(e,"Cannot convert to URI the following Uri: %s", config.getPacFileUri().toString());
+            Timber.e(e,"Cannot convert to URI the following Uri: %s", pacFileUrl);
             return new ProxyStatusItem(ProxyStatusProperties.PAC_VALID_URI, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_pac_invalid_uri));
         }
 

@@ -1,11 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
 import java.util.List;
@@ -23,14 +25,45 @@ import timber.log.Timber;
 public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 {
     private final Context context;
+
     private final ProxyEntity currentProxy;
     private final ProxyEntity updatedProxy;
+
+    private final PacEntity currentPac;
+    private final PacEntity updatedPac;
+
+    private final ProxySetting proxySetting;
+
     private static final String TAG = AsyncUpdateLinkedWiFiAP.class.getSimpleName();
+    private int updatedWiFiAP;
 
     public AsyncUpdateLinkedWiFiAP(Context caller, ProxyEntity current, ProxyEntity updated)
     {
         currentProxy = current;
         updatedProxy = updated;
+
+        proxySetting = ProxySetting.STATIC;
+
+        currentPac = null;
+        updatedPac = null;
+
+        updatedWiFiAP = 0;
+
+        context = caller;
+    }
+
+    public AsyncUpdateLinkedWiFiAP(Context caller, PacEntity current, PacEntity updated)
+    {
+        currentPac = current;
+        updatedPac = updated;
+
+        proxySetting = ProxySetting.PAC;
+
+        currentProxy = null;
+        updatedProxy = null;
+
+        updatedWiFiAP = 0;
+
         context = caller;
     }
 
@@ -47,8 +80,6 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     @Override
     protected Integer doInBackground(Void... voids)
     {
-        int updatedWiFiAP = 0;
-
         List<WiFiAPConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
 
         if (configurations != null)
@@ -64,51 +95,13 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             {
                 for (WiFiAPConfig conf : configurations)
                 {
-                    if (conf.getProxySetting() == ProxySetting.STATIC)
+                    if (conf.getProxySetting() == proxySetting)
                     {
                         Timber.d("Checking AP: " + conf.toShortString());
 
                         if (conf.isValidProxyConfiguration())
                         {
-                            String host = conf.getProxyHost();
-                            Integer port = conf.getProxyPort();
-                            String exclusion = conf.getProxyExclusionList();
-
-                            if (host.equalsIgnoreCase(currentProxy.getHost())
-                                    && port.equals(currentProxy.getPort())
-                                    && exclusion.equalsIgnoreCase(currentProxy.getExclusion()))
-                            {
-                                conf.setProxyHost(updatedProxy.getHost());
-                                conf.setProxyPort(updatedProxy.getPort());
-                                conf.setProxyExclusionString(updatedProxy.getExclusion());
-
-                                Timber.d("Writing updated AP configuration on device: " + conf.toShortString());
-
-                                try
-                                {
-                                    conf.writeConfigurationToDevice();
-                                }
-                                catch (Exception e)
-                                {
-                                    Timber.e(e,"Exception on writeConfigurationToDevice");
-                                }
-
-                                updatedWiFiAP++;
-
-                                try
-                                {
-                                    Thread.sleep(1);
-                                }
-                                catch (InterruptedException e)
-                                {
-                                    e.printStackTrace();
-                                }
-
-                                // Calling refresh intent only after save of all AP configurations
-//                                Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-//                                Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-//                                APL.getContext().sendBroadcast(intent);
-                            }
+                            updateWifiNetworkStaticProxy(conf);
                         }
                     }
                 }
@@ -123,5 +116,76 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 //        App.getDBManager().upsertProxy(updatedProxy);
 
         return updatedWiFiAP;
+    }
+
+    private void updateWifiNetworkPacProxy(WiFiAPConfig conf)
+    {
+        Uri pacFileUri = conf.getPacFileUri();
+
+        if (pacFileUri.equals(currentPac.getPacUriFile()))
+        {
+            conf.setPacUriFile(updatedPac.getPacUriFile());
+
+            Timber.d("Writing updated AP configuration on device: " + conf.toShortString());
+
+            try
+            {
+                conf.writeConfigurationToDevice();
+            }
+            catch (Exception e)
+            {
+                Timber.e(e, "Exception on writeConfigurationToDevice");
+            }
+
+            updatedWiFiAP++;
+
+            try
+            {
+                Thread.sleep(1);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void updateWifiNetworkStaticProxy(WiFiAPConfig conf)
+    {
+        String host = conf.getProxyHost();
+        Integer port = conf.getProxyPort();
+        String exclusion = conf.getProxyExclusionList();
+
+        if (host.equalsIgnoreCase(currentProxy.getHost())
+                && port.equals(currentProxy.getPort())
+                && exclusion.equalsIgnoreCase(currentProxy.getExclusion()))
+        {
+            conf.setProxyHost(updatedProxy.getHost());
+            conf.setProxyPort(updatedProxy.getPort());
+            conf.setProxyExclusionString(updatedProxy.getExclusion());
+
+            Timber.d("Writing updated AP configuration on device: " + conf.toShortString());
+
+            try
+            {
+                conf.writeConfigurationToDevice();
+            }
+            catch (Exception e)
+            {
+                Timber.e(e,"Exception on writeConfigurationToDevice");
+            }
+
+            updatedWiFiAP++;
+
+            try
+            {
+                Thread.sleep(1);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

@@ -536,8 +536,41 @@ public class DataSource
         }
         cursor.close();
 
-        cursor.close();
         App.getTraceUtils().stopTrace(TAG, "findDuplicatedProxy", Log.DEBUG);
+        return duplicatedProxiesID;
+    }
+
+    public List<Long> findDuplicatedPac(String pacUrlFile)
+    {
+        App.getTraceUtils().startTrace(TAG, "findDuplicatedPac", Log.DEBUG);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        List<Long> duplicatedProxiesID = new ArrayList<Long>();
+
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC
+                + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE + " =?";
+
+        String[] selectionArgs = {pacUrlFile};
+        Cursor cursor = database.rawQuery(query, selectionArgs);
+
+        cursor.moveToFirst();
+        long proxyId = -1;
+        if (!cursor.isAfterLast())
+        {
+            proxyId = cursor.getLong(0);
+        }
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Long id = cursor.getLong(0);
+            duplicatedProxiesID.add(id);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        App.getTraceUtils().stopTrace(TAG, "findDuplicatedPac", Log.DEBUG);
         return duplicatedProxiesID;
     }
 
@@ -916,6 +949,12 @@ public class DataSource
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         database.delete(DatabaseSQLiteOpenHelper.TABLE_PROXIES, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(proxyId)});
+    }
+
+    public void deletePac(Long pacId)
+    {
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.delete(DatabaseSQLiteOpenHelper.TABLE_PAC, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(pacId)});
     }
 
     public void deleteWifiAP(long wifiApId)

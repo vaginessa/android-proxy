@@ -945,4 +945,6 @@
     <string name="proxy_saved">Proxy saved</string>
     <string name="proxy_in_use_cannot_delete">Can not delete a Proxy used by one or more of the configured Wi-Fi networks</string>
     <string name="pac_list">PAC list</string>
+    <string name="pac_deleted">Pac deleted</string>
+    <string name="pac_saved">Pac saved</string>
 </resources>

@@ -439,6 +439,11 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         return Uri.parse(pacFileUri);
     }
 
+    public void setPacUriFile(Uri pacUriFile)
+    {
+        this.pacFileUri = pacUriFile.toString();
+    }
+
     public CheckStatusValues getCheckingStatus()
     {
         return getStatus().getCheckingStatus();
@@ -546,4 +551,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     {
         return wifiConfig;
     }
+
+
 }
