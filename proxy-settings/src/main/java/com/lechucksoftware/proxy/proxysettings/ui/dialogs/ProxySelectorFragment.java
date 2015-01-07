@@ -52,7 +52,7 @@ public class ProxySelectorFragment extends BaseFragment
 
         tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
         Bundle args = new Bundle();
-        args.putSerializable(Constants.FRAGMENT_MODE_ARG, FragmentMode.FULLSIZE);
+        args.putSerializable(Constants.FRAGMENT_MODE_ARG, FragmentMode.DIALOG);
         args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, selectedWifiNetwork);
 
         tabHost.addTab(tabHost.newTabSpec("static_proxies").setIndicator("STATIC"), ProxyListFragment.class, args);

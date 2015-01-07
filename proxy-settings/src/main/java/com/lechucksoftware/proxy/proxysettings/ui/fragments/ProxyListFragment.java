@@ -118,19 +118,19 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
         setHasOptionsMenu(true);
 
-        if (fragmentMode == FragmentMode.DIALOG)
-        {
-            getDialog().setTitle(R.string.select_proxy);
-            v = inflater.inflate(R.layout.proxy_list_dialog, container, false);
-
-            ButterKnife.inject(this, v);
-        }
-        else
-        {
+//        if (fragmentMode == FragmentMode.DIALOG)
+//        {
+////            getDialog().setTitle(R.string.select_proxy);
+//            v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
+//
+//            ButterKnife.inject(this, v);
+//        }
+//        else
+//        {
             v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
 
             ButterKnife.inject(this, v);
-        }
+//        }
 
         return v;
     }
@@ -161,30 +161,12 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
                 else if (fragmentMode == FragmentMode.DIALOG)
                 {
                     selectProxy(i);
-//                    Intent intent = getActivity().getIntent();
-//                    intent
-//                    getActivity().setResult();
-                    getActivity().finish();
                 }
 
             }
         });
 
-        if (fragmentMode == FragmentMode.DIALOG)
-        {
-            cancelDialogButton.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    dismiss();
-                }
-            });
-        }
-        else
-        {
-            footerTextView.setVisibility(View.GONE);
-        }
+        footerTextView.setVisibility(View.GONE);
 
         loader = getLoaderManager().initLoader(LOADER_PROXYDB, new Bundle(), this);
         loader.forceLoad();
@@ -234,11 +216,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             emptySection.setVisibility(View.GONE);
             emptyText.setVisibility(View.GONE);
 
-            if (fragmentMode == FragmentMode.FULLSIZE)
-            {
-                footerTextView.setVisibility(View.VISIBLE);
-                footerTextView.setText(getString(R.string.num_proxies_configured, dbProxies.size()));
-            }
+            footerTextView.setVisibility(View.VISIBLE);
+            footerTextView.setText(getString(R.string.num_proxies_configured, dbProxies.size()));
         }
         else
         {
@@ -248,10 +227,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             emptyText.setText(getResources().getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
 
-            if (fragmentMode == FragmentMode.FULLSIZE)
-            {
-                footerTextView.setVisibility(View.GONE);
-            }
+            footerTextView.setVisibility(View.GONE);
         }
 
         progress.setVisibility(View.GONE);
@@ -312,6 +288,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
             AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
             asyncSaveWiFiApConfig.execute();
+
+            getActivity().finish();
         }
         catch (Exception e)
         {

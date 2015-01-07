@@ -85,7 +85,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         super.onResume();
 
         wifiNetworkId = (APLNetworkId) getArguments().getSerializable(Constants.SELECTED_AP_CONF_ARG);
-//        LogWrapper.d(TAG,"confId: " + String.valueOf(confId));
         selectedWiFiAP = App.getWifiNetworksManager().getConfiguration(wifiNetworkId);
 
         if (selectedWiFiAP == null)
@@ -297,7 +296,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //            proxyTags.setTags(null);
         }
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
