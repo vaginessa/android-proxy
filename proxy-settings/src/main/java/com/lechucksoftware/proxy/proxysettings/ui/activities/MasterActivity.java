@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
@@ -56,10 +58,6 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 
         switch (position)
         {
-//            case 0:
-//                FragmentsUtils.changeFragment(getFragmentManager(), R.id.container, MainStatusFragment.newInstance(position), false);
-//                break;
-
             case 0:
                 FragmentsUtils.changeFragment(fragmentManager,
                         R.id.fragment_container,
@@ -77,7 +75,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
             case 2:
                 FragmentsUtils.changeFragment(fragmentManager,
                         R.id.fragment_container,
-                        ProxyListFragment.newInstance(position),
+                        PacListFragment.newInstance(position),
                         false);
                 break;
 
@@ -125,36 +123,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         actionBar.setTitle(mTitle);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu)
-//    {
-//        if (!isDrawerOpen())
-//        {
-//            // Only show items in the action bar relevant to this screen
-//            // if the drawer is not showing. Otherwise, let the drawer
-//            // decide what to show in the action bar.
-//            getMenuInflater().inflate(R.menu.master, menu);
-//            restoreActionBar();
-//            return true;
-//        }
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
     public boolean isDrawerOpen() {return mNavigationDrawerFragment.isDrawerOpen();}
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item)
-//    {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//        if (id == R.id.action_settings)
-//        {
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

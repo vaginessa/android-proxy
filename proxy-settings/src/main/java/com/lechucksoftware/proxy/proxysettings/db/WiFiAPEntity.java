@@ -27,6 +27,12 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
     public WiFiAPEntity()
     {
         super();
+
+        proxyId = -1L;
+        proxyEntity = null;
+
+        pacId = -1L;
+        pacEntity =  null;
     }
 
     public WiFiAPEntity(WiFiAPEntity ap)

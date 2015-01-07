@@ -178,6 +178,7 @@ public class DataSource
                     proxy.setHost(config.getProxyHost());
                     proxy.setPort(config.getProxyPort());
                     proxy.setExclusion(config.getProxyExclusionList());
+
                     wiFiAPEntity.setProxy(proxy);
                     wiFiAPEntity.setPACId(-1L);
                 }
@@ -187,10 +188,10 @@ public class DataSource
                 if (config.isValidProxyConfiguration())
                 {
                     PacEntity pac = new PacEntity();
-                    pac.setPacUrlFile(config.getProxyHost());
+                    pac.setPacUrlFile(config.getPacFileUri().toString());
+
                     wiFiAPEntity.setProxyPAC(pac);
                     wiFiAPEntity.setProxyId(-1L);
-                    wiFiAPEntity.setPACId(-1L);
                 }
             }
 
@@ -807,6 +808,8 @@ public class DataSource
 
         updateInUseFlag(persistedWifiAp.getProxyId(), ProxySetting.STATIC);
         updateInUseFlag(wiFiAPEntity.getProxyId(), ProxySetting.STATIC);
+        updateInUseFlag(persistedWifiAp.getPacId(), ProxySetting.PAC);
+        updateInUseFlag(wiFiAPEntity.getPacId(), ProxySetting.PAC);
 
         WiFiAPEntity updatedTag = getWifiAP(persistedWifiAp.getId());
         return updatedTag;
@@ -844,9 +847,20 @@ public class DataSource
 
         try
         {
-            String countQuery = "SELECT COUNT(1)" +
+            String countQuery = "";
+
+            if (proxySettings == ProxySetting.STATIC)
+            {
+                countQuery = "SELECT COUNT(1)" +
                     " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP +
                     " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " =?";
+            }
+            else if(proxySettings == ProxySetting.PAC)
+            {
+                countQuery = "SELECT COUNT(1)" +
+                        " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP +
+                        " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " =?";
+            }
 
             Cursor countCursor = database.rawQuery(countQuery, new String[]{String.valueOf(proxyId)});
             countCursor.moveToFirst();
@@ -857,16 +871,33 @@ public class DataSource
 
             countCursor.close();
 
-            String updateQuery = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES +
-                    " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " =? " +
-                    " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
+            if (proxySettings == ProxySetting.STATIC)
+            {
+                String updateQuery = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES +
+                        " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " =? " +
+                        " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
-            ContentValues values = new ContentValues();
-            values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, inUseCount);
-            long currentDate = System.currentTimeMillis();
-            values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+                ContentValues values = new ContentValues();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, inUseCount);
+                long currentDate = System.currentTimeMillis();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
-            long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(proxyId)});
+                long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(proxyId)});
+            }
+            else if(proxySettings == ProxySetting.PAC)
+            {
+                String updateQuery = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PAC +
+                        " SET " + DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE + " =? " +
+                        " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
+
+                ContentValues values = new ContentValues();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE, inUseCount);
+                long currentDate = System.currentTimeMillis();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+
+                long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PAC, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(proxyId)});
+            }
+
             database.setTransactionSuccessful();
         }
         catch (Exception e)
@@ -878,13 +909,7 @@ public class DataSource
             database.endTransaction();
         }
 
-//        if (BuildConfig.DEBUG)
-//        {
-//            ProxyEntity proxy = getProxy(proxyId);
-//            App.getTraceUtils().d(TAG, "Updated in use flag for proxy: " + proxy);
-//        }
-
-        App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("Proxy #%d used by %d Wi-Fi AP", proxyId, inUseCount), Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("%s proxy #%d used by %d Wi-Fi AP", proxySettings, proxyId, inUseCount), Log.DEBUG);
     }
 
     public void deleteProxy(long proxyId)
@@ -1050,7 +1075,7 @@ public class DataSource
 
         Map<Long, PacEntity> pacs = new HashMap<Long, PacEntity>();
 
-        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PAC, pacTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " ASC");
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PAC, pacTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE + " ASC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())

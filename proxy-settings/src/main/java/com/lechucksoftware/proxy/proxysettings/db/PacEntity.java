@@ -12,7 +12,6 @@ public class PacEntity extends BaseEntity implements Serializable, Comparable<Pa
 {
     private Uri pacUriFile;
     private int usedByCount;
-    private String pacUrlFile;
 
     public PacEntity()
     {
@@ -105,7 +104,7 @@ public class PacEntity extends BaseEntity implements Serializable, Comparable<Pa
 
     public void setPacUrlFile(String pacUrlFile)
     {
-        this.pacUrlFile = pacUrlFile;
+        pacUriFile = Uri.parse(pacUrlFile);
     }
 
     public Uri getPacUriFile()

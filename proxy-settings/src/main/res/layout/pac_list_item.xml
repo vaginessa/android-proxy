@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item_ap_layout"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:padding="5dp">
+
+    <TextView
+            android:id="@+id/list_item_pac_url_file"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:padding="3dp"
+            android:text="255.255.255.255">
+    </TextView>
+
+
+    <TextView
+            android:id="@+id/li_pac_used_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_locked"
+            android:drawablePadding="-10dp"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:text="2"
+            android:gravity="center"/>
+
+</RelativeLayout>
