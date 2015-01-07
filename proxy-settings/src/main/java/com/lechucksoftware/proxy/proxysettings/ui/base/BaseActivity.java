@@ -1,8 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.ui.base;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
@@ -97,7 +97,7 @@ public class BaseActivity extends FragmentActivity
     {
         try
         {
-            Fragment containedFragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+            Fragment containedFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
             if (containedFragment instanceof IBaseFragment)
             {
                 IBaseFragment f = (IBaseFragment) containedFragment;
