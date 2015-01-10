@@ -43,6 +43,7 @@
     <string name="exception_apl_writeconfig_error_message">Proxy Settings experienced an error writing the configuration on the device. Please try again.</string>
     <string name="wifi_empty_list_no_ap">No Wi-Fi networks configured</string>
     <string name="proxy_empty_list">No proxies saved</string>
+    <string name="pac_empty_list">No PAC saved</string>
     <string name="tags_empty_list">No tags saved</string>
     <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50] -->
     <string name="wifi_empty_list_wifi_off">To see available networks, turn Wi-Fi on.</string>
@@ -947,4 +948,7 @@
     <string name="pac_list">PAC list</string>
     <string name="pac_deleted">Pac deleted</string>
     <string name="pac_saved">Pac saved</string>
+    <string name="add_new_pac">Add new PAC</string>
+    <string name="edit_pac">Edit PAC</string>
+    <string name="create_new_pac">Create new PAC</string>
 </resources>

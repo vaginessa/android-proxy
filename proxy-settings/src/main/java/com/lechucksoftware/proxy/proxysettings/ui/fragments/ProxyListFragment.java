@@ -36,6 +36,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
@@ -70,13 +71,14 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     private static final int LOADER_PROXYDB = 1;
 
     private WiFiAPConfig wiFiAPConfig;
+    private APLNetworkId aplNetworkId;
 
     public static ProxyListFragment newInstance(int sectionNumber)
     {
         return newInstance(sectionNumber, FragmentMode.FULLSIZE, null);
     }
 
-    public static ProxyListFragment newInstance(int sectionNumber, FragmentMode mode, WiFiAPConfig apConf)
+    public static ProxyListFragment newInstance(int sectionNumber, FragmentMode mode, APLNetworkId aplNetworkId)
     {
         ProxyListFragment fragment = new ProxyListFragment();
 
@@ -84,7 +86,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putSerializable(Constants.FRAGMENT_MODE_ARG, mode);
-        args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, apConf);
+        args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, aplNetworkId);
         fragment.setArguments(args);
 
         return fragment;
@@ -106,7 +108,12 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
             if (args.containsKey(Constants.WIFI_AP_NETWORK_ARG))
             {
-                wiFiAPConfig = (WiFiAPConfig) getArguments().getSerializable(Constants.WIFI_AP_NETWORK_ARG);
+                aplNetworkId = (APLNetworkId) getArguments().getSerializable(Constants.WIFI_AP_NETWORK_ARG);
+
+                if (aplNetworkId != null)
+                {
+                    wiFiAPConfig = App.getWifiNetworksManager().getConfiguration(aplNetworkId);
+                }
             }
         }
     }
@@ -293,7 +300,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         }
         catch (Exception e)
         {
-            Timber.e(e,"Exception during WiFiApListFragment selectProxy(%d)",index);
+            Timber.e(e,"Exception during WiFiApListFragment selectPac(%d)",index);
         }
     }
 
@@ -342,7 +349,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         switch (item.getItemId())
         {
             case R.id.menu_add_new_proxy:
-                Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
+                Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailFragment.class);
                 addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(addNewProxyIntent);

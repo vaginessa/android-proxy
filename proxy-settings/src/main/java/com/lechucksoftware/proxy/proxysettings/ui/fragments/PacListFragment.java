@@ -23,19 +23,19 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.loaders.PacDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveWiFiApConfig;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
@@ -70,13 +70,14 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
     private static final int LOADER_PACDB = 1;
 
     private WiFiAPConfig wiFiAPConfig;
+    private APLNetworkId aplNetworkId;
 
     public static PacListFragment newInstance(int sectionNumber)
     {
         return newInstance(sectionNumber, FragmentMode.FULLSIZE, null);
     }
 
-    public static PacListFragment newInstance(int sectionNumber, FragmentMode mode, WiFiAPConfig apConf)
+    public static PacListFragment newInstance(int sectionNumber, FragmentMode mode, APLNetworkId aplNetworkId)
     {
         PacListFragment fragment = new PacListFragment();
 
@@ -84,7 +85,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
 
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putSerializable(Constants.FRAGMENT_MODE_ARG, mode);
-        args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, apConf);
+        args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, aplNetworkId);
         fragment.setArguments(args);
 
         return fragment;
@@ -106,7 +107,12 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
 
             if (args.containsKey(Constants.WIFI_AP_NETWORK_ARG))
             {
-                wiFiAPConfig = (WiFiAPConfig) getArguments().getSerializable(Constants.WIFI_AP_NETWORK_ARG);
+                aplNetworkId = (APLNetworkId) getArguments().getSerializable(Constants.WIFI_AP_NETWORK_ARG);
+
+                if (aplNetworkId != null)
+                {
+                    wiFiAPConfig = App.getWifiNetworksManager().getConfiguration(aplNetworkId);
+                }
             }
         }
     }
@@ -118,19 +124,9 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
 
         setHasOptionsMenu(true);
 
-//        if (fragmentMode == FragmentMode.DIALOG)
-//        {
-////            getDialog().setTitle(R.string.select_proxy);
-//            v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
-//
-//            ButterKnife.inject(this, v);
-//        }
-//        else
-//        {
-            v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
+        v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
 
-            ButterKnife.inject(this, v);
-//        }
+        ButterKnife.inject(this, v);
 
         return v;
     }
@@ -160,7 +156,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
                 }
                 else if (fragmentMode == FragmentMode.DIALOG)
                 {
-                    selectProxy(i);
+                    selectPac(i);
                 }
             }
         });
@@ -268,7 +264,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
         }
     }
 
-    void selectProxy(int index)
+    void selectPac(int index)
     {
         mCurCheckPosition = index;
 
@@ -279,10 +275,8 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             listView.setItemChecked(index, true);
             PacEntity proxy = (PacEntity) listView.getItemAtPosition(index);
 
-//            wiFiAPConfig.(ProxySetting.STATIC);
-//            wiFiAPConfig.setProxyHost(proxy.getHost());
-//            wiFiAPConfig.setProxyPort(proxy.getPort());
-//            wiFiAPConfig.setProxyExclusionString(proxy.getExclusion());
+            wiFiAPConfig.setProxySetting(ProxySetting.STATIC);
+            wiFiAPConfig.setPacUriFile(proxy.getPacUriFile());
             wiFiAPConfig.writeConfigurationToDevice();
 
             AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
@@ -292,7 +286,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
         }
         catch (Exception e)
         {
-            Timber.e(e,"Exception during WiFiApListFragment selectProxy(%d)",index);
+            Timber.e(e,"Exception during WiFiApListFragment selectPac(%d)",index);
         }
     }
 
@@ -329,7 +323,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
                 // Only show items in the action bar relevant to this screen
                 // if the drawer is not showing. Otherwise, let the drawer
                 // decide what to show in the action bar.
-                inflater.inflate(R.menu.proxy_list, menu);
+                inflater.inflate(R.menu.pac_list, menu);
                 master.restoreActionBar();
             }
         }
@@ -340,8 +334,8 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
     {
         switch (item.getItemId())
         {
-            case R.id.menu_add_new_proxy:
-                Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
+            case R.id.menu_add_new_pac:
+                Intent addNewProxyIntent = new Intent(getActivity(), PacDetailActivity.class);
                 addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(addNewProxyIntent);

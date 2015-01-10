@@ -165,7 +165,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         if (availableProxies != null && availableProxies.size() > 0)
         {
             Intent i = new Intent(getActivity(), ProxySelectorListActivity.class);
-            i.putExtra(Constants.WIFI_AP_NETWORK_ARG, selectedWiFiAP);
+            i.putExtra(Constants.WIFI_AP_NETWORK_ARG, selectedWiFiAP.getAPLNetworkId());
             startActivity(i);
 
 //            ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(0, FragmentMode.DIALOG, selectedWiFiAP);

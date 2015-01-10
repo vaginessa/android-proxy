@@ -7,12 +7,13 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
@@ -22,7 +23,7 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
+public class WiFiAPConfig implements Comparable<WiFiAPConfig>
 {
     private static final String TAG = WiFiAPConfig.class.getSimpleName();
 
@@ -551,6 +552,4 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     {
         return wifiConfig;
     }
-
-
 }

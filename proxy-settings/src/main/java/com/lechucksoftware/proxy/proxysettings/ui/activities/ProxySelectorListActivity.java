@@ -15,6 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 
 import java.net.ProxySelector;
 
+import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiAPConfig;
 
 
@@ -39,13 +40,13 @@ public class ProxySelectorListActivity extends BaseWifiActivity
 
         setContentView(R.layout.main_layout);
 
-        WiFiAPConfig selectedWifiNetwork = (WiFiAPConfig) getIntent().getSerializableExtra(Constants.WIFI_AP_NETWORK_ARG);
+        APLNetworkId wifiAplNetworkId = (APLNetworkId) getIntent().getSerializableExtra(Constants.WIFI_AP_NETWORK_ARG);
 
         FragmentManager fm = getSupportFragmentManager();
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(R.id.fragment_container, ProxySelectorFragment.newInstance(selectedWifiNetwork)).commit();
+                .add(R.id.fragment_container, ProxySelectorFragment.newInstance(wifiAplNetworkId)).commit();
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

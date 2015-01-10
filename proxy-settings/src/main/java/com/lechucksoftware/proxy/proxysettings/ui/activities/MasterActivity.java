@@ -123,19 +123,8 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         actionBar.setTitle(mTitle);
     }
 
-    public boolean isDrawerOpen() {return mNavigationDrawerFragment.isDrawerOpen();}
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    public boolean isDrawerOpen()
     {
-        switch (item.getItemId())
-        {
-            case R.id.menu_help:
-                Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
-                startActivity(helpIntent);
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return mNavigationDrawerFragment.isDrawerOpen();
     }
 }
