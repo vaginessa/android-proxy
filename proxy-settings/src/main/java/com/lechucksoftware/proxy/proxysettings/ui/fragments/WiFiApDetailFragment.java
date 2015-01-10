@@ -298,7 +298,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        inflater.inflate(R.menu.ap_wifi_details, menu);
+//        inflater.inflate(R.menu.ap_wifi_details, menu);
     }
 
     @Override
