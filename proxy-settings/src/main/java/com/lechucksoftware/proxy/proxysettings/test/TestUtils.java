@@ -537,6 +537,7 @@ public class TestUtils
 
     private static void setupNOSECWifiConfig(WifiConfiguration wc, String ssid, String password)
     {
+        wc.BSSID = "any";
         wc.SSID = String.format("\"%s\"",ssid);
         wc.hiddenSSID = false;
         wc.status = WifiConfiguration.Status.DISABLED;
@@ -547,6 +548,7 @@ public class TestUtils
 
     public static void setupWEPWifiConfig(WifiConfiguration wc, String ssid, String password)
     {
+        wc.BSSID = "any";
         wc.SSID = String.format("\"%s\"",ssid);
         wc.hiddenSSID = true;
         wc.status = WifiConfiguration.Status.DISABLED;
@@ -567,6 +569,7 @@ public class TestUtils
 
     public static void setupWPAWifiConfig(WifiConfiguration wc, String ssid, String password)
     {
+        wc.BSSID = "any";
         wc.SSID = String.format("\"%s\"",ssid);
         wc.hiddenSSID = true;
         wc.status = WifiConfiguration.Status.DISABLED;

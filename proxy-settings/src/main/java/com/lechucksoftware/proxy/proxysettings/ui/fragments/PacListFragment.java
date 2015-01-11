@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -273,14 +274,19 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             // We can display everything in-place with fragments, so update
             // the list to highlight the selected item and show the data.
             listView.setItemChecked(index, true);
-            PacEntity proxy = (PacEntity) listView.getItemAtPosition(index);
+            PacEntity pacEntity = (PacEntity) listView.getItemAtPosition(index);
 
-            wiFiAPConfig.setProxySetting(ProxySetting.STATIC);
-            wiFiAPConfig.setPacUriFile(proxy.getPacUriFile());
-            wiFiAPConfig.writeConfigurationToDevice();
+            Intent i = new Intent();
+            i.putExtra(Constants.SELECTED_PROXY_TYPE_ARG, ProxySetting.PAC);
+            i.putExtra(Constants.SELECTED_PAC_CONF_ARG, pacEntity);
+            getActivity().setResult(FragmentActivity.RESULT_OK, i);
 
-            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
-            asyncSaveWiFiApConfig.execute();
+//            wiFiAPConfig.setProxySetting(ProxySetting.STATIC);
+//            wiFiAPConfig.setPacUriFile(proxy.getPacUriFile());
+//            wiFiAPConfig.writeConfigurationToDevice();
+//
+//            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
+//            asyncSaveWiFiApConfig.execute();
 
             getActivity().finish();
         }

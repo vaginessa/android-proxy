@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveWiFiApConfig;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
@@ -63,6 +66,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @InjectView(R.id.proxy_port) InputField proxyPort;
     @InjectView(R.id.proxy_bypass) InputExclusionList proxyBypass;
     @InjectView(R.id.wifi_proxy_input_fields) RelativeLayout proxyFieldsLayout;
+    private boolean refreshingUI;
 //    @InjectView(R.id.progress) RelativeLayout progress;
 
     /**
@@ -77,6 +81,45 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         instance.setArguments(args);
 
         return instance;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        App.getTraceUtils().startTrace(TAG, "onCreateView", Log.DEBUG);
+
+        setHasOptionsMenu(true);
+
+        View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
+        ButterKnife.inject(this, v);
+
+        proxySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (!refreshingUI)
+                {
+                    proxySwitchClicked();
+                }
+            }
+        });
+
+//        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
+
+//        proxyEditButton = (ImageButton) v.findViewById(R.id.edit_proxy_button);
+//        proxyEditButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view)
+//            {
+//                Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
+//                App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
+//                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getUUID());
+//                startActivity(i);
+//            }
+//        });
+        return v;
     }
 
     @Override
@@ -96,36 +139,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        App.getTraceUtils().startTrace(TAG, "onCreateView", Log.DEBUG);
-
-        setHasOptionsMenu(true);
-
-        View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
-        ButterKnife.inject(this, v);
-
-//        proxyTags = (InputTags) v.findViewById(R.id.proxy_tags);
-
-//        proxyEditButton = (ImageButton) v.findViewById(R.id.edit_proxy_button);
-//        proxyEditButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view)
-//            {
-//                Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
-//                App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
-//                i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getUUID());
-//                startActivity(i);
-//            }
-//        });
-        refreshUI();
-
-        App.getTraceUtils().stopTrace(TAG, "onCreateView", Log.DEBUG);
-        return v;
-    }
-
-    @Override
     public void onDestroyView()
     {
         super.onDestroyView();
@@ -133,27 +146,28 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         ButterKnife.reset(this);
     }
 
-    @OnClick(R.id.wifi_proxy_switch)
     public void proxySwitchClicked()
     {
 //        progress.setVisibility(View.VISIBLE);
 
         if (proxySwitch.isChecked())
         {
-            Timber.d(TAG, "Set proxy settings = STATIC");
+            Timber.d("Set proxy settings = STATIC");
             selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+
+            refreshUI();
         }
         else
         {
-            Timber.d(TAG, "Set proxy settings = NONE");
+            Timber.d("Set proxy settings = NONE");
             selectedWiFiAP.setProxySetting(ProxySetting.NONE);
             selectedWiFiAP.setProxyHost(null);
             selectedWiFiAP.setProxyPort(0);
             selectedWiFiAP.setProxyExclusionString(null);
-        }
 
-        saveConfiguration();
-        refreshUI();
+            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, selectedWiFiAP);
+            asyncSaveWiFiApConfig.execute();
+        }
     }
 
     @OnClick(R.id.proxy_selector)
@@ -166,10 +180,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         {
             Intent i = new Intent(getActivity(), ProxySelectorListActivity.class);
             i.putExtra(Constants.WIFI_AP_NETWORK_ARG, selectedWiFiAP.getAPLNetworkId());
-            startActivity(i);
-
-//            ProxyListFragment proxiesListFragment = ProxyListFragment.newInstance(0, FragmentMode.DIALOG, selectedWiFiAP);
-//            proxiesListFragment.show(getFragmentManager(), TAG);
+            startActivityForResult(i, Requests.SELECT_PROXY_FOR_WIFI_NETWORK);
         }
         else
         {
@@ -178,12 +189,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             noProxiesDefinedAltertDialog.show(getFragmentManager(),"NoProxiesDefinedAlertDialog");
         }
     }
-
-//    private void openProxyEditorDialog()
-//    {
-//        ProxyDetailFragment dialog = ProxyDetailFragment.newInstance(selectedProxy);
-//        dialog.show(getFragmentManager(),TAG);
-//    }
 
     private void refreshVisibility()
     {
@@ -211,18 +216,11 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //        progress.setVisibility(View.GONE);
     }
 
-    private void saveConfiguration()
-    {
-        // TODO: handle into async task ProgressVisibility
-//        progress.setVisibility(View.VISIBLE);
-
-        AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, selectedWiFiAP);
-        asyncSaveWiFiApConfig.execute();
-    }
-
     public void refreshUI()
     {
-//        LogWrapper.startTrace(TAG, "refreshUI", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "refreshUI", Log.DEBUG);
+
+        refreshingUI = true;
 
         if (!APL.getWifiManager().isWifiEnabled())
         {
@@ -231,7 +229,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         if (selectedWiFiAP != null)
         {
-            if (selectedWiFiAP.getProxySetting() == ProxySetting.STATIC)
+            if (selectedWiFiAP.getProxySetting() == ProxySetting.STATIC
+                || selectedWiFiAP.getProxySetting() == ProxySetting.PAC)
             {
                 Timber.d("Set proxy switch = ON");
                 proxySwitch.setChecked(true);
@@ -273,7 +272,9 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 ////            NavigationUtils.goToMainActivity(getActivity());
 //        }
 
-//        LogWrapper.stopTrace(TAG, "refreshUI", Log.DEBUG);
+        refreshingUI = false;
+
+        App.getTraceUtils().stopTrace(TAG, "refreshUI", Log.DEBUG);
     }
 
     private void refreshFieldsValues()
@@ -322,12 +323,44 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == Requests.CREATE_NEW_PROXY)
+        Timber.d("Received Activity resultCode: %d for requestCode: %d", resultCode, requestCode);
+
+        switch (requestCode)
         {
-            Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
-            addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(addNewProxyIntent);
+            case Requests.CREATE_NEW_PROXY:
+                Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
+                addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(addNewProxyIntent);
+                break;
+            case Requests.SELECT_PROXY_FOR_WIFI_NETWORK:
+
+                Bundle args = data.getExtras();
+                if (resultCode == FragmentActivity.RESULT_OK && args != null)
+                {
+                    ProxySetting setting = (ProxySetting) args.get(Constants.SELECTED_PROXY_TYPE_ARG);
+
+                    if (setting == ProxySetting.STATIC)
+                    {
+                        ProxyEntity proxyEntity = (ProxyEntity) args.get(Constants.SELECTED_PROXY_CONF_ARG);
+
+                        selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+                        selectedWiFiAP.setProxyHost(proxyEntity.getHost());
+                        selectedWiFiAP.setProxyPort(proxyEntity.getPort());
+                        selectedWiFiAP.setProxyExclusionString(proxyEntity.getExclusion());
+                    }
+                    else if (setting == ProxySetting.PAC)
+                    {
+                        PacEntity pacEntity = (PacEntity) args.get(Constants.SELECTED_PAC_CONF_ARG);
+
+                        selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+                        selectedWiFiAP.setPacUriFile(pacEntity.getPacUriFile());
+                    }
+
+                    AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, selectedWiFiAP);
+                    asyncSaveWiFiApConfig.execute();
+                }
+                break;
         }
     }
 }

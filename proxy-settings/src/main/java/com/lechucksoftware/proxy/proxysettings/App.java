@@ -76,7 +76,7 @@ public class App extends Application
 
         getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
 
-        Timber.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
+        Timber.d("Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
 

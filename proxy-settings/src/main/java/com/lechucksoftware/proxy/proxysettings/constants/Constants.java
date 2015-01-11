@@ -33,7 +33,9 @@ public class Constants
 
     // Arguments
     public static final String SELECTED_AP_CONF_ARG = "SELECTED_AP_CONF_ARG";
+    public static final String SELECTED_PROXY_TYPE_ARG = "SELECTED_PROXY_TYPE_ARG";
     public static final String SELECTED_PROXY_CONF_ARG = "SELECTED_PROXY_CONF_ARG";
+    public static final String SELECTED_PAC_CONF_ARG = "SELECTED_PAC_CONF_ARG";
 
     public static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
     public static final String WIFI_AP_NETWORK_ARG = "WIFI_AP_NETWORK_ARG";

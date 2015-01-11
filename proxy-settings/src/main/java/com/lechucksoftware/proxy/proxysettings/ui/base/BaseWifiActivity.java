@@ -86,7 +86,7 @@ public class BaseWifiActivity extends BaseActivity
 //            {
 ////                if (App.getInstance().wifiActionEnabled)
 //                {
-//                    Timber.d(TAG, "Received broadcast for proxy configuration written on device -> RefreshUI");
+//                    Timber.d("Received broadcast for proxy configuration written on device -> RefreshUI");
 //                    refreshUI();
 //                }
 //            }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -287,14 +288,19 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             listView.setItemChecked(index, true);
             ProxyEntity proxy = (ProxyEntity) listView.getItemAtPosition(index);
 
-            wiFiAPConfig.setProxySetting(ProxySetting.STATIC);
-            wiFiAPConfig.setProxyHost(proxy.getHost());
-            wiFiAPConfig.setProxyPort(proxy.getPort());
-            wiFiAPConfig.setProxyExclusionString(proxy.getExclusion());
-            wiFiAPConfig.writeConfigurationToDevice();
+            Intent i = new Intent();
+            i.putExtra(Constants.SELECTED_PROXY_TYPE_ARG, ProxySetting.STATIC);
+            i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, proxy);
+            getActivity().setResult(FragmentActivity.RESULT_OK, i);
 
-            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
-            asyncSaveWiFiApConfig.execute();
+//            wiFiAPConfig.setProxySetting(ProxySetting.STATIC);
+//            wiFiAPConfig.setProxyHost(proxy.getHost());
+//            wiFiAPConfig.setProxyPort(proxy.getPort());
+//            wiFiAPConfig.setProxyExclusionString(proxy.getExclusion());
+//            wiFiAPConfig.writeConfigurationToDevice();
+//
+//            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
+//            asyncSaveWiFiApConfig.execute();
 
             getActivity().finish();
         }

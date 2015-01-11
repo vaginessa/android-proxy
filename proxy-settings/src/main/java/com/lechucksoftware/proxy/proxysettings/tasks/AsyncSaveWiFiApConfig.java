@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApDetailFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.WiFiAPConfig;
@@ -35,8 +36,9 @@ public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
 
         if (result)
         {
+            WiFiApDetailFragment wiFiApDetailFragment = (WiFiApDetailFragment) callerFragment;
+            wiFiApDetailFragment.refreshUI();
 
-//        callerFragment.progress.setVisibility(View.GONE);
 //        Toast.makeText(callerFragment.getActivity(), String.format("Updated %s Wi-Fi access point configuration", result.toString()), Toast.LENGTH_SHORT).show();
 
             // Calling refresh intent only after save of all configuration
