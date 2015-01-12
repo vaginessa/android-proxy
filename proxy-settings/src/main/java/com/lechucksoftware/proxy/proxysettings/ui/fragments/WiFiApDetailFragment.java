@@ -333,32 +333,36 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(addNewProxyIntent);
                 break;
+
             case Requests.SELECT_PROXY_FOR_WIFI_NETWORK:
 
-                Bundle args = data.getExtras();
-                if (resultCode == FragmentActivity.RESULT_OK && args != null)
+                if (data != null && data.hasExtra(Constants.SELECTED_PROXY_TYPE_ARG))
                 {
-                    ProxySetting setting = (ProxySetting) args.get(Constants.SELECTED_PROXY_TYPE_ARG);
-
-                    if (setting == ProxySetting.STATIC)
+                    Bundle args = data.getExtras();
+                    if (resultCode == FragmentActivity.RESULT_OK && args != null)
                     {
-                        ProxyEntity proxyEntity = (ProxyEntity) args.get(Constants.SELECTED_PROXY_CONF_ARG);
+                        ProxySetting setting = (ProxySetting) args.get(Constants.SELECTED_PROXY_TYPE_ARG);
 
-                        selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
-                        selectedWiFiAP.setProxyHost(proxyEntity.getHost());
-                        selectedWiFiAP.setProxyPort(proxyEntity.getPort());
-                        selectedWiFiAP.setProxyExclusionString(proxyEntity.getExclusion());
+                        if (setting == ProxySetting.STATIC)
+                        {
+                            ProxyEntity proxyEntity = (ProxyEntity) args.get(Constants.SELECTED_PROXY_CONF_ARG);
+
+                            selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+                            selectedWiFiAP.setProxyHost(proxyEntity.getHost());
+                            selectedWiFiAP.setProxyPort(proxyEntity.getPort());
+                            selectedWiFiAP.setProxyExclusionString(proxyEntity.getExclusion());
+                        }
+                        else if (setting == ProxySetting.PAC)
+                        {
+                            PacEntity pacEntity = (PacEntity) args.get(Constants.SELECTED_PAC_CONF_ARG);
+
+                            selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+                            selectedWiFiAP.setPacUriFile(pacEntity.getPacUriFile());
+                        }
+
+                        AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, selectedWiFiAP);
+                        asyncSaveWiFiApConfig.execute();
                     }
-                    else if (setting == ProxySetting.PAC)
-                    {
-                        PacEntity pacEntity = (PacEntity) args.get(Constants.SELECTED_PAC_CONF_ARG);
-
-                        selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
-                        selectedWiFiAP.setPacUriFile(pacEntity.getPacUriFile());
-                    }
-
-                    AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, selectedWiFiAP);
-                    asyncSaveWiFiApConfig.execute();
                 }
                 break;
         }
