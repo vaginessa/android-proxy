@@ -56,7 +56,7 @@ public class App extends Application
 
         APL.setup(App.this);
 
-        getTraceUtils().startTrace(TAG, "STARTUP", Log.ERROR, true);
+        getTraceUtils().startTrace(TAG, "STARTUP", Log.INFO, true);
 
         wifiNetworksManager = new WifiNetworksManager(App.this);
         dbManager = new DataSource(App.this);
@@ -69,12 +69,12 @@ public class App extends Application
         // Start ASAP a Wi-Fi scan
 //        APL.getWifiManager().startScan();
 
-        getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getTraceUtils().partialTrace(TAG, "STARTUP", Log.DEBUG);
 
         // TODO: evaluate moving to AsyncUpdateApplicationStatistics
         ApplicationStatistics.updateInstallationDetails(this);
 
-        getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getTraceUtils().partialTrace(TAG, "STARTUP", Log.DEBUG);
 
         Timber.d("Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));

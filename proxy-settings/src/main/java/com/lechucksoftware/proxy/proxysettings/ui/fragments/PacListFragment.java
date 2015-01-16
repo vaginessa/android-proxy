@@ -200,7 +200,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
         refreshLoaderResults(dbPacs);
 
         App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.ERROR);
+        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.INFO);
     }
 
     private void refreshLoaderResults(List<PacEntity> dbPacs)

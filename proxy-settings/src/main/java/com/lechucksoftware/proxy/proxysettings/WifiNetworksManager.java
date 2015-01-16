@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
@@ -222,20 +223,23 @@ public class WifiNetworksManager
     {
         WiFiAPConfig updatedConf = null;
 
-        App.getTraceUtils().startTrace(TAG, "updateCurrentConfiguration", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "updateCurrentConfiguration", Log.DEBUG);
 
         if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
         {
             WifiInfo info = APL.getWifiManager().getConnectionInfo();
+
             if (info != null)
             {
                 int networkId = info.getNetworkId();
+                WifiConfiguration wifiConfiguration = APL.getConfiguredNetwork(networkId);
+                WiFiAPConfig networkConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
 
                 synchronized (wifiNetworkStatus)
                 {
-                    if (wifiNetworkStatus.containsKey(networkId))
+                    if (wifiNetworkStatus.containsKey(networkConfig.getAPLNetworkId()))
                     {
-                        updatedConf = wifiNetworkStatus.get(networkId);
+                        updatedConf = wifiNetworkStatus.get(networkConfig.getAPLNetworkId());
                     }
 
                     mergeWithCurrentConfiguration(updatedConf);
@@ -243,7 +247,7 @@ public class WifiNetworksManager
             }
         }
 
-        App.getTraceUtils().stopTrace(TAG, "updateCurrentConfiguration", Log.INFO);
+        App.getTraceUtils().stopTrace(TAG, "updateCurrentConfiguration", Log.DEBUG);
 
         return updatedConf;
     }

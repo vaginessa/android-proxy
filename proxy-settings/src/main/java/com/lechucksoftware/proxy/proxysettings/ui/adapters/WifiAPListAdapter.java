@@ -44,7 +44,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
 
     public void setData(List<WiFiAPConfig> confList)
     {
-        App.getTraceUtils().startTrace(TAG, "setData", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "setData", Log.DEBUG);
 
         Boolean needsListReplace = false;
 
@@ -90,7 +90,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
             App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
 
-        App.getTraceUtils().stopTrace(TAG, "setData", Log.INFO);
+        App.getTraceUtils().stopTrace(TAG, "setData", Log.DEBUG);
     }
 
     public View getView(int position, View view, ViewGroup parent)

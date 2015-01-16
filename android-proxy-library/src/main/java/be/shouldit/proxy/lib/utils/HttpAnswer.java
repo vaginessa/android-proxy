@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 
 public class HttpAnswer
 {
+    private final int maxAnswerLength;
     private HttpURLConnection httpURLConnection;
     private int status;
     private String body;
@@ -31,7 +32,13 @@ public class HttpAnswer
     public HttpAnswer(HttpURLConnection connection, int maxLen) throws IOException
     {
         httpURLConnection = connection;
+        maxAnswerLength = maxLen;
+
         status = httpURLConnection.getResponseCode();
+    }
+
+    public void getAnswer() throws IOException
+    {
         if (status == HttpURLConnection.HTTP_OK)
         {
             contentType = httpURLConnection.getContentType();
@@ -49,7 +56,7 @@ public class HttpAnswer
                 // LogWrapper.d(TAG, temp);
                 sb.append(temp);
 
-                if (sb.length() >= maxLen)
+                if (sb.length() >= maxAnswerLength)
                     break;
             }
 

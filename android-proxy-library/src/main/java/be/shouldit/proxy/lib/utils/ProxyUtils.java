@@ -412,6 +412,16 @@ public class ProxyUtils
         httpURLConnection.setConnectTimeout(timeout);
 
         HttpAnswer answer = new HttpAnswer(httpURLConnection, maxLen);
+
+        try
+        {
+            answer.getAnswer();
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Exception getting HTTP Answer for URI: '%s'", uri.toString());
+        }
+
         return answer;
     }
 

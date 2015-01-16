@@ -212,7 +212,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         refreshLoaderResults(dbProxies);
 
         App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.ERROR);
+        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.INFO);
     }
 
     private void refreshLoaderResults(List<ProxyEntity> dbProxies)

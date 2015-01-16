@@ -515,13 +515,13 @@ public class APL
 
         if (selectedConfiguration != null)
         {
-            APL.getTraceUtils().startTrace(TAG,"saveWifiConfiguration", Log.DEBUG);
+            APL.getTraceUtils().startTrace(TAG,"saveWifiConfiguration", Log.INFO, true);
 
             WifiConfiguration newConf = ReflectionUtils.setProxyFieldsOnWifiConfiguration(wiFiAPConfig, selectedConfiguration);
-            APL.getTraceUtils().partialTrace(TAG, "setProxyFieldsOnWifiConfiguration", Log.DEBUG);
+            APL.getTraceUtils().partialTrace(TAG, "saveWifiConfiguration", "Set proxy fields on WifiConfiguration", Log.INFO);
 
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
-            APL.getTraceUtils().partialTrace(TAG, "saveWifiConfiguration", Log.DEBUG);
+            APL.getTraceUtils().partialTrace(TAG, "saveWifiConfiguration", "Save configuration to device", Log.INFO);
 
             /***************************************************************************************
              * TODO: improve method adding callback in order to return the result of the operation
@@ -557,7 +557,7 @@ public class APL
             }
             /**************************************************************************************/
 
-            APL.getTraceUtils().stopTrace(TAG, "saveWifiConfiguration", Log.DEBUG);
+            APL.getTraceUtils().stopTrace(TAG, "saveWifiConfiguration", Log.INFO);
             wiFiAPConfig.getStatus().clear();
 
             Timber.d("Succesfully updated configuration %s, after %d tries", wiFiAPConfig.toShortString(), tries);

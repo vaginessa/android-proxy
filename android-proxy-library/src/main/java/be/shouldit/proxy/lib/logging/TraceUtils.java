@@ -15,13 +15,35 @@ public class TraceUtils
 {
     /**
      * ANDROID LOG LEVELS
-     * <p/>
+     *
      * VERBOSE	Constant Value: 2 (0x00000002)
+     *  Use this when you want to go absolutely nuts with your logging.
+     *  If for some reason you've decided to log every little thing in a particular
+     *  part of your app, use the Log.v tag.
+     *
      * DEBUG	Constant Value: 3 (0x00000003)
-     * INFO	Constant Value: 4 (0x00000004)
-     * WARN	Constant Value: 5 (0x00000005)
+     *  Use this for debugging purposes.
+     *  If you want to print out a bunch of messages so you can log the exact flow
+     *  of your program, use this. If you want to keep a log of variable values, use this.
+     *
+     * INFO	    Constant Value: 4 (0x00000004)
+     *  Use this to post useful information to the log.
+     *  For example: that you have successfully connected to a server.
+     *  Basically use it to report successes.
+     *
+     * WARN	    Constant Value: 5 (0x00000005)
+     *  Use this when you suspect something shady is going on.
+     *  You may not be completely in full on error mode, but maybe you recovered
+     *  from some unexpected behavior. Basically, use this to log stuff you didn't expect
+     *  to happen but isn't necessarily an error.
+     *
      * ERROR	Constant Value: 6 (0x00000006)
+     *  This is for when bad stuff happens.
+     *  Use this tag in places like inside a catch statment.
+     *  You know that an error has occurred and therefore you're logging an error.
+     *
      * ASSERT	Constant Value: 7 (0x00000007)
+     *
      */
 
     private Map<String, TraceDate> startTraces;

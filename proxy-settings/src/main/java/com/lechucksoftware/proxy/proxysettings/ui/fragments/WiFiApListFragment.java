@@ -244,7 +244,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         refreshLoaderResults(aps);
 
         App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.ERROR);
+        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.INFO);
     }
 
     @Override

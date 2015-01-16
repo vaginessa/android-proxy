@@ -354,7 +354,17 @@ public class DeveloperOptionsActivity extends FragmentActivity
                 for (int i=0;i<=numWifis;i++)
                 {
                     String ssid = TestUtils.createFakeWifiNetwork(_developerOptionsActivity);
-                    publishProgress(String.format("Created #[%d / %d] TEST Wi-Fi network: %s", i , numWifis, ssid));
+                    Timber.e("----------------------------------------------");
+                    publishProgress(String.format("Created #[%d / %d] TEST Wi-Fi network: %s", i, numWifis, ssid));
+
+                    try
+                    {
+                        Thread.sleep(500);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        Timber.e(e,"Exception during sleep");
+                    }
                 }
             }
             else if (_action == TestAction.REMOVE_TEST_WIFI_NETWORKS)
