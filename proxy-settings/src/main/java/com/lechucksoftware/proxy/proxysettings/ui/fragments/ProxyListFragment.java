@@ -355,7 +355,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         switch (item.getItemId())
         {
             case R.id.menu_add_new_proxy:
-                Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailFragment.class);
+                Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
                 addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(addNewProxyIntent);

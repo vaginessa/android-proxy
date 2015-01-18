@@ -397,7 +397,7 @@ public class APL
 
         APL.getTraceUtils().startTrace(TAG,"getConfiguredNetworks", Log.DEBUG);
         List<WifiConfiguration> configuredNetworks = getWifiManager().getConfiguredNetworks();
-        APL.getTraceUtils().partialTrace(TAG,"getConfiguredNetworks", "Got configured networks from WifiManager", Log.DEBUG);
+//        APL.getTraceUtils().partialTrace(TAG,"getConfiguredNetworks", "Got configured networks from WifiManager", Log.DEBUG);
 
         if (configuredNetworks != null)
         {
@@ -406,7 +406,7 @@ public class APL
             {
                 APLNetworkId networkId = new APLNetworkId(ProxyUtils.cleanUpSSID(wifiConf.SSID), ProxyUtils.getSecurity(wifiConf));
                 networksMap.put(networkId, wifiConf);
-                APL.getTraceUtils().partialTrace(TAG,"getConfiguredNetworks",String.format("Added %s to configured networks map", networkId.toString()),Log.DEBUG);
+//                APL.getTraceUtils().partialTrace(TAG,"getConfiguredNetworks",String.format("Added %s to configured networks map", networkId.toString()),Log.DEBUG);
             }
         }
         else
@@ -547,8 +547,12 @@ public class APL
                     wiFiAPConfig.updateProxyConfiguration(savedConf);
                     break;
                 }
-
-                tries++;
+                else
+                {
+                    tries++;
+                    Timber.w("Problem saving configuration to device. #%d Try again ...", tries);
+                    ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
+                }
             }
 
             if (!succesfullySaved)
