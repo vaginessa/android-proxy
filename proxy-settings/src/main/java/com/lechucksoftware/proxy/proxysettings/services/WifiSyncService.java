@@ -15,7 +15,7 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -51,6 +51,15 @@ public class WifiSyncService extends EnhancedIntentService
     {
         instance = this;
         isHandling = true;
+
+//        try
+//        {
+//            Thread.sleep(1000);
+//        }
+//        catch (InterruptedException e)
+//        {
+//            e.printStackTrace();
+//        }
 
         App.getTraceUtils().startTrace(TAG, "syncAP", "Started handling intent", Log.DEBUG, true);
 
@@ -170,13 +179,13 @@ public class WifiSyncService extends EnhancedIntentService
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
                     App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WifiConfiguration", Log.DEBUG);
 
-                    WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
-                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WiFiAPConfig", Log.DEBUG);
+                    WiFiApConfig wiFiApConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WiFiApConfig", Log.DEBUG);
 
-                    WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiAPConfig);
+                    WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiApConfig);
                     App.getTraceUtils().partialTrace(TAG, "syncAP", "Upsert WiFiAPEntity", Log.DEBUG);
 
-                    App.getWifiNetworksManager().updateWifiConfig(wiFiAPConfig);
+                    App.getWifiNetworksManager().updateWifiConfig(wiFiApConfig);
                     App.getTraceUtils().partialTrace(TAG, "syncAP", "updateWifiConfig: " + wiFiAPEntity.toString(), Log.DEBUG);
 
                     upserted++;

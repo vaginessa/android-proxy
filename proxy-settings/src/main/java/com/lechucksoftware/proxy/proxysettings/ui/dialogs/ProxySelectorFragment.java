@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
@@ -14,7 +13,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
 
 public class ProxySelectorFragment extends BaseFragment
 {
@@ -29,7 +27,7 @@ public class ProxySelectorFragment extends BaseFragment
 
         Bundle args = new Bundle();
         
-        args.putSerializable(SELECTED_WIFI_NETWORK, wifiAplNetworkId);
+        args.putParcelable(SELECTED_WIFI_NETWORK, wifiAplNetworkId);
         fragment.setArguments(args);
 
         return fragment;
@@ -40,7 +38,7 @@ public class ProxySelectorFragment extends BaseFragment
     {
         super.onCreate(savedInstanceState);
 
-        wifiAplNetworkId = (APLNetworkId) getArguments().getSerializable(SELECTED_WIFI_NETWORK);
+        wifiAplNetworkId = getArguments().getParcelable(SELECTED_WIFI_NETWORK);
     }
 
     @Override
@@ -55,7 +53,7 @@ public class ProxySelectorFragment extends BaseFragment
         tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
         Bundle args = new Bundle();
         args.putSerializable(Constants.FRAGMENT_MODE_ARG, FragmentMode.DIALOG);
-        args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, wifiAplNetworkId);
+        args.putParcelable(Constants.WIFI_AP_NETWORK_ARG, wifiAplNetworkId);
 
         tabHost.addTab(tabHost.newTabSpec("static_proxies").setIndicator("STATIC"), ProxyListFragment.class, args);
         tabHost.addTab(tabHost.newTabSpec("pac_proxies").setIndicator("PAC"), ProxyListFragment.class, args);

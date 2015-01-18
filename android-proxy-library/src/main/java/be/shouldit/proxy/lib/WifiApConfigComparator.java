@@ -7,15 +7,15 @@ import java.util.Comparator;
 /**
  * Created by Marco on 21/09/14.
  */
-public class WifiApConfigComparator implements Comparator<WiFiAPConfig>
+public class WifiApConfigComparator implements Comparator<WiFiApConfig>
 {
     @Override
-    public int compare(WiFiAPConfig wiFiAPConfig, WiFiAPConfig wiFiAPConfig2)
+    public int compare(WiFiApConfig wiFiApConfig, WiFiApConfig wiFiApConfig2)
     {
-        return compareWifiAp(wiFiAPConfig, wiFiAPConfig2);
+        return compareWifiAp(wiFiApConfig, wiFiApConfig2);
     }
 
-    public static int compareWifiAp(WiFiAPConfig current, WiFiAPConfig other)
+    public static int compareWifiAp(WiFiApConfig current, WiFiApConfig other)
     {
         // Active one goes first.
         if (current.isActive() && !other.isActive()) return -1;
@@ -33,14 +33,14 @@ public class WifiApConfigComparator implements Comparator<WiFiAPConfig>
         }
 
         // Configured one goes before unconfigured one.
-        if (current.getNetworkId() != WiFiAPConfig.INVALID_NETWORK_ID
-                && other.getNetworkId() == WiFiAPConfig.INVALID_NETWORK_ID)
+        if (current.getNetworkId() != WiFiApConfig.INVALID_NETWORK_ID
+                && other.getNetworkId() == WiFiApConfig.INVALID_NETWORK_ID)
         {
             return -1;
         }
 
-        if (current.getNetworkId() == WiFiAPConfig.INVALID_NETWORK_ID
-                && other.getNetworkId() != WiFiAPConfig.INVALID_NETWORK_ID)
+        if (current.getNetworkId() == WiFiApConfig.INVALID_NETWORK_ID
+                && other.getNetworkId() != WiFiApConfig.INVALID_NETWORK_ID)
         {
             return 1;
         }

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 
@@ -27,7 +27,7 @@ public class WifiSignal extends LinearLayout
     private TextView securityTextView;
 
     private String text;
-    private WiFiAPConfig configuration;
+    private WiFiApConfig configuration;
 
     public WifiSignal(Context context, AttributeSet attrs)
     {
@@ -82,7 +82,7 @@ public class WifiSignal extends LinearLayout
         {
             iconImageView.setImageLevel(configuration.getLevel());
             iconImageView.setImageResource(R.drawable.wifi_signal);
-            iconImageView.setImageState((configuration.getSecurityType() != SecurityType.SECURITY_NONE) ? WiFiAPConfig.STATE_SECURED : WiFiAPConfig.STATE_NONE, true);
+            iconImageView.setImageState((configuration.getSecurityType() != SecurityType.SECURITY_NONE) ? WiFiApConfig.STATE_SECURED : WiFiApConfig.STATE_NONE, true);
 
             if (configuration.isActive())
             {
@@ -95,7 +95,7 @@ public class WifiSignal extends LinearLayout
         }
     }
 
-    public void setConfiguration(WiFiAPConfig configuration)
+    public void setConfiguration(WiFiApConfig configuration)
     {
         this.configuration = configuration;
         refreshUI();

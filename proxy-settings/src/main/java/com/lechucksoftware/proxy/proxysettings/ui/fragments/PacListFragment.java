@@ -25,7 +25,6 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.loaders.PacDBTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveWiFiApConfig;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
@@ -37,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -70,7 +69,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
     // Loaders
     private static final int LOADER_PACDB = 1;
 
-    private WiFiAPConfig wiFiAPConfig;
+    private WiFiApConfig wiFiApConfig;
     private APLNetworkId aplNetworkId;
 
     public static PacListFragment newInstance(int sectionNumber)
@@ -86,7 +85,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
 
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putSerializable(Constants.FRAGMENT_MODE_ARG, mode);
-        args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, aplNetworkId);
+        args.putParcelable(Constants.WIFI_AP_NETWORK_ARG, aplNetworkId);
         fragment.setArguments(args);
 
         return fragment;
@@ -108,11 +107,11 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
 
             if (args.containsKey(Constants.WIFI_AP_NETWORK_ARG))
             {
-                aplNetworkId = (APLNetworkId) getArguments().getSerializable(Constants.WIFI_AP_NETWORK_ARG);
+                aplNetworkId = getArguments().getParcelable(Constants.WIFI_AP_NETWORK_ARG);
 
                 if (aplNetworkId != null)
                 {
-                    wiFiAPConfig = App.getWifiNetworksManager().getConfiguration(aplNetworkId);
+                    wiFiApConfig = App.getWifiNetworksManager().getConfiguration(aplNetworkId);
                 }
             }
         }
@@ -281,11 +280,11 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             i.putExtra(Constants.SELECTED_PAC_CONF_ARG, pacEntity);
             getActivity().setResult(FragmentActivity.RESULT_OK, i);
 
-//            wiFiAPConfig.setProxySetting(ProxySetting.STATIC);
-//            wiFiAPConfig.setPacUriFile(proxy.getPacUriFile());
-//            wiFiAPConfig.writeConfigurationToDevice();
+//            wiFiApConfig.setProxySetting(ProxySetting.STATIC);
+//            wiFiApConfig.setPacUriFile(proxy.getPacUriFile());
+//            wiFiApConfig.writeConfigurationToDevice();
 //
-//            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
+//            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiApConfig);
 //            asyncSaveWiFiApConfig.execute();
 
             getActivity().finish();

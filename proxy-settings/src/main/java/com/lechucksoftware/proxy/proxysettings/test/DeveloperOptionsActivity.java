@@ -389,7 +389,7 @@ public class DeveloperOptionsActivity extends FragmentActivity
                 Utils.setDemoMode(_developerOptionsActivity, !App.getInstance().demoMode);
                 Utils.checkDemoMode(_developerOptionsActivity);
 
-//                for (WiFiAPConfig conf : App.getWifiNetworksManager().getSortedWifiApConfigsList())
+//                for (WiFiApConfig conf : App.getWifiNetworksManager().getSortedWifiApConfigsList())
 //                {
 //                    if (App.getInstance().demoMode)
 //                        conf.setAPDescription(UIUtils.getRandomCodeName().toString());

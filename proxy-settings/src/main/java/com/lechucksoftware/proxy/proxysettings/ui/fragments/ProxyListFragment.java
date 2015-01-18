@@ -27,7 +27,6 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyDBTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveWiFiApConfig;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesListAdapter;
@@ -38,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -71,7 +70,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     // Loaders
     private static final int LOADER_PROXYDB = 1;
 
-    private WiFiAPConfig wiFiAPConfig;
+    private WiFiApConfig wiFiApConfig;
     private APLNetworkId aplNetworkId;
 
     public static ProxyListFragment newInstance(int sectionNumber)
@@ -87,7 +86,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putSerializable(Constants.FRAGMENT_MODE_ARG, mode);
-        args.putSerializable(Constants.WIFI_AP_NETWORK_ARG, aplNetworkId);
+        args.putParcelable(Constants.WIFI_AP_NETWORK_ARG, aplNetworkId);
         fragment.setArguments(args);
 
         return fragment;
@@ -109,11 +108,11 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
             if (args.containsKey(Constants.WIFI_AP_NETWORK_ARG))
             {
-                aplNetworkId = (APLNetworkId) getArguments().getSerializable(Constants.WIFI_AP_NETWORK_ARG);
+                aplNetworkId = getArguments().getParcelable(Constants.WIFI_AP_NETWORK_ARG);
 
                 if (aplNetworkId != null)
                 {
-                    wiFiAPConfig = App.getWifiNetworksManager().getConfiguration(aplNetworkId);
+                    wiFiApConfig = App.getWifiNetworksManager().getConfiguration(aplNetworkId);
                 }
             }
         }
@@ -293,13 +292,13 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, proxy);
             getActivity().setResult(FragmentActivity.RESULT_OK, i);
 
-//            wiFiAPConfig.setProxySetting(ProxySetting.STATIC);
-//            wiFiAPConfig.setProxyHost(proxy.getHost());
-//            wiFiAPConfig.setProxyPort(proxy.getPort());
-//            wiFiAPConfig.setProxyExclusionString(proxy.getExclusion());
-//            wiFiAPConfig.writeConfigurationToDevice();
+//            wiFiApConfig.setProxySetting(ProxySetting.STATIC);
+//            wiFiApConfig.setProxyHost(proxy.getHost());
+//            wiFiApConfig.setProxyPort(proxy.getPort());
+//            wiFiApConfig.setProxyExclusionString(proxy.getExclusion());
+//            wiFiApConfig.writeConfigurationToDevice();
 //
-//            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiAPConfig);
+//            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiApConfig);
 //            asyncSaveWiFiApConfig.execute();
 
             getActivity().finish();

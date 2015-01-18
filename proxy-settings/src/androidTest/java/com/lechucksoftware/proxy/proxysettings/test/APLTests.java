@@ -12,11 +12,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
-import java.util.Random;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import timber.log.Timber;
 
@@ -36,17 +35,17 @@ public class APLTests extends InstrumentationTestCase
     @SmallTest
     public void testChangeWifiSettings() throws Exception
     {
-        Map<APLNetworkId, WiFiAPConfig> networksMap = APL.getWifiAPConfigurations();
+        Map<APLNetworkId, WiFiApConfig> networksMap = APL.getWifiAPConfigurations();
 
         for (APLNetworkId networkId : networksMap.keySet())
         {
             Timber.d("Testing update proxy settings on network: %s", networkId.toString());
-            WiFiAPConfig network = networksMap.get(networkId);
+            WiFiApConfig network = networksMap.get(networkId);
             updateWifiNetwork(network);
         }
     }
 
-    private void updateWifiNetwork(WiFiAPConfig network) throws Exception
+    private void updateWifiNetwork(WiFiApConfig network) throws Exception
     {
         Timber.d("Got network to update: %s", network.toShortString());
 
@@ -72,7 +71,7 @@ public class APLTests extends InstrumentationTestCase
         Thread.sleep(2000);
 
         WifiConfiguration updatedConfig = APL.getConfiguredNetwork(network.getNetworkId());
-        WiFiAPConfig updatedNetwork = APL.getWiFiAPConfiguration(updatedConfig);
+        WiFiApConfig updatedNetwork = APL.getWiFiAPConfiguration(updatedConfig);
 
         Timber.d("Check network configuration has been written to device: %s", updatedNetwork.toShortString());
 

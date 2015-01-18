@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import timber.log.Timber;
 
 /**
@@ -16,16 +16,16 @@ import timber.log.Timber;
 public class WifiNetworkStatus
 {
     private static final String TAG = WifiNetworkStatus.class.getSimpleName();
-    private Map<APLNetworkId, WiFiAPConfig> wifiApConfigsByAPLNetId;
-//    private Map<Integer, WiFiAPConfig> wifiApConfigsByWifiNetworkId;
+    private Map<APLNetworkId, WiFiApConfig> wifiApConfigsByAPLNetId;
+//    private Map<Integer, WiFiApConfig> wifiApConfigsByWifiNetworkId;
     private Map<APLNetworkId, ScanResult> notConfiguredWifi; // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
 
-    private WiFiAPConfig currentConfiguration;
+    private WiFiApConfig currentConfiguration;
 
     public WifiNetworkStatus()
     {
-//        wifiApConfigsByWifiNetworkId = new ConcurrentHashMap<Integer, WiFiAPConfig>();
-        wifiApConfigsByAPLNetId = new ConcurrentHashMap<APLNetworkId, WiFiAPConfig>();
+//        wifiApConfigsByWifiNetworkId = new ConcurrentHashMap<Integer, WiFiApConfig>();
+        wifiApConfigsByAPLNetId = new ConcurrentHashMap<APLNetworkId, WiFiApConfig>();
         notConfiguredWifi = new ConcurrentHashMap<APLNetworkId, ScanResult>();
     }
 
@@ -44,17 +44,17 @@ public class WifiNetworkStatus
 //        return wifiApConfigsByWifiNetworkId.containsKey(networkId);
 //    }
 
-    public WiFiAPConfig get(APLNetworkId aplNetworkId)
+    public WiFiApConfig get(APLNetworkId aplNetworkId)
     {
         return wifiApConfigsByAPLNetId.get(aplNetworkId);
     }
 
-//    public WiFiAPConfig get(int networkId)
+//    public WiFiApConfig get(int networkId)
 //    {
 //        return wifiApConfigsByWifiNetworkId.get(networkId);
 //    }
 
-    public void put(APLNetworkId aplNetworkId, WiFiAPConfig wiFiAPConfig)
+    public void put(APLNetworkId aplNetworkId, WiFiApConfig wiFiApConfig)
     {
         if (aplNetworkId == null)
         {
@@ -62,15 +62,15 @@ public class WifiNetworkStatus
             return;
         }
 
-        if (wiFiAPConfig == null)
+        if (wiFiApConfig == null)
         {
-            Timber.e(new Exception(),"Trying to put a Wi-Fi network using a NULL WiFiAPConfig");
+            Timber.e(new Exception(),"Trying to put a Wi-Fi network using a NULL WiFiApConfig");
             return;
         }
 
-        Timber.d("Adding '%s' Wi-Fi network to WifiNetworkStatus object", wiFiAPConfig.getSSID());
-        wifiApConfigsByAPLNetId.put(aplNetworkId, wiFiAPConfig);
-//        wifiApConfigsByWifiNetworkId.put(wiFiAPConfig.getNetworkId(), wiFiAPConfig);
+        Timber.d("Adding '%s' Wi-Fi network to WifiNetworkStatus object", wiFiApConfig.getSSID());
+        wifiApConfigsByAPLNetId.put(aplNetworkId, wiFiApConfig);
+//        wifiApConfigsByWifiNetworkId.put(wiFiApConfig.getNetworkId(), wiFiApConfig);
     }
 
     public void remove(APLNetworkId aplNetworkId)
@@ -83,7 +83,7 @@ public class WifiNetworkStatus
 
         Timber.d("Removing '%s' Wi-Fi network from WifiNetworkStatus object", aplNetworkId.SSID);
 
-        WiFiAPConfig toRemove = null;
+        WiFiApConfig toRemove = null;
         if (wifiApConfigsByAPLNetId.containsKey(aplNetworkId))
         {
             toRemove = wifiApConfigsByAPLNetId.remove(aplNetworkId);
@@ -103,7 +103,7 @@ public class WifiNetworkStatus
 //        }
     }
 
-    public Collection<WiFiAPConfig> values()
+    public Collection<WiFiApConfig> values()
     {
         return wifiApConfigsByAPLNetId.values();
     }
@@ -113,12 +113,12 @@ public class WifiNetworkStatus
         return notConfiguredWifi;
     }
 
-    public WiFiAPConfig getCurrentConfiguration()
+    public WiFiApConfig getCurrentConfiguration()
     {
         return currentConfiguration;
     }
 
-    public void setCurrentConfiguration(WiFiAPConfig currentConfiguration)
+    public void setCurrentConfiguration(WiFiApConfig currentConfiguration)
     {
         this.currentConfiguration = currentConfiguration;
     }

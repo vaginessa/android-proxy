@@ -7,13 +7,14 @@ import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.WifiNetworksManager;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
 import java.util.List;
 import java.util.UUID;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import timber.log.Timber;
 
@@ -80,20 +81,18 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     @Override
     protected Integer doInBackground(Void... voids)
     {
-        List<WiFiAPConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
+        List<WiFiApConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
 
         if (configurations != null)
         {
-//            List<WiFiAPConfig> configurations = new ArrayList<WiFiAPConfig>(sortedConfigurations);
+//            List<WiFiApConfig> configurations = new ArrayList<WiFiApConfig>(sortedConfigurations);
 
             Timber.d("Current proxy: " + currentProxy.toString());
             Timber.d("Updated proxy: " + updatedProxy.toString());
 
-//            App.getInstance().wifiActionEnabled = false;
-
             if (configurations != null)
             {
-                for (WiFiAPConfig conf : configurations)
+                for (WiFiApConfig conf : configurations)
                 {
                     if (conf.getProxySetting() == proxySetting)
                     {
@@ -108,8 +107,6 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             }
         }
 
-//        App.getInstance().wifiActionEnabled = true;
-
         Timber.d("Current proxy: " + currentProxy.toString());
         Timber.d("Updated proxy: " + updatedProxy.toString());
 
@@ -118,7 +115,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
         return updatedWiFiAP;
     }
 
-    private void updateWifiNetworkPacProxy(WiFiAPConfig conf)
+    private void updateWifiNetworkPacProxy(WiFiApConfig conf)
     {
         Uri pacFileUri = conf.getPacFileUri();
 
@@ -130,7 +127,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
             try
             {
-                conf.writeConfigurationToDevice();
+                App.getWifiNetworksManager().asyncSaveWifiApConfig(conf);
             }
             catch (Exception e)
             {
@@ -150,7 +147,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
         }
     }
 
-    private void updateWifiNetworkStaticProxy(WiFiAPConfig conf)
+    private void updateWifiNetworkStaticProxy(WiFiApConfig conf)
     {
         String host = conf.getProxyHost();
         Integer port = conf.getProxyPort();
@@ -168,7 +165,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
             try
             {
-                conf.writeConfigurationToDevice();
+                App.getWifiNetworksManager().asyncSaveWifiApConfig(conf);
             }
             catch (Exception e)
             {

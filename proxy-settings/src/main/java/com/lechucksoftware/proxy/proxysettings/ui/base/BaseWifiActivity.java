@@ -82,15 +82,6 @@ public class BaseWifiActivity extends BaseActivity
 
             App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG, true);
 
-//            if (action.equals(Intents.WIFI_AP_UPDATED))
-//            {
-////                if (App.getInstance().wifiActionEnabled)
-//                {
-//                    Timber.d("Received broadcast for proxy configuration written on device -> RefreshUI");
-//                    refreshUI();
-//                }
-//            }
-//            else
             if (action.equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK))
             {
                 Timber.d("Received broadcast for partial update on status of proxy configuration - RefreshUI");

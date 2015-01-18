@@ -217,15 +217,15 @@ public class APL
 
 //        ConnectivityManager connManager = (ConnectivityManager) gContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 //
-//        WiFiAPConfig proxyConfig = null;
+//        WiFiApConfig proxyConfig = null;
 //        if (proxy != Proxy.NO_PROXY)
 //        {
-//            proxyConfig = new WiFiAPConfig(ProxySetting.STATIC, null, null, null, null);
+//            proxyConfig = new WiFiApConfig(ProxySetting.STATIC, null, null, null, null);
 //        }
 //        else
 //        {
 //            InetSocketAddress proxyAddress = (InetSocketAddress) proxy.address();
-//            proxyConfig = new WiFiAPConfig(ProxySetting.NONE, proxyAddress.getHostName(), proxyAddress.getPort(), null, null);
+//            proxyConfig = new WiFiApConfig(ProxySetting.NONE, proxyAddress.getHostName(), proxyAddress.getPort(), null, null);
 //        }
 
         return proxy;
@@ -307,12 +307,12 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static WiFiAPConfig getWiFiAPConfiguration(WifiConfiguration wifiConf)
+    public static WiFiApConfig getWiFiAPConfiguration(WifiConfiguration wifiConf)
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        WiFiAPConfig wiFiAPConfig = null;
+        WiFiApConfig wiFiApConfig = null;
 
         try
         {
@@ -326,7 +326,7 @@ public class APL
 
                 if (ordinal == ProxySetting.NONE.ordinal() || ordinal == ProxySetting.UNASSIGNED.ordinal())
                 {
-                    wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "", Uri.EMPTY);
+                    wiFiApConfig = new WiFiApConfig(wifiConf, ProxySetting.NONE, null, null, "", Uri.EMPTY);
                 }
                 else if (ordinal == ProxySetting.STATIC.ordinal())
                 {
@@ -348,7 +348,7 @@ public class APL
 
                         Timber.d("Read HTTP proxy configuration: '%s:%d' (el: '%s')",mHost,mPort,mExclusionList);
 
-                        wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList, Uri.EMPTY);
+                        wiFiApConfig = new WiFiApConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList, Uri.EMPTY);
                     }
                 }
                 else if (ordinal == ProxySetting.PAC.ordinal())
@@ -363,7 +363,7 @@ public class APL
 
                         Timber.d("Read PAC proxy configuration: '%s'", mPacFileUrl.toString());
 
-                        wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.PAC, null, null, null, mPacFileUrl);
+                        wiFiApConfig = new WiFiApConfig(wifiConf, ProxySetting.PAC, null, null, null, mPacFileUrl);
                     }
                 }
                 else
@@ -372,20 +372,20 @@ public class APL
                 }
             }
 
-            if (wiFiAPConfig == null)
+            if (wiFiApConfig == null)
             {
                 Timber.e("Cannot find proxySettings object");
-                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "", Uri.EMPTY);
+                wiFiApConfig = new WiFiApConfig(wifiConf, ProxySetting.NONE, null, null, "", Uri.EMPTY);
             }
 
-            APL.getTraceUtils().stopTrace(TAG, "getWiFiAPConfiguration", String.format("Got configuration for %s",wiFiAPConfig.getAPLNetworkId().toString()), Log.DEBUG);
+            APL.getTraceUtils().stopTrace(TAG, "getWiFiAPConfiguration", String.format("Got configuration for %s", wiFiApConfig.getAPLNetworkId().toString()), Log.DEBUG);
         }
         catch (Exception e)
         {
-            Timber.e(e, "Problem getting WiFiAPConfig from WifiConfiguration");
+            Timber.e(e, "Problem getting WiFiApConfig from WifiConfiguration");
         }
 
-        return wiFiAPConfig;
+        return wiFiApConfig;
     }
 
     public static Map<APLNetworkId,WifiConfiguration> getConfiguredNetworks()
@@ -456,12 +456,12 @@ public class APL
 
     @Deprecated
     @TargetApi(12)
-    public static Map<APLNetworkId,WiFiAPConfig> getWifiAPConfigurations()
+    public static Map<APLNetworkId,WiFiApConfig> getWifiAPConfigurations()
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        Map<APLNetworkId,WiFiAPConfig> WiFiAPConfigs = new HashMap<APLNetworkId, WiFiAPConfig>();
+        Map<APLNetworkId,WiFiApConfig> WiFiAPConfigs = new HashMap<APLNetworkId, WiFiApConfig>();
 
         APL.getTraceUtils().startTrace(TAG,"getWifiAPConfigurations", Log.DEBUG);
         Map<APLNetworkId,WifiConfiguration> configuredNetworks = getConfiguredNetworks();
@@ -471,12 +471,12 @@ public class APL
         {
             for (WifiConfiguration wifiConf : configuredNetworks.values())
             {
-                WiFiAPConfig conf = getWiFiAPConfiguration(wifiConf);
+                WiFiApConfig conf = getWiFiAPConfiguration(wifiConf);
                 WiFiAPConfigs.put(conf.getAPLNetworkId(), conf);
             }
         }
 
-        APL.getTraceUtils().stopTrace(TAG, "getWifiAPConfigurations", "Got WiFiAPConfig for configured networks", Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG, "getWifiAPConfigurations", "Got WiFiApConfig for configured networks", Log.DEBUG);
 
         return WiFiAPConfigs;
     }
@@ -486,12 +486,12 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static void writeWifiAPConfig(WiFiAPConfig wiFiAPConfig) throws Exception
+    public static void writeWifiAPConfig(WiFiApConfig wiFiApConfig) throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        if (wiFiAPConfig.getSecurityType() == SecurityType.SECURITY_EAP)
+        if (wiFiApConfig.getSecurityType() == SecurityType.SECURITY_EAP)
         {
             Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
             throw e;
@@ -501,12 +501,12 @@ public class APL
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
 
         if (configuredNetworks == null || configuredNetworks.size() == 0)
-            throw new Exception("Cannot find any configured network during writing configuration to the device: " + wiFiAPConfig.toShortString());
+            throw new Exception("Cannot find any configured network during writing configuration to the device: " + wiFiApConfig.toShortString());
 
         WifiConfiguration selectedConfiguration = null;
         for (WifiConfiguration conf : configuredNetworks)
         {
-            if (conf.networkId == wiFiAPConfig.getNetworkId())
+            if (conf.networkId == wiFiApConfig.getNetworkId())
             {
                 selectedConfiguration = conf;
                 break;
@@ -517,7 +517,7 @@ public class APL
         {
             APL.getTraceUtils().startTrace(TAG,"saveWifiConfiguration", Log.INFO, true);
 
-            WifiConfiguration newConf = ReflectionUtils.setProxyFieldsOnWifiConfiguration(wiFiAPConfig, selectedConfiguration);
+            WifiConfiguration newConf = ReflectionUtils.setProxyFieldsOnWifiConfiguration(wiFiApConfig, selectedConfiguration);
             APL.getTraceUtils().partialTrace(TAG, "saveWifiConfiguration", "Set proxy fields on WifiConfiguration", Log.INFO);
 
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
@@ -539,12 +539,12 @@ public class APL
                     e.printStackTrace();
                 }
 
-                WiFiAPConfig savedConf = APL.getWiFiAPConfiguration(newConf);
-                succesfullySaved = wiFiAPConfig.isSameConfiguration(savedConf);
+                WiFiApConfig savedConf = APL.getWiFiAPConfiguration(newConf);
+                succesfullySaved = wiFiApConfig.isSameConfiguration(savedConf);
 
                 if (succesfullySaved)
                 {
-                    wiFiAPConfig.updateProxyConfiguration(savedConf);
+                    wiFiApConfig.updateProxyConfiguration(savedConf);
                     break;
                 }
                 else
@@ -562,9 +562,9 @@ public class APL
             /**************************************************************************************/
 
             APL.getTraceUtils().stopTrace(TAG, "saveWifiConfiguration", Log.INFO);
-            wiFiAPConfig.getStatus().clear();
+            wiFiApConfig.getStatus().clear();
 
-            Timber.d("Succesfully updated configuration %s, after %d tries", wiFiAPConfig.toShortString(), tries);
+            Timber.d("Succesfully updated configuration %s, after %d tries", wiFiApConfig.toShortString(), tries);
 
             Timber.i("Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
@@ -572,7 +572,7 @@ public class APL
         }
         else
         {
-            throw new Exception("Cannot find selected configuration among configured networks during writing to the device: " + wiFiAPConfig.toShortString());
+            throw new Exception("Cannot find selected configuration among configured networks during writing to the device: " + wiFiApConfig.toShortString());
         }
     }
 

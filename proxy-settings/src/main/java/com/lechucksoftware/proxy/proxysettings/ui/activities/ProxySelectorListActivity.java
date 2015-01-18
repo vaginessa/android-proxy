@@ -4,19 +4,13 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.ProxySelectorFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
-
-import java.net.ProxySelector;
 
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
 
 
 /**
@@ -40,7 +34,7 @@ public class ProxySelectorListActivity extends BaseWifiActivity
 
         setContentView(R.layout.main_layout);
 
-        APLNetworkId wifiAplNetworkId = (APLNetworkId) getIntent().getSerializableExtra(Constants.WIFI_AP_NETWORK_ARG);
+        APLNetworkId wifiAplNetworkId = getIntent().getParcelableExtra(Constants.WIFI_AP_NETWORK_ARG);
 
         FragmentManager fm = getSupportFragmentManager();
 

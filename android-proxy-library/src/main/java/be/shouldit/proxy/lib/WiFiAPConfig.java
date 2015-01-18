@@ -1,6 +1,5 @@
 package be.shouldit.proxy.lib;
 
-import android.annotation.TargetApi;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
@@ -8,6 +7,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Parcel;
+import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
@@ -23,9 +23,9 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class WiFiAPConfig implements Comparable<WiFiAPConfig>
+public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
 {
-    private static final String TAG = WiFiAPConfig.class.getSimpleName();
+    private static final String TAG = WiFiApConfig.class.getSimpleName();
 
     public static final int INVALID_NETWORK_ID = -1;
     public static final String LOCAL_EXCL_LIST = "";
@@ -55,17 +55,69 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>
     private PskType pskType = PskType.UNKNOWN;
     private transient WifiConfiguration wifiConfig;
     private WifiInfo mInfo;
-
-    public int getRssi()
-    {
-        return mRssi;
-    }
-
     private int mRssi;
     private NetworkInfo.DetailedState mState;
 
+    @Override
+    public int describeContents() { return 0; }
 
-    public WiFiAPConfig(WifiConfiguration wifiConf, ProxySetting setting, String host, Integer port, String exclusionList, Uri pacFile)
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        dest.writeSerializable(this.id);
+        dest.writeParcelable(this.internalWifiNetworkId, 0);
+        dest.writeSerializable(this.status);
+        dest.writeInt(this.proxySetting == null ? -1 : this.proxySetting.ordinal());
+        dest.writeString(this.proxyHost);
+        dest.writeValue(this.proxyPort);
+        dest.writeString(this.stringProxyExclusionList);
+        dest.writeString(this.pacFileUri);
+        dest.writeStringArray(this.parsedProxyExclusionList);
+        dest.writeString(this.ssid);
+        dest.writeString(this.bssid);
+        dest.writeInt(this.securityType == null ? -1 : this.securityType.ordinal());
+        dest.writeInt(this.networkId);
+        dest.writeInt(this.pskType == null ? -1 : this.pskType.ordinal());
+        dest.writeParcelable(this.wifiConfig, 0);
+        dest.writeParcelable(this.mInfo, 0);
+        dest.writeInt(this.mRssi);
+        dest.writeInt(this.mState == null ? -1 : this.mState.ordinal());
+    }
+
+    private WiFiApConfig(Parcel in)
+    {
+        this.id = (UUID) in.readSerializable();
+        this.internalWifiNetworkId = in.readParcelable(APLNetworkId.class.getClassLoader());
+        this.status = (ProxyStatus) in.readSerializable();
+        int tmpProxySetting = in.readInt();
+        this.proxySetting = tmpProxySetting == -1 ? null : ProxySetting.values()[tmpProxySetting];
+        this.proxyHost = in.readString();
+        this.proxyPort = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.stringProxyExclusionList = in.readString();
+        this.pacFileUri = in.readString();
+        this.parsedProxyExclusionList = in.createStringArray();
+        this.ssid = in.readString();
+        this.bssid = in.readString();
+        int tmpSecurityType = in.readInt();
+        this.securityType = tmpSecurityType == -1 ? null : SecurityType.values()[tmpSecurityType];
+        this.networkId = in.readInt();
+        int tmpPskType = in.readInt();
+        this.pskType = tmpPskType == -1 ? null : PskType.values()[tmpPskType];
+        this.wifiConfig = in.readParcelable(WifiConfiguration.class.getClassLoader());
+        this.mInfo = in.readParcelable(WifiInfo.class.getClassLoader());
+        this.mRssi = in.readInt();
+        int tmpMState = in.readInt();
+        this.mState = tmpMState == -1 ? null : NetworkInfo.DetailedState.values()[tmpMState];
+    }
+
+    public static final Creator<WiFiApConfig> CREATOR = new Creator<WiFiApConfig>()
+    {
+        public WiFiApConfig createFromParcel(Parcel source) {return new WiFiApConfig(source);}
+
+        public WiFiApConfig[] newArray(int size) {return new WiFiApConfig[size];}
+    };
+
+    public WiFiApConfig(WifiConfiguration wifiConf, ProxySetting setting, String host, Integer port, String exclusionList, Uri pacFile)
     {
         if (wifiConf == null)
             throw new IllegalArgumentException("WifiConfiguration parameter cannot be null");
@@ -128,7 +180,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>
         }
     }
 
-    public boolean updateProxyConfiguration(WiFiAPConfig updated)
+    public boolean updateProxyConfiguration(WiFiApConfig updated)
     {
         //TODO: Add all required fields for updating an old configuration with an updated version
         if (!this.isSameConfiguration(updated))
@@ -194,13 +246,13 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>
 
     public boolean isSameConfiguration(Object another)
     {
-        if (!(another instanceof WiFiAPConfig))
+        if (!(another instanceof WiFiApConfig))
         {
-            Timber.e("Not a WiFiAPConfig object");
+            Timber.e("Not a WiFiApConfig object");
             return false;
         }
 
-        WiFiAPConfig anotherConf = (WiFiAPConfig) another;
+        WiFiApConfig anotherConf = (WiFiApConfig) another;
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
         {
@@ -284,14 +336,14 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>
     }
 
     @Override
-    public int compareTo(WiFiAPConfig wiFiAPConfig) {
+    public int compareTo(WiFiApConfig wiFiApConfig) {
 
-        if (!(wiFiAPConfig instanceof WiFiAPConfig))
+        if (!(wiFiApConfig instanceof WiFiApConfig))
         {
             return 1;
         }
 
-        return WifiApConfigComparator.compareWifiAp(this, (WiFiAPConfig) wiFiAPConfig);
+        return WifiApConfigComparator.compareWifiAp(this, (WiFiApConfig) wiFiApConfig);
     }
 
     public boolean isActive()
@@ -344,7 +396,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>
         }
         catch (JSONException e)
         {
-            Timber.e(e, "Exception converting to JSON object WiFiAPConfig");
+            Timber.e(e, "Exception converting to JSON object WiFiApConfig");
         }
 
         return jsonObject;
@@ -455,13 +507,6 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>
         return bssid;
     }
 
-    @Deprecated
-    @TargetApi(12)
-    public void writeConfigurationToDevice() throws Exception
-    {
-        APL.writeWifiAPConfig(this);
-    }
-
     public String getAPConnectionStatus()
     {
         if (isActive())
@@ -551,5 +596,10 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>
     public WifiConfiguration getWifiConfig()
     {
         return wifiConfig;
+    }
+
+    public int getRssi()
+    {
+        return mRssi;
     }
 }

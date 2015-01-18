@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 
 /**
  * Created by marco on 02/12/13.
@@ -17,7 +17,7 @@ import be.shouldit.proxy.lib.WiFiAPConfig;
 public class WifiAp extends LinearLayout
 {
     private ViewGroup layout;
-    private WiFiAPConfig wifiApConfig;
+    private WiFiApConfig wifiApConfig;
     private WifiSignal wifiSignal;
 
     public WifiAp(Context context, AttributeSet attrs)
@@ -86,7 +86,7 @@ public class WifiAp extends LinearLayout
 //        }
     }
 
-    public void setConfiguration(WiFiAPConfig configuration)
+    public void setConfiguration(WiFiApConfig configuration)
     {
         wifiApConfig = configuration;
         wifiSignal.setConfiguration(wifiApConfig);

@@ -1,21 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
-import android.net.Uri;
-import android.net.wifi.WifiConfiguration;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
-
-import java.util.Map;
-import java.util.Random;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 /**
  * Created by mpagliar on 22/08/2014.

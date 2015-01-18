@@ -42,7 +42,7 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         Intent callerIntent = getIntent();
         if (callerIntent != null && callerIntent.hasExtra(Constants.SELECTED_AP_CONF_ARG))
         {
-            APLNetworkId selectedId = (APLNetworkId) callerIntent.getExtras().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+            APLNetworkId selectedId = callerIntent.getExtras().getParcelable(Constants.SELECTED_AP_CONF_ARG);
 
             WiFiApDetailFragment detail = WiFiApDetailFragment.newInstance(selectedId);
             fm.beginTransaction()

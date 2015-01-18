@@ -1,11 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.services.SaveWifiNetworkService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +22,7 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
@@ -38,13 +42,23 @@ public class WifiNetworksManager
         wifiNetworkStatus = new WifiNetworkStatus();
     }
 
+    public void asyncSaveWifiApConfig(WiFiApConfig configuration)
+    {
+        if (configuration != null)
+        {
+            Intent serviceIntent = new Intent(context, SaveWifiNetworkService.class);
+            serviceIntent.putExtra(Constants.WIFI_AP_NETWORK_ARG, configuration);
+            context.startService(serviceIntent);
+        }
+    }
+
     public void updateWifiApConfigs()
     {
         synchronized (wifiNetworkStatus)
         {
             App.getTraceUtils().startTrace(TAG,"updateWifiApConfigs", Log.DEBUG, true);
 
-            Map<APLNetworkId,WiFiAPConfig> configurations = APL.getWifiAPConfigurations();
+            Map<APLNetworkId,WiFiApConfig> configurations = APL.getWifiAPConfigurations();
             for (APLNetworkId aplNetworkId : configurations.keySet())
             {
                 wifiNetworkStatus.put(aplNetworkId,configurations.get(aplNetworkId));
@@ -59,7 +73,7 @@ public class WifiNetworksManager
         }
     }
 
-    public void updateWifiConfig(WiFiAPConfig updatedConfiguration)
+    public void updateWifiConfig(WiFiApConfig updatedConfiguration)
     {
         synchronized (wifiNetworkStatus)
         {
@@ -69,7 +83,7 @@ public class WifiNetworksManager
 
                 if (wifiNetworkStatus.containsKey(aplNetworkId))
                 {
-                    WiFiAPConfig currentConfiguration = wifiNetworkStatus.get(aplNetworkId);
+                    WiFiApConfig currentConfiguration = wifiNetworkStatus.get(aplNetworkId);
                     currentConfiguration.updateProxyConfiguration(updatedConfiguration);
                 }
                 else
@@ -99,7 +113,7 @@ public class WifiNetworksManager
         {
             if (!wifiNetworkStatus.isEmpty())
             {
-                for (WiFiAPConfig conf : wifiNetworkStatus.values())
+                for (WiFiApConfig conf : wifiNetworkStatus.values())
                 {
                     conf.updateWifiInfo(currentWifiInfo, null);
                 }
@@ -119,7 +133,7 @@ public class WifiNetworksManager
             if (!wifiNetworkStatus.isEmpty())
             {
                 App.getTraceUtils().startTrace(TAG, "Clear scan status from AP configs", Log.DEBUG);
-                for (WiFiAPConfig conf : wifiNetworkStatus.values())
+                for (WiFiApConfig conf : wifiNetworkStatus.values())
                 {
                     conf.clearScanStatus();
                 }
@@ -137,7 +151,7 @@ public class WifiNetworksManager
 
                     if (wifiNetworkStatus.containsKey(aplNetworkId))
                     {
-                        WiFiAPConfig conf = wifiNetworkStatus.get(aplNetworkId);
+                        WiFiApConfig conf = wifiNetworkStatus.get(aplNetworkId);
                         if (conf != null)
                         {
                             conf.updateScanResults(res);
@@ -163,7 +177,7 @@ public class WifiNetworksManager
        Timber.d("Updating from scanresult: " + TextUtils.join(", ", scanResultsStrings.toArray()));
     }
 
-    public List<WiFiAPConfig> getSortedWifiApConfigsList()
+    public List<WiFiApConfig> getSortedWifiApConfigsList()
     {
         App.getTraceUtils().startTrace(TAG, "getSortedWifiApConfigsList", Log.DEBUG);
 
@@ -173,11 +187,11 @@ public class WifiNetworksManager
             App.getTraceUtils().partialTrace(TAG, "getSortedWifiApConfigsList", "updateWifiApConfigs", Log.DEBUG);
         }
 
-        List<WiFiAPConfig> list = null;
+        List<WiFiApConfig> list = null;
 
         synchronized (wifiNetworkStatus)
         {
-            list = new ArrayList<WiFiAPConfig>(wifiNetworkStatus.values());
+            list = new ArrayList<WiFiApConfig>(wifiNetworkStatus.values());
             App.getTraceUtils().partialTrace(TAG, "getSortedWifiApConfigsList", "new ArrayList", Log.DEBUG);
 
             try
@@ -197,9 +211,9 @@ public class WifiNetworksManager
         return list;
     }
 
-    public WiFiAPConfig getConfiguration(APLNetworkId aplNetworkId)
+    public WiFiApConfig getConfiguration(APLNetworkId aplNetworkId)
     {
-        WiFiAPConfig selected = null;
+        WiFiApConfig selected = null;
 
         synchronized (wifiNetworkStatus)
         {
@@ -207,11 +221,11 @@ public class WifiNetworksManager
             {
                 try
                 {
-                    selected = (WiFiAPConfig) wifiNetworkStatus.get(aplNetworkId);
+                    selected = (WiFiApConfig) wifiNetworkStatus.get(aplNetworkId);
                 }
                 catch (Exception e)
                 {
-                    Timber.e(e,"Exception retrieving WiFiAPConfig from APLNetworkId");
+                    Timber.e(e,"Exception retrieving WiFiApConfig from APLNetworkId");
                 }
             }
         }
@@ -219,9 +233,9 @@ public class WifiNetworksManager
         return selected;
     }
 
-    public WiFiAPConfig updateCurrentConfiguration()
+    public WiFiApConfig updateCurrentConfiguration()
     {
-        WiFiAPConfig updatedConf = null;
+        WiFiApConfig updatedConf = null;
 
         App.getTraceUtils().startTrace(TAG, "updateCurrentConfiguration", Log.DEBUG);
 
@@ -233,7 +247,7 @@ public class WifiNetworksManager
             {
                 int networkId = info.getNetworkId();
                 WifiConfiguration wifiConfiguration = APL.getConfiguredNetwork(networkId);
-                WiFiAPConfig networkConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
+                WiFiApConfig networkConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
 
                 synchronized (wifiNetworkStatus)
                 {
@@ -252,7 +266,7 @@ public class WifiNetworksManager
         return updatedConf;
     }
 
-    private void mergeWithCurrentConfiguration(WiFiAPConfig updated)
+    private void mergeWithCurrentConfiguration(WiFiApConfig updated)
     {
         if (wifiNetworkStatus.getCurrentConfiguration() == null)
         {
@@ -278,7 +292,7 @@ public class WifiNetworksManager
         }
     }
 
-    public WiFiAPConfig getCachedConfiguration()
+    public WiFiApConfig getCachedConfiguration()
     {
 //        if (currentConfiguration == null)
 //        {
@@ -298,7 +312,7 @@ public class WifiNetworksManager
 
             synchronized (wifiNetworkStatus)
             {
-                for (WiFiAPConfig conf : getSortedWifiApConfigsList())
+                for (WiFiApConfig conf : getSortedWifiApConfigsList())
                 {
                     configurations.put(conf.toJSON());
                 }

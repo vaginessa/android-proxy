@@ -27,7 +27,6 @@ public class App extends Application
     public AndroidMarket activeMarket;
     private CacheManager cacheManager;
     public Boolean demoMode;
-//    public Boolean wifiActionEnabled;
     private TraceUtils traceUtils;
     private EventsReporting eventsReporter;
 

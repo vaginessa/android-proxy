@@ -33,7 +33,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import java.util.List;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -43,14 +43,14 @@ import timber.log.Timber;
 /**
  * Created by marco on 17/05/13.
  */
-public class WiFiApListFragment extends BaseFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<WiFiAPConfig>>
+public class WiFiApListFragment extends BaseFragment implements IBaseFragment, LoaderManager.LoaderCallbacks<List<WiFiApConfig>>
 {
     private static final String TAG = WiFiApListFragment.class.getSimpleName();
     private static final int LOADER_PROXYCONFIGURATIONS = 1;
     private static WiFiApListFragment instance;
 
     private WifiAPListAdapter apListAdapter;
-    private Loader<List<WiFiAPConfig>> loader;
+    private Loader<List<WiFiApConfig>> loader;
 
     @InjectView(R.id.progress) RelativeLayout progress;
     @InjectView(R.id.actions_view) ActionsView actionsView;
@@ -145,7 +145,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         }
     }
 
-    public void refreshLoaderResults(List<WiFiAPConfig> wiFiApConfigs)
+    public void refreshLoaderResults(List<WiFiApConfig> wiFiApConfigs)
     {
         App.getTraceUtils().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
 
@@ -178,7 +178,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
                     // TODO: Add WifiConfigureEnable if Wi-Fi is enabled, some Wi-Fi are available but no Wi-Fi is active
                     boolean atLeastOneActive = false;
-                    for (WiFiAPConfig config : wiFiApConfigs)
+                    for (WiFiApConfig config : wiFiApConfigs)
                     {
                         if (config.isActive())
                         {
@@ -209,7 +209,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             else
             {
                 // Do not display results when Wi-Fi is not enabled
-//            apListAdapter.setData(new ArrayList<WiFiAPConfig>());
+//            apListAdapter.setData(new ArrayList<WiFiApConfig>());
                 listView.setVisibility(View.GONE);
                 emptySection.setVisibility(View.VISIBLE);
                 emptyText.setVisibility(View.VISIBLE);
@@ -225,7 +225,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     }
 
     @Override
-    public Loader<List<WiFiAPConfig>> onCreateLoader(int i, Bundle bundle)
+    public Loader<List<WiFiApConfig>> onCreateLoader(int i, Bundle bundle)
     {
         App.getTraceUtils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
 
@@ -237,7 +237,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     }
 
     @Override
-    public void onLoadFinished(Loader<List<WiFiAPConfig>> listLoader, List<WiFiAPConfig> aps)
+    public void onLoadFinished(Loader<List<WiFiApConfig>> listLoader, List<WiFiApConfig> aps)
     {
         App.getTraceUtils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
 
@@ -248,7 +248,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     }
 
     @Override
-    public void onLoaderReset(Loader<List<WiFiAPConfig>> listLoader)
+    public void onLoaderReset(Loader<List<WiFiApConfig>> listLoader)
     {
         Timber.d("onLoaderReset");
     }
@@ -262,7 +262,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             // the list to highlight the selected item and show the data.
             listView.setItemChecked(index, true);
 
-            WiFiAPConfig selectedConfiguration = (WiFiAPConfig) listView.getItemAtPosition(index);
+            WiFiApConfig selectedConfiguration = (WiFiApConfig) listView.getItemAtPosition(index);
 
             if (selectedConfiguration.getSecurityType() == SecurityType.SECURITY_EAP)
             {

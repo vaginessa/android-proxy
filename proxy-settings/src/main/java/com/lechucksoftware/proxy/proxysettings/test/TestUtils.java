@@ -11,6 +11,7 @@ import android.provider.Telephony;
 import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.WifiNetworksManager;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
@@ -23,14 +24,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.ProxyStatusItem;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -241,7 +241,7 @@ public class TestUtils
         App.getDBManager().upsertTag(tag);
     }
 
-//    public static void assignProxies(WiFiAPConfig conf, ProxyEntity proxy) throws Exception
+//    public static void assignProxies(WiFiApConfig conf, ProxyEntity proxy) throws Exception
 //    {
 //        ProxySetting originalSettings = conf.getProxySetting();
 //        ProxyEntity originalData = new ProxyEntity();
@@ -266,7 +266,7 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            WiFiAPConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
+//            WiFiApConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
 //
 //            if (updatedConf.getProxySetting() == ProxySetting.STATIC &&
 //                    updatedConf.getProxyHost() == proxy.host &&
@@ -293,7 +293,7 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            WiFiAPConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
+//            WiFiApConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
 //
 //            if (updatedConf.getProxySetting() == ProxySetting.NONE &&
 //                    (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
@@ -339,9 +339,7 @@ public class TestUtils
 
     public static void clearProxyForAllAP(Context ctx)
     {
-//        App.getInstance().wifiActionEnabled = false;
-
-        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
+        for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
@@ -355,15 +353,14 @@ public class TestUtils
                 configuration.setProxyHost("");
                 configuration.setProxyPort(0);
                 configuration.setProxyExclusionString("");
-                configuration.writeConfigurationToDevice();
+
+                App.getWifiNetworksManager().asyncSaveWifiApConfig(configuration);
             }
             catch (Exception e)
             {
                 Timber.e(e, "Exception clearing proxy for all Wi-Fi AP");
             }
         }
-
-//        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
 //        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
@@ -384,9 +381,7 @@ public class TestUtils
             p = createRandomProxy();
         }
 
-//        App.getInstance().wifiActionEnabled = false;
-
-        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
+        for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
@@ -401,15 +396,13 @@ public class TestUtils
 
             try
             {
-                configuration.writeConfigurationToDevice();
+                App.getWifiNetworksManager().asyncSaveWifiApConfig(configuration);
             }
             catch (Exception e)
             {
                 Timber.e(e, "Exception writing configuration to device");
             }
         }
-
-//        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
 //        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
@@ -433,7 +426,7 @@ public class TestUtils
     public static void testSerialization()
     {
         String s = null;
-        WiFiAPConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
+        WiFiApConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
 
         ObjectOutputStream out = null;
 

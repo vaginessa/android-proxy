@@ -7,12 +7,12 @@ import com.lechucksoftware.proxy.proxysettings.App;
 
 import java.util.List;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 
 /**
  * Created by marco on 04/10/13.
  */
-public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<WiFiAPConfig>>
+public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<WiFiApConfig>>
 {
     private final Context ctx;
 
@@ -23,9 +23,9 @@ public class ProxyConfigurationTaskLoader extends AsyncTaskLoader<List<WiFiAPCon
     }
 
     @Override
-    public List<WiFiAPConfig> loadInBackground()
+    public List<WiFiApConfig> loadInBackground()
     {
-        List<WiFiAPConfig> result = App.getWifiNetworksManager().getSortedWifiApConfigsList();
+        List<WiFiApConfig> result = App.getWifiNetworksManager().getSortedWifiApConfigsList();
         return result;
     }
 }

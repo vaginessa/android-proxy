@@ -7,17 +7,12 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.webkit.URLUtil;
 
-import com.lechucksoftware.proxy.proxysettings.App;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.Proxy.Type;
 import java.net.URL;
-
-import be.shouldit.proxy.lib.WiFiAPConfig;
 
 public class DownloadService extends IntentService
 {
@@ -90,7 +85,7 @@ public class DownloadService extends IntentService
 		{
 			HttpURLConnection con = null;
 
-//            WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
+//            WiFiApConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
 //
 //			if (wiFiAPConfig != null && wiFiAPConfig.getProxyType()==Type.HTTP)
 //			{

@@ -41,14 +41,12 @@ import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.net.Proxy.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 import timber.log.Timber;
 
@@ -460,7 +458,7 @@ public class UIUtils
         webView.loadUrl(htmlFile);
     }
 
-    public static String GetStatusSummary(WiFiAPConfig conf, Context ctx)
+    public static String GetStatusSummary(WiFiApConfig conf, Context ctx)
     {
         //		if (App.getInstance().proxyCheckStatus == ProxyCheckStatus.CHECKING)
         {
@@ -480,11 +478,11 @@ public class UIUtils
         //		}
     }
 
-    public static void UpdateStatusBarNotification(WiFiAPConfig conf, Context context)
+    public static void UpdateStatusBarNotification(WiFiApConfig conf, Context context)
     {
         if (conf == null)
         {
-            Timber.e(new Exception(),"Cannot find valid instance of WiFiAPConfig");
+            Timber.e(new Exception(),"Cannot find valid instance of WiFiApConfig");
             return;
         }
 
@@ -511,7 +509,7 @@ public class UIUtils
     /**
      * Notification related methods
      */
-    public static void SetProxyNotification(WiFiAPConfig conf, Context callerContext)
+    public static void SetProxyNotification(WiFiApConfig conf, Context callerContext)
     {
         SharedPreferences prefs = callerContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
 
