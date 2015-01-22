@@ -97,10 +97,12 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
+
                 if (!refreshingUI)
                 {
                     proxySwitchClicked();
                 }
+
             }
         });
 
@@ -127,14 +129,72 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         super.onResume();
 
         wifiNetworkId = getArguments().getParcelable(Constants.SELECTED_AP_CONF_ARG);
-        selectedWiFiAP = App.getWifiNetworksManager().getConfiguration(wifiNetworkId);
+        if (wifiNetworkId != null)
+        {
+            selectedWiFiAP = App.getWifiNetworksManager().getConfiguration(wifiNetworkId);
+        }
 
         if (selectedWiFiAP == null)
         {
             FragmentsUtils.goToMainActivity(getActivity());
         }
 
-        refreshUI();
+        refreshWifiUI();
+        refreshProxyUI();
+    }
+
+    private void refreshProxyUI()
+    {
+        refreshingUI = true;
+
+        if (selectedWiFiAP != null)
+        {
+            if (selectedWiFiAP.getProxySetting() == ProxySetting.STATIC
+                    || selectedWiFiAP.getProxySetting() == ProxySetting.PAC)
+            {
+                Timber.d("Set proxy switch = ON");
+                proxySwitch.setChecked(true);
+                proxySwitch.setText(R.string.status_proxy_enabled);
+
+                proxySelector.setVisibility(View.VISIBLE);
+
+                long proxyId = App.getDBManager().findProxy(selectedWiFiAP);
+                if (proxyId != -1)
+                {
+                    selectedProxy = App.getDBManager().getProxy(proxyId);
+                    proxyHost.setValue(selectedProxy.getHost());
+                    proxyPort.setValue(selectedProxy.getPort());
+                    proxyBypass.setExclusionString(selectedProxy.getExclusion());
+
+                    proxyFieldsLayout.setVisibility(View.VISIBLE);
+
+                }
+                else
+                {
+                    selectedProxy = null;
+                    proxyHost.setValue("");
+                    proxyPort.setValue("");
+                    proxyBypass.setExclusionString("");
+
+                    proxyFieldsLayout.setVisibility(View.GONE);
+                }
+            }
+            else
+            {
+                Timber.d("Set proxy switch = OFF");
+                proxySwitch.setChecked(false);
+                proxySwitch.setText(R.string.status_proxy_disabled);
+
+                proxySelector.setVisibility(View.GONE);
+                proxyFieldsLayout.setVisibility(View.GONE);
+            }
+        }
+        else
+        {
+            FragmentsUtils.goToMainActivity(getActivity());
+        }
+
+        refreshingUI = false;
     }
 
     @Override
@@ -153,8 +213,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         {
             Timber.d("Set proxy settings = STATIC");
             selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
-
-            refreshUI();
         }
         else
         {
@@ -166,6 +224,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
             App.getWifiNetworksManager().asyncSaveWifiApConfig(selectedWiFiAP);
         }
+
+        refreshProxyUI();
     }
 
     @OnClick(R.id.proxy_selector)
@@ -188,112 +248,49 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         }
     }
 
-    private void refreshVisibility()
-    {
-        if (proxySwitch.isChecked())
-        {
-            proxySelector.setVisibility(View.VISIBLE);
-
-            if (selectedProxy == null)
-            {
-                proxyFieldsLayout.setVisibility(View.GONE);
-//                proxySelector.setError("SELECT A PROXY");
-            }
-            else
-            {
-                proxyFieldsLayout.setVisibility(View.VISIBLE);
-//                proxySelector.setError(null);
-            }
-        }
-        else
-        {
-            proxySelector.setVisibility(View.GONE);
-            proxyFieldsLayout.setVisibility(View.GONE);
-        }
-
-//        progress.setVisibility(View.GONE);
-    }
-
     public void refreshUI()
     {
         App.getTraceUtils().startTrace(TAG, "refreshUI", Log.DEBUG);
 
-        refreshingUI = true;
-
-        if (!APL.getWifiManager().isWifiEnabled())
-        {
-            FragmentsUtils.goToMainActivity(getActivity());
-        }
+//        if (!APL.getWifiManager().isWifiEnabled())
+//        {
+//            Timber.w("Wi-Fi not enabled, go back to main activity");
+//            FragmentsUtils.goToMainActivity(getActivity());
+//        }
 
         if (selectedWiFiAP != null)
         {
-            if (selectedWiFiAP.getProxySetting() == ProxySetting.STATIC
-                || selectedWiFiAP.getProxySetting() == ProxySetting.PAC)
-            {
-                Timber.d("Set proxy switch = ON");
-                proxySwitch.setChecked(true);
-                proxySwitch.setText(R.string.status_proxy_enabled);
-                refreshFieldsValues();
-            }
-            else
-            {
-                Timber.d("Set proxy switch = OFF");
-                proxySwitch.setChecked(false);
-                proxySwitch.setText(R.string.status_proxy_disabled);
-            }
-
-            if (selectedWiFiAP.getLevel() == -1)
-            {
-                wifiLayout.setBackgroundResource(R.color.DarkGrey);
-            }
-            else
-            {
-                if (selectedWiFiAP.isActive())
-                {
-                    wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
-                }
-                else
-                {
-                    wifiLayout.setBackgroundResource(R.color.Holo_Green_Dark);
-                }
-            }
-
-            wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
-    //        wifiStatus.setText(selectedWiFiAP.getProxyStatusString());
-            wifiSignal.setConfiguration(selectedWiFiAP);
-
-            refreshVisibility();
+            refreshWifiUI();
         }
-//        else
-//        {
-//            LogWrapper.d(TAG,"selectedWiFiAP is NULL: " + String.valueOf(confId));
-////            NavigationUtils.goToMainActivity(getActivity());
-//        }
-
-        refreshingUI = false;
 
         App.getTraceUtils().stopTrace(TAG, "refreshUI", Log.DEBUG);
     }
 
-    private void refreshFieldsValues()
+    private void refreshWifiUI()
     {
-        long proxyId = App.getDBManager().findProxy(selectedWiFiAP);
-        if (proxyId != -1)
+        refreshingUI = true;
+
+        if (selectedWiFiAP.getLevel() == -1)
         {
-            selectedProxy = App.getDBManager().getProxy(proxyId);
-            proxyHost.setValue(selectedProxy.getHost());
-            proxyPort.setValue(selectedProxy.getPort());
-            proxyBypass.setExclusionString(selectedProxy.getExclusion());
-//            proxyTags.setTags(selectedProxy.getTags());
+            wifiLayout.setBackgroundResource(R.color.DarkGrey);
         }
         else
         {
-            selectedProxy = null;
-            proxyHost.setValue("");
-            proxyPort.setValue("");
-            proxyBypass.setExclusionString("");
-//            proxyTags.setTags(null);
+            if (selectedWiFiAP.isActive())
+            {
+                wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
+            }
+            else
+            {
+                wifiLayout.setBackgroundResource(R.color.Holo_Green_Dark);
+            }
         }
+
+        wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
+        //        wifiStatus.setText(selectedWiFiAP.getProxyStatusString());
+        wifiSignal.setConfiguration(selectedWiFiAP);
+
+        refreshingUI = false;
     }
 
     @Override
