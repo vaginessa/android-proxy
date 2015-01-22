@@ -548,7 +548,7 @@ public class ReflectionUtils
 
         if (wiFiApConfig.getProxySetting() == ProxySetting.NONE || wiFiApConfig.getProxySetting() == ProxySetting.UNASSIGNED)
         {
-            proxyInfo = constr.newInstance("localhost", -1, " ");
+            proxyInfo = constr.newInstance(null, 0, null);
             mHttpProxyField.set(mIpConfiguration, proxyInfo);
         }
         else if (wiFiApConfig.getProxySetting() == ProxySetting.STATIC)
@@ -557,7 +557,7 @@ public class ReflectionUtils
 
             if (!wiFiApConfig.isValidProxyConfiguration())
             {
-                proxyInfo = constr.newInstance("localhost", -1, "");
+                proxyInfo = constr.newInstance(null, 0, null);
                 mHttpProxyField.set(mIpConfiguration, proxyInfo);
             }
             else

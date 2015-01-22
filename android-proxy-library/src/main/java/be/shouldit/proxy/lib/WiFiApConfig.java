@@ -7,7 +7,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Parcel;
-import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
