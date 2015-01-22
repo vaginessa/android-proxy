@@ -545,23 +545,22 @@ public class ReflectionUtils
         Constructor constr;
         Object proxyInfo;
         constr = ProxyInfo.class.getConstructors()[4];
-
+        //if proxy config is invalid - we need to set null values to disable proxy
         if (wiFiAPConfig.getProxySetting() == ProxySetting.NONE || wiFiAPConfig.getProxySetting() == ProxySetting.UNASSIGNED)
         {
-            proxyInfo = constr.newInstance("localhost", -1, " ");
+            proxyInfo = constr.newInstance(null, 0, null);
             mHttpProxyField.set(mIpConfiguration, proxyInfo);
         }
         else if (wiFiAPConfig.getProxySetting() == ProxySetting.STATIC)
         {
-            Integer port = wiFiAPConfig.getProxyPort();
-
             if (!wiFiAPConfig.isValidProxyConfiguration())
             {
-                proxyInfo = constr.newInstance("localhost", -1, "");
+                proxyInfo = constr.newInstance(null, 0, null);
                 mHttpProxyField.set(mIpConfiguration, proxyInfo);
             }
             else
             {
+                Integer port = wiFiAPConfig.getProxyPort();
                 proxyInfo = constr.newInstance(wiFiAPConfig.getProxyHostString(), port, wiFiAPConfig.getProxyExclusionList());
                 mHttpProxyField.set(mIpConfiguration, proxyInfo);
             }

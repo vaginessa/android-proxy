@@ -29,7 +29,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.EnumSet;
-import java.util.Locale;
 import java.util.regex.Matcher;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
