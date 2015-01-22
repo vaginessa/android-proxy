@@ -1,16 +1,19 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Marco on 13/09/13.
  */
-public class ProxyEntity extends BaseEntity implements Serializable, Comparable<ProxyEntity>
+public class ProxyEntity extends BaseEntity implements Parcelable, Comparable<ProxyEntity>
 {
     private String host;
     private Integer port;
@@ -18,6 +21,42 @@ public class ProxyEntity extends BaseEntity implements Serializable, Comparable<
     private List<TagEntity> tags;
     private String countryCode;
     private int usedByCount;
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        super.writeToParcel(dest,flags);
+
+        dest.writeString(this.host);
+        dest.writeValue(this.port);
+        dest.writeString(this.exclusion);
+        dest.writeList(this.tags);
+        dest.writeString(this.countryCode);
+        dest.writeInt(this.usedByCount);
+    }
+
+    private ProxyEntity(Parcel in)
+    {
+        super(in);
+
+        this.host = in.readString();
+        this.port = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.exclusion = in.readString();
+        this.tags = new ArrayList<TagEntity>();
+        in.readList(this.tags, TagEntity.class.getClassLoader());
+        this.countryCode = in.readString();
+        this.usedByCount = in.readInt();
+    }
+
+    public static final Creator<ProxyEntity> CREATOR = new Creator<ProxyEntity>()
+    {
+        public ProxyEntity createFromParcel(Parcel source) {return new ProxyEntity(source);}
+
+        public ProxyEntity[] newArray(int size) {return new ProxyEntity[size];}
+    };
 
     public ProxyEntity()
     {

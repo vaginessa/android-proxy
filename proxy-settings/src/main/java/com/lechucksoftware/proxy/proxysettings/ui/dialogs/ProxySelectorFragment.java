@@ -10,6 +10,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 
 import be.shouldit.proxy.lib.APLNetworkId;
@@ -56,7 +57,7 @@ public class ProxySelectorFragment extends BaseFragment
         args.putParcelable(Constants.WIFI_AP_NETWORK_ARG, wifiAplNetworkId);
 
         tabHost.addTab(tabHost.newTabSpec("static_proxies").setIndicator("STATIC"), ProxyListFragment.class, args);
-        tabHost.addTab(tabHost.newTabSpec("pac_proxies").setIndicator("PAC"), ProxyListFragment.class, args);
+        tabHost.addTab(tabHost.newTabSpec("pac_proxies").setIndicator("PAC"), PacListFragment.class, args);
 
         return v;
     }

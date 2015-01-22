@@ -232,7 +232,7 @@ public class DataSource
 
     public ProxyEntity getRandomProxy()
     {
-        App.getTraceUtils().startTrace(TAG, "createRandomProxy", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "createRandomHTTPProxy", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -254,7 +254,7 @@ public class DataSource
         else
         {
             proxyData.setTags(getTagsForProxy(proxyData.getId()));
-            App.getTraceUtils().stopTrace(TAG, "createRandomProxy", proxyData.toString(), Log.INFO);
+            App.getTraceUtils().stopTrace(TAG, "createRandomHTTPProxy", proxyData.toString(), Log.INFO);
             return proxyData;
         }
     }

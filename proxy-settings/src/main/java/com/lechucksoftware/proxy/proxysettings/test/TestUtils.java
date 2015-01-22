@@ -11,9 +11,9 @@ import android.provider.Telephony;
 import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.WifiNetworksManager;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -136,7 +136,7 @@ public class TestUtils
         return proxies;
     }
 
-    public static ProxyEntity createRandomProxy()
+    public static ProxyEntity createRandomHTTPProxy()
     {
         ProxyEntity pd = new ProxyEntity();
         pd.setHost(getRandomIP());
@@ -155,6 +155,14 @@ public class TestUtils
         }
 
         return pd;
+    }
+
+    private static PacEntity createRandomPACProxy()
+    {
+        PacEntity pacEntity = new PacEntity();
+        pacEntity.setPacUrlFile("http://" + getRandomIP()+ "/proxy.pac");
+
+        return pacEntity;
     }
 
     public static ProxyEntity getModifiedExistingProxy()
@@ -199,18 +207,12 @@ public class TestUtils
 
     public static void addProxy()
     {
-        ProxyEntity pd = createRandomProxy();
-
+        ProxyEntity pd = createRandomHTTPProxy();
         ProxyEntity savedProxy = App.getDBManager().upsertProxy(pd);
 
-        if (!savedProxy.equals(pd))
-        {
 
-        }
-        else
-        {
-
-        }
+        PacEntity pac = createRandomPACProxy();
+        PacEntity savedPac = App.getDBManager().upsertPac(pac);
     }
 
     public static void addProxyExamples(Context ctx)
@@ -378,7 +380,7 @@ public class TestUtils
         }
         else
         {
-            p = createRandomProxy();
+            p = createRandomHTTPProxy();
         }
 
         for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())

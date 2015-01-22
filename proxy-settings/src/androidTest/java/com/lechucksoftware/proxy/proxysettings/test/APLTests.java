@@ -55,7 +55,7 @@ public class APLTests extends InstrumentationTestCase
         String exclusion = network.getProxyExclusionList();
         Uri pac = network.getPacFileUri();
 
-        ProxyEntity pe = TestUtils.createRandomProxy();
+        ProxyEntity pe = TestUtils.createRandomHTTPProxy();
 
         Timber.d("Created random proxy: %s", pe.toString());
 
@@ -66,7 +66,7 @@ public class APLTests extends InstrumentationTestCase
 
         Timber.d("Write updated network to device: %s", network.toShortString());
 
-        network.writeConfigurationToDevice();
+        App.getWifiNetworksManager().asyncSaveWifiApConfig(network);
 
         Thread.sleep(2000);
 
@@ -82,7 +82,7 @@ public class APLTests extends InstrumentationTestCase
         network.setProxyPort(port);
         network.setPacUriFile(pac);
 
-        network.writeConfigurationToDevice();
+        App.getWifiNetworksManager().asyncSaveWifiApConfig(network);
 
         Timber.d("Restoring network configuration to start properties: %s", network.toShortString());
 
