@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.reflection.android.WifiServiceHandler;
 import timber.log.Timber;
@@ -494,7 +494,7 @@ public class ReflectionUtils
         return new Field[]{};
     }
 
-    public static WifiConfiguration setProxyFieldsOnWifiConfiguration(WiFiAPConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
+    public static WifiConfiguration setProxyFieldsOnWifiConfiguration(WiFiApConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
     {
         if (Build.VERSION.SDK_INT >= 20)
         {
@@ -507,7 +507,7 @@ public class ReflectionUtils
     }
 
     @TargetApi(21)
-    private static WifiConfiguration setFieldsOnWifiConfigurationSDK21(WiFiAPConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
+    private static WifiConfiguration setFieldsOnWifiConfigurationSDK21(WiFiApConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
     {
         Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];
         WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance(selectedConfiguration);
@@ -545,23 +545,22 @@ public class ReflectionUtils
         Constructor constr;
         Object proxyInfo;
         constr = ProxyInfo.class.getConstructors()[4];
-
+        //if proxy config is invalid - we need to set null values to disable proxy
         if (wiFiAPConfig.getProxySetting() == ProxySetting.NONE || wiFiAPConfig.getProxySetting() == ProxySetting.UNASSIGNED)
         {
-            proxyInfo = constr.newInstance("localhost", -1, " ");
+            proxyInfo = constr.newInstance(null, 0, null);
             mHttpProxyField.set(mIpConfiguration, proxyInfo);
         }
         else if (wiFiAPConfig.getProxySetting() == ProxySetting.STATIC)
         {
-            Integer port = wiFiAPConfig.getProxyPort();
-
             if (!wiFiAPConfig.isValidProxyConfiguration())
             {
-                proxyInfo = constr.newInstance("localhost", -1, "");
+                proxyInfo = constr.newInstance(null, 0, null);
                 mHttpProxyField.set(mIpConfiguration, proxyInfo);
             }
             else
             {
+                Integer port = wiFiAPConfig.getProxyPort();
                 proxyInfo = constr.newInstance(wiFiAPConfig.getProxyHostString(), port, wiFiAPConfig.getProxyExclusionList());
                 mHttpProxyField.set(mIpConfiguration, proxyInfo);
             }
@@ -570,7 +569,7 @@ public class ReflectionUtils
         return newConf;
     }
 
-    private static WifiConfiguration setFieldsOnWifiConfiguration(WiFiAPConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
+    private static WifiConfiguration setFieldsOnWifiConfiguration(WiFiApConfig wiFiAPConfig, WifiConfiguration selectedConfiguration) throws Exception
     {
         Constructor wfconfconstr = WifiConfiguration.class.getConstructors()[1];
         WifiConfiguration newConf = (WifiConfiguration) wfconfconstr.newInstance(selectedConfiguration);

@@ -305,14 +305,14 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static WiFiAPConfig getWiFiAPConfiguration(WifiConfiguration wifiConf)
+    public static WiFiApConfig getWiFiAPConfiguration(WifiConfiguration wifiConf)
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
         APL.getTraceUtils().startTrace(TAG, "getWiFiAPConfiguration", Log.DEBUG);
 
-        WiFiAPConfig wiFiAPConfig = null;
+        WiFiApConfig wiFiAPConfig = null;
 
         try
         {
@@ -324,7 +324,7 @@ public class APL
 
                 if (ordinal == ProxySetting.NONE.ordinal() || ordinal == ProxySetting.UNASSIGNED.ordinal())
                 {
-                    wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
+                    wiFiAPConfig = new WiFiApConfig(wifiConf, ProxySetting.NONE, null, null, "");
                 }
                 else
                 {
@@ -346,14 +346,14 @@ public class APL
 
                         //LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-                        wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList);
+                        wiFiAPConfig = new WiFiApConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList);
                     }
                 }
             }
             else
             {
                 Timber.e("Cannot find proxySettings object");
-                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
+                wiFiAPConfig = new WiFiApConfig(wifiConf, ProxySetting.NONE, null, null, "");
             }
         }
         catch (Exception e)
@@ -435,12 +435,12 @@ public class APL
 
     @Deprecated
     @TargetApi(12)
-    public static Map<APLNetworkId,WiFiAPConfig> getWifiAPConfigurations()
+    public static Map<APLNetworkId,WiFiApConfig> getWifiAPConfigurations()
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        Map<APLNetworkId,WiFiAPConfig> WiFiAPConfigs = new HashMap<APLNetworkId, WiFiAPConfig>();
+        Map<APLNetworkId,WiFiApConfig> WiFiAPConfigs = new HashMap<APLNetworkId, WiFiApConfig>();
 
         APL.getTraceUtils().startTrace(TAG,"getWifiAPConfigurations", Log.DEBUG);
         Map<APLNetworkId,WifiConfiguration> configuredNetworks = getConfiguredNetworks();
@@ -450,7 +450,7 @@ public class APL
         {
             for (WifiConfiguration wifiConf : configuredNetworks.values())
             {
-                WiFiAPConfig conf = getWiFiAPConfiguration(wifiConf);
+                WiFiApConfig conf = getWiFiAPConfiguration(wifiConf);
                 WiFiAPConfigs.put(conf.getAPLNetworkId(), conf);
             }
         }
@@ -465,7 +465,7 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static void writeWifiAPConfig(WiFiAPConfig wiFiAPConfig) throws Exception
+    public static void writeWifiAPConfig(WiFiApConfig wiFiAPConfig) throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
@@ -518,7 +518,7 @@ public class APL
                     e.printStackTrace();
                 }
 
-                WiFiAPConfig savedConf = APL.getWiFiAPConfiguration(newConf);
+                WiFiApConfig savedConf = APL.getWiFiAPConfiguration(newConf);
                 succesfullySaved = wiFiAPConfig.isSameConfiguration(savedConf);
 
                 if (succesfullySaved)
