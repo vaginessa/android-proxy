@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -124,7 +124,7 @@ public class DataSource
         }
     }
 
-    public WiFiAPEntity upsertWifiAP(WiFiAPConfig config)
+    public WiFiAPEntity upsertWifiAP(WiFiApConfig config)
     {
         WiFiAPEntity result = null;
 
@@ -357,7 +357,7 @@ public class DataSource
         }
     }
 
-    public long findWifiAp(WiFiAPConfig configuration)
+    public long findWifiAp(WiFiApConfig configuration)
     {
         long result = -1;
 
@@ -406,7 +406,7 @@ public class DataSource
         return wifiId;
     }
 
-    public long findProxy(WiFiAPConfig configuration)
+    public long findProxy(WiFiApConfig configuration)
     {
         long result = -1;
 

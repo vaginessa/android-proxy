@@ -36,7 +36,7 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import butterknife.ButterKnife;
@@ -50,7 +50,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     public static final String TAG = WiFiApDetailFragment.class.getSimpleName();
 
     private APLNetworkId wifiNetworkId;
-    private WiFiAPConfig selectedWiFiAP;
+    private WiFiApConfig selectedWiFiAP;
     private ProxyEntity selectedProxy;
 
     @InjectView(R.id.wifi_signal) WifiSignal wifiSignal;

@@ -15,7 +15,7 @@ import java.util.Date;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.constants.APLConstants;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
@@ -128,7 +128,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         {
 //            callRefreshApplicationStatus();
 //            App.getWifiNetworksManager().updateProxyConfigurationList();
-            WiFiAPConfig conf = App.getWifiNetworksManager().updateCurrentConfiguration();
+            WiFiApConfig conf = App.getWifiNetworksManager().updateCurrentConfiguration();
             NetworkInfo ni = APL.getConnectivityManager().getActiveNetworkInfo();
 
             if (ni != null && ni.isAvailable() && ni.isConnected())
@@ -162,7 +162,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
                 {
                     // newconf cannot be null!!
                     Timber.d("Not found valid configuration");
-//                    App.getEventsReporter().sendException(new Exception("Cannot have a null WiFiAPConfig"));
+//                    App.getEventsReporter().sendException(new Exception("Cannot have a null WiFiApConfig"));
                 }
 
                 if (checkNewConf)
@@ -202,7 +202,7 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 
-        WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
+        WiFiApConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
         if (wiFiAPConfig == null)
             wiFiAPConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
 

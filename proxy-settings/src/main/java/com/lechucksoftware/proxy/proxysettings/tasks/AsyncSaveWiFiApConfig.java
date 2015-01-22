@@ -8,7 +8,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import timber.log.Timber;
 
 /**
@@ -19,10 +19,10 @@ import timber.log.Timber;
 public class AsyncSaveWiFiApConfig extends AsyncTask<Void, String, Boolean>
 {
     private final Fragment callerFragment;
-    private final WiFiAPConfig configuration;
+    private final WiFiApConfig configuration;
     private static final String TAG = AsyncSaveWiFiApConfig.class.getSimpleName();
 
-    public AsyncSaveWiFiApConfig(Fragment caller, WiFiAPConfig conf)
+    public AsyncSaveWiFiApConfig(Fragment caller, WiFiApConfig conf)
     {
         callerFragment = caller;
         configuration = conf;

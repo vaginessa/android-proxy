@@ -39,12 +39,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.utils.HttpAnswer;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
@@ -101,7 +99,7 @@ public class Utils
         {
             try
             {
-                WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
+                WiFiApConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
                 Proxy proxyConf = Proxy.NO_PROXY;
                 if (wiFiAPConfig != null)
                     proxyConf = wiFiAPConfig.getProxy();

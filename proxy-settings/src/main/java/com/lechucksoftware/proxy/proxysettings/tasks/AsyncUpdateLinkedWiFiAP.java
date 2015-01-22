@@ -11,7 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import java.util.List;
 import java.util.UUID;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import timber.log.Timber;
 
@@ -49,11 +49,11 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     {
         int updatedWiFiAP = 0;
 
-        List<WiFiAPConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
+        List<WiFiApConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
 
         if (configurations != null)
         {
-//            List<WiFiAPConfig> configurations = new ArrayList<WiFiAPConfig>(sortedConfigurations);
+//            List<WiFiApConfig> configurations = new ArrayList<WiFiApConfig>(sortedConfigurations);
 
             Timber.d("Current proxy: " + currentProxy.toString());
             Timber.d("Updated proxy: " + updatedProxy.toString());
@@ -62,7 +62,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
             if (configurations != null)
             {
-                for (WiFiAPConfig conf : configurations)
+                for (WiFiApConfig conf : configurations)
                 {
                     if (conf.getProxySetting() == ProxySetting.STATIC)
                     {

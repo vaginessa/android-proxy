@@ -28,7 +28,7 @@ import java.util.Random;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.ProxyStatusItem;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -238,7 +238,7 @@ public class TestUtils
         App.getDBManager().upsertTag(tag);
     }
 
-//    public static void assignProxies(WiFiAPConfig conf, ProxyEntity proxy) throws Exception
+//    public static void assignProxies(WiFiApConfig conf, ProxyEntity proxy) throws Exception
 //    {
 //        ProxySetting originalSettings = conf.getProxySetting();
 //        ProxyEntity originalData = new ProxyEntity();
@@ -263,7 +263,7 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            WiFiAPConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
+//            WiFiApConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
 //
 //            if (updatedConf.getProxySetting() == ProxySetting.STATIC &&
 //                    updatedConf.getProxyHost() == proxy.host &&
@@ -290,7 +290,7 @@ public class TestUtils
 //        {
 //            Thread.sleep(1000);
 //
-//            WiFiAPConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
+//            WiFiApConfig updatedConf = App.getWifiNetworksManager().getConfiguration(conf.id);
 //
 //            if (updatedConf.getProxySetting() == ProxySetting.NONE &&
 //                    (updatedConf.getProxyHost() == null || updatedConf.getProxyHost() == "") &&
@@ -338,7 +338,7 @@ public class TestUtils
     {
 //        App.getInstance().wifiActionEnabled = false;
 
-        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
+        for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
@@ -383,7 +383,7 @@ public class TestUtils
 
 //        App.getInstance().wifiActionEnabled = false;
 
-        for (WiFiAPConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
+        for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
@@ -430,7 +430,7 @@ public class TestUtils
     public static void testSerialization()
     {
         String s = null;
-        WiFiAPConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
+        WiFiApConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
 
         ObjectOutputStream out = null;
 

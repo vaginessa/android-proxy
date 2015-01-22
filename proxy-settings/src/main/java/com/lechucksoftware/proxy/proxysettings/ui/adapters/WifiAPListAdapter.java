@@ -14,10 +14,10 @@ import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
 
 import java.util.List;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import timber.log.Timber;
 
-public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
+public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
 {
     private static String TAG = WifiAPListAdapter.class.getSimpleName();
 
@@ -40,7 +40,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
         WifiSignal security;
     }
 
-    public void setData(List<WiFiAPConfig> confList)
+    public void setData(List<WiFiApConfig> confList)
     {
         App.getTraceUtils().startTrace(TAG, "setData", Log.INFO);
 
@@ -51,7 +51,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
             // Check if the order of SSID is changed
             for (int i = 0; i < this.getCount(); i++)
             {
-                WiFiAPConfig conf = this.getItem(i);
+                WiFiApConfig conf = this.getItem(i);
 
                 if (conf.getSSID().compareTo(confList.get(i).getSSID()) != 0)
                 {
@@ -109,7 +109,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiAPConfig>
             viewHolder = (ApViewHolder) view.getTag();
         }
 
-        WiFiAPConfig listItem = getItem(position);
+        WiFiApConfig listItem = getItem(position);
 
         if (listItem != null)
         {

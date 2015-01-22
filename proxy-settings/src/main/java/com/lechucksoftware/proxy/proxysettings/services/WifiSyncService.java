@@ -15,7 +15,7 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -160,8 +160,8 @@ public class WifiSyncService extends EnhancedIntentService
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
                     App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WifiConfiguration", Log.INFO);
 
-                    WiFiAPConfig wiFiAPConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
-                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WiFiAPConfig", Log.INFO);
+                    WiFiApConfig wiFiAPConfig = APL.getWiFiApConfiguration(wifiConfiguration);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WiFiApConfig", Log.INFO);
 
                     WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiAPConfig);
                     App.getTraceUtils().partialTrace(TAG, "syncAP", "Upsert WiFiAPEntity", Log.INFO);

@@ -17,7 +17,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.preferences.ValidationPreference;
 
 import be.shouldit.proxy.lib.ProxyStatusItem;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
 
@@ -77,7 +77,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
 
     public void refreshUIComponents()
     {
-        WiFiAPConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
+        WiFiApConfig conf = App.getWifiNetworksManager().getCachedConfiguration();
 
         if (conf.getStatus().getCheckingStatus() == CheckStatusValues.CHECKING)
         {

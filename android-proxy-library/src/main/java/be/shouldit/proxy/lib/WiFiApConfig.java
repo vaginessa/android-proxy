@@ -24,9 +24,9 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
+public class WiFiApConfig implements Comparable<WiFiApConfig>, Serializable
 {
-    private static final String TAG = WiFiAPConfig.class.getSimpleName();
+    private static final String TAG = WiFiApConfig.class.getSimpleName();
 
     private final UUID id;
     private final APLNetworkId internalWifiNetworkId;
@@ -61,7 +61,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     private NetworkInfo.DetailedState mState;
 
 
-    public WiFiAPConfig(WifiConfiguration wifiConf, ProxySetting setting, String host, Integer port, String exclusionList)
+    public WiFiApConfig(WifiConfiguration wifiConf, ProxySetting setting, String host, Integer port, String exclusionList)
     {
         if (wifiConf == null)
             throw new IllegalArgumentException("WifiConfiguration parameter cannot be null");
@@ -85,7 +85,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         status = new ProxyStatus();
     }
 
-//    public WiFiAPConfig(WiFiAPConfig wiFiAPConfig)
+//    public WiFiApConfig(WiFiApConfig wiFiAPConfig)
 //    {
 //        id = wiFiAPConfig.id;
 //        internalWifiNetworkId = wiFiAPConfig.internalWifiNetworkId;
@@ -145,7 +145,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         }
     }
 
-    public boolean updateProxyConfiguration(WiFiAPConfig updated)
+    public boolean updateProxyConfiguration(WiFiApConfig updated)
     {
         //TODO: Add all required fields for updating an old configuration with an updated version
         if (!this.isSameConfiguration(updated))
@@ -239,13 +239,13 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
 
     public boolean isSameConfiguration(Object another)
     {
-        if (!(another instanceof WiFiAPConfig))
+        if (!(another instanceof WiFiApConfig))
         {
-            Timber.e("Not a WiFiAPConfig object");
+            Timber.e("Not a WiFiApConfig object");
             return false;
         }
 
-        WiFiAPConfig anotherConf = (WiFiAPConfig) another;
+        WiFiApConfig anotherConf = (WiFiApConfig) another;
 
         if (!this.proxySetting.equals(anotherConf.proxySetting))
         {
@@ -329,14 +329,14 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     }
 
     @Override
-    public int compareTo(WiFiAPConfig wiFiAPConfig) {
+    public int compareTo(WiFiApConfig wiFiAPConfig) {
 
-        if (!(wiFiAPConfig instanceof WiFiAPConfig))
+        if (!(wiFiAPConfig instanceof WiFiApConfig))
         {
             return 1;
         }
 
-        return WifiApConfigComparator.compareWifiAp(this, (WiFiAPConfig) wiFiAPConfig);
+        return WifiApConfigComparator.compareWifiAp(this, (WiFiApConfig) wiFiAPConfig);
     }
 
     public boolean isActive()
@@ -350,7 +350,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
     }
 
 //    @Override
-//    public int compareTo(WiFiAPConfig another)
+//    public int compareTo(WiFiApConfig another)
 //    {
 //        int result = 0;
 //
@@ -446,7 +446,7 @@ public class WiFiAPConfig implements Comparable<WiFiAPConfig>, Serializable
         }
         catch (JSONException e)
         {
-            Timber.e(e, "Exception converting to JSON object WiFiAPConfig");
+            Timber.e(e, "Exception converting to JSON object WiFiApConfig");
         }
 
         return jsonObject;

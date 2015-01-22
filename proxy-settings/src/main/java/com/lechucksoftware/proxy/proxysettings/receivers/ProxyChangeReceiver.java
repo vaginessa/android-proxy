@@ -14,7 +14,7 @@ import com.lechucksoftware.proxy.proxysettings.services.WifiStatusUpdateService;
 import com.lechucksoftware.proxy.proxysettings.services.WifiSyncService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import be.shouldit.proxy.lib.constants.APLIntents;
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import timber.log.Timber;
 
@@ -67,7 +67,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
 
-            WiFiAPConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
+            WiFiApConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
             if (wiFiAPConfig == null)
                 wiFiAPConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
 

@@ -215,15 +215,15 @@ public class APL
 
 //        ConnectivityManager connManager = (ConnectivityManager) gContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 //
-//        WiFiAPConfig proxyConfig = null;
+//        WiFiApConfig proxyConfig = null;
 //        if (proxy != Proxy.NO_PROXY)
 //        {
-//            proxyConfig = new WiFiAPConfig(ProxySetting.STATIC, null, null, null, null);
+//            proxyConfig = new WiFiApConfig(ProxySetting.STATIC, null, null, null, null);
 //        }
 //        else
 //        {
 //            InetSocketAddress proxyAddress = (InetSocketAddress) proxy.address();
-//            proxyConfig = new WiFiAPConfig(ProxySetting.NONE, proxyAddress.getHostName(), proxyAddress.getPort(), null, null);
+//            proxyConfig = new WiFiApConfig(ProxySetting.NONE, proxyAddress.getHostName(), proxyAddress.getPort(), null, null);
 //        }
 
         return proxy;
@@ -305,14 +305,14 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static WiFiAPConfig getWiFiAPConfiguration(WifiConfiguration wifiConf)
+    public static WiFiApConfig getWiFiApConfiguration(WifiConfiguration wifiConf)
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        APL.getTraceUtils().startTrace(TAG, "getWiFiAPConfiguration", Log.DEBUG);
+        APL.getTraceUtils().startTrace(TAG, "getWiFiApConfiguration", Log.DEBUG);
 
-        WiFiAPConfig wiFiAPConfig = null;
+        WiFiApConfig wiFiAPConfig = null;
 
         try
         {
@@ -324,7 +324,7 @@ public class APL
 
                 if (ordinal == ProxySetting.NONE.ordinal() || ordinal == ProxySetting.UNASSIGNED.ordinal())
                 {
-                    wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
+                    wiFiAPConfig = new WiFiApConfig(wifiConf, ProxySetting.NONE, null, null, "");
                 }
                 else
                 {
@@ -346,22 +346,22 @@ public class APL
 
                         //LogWrapper.d(TAG, "Proxy configuration: " + mHost + ":" + mPort + " , Exclusion List: " + mExclusionList);
 
-                        wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList);
+                        wiFiAPConfig = new WiFiApConfig(wifiConf, ProxySetting.STATIC, mHost, mPort, mExclusionList);
                     }
                 }
             }
             else
             {
                 Timber.e("Cannot find proxySettings object");
-                wiFiAPConfig = new WiFiAPConfig(wifiConf, ProxySetting.NONE, null, null, "");
+                wiFiAPConfig = new WiFiApConfig(wifiConf, ProxySetting.NONE, null, null, "");
             }
         }
         catch (Exception e)
         {
-            Timber.e(e, "Problem getting WiFiAPConfig from WifiConfiguration");
+            Timber.e(e, "Problem getting WiFiApConfig from WifiConfiguration");
         }
 
-        APL.getTraceUtils().stopTrace(TAG, "getWiFiAPConfiguration", String.format("Got configuration for %s",wiFiAPConfig.getAPLNetworkId().toString()), Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG, "getWiFiApConfiguration", String.format("Got configuration for %s",wiFiAPConfig.getAPLNetworkId().toString()), Log.DEBUG);
 
 
         return wiFiAPConfig;
@@ -435,12 +435,12 @@ public class APL
 
     @Deprecated
     @TargetApi(12)
-    public static Map<APLNetworkId,WiFiAPConfig> getWifiAPConfigurations()
+    public static Map<APLNetworkId,WiFiApConfig> getWifiAPConfigurations()
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        Map<APLNetworkId,WiFiAPConfig> WiFiAPConfigs = new HashMap<APLNetworkId, WiFiAPConfig>();
+        Map<APLNetworkId,WiFiApConfig> WiFiApConfigs = new HashMap<APLNetworkId, WiFiApConfig>();
 
         APL.getTraceUtils().startTrace(TAG,"getWifiAPConfigurations", Log.DEBUG);
         Map<APLNetworkId,WifiConfiguration> configuredNetworks = getConfiguredNetworks();
@@ -450,14 +450,14 @@ public class APL
         {
             for (WifiConfiguration wifiConf : configuredNetworks.values())
             {
-                WiFiAPConfig conf = getWiFiAPConfiguration(wifiConf);
-                WiFiAPConfigs.put(conf.getAPLNetworkId(), conf);
+                WiFiApConfig conf = getWiFiApConfiguration(wifiConf);
+                WiFiApConfigs.put(conf.getAPLNetworkId(), conf);
             }
         }
 
-        APL.getTraceUtils().stopTrace(TAG, "getWifiAPConfigurations", "Got WiFiAPConfig for configured networks", Log.DEBUG);
+        APL.getTraceUtils().stopTrace(TAG, "getWifiAPConfigurations", "Got WiFiApConfig for configured networks", Log.DEBUG);
 
-        return WiFiAPConfigs;
+        return WiFiApConfigs;
     }
 
     /**
@@ -465,7 +465,7 @@ public class APL
      */
     @Deprecated
     @TargetApi(12)
-    public static void writeWifiAPConfig(WiFiAPConfig wiFiAPConfig) throws Exception
+    public static void writeWifiAPConfig(WiFiApConfig wiFiAPConfig) throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
@@ -518,7 +518,7 @@ public class APL
                     e.printStackTrace();
                 }
 
-                WiFiAPConfig savedConf = APL.getWiFiAPConfiguration(newConf);
+                WiFiApConfig savedConf = APL.getWiFiApConfiguration(newConf);
                 succesfullySaved = wiFiAPConfig.isSameConfiguration(savedConf);
 
                 if (succesfullySaved)

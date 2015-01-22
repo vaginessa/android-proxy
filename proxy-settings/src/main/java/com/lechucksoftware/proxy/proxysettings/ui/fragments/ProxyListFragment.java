@@ -34,7 +34,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import be.shouldit.proxy.lib.WiFiAPConfig;
+import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -70,14 +70,14 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     // Arguments
     private static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
     private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
-    private WiFiAPConfig apConf;
+    private WiFiApConfig apConf;
 
     public static ProxyListFragment newInstance(int sectionNumber)
     {
         return newInstance(sectionNumber, FragmentMode.FULLSIZE, null);
     }
 
-    public static ProxyListFragment newInstance(int sectionNumber, FragmentMode mode, WiFiAPConfig apConf)
+    public static ProxyListFragment newInstance(int sectionNumber, FragmentMode mode, WiFiApConfig apConf)
     {
         ProxyListFragment fragment = new ProxyListFragment();
 
@@ -96,7 +96,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     {
         super.onCreate(savedInstanceState);
         fragmentMode = (FragmentMode) getArguments().getSerializable(FRAGMENT_MODE_ARG);
-        apConf = (WiFiAPConfig) getArguments().getSerializable(PROXY_CONF_ARG);
+        apConf = (WiFiApConfig) getArguments().getSerializable(PROXY_CONF_ARG);
     }
 
     @Override
