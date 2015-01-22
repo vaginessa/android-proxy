@@ -239,26 +239,42 @@ public class WifiNetworksManager
 
         App.getTraceUtils().startTrace(TAG, "updateCurrentConfiguration", Log.DEBUG);
 
-        if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
+        try
         {
-            WifiInfo info = APL.getWifiManager().getConnectionInfo();
 
-            if (info != null)
+            if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
             {
-                int networkId = info.getNetworkId();
-                WifiConfiguration wifiConfiguration = APL.getConfiguredNetwork(networkId);
-                WiFiApConfig networkConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
+                WifiInfo info = APL.getWifiManager().getConnectionInfo();
 
-                synchronized (wifiNetworkStatus)
+                if (info != null)
                 {
-                    if (wifiNetworkStatus.containsKey(networkConfig.getAPLNetworkId()))
-                    {
-                        updatedConf = wifiNetworkStatus.get(networkConfig.getAPLNetworkId());
-                    }
+                    int networkId = info.getNetworkId();
 
-                    mergeWithCurrentConfiguration(updatedConf);
+                    if (networkId != -1)
+                    {
+                        WifiConfiguration wifiConfiguration = APL.getConfiguredNetwork(networkId);
+
+                        if (wifiConfiguration != null)
+                        {
+                            WiFiApConfig networkConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
+
+                            synchronized (wifiNetworkStatus)
+                            {
+                                if (wifiNetworkStatus.containsKey(networkConfig.getAPLNetworkId()))
+                                {
+                                    updatedConf = wifiNetworkStatus.get(networkConfig.getAPLNetworkId());
+                                }
+
+                                mergeWithCurrentConfiguration(updatedConf);
+                            }
+                        }
+                    }
                 }
             }
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Exception updating current configuration");
         }
 
         App.getTraceUtils().stopTrace(TAG, "updateCurrentConfiguration", Log.DEBUG);
