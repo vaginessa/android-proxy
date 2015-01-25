@@ -57,12 +57,48 @@
                 android:layout_marginBottom="10dp"
                 android:padding="5dp">
 
+                <TextView
+                    android:id="@+id/proxy_config_title"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textStyle="bold"
+                    android:text="PROXY CONFIGURATION"/>
+
+                <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
+                    android:id="@+id/proxy_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/proxy_config_title"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="12dp"
+                    android:background="?android:attr/listChoiceBackgroundIndicator"
+                    app:title="Type"
+                    app:readonly="true"
+                    app:fullsize="true"
+                    app:singleLine="true"
+
+                    app:value=""/>
+
+                <include
+                    android:layout_below="@+id/proxy_config_title" layout="@layout/separator"/>
+
                 <LinearLayout
+                    android:id="@+id/proxy_static_fields"
                     android:paddingTop="10dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/proxy_config_title">
+                    android:layout_below="@+id/proxy_type"
+                    >
 
                     <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                         android:id="@+id/proxy_host"
@@ -132,20 +168,30 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/proxy_config_title"
-                    android:layout_alignParentTop="true"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/proxy_pac_fields"
+                    android:paddingTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:paddingLeft="12dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/secondary_text_dark"
-                    android:textStyle="bold"
-                    android:text="PROXY CONFIGURATION"/>
+                    android:layout_below="@+id/proxy_type">
+
+                    <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
+                        android:id="@+id/proxy_pac_url"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="12dp"
+                        android:background="?android:attr/listChoiceBackgroundIndicator"
+                        app:title="URL"
+                        app:readonly="true"
+                        app:fullsize="true"
+                        app:singleLine="true"
+
+                        app:value=""/>
+
+                </LinearLayout>
 
                 <!--<ImageButton-->
                     <!--style="?android:actionButtonStyle"-->

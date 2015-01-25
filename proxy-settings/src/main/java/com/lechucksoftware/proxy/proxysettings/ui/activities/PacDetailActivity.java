@@ -10,7 +10,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment;
 
 import timber.log.Timber;
 
@@ -19,7 +18,7 @@ public class PacDetailActivity extends BaseActivity
     public static String TAG = PacDetailActivity.class.getSimpleName();
 
     private static PacDetailActivity instance;
-    private Long proxyId;
+    private Long pacId;
 
     public static PacDetailActivity getInstance()
     {
@@ -49,10 +48,10 @@ public class PacDetailActivity extends BaseActivity
             Bundle extras = callerIntent.getExtras();
             PacDetailFragment detail = null;
 
-            if (extras != null && extras.containsKey(Constants.SELECTED_PROXY_CONF_ARG))
+            if (extras != null && extras.containsKey(Constants.SELECTED_PAC_CONF_ARG))
             {
-                proxyId = (Long) extras.getSerializable(Constants.SELECTED_PROXY_CONF_ARG);
-                detail = PacDetailFragment.newInstance(proxyId);
+                pacId = (Long) extras.getSerializable(Constants.SELECTED_PAC_CONF_ARG);
+                detail = PacDetailFragment.newInstance(pacId);
                 actionBar.setTitle(getString(R.string.edit_pac));
             }
             else

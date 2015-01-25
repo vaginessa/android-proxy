@@ -469,13 +469,31 @@ public class DataSource
         return wifiId;
     }
 
+    public long findPac(WiFiApConfig configuration)
+    {
+        long result = -1;
+
+        if (configuration != null)
+        {
+            if (configuration.getProxySetting() == ProxySetting.PAC && configuration.isValidProxyConfiguration())
+            {
+                PacEntity pacEntity = new PacEntity();
+                pacEntity.setPacUrlFile(configuration.getPacFileUri().toString());
+
+                result = findPac(pacEntity);
+            }
+        }
+
+        return result;
+    }
+
     public long findProxy(WiFiApConfig configuration)
     {
         long result = -1;
 
         if (configuration != null)
         {
-            if (configuration.isValidProxyConfiguration())
+            if (configuration.getProxySetting() == ProxySetting.STATIC && configuration.isValidProxyConfiguration())
             {
                 ProxyEntity proxy = new ProxyEntity();
                 proxy.setHost(configuration.getProxyHost());
@@ -596,7 +614,6 @@ public class DataSource
         App.getTraceUtils().stopTrace(TAG, "findPac", Log.DEBUG);
         return pacId;
     }
-
 
     public long findProxy(ProxyEntity proxyData)
     {

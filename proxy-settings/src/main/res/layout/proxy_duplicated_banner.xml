@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/proxy_duplicated_img"
+        android:textSize="18sp"
+        android:layout_margin="5dp"
         android:text="@string/duplicated_proxy_warning"/>
 
     <ImageView
@@ -26,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:src="@drawable/ic_action_alerts_and_states_warning"/>
 
 </RelativeLayout>

@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/proxy_locked_img"
+        android:layout_margin="5dp"
+        android:textSize="18sp"
         android:text="@string/already_used_proxy_warning"/>
 
     <ImageView
@@ -26,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:src="@drawable/ic_action_device_access_secure"/>
 
 </RelativeLayout>

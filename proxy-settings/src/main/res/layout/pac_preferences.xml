@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/proxy_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/proxy_input_fields"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <include layout="@layout/proxy_duplicated_banner"/>
+
+        <include layout="@layout/proxy_in_use_banner"/>
+
+        <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
+                android:id="@+id/pac_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:background="?android:attr/listChoiceBackgroundIndicator"
+                app:title="@string/proxy_url_label"
+                app:hint="@string/proxy_url_hint"
+                app:readonly="false"
+                app:fullsize="true"
+                app:value=""/>
+
+    </LinearLayout>
+
+</ScrollView>

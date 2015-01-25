@@ -250,12 +250,12 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             // the list to highlight the selected item and show the data.
             listView.setItemChecked(index, true);
 
-            PacEntity selectedProxy = (PacEntity) listView.getItemAtPosition(index);
-            Timber.d("Selected proxy configuration: " + selectedProxy.toString());
+            PacEntity selectedPac = (PacEntity) listView.getItemAtPosition(index);
+            Timber.d("Selected PAC configuration: " + selectedPac.toString());
 
-            Intent i = new Intent(getActivity(), ProxyDetailActivity.class);
+            Intent i = new Intent(getActivity(), PacDetailActivity.class);
 //            App.getCacheManager().put(selectedProxy.getUUID(), selectedProxy);
-            i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, selectedProxy.getId());
+            i.putExtra(Constants.SELECTED_PAC_CONF_ARG, selectedPac.getId());
             startActivity(i);
         }
         catch (Exception e)
@@ -279,14 +279,6 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             i.putExtra(Constants.SELECTED_PROXY_TYPE_ARG, ProxySetting.PAC);
             i.putExtra(Constants.SELECTED_PAC_CONF_ARG, pacEntity);
             getActivity().setResult(FragmentActivity.RESULT_OK, i);
-
-//            wiFiApConfig.setProxySetting(ProxySetting.STATIC);
-//            wiFiApConfig.setPacUriFile(proxy.getPacUriFile());
-//            wiFiApConfig.writeConfigurationToDevice();
-//
-//            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiApConfig);
-//            asyncSaveWiFiApConfig.execute();
-
             getActivity().finish();
         }
         catch (Exception e)

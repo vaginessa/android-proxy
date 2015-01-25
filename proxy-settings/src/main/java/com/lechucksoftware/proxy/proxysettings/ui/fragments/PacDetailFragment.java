@@ -82,7 +82,7 @@ public class PacDetailFragment extends BaseDialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.proxy_preferences, container, false);
+        View v = inflater.inflate(R.layout.pac_preferences, container, false);
 
         setHasOptionsMenu(true);
 
@@ -121,7 +121,7 @@ public class PacDetailFragment extends BaseDialogFragment
         proxyInUseBanner = (RelativeLayout) v.findViewById(R.id.proxy_in_use_banner);
         proxyDuplicatedBanner = (RelativeLayout) v.findViewById(R.id.proxy_duplicated_banner);
 
-        pacUrlFile = (InputField) v.findViewById(R.id.proxy_host);
+        pacUrlFile = (InputField) v.findViewById(R.id.pac_url);
         pacUrlFile.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -161,8 +161,7 @@ public class PacDetailFragment extends BaseDialogFragment
 
     private void checkValidation()
     {
-        if (
-            validatePacUrlFile())
+        if (validatePacUrlFile())
         {
             enableSave();
         }

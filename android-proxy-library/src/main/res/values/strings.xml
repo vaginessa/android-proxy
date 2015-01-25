@@ -96,7 +96,7 @@
     <!-- Do not translate.  Concise terminology for wifi with 802.1x EAP security -->
     <string name="wifi_security_short_eap">802.1x</string>
 
-    <string name="status_pac_invalid_uri">Cannot convert the Uri to a valid URI</string>
+    <string name="status_pac_invalid_uri">Not a valid URI</string>
     <string name="status_pac_cannot_retrieve_uri">Cannot retrieve URI content</string>
     <string name="status_pac_valid">Got a valid PAC file</string>
     <string name="status_pac_empty_invalid">Got an empty PAC file</string>
