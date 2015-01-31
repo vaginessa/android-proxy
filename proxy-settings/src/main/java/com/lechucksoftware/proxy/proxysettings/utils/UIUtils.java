@@ -19,6 +19,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.IntDef;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -43,6 +44,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
@@ -628,23 +630,4 @@ public class UIUtils
         int pick = new Random().nextInt(CodeNames.values().length);
         return CodeNames.values()[pick];
     }
-
-    public static List<NavDrawerItem> getNavDrawerItems(Context ctx)
-    {
-        List<NavDrawerItem> list = new ArrayList<NavDrawerItem>();
-
-//        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
-        list.add(new NavDrawerItem(ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+" ));
-        list.add(new NavDrawerItem(ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+" ));
-        list.add(new NavDrawerItem(ctx.getString(R.string.pac_list), "", R.drawable.ic_action_file, false, "50+" ));
-        list.add(new NavDrawerItem(ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+" ));
-
-        if (BuildConfig.DEBUG)
-        {
-            list.add(new NavDrawerItem(ctx.getString(R.string.developers_options), "", R.drawable.ic_action_debug_bug_icon));
-        }
-
-        return list;
-    }
-
 }

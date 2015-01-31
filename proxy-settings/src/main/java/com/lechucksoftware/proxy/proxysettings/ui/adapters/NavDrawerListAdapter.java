@@ -14,16 +14,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.util.List;
+import java.util.Map;
 
 public class NavDrawerListAdapter extends BaseAdapter
 {
     private Context context;
-    private List<NavDrawerItem> navDrawerItems;
+    private Map<NavigationAction,NavDrawerItem> navDrawerItems;
 
-    public NavDrawerListAdapter(Context context, List<NavDrawerItem> navDrawerItems)
+    public NavDrawerListAdapter(Context context, Map<NavigationAction,NavDrawerItem> navDrawerItems)
     {
         this.context = context;
         this.navDrawerItems = navDrawerItems;
@@ -38,7 +40,12 @@ public class NavDrawerListAdapter extends BaseAdapter
     @Override
     public Object getItem(int position)
     {
-        return navDrawerItems.get(position);
+        NavigationAction action = NavigationAction.parseInt(position);
+
+        if (navDrawerItems.containsKey(action))
+            return navDrawerItems.get(action);
+        else
+            return null;
     }
 
     @Override
@@ -52,25 +59,27 @@ public class NavDrawerListAdapter extends BaseAdapter
     {
         if (convertView == null)
         {
-            LayoutInflater mInflater = (LayoutInflater)
-                    context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.drawer_list_item, null);
         }
+
+        NavigationAction action = NavigationAction.parseInt(position);
+        NavDrawerItem item = navDrawerItems.get(action);
 
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
 //        TextView txtTag = (TextView) convertView.findViewById(R.id.tag);
         TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
 
-        imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
-        txtTitle.setText(navDrawerItems.get(position).getTitle());
+        imgIcon.setImageResource(item.getIcon());
+        txtTitle.setText(item.getTitle());
 //        txtTag.setText(navDrawerItems.get(position).getTag());
 
         // displaying count
         // check whether it set visible or not
-        if (navDrawerItems.get(position).getCounterVisibility())
+        if (item.getCounterVisibility())
         {
-            txtCount.setText(navDrawerItems.get(position).getCount());
+            txtCount.setText(item.getCount());
         }
         else
         {

@@ -1,16 +1,25 @@
 package com.lechucksoftware.proxy.proxysettings;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.logging.CustomCrashlyticsTree;
+import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventsReporting;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.logging.TraceUtils;
@@ -30,6 +39,8 @@ public class App extends Application
     private TraceUtils traceUtils;
     private EventsReporting eventsReporter;
 
+    private static Map<NavigationAction, NavDrawerItem> navDrawerItems;
+
     public static int getAppMajorVersion()
     {
         return BuildConfig.VERSION_CODE / 100;
@@ -38,6 +49,11 @@ public class App extends Application
     public static int getAppMinorVersion()
     {
         return BuildConfig.VERSION_CODE % 100;
+    }
+
+    public static Map<NavigationAction, NavDrawerItem> getNavDrawerItems()
+    {
+        return navDrawerItems;
     }
 
     @Override
@@ -64,6 +80,8 @@ public class App extends Application
         activeMarket = Utils.getInstallerMarket(App.this);
 
         demoMode = false;
+
+        navDrawerItems = initNavDrawerItems(App.this);
 
         // Start ASAP a Wi-Fi scan
 //        APL.getWifiManager().startScan();
@@ -130,6 +148,29 @@ public class App extends Application
         }
 
         return getInstance().dbManager;
+    }
+
+    public static Map<NavigationAction,NavDrawerItem> initNavDrawerItems(Context ctx)
+    {
+        Map<NavigationAction,NavDrawerItem> map = new HashMap<>();
+
+//        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
+        map.put(NavigationAction.WIFI_NETWORKS, new NavDrawerItem(ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+"));
+        map.put(NavigationAction.HTTP_PROXIES_LIST, new NavDrawerItem(ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+"));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            map.put(NavigationAction.PAC_PROXIES_LIST, new NavDrawerItem(ctx.getString(R.string.pac_list), "", R.drawable.ic_action_file, false, "50+"));
+        }
+
+        map.put(NavigationAction.HELP, new NavDrawerItem(ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+"));
+
+        if (BuildConfig.DEBUG)
+        {
+            map.put(NavigationAction.DEVELOPER, new NavDrawerItem(ctx.getString(R.string.developers_options), "", R.drawable.ic_action_debug_bug_icon));
+        }
+
+        return map;
     }
 
 //    public static CacheManager getCacheManager()

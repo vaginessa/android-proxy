@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter;
@@ -56,37 +57,41 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         // update the main content by replacing fragments
         FragmentManager fragmentManager = this.getSupportFragmentManager();
 
-        switch (position)
+        NavigationAction navigationAction = NavigationAction.parseInt(position);
+
+        switch (navigationAction)
         {
-            case 0:
+            case WIFI_NETWORKS:
+            case NOT_DEFINED:
+            default:
                 FragmentsUtils.changeFragment(fragmentManager,
                         R.id.fragment_container,
                         WiFiApListFragment.newInstance(position),
                         false);
                 break;
 
-            case 1:
+            case HTTP_PROXIES_LIST:
                 FragmentsUtils.changeFragment(fragmentManager,
                         R.id.fragment_container,
                         ProxyListFragment.newInstance(position),
                         false);
                 break;
 
-            case 2:
+            case PAC_PROXIES_LIST:
                 FragmentsUtils.changeFragment(fragmentManager,
                         R.id.fragment_container,
                         PacListFragment.newInstance(position),
                         false);
                 break;
 
-            case 3:
+            case HELP:
                 FragmentsUtils.changeFragment(fragmentManager,
                         R.id.fragment_container,
                         HelpPrefsFragment.newInstance(position),
                         false);
                 break;
 
-            case 4:
+            case DEVELOPER:
                 Intent testIntent = new Intent(getApplicationContext(), DeveloperOptionsActivity.class);
                 startActivity(testIntent);
                 break;

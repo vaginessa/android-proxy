@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.NavDrawerListAdapter;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -108,17 +109,7 @@ public class NavDrawFragment extends Fragment
             }
         });
 
-//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-//                getActionBar().getThemedContext(),
-//                android.R.layout.simple_list_item_activated_1,
-//                android.R.id.text1,
-//                new String[]{
-//                        getString(R.string.title_section1),
-//                        getString(R.string.wifi_access_points),
-//                        getString(R.string.proxies_list),
-//                }));
-
-        mDrawerListView.setAdapter(new NavDrawerListAdapter(getActivity(), UIUtils.getNavDrawerItems(getActivity())));
+        mDrawerListView.setAdapter(new NavDrawerListAdapter(getActivity(), App.getNavDrawerItems()));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
