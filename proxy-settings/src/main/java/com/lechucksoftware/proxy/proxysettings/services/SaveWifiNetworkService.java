@@ -9,6 +9,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.utils.SaveResult;
 import timber.log.Timber;
 
 /**
@@ -42,7 +43,7 @@ public class SaveWifiNetworkService extends EnhancedIntentService
         instance = this;
         isHandling = true;
 
-        App.getTraceUtils().startTrace(TAG, "SaveWifiNetworkService", "Started handling intent", Log.DEBUG, true);
+        SaveResult result = null;
 
         Bundle extras = intent.getExtras();
         if (extras.containsKey(Constants.WIFI_AP_NETWORK_ARG))
@@ -51,15 +52,15 @@ public class SaveWifiNetworkService extends EnhancedIntentService
 
             try
             {
-                APL.writeWifiAPConfig(wiFiApConfig);
+                result = APL.writeWifiAPConfig(wiFiApConfig, 20, 10000); // 20 attempts, 10 seconds
+                if (result != null)
+                    Timber.i("Configuration %s in %d attempts after %d ms", result.status.toString(), result.attempts, result.elapsedTime);
             }
             catch (Exception e)
             {
                 Timber.e(e,"Exception saving Wi-Fi network configuration to device");
             }
         }
-
-        App.getTraceUtils().stopTrace(TAG, "SaveWifiNetworkService", "Succesfully saved configuration to device", Log.DEBUG);
 
         isHandling = false;
     }

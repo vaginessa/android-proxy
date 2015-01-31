@@ -220,4 +220,22 @@ public class TraceUtils
 
         log(tag, logString, logLevel);
     }
+
+    public long totalElapsedTime(String key)
+    {
+        Long diffFromStart = null;
+
+        synchronized (startTraces)
+        {
+            if (startTraces != null && startTraces.containsKey(key))
+            {
+                TraceDate start = startTraces.get(key);
+                Date now = new Date();
+                diffFromStart = now.getTime() - start.getStartTime().getTime();
+
+            }
+        }
+
+        return diffFromStart;
+    }
 }

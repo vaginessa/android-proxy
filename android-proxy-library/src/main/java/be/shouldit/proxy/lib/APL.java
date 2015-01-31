@@ -24,11 +24,13 @@ import java.util.List;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.constants.APLIntents;
+import be.shouldit.proxy.lib.enums.SaveStatus;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.logging.TraceUtils;
 import be.shouldit.proxy.lib.reflection.ReflectionUtils;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
+import be.shouldit.proxy.lib.utils.SaveResult;
 import timber.log.Timber;
 
 /**
@@ -481,17 +483,28 @@ public class APL
         return WiFiAPConfigs;
     }
 
+
+    static final String WRITE_WIFI_KEY = "saveWifiConfiguration";
+
     /**
      * Get proxy configuration for Wi-Fi access point. Valid for API >= 12
      */
     @Deprecated
     @TargetApi(12)
-    public static void writeWifiAPConfig(WiFiApConfig wiFiApConfig) throws Exception
+    public static SaveResult writeWifiAPConfig(WiFiApConfig confToSave, int maxAttempt, int timeout) throws Exception
     {
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        if (wiFiApConfig.getSecurityType() == SecurityType.SECURITY_EAP)
+        APL.getTraceUtils().startTrace(TAG,WRITE_WIFI_KEY, Log.INFO, true);
+
+
+        SaveResult result = new SaveResult();
+        result.status = SaveStatus.FAILED;
+        result.attempts = 0;
+        result.elapsedTime = 0L;
+
+        if (confToSave.getSecurityType() == SecurityType.SECURITY_EAP)
         {
             Exception e = new Exception("writeConfiguration does not support Wi-Fi security 802.1x");
             throw e;
@@ -501,12 +514,12 @@ public class APL
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
 
         if (configuredNetworks == null || configuredNetworks.size() == 0)
-            throw new Exception("Cannot find any configured network during writing configuration to the device: " + wiFiApConfig.toShortString());
+            throw new Exception("Cannot find any configured network during writing configuration to the device: " + confToSave.toShortString());
 
         WifiConfiguration selectedConfiguration = null;
         for (WifiConfiguration conf : configuredNetworks)
         {
-            if (conf.networkId == wiFiApConfig.getNetworkId())
+            if (conf.networkId == confToSave.getNetworkId())
             {
                 selectedConfiguration = conf;
                 break;
@@ -515,56 +528,61 @@ public class APL
 
         if (selectedConfiguration != null)
         {
-            APL.getTraceUtils().startTrace(TAG,"saveWifiConfiguration", Log.INFO, true);
-
-            WifiConfiguration newConf = ReflectionUtils.setProxyFieldsOnWifiConfiguration(wiFiApConfig, selectedConfiguration);
-            APL.getTraceUtils().partialTrace(TAG, "saveWifiConfiguration", "Set proxy fields on WifiConfiguration", Log.INFO);
+            WifiConfiguration newConf = ReflectionUtils.setProxyFieldsOnWifiConfiguration(confToSave, selectedConfiguration);
+            APL.getTraceUtils().partialTrace(TAG, WRITE_WIFI_KEY, "Set proxy fields on WifiConfiguration", Log.INFO);
 
             ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
-            APL.getTraceUtils().partialTrace(TAG, "saveWifiConfiguration", "Save configuration to device", Log.INFO);
+            APL.getTraceUtils().partialTrace(TAG, WRITE_WIFI_KEY, "Save configuration to device", Log.INFO);
 
             /***************************************************************************************
              * TODO: improve method adding callback in order to return the result of the operation
              */
             boolean succesfullySaved = false;
-            int tries = 0;
-            while (tries < 10)
+            int attempt = 1;
+            int sleep = 100;
+
+            while ((attempt <= maxAttempt) && (sleep*attempt < timeout))
             {
                 try
                 {
-                    Thread.sleep(100);
+                    Thread.sleep(sleep);
                 }
                 catch (InterruptedException e)
                 {
                     e.printStackTrace();
                 }
 
-                WiFiApConfig savedConf = APL.getWiFiAPConfiguration(newConf);
-                succesfullySaved = wiFiApConfig.isSameConfiguration(savedConf);
+                WifiConfiguration savedWifiConfig = APL.getConfiguredNetwork(newConf.networkId);
+                WiFiApConfig savedConf = APL.getWiFiAPConfiguration(savedWifiConfig);
+                succesfullySaved = confToSave.isSameConfiguration(savedConf);
 
                 if (succesfullySaved)
                 {
-                    wiFiApConfig.updateProxyConfiguration(savedConf);
+                    confToSave.updateProxyConfiguration(savedConf);
                     break;
                 }
                 else
                 {
-                    tries++;
-                    Timber.w("Problem saving configuration to device. #%d Try again ...", tries);
+                    attempt++;
+                    Timber.w("Problem saving configuration to device after #%d attempt. Try again ...", attempt);
                     ReflectionUtils.saveWifiConfiguration(wifiManager, newConf);
                 }
             }
 
+            result.attempts = attempt;
+            result.elapsedTime = APL.getTraceUtils().totalElapsedTime(WRITE_WIFI_KEY);
+            result.status = succesfullySaved? SaveStatus.SAVED : SaveStatus.FAILED;
+
             if (!succesfullySaved)
             {
-                throw new Exception(String.format("Cannot save proxy configuration after %s tries", tries));
+                throw new Exception(String.format("Cannot save proxy configuration after %s attempt", attempt));
             }
             /**************************************************************************************/
 
-            APL.getTraceUtils().stopTrace(TAG, "saveWifiConfiguration", Log.INFO);
-            wiFiApConfig.getStatus().clear();
+            APL.getTraceUtils().stopTrace(TAG, WRITE_WIFI_KEY, Log.INFO);
+            confToSave.getStatus().clear();
 
-            Timber.d("Succesfully updated configuration %s, after %d tries", wiFiApConfig.toShortString(), tries);
+            Timber.d("Succesfully updated configuration %s, after %d attempt", confToSave.toShortString(), attempt);
 
             Timber.i("Sending broadcast intent: " + APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
             Intent intent = new Intent(APLIntents.APL_UPDATED_PROXY_CONFIGURATION);
@@ -572,8 +590,10 @@ public class APL
         }
         else
         {
-            throw new Exception("Cannot find selected configuration among configured networks during writing to the device: " + wiFiApConfig.toShortString());
+            throw new Exception("Cannot find selected configuration among configured networks during writing to the device: " + confToSave.toShortString());
         }
+
+        return result;
     }
 
 }
