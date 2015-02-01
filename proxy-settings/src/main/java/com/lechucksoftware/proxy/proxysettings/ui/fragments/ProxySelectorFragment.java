@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.dialogs;
+package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
@@ -10,8 +10,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 
 import be.shouldit.proxy.lib.APLNetworkId;
 

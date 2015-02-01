@@ -52,13 +52,14 @@ public class SaveWifiNetworkService extends EnhancedIntentService
 
             try
             {
-                result = APL.writeWifiAPConfig(wiFiApConfig, 20, 10000); // 20 attempts, 10 seconds
+                result = APL.writeWifiAPConfig(wiFiApConfig, 50, 5000); // 50 attempts, 5 seconds
                 if (result != null)
                     Timber.i("Configuration %s in %d attempts after %d ms", result.status.toString(), result.attempts, result.elapsedTime);
             }
             catch (Exception e)
             {
                 Timber.e(e,"Exception saving Wi-Fi network configuration to device");
+
             }
         }
 

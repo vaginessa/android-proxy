@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -368,13 +369,17 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                             selectedWiFiAP.setProxyHost(proxyEntity.getHost());
                             selectedWiFiAP.setProxyPort(proxyEntity.getPort());
                             selectedWiFiAP.setProxyExclusionString(proxyEntity.getExclusion());
+                            selectedWiFiAP.setPacUriFile(Uri.EMPTY);
                         }
                         else if (setting == ProxySetting.PAC)
                         {
                             PacEntity pacEntity = (PacEntity) args.get(Constants.SELECTED_PAC_CONF_ARG);
 
-                            selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+                            selectedWiFiAP.setProxySetting(ProxySetting.PAC);
                             selectedWiFiAP.setPacUriFile(pacEntity.getPacUriFile());
+                            selectedWiFiAP.setProxyHost("");
+                            selectedWiFiAP.setProxyPort(0);
+                            selectedWiFiAP.setProxyExclusionString("");
                         }
 
                         App.getWifiNetworksManager().asyncSaveWifiApConfig(selectedWiFiAP);

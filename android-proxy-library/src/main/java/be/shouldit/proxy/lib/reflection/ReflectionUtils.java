@@ -138,18 +138,6 @@ public class ReflectionUtils
             Timber.e(e, "Exception on saveWifiConfiguration");
         }
 
-//        if (!internalSaveDone)
-//        {
-//            try
-//            {
-//                internalSaveDone = saveNoVersion(wifiManager, configuration);
-//            }
-//            catch (Exception e)
-//            {
-//                APL.getEventsReporter().sendEvent(e);
-//            }
-//        }
-
         if (!internalSaveDone)
         {
             // Use the STANDARD API as a fallback solution
@@ -543,33 +531,29 @@ public class ReflectionUtils
         }
 
         Constructor constr;
-        Object proxyInfo;
-        constr = ProxyInfo.class.getConstructors()[4];
+        Object proxyInfo = null;
 
-        if (wiFiApConfig.getProxySetting() == ProxySetting.NONE || wiFiApConfig.getProxySetting() == ProxySetting.UNASSIGNED)
+        if (wiFiApConfig.getProxySetting() == ProxySetting.NONE ||
+            wiFiApConfig.getProxySetting() == ProxySetting.UNASSIGNED ||
+            !wiFiApConfig.isValidProxyConfiguration())
         {
+            constr = ProxyInfo.class.getConstructors()[4];
             proxyInfo = constr.newInstance(null, 0, null);
-            mHttpProxyField.set(mIpConfiguration, proxyInfo);
         }
         else if (wiFiApConfig.getProxySetting() == ProxySetting.STATIC)
         {
+            constr = ProxyInfo.class.getConstructors()[4];
             Integer port = wiFiApConfig.getProxyPort();
 
-            if (!wiFiApConfig.isValidProxyConfiguration())
-            {
-                proxyInfo = constr.newInstance(null, 0, null);
-                mHttpProxyField.set(mIpConfiguration, proxyInfo);
-            }
-            else
-            {
-                proxyInfo = constr.newInstance(wiFiApConfig.getProxyHostString(), port, wiFiApConfig.getProxyExclusionList());
-                mHttpProxyField.set(mIpConfiguration, proxyInfo);
-            }
+            proxyInfo = constr.newInstance(wiFiApConfig.getProxyHostString(), port, wiFiApConfig.getProxyExclusionList());
         }
         else if (wiFiApConfig.getProxySetting() == ProxySetting.PAC)
         {
-            // TODO add PAC support
+            constr = ProxyInfo.class.getConstructors()[1];
+            proxyInfo = constr.newInstance(wiFiApConfig.getPacFileUri());
         }
+
+        mHttpProxyField.set(mIpConfiguration, proxyInfo);
 
         return newConf;
     }

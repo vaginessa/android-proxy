@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.ProxySelectorFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxySelectorFragment;
 
 import be.shouldit.proxy.lib.APLNetworkId;
 
