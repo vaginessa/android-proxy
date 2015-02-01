@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 
 import be.shouldit.proxy.lib.APLNetworkId;
+import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 public class ProxySelectorFragment extends BaseFragment
 {
@@ -19,6 +22,7 @@ public class ProxySelectorFragment extends BaseFragment
 
     FragmentTabHost tabHost;
     private APLNetworkId wifiAplNetworkId;
+    private WiFiApConfig selectedConfig;
 
     public static ProxySelectorFragment newInstance(APLNetworkId wifiAplNetworkId)
     {
@@ -38,6 +42,7 @@ public class ProxySelectorFragment extends BaseFragment
         super.onCreate(savedInstanceState);
 
         wifiAplNetworkId = getArguments().getParcelable(SELECTED_WIFI_NETWORK);
+        selectedConfig = App.getWifiNetworksManager().getConfiguration(wifiAplNetworkId);
     }
 
     @Override
@@ -64,5 +69,14 @@ public class ProxySelectorFragment extends BaseFragment
     public void onResume()
     {
         super.onResume();
+
+        if (selectedConfig.getProxySetting() == ProxySetting.STATIC)
+        {
+            tabHost.setCurrentTab(0);
+        }
+        else if(selectedConfig.getProxySetting() == ProxySetting.PAC)
+        {
+            tabHost.setCurrentTab(1);
+        }
     }
 }

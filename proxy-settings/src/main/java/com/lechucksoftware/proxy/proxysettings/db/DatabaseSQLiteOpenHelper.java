@@ -154,12 +154,14 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
         {
             // Do something for v3
             upgradeToVersion3(db);
+            oldVersion = 3; // Remember to increment so that next upgrade phase is called
         }
 
         if (oldVersion == 3)
         {
             // Do something for v3
             upgradeToVersion4(db);
+            oldVersion = 4;
         }
 
 //

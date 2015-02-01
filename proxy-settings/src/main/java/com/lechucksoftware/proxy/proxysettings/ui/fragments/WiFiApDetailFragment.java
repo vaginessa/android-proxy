@@ -67,7 +67,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @InjectView(R.id.proxy_pac_url) InputField proxyPacUrl;
     @InjectView(R.id.proxy_bypass) InputExclusionList proxyBypass;
 
-    @InjectView(R.id.wifi_proxy_input_fields) RelativeLayout proxyFields;
+    @InjectView(R.id.wifi_proxy_input_fields) LinearLayout proxyFields;
 
     @InjectView(R.id.proxy_static_fields) LinearLayout staticProxyFields;
     @InjectView(R.id.proxy_pac_fields) LinearLayout pacProxyFields;
@@ -150,6 +150,96 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         refreshProxyUI();
     }
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+
+        ButterKnife.reset(this);
+    }
+
+    public void proxySwitchClicked()
+    {
+//        progress.setVisibility(View.VISIBLE);
+
+        if (proxySwitch.isChecked())
+        {
+            Timber.d("Set proxy settings = STATIC");
+            selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
+        }
+        else
+        {
+            Timber.d("Set proxy settings = NONE");
+            selectedWiFiAP.setProxySetting(ProxySetting.NONE);
+            selectedWiFiAP.setProxyHost(null);
+            selectedWiFiAP.setProxyPort(0);
+            selectedWiFiAP.setProxyExclusionString(null);
+
+            App.getWifiNetworksManager().asyncSaveWifiApConfig(selectedWiFiAP);
+        }
+
+        refreshProxyUI();
+    }
+
+    @OnClick(R.id.proxy_selector)
+    public void openProxySelectorDialog()
+    {
+        Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
+        List<ProxyEntity> availableProxies = new ArrayList<ProxyEntity>(savedProxies.values());
+
+        if (availableProxies != null && availableProxies.size() > 0)
+        {
+            Intent i = new Intent(getActivity(), ProxySelectorListActivity.class);
+            i.putExtra(Constants.WIFI_AP_NETWORK_ARG, selectedWiFiAP.getAPLNetworkId());
+            startActivityForResult(i, Requests.SELECT_PROXY_FOR_WIFI_NETWORK);
+        }
+        else
+        {
+            NoProxiesDefinedAlertDialog noProxiesDefinedAltertDialog = NoProxiesDefinedAlertDialog.newInstance();
+            noProxiesDefinedAltertDialog.setTargetFragment(this, Requests.CREATE_NEW_PROXY);
+            noProxiesDefinedAltertDialog.show(getFragmentManager(),"NoProxiesDefinedAlertDialog");
+        }
+    }
+
+    public void refreshUI()
+    {
+        App.getTraceUtils().startTrace(TAG, "refreshUI", Log.DEBUG);
+
+        if (selectedWiFiAP != null)
+        {
+            refreshWifiUI();
+        }
+
+        App.getTraceUtils().stopTrace(TAG, "refreshUI", Log.DEBUG);
+    }
+
+    private void refreshWifiUI()
+    {
+        refreshingUI = true;
+
+        if (selectedWiFiAP.getLevel() == -1)
+        {
+            wifiLayout.setBackgroundResource(R.color.DarkGrey);
+        }
+        else
+        {
+            if (selectedWiFiAP.isActive())
+            {
+                wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
+            }
+            else
+            {
+                wifiLayout.setBackgroundResource(R.color.Holo_Green_Dark);
+            }
+        }
+
+        wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
+        //        wifiStatus.setText(selectedWiFiAP.getProxyStatusString());
+        wifiSignal.setConfiguration(selectedWiFiAP);
+
+        refreshingUI = false;
+    }
+
     private void refreshProxyUI()
     {
         refreshingUI = true;
@@ -216,102 +306,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         {
             FragmentsUtils.goToMainActivity(getActivity());
         }
-
-        refreshingUI = false;
-    }
-
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
-
-        ButterKnife.reset(this);
-    }
-
-    public void proxySwitchClicked()
-    {
-//        progress.setVisibility(View.VISIBLE);
-
-        if (proxySwitch.isChecked())
-        {
-            Timber.d("Set proxy settings = STATIC");
-            selectedWiFiAP.setProxySetting(ProxySetting.STATIC);
-        }
-        else
-        {
-            Timber.d("Set proxy settings = NONE");
-            selectedWiFiAP.setProxySetting(ProxySetting.NONE);
-            selectedWiFiAP.setProxyHost(null);
-            selectedWiFiAP.setProxyPort(0);
-            selectedWiFiAP.setProxyExclusionString(null);
-
-            App.getWifiNetworksManager().asyncSaveWifiApConfig(selectedWiFiAP);
-        }
-
-        refreshProxyUI();
-    }
-
-    @OnClick(R.id.proxy_selector)
-    public void openProxySelectorDialog()
-    {
-        Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
-        List<ProxyEntity> availableProxies = new ArrayList<ProxyEntity>(savedProxies.values());
-
-        if (availableProxies != null && availableProxies.size() > 0)
-        {
-            Intent i = new Intent(getActivity(), ProxySelectorListActivity.class);
-            i.putExtra(Constants.WIFI_AP_NETWORK_ARG, selectedWiFiAP.getAPLNetworkId());
-            startActivityForResult(i, Requests.SELECT_PROXY_FOR_WIFI_NETWORK);
-        }
-        else
-        {
-            NoProxiesDefinedAlertDialog noProxiesDefinedAltertDialog = NoProxiesDefinedAlertDialog.newInstance();
-            noProxiesDefinedAltertDialog.setTargetFragment(this, Requests.CREATE_NEW_PROXY);
-            noProxiesDefinedAltertDialog.show(getFragmentManager(),"NoProxiesDefinedAlertDialog");
-        }
-    }
-
-    public void refreshUI()
-    {
-        App.getTraceUtils().startTrace(TAG, "refreshUI", Log.DEBUG);
-
-//        if (!APL.getWifiManager().isWifiEnabled())
-//        {
-//            Timber.w("Wi-Fi not enabled, go back to main activity");
-//            FragmentsUtils.goToMainActivity(getActivity());
-//        }
-
-        if (selectedWiFiAP != null)
-        {
-            refreshWifiUI();
-        }
-
-        App.getTraceUtils().stopTrace(TAG, "refreshUI", Log.DEBUG);
-    }
-
-    private void refreshWifiUI()
-    {
-        refreshingUI = true;
-
-        if (selectedWiFiAP.getLevel() == -1)
-        {
-            wifiLayout.setBackgroundResource(R.color.DarkGrey);
-        }
-        else
-        {
-            if (selectedWiFiAP.isActive())
-            {
-                wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
-            }
-            else
-            {
-                wifiLayout.setBackgroundResource(R.color.Holo_Green_Dark);
-            }
-        }
-
-        wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
-        //        wifiStatus.setText(selectedWiFiAP.getProxyStatusString());
-        wifiSignal.setConfiguration(selectedWiFiAP);
 
         refreshingUI = false;
     }

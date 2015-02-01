@@ -46,7 +46,7 @@
                 android:textSize="18sp"
                 style="@android:style/Widget.Holo.Spinner"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/wifi_proxy_input_fields"
@@ -55,21 +55,19 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:padding="5dp">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/proxy_config_title"
-                    android:layout_alignParentTop="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:paddingLeft="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="18sp"
                     android:textColor="@android:color/secondary_text_dark"
-                    android:textStyle="bold"
+
                     android:text="PROXY CONFIGURATION"/>
 
                 <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
@@ -88,8 +86,7 @@
 
                     app:value=""/>
 
-                <include
-                    android:layout_below="@+id/proxy_config_title" layout="@layout/separator"/>
+                <include layout="@layout/separator"/>
 
                 <LinearLayout
                     android:id="@+id/proxy_static_fields"
@@ -98,6 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/proxy_type"
+                    android:visibility="visible"
                     >
 
                     <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
@@ -174,7 +172,8 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/proxy_type">
+                    android:layout_below="@+id/proxy_type"
+                    android:visibility="gone">
 
                     <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                         android:id="@+id/proxy_pac_url"
@@ -207,7 +206,7 @@
                     <!--android:id="@+id/edit_proxy_button"-->
                     <!--android:src="@drawable/ic_action_core_overflow"/>-->
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

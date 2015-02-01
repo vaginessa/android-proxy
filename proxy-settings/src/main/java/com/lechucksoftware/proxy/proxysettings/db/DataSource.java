@@ -976,19 +976,20 @@ public class DataSource
     public void deleteWifiAP(long wifiApId)
     {
         Long proxyIdToUpdate = -1L;
+        Long pacIdToUpdate = -1L;
+
         WiFiAPEntity wiFiAPEntity = getWifiAP(wifiApId);
         if (wiFiAPEntity != null)
         {
             proxyIdToUpdate = wiFiAPEntity.getProxyId();
+            pacIdToUpdate = wiFiAPEntity.getPacId();
         }
 
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
         database.delete(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, DatabaseSQLiteOpenHelper.COLUMN_ID + "=?", new String[]{String.valueOf(wifiApId)});
 
-        if (proxyIdToUpdate != -1)
-        {
-            updateInUseFlag(proxyIdToUpdate, ProxySetting.STATIC);
-        }
+        updateInUseFlag(proxyIdToUpdate, ProxySetting.STATIC);
+        updateInUseFlag(pacIdToUpdate, ProxySetting.PAC);
     }
 
     public void deleteWifiAP(APLNetworkId aplNetworkId)
@@ -1296,8 +1297,13 @@ public class DataSource
         else
             wiFiAPEntity.setProxyId(cursor.getLong(4));
 
-        wiFiAPEntity.setCreationDate(cursor.getLong(5));
-        wiFiAPEntity.setModifiedDate(cursor.getLong(6));
+        if (cursor.isNull(5))
+            wiFiAPEntity.setPACId(-1L);
+        else
+            wiFiAPEntity.setPACId(cursor.getLong(5));
+
+        wiFiAPEntity.setCreationDate(cursor.getLong(6));
+        wiFiAPEntity.setModifiedDate(cursor.getLong(7));
 
         wiFiAPEntity.setPersisted(true);
 
