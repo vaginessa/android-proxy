@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.webkit.WebView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
-import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
@@ -45,9 +45,18 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                 switch (action.actionType)
                 {
                     case WHATSNEW_216:
-                        HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
-                        htmlDialog.show(activity.getSupportFragmentManager(), "WhatsNewHTMLDialog");
-                        action.updateStatus(StartupActionStatus.DONE);
+
+                        WebView webView = new WebView(activity);
+                        webView.loadUrl(Resources.getWhatsNewHTML());
+                        MaterialDialog dialog = new MaterialDialog.Builder(activity)
+                                .title(R.string.whatsnew)
+                                .customView(webView,true)
+                                .positiveText(R.string.ok).build();
+                        dialog.show();
+
+//                        HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
+//                        htmlDialog.show(activity.getSupportFragmentManager(), "WhatsNewHTMLDialog");
+//                        action.updateStatus(StartupActionStatus.DONE);
                         break;
 
                     case FIRST_QUICK_TOUR:

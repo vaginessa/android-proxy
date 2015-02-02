@@ -55,6 +55,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:5.1.2'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
+    compile 'com.afollestad:material-dialogs:0.6.2.1'
 
 
     // Testing-only dependencies
