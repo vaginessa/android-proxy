@@ -64,6 +64,14 @@ dependencies {
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.1'
 }
 
+allprojects {
+    // show deprecation warnings for all projects
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:deprecation"
+        options.compilerArgs << "-Xlint:unchecked"
+    }
+}
+
 android {
 
     compileSdkVersion 21

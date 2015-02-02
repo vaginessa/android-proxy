@@ -101,14 +101,8 @@ public class ProxyUtils
     public static Boolean isConnected()
     {
         NetworkInfo ni = ProxyUtils.getCurrentNetworkInfo();
-        if (ni != null && ni.isAvailable() && ni.isConnected())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+
+        return ni != null && ni.isAvailable() && ni.isConnected();
     }
 
     public static String cleanUpSSID(String SSID)
@@ -284,14 +278,7 @@ public class ProxyUtils
 
                 Timber.d("Ping exit value: " + exitValue);
 
-                if (exitValue == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return exitValue == 0;
             }
             catch (Exception e)
             {
@@ -506,7 +493,14 @@ public class ProxyUtils
         Object requestQueueObject = getRequestQueue(ctx);
         if (requestQueueObject != null)
         {
-            setDeclaredField(requestQueueObject, "mProxyHost", null);
+            try
+            {
+                setDeclaredField(requestQueueObject, "mProxyHost", null);
+            }
+            catch (Exception e)
+            {
+                Timber.e(e,"Exception setting proxy field: 'mProxyHost'");
+            }
         }
     }
 
@@ -549,7 +543,14 @@ public class ProxyUtils
             Object networkObj = invokeMethod(networkClass, "getInstance", new Object[]{ctx}, Context.class);
             if (networkObj != null)
             {
-                ret = getDeclaredField(networkObj, "mRequestQueue");
+                try
+                {
+                    ret = getDeclaredField(networkObj, "mRequestQueue");
+                }
+                catch (Exception e)
+                {
+                    Timber.e(e,"Exception getting field: 'mRequestQueue'");
+                }
             }
         }
         return ret;
@@ -570,7 +571,7 @@ public class ProxyUtils
         f.set(obj, value);
     }
 
-    @SuppressWarnings("rawtypes")
+//    @SuppressWarnings("rawtypes")
     private static Object invokeMethod(Object object, String methodName, Object[] params, Class... types) throws Exception
     {
         Object out = null;

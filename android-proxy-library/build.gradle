@@ -36,11 +36,17 @@ android {
     }
 }
 
-dependencies {
-
-    compile 'com.jakewharton.timber:timber:2.5.0'
+allprojects {
+    // show deprecation warnings for all projects
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:deprecation"
+        options.compilerArgs << "-Xlint:unchecked"
+    }
 }
 
+dependencies {
+    compile 'com.jakewharton.timber:timber:2.5.0'
+}
 
 version = "4.1.0"
 //version = '2.9.0-SNAPSHOT'
