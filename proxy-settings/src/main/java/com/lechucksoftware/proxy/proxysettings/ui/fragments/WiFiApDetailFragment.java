@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -351,7 +350,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 if (data != null && data.hasExtra(Constants.SELECTED_PROXY_TYPE_ARG))
                 {
                     Bundle args = data.getExtras();
-                    if (resultCode == FragmentActivity.RESULT_OK && args != null)
+                    if (resultCode == ActionBarActivity.RESULT_OK && args != null)
                     {
                         ProxySetting setting = (ProxySetting) args.get(Constants.SELECTED_PROXY_TYPE_ARG);
 

@@ -1,9 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -42,7 +42,7 @@ public class ProxySelectorListActivity extends BaseWifiActivity
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.fragment_container, ProxySelectorFragment.newInstance(wifiAplNetworkId)).commit();
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);

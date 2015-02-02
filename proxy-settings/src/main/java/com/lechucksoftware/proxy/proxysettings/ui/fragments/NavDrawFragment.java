@@ -1,16 +1,17 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +24,6 @@ import android.widget.ListView;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.NavDrawerListAdapter;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -152,7 +152,7 @@ public class NavDrawFragment extends Fragment
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar =  ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
@@ -161,7 +161,6 @@ public class NavDrawFragment extends Fragment
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_navigation_drawer,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         )
@@ -313,15 +312,10 @@ public class NavDrawFragment extends Fragment
      */
     private void showGlobalContextActionBar()
     {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
-    }
-
-    private ActionBar getActionBar()
-    {
-        return getActivity().getActionBar();
     }
 
     /**

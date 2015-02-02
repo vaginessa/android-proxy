@@ -42,7 +42,7 @@ dependencies {
     compile project(':android-proxy-library')
 
 // Enable for adding support to material design
-//    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.android.support:appcompat-v7:21.0.+'
 
     compile 'com.google.android.gms:play-services-base:6.5.87'
     compile 'com.google.code.gson:gson:2.3'

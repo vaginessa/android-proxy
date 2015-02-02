@@ -1,9 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -26,10 +25,10 @@ import timber.log.Timber;
 public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 {
     private static final String TAG = AsyncStartupActions.class.getSimpleName();
-    private final FragmentActivity activity;
+    private final ActionBarActivity activity;
     private ApplicationStatistics statistics;
 
-    public AsyncStartupActions(FragmentActivity a)
+    public AsyncStartupActions(ActionBarActivity a)
     {
         activity = a;
     }

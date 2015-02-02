@@ -1,13 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.app.Activity;
-
 import android.content.Intent;
-
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -290,7 +288,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             Intent i = new Intent();
             i.putExtra(Constants.SELECTED_PROXY_TYPE_ARG, ProxySetting.STATIC);
             i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, proxy);
-            getActivity().setResult(FragmentActivity.RESULT_OK, i);
+            getActivity().setResult(ActionBarActivity.RESULT_OK, i);
 
 //            wiFiApConfig.setProxySetting(ProxySetting.STATIC);
 //            wiFiApConfig.setProxyHost(proxy.getHost());

@@ -1,18 +1,16 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBar;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
@@ -122,7 +120,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 
     public void restoreActionBar()
     {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);

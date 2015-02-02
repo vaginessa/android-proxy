@@ -1,11 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.ui.components;
 
+import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
+
 /**
  * Created by mpagliar on 21/10/2014.
  */
 public class NavDrawerItem
 {
-
+    private NavigationAction action;
     private String title;
     private String tag;
     private int icon;
@@ -13,17 +15,17 @@ public class NavDrawerItem
     // boolean to set visibility of the counter
     private boolean isCounterVisible = false;
 
-    public NavDrawerItem() {}
-
-    public NavDrawerItem(String title, String tag, int icon)
+    public NavDrawerItem(NavigationAction action, String title, String tag, int icon)
     {
+        this.action = action;
         this.title = title;
         this.tag = tag;
         this.icon = icon;
     }
 
-    public NavDrawerItem(String title, String tag, int icon, boolean isCounterVisible, String count)
+    public NavDrawerItem(NavigationAction action, String title, String tag, int icon, boolean isCounterVisible, String count)
     {
+        this.action = action;
         this.title = title;
         this.tag = tag;
         this.icon = icon;

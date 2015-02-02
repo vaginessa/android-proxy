@@ -1,10 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
-import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -36,7 +36,7 @@ public class PacDetailActivity extends BaseActivity
 
         FragmentManager fm = getSupportFragmentManager();
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);

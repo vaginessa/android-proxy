@@ -17,9 +17,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.EventsReporting;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.logging.TraceUtils;
@@ -39,7 +37,7 @@ public class App extends Application
     private TraceUtils traceUtils;
     private EventsReporting eventsReporter;
 
-    private static Map<NavigationAction, NavDrawerItem> navDrawerItems;
+    private static List<NavDrawerItem> navDrawerItems;
 
     public static int getAppMajorVersion()
     {
@@ -51,7 +49,7 @@ public class App extends Application
         return BuildConfig.VERSION_CODE % 100;
     }
 
-    public static Map<NavigationAction, NavDrawerItem> getNavDrawerItems()
+    public static List<NavDrawerItem> getNavDrawerItems()
     {
         return navDrawerItems;
     }
@@ -150,24 +148,24 @@ public class App extends Application
         return getInstance().dbManager;
     }
 
-    public static Map<NavigationAction,NavDrawerItem> initNavDrawerItems(Context ctx)
+    public static List<NavDrawerItem> initNavDrawerItems(Context ctx)
     {
-        Map<NavigationAction,NavDrawerItem> map = new HashMap<>();
+        List<NavDrawerItem> map = new ArrayList<>();
 
 //        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
-        map.put(NavigationAction.WIFI_NETWORKS, new NavDrawerItem(ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+"));
-        map.put(NavigationAction.HTTP_PROXIES_LIST, new NavDrawerItem(ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+"));
+        map.add(new NavDrawerItem(NavigationAction.WIFI_NETWORKS, ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+"));
+        map.add(new NavDrawerItem(NavigationAction.HTTP_PROXIES_LIST, ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+"));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            map.put(NavigationAction.PAC_PROXIES_LIST, new NavDrawerItem(ctx.getString(R.string.pac_list), "", R.drawable.ic_action_file, false, "50+"));
+            map.add(new NavDrawerItem(NavigationAction.PAC_PROXIES_LIST, ctx.getString(R.string.pac_list), "", R.drawable.ic_action_file, false, "50+"));
         }
 
-        map.put(NavigationAction.HELP, new NavDrawerItem(ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+"));
+        map.add(new NavDrawerItem(NavigationAction.HELP, ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+"));
 
         if (BuildConfig.DEBUG)
         {
-            map.put(NavigationAction.DEVELOPER, new NavDrawerItem(ctx.getString(R.string.developers_options), "", R.drawable.ic_action_debug_bug_icon));
+            map.add(new NavDrawerItem(NavigationAction.DEVELOPER, ctx.getString(R.string.developers_options), "", R.drawable.ic_action_debug_bug_icon));
         }
 
         return map;

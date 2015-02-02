@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +16,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -40,7 +39,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 10/10/13.
  */
-public class DeveloperOptionsActivity extends FragmentActivity
+public class DeveloperOptionsActivity extends ActionBarActivity
 {
     public static final String TAG = DeveloperOptionsActivity.class.getSimpleName();
     public LinearLayout testDBContainer;

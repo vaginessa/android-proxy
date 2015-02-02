@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -14,7 +14,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 07/11/13.
  */
-public class BaseActivity extends FragmentActivity
+public class BaseActivity extends ActionBarActivity
 {
     private static boolean active = false;
 

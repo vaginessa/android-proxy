@@ -1,6 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.excluded;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -121,7 +121,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
     {
         super.onResume();
 
-        ActionBar actionBar = getActivity().getActionBar();
+        ActionBar actionBar =  ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }

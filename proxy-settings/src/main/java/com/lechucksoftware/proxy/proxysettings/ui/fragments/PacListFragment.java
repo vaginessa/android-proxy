@@ -3,9 +3,9 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +27,6 @@ import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.loaders.PacDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
@@ -278,7 +277,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             Intent i = new Intent();
             i.putExtra(Constants.SELECTED_PROXY_TYPE_ARG, ProxySetting.PAC);
             i.putExtra(Constants.SELECTED_PAC_CONF_ARG, pacEntity);
-            getActivity().setResult(FragmentActivity.RESULT_OK, i);
+            getActivity().setResult(ActionBarActivity.RESULT_OK, i);
             getActivity().finish();
         }
         catch (Exception e)

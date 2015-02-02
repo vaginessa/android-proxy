@@ -18,14 +18,13 @@ import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.util.List;
-import java.util.Map;
 
 public class NavDrawerListAdapter extends BaseAdapter
 {
     private Context context;
-    private Map<NavigationAction,NavDrawerItem> navDrawerItems;
+    private List<NavDrawerItem> navDrawerItems;
 
-    public NavDrawerListAdapter(Context context, Map<NavigationAction,NavDrawerItem> navDrawerItems)
+    public NavDrawerListAdapter(Context context, List<NavDrawerItem> navDrawerItems)
     {
         this.context = context;
         this.navDrawerItems = navDrawerItems;
@@ -42,8 +41,8 @@ public class NavDrawerListAdapter extends BaseAdapter
     {
         NavigationAction action = NavigationAction.parseInt(position);
 
-        if (navDrawerItems.containsKey(action))
-            return navDrawerItems.get(action);
+        if (navDrawerItems.size() >= position)
+            return navDrawerItems.get(position);
         else
             return null;
     }
@@ -63,8 +62,7 @@ public class NavDrawerListAdapter extends BaseAdapter
             convertView = mInflater.inflate(R.layout.drawer_list_item, null);
         }
 
-        NavigationAction action = NavigationAction.parseInt(position);
-        NavDrawerItem item = navDrawerItems.get(action);
+        NavDrawerItem item = navDrawerItems.get(position);
 
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
