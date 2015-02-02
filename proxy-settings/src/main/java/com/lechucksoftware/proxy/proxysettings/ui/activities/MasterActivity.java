@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment;
@@ -55,7 +57,12 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         // update the main content by replacing fragments
         FragmentManager fragmentManager = this.getSupportFragmentManager();
 
-        NavigationAction navigationAction = NavigationAction.parseInt(position);
+        NavigationAction navigationAction = NavigationAction.NOT_DEFINED;
+        NavDrawerItem item = App.getNavDrawerItems().get(position);
+        if (item != null)
+        {
+            navigationAction = item.getAction();
+        }
 
         switch (navigationAction)
         {

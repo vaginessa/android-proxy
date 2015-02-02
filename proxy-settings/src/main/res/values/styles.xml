@@ -3,13 +3,20 @@
 
     <style name="ProxySettingsTheme" parent="Theme.AppCompat">
         <!-- Here we setting appcompat’s actionBarStyle -->
-        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
+        <item name="actionBarStyle">@style/CustomActionBarStyle</item>
 
         <!-- ...and here we setting appcompat’s color theming attrs -->
-        <item name="colorPrimary">@color/Grey</item>
-        <item name="colorPrimaryDark">@color/DarkGrey</item>
+        <item name="colorPrimary">@color/primary_dark_material_light</item>
+        <item name="colorPrimaryDark">@color/primary_dark_material_light</item>
 
         <!-- The rest of your attributes -->
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="CustomActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/Grey</item>
+        <!-- Support library compatibility -->
+        <item name="background">@color/Grey</item>
     </style>
 
     <style name="Invisible" parent="@android:style/Theme.Holo.Dialog">

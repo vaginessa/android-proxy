@@ -33,6 +33,16 @@ public class NavDrawerItem
         this.count = count;
     }
 
+    public NavigationAction getAction()
+    {
+        return action;
+    }
+
+    public void setAction(NavigationAction action)
+    {
+        this.action = action;
+    }
+
     public String getTitle()
     {
         return this.title;
