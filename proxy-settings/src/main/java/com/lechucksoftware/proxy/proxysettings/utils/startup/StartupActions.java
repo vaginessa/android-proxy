@@ -29,6 +29,13 @@ public class StartupActions
 //                new StartupCondition(1, null, null));
 //        actions.add(quickTour);
 
+        // SHOW Whats new at first start for 3.00 version
+        StartupAction whatsNew300 = new StartupAction(activity,
+                StartupActionType.WHATSNEW_300,
+                StartupActionStatus.NOT_AVAILABLE,
+                new StartupCondition(null, null, 1300300));
+        actions.add(whatsNew300);
+
         // SHOW Whats new at first start for 2.16 version
         StartupAction whatsNew216 = new StartupAction(activity,
                 StartupActionType.WHATSNEW_216,

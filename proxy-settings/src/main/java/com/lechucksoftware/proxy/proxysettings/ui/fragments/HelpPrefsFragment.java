@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
@@ -24,6 +27,8 @@ import com.lechucksoftware.proxy.proxysettings.ui.dialogs.ChangeLogDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+
+import it.gmariotti.changelibs.library.view.ChangeLogListView;
 
 public class HelpPrefsFragment extends BasePreferenceFragment
 {
@@ -71,8 +76,13 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             public boolean onPreferenceClick(Preference preference)
             {
 
-                ChangeLogDialog changeLogDialog = new ChangeLogDialog();
-                changeLogDialog.show(getActivity().getSupportFragmentManager(), "ChangelogHTMLDialog");
+                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                        .title(R.string.changelog)
+                        .customView(R.layout.full_changelog_dialog, false)
+                        .positiveText(R.string.ok).build();
+
+                dialog.show();
+
                 return true;
             }
         });
@@ -99,11 +109,14 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             public boolean onPreferenceClick(Preference preference)
             {
 
-                HtmlDialog aboutDialog = HtmlDialog.newInstance(getString(R.string.about),Resources.ABOUT);
-                aboutDialog.setCancelable(true);
-                aboutDialog.show(getFragmentManager(), "AboutDialog");
+                WebView webView = new WebView(getActivity());
+                webView.loadUrl(Resources.ABOUT);
+                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                        .title(R.string.whatsnew)
+                        .customView(webView,true)
+                        .positiveText(R.string.ok).build();
+                dialog.show();
                 return true;
-
             }
         });
 
@@ -194,7 +207,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
 
     private void showBetaTestDialog()
     {
-        AlertDialog dialog = UIUtils.getBetaTestDialog(getActivity());
+        MaterialDialog dialog = UIUtils.getBetaTestDialog(getActivity());
         dialog.show();
     }
 

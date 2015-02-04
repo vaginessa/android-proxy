@@ -168,4 +168,5 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
+    <color name="material_dialogs_background">#F2F2F2</color>
 </resources>

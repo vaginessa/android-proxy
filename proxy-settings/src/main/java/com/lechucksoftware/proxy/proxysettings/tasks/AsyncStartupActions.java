@@ -10,6 +10,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
@@ -45,6 +46,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                 switch (action.actionType)
                 {
                     case WHATSNEW_216:
+                    case WHATSNEW_300:
 
                         WebView webView = new WebView(activity);
                         webView.loadUrl(Resources.getWhatsNewHTML());
@@ -53,10 +55,11 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                                 .customView(webView,true)
                                 .positiveText(R.string.ok).build();
                         dialog.show();
+                        action.updateStatus(StartupActionStatus.DONE);
 
 //                        HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
 //                        htmlDialog.show(activity.getSupportFragmentManager(), "WhatsNewHTMLDialog");
-//                        action.updateStatus(StartupActionStatus.DONE);
+
                         break;
 
                     case FIRST_QUICK_TOUR:

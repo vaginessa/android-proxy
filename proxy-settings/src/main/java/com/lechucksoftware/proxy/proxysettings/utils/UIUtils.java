@@ -31,6 +31,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -265,37 +266,28 @@ public class UIUtils
         return bd;
     }
 
-    public static AlertDialog getBetaTestDialog(final Context ctx)
+    public static MaterialDialog getBetaTestDialog(final Context ctx)
     {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setTitle(R.string.beta_testing);
-        builder.setMessage(R.string.beta_testing_instructions);
-        builder.setPositiveButton(R.string.cont, new DialogInterface.OnClickListener()
-        {
+        final MaterialDialog.Builder builder = new MaterialDialog.Builder(ctx);
+        builder.title(R.string.beta_testing);
+        builder.content(R.string.beta_testing_instructions);
+        builder.positiveText(R.string.cont);
+        builder.negativeText(R.string.cancel);
+        builder.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i)
+            public void onPositive(MaterialDialog dialog)
             {
                 openBetaTestProject(ctx);
             }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
-        {
+
             @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-        {
-            @Override
-            public void onCancel(DialogInterface dialog)
+            public void onNegative(MaterialDialog dialog)
             {
                 dialog.dismiss();
             }
         });
 
-        return builder.create();
+        return builder.build();
     }
 
     public static void openBetaTestProject(Context ctx)
