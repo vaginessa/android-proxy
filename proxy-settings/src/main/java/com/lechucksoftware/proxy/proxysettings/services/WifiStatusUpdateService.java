@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
@@ -16,7 +17,7 @@ import timber.log.Timber;
 /**
  * Created by Marco on 09/03/14.
  */
-public class WifiStatusUpdateService extends EnhancedIntentService
+public class WifiStatusUpdateService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = WifiStatusUpdateService.class.getSimpleName();

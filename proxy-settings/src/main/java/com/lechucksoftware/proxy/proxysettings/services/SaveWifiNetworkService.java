@@ -1,10 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 
 import be.shouldit.proxy.lib.APL;
@@ -15,7 +14,7 @@ import timber.log.Timber;
 /**
  * Created by Marco on 09/03/14.
  */
-public class SaveWifiNetworkService extends EnhancedIntentService
+public class SaveWifiNetworkService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = SaveWifiNetworkService.class.getSimpleName();
@@ -24,7 +23,7 @@ public class SaveWifiNetworkService extends EnhancedIntentService
 
     public SaveWifiNetworkService()
     {
-        super("SaveWifiNetworkService", android.os.Process.THREAD_PRIORITY_LESS_FAVORABLE);
+        super("SaveWifiNetworkService");
     }
 
     public static SaveWifiNetworkService getInstance()

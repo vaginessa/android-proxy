@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,7 +21,7 @@ import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class ProxySettingsCheckerService extends EnhancedIntentService
+public class ProxySettingsCheckerService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = ProxySettingsCheckerService.class.getSimpleName();

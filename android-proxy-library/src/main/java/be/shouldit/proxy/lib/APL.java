@@ -307,7 +307,6 @@ public class APL
     /**
      * Get proxy configuration for Wi-Fi access point. Valid for API >= 12
      */
-    @Deprecated
     @TargetApi(12)
     public static WiFiApConfig getWiFiAPConfiguration(WifiConfiguration wifiConf)
     {
@@ -456,7 +455,6 @@ public class APL
         return result;
     }
 
-    @Deprecated
     @TargetApi(12)
     public static Map<APLNetworkId,WiFiApConfig> getWifiAPConfigurations()
     {
@@ -489,7 +487,6 @@ public class APL
     /**
      * Get proxy configuration for Wi-Fi access point. Valid for API >= 12
      */
-    @Deprecated
     @TargetApi(12)
     public static SaveResult writeWifiAPConfig(WiFiApConfig confToSave, int maxAttempt, int timeout) throws Exception
     {

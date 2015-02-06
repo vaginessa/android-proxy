@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.text.TextUtils;
@@ -24,7 +25,7 @@ import timber.log.Timber;
 /**
  * Created by Marco on 09/03/14.
  */
-public class WifiSyncService extends EnhancedIntentService
+public class WifiSyncService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = WifiSyncService.class.getSimpleName();
@@ -33,7 +34,7 @@ public class WifiSyncService extends EnhancedIntentService
 
     public WifiSyncService()
     {
-        super("WifiSyncService", android.os.Process.THREAD_PRIORITY_LESS_FAVORABLE);
+        super("WifiSyncService");
     }
 
     public static WifiSyncService getInstance()

@@ -23,7 +23,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
-import com.lechucksoftware.proxy.proxysettings.services.SaveWifiNetworkService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +42,6 @@ import java.util.List;
 import java.util.Stack;
 
 import be.shouldit.proxy.lib.APL;
-import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.utils.HttpAnswer;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
@@ -407,7 +405,7 @@ public class Utils
      * @param context
      * @return true if enabled.
      */
-//    @SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static boolean isAirplaneModeOn(Context context)
     {

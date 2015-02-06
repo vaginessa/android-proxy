@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,7 +21,7 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class MaintenanceService extends EnhancedIntentService
+public class MaintenanceService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = MaintenanceService.class.getSimpleName();
