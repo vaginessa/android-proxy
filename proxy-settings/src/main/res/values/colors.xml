@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="background_dark">#ff151515</color>
+
     <color name="BlackTransparent">#aa000000</color>
     <color name="GreyTransparent">#33777777</color>
     <color name="GreyDisable">#99222222</color>

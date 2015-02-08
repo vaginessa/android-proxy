@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
@@ -26,31 +27,29 @@ public class RateAppDialog extends BaseDialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-        builder.setTitle(R.string.thank_you);
-        builder.setMessage(R.string.rate_app);
-        builder.setCancelable(false);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
-            {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
+        builder.title(R.string.thank_you);
+        builder.content(R.string.rate_app);
+        builder.cancelable(false);
+        builder.positiveText(R.string.ok);
+        builder.negativeText(R.string.no);
 
-//                App.getTraceUtils().d(TAG, "Starting Market activity");
+        builder.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog)
+            {
                 startupAction.updateStatus(StartupActionStatus.DONE);
                 Utils.startMarketActivity(getActivity());
             }
-        });
 
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+            @Override
+            public void onNegative(MaterialDialog dialog)
             {
-
                 startupAction.updateStatus(StartupActionStatus.REJECTED);
             }
         });
 
-        AlertDialog alert = builder.create();
+        MaterialDialog alert = builder.build();
         return alert;
     }
 

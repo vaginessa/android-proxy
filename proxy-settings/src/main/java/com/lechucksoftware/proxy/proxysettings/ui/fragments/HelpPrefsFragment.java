@@ -1,13 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,16 +16,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
-import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.ChangeLogDialog;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.HtmlDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-
-import it.gmariotti.changelibs.library.view.ChangeLogListView;
 
 public class HelpPrefsFragment extends BasePreferenceFragment
 {
@@ -112,7 +104,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
                 WebView webView = new WebView(getActivity());
                 webView.loadUrl(Resources.ABOUT);
                 MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                        .title(R.string.whatsnew)
+                        .title(R.string.about)
                         .customView(webView,true)
                         .positiveText(R.string.ok).build();
                 dialog.show();

@@ -6,10 +6,12 @@
         <item name="actionBarStyle">@style/CustomActionBarStyle</item>
 
         <!-- ...and here we setting appcompat’s color theming attrs -->
-        <item name="colorPrimary">@color/primary_dark_material_light</item>
-        <item name="colorPrimaryDark">@color/primary_dark_material_light</item>
+        <item name="colorPrimary">@color/Green</item>
+        <item name="colorPrimaryDark">@color/Red</item>
 
         <!-- The rest of your attributes -->
+        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:textColorPrimary">@color/White</item>
     </style>
 
     <!-- ActionBar styles -->

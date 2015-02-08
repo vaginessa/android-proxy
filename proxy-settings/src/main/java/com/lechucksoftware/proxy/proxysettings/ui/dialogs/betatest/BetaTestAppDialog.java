@@ -1,10 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
@@ -19,15 +19,17 @@ public class BetaTestAppDialog extends BaseDialogFragment
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-		builder.setTitle(R.string.beta_testing);
-		builder.setMessage(R.string.beta_testing_request);
-		builder.setCancelable(false);
-		builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
-		{
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
+		MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
+		builder.title(R.string.beta_testing);
+		builder.content(R.string.beta_testing_request);
+		builder.cancelable(false);
+        builder.positiveText(R.string.yes);
+        builder.negativeText(R.string.no);
+        builder.callback(new MaterialDialog.ButtonCallback() {
 
+            @Override
+            public void onPositive(MaterialDialog dialog)
+            {
                 startupAction.updateStatus(StartupActionStatus.DONE);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
@@ -36,14 +38,11 @@ public class BetaTestAppDialog extends BaseDialogFragment
 
                 BetaTestCommunityDialog betaTestCommunityDialog = BetaTestCommunityDialog.newInstance();
                 betaTestCommunityDialog.show(getFragmentManager(), "BetaTestCommunityDialog");
-			}
-		});
+            }
 
-		builder.setNegativeButton(getResources().getText(R.string.no), new DialogInterface.OnClickListener()
-		{
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
-
+            @Override
+            public void onNegative(MaterialDialog dialog)
+            {
                 startupAction.updateStatus(StartupActionStatus.REJECTED);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
@@ -52,10 +51,10 @@ public class BetaTestAppDialog extends BaseDialogFragment
 
                 BetaTestDismissedDialog betaTestDismissedDialog = BetaTestDismissedDialog.newInstance();
                 betaTestDismissedDialog.show(getFragmentManager(), "BetaTestDismissedDialog");
-			}
-		});
+            }
+        });
 
-		AlertDialog alert = builder.create();
+		MaterialDialog alert = builder.build();
 		return alert;
 	}
 

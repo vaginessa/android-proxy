@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -266,10 +267,10 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
             if (selectedConfiguration.getSecurityType() == SecurityType.SECURITY_EAP)
             {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.oops)
-                        .setMessage(getResources().getString(R.string.not_supported_network_8021x_error_message))
-                        .setPositiveButton(R.string.proxy_error_dismiss, null)
+                new MaterialDialog.Builder(getActivity())
+                        .title(R.string.oops)
+                        .content(getResources().getString(R.string.not_supported_network_8021x_error_message))
+                        .positiveText(R.string.proxy_error_dismiss)
                         .show();
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,

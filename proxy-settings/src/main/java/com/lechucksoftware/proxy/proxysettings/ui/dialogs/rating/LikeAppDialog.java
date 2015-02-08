@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
@@ -25,16 +26,18 @@ public class LikeAppDialog extends BaseDialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
 //        builder.setTitle(R.string.app_rater_dialog_title);
-        builder.setMessage(R.string.do_you_like);
+        builder.content(R.string.do_you_like);
 
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+        builder.positiveText(R.string.yes);
+        builder.negativeText(R.string.no);
+
+        builder.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog)
             {
-
                 RateAppDialog rateDialog = RateAppDialog.newInstance(startupAction);
                 rateDialog.show(getFragmentManager(), "RateAppDialog");
 
@@ -42,13 +45,10 @@ public class LikeAppDialog extends BaseDialogFragment
                         R.string.analytics_act_dialog_button_click,
                         R.string.analytics_lab_like_app_dialog, 1L);
             }
-        });
 
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+            @Override
+            public void onNegative(MaterialDialog dialog)
             {
-
                 MailFeedbackDialog feedbackDialog = MailFeedbackDialog.newInstance(startupAction);
                 feedbackDialog.show(getFragmentManager(), "MailFeedbackDialog");
 
@@ -58,7 +58,7 @@ public class LikeAppDialog extends BaseDialogFragment
             }
         });
 
-        AlertDialog alert = builder.create();
+        MaterialDialog alert = builder.build();
         return alert;
     }
 

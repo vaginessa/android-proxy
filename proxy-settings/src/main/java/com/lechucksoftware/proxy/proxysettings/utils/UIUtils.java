@@ -88,10 +88,10 @@ public class UIUtils
     {
         try
         {
-            new AlertDialog.Builder(ctx)
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(R.string.ok, null)
+            new MaterialDialog.Builder(ctx)
+                    .title(title)
+                    .content(message)
+                    .positiveText(R.string.ok)
                     .show();
         }
         catch (Exception e)
@@ -106,10 +106,10 @@ public class UIUtils
         {
             if (!TextUtils.isEmpty(message))
             {
-                new AlertDialog.Builder(ctx)
-                        .setTitle(title)
-                        .setMessage(message)
-                        .setPositiveButton(R.string.ok, null)
+                new MaterialDialog.Builder(ctx)
+                        .title(title)
+                        .content(message)
+                        .positiveText(R.string.ok)
                         .show();
             }
         }
@@ -294,162 +294,6 @@ public class UIUtils
     {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/communities/104290788068260973104"));
         ctx.startActivity(browserIntent);
-    }
-
-    public static void showHTMLAssetsAlertDialog(final Context ctx, String title, String filename, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
-    {
-        String BASE_URL = "file:///android_asset/www/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
-
-        App.getTraceUtils().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-
-        try
-        {
-            //Create web view and load html
-            final WebView webView = new WebView(ctx);
-            webView.setWebViewClient(new WebViewClient()
-            {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url)
-                {
-                    Uri uri = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    ctx.startActivity(intent);
-                    return true;
-                }
-
-            });
-
-            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-
-            webView.loadUrl(BASE_URL + filename);
-
-            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-                    .setTitle(title)
-                    .setView(webView)
-                    .setPositiveButton(closeString, new Dialog.OnClickListener()
-                    {
-                        public void onClick(final DialogInterface dialogInterface, final int i)
-                        {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setOnCancelListener(new DialogInterface.OnCancelListener()
-                    {
-
-                        @Override
-                        public void onCancel(DialogInterface dialog)
-                        {
-                            dialog.dismiss();
-                        }
-                    });
-
-            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-
-            final AlertDialog dialog = builder.create();
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
-            {
-                @Override
-                public void onDismiss(final DialogInterface dialog)
-                {
-                    if (mOnDismissListener != null)
-                    {
-                        mOnDismissListener.onDismiss(dialog);
-                    }
-                }
-            });
-
-            webView.setWebViewClient(new WebViewClient()
-            {
-
-                @Override
-                public void onPageFinished(WebView view, String url)
-                {
-                    super.onPageFinished(view, url);
-                    dialog.show();
-                }
-            });
-
-            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-        }
-        catch (Exception e)
-        {
-            Timber.e(e,"Exception on showHTMLAssetsAlertDialog");
-            return;
-        }
-
-        App.getTraceUtils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-    }
-
-    public static void showHTMLAlertDialog(final Context ctx, String title, String htmlFile, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
-    {
-        final WebView webView = new WebView(ctx);
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setTitle(title);
-        builder.setView(webView);
-
-        builder.setPositiveButton(closeString, new Dialog.OnClickListener()
-        {
-            public void onClick(final DialogInterface dialogInterface, final int i)
-            {
-                dialogInterface.dismiss();
-            }
-        });
-
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-        {
-            @Override
-            public void onCancel(DialogInterface dialog)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
-        {
-            @Override
-            public void onDismiss(final DialogInterface dialog)
-            {
-                if (mOnDismissListener != null)
-                {
-                    mOnDismissListener.onDismiss(dialog);
-                }
-            }
-        });
-
-        webView.setWebViewClient(new WebViewClient()
-        {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url)
-            {
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                ctx.startActivity(intent);
-                return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url)
-            {
-                super.onPageFinished(view, url);
-
-                try
-                {
-                    Thread.sleep(200);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-
-                dialog.show();
-            }
-        });
-
-        webView.loadUrl(htmlFile);
     }
 
     public static String GetStatusSummary(WiFiApConfig conf, Context ctx)
