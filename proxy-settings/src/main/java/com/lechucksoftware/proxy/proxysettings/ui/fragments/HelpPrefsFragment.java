@@ -17,6 +17,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -68,12 +69,15 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             public boolean onPreferenceClick(Preference preference)
             {
 
-                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                        .title(R.string.changelog)
-                        .customView(R.layout.full_changelog_dialog, false)
-                        .positiveText(R.string.ok).build();
+//                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+//                        .title(R.string.changelog)
+//                        .customView(R.layout.full_changelog_dialog, false)
+//                        .positiveText(R.string.ok).build();
+//
+//                dialog.show();
 
-                dialog.show();
+                Intent i = new Intent(getActivity(), ChangeLogActivity.class);
+                startActivity(i);
 
                 return true;
             }

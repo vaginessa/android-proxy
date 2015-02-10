@@ -29,36 +29,35 @@ public class StartupActions
 //                new StartupCondition(1, null, null));
 //        actions.add(quickTour);
 
-        // SHOW Whats new at first start for 3.00 version
-        StartupAction whatsNew300 = new StartupAction(activity,
-                StartupActionType.WHATSNEW_300,
-                StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(null, null, 1300300));
-        actions.add(whatsNew300);
-
-        // SHOW Whats new at first start for 2.16 version
-        StartupAction whatsNew216 = new StartupAction(activity,
-                StartupActionType.WHATSNEW_216,
-                StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(null, null, 1300216));
-        actions.add(whatsNew216);
+//        // SHOW Whats new at first start for 3.00 version
+//        StartupAction whatsNew300 = new StartupAction(activity,
+//                StartupActionType.WHATSNEW_300,
+//                StartupActionStatus.NOT_AVAILABLE,
+//                new StartupCondition(null, null, 1300300));
+//        actions.add(whatsNew300);
+//
+//        // SHOW Whats new at first start for 2.16 version
+//        StartupAction whatsNew216 = new StartupAction(activity,
+//                StartupActionType.WHATSNEW_216,
+//                StartupActionStatus.NOT_AVAILABLE,
+//                new StartupCondition(null, null, 1300216));
+//        actions.add(whatsNew216);
 
         StartupAction rating = new StartupAction(activity,
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
+                new StartupCondition(30, null, null),
                 new StartupCondition(50, null, null),
                 new StartupCondition(70, null, null),
-                new StartupCondition(90, null, null),
-                new StartupCondition(null, 50, null));
+                new StartupCondition(null, 30, null));
         actions.add(rating);
 
         StartupAction betaTest = new StartupAction(activity,
                 StartupActionType.BETA_TEST_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
+                new StartupCondition(80, null, null),
                 new StartupCondition(100, null, null),
-                new StartupCondition(130, null, null),
-                new StartupCondition(160, null, null),
-                new StartupCondition(null, 100, null));
+                new StartupCondition(120, null, null));
 
         actions.add(betaTest);
 
