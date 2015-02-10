@@ -2,8 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -30,6 +30,8 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 
 import java.util.List;
 
@@ -218,6 +220,16 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
                 actionsView.wifiOnOffEnable(true);
                 actionsView.wifiConfigureEnable(false);
+
+                SnackbarManager.show(
+                        Snackbar.with(getActivity())
+                                .text("Single-line snackbar")
+                                .swipeToDismiss(false)
+                                .color(Color.RED)
+                                .animation(false)
+                                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                );
+
                 footerTextView.setVisibility(View.GONE);
             }
         }

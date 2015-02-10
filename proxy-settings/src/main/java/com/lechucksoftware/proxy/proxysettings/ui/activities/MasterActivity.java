@@ -105,21 +105,30 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 
     public void onSectionAttached(int number)
     {
-        switch (number)
+        NavigationAction navigationAction = NavigationAction.NOT_DEFINED;
+        NavDrawerItem item = App.getNavDrawerItems().get(number);
+        if (item != null)
         {
-//            case 0:
-//                mTitle = getString(R.string.app_name);
-//                break;
-            case 0:
+            navigationAction = item.getAction();
+        }
+
+        switch (navigationAction)
+        {
+            case WIFI_NETWORKS:
+            case NOT_DEFINED:
+            default:
                 mTitle = getString(R.string.wifi_access_points);
                 break;
-            case 1:
+
+            case HTTP_PROXIES_LIST:
                 mTitle = getString(R.string.proxies_list);
                 break;
-            case 2:
+
+            case PAC_PROXIES_LIST:
                 mTitle = getString(R.string.pac_list);
                 break;
-            case 3:
+
+            case HELP:
                 mTitle = getString(R.string.help);
                 break;
         }
