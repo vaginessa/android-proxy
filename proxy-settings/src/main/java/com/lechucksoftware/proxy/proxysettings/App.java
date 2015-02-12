@@ -153,15 +153,15 @@ public class App extends Application
         List<NavDrawerItem> map = new ArrayList<>();
 
 //        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
-        map.add(new NavDrawerItem(NavigationAction.WIFI_NETWORKS, ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+"));
-        map.add(new NavDrawerItem(NavigationAction.HTTP_PROXIES_LIST, ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+"));
+        map.add(new NavDrawerItem(NavigationAction.WIFI_NETWORKS, ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, true, "50+"));
+        map.add(new NavDrawerItem(NavigationAction.HTTP_PROXIES_LIST, ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, true, "50+"));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            map.add(new NavDrawerItem(NavigationAction.PAC_PROXIES_LIST, ctx.getString(R.string.pac_list), "", R.drawable.ic_action_file, false, "50+"));
+            map.add(new NavDrawerItem(NavigationAction.PAC_PROXIES_LIST, ctx.getString(R.string.pac_list), "", R.drawable.ic_action_file, true, "50+"));
         }
 
-        map.add(new NavDrawerItem(NavigationAction.HELP, ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+"));
+        map.add(new NavDrawerItem(NavigationAction.HELP, ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help));
 
         if (BuildConfig.DEBUG)
         {

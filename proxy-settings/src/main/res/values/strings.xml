@@ -35,7 +35,7 @@
     <string name="ap_selection_title">Select the Wi-Fi network:</string>
     <string name="connected_to">%1$s …</string>
     <string name="no_proxy_defined">No proxies defined!</string>
-    <string name="enable_wifi_action">Enable Wi-Fi…</string>
+    <string name="enable_wifi_action">Enable Wi-Fi</string>
     <string name="setupap_wifi_action">Configure new Wi-Fi network…</string>
     <string name="connect_to_wifi_action">Connect to %1$s</string>
     <string name="checking_action">Checking configuration</string>
@@ -46,7 +46,7 @@
     <string name="pac_empty_list">No PAC saved</string>
     <string name="tags_empty_list">No tags saved</string>
     <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50] -->
-    <string name="wifi_empty_list_wifi_off">To see available networks, turn Wi-Fi on.</string>
+    <string name="wifi_empty_list_wifi_off">To see available networks, please enable Wi-Fi</string>
     <string name="ap_status_label">Status:</string>
     <string name="ap_security_label">Security:</string>
     <string name="ap_proxy_label">Proxy:</string>

@@ -4,6 +4,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -14,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,10 +28,11 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivit
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 
 import java.util.List;
 
@@ -56,10 +57,10 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     private Loader<List<WiFiApConfig>> loader;
 
     @InjectView(R.id.progress) RelativeLayout progress;
-    @InjectView(R.id.actions_view) ActionsView actionsView;
+//    @InjectView(R.id.actions_view) ActionsView actionsView;
     @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
-    @InjectView(R.id.wifi_ap_footer_textview) TextView footerTextView;
-    @InjectView(R.id.wifi_ap_footer_progress) ProgressBar footerProgress;
+//    @InjectView(R.id.wifi_ap_footer_textview) TextView footerTextView;
+//    @InjectView(R.id.wifi_ap_footer_progress) ProgressBar footerProgress;
 
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
@@ -94,6 +95,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         super.onDestroyView();
 
         ButterKnife.reset(this);
+        SnackbarManager.dismiss();
     }
 
 //    public void onActivityCreated(Bundle savedInstanceState)
@@ -114,11 +116,11 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
         progress.setVisibility(View.VISIBLE);
 
-        actionsView.wifiOnOffEnable(false);
-        actionsView.wifiConfigureEnable(false);
+//        actionsView.wifiOnOffEnable(false);
+//        actionsView.wifiConfigureEnable(false);
 
-        footerTextView.setVisibility(View.GONE);
-        footerProgress.setVisibility(View.GONE);
+//        footerTextView.setVisibility(View.GONE);
+//        footerProgress.setVisibility(View.GONE);
 //        footerTextView.setOnClickListener(new View.OnClickListener()
 //        {
 //            @Override
@@ -144,7 +146,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         if (loader != null)
         {
             loader.forceLoad();
-            footerProgress.setVisibility(View.VISIBLE);
+//            footerProgress.setVisibility(View.VISIBLE);
         }
     }
 
@@ -153,7 +155,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         App.getTraceUtils().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
 
         progress.setVisibility(View.GONE);
-        footerProgress.setVisibility(View.GONE);
+//        footerProgress.setVisibility(View.GONE);
 
         if (Utils.isAirplaneModeOn(getActivity()))
         {
@@ -161,15 +163,15 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText(getActivity().getString(R.string.airplane_mode_message));
 
-            actionsView.wifiConfigureEnable(false);
-            actionsView.wifiOnOffEnable(false);
-            footerTextView.setVisibility(View.GONE);
+//            actionsView.wifiConfigureEnable(false);
+//            actionsView.wifiOnOffEnable(false);
+//            footerTextView.setVisibility(View.GONE);
         }
         else
         {
             if (APL.getWifiManager().isWifiEnabled())
             {
-                actionsView.wifiOnOffEnable(false);
+//                actionsView.wifiOnOffEnable(false);
 
                 if (wiFiApConfigs != null && wiFiApConfigs.size() > 0)
                 {
@@ -179,24 +181,26 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                     emptySection.setVisibility(View.GONE);
                     emptyText.setVisibility(View.GONE);
 
-                    // TODO: Add WifiConfigureEnable if Wi-Fi is enabled, some Wi-Fi are available but no Wi-Fi is active
-                    boolean atLeastOneActive = false;
-                    for (WiFiApConfig config : wiFiApConfigs)
-                    {
-                        if (config.isActive())
-                        {
-                            atLeastOneActive = true;
-                            break;
-                        }
-                    }
+//                    // TODO: Add WifiConfigureEnable if Wi-Fi is enabled, some Wi-Fi are available but no Wi-Fi is active
+//                    boolean atLeastOneActive = false;
+//                    for (WiFiApConfig config : wiFiApConfigs)
+//                    {
+//                        if (config.isActive())
+//                        {
+//                            atLeastOneActive = true;
+//                            break;
+//                        }
+//                    }
 
-                    if (atLeastOneActive)
-                        actionsView.wifiConfigureEnable(false);
-                    else
-                        actionsView.wifiConfigureEnable(true);
+//                    if (!atLeastOneActive)
+//                    {
+//                        actionsView.wifiConfigureEnable(false);
+//                        else
+//                        actionsView.wifiConfigureEnable(true);
+//                    }
 
-                    footerTextView.setVisibility(View.VISIBLE);
-                    footerTextView.setText(getString(R.string.num_wifi_access_points_configured, wiFiApConfigs.size()));
+//                    footerTextView.setVisibility(View.VISIBLE);
+//                    footerTextView.setText(getString(R.string.num_wifi_access_points_configured, wiFiApConfigs.size()));
                 }
                 else
                 {
@@ -205,8 +209,8 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                     emptyText.setVisibility(View.VISIBLE);
                     emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
 
-                    actionsView.wifiConfigureEnable(true);
-                    footerTextView.setVisibility(View.GONE);
+//                    actionsView.wifiConfigureEnable(true);
+//                    footerTextView.setVisibility(View.GONE);
                 }
             }
             else
@@ -217,20 +221,38 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                 emptySection.setVisibility(View.VISIBLE);
                 emptyText.setVisibility(View.VISIBLE);
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
+//
+//                actionsView.wifiOnOffEnable(true);
+//                actionsView.wifiConfigureEnable(false);
 
-                actionsView.wifiOnOffEnable(true);
-                actionsView.wifiConfigureEnable(false);
+                    SnackbarManager.show(
+                            Snackbar.with(getActivity())
+                                    .type(SnackbarType.MULTI_LINE)
+                                    .text(R.string.wifi_empty_list_wifi_off)
+                                    .swipeToDismiss(false)
+                                    .animation(false)
+                                    .color(Color.RED)
+                                    .actionLabel("Enable")
+                                    .actionLabelTypeface(Typeface.DEFAULT_BOLD)
+                                    .actionListener(new ActionClickListener()
+                                    {
+                                        @Override
+                                        public void onActionClicked(Snackbar snackbar)
+                                        {
+                                            try
+                                            {
+                                                APL.enableWifi();
+                                            }
+                                            catch (Exception e)
+                                            {
+                                                Timber.e(e, "Exception during ActionsView enableWifiClickListener action");
+                                            }
+                                        }
+                                    })
+                                    .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                    );
 
-                SnackbarManager.show(
-                        Snackbar.with(getActivity())
-                                .text("Single-line snackbar")
-                                .swipeToDismiss(false)
-                                .color(Color.RED)
-                                .animation(false)
-                                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                );
-
-                footerTextView.setVisibility(View.GONE);
+//                footerTextView.setVisibility(View.GONE);
             }
         }
 
