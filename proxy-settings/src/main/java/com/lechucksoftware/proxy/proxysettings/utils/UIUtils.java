@@ -1,11 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -19,33 +16,23 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.IntDef;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
@@ -173,23 +160,23 @@ public class UIUtils
         switch (i)
         {
             case 1:
-                c = ctx.getResources().getColor(R.color.Holo_Red_Light);
+                c = ctx.getResources().getColor(R.color.red_500);
                 break;
             case 2:
-                c = ctx.getResources().getColor(R.color.Holo_Yellow_Light);
+                c = ctx.getResources().getColor(R.color.yellow_500);
                 break;
             case 3:
-                c = ctx.getResources().getColor(R.color.Holo_Green_Light);
+                c = ctx.getResources().getColor(R.color.green_500);
                 break;
             case 4:
-                c = ctx.getResources().getColor(R.color.Holo_Purple_Light);
+                c = ctx.getResources().getColor(R.color.purple_500);
                 break;
             case 5:
-                c = ctx.getResources().getColor(R.color.Holo_Blue_Dark);
+                c = ctx.getResources().getColor(R.color.blue_500);
                 break;
 
             default:
-                c = ctx.getResources().getColor(R.color.Gray);
+                c = ctx.getResources().getColor(R.color.grey_500);
                 break;
         }
 

@@ -6,7 +6,6 @@
           android:textColor="@android:color/primary_text_dark"
           android:padding="3dp"
           android:textSize="16dp"
-          android:background="@color/Red"
           android:singleLine="true"
           android:lines="1"
           android:ellipsize="end"

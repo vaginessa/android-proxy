@@ -6,7 +6,6 @@
         android:id="@+id/wifi_signal_layout"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:background="@color/Holo_Blue_Dark"
         android:orientation="vertical">
 
     <ImageView
@@ -26,7 +25,6 @@
             android:layout_below="@+id/ap_icon"
             android:layout_centerHorizontal="true"
             android:text="WPA/WPA2"
-            android:textColor="@color/White"
             android:textSize="9sp">
     </TextView>
 </RelativeLayout>

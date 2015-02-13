@@ -89,6 +89,7 @@ public class WifiAp extends LinearLayout
     public void setConfiguration(WiFiApConfig configuration)
     {
         wifiApConfig = configuration;
+
         wifiSignal.setConfiguration(wifiApConfig);
         refreshUI();
     }

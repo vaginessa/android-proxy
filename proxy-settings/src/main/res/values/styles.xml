@@ -6,19 +6,20 @@
         <item name="actionBarStyle">@style/CustomActionBarStyle</item>
 
         <!-- ...and here we setting appcompat’s color theming attrs -->
-        <item name="colorPrimary">@color/Green</item>
-        <item name="colorPrimaryDark">@color/Red</item>
+        <item name="colorPrimary">@color/grey_600</item>
+        <item name="colorPrimaryDark">@color/grey_800</item>
 
         <!-- The rest of your attributes -->
-        <item name="android:windowBackground">@color/background_dark</item>
-        <item name="android:textColorPrimary">@color/White</item>
+        <item name="android:windowBackground">@color/grey_900</item>
+        <item name="android:textColorPrimary">@color/grey_0</item>
+        <item name="android:textColor">@color/grey_0</item>
     </style>
 
     <!-- ActionBar styles -->
     <style name="CustomActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/Grey</item>
+        <item name="android:background">@color/grey_600</item>
         <!-- Support library compatibility -->
-        <item name="background">@color/Grey</item>
+        <item name="background">@color/grey_600</item>
     </style>
 
     <style name="Invisible" parent="@android:style/Theme.Holo.Dialog">

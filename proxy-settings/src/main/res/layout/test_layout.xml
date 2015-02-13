@@ -178,7 +178,6 @@
         android:layout_above="@+id/test_clear"
         android:layout_below="@+id/test_actions"
         android:layout_height="wrap_content"
-        android:background="@color/DarkGrey"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbars="vertical"

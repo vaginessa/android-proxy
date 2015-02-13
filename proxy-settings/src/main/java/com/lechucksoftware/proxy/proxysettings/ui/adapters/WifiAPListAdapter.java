@@ -126,7 +126,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
             }
             else
             {
-                float alpha = 0.7f;
+                float alpha = 0.5f;
                 viewHolder.security.setAlpha(alpha);
                 viewHolder.ssid.setAlpha(alpha);
                 viewHolder.status.setAlpha(alpha);

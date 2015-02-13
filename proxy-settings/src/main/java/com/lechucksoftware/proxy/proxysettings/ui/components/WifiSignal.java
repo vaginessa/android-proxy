@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
@@ -27,7 +28,11 @@ public class WifiSignal extends LinearLayout
     private TextView securityTextView;
 
     private String text;
+    private boolean showSecurityText;
+
     private WiFiApConfig configuration;
+    private String securityString;
+
 
     public WifiSignal(Context context, AttributeSet attrs)
     {
@@ -54,6 +59,7 @@ public class WifiSignal extends LinearLayout
         try
         {
             text = a.getString(R.styleable.WifiSignal_text);
+            showSecurityText = a.getBoolean(R.styleable.WifiSignal_showSecurityText, true);
         }
         finally
         {
@@ -63,20 +69,23 @@ public class WifiSignal extends LinearLayout
 
     private void refreshUI()
     {
-        String sec = ProxyUtils.getSecurityString(configuration, getContext(), true);
-        if (!TextUtils.isEmpty(sec))
+        securityString = ProxyUtils.getSecurityString(configuration, getContext(), true);
+
+        if (!TextUtils.isEmpty(securityString))
         {
-            securityTextView.setText(sec);
+            securityTextView.setText(securityString);
         }
         else
         {
             securityTextView.setText("");
         }
 
+        securityTextView.setVisibility(UIUtils.booleanToVisibility(showSecurityText));
+
         if (configuration.getLevel() == -1)
         {
             iconImageView.setImageResource(R.drawable.ic_action_nowifi);
-            layout.setBackgroundResource(R.color.DarkGrey);
+            layout.setBackgroundResource(R.color.grey_600);
         }
         else
         {
@@ -86,11 +95,11 @@ public class WifiSignal extends LinearLayout
 
             if (configuration.isActive())
             {
-                layout.setBackgroundResource(R.color.Holo_Blue_Dark);
+                layout.setBackgroundResource(R.color.blue_500);
             }
             else
             {
-                layout.setBackgroundResource(R.color.Holo_Green_Dark);
+                layout.setBackgroundResource(R.color.green_500);
             }
         }
     }

@@ -29,7 +29,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList;
 import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
-import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
+import com.lechucksoftware.proxy.proxysettings.ui.components.WifiAp;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
@@ -55,7 +55,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     private WiFiApConfig selectedWiFiAP;
 //    private ProxyEntity selectedProxy;
 
-    @InjectView(R.id.wifi_signal) WifiSignal wifiSignal;
+    @InjectView(R.id.wifi_ap_header) WifiAp wifiApHeader;
+
     @InjectView(R.id.wifi_name) TextView wifiName;
     @InjectView(R.id.wifi_layout) ViewGroup wifiLayout;
     @InjectView(R.id.wifi_proxy_switch) Switch proxySwitch;
@@ -218,23 +219,24 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
         if (selectedWiFiAP.getLevel() == -1)
         {
-            wifiLayout.setBackgroundResource(R.color.DarkGrey);
+            wifiLayout.setBackgroundResource(R.color.grey_600);
         }
         else
         {
             if (selectedWiFiAP.isActive())
             {
-                wifiLayout.setBackgroundResource(R.color.Holo_Blue_Dark);
+                wifiLayout.setBackgroundResource(R.color.blue_500);
             }
             else
             {
-                wifiLayout.setBackgroundResource(R.color.Holo_Green_Dark);
+                wifiLayout.setBackgroundResource(R.color.green_500);
             }
         }
 
         wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
         //        wifiStatus.setText(selectedWiFiAP.getProxyStatusString());
-        wifiSignal.setConfiguration(selectedWiFiAP);
+
+        wifiApHeader.setConfiguration(selectedWiFiAP);
 
         refreshingUI = false;
     }
