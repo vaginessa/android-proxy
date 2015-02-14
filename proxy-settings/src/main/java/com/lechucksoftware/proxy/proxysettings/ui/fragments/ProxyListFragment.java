@@ -290,15 +290,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             i.putExtra(Constants.SELECTED_PROXY_CONF_ARG, proxy);
             getActivity().setResult(ActionBarActivity.RESULT_OK, i);
 
-//            wiFiApConfig.setProxySetting(ProxySetting.STATIC);
-//            wiFiApConfig.setProxyHost(proxy.getHost());
-//            wiFiApConfig.setProxyPort(proxy.getPort());
-//            wiFiApConfig.setProxyExclusionString(proxy.getExclusion());
-//            wiFiApConfig.writeConfigurationToDevice();
-//
-//            AsyncSaveWiFiApConfig asyncSaveWiFiApConfig = new AsyncSaveWiFiApConfig(this, wiFiApConfig);
-//            asyncSaveWiFiApConfig.execute();
-
             getActivity().finish();
         }
         catch (Exception e)

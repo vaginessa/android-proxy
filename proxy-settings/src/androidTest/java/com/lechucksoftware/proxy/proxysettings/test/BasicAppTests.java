@@ -35,10 +35,10 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
 
         openNavigationDrawer();
 
-        assertTrue(solo.waitForText(getActivity().getString(R.string.proxies_list)));
-        solo.clickOnText(getActivity().getString(R.string.proxies_list));
+        assertTrue(solo.waitForText(getActivity().getString(R.string.static_proxies)));
+        solo.clickOnText(getActivity().getString(R.string.static_proxies));
 
-        assertTrue(solo.waitForText(getActivity().getString(R.string.proxies_list)));
+        assertTrue(solo.waitForText(getActivity().getString(R.string.static_proxies)));
 
         solo.clickOnActionBarItem(R.id.menu_add_new_proxy);
 

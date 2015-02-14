@@ -121,11 +121,11 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
                 break;
 
             case HTTP_PROXIES_LIST:
-                mTitle = getString(R.string.proxies_list);
+                mTitle = getString(R.string.static_proxies);
                 break;
 
             case PAC_PROXIES_LIST:
-                mTitle = getString(R.string.pac_list);
+                mTitle = getString(R.string.pac_proxies);
                 break;
 
             case HELP:

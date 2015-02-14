@@ -366,7 +366,6 @@
     <string name="saved_n_proxies">Saved %1$d Proxies</string>
     <string name="save">Save</string>
     <string name="undo">undo</string>
-    <string name="proxy_list">Proxies list</string>
     <string name="add_new_proxy">Add new proxy</string>
     <string name="select_proxy_clickable">Select a Proxy ...</string>
     <string name="select_proxy">Select a Proxy</string>
@@ -413,8 +412,7 @@
     <string name="num_wifi_access_points_configured">%1$d Wi-Fi networks configured</string>
     <string name="num_proxies_configured">%1$d proxies saved</string>
     <string name="delete">Delete</string>
-    <string name="proxies_list">Proxies list</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="static_proxies">STATIC proxies</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
@@ -426,15 +424,15 @@
     <string name="create_new_proxy">Create new proxy</string>
     <string name="desc_list_item_icon">Drawer item icon</string>
     <string name="home">Home</string>
-    <string name="edit_proxy">Edit proxy</string>
+    <string name="edit_proxy">Edit STATIC proxy</string>
     <string name="edit_wifi_ap">Edit Wi-Fi</string>
-    <string name="proxy_deleted">Proxy deleted</string>
-    <string name="proxy_saved">Proxy saved</string>
+    <string name="proxy_deleted">STATIC proxy deleted</string>
+    <string name="proxy_saved">STATIC proxy saved</string>
     <string name="proxy_in_use_cannot_delete">Can not delete a Proxy used by one or more of the configured Wi-Fi networks</string>
-    <string name="pac_list">PAC list</string>
-    <string name="pac_deleted">Pac deleted</string>
-    <string name="pac_saved">Pac saved</string>
-    <string name="add_new_pac">Add new PAC</string>
-    <string name="edit_pac">Edit PAC</string>
-    <string name="create_new_pac">Create new PAC</string>
+    <string name="pac_proxies">PAC proxies</string>
+    <string name="pac_deleted">PAC proxy deleted</string>
+    <string name="pac_saved">PAC proxy saved</string>
+    <string name="add_new_pac">Add PAC proxy</string>
+    <string name="edit_pac">Edit PAC proxy</string>
+    <string name="create_new_pac">Create PAC proxy</string>
 </resources>
