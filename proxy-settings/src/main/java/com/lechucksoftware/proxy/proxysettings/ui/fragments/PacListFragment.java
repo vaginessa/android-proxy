@@ -60,7 +60,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
 
-    @Optional @InjectView(R.id.proxy_footer_textview) TextView footerTextView; // Footer not displayed into dialog
+//    @Optional @InjectView(R.id.proxy_footer_textview) TextView footerTextView; // Footer not displayed into dialog
     @Optional @InjectView(R.id.dialog_cancel) Button cancelDialogButton; // Cancel not displayed into full fragment
 
     private FragmentMode fragmentMode;
@@ -160,7 +160,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             }
         });
 
-        footerTextView.setVisibility(View.GONE);
+//        footerTextView.setVisibility(View.GONE);
 
         loader = getLoaderManager().initLoader(LOADER_PACDB, new Bundle(), this);
         loader.forceLoad();
@@ -210,8 +210,8 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             emptySection.setVisibility(View.GONE);
             emptyText.setVisibility(View.GONE);
 
-            footerTextView.setVisibility(View.VISIBLE);
-            footerTextView.setText(getString(R.string.num_proxies_configured, dbPacs.size()));
+//            footerTextView.setVisibility(View.VISIBLE);
+//            footerTextView.setText(getString(R.string.num_proxies_configured, dbPacs.size()));
         }
         else
         {
@@ -221,7 +221,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             emptyText.setText(getResources().getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
 
-            footerTextView.setVisibility(View.GONE);
+//            footerTextView.setVisibility(View.GONE);
         }
 
         progress.setVisibility(View.GONE);

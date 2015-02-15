@@ -30,7 +30,7 @@
                 app:hint="@string/proxy_url_hint"
                 app:readonly="false"
                 app:fullsize="true"
-                app:value=""/>
+                app:if_value=""/>
 
     </LinearLayout>
 

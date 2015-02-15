@@ -367,7 +367,7 @@
     <string name="save">Save</string>
     <string name="undo">undo</string>
     <string name="add_new_proxy">Add new proxy</string>
-    <string name="select_proxy_clickable">Select a Proxy ...</string>
+    <string name="select_proxy_clickable">Select a Proxy</string>
     <string name="select_proxy">Select a Proxy</string>
     <string name="already_used_proxy_warning">This configuration is used by one or more Wi-Fi networks</string>
     <string name="duplicated_proxy_warning">Already defined one or more configuration with same values</string>
@@ -421,7 +421,7 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_master">MasterActivity</string>
-    <string name="create_new_proxy">Create new proxy</string>
+    <string name="create_new_proxy">Create STATIC proxy</string>
     <string name="desc_list_item_icon">Drawer item icon</string>
     <string name="home">Home</string>
     <string name="edit_proxy">Edit STATIC proxy</string>

@@ -60,7 +60,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
 
-    @Optional @InjectView(R.id.proxy_footer_textview) TextView footerTextView; // Footer not displayed into dialog
+//    @Optional @InjectView(R.id.proxy_footer_textview) TextView footerTextView; // Footer not displayed into dialog
     @Optional @InjectView(R.id.dialog_cancel) Button cancelDialogButton; // Cancel not displayed into full fragment
 
     private FragmentMode fragmentMode;
@@ -171,7 +171,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             }
         });
 
-        footerTextView.setVisibility(View.GONE);
+//        footerTextView.setVisibility(View.GONE);
 
         loader = getLoaderManager().initLoader(LOADER_PROXYDB, new Bundle(), this);
         loader.forceLoad();
@@ -221,8 +221,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             emptySection.setVisibility(View.GONE);
             emptyText.setVisibility(View.GONE);
 
-            footerTextView.setVisibility(View.VISIBLE);
-            footerTextView.setText(getString(R.string.num_proxies_configured, dbProxies.size()));
+//            footerTextView.setVisibility(View.VISIBLE);
+//            footerTextView.setText(getString(R.string.num_proxies_configured, dbProxies.size()));
         }
         else
         {
@@ -232,7 +232,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             emptyText.setText(getResources().getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
 
-            footerTextView.setVisibility(View.GONE);
+//            footerTextView.setVisibility(View.GONE);
         }
 
         progress.setVisibility(View.GONE);

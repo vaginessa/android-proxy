@@ -6,7 +6,6 @@
     <attr name="singleLine" format="boolean"/>
     <attr name="titleSize" format="dimension"/>
     <attr name="textSize" format="dimension"/>
-    <attr name="value" format="string"/>
     <attr name="maxLength" format="integer" min="0" />
 
     <declare-styleable name="FlowLayout">
@@ -35,7 +34,7 @@
         <attr name="titleSize"/>
         <attr name="textSize"/>
         <attr name="maxLength"/>
-        <attr name="value"/>
+        <attr name="if_value" format="string"/>
         <attr name="inputType" format="enum">
             <enum name="string" value="0"/>
             <enum name="numeric" value="1"/>
@@ -43,7 +42,7 @@
     </declare-styleable>
     <declare-styleable name="InputFieldExclusion">
         <attr name="title"/>
-        <attr name="value"/>
+        <attr name="ife_value" format="string"/>
         <attr name="singleLine"/>
         <attr name="readonly"/>
         <attr name="fullsize"/>
@@ -52,7 +51,7 @@
     </declare-styleable>
     <declare-styleable name="InputFieldTags">
         <attr name="title"/>
-        <attr name="value"/>
+        <attr name="ift_value" format="string"/>
         <attr name="hint"/>
         <attr name="fullsize"/>
         <attr name="readonly"/>

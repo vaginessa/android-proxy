@@ -95,11 +95,11 @@ public class NavDrawFragment extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
+        mDrawerListView = (ListView) view.findViewById(R.id.navigation_drawer_listview);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -110,10 +110,9 @@ public class NavDrawFragment extends Fragment
         });
 
         mDrawerListView.setAdapter(new NavDrawerListAdapter(getActivity(), App.getNavDrawerItems()));
-
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
-        return mDrawerListView;
+        return view;
     }
 
     public boolean isDrawerOpen()

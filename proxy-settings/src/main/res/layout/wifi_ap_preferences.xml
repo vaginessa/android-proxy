@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -28,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp">
 
-                <Switch
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/wifi_proxy_switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -40,17 +41,20 @@
                     android:background="?android:attr/listChoiceBackgroundIndicator"
                     />
 
-                <Button
+                <info.hoang8f.widget.FButton
                     android:id="@+id/proxy_selector"
+                    app:buttonColor="@color/red_500"
+                    app:shadowColor="@color/red_900"
+                    app:shadowEnabled="true"
+                    app:shadowHeight="3dp"
+                    app:cornerRadius="2dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="7"
-                    android:paddingRight="4dp"
-                    android:paddingLeft="12dp"
-                    android:layout_marginRight="0dp"
-                    android:text="@string/select_proxy_clickable"
-                    android:textSize="18sp"
-                    style="@android:style/Widget.Holo.Spinner"/>
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_proxy_clickable"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -62,18 +66,15 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical"
-                    android:padding="10dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:id="@+id/proxy_config_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
                         android:layout_marginBottom="20dp"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/abc_text_size_title_material"
                         android:textColor="@android:color/secondary_text_dark"
-
                         android:text="PROXY CONFIGURATION"/>
 
                     <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
@@ -83,14 +84,12 @@
                         android:layout_below="@+id/proxy_config_title"
                         android:paddingTop="2dp"
                         android:paddingBottom="2dp"
-                        android:paddingLeft="12dp"
                         android:background="?android:attr/listChoiceBackgroundIndicator"
                         app:title="Type"
                         app:readonly="true"
                         app:fullsize="true"
                         app:singleLine="true"
-
-                        app:value=""/>
+                        app:if_value=""/>
 
                     <include layout="@layout/separator"/>
 
@@ -110,15 +109,13 @@
                             android:layout_height="wrap_content"
                             android:paddingTop="2dp"
                             android:paddingBottom="2dp"
-                            android:paddingLeft="12dp"
                             android:background="?android:attr/listChoiceBackgroundIndicator"
                             app:title="Host"
                             app:hint="@string/proxy_hostname_hint"
                             app:readonly="true"
                             app:fullsize="true"
                             app:singleLine="true"
-
-                            app:value=""/>
+                            app:if_value=""/>
 
                         <include layout="@layout/separator"/>
 
@@ -128,7 +125,6 @@
                             android:layout_height="wrap_content"
                             android:paddingTop="2dp"
                             android:paddingBottom="2dp"
-                            android:paddingLeft="12dp"
                             android:background="?android:attr/listChoiceBackgroundIndicator"
                             app:title="Port"
                             app:hint="@string/proxy_port_hint"
@@ -136,7 +132,7 @@
                             app:readonly="true"
                             app:fullsize="true"
                             app:singleLine="true"
-                            app:value=""/>
+                            app:if_value=""/>
 
                         <include layout="@layout/separator"/>
 
@@ -146,14 +142,13 @@
                             android:layout_height="wrap_content"
                             android:paddingTop="2dp"
                             android:paddingBottom="2dp"
-                            android:paddingLeft="12dp"
                             android:background="?android:attr/listChoiceBackgroundIndicator"
                             app:title="Bypass"
                             app:hint="@string/proxy_exclusionlist_hint"
                             app:readonly="true"
                             app:fullsize="true"
                             app:singleLine="true"
-                            app:value=""/>
+                            app:if_value=""/>
 
                         <!--<include layout="@layout/separator.xml"/>-->
 
@@ -194,23 +189,23 @@
                             app:fullsize="true"
                             app:singleLine="true"
 
-                            app:value=""/>
+                            app:if_value=""/>
 
                     </LinearLayout>
 
                     <!--<ImageButton-->
-                        <!--style="?android:actionButtonStyle"-->
-                        <!--android:layout_alignParentRight="true"-->
-                        <!--android:layout_width="40dp"-->
-                        <!--android:layout_height="48dp"-->
-                        <!--android:scaleType="centerInside"-->
-                        <!--android:layout_gravity="right"-->
-                        <!--android:paddingRight="8dp"-->
-                        <!--android:paddingLeft="2dp"-->
-                        <!--android:paddingTop="5dp"-->
-                        <!--android:paddingBottom="8dp"-->
-                        <!--android:id="@+id/edit_proxy_button"-->
-                        <!--android:src="@drawable/ic_action_core_overflow"/>-->
+                    <!--style="?android:actionButtonStyle"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:layout_gravity="right"-->
+                    <!--android:paddingRight="8dp"-->
+                    <!--android:paddingLeft="2dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:paddingBottom="8dp"-->
+                    <!--android:id="@+id/edit_proxy_button"-->
+                    <!--android:src="@drawable/ic_action_core_overflow"/>-->
 
                 </LinearLayout>
             </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,9 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -44,6 +45,7 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import info.hoang8f.widget.FButton;
 import timber.log.Timber;
 
 
@@ -59,8 +61,8 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
     @InjectView(R.id.wifi_name) TextView wifiName;
     @InjectView(R.id.wifi_layout) ViewGroup wifiLayout;
-    @InjectView(R.id.wifi_proxy_switch) Switch proxySwitch;
-    @InjectView(R.id.proxy_selector) TextView proxySelector;
+    @InjectView(R.id.wifi_proxy_switch) SwitchCompat proxySwitch;
+    @InjectView(R.id.proxy_selector) FButton proxySelector;
     @InjectView(R.id.proxy_type) InputField proxyType;
     @InjectView(R.id.proxy_host) InputField proxyHost;
     @InjectView(R.id.proxy_port) InputField proxyPort;
