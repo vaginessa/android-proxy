@@ -41,7 +41,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
 
-        mNavigationDrawerFragment = (NavDrawFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment = (NavDrawFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         // Set up the drawer.
@@ -58,7 +58,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         FragmentManager fragmentManager = this.getSupportFragmentManager();
 
         NavigationAction navigationAction = NavigationAction.NOT_DEFINED;
-        NavDrawerItem item = App.getNavDrawerItems().get(position);
+        NavDrawerItem item = NavDrawFragment.getNavDrawerItems().get(position);
         if (item != null)
         {
             navigationAction = item.getAction();
@@ -106,7 +106,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
     public void onSectionAttached(int number)
     {
         NavigationAction navigationAction = NavigationAction.NOT_DEFINED;
-        NavDrawerItem item = App.getNavDrawerItems().get(number);
+        NavDrawerItem item = NavDrawFragment.getNavDrawerItems().get(number);
         if (item != null)
         {
             navigationAction = item.getAction();

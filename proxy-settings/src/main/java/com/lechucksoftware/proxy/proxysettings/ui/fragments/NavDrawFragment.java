@@ -1,12 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,16 +23,28 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.WifiNetworksManager;
+import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.NavDrawerListAdapter;
+import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter;
+import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavDrawFragment extends Fragment
+public class NavDrawFragment extends Fragment implements IBaseFragment
 {
+    private static NavDrawFragment instance;
 
     /**
      * Remember the position of the selected item.
@@ -43,6 +56,7 @@ public class NavDrawFragment extends Fragment
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+
 
     /**
      * A pointer to the current callbacks instance (the Activity).
@@ -61,9 +75,23 @@ public class NavDrawFragment extends Fragment
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private NavDrawerListAdapter navDrawerItemsAdapter;
+
+    public static List<NavDrawerItem> getNavDrawerItems()
+    {
+        if (instance.navDrawerItems == null)
+        {
+            instance.navDrawerItems = instance.getUpdatedNavDrawerItems();
+        }
+
+        return instance.navDrawerItems;
+    }
+
+    private List<NavDrawerItem> navDrawerItems;
 
     public NavDrawFragment()
     {
+        instance = this;
     }
 
     @Override
@@ -105,14 +133,79 @@ public class NavDrawFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+
                 selectItem(position);
+
             }
         });
 
-        mDrawerListView.setAdapter(new NavDrawerListAdapter(getActivity(), App.getNavDrawerItems()));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
 
         return view;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        navDrawerItems = getUpdatedNavDrawerItems();
+
+        if (navDrawerItemsAdapter == null)
+        {
+            navDrawerItemsAdapter = new NavDrawerListAdapter(getActivity());
+        }
+
+        navDrawerItemsAdapter.setData(navDrawerItems);
+
+        mDrawerListView.setAdapter(navDrawerItemsAdapter);
+        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+    }
+
+    @Override
+    public void refreshUI()
+    {
+        navDrawerItems = getUpdatedNavDrawerItems();
+        navDrawerItemsAdapter.setData(navDrawerItems);
+    }
+
+    private List<NavDrawerItem> getUpdatedNavDrawerItems()
+    {
+        List<NavDrawerItem> map = new ArrayList<>();
+
+//        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
+
+        long wifiNetworksNum = 0;
+        long staticProxyNum = 0;
+        long pacProxyNum = 0;
+
+        try
+        {
+            wifiNetworksNum = App.getDBManager().getWifiApCount();
+            staticProxyNum = App.getDBManager().getProxiesCount();
+            staticProxyNum = App.getDBManager().getPacCount();
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Exception retrieving NavDrawersItems counters");
+        }
+
+        map.add(new NavDrawerItem(NavigationAction.WIFI_NETWORKS, getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_action_light, true, String.valueOf(wifiNetworksNum)));
+        map.add(new NavDrawerItem(NavigationAction.HTTP_PROXIES_LIST, getString(R.string.static_proxies), "", R.drawable.ic_action_proxy_light, true, String.valueOf(staticProxyNum)));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            map.add(new NavDrawerItem(NavigationAction.PAC_PROXIES_LIST, getString(R.string.pac_proxies), "", R.drawable.ic_action_pac_light, true, String.valueOf(pacProxyNum)));
+        }
+
+        map.add(new NavDrawerItem(NavigationAction.HELP, getString(R.string.help), "", R.drawable.ic_action_action_help_light));
+
+        if (BuildConfig.DEBUG)
+        {
+            map.add(new NavDrawerItem(NavigationAction.DEVELOPER, getString(R.string.developers_options), "", R.drawable.ic_action_developer_light));
+        }
+
+        return map;
     }
 
     public boolean isDrawerOpen()

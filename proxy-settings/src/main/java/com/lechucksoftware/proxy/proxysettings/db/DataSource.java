@@ -1056,6 +1056,32 @@ public class DataSource
         return result;
     }
 
+    public long getPacCount()
+    {
+        long result = 0;
+
+        try
+        {
+            SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+            String query = "SELECT COUNT(*)"
+                    + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC;
+
+            Cursor cursor = database.rawQuery(query, null);
+            cursor.moveToFirst();
+            result = cursor.getLong(0);
+
+            // Make sure to close the cursor
+            cursor.close();
+        }
+        catch (SQLiteException e)
+        {
+            Timber.e(e,"Exception during getProxiesCount");
+        }
+
+        return result;
+    }
+
     public long getWifiApCount()
     {
         long result = 0;

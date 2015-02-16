@@ -9,6 +9,8 @@ import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 
+import java.util.List;
+
 import timber.log.Timber;
 
 /**
@@ -97,11 +99,14 @@ public class BaseActivity extends ActionBarActivity
     {
         try
         {
-            Fragment containedFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-            if (containedFragment instanceof IBaseFragment)
+            List<Fragment> fragments = getSupportFragmentManager().getFragments(); //findFragmentById(R.id.fragment_container);
+            for (Fragment f : fragments)
             {
-                IBaseFragment f = (IBaseFragment) containedFragment;
-                f.refreshUI();
+                if (f instanceof IBaseFragment)
+                {
+                    IBaseFragment ibf = (IBaseFragment) f;
+                    ibf.refreshUI();
+                }
             }
         }
         catch (Exception e)

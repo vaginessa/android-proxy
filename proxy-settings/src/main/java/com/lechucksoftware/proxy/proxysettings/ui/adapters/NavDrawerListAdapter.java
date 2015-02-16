@@ -24,10 +24,15 @@ public class NavDrawerListAdapter extends BaseAdapter
     private Context context;
     private List<NavDrawerItem> navDrawerItems;
 
-    public NavDrawerListAdapter(Context context, List<NavDrawerItem> navDrawerItems)
+    public NavDrawerListAdapter(Context context)
     {
         this.context = context;
-        this.navDrawerItems = navDrawerItems;
+    }
+
+    public void setData(List<NavDrawerItem> items)
+    {
+        this.navDrawerItems = items;
+        notifyDataSetChanged();
     }
 
     @Override

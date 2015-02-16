@@ -37,8 +37,6 @@ public class App extends Application
     private TraceUtils traceUtils;
     private EventsReporting eventsReporter;
 
-    private static List<NavDrawerItem> navDrawerItems;
-
     public static int getAppMajorVersion()
     {
         return BuildConfig.VERSION_CODE / 100;
@@ -47,11 +45,6 @@ public class App extends Application
     public static int getAppMinorVersion()
     {
         return BuildConfig.VERSION_CODE % 100;
-    }
-
-    public static List<NavDrawerItem> getNavDrawerItems()
-    {
-        return navDrawerItems;
     }
 
     @Override
@@ -78,8 +71,6 @@ public class App extends Application
         activeMarket = Utils.getInstallerMarket(App.this);
 
         demoMode = false;
-
-        navDrawerItems = initNavDrawerItems(App.this);
 
         // Start ASAP a Wi-Fi scan
 //        APL.getWifiManager().startScan();
@@ -147,30 +138,6 @@ public class App extends Application
 
         return getInstance().dbManager;
     }
-
-    public static List<NavDrawerItem> initNavDrawerItems(Context ctx)
-    {
-        List<NavDrawerItem> map = new ArrayList<>();
-
-//        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
-        map.add(new NavDrawerItem(NavigationAction.WIFI_NETWORKS, ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_action_light, true, "50+"));
-        map.add(new NavDrawerItem(NavigationAction.HTTP_PROXIES_LIST, ctx.getString(R.string.static_proxies), "", R.drawable.ic_action_proxy_light, true, "50+"));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            map.add(new NavDrawerItem(NavigationAction.PAC_PROXIES_LIST, ctx.getString(R.string.pac_proxies), "", R.drawable.ic_action_pac_light, true, "50+"));
-        }
-
-        map.add(new NavDrawerItem(NavigationAction.HELP, ctx.getString(R.string.help), "", R.drawable.ic_action_action_help_light));
-
-        if (BuildConfig.DEBUG)
-        {
-            map.add(new NavDrawerItem(NavigationAction.DEVELOPER, ctx.getString(R.string.developers_options), "", R.drawable.ic_action_developer_light));
-        }
-
-        return map;
-    }
-
 //    public static CacheManager getCacheManager()
 //    {
 //        if (getInstance().cacheManager == null)

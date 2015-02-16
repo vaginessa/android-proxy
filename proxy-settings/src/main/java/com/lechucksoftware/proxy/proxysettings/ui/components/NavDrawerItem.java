@@ -92,5 +92,31 @@ public class NavDrawerItem
     {
         this.isCounterVisible = isCounterVisible;
     }
+
+    @Override
+    public boolean equals(Object another)
+    {
+        Boolean result = false;
+
+        if ((another instanceof NavDrawerItem))
+        {
+            NavDrawerItem anotherItem = (NavDrawerItem) another;
+
+            if (anotherItem.getAction().equals(this.action)
+                    && anotherItem.getCount() == this.count
+                    && anotherItem.getTag() == this.tag
+                    && anotherItem.getTitle() == this.title
+                    && anotherItem.getIcon() == this.icon)
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+        }
+
+        return result;
+    }
 }
 
