@@ -3,7 +3,6 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,10 +24,8 @@ import android.widget.ListView;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.WifiNetworksManager;
 import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.NavDrawerListAdapter;
-import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
@@ -139,8 +136,6 @@ public class NavDrawFragment extends Fragment implements IBaseFragment
             }
         });
 
-
-
         return view;
     }
 
@@ -149,14 +144,7 @@ public class NavDrawFragment extends Fragment implements IBaseFragment
     {
         super.onResume();
 
-        navDrawerItems = getUpdatedNavDrawerItems();
-
-        if (navDrawerItemsAdapter == null)
-        {
-            navDrawerItemsAdapter = new NavDrawerListAdapter(getActivity());
-        }
-
-        navDrawerItemsAdapter.setData(navDrawerItems);
+        refreshData();
 
         mDrawerListView.setAdapter(navDrawerItemsAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -165,6 +153,16 @@ public class NavDrawFragment extends Fragment implements IBaseFragment
     @Override
     public void refreshUI()
     {
+        refreshData();
+    }
+
+    public void refreshData()
+    {
+        if (navDrawerItemsAdapter == null)
+        {
+            navDrawerItemsAdapter = new NavDrawerListAdapter(getActivity());
+        }
+
         navDrawerItems = getUpdatedNavDrawerItems();
         navDrawerItemsAdapter.setData(navDrawerItems);
     }
@@ -183,7 +181,7 @@ public class NavDrawFragment extends Fragment implements IBaseFragment
         {
             wifiNetworksNum = App.getDBManager().getWifiApCount();
             staticProxyNum = App.getDBManager().getProxiesCount();
-            staticProxyNum = App.getDBManager().getPacCount();
+            pacProxyNum = App.getDBManager().getPacCount();
         }
         catch (Exception e)
         {
