@@ -42,6 +42,18 @@
         <item name="background">@color/grey_600</item>
     </style>
 
+    <style name="RedButtonStyle" parent="android:Widget.Button">
+        <item name="android:background">@drawable/material_red_button</item>
+        <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
+        <item name="android:textColor">@color/grey_0</item>
+    </style>
+
+    <style name="GreenButtonStyle" parent="android:Widget.Button">
+        <item name="android:background">@drawable/material_red_button</item>
+        <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
+        <item name="android:textColor">@color/grey_0</item>
+    </style>
+
     <style name="Invisible" parent="@android:style/Theme.Holo.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>

@@ -45,7 +45,6 @@ import be.shouldit.proxy.lib.utils.ProxyUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import info.hoang8f.widget.FButton;
 import timber.log.Timber;
 
 
@@ -62,7 +61,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @InjectView(R.id.wifi_name) TextView wifiName;
     @InjectView(R.id.wifi_layout) ViewGroup wifiLayout;
     @InjectView(R.id.wifi_proxy_switch) SwitchCompat proxySwitch;
-    @InjectView(R.id.proxy_selector) FButton proxySelector;
+    @InjectView(R.id.proxy_selector) Button proxySelector;
     @InjectView(R.id.proxy_type) InputField proxyType;
     @InjectView(R.id.proxy_host) InputField proxyHost;
     @InjectView(R.id.proxy_port) InputField proxyPort;
