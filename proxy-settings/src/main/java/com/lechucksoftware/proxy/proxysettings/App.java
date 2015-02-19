@@ -1,23 +1,16 @@
 package com.lechucksoftware.proxy.proxysettings;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.db.DataSource;
 import com.lechucksoftware.proxy.proxysettings.logging.CustomCrashlyticsTree;
-import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.EventsReporting;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.logging.TraceUtils;
@@ -33,6 +26,8 @@ public class App extends Application
     private DataSource dbManager;
     public AndroidMarket activeMarket;
     private CacheManager cacheManager;
+    private NavigationManager navigationManager;
+
     public Boolean demoMode;
     private TraceUtils traceUtils;
     private EventsReporting eventsReporter;
@@ -67,6 +62,7 @@ public class App extends Application
         wifiNetworksManager = new WifiNetworksManager(App.this);
         dbManager = new DataSource(App.this);
         cacheManager = new CacheManager(App.this);
+        navigationManager = new NavigationManager(App.this);
 
         activeMarket = Utils.getInstallerMarket(App.this);
 
@@ -137,6 +133,17 @@ public class App extends Application
         }
 
         return getInstance().dbManager;
+    }
+
+    public static NavigationManager getNavigationManager()
+    {
+        if (getInstance().navigationManager == null)
+        {
+            Timber.e(new Exception(),"Cannot find valid instance of NavigationManager, trying to instanciate a new one");
+            getInstance().navigationManager = new NavigationManager(getInstance());
+        }
+
+        return getInstance().navigationManager;
     }
 //    public static CacheManager getCacheManager()
 //    {

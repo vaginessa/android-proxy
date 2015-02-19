@@ -13,7 +13,6 @@ import com.lechucksoftware.proxy.proxysettings.constants.NavigationAction;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.HelpPrefsFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment;
@@ -56,13 +55,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
     {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-
-        NavigationAction navigationAction = NavigationAction.NOT_DEFINED;
-        NavDrawerItem item = NavDrawFragment.getNavDrawerItems().get(position);
-        if (item != null)
-        {
-            navigationAction = item.getAction();
-        }
+        NavigationAction navigationAction = App.getNavigationManager().getAction(position);
 
         switch (navigationAction)
         {
@@ -105,12 +98,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 
     public void onSectionAttached(int number)
     {
-        NavigationAction navigationAction = NavigationAction.NOT_DEFINED;
-        NavDrawerItem item = NavDrawFragment.getNavDrawerItems().get(number);
-        if (item != null)
-        {
-            navigationAction = item.getAction();
-        }
+        NavigationAction navigationAction = App.getNavigationManager().getAction(number);
 
         switch (navigationAction)
         {

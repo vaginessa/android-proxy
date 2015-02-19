@@ -9,27 +9,21 @@ public class NavDrawerItem
 {
     private NavigationAction action;
     private String title;
-    private String tag;
     private int icon;
-    private String count = "0";
+    private int count = 0;
     // boolean to set visibility of the counter
-    private boolean isCounterVisible = false;
+//    private boolean isCounterVisible = false;
 
-    public NavDrawerItem(NavigationAction action, String title, String tag, int icon)
+    public NavDrawerItem(NavigationAction action, String title, int icon)
     {
-        this.action = action;
-        this.title = title;
-        this.tag = tag;
-        this.icon = icon;
+       this(action, title, icon, 0);
     }
 
-    public NavDrawerItem(NavigationAction action, String title, String tag, int icon, boolean isCounterVisible, String count)
+    public NavDrawerItem(NavigationAction action, String title, int icon, int count)
     {
         this.action = action;
         this.title = title;
-        this.tag = tag;
         this.icon = icon;
-        this.isCounterVisible = isCounterVisible;
         this.count = count;
     }
 
@@ -48,34 +42,24 @@ public class NavDrawerItem
         return this.title;
     }
 
-    public String getTag()
-    {
-        return this.tag;
-    }
-
     public int getIcon()
     {
         return this.icon;
     }
 
-    public String getCount()
+    public int getCount()
     {
         return this.count;
     }
 
-    public boolean getCounterVisibility()
-    {
-        return this.isCounterVisible;
-    }
+//    public boolean getCounterVisibility()
+//    {
+//        return this.isCounterVisible;
+//    }
 
     public void setTitle(String title)
     {
         this.title = title;
-    }
-
-    public void setTag(String tag)
-    {
-        this.tag = tag;
     }
 
     public void setIcon(int icon)
@@ -83,15 +67,15 @@ public class NavDrawerItem
         this.icon = icon;
     }
 
-    public void setCount(String count)
+    public void setCount(int count)
     {
         this.count = count;
     }
 
-    public void setCounterVisibility(boolean isCounterVisible)
-    {
-        this.isCounterVisible = isCounterVisible;
-    }
+//    public void setCounterVisibility(boolean isCounterVisible)
+//    {
+//        this.isCounterVisible = isCounterVisible;
+//    }
 
     @Override
     public boolean equals(Object another)
@@ -104,7 +88,6 @@ public class NavDrawerItem
 
             if (anotherItem.getAction().equals(this.action)
                     && anotherItem.getCount() == this.count
-                    && anotherItem.getTag() == this.tag
                     && anotherItem.getTitle() == this.title
                     && anotherItem.getIcon() == this.icon)
             {
