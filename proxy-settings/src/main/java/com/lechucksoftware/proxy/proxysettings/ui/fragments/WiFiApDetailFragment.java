@@ -1,8 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -15,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -57,8 +58,6 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 //    private ProxyEntity selectedProxy;
 
     @InjectView(R.id.wifi_ap_header) WifiAp wifiApHeader;
-
-    @InjectView(R.id.wifi_name) TextView wifiName;
     @InjectView(R.id.wifi_layout) ViewGroup wifiLayout;
     @InjectView(R.id.wifi_proxy_switch) SwitchCompat proxySwitch;
     @InjectView(R.id.proxy_selector) Button proxySelector;
@@ -218,26 +217,32 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     {
         refreshingUI = true;
 
-        if (selectedWiFiAP.getLevel() == -1)
-        {
-            wifiLayout.setBackgroundResource(R.color.grey_600);
-        }
-        else
+        wifiApHeader.setConfiguration(selectedWiFiAP);
+
+        int selectedColor = R.color.grey_600;
+        if (selectedWiFiAP.getLevel() != -1)
         {
             if (selectedWiFiAP.isActive())
             {
-                wifiLayout.setBackgroundResource(R.color.blue_500);
+                selectedColor = R.color.blue_500;
             }
             else
             {
-                wifiLayout.setBackgroundResource(R.color.green_500);
+                selectedColor = R.color.green_500;
             }
         }
 
-        wifiName.setText(ProxyUtils.cleanUpSSID(selectedWiFiAP.getSSID()));
-        //        wifiStatus.setText(selectedWiFiAP.getProxyStatusString());
+        wifiLayout.setBackgroundResource(selectedColor);
 
-        wifiApHeader.setConfiguration(selectedWiFiAP);
+        ActionBarActivity activity = (ActionBarActivity) getActivity();
+        if (activity != null)
+        {
+            ActionBar actionBar = activity.getSupportActionBar();
+            if (actionBar != null)
+            {
+                actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(selectedColor)));
+            }
+        }
 
         refreshingUI = false;
     }

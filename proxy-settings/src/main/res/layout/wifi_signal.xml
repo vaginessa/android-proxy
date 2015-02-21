@@ -25,6 +25,8 @@
             android:layout_below="@+id/ap_icon"
             android:layout_centerHorizontal="true"
             android:text="WPA/WPA2"
-            android:textSize="9sp">
+            android:textSize="9sp"
+            android:visibility="visible">
     </TextView>
+
 </RelativeLayout>

@@ -1,24 +1,33 @@
 package com.lechucksoftware.proxy.proxysettings.ui.components;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by marco on 02/12/13.
  */
 public class WifiAp extends LinearLayout
 {
-    private ViewGroup layout;
     private WiFiApConfig wifiApConfig;
-    private WifiSignal wifiSignal;
+
+    @InjectView(R.id.wifi_name) TextView wifiName;
+//    @InjectView(R.id.wifi_security) TextView wifiSecurity;
+//    @InjectView(R.id.wifi_status) TextView wifiStatus;
+    @InjectView(R.id.wifi_signal) WifiSignal wifiSignal;
 
     public WifiAp(Context context, AttributeSet attrs)
     {
@@ -29,14 +38,9 @@ public class WifiAp extends LinearLayout
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View v = inflater.inflate(R.layout.wifi_ap, this);
-
-        if (inflater != null)
-        {
-            wifiSignal = (WifiSignal) v.findViewById(R.id.wifi_signal);
-//            iconImageView = (ImageView) v.findViewById(R.id.ap_icon);
-//            securityTextView = (TextView) v.findViewById(R.id.ap_security);
-        }
+        ButterKnife.inject(this, v);
     }
+
 
     private void readStyleParameters(Context context, AttributeSet attributeSet)
     {
@@ -54,6 +58,20 @@ public class WifiAp extends LinearLayout
 
     private void refreshUI()
     {
+        wifiName.setText(ProxyUtils.cleanUpSSID(wifiApConfig.getSSID()));
+//        wifiStatus.setText(wifiApConfig.getProxyStatusString());
+
+//        String securityString = ProxyUtils.getSecurityString(wifiApConfig, getContext(), true);
+//
+//        if (!TextUtils.isEmpty(securityString))
+//        {
+//            wifiStatus.setText(getContext().getString(R.string.security,securityString));
+//        }
+//        else
+//        {
+//            wifiStatus.setText("");
+//        }
+
 //        String sec = ProxyUtils.getSecurityString(configuration, getContext(), true);
 //        if (!TextUtils.isEmpty(sec))
 //        {
@@ -89,8 +107,8 @@ public class WifiAp extends LinearLayout
     public void setConfiguration(WiFiApConfig configuration)
     {
         wifiApConfig = configuration;
-
         wifiSignal.setConfiguration(wifiApConfig);
+
         refreshUI();
     }
 }
