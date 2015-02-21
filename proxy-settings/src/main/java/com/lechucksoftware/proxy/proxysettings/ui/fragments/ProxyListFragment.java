@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -30,6 +31,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import butterknife.Optional;
 import timber.log.Timber;
 
@@ -56,6 +59,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
     @InjectView(R.id.progress) RelativeLayout progress;
     @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
+    @InjectView(R.id.add_new_proxy) FloatingActionButton addNewProxyButton;
 
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
@@ -172,6 +176,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         });
 
 //        footerTextView.setVisibility(View.GONE);
+
+        addNewProxyButton.setVisibility(UIUtils.booleanToVisibility(fragmentMode == FragmentMode.FULLSIZE));
 
         loader = getLoaderManager().initLoader(LOADER_PROXYDB, new Bundle(), this);
         loader.forceLoad();
@@ -331,25 +337,18 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
                 // Only show items in the action bar relevant to this screen
                 // if the drawer is not showing. Otherwise, let the drawer
                 // decide what to show in the action bar.
-                inflater.inflate(R.menu.proxy_list, menu);
+                inflater.inflate(R.menu.empty, menu);
                 master.restoreActionBar();
             }
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    @OnClick(R.id.add_new_proxy)
+    public void createNewProxy()
     {
-        switch (item.getItemId())
-        {
-            case R.id.menu_add_new_proxy:
-                Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
-                addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(addNewProxyIntent);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);
+        addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        addNewProxyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(addNewProxyIntent);
     }
 }
