@@ -155,23 +155,19 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         App.getTraceUtils().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
 
         progress.setVisibility(View.GONE);
-//        footerProgress.setVisibility(View.GONE);
 
         if (Utils.isAirplaneModeOn(getActivity()))
         {
             emptySection.setVisibility(View.VISIBLE);
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText(getActivity().getString(R.string.airplane_mode_message));
-
-//            actionsView.wifiConfigureEnable(false);
-//            actionsView.wifiOnOffEnable(false);
-//            footerTextView.setVisibility(View.GONE);
+            listView.setVisibility(View.GONE);
         }
         else
         {
             if (APL.getWifiManager().isWifiEnabled())
             {
-//                actionsView.wifiOnOffEnable(false);
+                SnackbarManager.dismiss();
 
                 if (wiFiApConfigs != null && wiFiApConfigs.size() > 0)
                 {
@@ -180,27 +176,6 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                     listView.setVisibility(View.VISIBLE);
                     emptySection.setVisibility(View.GONE);
                     emptyText.setVisibility(View.GONE);
-
-//                    // TODO: Add WifiConfigureEnable if Wi-Fi is enabled, some Wi-Fi are available but no Wi-Fi is active
-//                    boolean atLeastOneActive = false;
-//                    for (WiFiApConfig config : wiFiApConfigs)
-//                    {
-//                        if (config.isActive())
-//                        {
-//                            atLeastOneActive = true;
-//                            break;
-//                        }
-//                    }
-
-//                    if (!atLeastOneActive)
-//                    {
-//                        actionsView.wifiConfigureEnable(false);
-//                        else
-//                        actionsView.wifiConfigureEnable(true);
-//                    }
-
-//                    footerTextView.setVisibility(View.VISIBLE);
-//                    footerTextView.setText(getString(R.string.num_wifi_access_points_configured, wiFiApConfigs.size()));
                 }
                 else
                 {
@@ -208,55 +183,51 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                     emptySection.setVisibility(View.VISIBLE);
                     emptyText.setVisibility(View.VISIBLE);
                     emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
-
-//                    actionsView.wifiConfigureEnable(true);
-//                    footerTextView.setVisibility(View.GONE);
                 }
             }
             else
             {
                 // Do not display results when Wi-Fi is not enabled
-//            apListAdapter.setData(new ArrayList<WiFiApConfig>());
                 listView.setVisibility(View.GONE);
                 emptySection.setVisibility(View.VISIBLE);
                 emptyText.setVisibility(View.VISIBLE);
                 emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
-//
-//                actionsView.wifiOnOffEnable(true);
-//                actionsView.wifiConfigureEnable(false);
 
-                    SnackbarManager.show(
-                            Snackbar.with(getActivity())
-                                    .type(SnackbarType.MULTI_LINE)
-                                    .text(R.string.wifi_empty_list_wifi_off)
-                                    .swipeToDismiss(false)
-                                    .animation(false)
-                                    .color(Color.RED)
-                                    .actionLabel("Enable")
-                                    .actionLabelTypeface(Typeface.DEFAULT_BOLD)
-                                    .actionListener(new ActionClickListener()
-                                    {
-                                        @Override
-                                        public void onActionClicked(Snackbar snackbar)
-                                        {
-                                            try
-                                            {
-                                                APL.enableWifi();
-                                            }
-                                            catch (Exception e)
-                                            {
-                                                Timber.e(e, "Exception during ActionsView enableWifiClickListener action");
-                                            }
-                                        }
-                                    })
-                                    .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                    );
-
-//                footerTextView.setVisibility(View.GONE);
+                showEnableWifiSnackbar();
             }
         }
 
         App.getTraceUtils().stopTrace(TAG, "refreshLoaderResults", Log.DEBUG);
+    }
+
+    private void showEnableWifiSnackbar()
+    {
+        SnackbarManager.show(
+                Snackbar.with(getActivity())
+                        .type(SnackbarType.MULTI_LINE)
+                        .text(R.string.wifi_empty_list_wifi_off)
+                        .swipeToDismiss(false)
+                        .animation(false)
+                        .color(Color.RED)
+                        .actionLabel("Enable")
+                        .actionLabelTypeface(Typeface.DEFAULT_BOLD)
+                        .actionListener(new ActionClickListener()
+                        {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar)
+                            {
+                                try
+                                {
+                                    APL.enableWifi();
+                                }
+                                catch (Exception e)
+                                {
+                                    Timber.e(e, "Exception during ActionsView enableWifiClickListener action");
+                                }
+                            }
+                        })
+                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+        );
     }
 
     @Override
