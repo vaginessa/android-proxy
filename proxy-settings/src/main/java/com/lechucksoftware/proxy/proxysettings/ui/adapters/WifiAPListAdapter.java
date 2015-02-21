@@ -1,6 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +40,9 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
     {
         TextView ssid;
         TextView status;
-        WifiSignal security;
+        WifiSignal wifiSignal;
         ImageView proxySetting;
+        CardView wifiCard;
     }
 
     public void setData(List<WiFiApConfig> confList)
@@ -102,7 +105,8 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
             viewHolder = new ApViewHolder();
             viewHolder.ssid = (TextView) view.findViewById(R.id.list_item_ap_name);
             viewHolder.status = (TextView) view.findViewById(R.id.list_item_ap_status);
-            viewHolder.security = (WifiSignal) view.findViewById(R.id.list_item_wifi_signal);
+            viewHolder.wifiSignal = (WifiSignal) view.findViewById(R.id.list_item_wifi_signal);
+            viewHolder.wifiCard = (CardView) view.findViewById(R.id.list_item_wifi_card);
             viewHolder.proxySetting = (ImageView) view.findViewById(R.id.list_item_ap_proxy_setting);
 
             view.setTag(viewHolder);
@@ -116,21 +120,33 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
 
         if (listItem != null)
         {
-            viewHolder.security.setConfiguration(listItem);
+            viewHolder.wifiSignal.setConfiguration(listItem);
 
-            if (listItem.isReachable())
+            int selectedColor = R.color.grey_600;
+            if (listItem.getLevel() != -1)
             {
-                viewHolder.security.setAlpha(1f);
-                viewHolder.ssid.setAlpha(1f);
-                viewHolder.status.setAlpha(1f);
+                if (listItem.isActive())
+                {
+                    selectedColor = R.color.blue_500;
+                }
+                else
+                {
+                    selectedColor = R.color.green_500;
+                }
             }
-            else
+
+            viewHolder.wifiCard.setCardBackgroundColor(getContext().getResources().getColor(selectedColor));
+
+            float alpha = 1f;
+            if (!listItem.isReachable())
             {
-                float alpha = 0.5f;
-                viewHolder.security.setAlpha(alpha);
-                viewHolder.ssid.setAlpha(alpha);
-                viewHolder.status.setAlpha(alpha);
+                alpha = 0.5f;
             }
+
+            viewHolder.wifiSignal.setAlpha(alpha);
+            viewHolder.wifiSignal.setAlpha(alpha);
+            viewHolder.ssid.setAlpha(alpha);
+            viewHolder.status.setAlpha(alpha);
 
             viewHolder.ssid.setText(listItem.getSSID());
 

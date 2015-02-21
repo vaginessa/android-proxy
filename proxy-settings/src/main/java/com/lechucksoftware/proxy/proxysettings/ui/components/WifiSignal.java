@@ -85,22 +85,12 @@ public class WifiSignal extends LinearLayout
         if (configuration.getLevel() == -1)
         {
             iconImageView.setImageResource(R.drawable.ic_action_nowifi);
-            layout.setBackgroundResource(R.color.grey_600);
         }
         else
         {
             iconImageView.setImageLevel(configuration.getLevel());
             iconImageView.setImageResource(R.drawable.wifi_signal);
             iconImageView.setImageState((configuration.getSecurityType() != SecurityType.SECURITY_NONE) ? WiFiApConfig.STATE_SECURED : WiFiApConfig.STATE_NONE, true);
-
-            if (configuration.isActive())
-            {
-                layout.setBackgroundResource(R.color.blue_500);
-            }
-            else
-            {
-                layout.setBackgroundResource(R.color.green_500);
-            }
         }
     }
 
