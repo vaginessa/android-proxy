@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@color/grey_700"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:paddingBottom="20dp">
 
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="@dimen/abc_text_size_headline_material"
+        android:textSize="@dimen/abc_text_size_display_1_material"
         android:singleLine="true"
         android:lines="1"
         android:ellipsize="end"
@@ -24,7 +24,7 @@
         android:layout_toRightOf="@+id/wifi_signal"
         android:layout_centerVertical="true"
         android:layout_marginBottom="10dp"
-        android:text="WIFI saf"/>
+        android:text="WIFI saf asdfasd fasdf"/>
 
     <!--<TextView-->
         <!--android:id="@+id/wifi_status"-->
@@ -44,7 +44,7 @@
         app:showSecurityText="true"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="10dp"
         />
 
     <!--<TextView-->

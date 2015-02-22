@@ -8,6 +8,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.APL;
@@ -66,7 +67,7 @@ public class SaveWifiNetworkService extends IntentService
                 Intent i = new Intent(Intents.SERVICE_COMUNICATION);
                 i.putExtra(Constants.SERVICE_COMUNICATION_TITLE, getString(R.string.proxy_error));
                 i.putExtra(Constants.SERVICE_COMUNICATION_MESSAGE, getString(R.string.exception_apl_writeconfig_error_message));
-                i.putExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY, true);
+                i.putExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY, WiFiApDetailActivity.class.getSimpleName());
                 sendBroadcast(i);
             }
         }

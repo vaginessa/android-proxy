@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -26,7 +27,6 @@ import timber.log.Timber;
  */
 public class BaseActivity extends ActionBarActivity
 {
-    private static final String TAG = BaseActivity.class.getName();
     private static boolean active = false;
 
     @Override
@@ -146,63 +146,73 @@ public class BaseActivity extends ActionBarActivity
         }
     }
 
+    private void handleIntent(Intent intent)
+    {
+        String action = intent.getAction();
+
+        App.getTraceUtils().logIntent(this.getClass().getSimpleName(), intent, Log.DEBUG, true);
+
+        if (action.equals(Intents.SERVICE_COMUNICATION))
+        {
+            final String title;
+            final String message;
+            final String closeActivty;
+
+            if (intent.hasExtra(Constants.SERVICE_COMUNICATION_TITLE))
+            {
+                title = intent.getStringExtra(Constants.SERVICE_COMUNICATION_TITLE);
+            }
+            else
+            {
+                title = "";
+            }
+
+            if (intent.hasExtra(Constants.SERVICE_COMUNICATION_MESSAGE))
+            {
+                message = intent.getStringExtra(Constants.SERVICE_COMUNICATION_MESSAGE);
+            }
+            else
+            {
+                message = "";
+            }
+
+            if (intent.hasExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY))
+            {
+                closeActivty = intent.getStringExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY);
+            }
+            else
+            {
+                closeActivty = "";
+            }
+
+            UIUtils.showDialog(BaseActivity.this, message, title, new MaterialDialog.ButtonCallback()
+            {
+
+                @Override
+                public void onPositive(MaterialDialog dialog)
+                {
+
+                    if (!TextUtils.isEmpty(closeActivty)
+                            && closeActivty.equals(this.getClass().getSimpleName()))
+                    {
+                        finish();
+                    }
+                }
+
+            });
+        }
+        else
+        {
+            Timber.e("Received intent not handled: " + intent.getAction());
+        }
+    }
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            String action = intent.getAction();
-
-            App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG, true);
-
-            if (action.equals(Intents.SERVICE_COMUNICATION))
-            {
-                final String title;
-                final String message;
-                final Boolean closeActivty;
-
-                if (intent.hasExtra(Constants.SERVICE_COMUNICATION_TITLE))
-                {
-                    title = intent.getStringExtra(Constants.SERVICE_COMUNICATION_TITLE);
-                }
-                else
-                {
-                    title = "";
-                }
-
-                if (intent.hasExtra(Constants.SERVICE_COMUNICATION_MESSAGE))
-                {
-                    message = intent.getStringExtra(Constants.SERVICE_COMUNICATION_MESSAGE);
-                }
-                else
-                {
-                    message = "";
-                }
-
-                if (intent.hasExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY))
-                {
-                    closeActivty = intent.getBooleanExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY, false);
-                }
-                else
-                {
-                    closeActivty = false;
-                }
-
-                UIUtils.showDialog(BaseActivity.this,message,title, new MaterialDialog.ButtonCallback() {
-
-                    @Override
-                    public void onPositive(MaterialDialog dialog)
-                    {
-                        if (closeActivty)
-                            finish();
-                    }
-
-                });
-            }
-            else
-            {
-                Timber.e("Received intent not handled: " + intent.getAction());
-            }
+            handleIntent(intent);
         }
     };
 }
