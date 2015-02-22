@@ -160,7 +160,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
 
                 case STATIC:
                     viewHolder.proxySetting.setVisibility(View.VISIBLE);
-                    viewHolder.proxySetting.setImageResource(R.drawable.ic_action_shuffle);
+                    viewHolder.proxySetting.setImageResource(R.drawable.ic_action_proxy_dark);
                     break;
 
                 case PAC:

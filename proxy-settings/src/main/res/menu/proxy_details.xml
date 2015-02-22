@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/menu_save"
-        android:icon="@drawable/ic_action_save"
+        android:icon="@drawable/ic_action_done_dark"
         app:showAsAction="always|withText"
         android:title="@string/save"/>
 
     <item
         android:id="@+id/menu_delete"
-        android:icon="@drawable/ic_action_discard"
-        app:showAsAction="always|withText"
+        android:icon="@drawable/ic_action_delete_dark"
+        app:showAsAction="withText"
         android:title="@string/delete"/>
 
     <!--<item-->
