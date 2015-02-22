@@ -39,4 +39,9 @@ public class Intents
      * Saved a new proxy configuration on DB
      */
     public static final String PROXY_SAVED = INTENT_PREFIX + "PROXY_SAVED";
+
+    /**
+     * Receive information from a service for the user
+     */
+    public static final String SERVICE_COMUNICATION = INTENT_PREFIX + "SERVICE_COMUNICATION";
 }

@@ -39,4 +39,8 @@ public class Constants
 
     public static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
     public static final String WIFI_AP_NETWORK_ARG = "WIFI_AP_NETWORK_ARG";
+
+    public static final String SERVICE_COMUNICATION_TITLE = "SERVICE_COMUNICATION_TITLE";
+    public static final String SERVICE_COMUNICATION_MESSAGE = "SERVICE_COMUNICATION_MESSAGE";
+    public static final String SERVICE_COMUNICATION_CLOSE_ACTIVITY = "SERVICE_COMUNICATION_CLOSE_ACTIVITY";
 }

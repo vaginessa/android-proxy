@@ -4,7 +4,11 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiApConfig;
@@ -59,6 +63,11 @@ public class SaveWifiNetworkService extends IntentService
             {
                 Timber.e(e,"Exception saving Wi-Fi network configuration to device");
 
+                Intent i = new Intent(Intents.SERVICE_COMUNICATION);
+                i.putExtra(Constants.SERVICE_COMUNICATION_TITLE, getString(R.string.proxy_error));
+                i.putExtra(Constants.SERVICE_COMUNICATION_MESSAGE, getString(R.string.exception_apl_writeconfig_error_message));
+                i.putExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY, true);
+                sendBroadcast(i);
             }
         }
 

@@ -63,7 +63,7 @@ public class UIUtils
     {
         try
         {
-            showDialog(ctx, errorMessage, ctx.getString(R.string.proxy_error));
+            showDialog(ctx, errorMessage, ctx.getString(R.string.proxy_error), null);
         }
         catch (Exception e)
         {
@@ -87,17 +87,26 @@ public class UIUtils
         }
     }
 
-    public static void showDialog(Context ctx, String message, String title)
+    public static void showDialog(Context ctx, String message, String title, MaterialDialog.ButtonCallback callback)
     {
         try
         {
             if (!TextUtils.isEmpty(message))
             {
-                new MaterialDialog.Builder(ctx)
-                        .title(title)
-                        .content(message)
-                        .positiveText(R.string.ok)
-                        .show();
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(ctx);
+
+                if (!TextUtils.isEmpty(title))
+                    builder.title(title);
+
+                builder.content(message);
+                builder.positiveText(R.string.ok);
+
+                if (callback != null)
+                {
+                    builder.callback(callback);
+                }
+
+                builder.show();
             }
         }
         catch (Exception e)
