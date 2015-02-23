@@ -2,73 +2,85 @@
 
 
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/list_item_ap_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item_ap_layout"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:padding="10dp">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/list_item_wifi_card"
+    <TextView
+        android:id="@+id/wifi_ap_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/grey_700"
-        android:layout_marginRight="10dp">
-
-        <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
-                android:id="@+id/list_item_wifi_signal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-    </android.support.v7.widget.CardView>
+        android:textStyle="bold"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:lines="1"
+        android:ellipsize="end"
+        android:padding="3dp"
+        android:text="AP NAME asdf asdf asdfas dfasdf asdf asdf asdf"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/wifi_ap_security">
+    </TextView>
 
     <TextView
-            android:id="@+id/list_item_ap_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/list_item_wifi_card"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:singleLine="true"
-            android:lines="1"
-            android:ellipsize="end"
-            android:padding="3dp"
-            android:text="AP NAME">
-    </TextView>
+        android:id="@+id/wifi_ap_security"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WEP/WPA2"
+        android:gravity="center"
+        android:textSize="9sp"
+        android:layout_gravity="center"
+        android:layout_toLeftOf="@+id/wifi_ap_signal"
+        android:layout_alignBottom="@+id/wifi_ap_signal"
+        android:layout_alignTop="@+id/wifi_ap_signal"/>
 
     <ImageView
-        android:id="@+id/list_item_ap_proxy_setting"
-        android:layout_width="15dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_shuffle"
+        android:id="@+id/wifi_ap_signal"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:contentDescription="Ap icon"
         android:scaleType="fitCenter"
-        android:layout_toRightOf="@+id/list_item_wifi_card"
-        android:layout_alignBottom="@+id/list_item_wifi_card"
-        android:layout_below="@id/list_item_ap_name"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="0dp"
-        />
+        android:layout_alignParentRight="true"
+        android:src="@drawable/wifi_signal">
+    </ImageView>
 
+    <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
+        android:id="@+id/wifi_signal"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/wifi_ap_proxy_setting"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_action_proxy_dark"
+        android:scaleType="fitCenter"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
 
     <TextView
-            android:id="@+id/list_item_ap_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/list_item_ap_proxy_setting"
-            android:layout_below="@id/list_item_ap_name"
-            android:gravity="center_vertical"
-            android:layout_alignTop="@+id/list_item_ap_proxy_setting"
-            android:layout_alignBottom="@+id/list_item_wifi_card"
-            android:singleLine="true"
-            android:lines="1"
-            android:ellipsize="end"
-            android:textSize="13sp"
-            android:text="STATUS DESC"
-            android:padding="3dp"
-            >
-    </TextView>
+        android:id="@+id/wifi_ap_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wifi_ap_name"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textSize="13sp"
+        android:text="STATUS DESC"
+        android:padding="3dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/wifi_ap_proxy_setting"
+        android:layout_alignBottom="@+id/wifi_ap_proxy_setting"
+        android:layout_alignTop="@+id/wifi_ap_proxy_setting"
+        android:layout_alignParentLeft="true"/>
+
 
 </RelativeLayout>

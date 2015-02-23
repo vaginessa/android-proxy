@@ -2,21 +2,17 @@ package com.lechucksoftware.proxy.proxysettings.ui.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by marco on 02/12/13.
@@ -25,7 +21,7 @@ public class WifiSignal extends LinearLayout
 {
     private ViewGroup layout;
     private ImageView iconImageView;
-    private TextView securityTextView;
+//    private TextView securityTextView;
 
     private String text;
     private boolean showSecurityText;
@@ -46,9 +42,9 @@ public class WifiSignal extends LinearLayout
 
         if (inflater != null)
         {
-            layout = (ViewGroup) v.findViewById(R.id.wifi_signal_layout);
-            iconImageView = (ImageView) v.findViewById(R.id.ap_icon);
-            securityTextView = (TextView) v.findViewById(R.id.ap_security);
+            layout = (ViewGroup) v.findViewById(R.id.wifi_proxy_layout);
+            iconImageView = (ImageView) v.findViewById(R.id.wifi_ap_signal);
+//            securityTextView = (TextView) v.findViewById(R.id.ap_security);
         }
     }
 
@@ -69,18 +65,18 @@ public class WifiSignal extends LinearLayout
 
     private void refreshUI()
     {
-        securityString = ProxyUtils.getSecurityString(configuration, getContext(), true);
-
-        if (!TextUtils.isEmpty(securityString))
-        {
-            securityTextView.setText(securityString);
-        }
-        else
-        {
-            securityTextView.setText("");
-        }
-
-        securityTextView.setVisibility(UIUtils.booleanToVisibility(showSecurityText));
+//        securityString = ProxyUtils.getSecurityString(configuration, getContext(), true);
+//
+//        if (!TextUtils.isEmpty(securityString))
+//        {
+//            securityTextView.setText(securityString);
+//        }
+//        else
+//        {
+//            securityTextView.setText("");
+//        }
+//
+//        securityTextView.setVisibility(UIUtils.booleanToVisibility(showSecurityText));
 
         if (configuration.getLevel() == -1)
         {

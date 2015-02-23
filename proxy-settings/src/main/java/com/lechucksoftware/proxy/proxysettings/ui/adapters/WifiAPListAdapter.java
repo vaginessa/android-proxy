@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +41,6 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
         TextView status;
         WifiSignal wifiSignal;
         ImageView proxySetting;
-        CardView wifiCard;
     }
 
     public void setData(List<WiFiApConfig> confList)
@@ -103,11 +101,10 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
             view = inflater.inflate(R.layout.wifi_ap_list_item, parent, false);
 
             viewHolder = new ApViewHolder();
-            viewHolder.ssid = (TextView) view.findViewById(R.id.list_item_ap_name);
-            viewHolder.status = (TextView) view.findViewById(R.id.list_item_ap_status);
-            viewHolder.wifiSignal = (WifiSignal) view.findViewById(R.id.list_item_wifi_signal);
-            viewHolder.wifiCard = (CardView) view.findViewById(R.id.list_item_wifi_card);
-            viewHolder.proxySetting = (ImageView) view.findViewById(R.id.list_item_ap_proxy_setting);
+            viewHolder.ssid = (TextView) view.findViewById(R.id.wifi_ap_name);
+            viewHolder.status = (TextView) view.findViewById(R.id.wifi_ap_status);
+            viewHolder.wifiSignal = (WifiSignal) view.findViewById(R.id.wifi_signal);
+            viewHolder.proxySetting = (ImageView) view.findViewById(R.id.wifi_ap_proxy_setting);
 
             view.setTag(viewHolder);
         }
@@ -134,8 +131,6 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
                     selectedColor = R.color.green_500;
                 }
             }
-
-            viewHolder.wifiCard.setCardBackgroundColor(getContext().getResources().getColor(selectedColor));
 
             float alpha = 1f;
             if (!listItem.isReachable())

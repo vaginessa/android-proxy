@@ -61,6 +61,8 @@ dependencies {
     compile 'com.github.traex.rippleeffect:library:1.2.3'
     compile 'com.getbase:floatingactionbutton:1.8.0'
     compile 'info.hoang8f:fbutton:1.0.5'
+    compile 'com.makeramen:roundedimageview:1.5.0'
+    compile 'de.hdodenhof:circleimageview:1.2.1'
 //    compile 'com.rengwuxian.materialedittext:library:1.8.2'   // Not stable at the moment
 
     // Testing-only dependencies
