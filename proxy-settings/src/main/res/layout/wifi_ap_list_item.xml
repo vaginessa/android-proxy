@@ -21,44 +21,50 @@
         android:padding="3dp"
         android:text="AP NAME asdf asdf asdfas dfasdf asdf asdf asdf"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/wifi_ap_security">
+        android:layout_toLeftOf="@+id/wifi_ap">
     </TextView>
 
-    <TextView
-        android:id="@+id/wifi_ap_security"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WEP/WPA2"
-        android:gravity="center"
-        android:textSize="9sp"
-        android:layout_gravity="center"
-        android:layout_toLeftOf="@+id/wifi_ap_signal"
-        android:layout_alignBottom="@+id/wifi_ap_signal"
-        android:layout_alignTop="@+id/wifi_ap_signal"/>
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/blue_400"
+        android:id="@+id/wifi_ap"
+        >
+
+        <TextView
+            android:id="@+id/wifi_ap_security"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WEP/WPA2"
+            android:gravity="center"
+            android:textSize="9sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/wifi_ap_signal"
+            android:layout_alignBottom="@+id/wifi_ap_signal"
+            android:layout_alignTop="@+id/wifi_ap_signal"/>
+
+        <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
+            android:id="@+id/wifi_signal"
+            android:layout_gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="3dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+
+
 
     <ImageView
-        android:id="@+id/wifi_ap_signal"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:contentDescription="Ap icon"
-        android:scaleType="fitCenter"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/wifi_signal">
-    </ImageView>
-
-    <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
-        android:id="@+id/wifi_signal"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:visibility="gone"/>
-
-    <ImageView
+        android:background="@color/red_400"
         android:id="@+id/wifi_ap_proxy_setting"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="35dp"
+        android:layout_height="25dp"
         android:src="@drawable/ic_action_proxy_dark"
         android:scaleType="fitCenter"
         android:layout_alignParentRight="true"
@@ -75,12 +81,12 @@
         android:ellipsize="end"
         android:textSize="13sp"
         android:text="STATUS DESC"
+        android:textColor="@color/grey_400"
         android:padding="3dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/wifi_ap_proxy_setting"
-        android:layout_alignBottom="@+id/wifi_ap_proxy_setting"
-        android:layout_alignTop="@+id/wifi_ap_proxy_setting"
+        android:layout_toLeftOf="@id/wifi_ap_proxy_setting"
+        android:layout_alignBottom="@id/wifi_ap_proxy_setting"
+        android:layout_alignTop="@id/wifi_ap_proxy_setting"
         android:layout_alignParentLeft="true"/>
-
 
 </RelativeLayout>
