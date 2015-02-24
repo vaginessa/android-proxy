@@ -1,12 +1,16 @@
 package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -22,6 +26,7 @@ public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
 {
     private static final String TAG = ProxiesListAdapter.class.getSimpleName();
     private final LayoutInflater vi;
+    private final StyleSpan bss;
     private Context ctx;
 
     public ProxiesListAdapter(Context context)
@@ -29,6 +34,9 @@ public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
         super(context, R.layout.proxy_list_item);
         vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ctx = context;
+
+        // Span to set text color to some RGB value
+        bss = new StyleSpan(android.graphics.Typeface.BOLD);
     }
 
     static class ApViewHolder
@@ -38,6 +46,7 @@ public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
         TextView bypass;
 //        TagsView tags;
         TextView used;
+        LinearLayout usedLayout;
     }
 
     public void setData(List<ProxyEntity> confList)
@@ -105,7 +114,7 @@ public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
             viewHolder.bypass = (TextView) view.findViewById(R.id.list_item_proxy_bypass);
 //            viewHolder.tags = (TagsView) view.findViewById(R.id.list_item_proxy_tags);
             viewHolder.used = (TextView) view.findViewById(R.id.li_proxy_used_txt);
-
+            viewHolder.usedLayout = (LinearLayout) view.findViewById(R.id.proxy_used_layout);
             view.setTag(viewHolder);
         }
         else
@@ -120,11 +129,19 @@ public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
             viewHolder.host.setText(listItem.getHost());
             viewHolder.port.setText(listItem.getPort().toString());
 
-            viewHolder.bypass.setText(getContext().getString(R.string.bypass_for) + " " +  listItem.getExclusion());
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
+
+            String bypassTitle = getContext().getString(R.string.bypass_for);
+            ssb.append(bypassTitle);
+            ssb.append(" " + UIUtils.CleanExclusion(listItem.getExclusion()));
+            ssb.setSpan(bss, 0, bypassTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+            viewHolder.bypass.setText(ssb);
             viewHolder.bypass.setVisibility(UIUtils.booleanToVisibility(!TextUtils.isEmpty(listItem.getExclusion())));
 //            viewHolder.tags.setTags(listItem.getTags());
             viewHolder.used.setText(String.valueOf(listItem.getUsedByCount()));
             viewHolder.used.setVisibility(UIUtils.booleanToVisibility(listItem.getInUse()));
+            viewHolder.usedLayout.setVisibility(UIUtils.booleanToVisibility(listItem.getInUse()));
         }
 
         return view;

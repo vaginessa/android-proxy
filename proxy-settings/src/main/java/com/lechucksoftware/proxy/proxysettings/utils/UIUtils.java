@@ -145,6 +145,17 @@ public class UIUtils
         return dp;
     }
 
+    public static String CleanExclusion(String exclusion)
+    {
+        if (TextUtils.isEmpty(exclusion))
+            return "";
+        else
+        {
+            String [] splitted = exclusion.split(",");
+            return TextUtils.join(", ", splitted);
+        }
+    }
+
     @IntDef({View.VISIBLE, View.INVISIBLE, View.GONE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Visibility {}
