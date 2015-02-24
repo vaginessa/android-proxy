@@ -6,11 +6,11 @@
         <item name="actionBarStyle">@style/CustomActionBarStyle</item>
 
         <!-- colorPrimary is used for the default action bar background -->
-        <item name="colorPrimary">@color/grey_600</item>
+        <item name="colorPrimary">@color/grey_800</item>
         <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">@color/grey_800</item>
+        <item name="colorPrimaryDark">@color/grey_1000</item>
         <!-- colorAccent is used as the default value for colorControlActivated, which is used to tint widgets -->
-        <item name="colorAccent">@color/grey_400</item>
+        <item name="colorAccent">@color/red_500</item>
 
         <!-- You can also set colorControlNormal, colorControlActivated colorControlHighlight, and colorSwitchThumbNormal. -->
 
@@ -37,9 +37,9 @@
 
     <!-- ActionBar styles -->
     <style name="CustomActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/grey_600</item>
+        <item name="android:background">@color/grey_800</item>
         <!-- Support library compatibility -->
-        <item name="background">@color/grey_600</item>
+        <item name="background">@color/grey_800</item>
     </style>
 
     <style name="RedButtonStyle" parent="android:Widget.Button">
