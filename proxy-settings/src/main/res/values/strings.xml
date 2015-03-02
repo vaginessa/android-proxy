@@ -436,4 +436,6 @@
     <string name="edit_pac">Edit PAC proxy</string>
     <string name="create_new_pac">Create PAC proxy</string>
     <string name="security">Security: %1$s</string>
+    <string name="static_proxy">STATIC</string>
+    <string name="pac_proxy">PAC</string>
 </resources>

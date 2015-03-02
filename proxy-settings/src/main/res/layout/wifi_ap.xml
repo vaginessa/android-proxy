@@ -21,7 +21,7 @@
         android:lines="1"
         android:ellipsize="end"
         android:textColor="@android:color/primary_text_dark"
-        android:layout_toRightOf="@+id/wifi_signal"
+        android:layout_toRightOf="@+id/wifi_ap_signal_icon"
         android:layout_centerVertical="true"
         android:layout_marginBottom="10dp"
         android:text="WIFI saf asdfasd fasdf"/>
@@ -38,7 +38,7 @@
         <!--/>-->
 
     <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
-        android:id="@+id/wifi_signal"
+        android:id="@+id/wifi_ap_signal_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:showSecurityText="true"

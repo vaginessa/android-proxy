@@ -631,7 +631,7 @@ public class ProxyUtils
     {
         if (conf != null)
         {
-            return getSecurityString(conf.getSecurityType(), conf.getPskType(), ctx, true);
+            return getSecurityString(conf.getSecurityType(), conf.getPskType(), ctx, concise);
         }
         else
             return "";

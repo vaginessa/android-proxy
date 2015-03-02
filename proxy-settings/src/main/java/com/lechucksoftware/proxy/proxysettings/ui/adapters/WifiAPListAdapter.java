@@ -1,22 +1,26 @@
 package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.List;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.utils.ProxyUIUtils;
+import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
 public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
@@ -39,8 +43,13 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
     {
         TextView ssid;
         TextView status;
+        TextView securityText;
         WifiSignal wifiSignal;
         ImageView proxySetting;
+        LinearLayout wifiApLabel;
+        LinearLayout wifiApLProxyLabel;
+        TextView proxySettingText;
+        RelativeLayout wifiApLayout;
     }
 
     public void setData(List<WiFiApConfig> confList)
@@ -101,10 +110,15 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
             view = inflater.inflate(R.layout.wifi_ap_list_item, parent, false);
 
             viewHolder = new ApViewHolder();
-            viewHolder.ssid = (TextView) view.findViewById(R.id.wifi_ap_name);
-            viewHolder.status = (TextView) view.findViewById(R.id.wifi_ap_status);
-            viewHolder.wifiSignal = (WifiSignal) view.findViewById(R.id.wifi_signal);
-            viewHolder.proxySetting = (ImageView) view.findViewById(R.id.wifi_ap_proxy_setting);
+            viewHolder.ssid = (TextView) view.findViewById(R.id.wifi_ap_ssid);
+            viewHolder.status = (TextView) view.findViewById(R.id.wifi_ap_proxy_status_text);
+            viewHolder.wifiSignal = (WifiSignal) view.findViewById(R.id.wifi_ap_signal_icon);
+            viewHolder.securityText = (TextView) view.findViewById(R.id.wifi_ap_security_text);
+            viewHolder.proxySetting = (ImageView) view.findViewById(R.id.wifi_ap_proxy_settings_icon);
+            viewHolder.wifiApLabel = (LinearLayout) view.findViewById(R.id.wifi_ap_label);
+            viewHolder.wifiApLProxyLabel = (LinearLayout) view.findViewById(R.id.wifi_ap_proxy_label);
+            viewHolder.proxySettingText = (TextView) view.findViewById(R.id.wifi_ap_proxy_settings_text);
+            viewHolder.wifiApLayout = (RelativeLayout) view.findViewById(R.id.wifi_ap_layout);
 
             view.setTag(viewHolder);
         }
@@ -132,6 +146,9 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
                 }
             }
 
+            viewHolder.wifiApLabel.setBackgroundResource(selectedColor);
+//            viewHolder.wifiApLayout.setBackgroundResource(selectedColor);
+
             float alpha = 1f;
             if (!listItem.isReachable())
             {
@@ -150,21 +167,26 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
                 case NONE:
                 case UNASSIGNED:
                 default:
-                    viewHolder.proxySetting.setVisibility(View.GONE);
+                    viewHolder.wifiApLProxyLabel.setVisibility(View.GONE);
                     break;
 
                 case STATIC:
-                    viewHolder.proxySetting.setVisibility(View.VISIBLE);
+                    viewHolder.wifiApLProxyLabel.setVisibility(View.VISIBLE);
+                    viewHolder.wifiApLProxyLabel.setBackgroundResource(R.color.red_400);
+                    viewHolder.proxySettingText.setText(R.string.static_proxy);
                     viewHolder.proxySetting.setImageResource(R.drawable.ic_action_proxy_dark);
                     break;
 
                 case PAC:
-                    viewHolder.proxySetting.setVisibility(View.VISIBLE);
+                    viewHolder.wifiApLProxyLabel.setVisibility(View.VISIBLE);
+                    viewHolder.wifiApLProxyLabel.setBackgroundResource(R.color.orange_400);
+                    viewHolder.proxySettingText.setText(R.string.pac_proxy);
                     viewHolder.proxySetting.setImageResource(R.drawable.ic_action_file);
                     break;
             }
 
             viewHolder.status.setText(listItem.getProxyStatusString());
+            viewHolder.securityText.setText(ProxyUtils.getSecurityString(listItem,ctx,true));
         }
 
         return view;
