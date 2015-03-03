@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,9 +67,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @InjectView(R.id.proxy_port) InputField proxyPort;
     @InjectView(R.id.proxy_pac_url) InputField proxyPacUrl;
     @InjectView(R.id.proxy_bypass) InputExclusionList proxyBypass;
-
-    @InjectView(R.id.wifi_proxy_input_fields) LinearLayout proxyFields;
-
+    @InjectView(R.id.wifi_proxy_input_fields) CardView proxyFields;
     @InjectView(R.id.proxy_static_fields) LinearLayout staticProxyFields;
     @InjectView(R.id.proxy_pac_fields) LinearLayout pacProxyFields;
 
