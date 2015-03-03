@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="material_dialogs_background">#F2F2F2</color>
+
+    <color name="black_transparent">#33000000</color>
+    <color name="grey_transparent">#33777777</color>
+
     <!-- RED -->
     <color name="red_50">#fde0dc</color>
     <color name="red_100">#f9bdbb</color>
@@ -295,5 +300,5 @@
     <color name="blue_grey_800">#37474f</color>
     <color name="blue_grey_900">#263238</color>
 
-    <color name="material_dialogs_background">#F2F2F2</color>
+
 </resources>

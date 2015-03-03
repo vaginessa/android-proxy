@@ -38,7 +38,6 @@ public class WifiAp extends LinearLayout
         ButterKnife.inject(this, v);
     }
 
-
     private void readStyleParameters(Context context, AttributeSet attributeSet)
     {
 //        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.WifiSignal);
