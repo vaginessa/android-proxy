@@ -1,6 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.components;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,19 +23,21 @@ import butterknife.InjectView;
  */
 public class WifiAp extends LinearLayout
 {
+    private Context context;
     private WiFiApConfig wifiApConfig;
+    private StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
 
     @InjectView(R.id.wifi_name) TextView wifiName;
-//    @InjectView(R.id.wifi_security) TextView wifiSecurity;
+    @InjectView(R.id.wifi_status) TextView wifiStatus;
 //    @InjectView(R.id.wifi_status) TextView wifiStatus;
     @InjectView(R.id.wifi_ap_signal_icon) WifiSignal wifiSignal;
 
-    public WifiAp(Context context, AttributeSet attrs)
+    public WifiAp(Context ctx, AttributeSet attrs)
     {
-        super(context, attrs);
+        super(ctx, attrs);
 
+        context = ctx;
         readStyleParameters(context,attrs);
-
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View v = inflater.inflate(R.layout.wifi_ap, this);
@@ -55,10 +61,12 @@ public class WifiAp extends LinearLayout
     private void refreshUI()
     {
         wifiName.setText(ProxyUtils.cleanUpSSID(wifiApConfig.getSSID()));
-//        wifiStatus.setText(wifiApConfig.getProxyStatusString());
 
-//        String securityString = ProxyUtils.getSecurityString(wifiApConfig, getContext(), true);
-//
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+
+        String securityTitle = context.getString(R.string.security);
+        String securityString = ProxyUtils.getSecurityString(wifiApConfig, context, true);
+
 //        if (!TextUtils.isEmpty(securityString))
 //        {
 //            wifiStatus.setText(getContext().getString(R.string.security,securityString));
@@ -68,16 +76,14 @@ public class WifiAp extends LinearLayout
 //            wifiStatus.setText("");
 //        }
 
-//        String sec = ProxyUtils.getSecurityString(configuration, getContext(), true);
-//        if (!TextUtils.isEmpty(sec))
-//        {
-//            securityTextView.setText(sec);
-//        }
-//        else
-//        {
-//            securityTextView.setText("");
-//        }
-//
+        ssb.append(securityTitle);
+        ssb.append("  " + securityString);
+        ssb.setSpan(bss, 0, securityTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        wifiStatus.setText(ssb);
+
+
+//        wifiStatus.setText(wifiApConfig.getProxyStatusString());
+
 //        if (configuration.getLevel() == -1)
 //        {
 //            iconImageView.setImageResource(R.drawable.ic_action_nowifi);
