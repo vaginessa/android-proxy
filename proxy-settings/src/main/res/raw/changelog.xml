@@ -15,6 +15,11 @@
     <!--Nov.-->
     <!--Dec.-->
 
+    <changelogversion versionName="3.0" versionCode=""  changeDate="Mar 05,2015">
+        <changelogimprovement>Improved support for Lollipop devices with PAC support</changelogimprovement>
+        <changelogimprovement>Restyled application following material guidelines</changelogimprovement>
+    </changelogversion>
+
     <changelogversion versionName="2.16" versionCode=""  changeDate="Aug 28,2014">
         <changelogimprovement>Added support for Lollipop devices (still missing PAC setup)</changelogimprovement>
         <changelogimprovement>Added count of used proxies</changelogimprovement>
