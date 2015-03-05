@@ -74,7 +74,6 @@
             android:layout_marginRight="5dp"/>
 
         <ImageView
-            android:background="@color/red_400"
             android:id="@+id/wifi_ap_proxy_settings_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -36,6 +37,7 @@ public class PacListAdapter extends ArrayAdapter<PacEntity>
     {
         TextView pacUrlFile;
         TextView used;
+        LinearLayout usedLayout;
     }
 
     public void setData(List<PacEntity> confList)
@@ -100,6 +102,7 @@ public class PacListAdapter extends ArrayAdapter<PacEntity>
             viewHolder = new ApViewHolder();
             viewHolder.pacUrlFile = (TextView) view.findViewById(R.id.list_item_pac_url_file);
             viewHolder.used = (TextView) view.findViewById(R.id.li_pac_used_txt);
+            viewHolder.usedLayout = (LinearLayout) view.findViewById(R.id.li_pac_used_layout);
 
             view.setTag(viewHolder);
         }
@@ -114,7 +117,7 @@ public class PacListAdapter extends ArrayAdapter<PacEntity>
         {
             viewHolder.pacUrlFile.setText(listItem.getPacUriFile().toString());
             viewHolder.used.setText(String.valueOf(listItem.getUsedByCount()));
-            viewHolder.used.setVisibility(UIUtils.booleanToVisibility(listItem.getInUse()));
+            viewHolder.usedLayout.setVisibility(UIUtils.booleanToVisibility(listItem.getInUse()));
         }
 
         return view;

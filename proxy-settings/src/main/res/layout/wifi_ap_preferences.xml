@@ -175,7 +175,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/proxy_type"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                                 android:id="@+id/proxy_pac_url"
@@ -183,13 +183,11 @@
                                 android:layout_height="wrap_content"
                                 android:paddingTop="2dp"
                                 android:paddingBottom="2dp"
-                                android:paddingLeft="12dp"
                                 android:background="?android:attr/listChoiceBackgroundIndicator"
                                 app:title="URL"
                                 app:readonly="true"
                                 app:fullsize="true"
                                 app:singleLine="true"
-
                                 app:if_value=""/>
 
                         </LinearLayout>

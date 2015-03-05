@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="@dimen/abc_text_size_large_material"
+        android:textSize="28sp"
         android:singleLine="true"
         android:lines="1"
         android:ellipsize="end"

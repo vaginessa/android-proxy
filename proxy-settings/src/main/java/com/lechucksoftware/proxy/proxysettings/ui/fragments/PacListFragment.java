@@ -32,6 +32,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,7 +165,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             }
         });
 
-//        footerTextView.setVisibility(View.GONE);
+        addNewProxyButton.setVisibility(UIUtils.booleanToVisibility(fragmentMode == FragmentMode.FULLSIZE));
 
         loader = getLoaderManager().initLoader(LOADER_PACDB, new Bundle(), this);
         loader.forceLoad();
