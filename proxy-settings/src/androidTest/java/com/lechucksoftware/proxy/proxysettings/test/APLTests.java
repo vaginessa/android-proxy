@@ -2,11 +2,16 @@ package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
+import android.support.test.espresso.Espresso;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,18 +27,16 @@ import timber.log.Timber;
 /**
  * Created by mpagliar on 22/08/2014.
  */
-public class APLTests extends InstrumentationTestCase
+public class APLTests
 {
-    @Override
-    protected void setUp() throws Exception
+    @BeforeClass
+    public static void setUpAPL()
     {
-        super.setUp();
-
         APL.setup(App.getInstance());
     }
 
-    @SmallTest
-    public void testChangeWifiSettings() throws Exception
+    @Test
+    public void changeWifiSettings() throws Exception
     {
         Map<APLNetworkId, WiFiApConfig> networksMap = APL.getWifiAPConfigurations();
 
@@ -75,7 +78,7 @@ public class APLTests extends InstrumentationTestCase
 
         Timber.d("Check network configuration has been written to device: %s", updatedNetwork.toShortString());
 
-        assertTrue(updatedNetwork.isSameConfiguration(network));
+        Assert.assertFalse(updatedNetwork.isSameConfiguration(network));
 
         network.setProxySetting(proxySetting);
         network.setProxyHost(host);
@@ -88,59 +91,6 @@ public class APLTests extends InstrumentationTestCase
 
         Thread.sleep(2000);
 
-        assertFalse(updatedNetwork.isSameConfiguration(network));
-    }
-
-
-    @Override
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-    }
-
-    public void clearLog()
-    {
-        try
-        {
-            Process process = new ProcessBuilder()
-                    .command("logcat", "-c")
-                    .redirectErrorStream(true)
-                    .start();
-        }
-        catch (IOException e)
-        {
-            Timber.e(e, "Exception clearing logcat");
-        }
-    }
-
-    public boolean logContainsString(String msg)
-    {
-        return readLog().contains(msg);
-    }
-
-    public String readLog()
-    {
-        String result = "";
-
-        try
-        {
-            Process process = Runtime.getRuntime().exec("logcat -d");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            StringBuilder log = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null)
-            {
-                log.append(line);
-            }
-
-            result = log.toString();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        return result;
+        Assert.assertFalse(updatedNetwork.isSameConfiguration(network));
     }
 }

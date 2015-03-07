@@ -45,7 +45,9 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.jakewharton.timber:timber:2.5.0'
+
+    compile 'com.jakewharton.timber:timber:2.7.1'
+
 }
 
 version = "4.1.0"
