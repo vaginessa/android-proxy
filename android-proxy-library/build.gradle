@@ -28,11 +28,6 @@ android {
             res.srcDirs = ['src/main/res']
             assets.srcDirs = ['src/main/assets']
         }
-
-        androidTest {
-            java.srcDirs = ['src/main/java', 'src/androidTest/java']
-        }
-
     }
 }
 
