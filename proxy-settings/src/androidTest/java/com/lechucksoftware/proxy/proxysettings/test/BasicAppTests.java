@@ -13,14 +13,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-//import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
 import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+
+//import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
 
 @RunWith(AndroidJUnit4.class)
 public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivity>
@@ -118,25 +118,6 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
 //
     }
 
-    /**
-     * Open the navigation drawer with a drag gesture. Click based triggering is
-     * flaky on SDK < 18
-     */
-    public void openNavigationDrawer()
-    {
-
-//        Point deviceSize = new Point();
-//        getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);
-//
-//        int screenWidth = deviceSize.x;
-//        int screenHeight = deviceSize.y;
-//        int fromX = 0;
-//        int toX = screenWidth / 2;
-//        int fromY = screenHeight / 2;
-//        int toY = fromY;
-//
-//        solo.drag(fromX, toX, fromY, toY, 1);
-    }
 
     private void dismissAnyStartupDialog()
     {
