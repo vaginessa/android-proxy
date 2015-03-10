@@ -1,10 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
+import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 
 import org.junit.After;
@@ -12,11 +16,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Map;
+
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.APLNetworkId;
+import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.enums.SecurityType;
+
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
@@ -56,82 +75,68 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
     }
 
     @Test
-    public void createNewProxy()
+    public void createNewStaticProxy()
     {
         openDrawer(R.id.drawer_layout);
 
         onView(withText(R.string.static_proxies)).perform(click());
         onView(withId(R.id.add_new_proxy)).perform(click());
 
-//        onView(withId(R.id.action_save))
-//                .perform(click());
-//
-//        onView(withId(R.id.text_action_bar_result))
-//                .check(matches(withText("Save")));
-//
-//        assertTrue(solo.waitForActivity(MasterActivity.class));
-//
-//        dismissAnyStartupDialog();
-//
-//        openNavigationDrawer();
-//
-//        assertTrue(solo.waitForText(getActivity().getString(R.string.static_proxies)));
-//        solo.clickOnText(getActivity().getString(R.string.static_proxies));
-//
-//        assertTrue(solo.waitForText(getActivity().getString(R.string.static_proxies)));
-//
-//        solo.clickOnActionBarItem(R.id.menu_add_new_proxy);
-//
-//        assertTrue(solo.waitForText(getActivity().getString(R.string.create_new_proxy)));
-//
-//        String proxyIp = TestUtils.getRandomIP();
-//        int proxyPort = TestUtils.getRandomPort();
-//
-//        solo.enterText(0,proxyIp);
-//        solo.enterText(1,String.valueOf(proxyPort));
-//
-//        assertTrue(solo.waitForView(R.id.menu_save));
-//
-//        solo.clickOnActionBarItem(R.id.menu_save);
-//
+        ProxyEntity staticProxy = TestUtils.createRandomHTTPProxy();
+        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_host)))).perform(typeText(staticProxy.getHost()));
+        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_port)))).perform(typeText(String.valueOf(staticProxy.getPort())));
+
+//        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_bypass)))).perform(typeText(String.valueOf(proxyPort)));
+
+        onView(withId(R.id.menu_save)).perform(click());
+
+        assertTrue(App.getDBManager().findProxy(staticProxy.getHost(),staticProxy.getPort(),"") != -1);
     }
 
     @Test
-    public void enableProxyForWifiNetwork()
+    public void createNewPACProxy()
     {
-//
-//        assertTrue(solo.waitForActivity(MasterActivity.class));
-//
-//        dismissAnyStartupDialog();
-//
-//        openNavigationDrawer();
-//
-//        assertTrue(solo.waitForText(getActivity().getString(R.string.wifi_access_points)));
-//        solo.clickOnText(getActivity().getString(R.string.wifi_access_points));
-//
-//        assertTrue(solo.waitForText(getActivity().getString(R.string.wifi_access_points)));
-//
-//        solo.scrollListToTop(0);
-//        solo.clickInList(0);
-//
-//        assertTrue(solo.waitForText(getActivity().getString(R.string.edit_wifi_ap)));
-//
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            openDrawer(R.id.drawer_layout);
+
+            onView(withText(R.string.pac_proxies)).perform(click());
+            onView(withId(R.id.add_new_proxy)).perform(click());
+
+            PacEntity pacProxy = TestUtils.createRandomPACProxy();
+
+            onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.pac_url)))).perform(typeText(String.valueOf(pacProxy.getPacUriFile())));
+
+            onView(withId(R.id.menu_save)).perform(click());
+        }
     }
 
-
-    private void dismissAnyStartupDialog()
+    @Test
+    public void enableStaticProxyForWifiNetwork()
     {
-//        if (solo.waitForDialogToOpen(1000))
-//        {
-//            if (solo.waitForText(getActivity().getString(R.string.ok)))
-//            {
-//                assertTrue(solo.getButton(getActivity().getString(R.string.ok)).callOnClick());
-//                assertTrue(solo.waitForDialogToClose());
-//            }
-//            else
-//            {
-//                solo.goBack();
-//            }
-//        }
+        assertTrue(APL.getWifiManager().isWifiEnabled());
+
+        openDrawer(R.id.drawer_layout);
+        onView(withText(R.string.wifi_networks)).perform(click());
+
+        Map<APLNetworkId, WiFiApConfig> configuredNetworks = APL.getWifiAPConfigurations();
+        assertTrue(configuredNetworks.size() > 0);
+
+        WiFiApConfig selectedWifiApConfig = null;
+
+        for (APLNetworkId networkId : configuredNetworks.keySet())
+        {
+            WiFiApConfig wifiApConfig = configuredNetworks.get(networkId);
+
+            if (wifiApConfig.getSecurityType() != SecurityType.SECURITY_EAP)
+            {
+                selectedWifiApConfig = wifiApConfig;
+                break;
+            }
+        }
+
+        assertNotNull(selectedWifiApConfig);
+
+        onData(allOf(is(instanceOf(WiFiApConfig.class)), hasEntry(equalTo("ssid"), is(selectedWifiApConfig.getSSID())))).perform(click());
     }
 }

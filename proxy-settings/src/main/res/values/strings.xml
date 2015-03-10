@@ -214,7 +214,7 @@
     <string name="proxy_port_hint" translatable="false">8080</string>
     <string name="proxy_exclusionlist_label">Bypass proxy for</string>
     <string name="proxy_exclusionlist_hint">example.com,mycomp.test.com,localhost</string>
-    <string name="wifi_access_points">Wi\u2011Fi networks</string>
+    <string name="wifi_networks">Wi\u2011Fi networks</string>
     <string name="proxy_error">Attention</string>
     <string name="proxy_error_dismiss">OK</string>
     <string name="proxy_url_label">PAC URL</string>
