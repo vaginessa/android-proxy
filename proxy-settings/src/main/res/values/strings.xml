@@ -46,7 +46,8 @@
     <string name="pac_empty_list">No PAC saved</string>
     <string name="tags_empty_list">No tags saved</string>
     <!-- Wi-Fi settings. text displayed when Wi-Fi is off and network list is empty [CHAR LIMIT=50] -->
-    <string name="wifi_empty_list_wifi_off">To see available networks, please enable Wi-Fi</string>
+    <string name="wifi_empty_list_wifi_off">Can’t show configured networks if Wi-Fi is turned off</string>
+    <string name="wifi_off_snackbar">Wi-Fi is turned off</string>
     <string name="ap_status_label">Status:</string>
     <string name="ap_security_label">Security:</string>
     <string name="ap_proxy_label">Proxy:</string>
@@ -213,7 +214,7 @@
     <string name="proxy_port_hint" translatable="false">8080</string>
     <string name="proxy_exclusionlist_label">Bypass proxy for</string>
     <string name="proxy_exclusionlist_hint">example.com,mycomp.test.com,localhost</string>
-    <string name="wifi_access_points">Wi\u2011Fi networks</string>
+    <string name="wifi_networks">Wi\u2011Fi networks</string>
     <string name="proxy_error">Attention</string>
     <string name="proxy_error_dismiss">OK</string>
     <string name="proxy_url_label">PAC URL</string>
@@ -438,4 +439,5 @@
     <string name="security">Security:</string>
     <string name="static_proxy">STATIC</string>
     <string name="pac_proxy">PAC</string>
+    <string name="enable_wifi">Enable Wi-Fi</string>
 </resources>
