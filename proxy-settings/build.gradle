@@ -232,17 +232,17 @@ testdroid {
     deviceGroup 'FREE_DEVICES'
 
 
-//    // optional - Custom settings for test execution
-//    fullRunConfig {
-//        instrumentationRunner = android.defaultConfig.testInstrumentationRunner //  "com.android.testRunner"
+    // optional - Custom settings for test execution
+    fullRunConfig {
+        instrumentationRunner = android.defaultConfig.testInstrumentationRunner //  "com.android.testRunner"
 //        withAnnotation = "com.my.annotation"
 //        withOutAnnotation = "com.my.not.annotation"
 //        limitationType = "CLASS"
 //        limitationValue = "foo.bar"
-////        instrumentationAPKPath = "/tmp/mytesti.apk" //optional - custom instrumentation apk path
-//    }
+//        instrumentationAPKPath = "/tmp/mytesti.apk" //optional - custom instrumentation apk path
+    }
 
 
-//    mode "FULL_RUN" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
-    mode "APP_CRAWLER" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
+    mode "FULL_RUN" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
+//    mode "APP_CRAWLER" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
 }
