@@ -2,6 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.os.Build;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -22,21 +24,29 @@ import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.text.StringStartsWith.startsWith;
 import static org.junit.Assert.assertThat;
 
 //import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
@@ -120,15 +130,18 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         onView(withText(R.string.wifi_networks)).perform(click());
 
         Map<APLNetworkId, WiFiApConfig> configuredNetworks = APL.getWifiAPConfigurations();
+        assertTrue(App.getDBManager().getProxiesCount() > 0);
         assertTrue(configuredNetworks.size() > 0);
 
         WiFiApConfig selectedWifiApConfig = null;
+        ProxyEntity selectedProxyEntity = App.getDBManager().getRandomProxy();
 
         for (APLNetworkId networkId : configuredNetworks.keySet())
         {
             WiFiApConfig wifiApConfig = configuredNetworks.get(networkId);
 
-            if (wifiApConfig.getSecurityType() != SecurityType.SECURITY_EAP)
+            if ((wifiApConfig.getSecurityType() != SecurityType.SECURITY_EAP)
+                    && wifiApConfig.getProxySetting() == ProxySetting.NONE)
             {
                 selectedWifiApConfig = wifiApConfig;
                 break;
@@ -136,7 +149,21 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         }
 
         assertNotNull(selectedWifiApConfig);
+        assertNotNull(selectedProxyEntity);
 
-        onData(allOf(is(instanceOf(WiFiApConfig.class)), hasEntry(equalTo("ssid"), is(selectedWifiApConfig.getSSID())))).perform(click());
+        onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
+                .inAdapterView(withId(android.R.id.list))
+                .perform(click());
+
+        onView(withId(R.id.wifi_name)).check(matches(withText(selectedWifiApConfig.getSSID())));
+
+        onView(withId(R.id.wifi_proxy_switch)).perform(click());
+        onView(withId(R.id.proxy_selector)).perform(click());
+
+        onData(hasToString(containsString(String.format("%s",selectedProxyEntity.getHost()))))
+                .inAdapterView(withId(android.R.id.list))
+                .perform(click());
+
+        onView(isRoot()).perform(ViewActions.pressBack());
     }
 }
