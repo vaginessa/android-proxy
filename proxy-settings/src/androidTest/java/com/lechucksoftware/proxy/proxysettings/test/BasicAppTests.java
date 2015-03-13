@@ -4,6 +4,8 @@ import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.RequiresDevice;
+import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -104,24 +106,23 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
     }
 
     @Test
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.LOLLIPOP)
     public void createNewPACProxy()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            openDrawer(R.id.drawer_layout);
+        openDrawer(R.id.drawer_layout);
 
-            onView(withText(R.string.pac_proxies)).perform(click());
-            onView(withId(R.id.add_new_proxy)).perform(click());
+        onView(withText(R.string.pac_proxies)).perform(click());
+        onView(withId(R.id.add_new_proxy)).perform(click());
 
-            PacEntity pacProxy = TestUtils.createRandomPACProxy();
+        PacEntity pacProxy = TestUtils.createRandomPACProxy();
 
-            onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.pac_url)))).perform(typeText(String.valueOf(pacProxy.getPacUriFile())));
+        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.pac_url)))).perform(typeText(String.valueOf(pacProxy.getPacUriFile())));
 
-            onView(withId(R.id.menu_save)).perform(click());
-        }
+        onView(withId(R.id.menu_save)).perform(click());
     }
 
     @Test
+    @RequiresDevice
     public void enableStaticProxyForWifiNetwork()
     {
         assertTrue(APL.getWifiManager().isWifiEnabled());
