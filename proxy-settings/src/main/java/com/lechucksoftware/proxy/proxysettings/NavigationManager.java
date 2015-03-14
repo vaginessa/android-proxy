@@ -81,7 +81,7 @@ public class NavigationManager
             switch (action)
             {
                 case WIFI_NETWORKS:
-                    navDrawerItem = new NavDrawerItem(NavigationAction.WIFI_NETWORKS, context.getString(R.string.wifi_access_points), R.drawable.ic_wifi_action_light, wifiNetworksNum);
+                    navDrawerItem = new NavDrawerItem(NavigationAction.WIFI_NETWORKS, context.getString(R.string.wifi_networks), R.drawable.ic_wifi_action_light, wifiNetworksNum);
                     break;
 
                 case HTTP_PROXIES_LIST:

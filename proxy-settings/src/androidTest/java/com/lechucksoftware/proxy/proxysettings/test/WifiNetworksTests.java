@@ -5,48 +5,40 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 
+import junit.framework.Assert;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import be.shouldit.proxy.lib.APL;
 
 /**
  * Created by mpagliar on 22/08/2014.
  */
-public class WifiNetworksTests extends InstrumentationTestCase
+public class WifiNetworksTests
 {
-    @Override
-    protected void setUp() throws Exception
+    @BeforeClass
+    public static void setUpAPL()
     {
-        super.setUp();
-
         APL.setup(App.getInstance());
     }
 
-    @SmallTest
-    public void testToggleWifi() throws Exception
+    @Test
+    public void toggleWifi() throws Exception
     {
         for(int i=0;i<10;i++)
         {
-            toggleWifi();
+            APL.enableWifi();
+            Thread.sleep(5000);
+            Assert.assertEquals(true, APL.getWifiManager().isWifiEnabled());
+
+            APL.disableWifi();
+            Thread.sleep(5000);
+            Assert.assertEquals(false, APL.getWifiManager().isWifiEnabled());
+
+            APL.enableWifi();
+            Thread.sleep(5000);
+            Assert.assertEquals(true, APL.getWifiManager().isWifiEnabled());
         }
-    }
-
-    public void toggleWifi() throws Exception
-    {
-        APL.enableWifi();
-        Thread.sleep(5000);
-        assertEquals(true, APL.getWifiManager().isWifiEnabled());
-
-        APL.disableWifi();
-        Thread.sleep(5000);
-        assertEquals(false, APL.getWifiManager().isWifiEnabled());
-
-        APL.enableWifi();
-        Thread.sleep(5000);
-        assertEquals(true, APL.getWifiManager().isWifiEnabled());
-    }
-
-    @Override
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
     }
 }

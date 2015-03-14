@@ -204,12 +204,12 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     {
         SnackbarManager.show(
                 Snackbar.with(getActivity())
-                        .type(SnackbarType.MULTI_LINE)
-                        .text(R.string.wifi_empty_list_wifi_off)
+                        .type(SnackbarType.SINGLE_LINE)
+                        .text(R.string.wifi_off_snackbar)
                         .swipeToDismiss(false)
                         .animation(false)
                         .color(Color.RED)
-                        .actionLabel("Enable")
+                        .actionLabel(R.string.enable_wifi)
                         .actionLabelTypeface(Typeface.DEFAULT_BOLD)
                         .actionListener(new ActionClickListener()
                         {

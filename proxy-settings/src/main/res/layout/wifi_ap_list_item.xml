@@ -99,9 +99,9 @@
         android:textColor="@color/grey_400"
         android:padding="3dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/wifi_ap_proxy_settings_icon"
-        android:layout_alignBottom="@id/wifi_ap_proxy_settings_icon"
-        android:layout_alignTop="@id/wifi_ap_proxy_settings_icon"
+        android:layout_toLeftOf="@id/wifi_ap_proxy_label"
+        android:layout_alignBottom="@id/wifi_ap_proxy_label"
+        android:layout_alignTop="@id/wifi_ap_proxy_label"
         android:layout_alignParentLeft="true"/>
 
 </RelativeLayout>

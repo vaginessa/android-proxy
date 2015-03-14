@@ -359,8 +359,8 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("ID: %s\n", getId().toString()));
-        sb.append(String.format("Wi-Fi Configuration Info: %s\n", getSSID()));
+        sb.append(String.format("SSID: %s\n", getSSID()));
+        sb.append(String.format("Internal ID: %s\n", getId().toString()));
         sb.append(String.format("Proxy setting: %s\n", getProxySetting().toString()));
         sb.append(String.format("Proxy: %s\n", getProxyStatusString()));
         sb.append(String.format("Is current network: %B\n", isActive()));

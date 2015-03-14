@@ -157,7 +157,7 @@ public class TestUtils
         return pd;
     }
 
-    private static PacEntity createRandomPACProxy()
+    public static PacEntity createRandomPACProxy()
     {
         PacEntity pacEntity = new PacEntity();
         pacEntity.setPacUrlFile("http://" + getRandomIP()+ "/proxy.pac");

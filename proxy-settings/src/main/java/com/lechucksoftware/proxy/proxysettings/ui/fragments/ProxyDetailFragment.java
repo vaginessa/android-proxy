@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -424,13 +425,23 @@ public class ProxyDetailFragment extends BaseDialogFragment
     public void enableSave()
     {
         saveEnabled = true;
-        getActivity().invalidateOptionsMenu();
+
+        FragmentActivity activity = getActivity();
+        if (activity != null)
+        {
+            activity.invalidateOptionsMenu();
+        }
     }
 
     public void disableSave()
     {
         saveEnabled = false;
-        getActivity().invalidateOptionsMenu();
+
+        FragmentActivity activity = getActivity();
+        if (activity != null)
+        {
+            activity.invalidateOptionsMenu();
+        }
     }
 
     @Override

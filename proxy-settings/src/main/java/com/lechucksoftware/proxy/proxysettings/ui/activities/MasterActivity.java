@@ -105,7 +105,7 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
             case WIFI_NETWORKS:
             case NOT_DEFINED:
             default:
-                mTitle = getString(R.string.wifi_access_points);
+                mTitle = getString(R.string.wifi_networks);
                 break;
 
             case HTTP_PROXIES_LIST:
