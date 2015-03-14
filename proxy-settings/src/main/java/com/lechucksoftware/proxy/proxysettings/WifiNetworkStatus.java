@@ -17,14 +17,14 @@ public class WifiNetworkStatus
 {
     private static final String TAG = WifiNetworkStatus.class.getSimpleName();
     private Map<APLNetworkId, WiFiApConfig> wifiApConfigsByAPLNetId;
-    private Map<Integer, WiFiApConfig> wifiApConfigsByWifiNetworkId;
+//    private Map<Integer, WiFiApConfig> wifiApConfigsByWifiNetworkId;
     private Map<APLNetworkId, ScanResult> notConfiguredWifi; // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
 
     private WiFiApConfig currentConfiguration;
 
     public WifiNetworkStatus()
     {
-        wifiApConfigsByWifiNetworkId = new ConcurrentHashMap<Integer, WiFiApConfig>();
+//        wifiApConfigsByWifiNetworkId = new ConcurrentHashMap<Integer, WiFiApConfig>();
         wifiApConfigsByAPLNetId = new ConcurrentHashMap<APLNetworkId, WiFiApConfig>();
         notConfiguredWifi = new ConcurrentHashMap<APLNetworkId, ScanResult>();
     }
@@ -39,22 +39,22 @@ public class WifiNetworkStatus
         return wifiApConfigsByAPLNetId.containsKey(aplNetworkId);
     }
 
-    public boolean containsKey(int networkId)
-    {
-        return wifiApConfigsByWifiNetworkId.containsKey(networkId);
-    }
+//    public boolean containsKey(int networkId)
+//    {
+//        return wifiApConfigsByWifiNetworkId.containsKey(networkId);
+//    }
 
     public WiFiApConfig get(APLNetworkId aplNetworkId)
     {
         return wifiApConfigsByAPLNetId.get(aplNetworkId);
     }
 
-    public WiFiApConfig get(int networkId)
-    {
-        return wifiApConfigsByWifiNetworkId.get(networkId);
-    }
+//    public WiFiApConfig get(int networkId)
+//    {
+//        return wifiApConfigsByWifiNetworkId.get(networkId);
+//    }
 
-    public void put(APLNetworkId aplNetworkId, WiFiApConfig wiFiAPConfig)
+    public void put(APLNetworkId aplNetworkId, WiFiApConfig wiFiApConfig)
     {
         if (aplNetworkId == null)
         {
@@ -62,15 +62,15 @@ public class WifiNetworkStatus
             return;
         }
 
-        if (wiFiAPConfig == null)
+        if (wiFiApConfig == null)
         {
             Timber.e(new Exception(),"Trying to put a Wi-Fi network using a NULL WiFiApConfig");
             return;
         }
 
-        Timber.d("Adding '%s' Wi-Fi network to WifiNetworkStatus object", wiFiAPConfig.getSSID());
-        wifiApConfigsByAPLNetId.put(aplNetworkId, wiFiAPConfig);
-        wifiApConfigsByWifiNetworkId.put(wiFiAPConfig.getNetworkId(), wiFiAPConfig);
+        Timber.d("Adding '%s' Wi-Fi network to WifiNetworkStatus object", wiFiApConfig.getSSID());
+        wifiApConfigsByAPLNetId.put(aplNetworkId, wiFiApConfig);
+//        wifiApConfigsByWifiNetworkId.put(wiFiApConfig.getNetworkId(), wiFiApConfig);
     }
 
     public void remove(APLNetworkId aplNetworkId)
@@ -90,17 +90,17 @@ public class WifiNetworkStatus
         }
         else
         {
-            Timber.e(new Exception(),"Trying to remove a Wi-Fi network not available into the wifiApConfigsByAPLNetId MAP");
+            Timber.w("Trying to remove a Wi-Fi network not available into the wifiApConfigsByAPLNetId MAP");
         }
 
-        if (toRemove != null && wifiApConfigsByWifiNetworkId.containsKey(toRemove.getNetworkId()))
-        {
-            wifiApConfigsByWifiNetworkId.remove(toRemove.getNetworkId());
-        }
-        else
-        {
-            Timber.e(new Exception(),"Trying to remove a Wi-Fi network not available into the wifiApConfigsByWifiNetworkId MAP");
-        }
+//        if (toRemove != null && wifiApConfigsByWifiNetworkId.containsKey(toRemove.getNetworkId()))
+//        {
+//            wifiApConfigsByWifiNetworkId.remove(toRemove.getNetworkId());
+//        }
+//        else
+//        {
+//            Timber.w("Trying to remove a Wi-Fi network not available into the wifiApConfigsByWifiNetworkId MAP");
+//        }
     }
 
     public Collection<WiFiApConfig> values()

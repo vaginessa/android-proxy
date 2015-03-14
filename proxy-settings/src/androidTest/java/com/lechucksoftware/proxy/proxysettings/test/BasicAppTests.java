@@ -1,133 +1,170 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
-import android.graphics.Point;
+import android.os.Build;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.RequiresDevice;
+import android.support.test.filters.SdkSuppress;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
+import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
-import com.robotium.solo.Solo;
-import com.squareup.spoon.Spoon;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.Map;
+
+import be.shouldit.proxy.lib.APL;
+import be.shouldit.proxy.lib.APLNetworkId;
+import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.enums.SecurityType;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+
+import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.text.StringStartsWith.startsWith;
+import static org.junit.Assert.assertThat;
+
+//import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
+
+@RunWith(AndroidJUnit4.class)
 public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivity>
 {
-    private Solo solo;
+    private MasterActivity mActivity;
 
     public BasicAppTests()
     {
         super(MasterActivity.class);
     }
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
-        solo = new Solo(getInstrumentation(), getActivity());
+        super.setUp();
+        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        mActivity = getActivity();
     }
 
-    @Smoke
-    public void testCreateNewProxy() throws Exception
+    @After
+    public void tearDown () throws Exception
     {
-        Spoon.screenshot(getActivity(), "init");
-
-        assertTrue(solo.waitForActivity(MasterActivity.class));
-
-        dismissAnyStartupDialog();
-
-        openNavigationDrawer();
-
-        assertTrue(solo.waitForText(getActivity().getString(R.string.proxies_list)));
-        solo.clickOnText(getActivity().getString(R.string.proxies_list));
-
-        assertTrue(solo.waitForText(getActivity().getString(R.string.proxies_list)));
-
-        solo.clickOnActionBarItem(R.id.menu_add_new_proxy);
-
-        assertTrue(solo.waitForText(getActivity().getString(R.string.create_new_proxy)));
-
-        String proxyIp = TestUtils.getRandomIP();
-        int proxyPort = TestUtils.getRandomPort();
-
-        solo.enterText(0,proxyIp);
-        solo.enterText(1,String.valueOf(proxyPort));
-
-        assertTrue(solo.waitForView(R.id.menu_save));
-
-        solo.clickOnActionBarItem(R.id.menu_save);
-
-        Spoon.screenshot(getActivity(), "end");
+        mActivity.finish();
     }
 
-    @Smoke
-    public void testEnableProxyForWifiNetwork()
+    @Test
+    public void checkPreconditions()
     {
-        Spoon.screenshot(getActivity(), "init");
+        assertThat(mActivity, notNullValue());
 
-        assertTrue(solo.waitForActivity(MasterActivity.class));
-
-        dismissAnyStartupDialog();
-
-        openNavigationDrawer();
-
-        assertTrue(solo.waitForText(getActivity().getString(R.string.wifi_access_points)));
-        solo.clickOnText(getActivity().getString(R.string.wifi_access_points));
-
-        assertTrue(solo.waitForText(getActivity().getString(R.string.wifi_access_points)));
-
-        solo.scrollListToTop(0);
-        solo.clickInList(0);
-
-        assertTrue(solo.waitForText(getActivity().getString(R.string.edit_wifi_ap)));
-
-        Spoon.screenshot(getActivity(), "end");
+        // Check that Instrumentation was correctly injected in setUp()
+        assertThat(getInstrumentation(), notNullValue());
     }
 
-    /**
-     * Open the navigation drawer with a drag gesture. Click based triggering is
-     * flaky on SDK < 18
-     */
-    public void openNavigationDrawer() {
+    @Test
+    public void createNewStaticProxy()
+    {
+        openDrawer(R.id.drawer_layout);
 
-        Point deviceSize = new Point();
-        getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);
+        onView(withText(R.string.static_proxies)).perform(click());
+        onView(withId(R.id.add_new_proxy)).perform(click());
 
-        int screenWidth = deviceSize.x;
-        int screenHeight = deviceSize.y;
-        int fromX = 0;
-        int toX = screenWidth / 2;
-        int fromY = screenHeight / 2;
-        int toY = fromY;
+        ProxyEntity staticProxy = TestUtils.createRandomHTTPProxy();
+        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_host)))).perform(typeText(staticProxy.getHost()));
+        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_port)))).perform(typeText(String.valueOf(staticProxy.getPort())));
 
-        solo.drag(fromX, toX, fromY, toY, 1);
+//        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_bypass)))).perform(typeText(String.valueOf(proxyPort)));
+
+        onView(withId(R.id.menu_save)).perform(click());
+
+        assertTrue(App.getDBManager().findProxy(staticProxy.getHost(),staticProxy.getPort(),"") != -1);
     }
 
-    private void dismissAnyStartupDialog()
+    @Test
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.LOLLIPOP)
+    public void createNewPACProxy()
     {
-        if (solo.waitForDialogToOpen(1000))
+        openDrawer(R.id.drawer_layout);
+
+        onView(withText(R.string.pac_proxies)).perform(click());
+        onView(withId(R.id.add_new_proxy)).perform(click());
+
+        PacEntity pacProxy = TestUtils.createRandomPACProxy();
+
+        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.pac_url)))).perform(typeText(String.valueOf(pacProxy.getPacUriFile())));
+
+        onView(withId(R.id.menu_save)).perform(click());
+    }
+
+    @Test
+    @RequiresDevice
+    public void enableStaticProxyForWifiNetwork()
+    {
+        assertTrue(APL.getWifiManager().isWifiEnabled());
+
+        openDrawer(R.id.drawer_layout);
+        onView(withText(R.string.wifi_networks)).perform(click());
+
+        Map<APLNetworkId, WiFiApConfig> configuredNetworks = APL.getWifiAPConfigurations();
+        assertTrue(App.getDBManager().getProxiesCount() > 0);
+        assertTrue(configuredNetworks.size() > 0);
+
+        WiFiApConfig selectedWifiApConfig = null;
+        ProxyEntity selectedProxyEntity = App.getDBManager().getRandomProxy();
+
+        for (APLNetworkId networkId : configuredNetworks.keySet())
         {
-            if (solo.waitForText(getActivity().getString(R.string.ok)))
+            WiFiApConfig wifiApConfig = configuredNetworks.get(networkId);
+
+            if ((wifiApConfig.getSecurityType() != SecurityType.SECURITY_EAP)
+                    && wifiApConfig.getProxySetting() == ProxySetting.NONE)
             {
-                assertTrue(solo.getButton(getActivity().getString(R.string.ok)).callOnClick());
-                assertTrue(solo.waitForDialogToClose());
-            }
-            else
-            {
-                solo.goBack();
+                selectedWifiApConfig = wifiApConfig;
+                break;
             }
         }
-    }
 
-    @Override
-    public void tearDown() throws Exception
-    {
-        try
-        {
-            solo.finishOpenedActivities();
-        }
-        catch (Throwable e)
-        {
-            e.printStackTrace();
-        }
+        assertNotNull(selectedWifiApConfig);
+        assertNotNull(selectedProxyEntity);
 
-        super.tearDown();
+        onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
+                .inAdapterView(withId(android.R.id.list))
+                .perform(click());
+
+        onView(withId(R.id.wifi_name)).check(matches(withText(selectedWifiApConfig.getSSID())));
+
+        onView(withId(R.id.wifi_proxy_switch)).perform(click());
+        onView(withId(R.id.proxy_selector)).perform(click());
+
+        onData(hasToString(containsString(String.format("%s",selectedProxyEntity.getHost()))))
+                .inAdapterView(withId(android.R.id.list))
+                .perform(click());
+
+        onView(isRoot()).perform(ViewActions.pressBack());
     }
 }

@@ -1,20 +1,31 @@
 package com.lechucksoftware.proxy.proxysettings.ui.base;
 
-import android.app.Activity;
-import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
+import android.util.Log;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
-import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+
+import java.util.List;
 
 import timber.log.Timber;
 
 /**
  * Created by marco on 07/11/13.
  */
-public class BaseActivity extends Activity
+public class BaseActivity extends ActionBarActivity
 {
     private static boolean active = false;
 
@@ -57,6 +68,18 @@ public class BaseActivity extends Activity
 
         Timber.tag(this.getClass().getSimpleName());
         Timber.d("onResume");
+
+        IntentFilter ifilt = new IntentFilter();
+        ifilt.addAction(Intents.SERVICE_COMUNICATION);
+
+        try
+        {
+            registerReceiver(broadcastReceiver, ifilt);
+        }
+        catch (IllegalArgumentException e)
+        {
+            Timber.e(e,"Exception resuming BaseActivity");
+        }
     }
 
     @Override
@@ -66,6 +89,16 @@ public class BaseActivity extends Activity
 
         Timber.tag(this.getClass().getSimpleName());
         Timber.d("onPause");
+
+        try
+        {
+            // Stop the registered status receivers
+            unregisterReceiver(broadcastReceiver);
+        }
+        catch (IllegalArgumentException e)
+        {
+            Timber.e(e,"Exception pausing BaseWifiActivity");
+        }
     }
 
     @Override
@@ -97,11 +130,14 @@ public class BaseActivity extends Activity
     {
         try
         {
-            Fragment containedFragment = getFragmentManager().findFragmentById(R.id.fragment_container);
-            if (containedFragment instanceof IBaseFragment)
+            List<Fragment> fragments = getSupportFragmentManager().getFragments(); //findFragmentById(R.id.fragment_container);
+            for (Fragment f : fragments)
             {
-                IBaseFragment f = (IBaseFragment) containedFragment;
-                f.refreshUI();
+                if (f instanceof IBaseFragment)
+                {
+                    IBaseFragment ibf = (IBaseFragment) f;
+                    ibf.refreshUI();
+                }
             }
         }
         catch (Exception e)
@@ -109,4 +145,74 @@ public class BaseActivity extends Activity
             Timber.e(e, "Exception during IBaseFragment refresh from %s",this.getClass().getSimpleName());
         }
     }
+
+    private void handleIntent(Intent intent)
+    {
+        String action = intent.getAction();
+
+        App.getTraceUtils().logIntent(this.getClass().getSimpleName(), intent, Log.DEBUG, true);
+
+        if (action.equals(Intents.SERVICE_COMUNICATION))
+        {
+            final String title;
+            final String message;
+            final String closeActivty;
+
+            if (intent.hasExtra(Constants.SERVICE_COMUNICATION_TITLE))
+            {
+                title = intent.getStringExtra(Constants.SERVICE_COMUNICATION_TITLE);
+            }
+            else
+            {
+                title = "";
+            }
+
+            if (intent.hasExtra(Constants.SERVICE_COMUNICATION_MESSAGE))
+            {
+                message = intent.getStringExtra(Constants.SERVICE_COMUNICATION_MESSAGE);
+            }
+            else
+            {
+                message = "";
+            }
+
+            if (intent.hasExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY))
+            {
+                closeActivty = intent.getStringExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY);
+            }
+            else
+            {
+                closeActivty = "";
+            }
+
+            UIUtils.showDialog(BaseActivity.this, message, title, new MaterialDialog.ButtonCallback()
+            {
+
+                @Override
+                public void onPositive(MaterialDialog dialog)
+                {
+
+                    if (!TextUtils.isEmpty(closeActivty)
+                            && closeActivty.equals(this.getClass().getSimpleName()))
+                    {
+                        finish();
+                    }
+                }
+
+            });
+        }
+        else
+        {
+            Timber.e("Received intent not handled: " + intent.getAction());
+        }
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            handleIntent(intent);
+        }
+    };
 }

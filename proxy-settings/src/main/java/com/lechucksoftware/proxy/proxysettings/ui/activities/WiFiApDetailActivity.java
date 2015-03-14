@@ -1,12 +1,12 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
-import android.app.ActionBar;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
@@ -36,19 +36,19 @@ public class WiFiApDetailActivity extends BaseWifiActivity
         instance = this;
         setContentView(R.layout.main_layout);
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         Intent callerIntent = getIntent();
         if (callerIntent != null && callerIntent.hasExtra(Constants.SELECTED_AP_CONF_ARG))
         {
-            APLNetworkId selectedId = (APLNetworkId) callerIntent.getExtras().getSerializable(Constants.SELECTED_AP_CONF_ARG);
+            APLNetworkId selectedId = callerIntent.getExtras().getParcelable(Constants.SELECTED_AP_CONF_ARG);
 
             WiFiApDetailFragment detail = WiFiApDetailFragment.newInstance(selectedId);
             fm.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.fragment_container, detail).commit();
 
-            ActionBar actionBar = getActionBar();
+            ActionBar actionBar = getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(false);
             actionBar.setDisplayShowTitleEnabled(true);

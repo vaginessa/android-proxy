@@ -26,8 +26,9 @@ public class App extends Application
     private DataSource dbManager;
     public AndroidMarket activeMarket;
     private CacheManager cacheManager;
+    private NavigationManager navigationManager;
+
     public Boolean demoMode;
-//    public Boolean wifiActionEnabled;
     private TraceUtils traceUtils;
     private EventsReporting eventsReporter;
 
@@ -56,11 +57,12 @@ public class App extends Application
 
         APL.setup(App.this);
 
-        getTraceUtils().startTrace(TAG, "STARTUP", Log.ERROR, true);
+        getTraceUtils().startTrace(TAG, "STARTUP", Log.INFO, true);
 
         wifiNetworksManager = new WifiNetworksManager(App.this);
         dbManager = new DataSource(App.this);
         cacheManager = new CacheManager(App.this);
+        navigationManager = new NavigationManager(App.this);
 
         activeMarket = Utils.getInstallerMarket(App.this);
 
@@ -69,14 +71,14 @@ public class App extends Application
         // Start ASAP a Wi-Fi scan
 //        APL.getWifiManager().startScan();
 
-        getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getTraceUtils().partialTrace(TAG, "STARTUP", Log.DEBUG);
 
         // TODO: evaluate moving to AsyncUpdateApplicationStatistics
         ApplicationStatistics.updateInstallationDetails(this);
 
-        getTraceUtils().partialTrace(TAG, "STARTUP", Log.ERROR);
+        getTraceUtils().partialTrace(TAG, "STARTUP", Log.DEBUG);
 
-        Timber.d(TAG, "Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
+        Timber.d("Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
     }
 
@@ -133,6 +135,16 @@ public class App extends Application
         return getInstance().dbManager;
     }
 
+    public static NavigationManager getNavigationManager()
+    {
+        if (getInstance().navigationManager == null)
+        {
+            Timber.e(new Exception(),"Cannot find valid instance of NavigationManager, trying to instanciate a new one");
+            getInstance().navigationManager = new NavigationManager(getInstance());
+        }
+
+        return getInstance().navigationManager;
+    }
 //    public static CacheManager getCacheManager()
 //    {
 //        if (getInstance().cacheManager == null)

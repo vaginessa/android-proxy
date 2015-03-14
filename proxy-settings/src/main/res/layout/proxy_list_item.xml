@@ -2,7 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list_item_ap_layout"
+    android:id="@+id/wifi_ap_layout"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:padding="5dp">
@@ -15,54 +15,79 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="65536"
-        android:padding="3dp">
+        android:layout_marginRight="10dp">
     </TextView>
 
     <TextView
-            android:id="@+id/list_item_proxy_host"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:lines="1"
-            android:ellipsize="end"
-            android:padding="3dp"
-            android:layout_toLeftOf="@id/list_item_proxy_port"
-            android:text="255.255.255.255">
+        android:id="@+id/list_item_proxy_host"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:lines="1"
+        android:ellipsize="end"
+        android:layout_toLeftOf="@id/list_item_proxy_port"
+        android:layout_marginLeft="10dp"
+        android:text="255.255.255.255">
     </TextView>
 
     <!--<com.lechucksoftware.proxy.proxysettings.ui.components.TagsView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:id="@+id/list_item_proxy_tags"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--app:singleLine="true"-->
-            <!--android:layout_below="@id/list_item_proxy_host"-->
-            <!--android:layout_toLeftOf="@+id/li_proxy_used"/>-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:id="@+id/list_item_proxy_tags"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--app:singleLine="true"-->
+    <!--android:layout_below="@id/list_item_proxy_host"-->
+    <!--android:layout_toLeftOf="@+id/li_proxy_used"/>-->
 
-    <TextView
+
+    <LinearLayout
+        android:id="@+id/proxy_used_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red_400"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:id="@+id/proxy_used_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_locked"/>
+
+        <TextView
             android:id="@+id/li_proxy_used_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_locked"
-            android:drawablePadding="-10dp"
-            android:padding="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/list_item_proxy_port"
-            android:text="2"
+            android:layout_toLeftOf="@+id/proxy_used_icon"
+            android:text="21"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
             android:gravity="center"/>
 
+    </LinearLayout>
+
     <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:id="@+id/list_item_proxy_bypass"
-            android:layout_marginTop="11dp"
-            android:padding="3dp"
-            android:singleLine="true"
-            android:layout_below="@id/list_item_proxy_host"
-            android:layout_toLeftOf="@id/li_proxy_used_txt"
-            android:text="sdfas dfasdfasdfasdfasdf asdf asdfas df asdfas dfasdfasdfasdfasdfasdfasdf asdf asdf asdfasdf"/>
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/list_item_proxy_bypass"
+        android:layout_below="@+id/list_item_proxy_host"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="10dp"
+        android:lines="2"
+        android:ellipsize="end"
+        android:layout_toLeftOf="@+id/proxy_used_layout"
+        android:layout_marginLeft="10dp"
+        android:text="sdfasdfasdfasdfasdfasdfasdasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdasdfasdf"
+        android:gravity="bottom"
+        android:textSize="12sp"
+        android:textColor="@color/grey_400"/>
 
 </RelativeLayout>

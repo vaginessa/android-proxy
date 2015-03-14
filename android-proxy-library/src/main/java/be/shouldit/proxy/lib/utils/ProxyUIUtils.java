@@ -43,6 +43,10 @@ public class ProxyUIUtils
 							description = callerContext.getResources().getString(R.string.status_title_web_not_reachable);
 							break;
 
+                        case PAC_VALID_URI:
+                            description = callerContext.getResources().getString(R.string.status_title_invalid_pac);
+                            break;
+
 						default:
 							description = "";
 					}
@@ -104,7 +108,7 @@ public class ProxyUIUtils
 				else
 				{
 					description = callerContext.getResources().getString(R.string.status_description_enabled);
-					description = description + " " + conf.toStatusString();
+					description = description + " " + conf.getProxyStatusString();
 					break;
 				}
 
@@ -125,7 +129,7 @@ public class ProxyUIUtils
 
 	public static String ProxyConfigToStatusString(WiFiApConfig conf, Context callerContext)
 	{
-		String message = String.format("%s", conf.toStatusString());
+		String message = String.format("%s", conf.getProxyStatusString());
 
 		message += " - " + GetStatusTitle(conf, callerContext);
 

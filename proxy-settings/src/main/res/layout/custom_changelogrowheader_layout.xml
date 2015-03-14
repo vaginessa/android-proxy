@@ -20,7 +20,6 @@
         android:text=""
         android:textAllCaps="true"
         android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="@android:color/primary_text_light"
         android:textStyle="bold"/>
 
     <!-- ChangeLog Header [Date] You have to use the id="chg_headerDate" -->
@@ -33,7 +32,6 @@
         android:text=""
         android:textAllCaps="true"
         android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="@android:color/primary_text_light"
         android:textStyle="bold"/>
 
 

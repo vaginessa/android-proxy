@@ -1,11 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
@@ -15,10 +17,11 @@ import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.constants.APLConstants;
+import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class MaintenanceService extends EnhancedIntentService
+public class MaintenanceService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = MaintenanceService.class.getSimpleName();
@@ -100,25 +103,38 @@ public class MaintenanceService extends EnhancedIntentService
 
     private void checkInUseProxyFlag()
     {
+        App.getTraceUtils().startTrace(TAG,"checkInUseProxyFlag",Log.DEBUG);
+
+        int checked = 0;
+
         try
         {
             Map<Long, ProxyEntity> proxiesMap = App.getDBManager().getAllProxiesWithTAGs();
             if (proxiesMap != null)
             {
-                App.getTraceUtils().startTrace(TAG,"checkInUseProxyTag",Log.DEBUG);
-
                 for (Long proxyID : proxiesMap.keySet())
                 {
-                    App.getDBManager().updateInUseFlag(proxyID);
+                    App.getDBManager().updateInUseFlag(proxyID, ProxySetting.STATIC);
+                    checked++;
                 }
+            }
 
-                App.getTraceUtils().stopTrace(TAG,"checkInUseProxyTag", String.format("Checked %d proxies",proxiesMap.size()), Log.DEBUG);
+            Map<Long, PacEntity> pacMac = App.getDBManager().getAllPac();
+            if (pacMac != null)
+            {
+                for (Long pacId : pacMac.keySet())
+                {
+                    App.getDBManager().updateInUseFlag(pacId, ProxySetting.PAC);
+                    checked++;
+                }
             }
         }
         catch (Exception e)
         {
             Timber.e(e,"Exception during checkInUseProxyFlag");
         }
+
+        App.getTraceUtils().stopTrace(TAG,"checkInUseProxyFlag", String.format("Checked %d proxies",checked), Log.DEBUG);
     }
 
     private void checkProxiesCountryCodes()

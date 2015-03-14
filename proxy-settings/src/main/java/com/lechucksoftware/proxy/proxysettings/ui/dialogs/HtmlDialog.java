@@ -13,6 +13,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
@@ -93,19 +94,20 @@ public class HtmlDialog extends BaseDialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-        builder.setTitle(title);
-        builder.setView(webView);
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
+        builder.title(title);
+        builder.customView(webView, false);
 
-        builder.setPositiveButton(getResources().getText(R.string.ok), new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+        builder.positiveText(getResources().getText(R.string.ok));
+        builder.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog)
             {
-                dismiss();
+                dialog.dismiss();
             }
         });
 
-        AlertDialog alert = builder.create();
+        AlertDialog alert = builder.build();
         return alert;
     }
 

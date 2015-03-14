@@ -1,12 +1,13 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import com.lechucksoftware.proxy.proxysettings.R;
-
-import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+
+import com.lechucksoftware.proxy.proxysettings.R;
 
 public class AdvancedPrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
@@ -16,7 +17,7 @@ public class AdvancedPrefsFragment extends PreferenceFragment implements OnShare
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.advanced_preferences);
 		
-		ActionBar actionBar = getActivity().getActionBar();
+		ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 	

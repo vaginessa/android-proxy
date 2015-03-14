@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,10 +16,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
@@ -38,7 +39,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 10/10/13.
  */
-public class DeveloperOptionsActivity extends Activity
+public class DeveloperOptionsActivity extends ActionBarActivity
 {
     public static final String TAG = DeveloperOptionsActivity.class.getSimpleName();
     public LinearLayout testDBContainer;
@@ -220,9 +221,17 @@ public class DeveloperOptionsActivity extends Activity
         TextView textViewTest = new TextView(this);
         testDBContainer.addView(textViewTest);
         textViewTest.setTextSize(10);
+
         Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
         List<ProxyEntity> list = new ArrayList<ProxyEntity>(savedProxies.values());
         for (ProxyEntity p : list)
+        {
+            textViewTest.append(p.toString() + "\n");
+        }
+
+        Map<Long, PacEntity> savedPac = App.getDBManager().getAllPac();
+        List<PacEntity> pacslist = new ArrayList<PacEntity>(savedPac.values());
+        for (PacEntity p : pacslist)
         {
             textViewTest.append(p.toString() + "\n");
         }
@@ -344,7 +353,17 @@ public class DeveloperOptionsActivity extends Activity
                 for (int i=0;i<=numWifis;i++)
                 {
                     String ssid = TestUtils.createFakeWifiNetwork(_developerOptionsActivity);
-                    publishProgress(String.format("Created #[%d / %d] TEST Wi-Fi network: %s", i , numWifis, ssid));
+                    Timber.e("----------------------------------------------");
+                    publishProgress(String.format("Created #[%d / %d] TEST Wi-Fi network: %s", i, numWifis, ssid));
+
+                    try
+                    {
+                        Thread.sleep(500);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        Timber.e(e,"Exception during sleep");
+                    }
                 }
             }
             else if (_action == TestAction.REMOVE_TEST_WIFI_NETWORKS)

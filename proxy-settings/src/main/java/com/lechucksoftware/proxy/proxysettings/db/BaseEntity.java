@@ -1,5 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -8,7 +11,7 @@ import java.util.UUID;
 /**
  * Created by Marco on 23/10/13.
  */
-public class BaseEntity implements Serializable
+public class BaseEntity implements Parcelable
 {
     private UUID uuid;
     private long id;
@@ -16,6 +19,27 @@ public class BaseEntity implements Serializable
     private long lastModifiedDate;
     private boolean isPersisted;
     private boolean isSelected;
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        dest.writeSerializable(this.uuid);
+        dest.writeLong(this.id);
+        dest.writeLong(this.creationDate);
+        dest.writeLong(this.lastModifiedDate);
+        dest.writeByte(isPersisted ? (byte) 1 : (byte) 0);
+        dest.writeByte(isSelected ? (byte) 1 : (byte) 0);
+    }
+
+    public BaseEntity(Parcel in)
+    {
+        this.uuid = (UUID) in.readSerializable();
+        this.id = in.readLong();
+        this.creationDate = in.readLong();
+        this.lastModifiedDate = in.readLong();
+        this.isPersisted = in.readByte() != 0;
+        this.isSelected = in.readByte() != 0;
+    }
 
     public BaseEntity()
     {
@@ -100,4 +124,9 @@ public class BaseEntity implements Serializable
     {
         this.isSelected = isSelected;
     }
+
+    @Override
+    public int describeContents() { return 0; }
+
+
 }

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
@@ -27,15 +28,17 @@ public class MailFeedbackDialog extends BaseDialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.setTitle(R.string.sorry_for_that);
-        builder.setMessage(R.string.mail_feedback_dialog);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+        builder.title(R.string.sorry_for_that);
+        builder.content(R.string.mail_feedback_dialog);
+        builder.positiveText(R.string.ok);
+        builder.negativeText(R.string.no);
+
+        builder.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog)
             {
-
                 startupAction.updateStatus(StartupActionStatus.DONE);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
@@ -44,13 +47,10 @@ public class MailFeedbackDialog extends BaseDialogFragment
 
                 Utils.sendFeedbackMail(getActivity());
             }
-        });
 
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+            @Override
+            public void onNegative(MaterialDialog dialog)
             {
-
                 startupAction.updateStatus(StartupActionStatus.REJECTED);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
@@ -59,7 +59,7 @@ public class MailFeedbackDialog extends BaseDialogFragment
             }
         });
 
-        AlertDialog alert = builder.create();
+        MaterialDialog alert = builder.build();
         return alert;
     }
 

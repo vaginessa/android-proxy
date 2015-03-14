@@ -1,10 +1,15 @@
 package com.lechucksoftware.proxy.proxysettings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.services.SaveWifiNetworkService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +40,16 @@ public class WifiNetworksManager
     {
         context = ctx;
         wifiNetworkStatus = new WifiNetworkStatus();
+    }
+
+    public void asyncSaveWifiApConfig(WiFiApConfig configuration)
+    {
+        if (configuration != null)
+        {
+            Intent serviceIntent = new Intent(context, SaveWifiNetworkService.class);
+            serviceIntent.putExtra(Constants.WIFI_AP_NETWORK_ARG, configuration);
+            context.startService(serviceIntent);
+        }
     }
 
     public void updateWifiApConfigs()
@@ -186,7 +201,7 @@ public class WifiNetworksManager
             catch (IllegalArgumentException e)
             {
                 Timber.e("config_list", configListToDBG().toString());
-                Timber.e(e, "Exception during sort of WiFiApConfigs");
+                Timber.e(e, "Exception during sort of WiFiAPConfigs");
             }
         }
 
@@ -222,28 +237,47 @@ public class WifiNetworksManager
     {
         WiFiApConfig updatedConf = null;
 
-        App.getTraceUtils().startTrace(TAG, "updateCurrentConfiguration", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "updateCurrentConfiguration", Log.DEBUG);
 
-        if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
+        try
         {
-            WifiInfo info = APL.getWifiManager().getConnectionInfo();
-            if (info != null)
+
+            if (APL.getWifiManager() != null && APL.getWifiManager().isWifiEnabled())
             {
-                int networkId = info.getNetworkId();
+                WifiInfo info = APL.getWifiManager().getConnectionInfo();
 
-                synchronized (wifiNetworkStatus)
+                if (info != null)
                 {
-                    if (wifiNetworkStatus.containsKey(networkId))
-                    {
-                        updatedConf = wifiNetworkStatus.get(networkId);
-                    }
+                    int networkId = info.getNetworkId();
 
-                    mergeWithCurrentConfiguration(updatedConf);
+                    if (networkId != -1)
+                    {
+                        WifiConfiguration wifiConfiguration = APL.getConfiguredNetwork(networkId);
+
+                        if (wifiConfiguration != null)
+                        {
+                            WiFiApConfig networkConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
+
+                            synchronized (wifiNetworkStatus)
+                            {
+                                if (wifiNetworkStatus.containsKey(networkConfig.getAPLNetworkId()))
+                                {
+                                    updatedConf = wifiNetworkStatus.get(networkConfig.getAPLNetworkId());
+                                }
+
+                                mergeWithCurrentConfiguration(updatedConf);
+                            }
+                        }
+                    }
                 }
             }
         }
+        catch (Exception e)
+        {
+            Timber.e(e,"Exception updating current configuration");
+        }
 
-        App.getTraceUtils().stopTrace(TAG, "updateCurrentConfiguration", Log.INFO);
+        App.getTraceUtils().stopTrace(TAG, "updateCurrentConfiguration", Log.DEBUG);
 
         return updatedConf;
     }

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
@@ -17,23 +18,25 @@ public class BetaTestCommunityDialog extends BaseDialogFragment
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
+		MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.setTitle(R.string.welcome_aboard);
-		builder.setMessage(R.string.beta_testing_instructions);
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
-		{
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-			{
+        builder.title(R.string.welcome_aboard);
+		builder.content(R.string.beta_testing_instructions);
+		builder.positiveText(R.string.ok);
+
+        builder.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog)
+            {
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
                         R.string.analytics_lab_beta_test_community_dialog, 1L);
 
                 UIUtils.openBetaTestProject(getActivity());
-			}
-		});
+            }
+        });
 
-		AlertDialog alert = builder.create();
+		MaterialDialog alert = builder.build();
 		return alert;
 	}
 

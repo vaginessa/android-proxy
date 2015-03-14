@@ -1,16 +1,16 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,17 +20,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.NavDrawerListAdapter;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavDrawFragment extends Fragment
+public class NavDrawFragment extends Fragment implements IBaseFragment
 {
+    private static NavDrawFragment instance;
 
     /**
      * Remember the position of the selected item.
@@ -42,6 +44,7 @@ public class NavDrawFragment extends Fragment
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+
 
     /**
      * A pointer to the current callbacks instance (the Activity).
@@ -60,9 +63,11 @@ public class NavDrawFragment extends Fragment
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private NavDrawerListAdapter navDrawerItemsAdapter;
 
     public NavDrawFragment()
     {
+        instance = this;
     }
 
     @Override
@@ -94,35 +99,50 @@ public class NavDrawFragment extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
+        mDrawerListView = (ListView) view.findViewById(R.id.navigation_drawer_listview);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+
                 selectItem(position);
+
             }
         });
 
-//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-//                getActionBar().getThemedContext(),
-//                android.R.layout.simple_list_item_activated_1,
-//                android.R.id.text1,
-//                new String[]{
-//                        getString(R.string.title_section1),
-//                        getString(R.string.wifi_access_points),
-//                        getString(R.string.proxies_list),
-//                }));
+        return view;
+    }
 
-        mDrawerListView.setAdapter(new NavDrawerListAdapter(getActivity(), UIUtils.getNavDrawerItems(getActivity())));
+    @Override
+    public void onResume()
+    {
+        super.onResume();
 
+        refreshData();
+
+        mDrawerListView.setAdapter(navDrawerItemsAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+    }
 
-        return mDrawerListView;
+    @Override
+    public void refreshUI()
+    {
+        refreshData();
+    }
+
+    public void refreshData()
+    {
+        if (navDrawerItemsAdapter == null)
+        {
+            navDrawerItemsAdapter = new NavDrawerListAdapter(getActivity());
+        }
+
+        navDrawerItemsAdapter.setData(App.getNavigationManager().getNavigationDrawerItems());
     }
 
     public boolean isDrawerOpen()
@@ -161,7 +181,7 @@ public class NavDrawFragment extends Fragment
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar =  ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
@@ -170,7 +190,6 @@ public class NavDrawFragment extends Fragment
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_navigation_drawer,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         )
@@ -322,15 +341,9 @@ public class NavDrawFragment extends Fragment
      */
     private void showGlobalContextActionBar()
     {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
-    }
-
-    private ActionBar getActionBar()
-    {
-        return getActivity().getActionBar();
     }
 
     /**

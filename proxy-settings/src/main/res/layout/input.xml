@@ -11,13 +11,11 @@
     <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/field_title"
             android:visibility="visible"
             android:paddingBottom="4dp"
             android:textStyle="bold"
             android:layout_marginRight="10dp"
-            android:textColor="@android:color/secondary_text_dark"
             android:text="TITLE"/>
 
     <RelativeLayout
@@ -28,10 +26,9 @@
                 android:id="@+id/field_value_readonly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_medium_material"
                 android:layout_marginLeft="5dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="123.123.123.123"
-                android:textColor="@android:color/primary_text_dark"/>
+                android:text="123.123.123.123"/>
 
         <EditText
                 android:id="@+id/field_value"
@@ -43,7 +40,6 @@
                 android:text=""
                 android:hint="e.g. 123.123.123.123"
                 android:layout_toLeftOf="@+id/field_action"
-                android:textColor="@android:color/primary_text_dark"
                 />
 
         <!--<ImageButton-->

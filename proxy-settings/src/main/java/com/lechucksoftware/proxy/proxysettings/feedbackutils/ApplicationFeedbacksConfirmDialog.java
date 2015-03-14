@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 
@@ -54,31 +55,27 @@ public class ApplicationFeedbacksConfirmDialog extends BaseDialogFragment
 //    	String fulldesc = String.format(formatdesc, appInfo.pname);
 //    	dialog_accept_desc.setText(fulldesc);
     	
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(view);
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
+        builder.customView(view, false);
         
-        builder.setTitle(R.string.application_feedback_dialog_title)
-        	   .setPositiveButton(R.string.accept,
-                    new DialogInterface.OnClickListener() 
-                	{
-                        public void onClick(DialogInterface dialog, int whichButton) 
-                        {
-//                            ((ApplicationsFeedbackFragment)getActivity()).doPositiveClick();
-                        }
-                    }
-                )
-                .setNegativeButton(R.string.cancel,
-                    new DialogInterface.OnClickListener() 
-                	{
-                        public void onClick(DialogInterface dialog, int whichButton) 
-                        {
-//                            ((ApplicationsFeedbackFragment)getActivity()).doNegativeClick();
-                        }
-                    }
-                )
-                .create();
-    	
-    	return builder.create();
+        builder.title(R.string.application_feedback_dialog_title);
+        builder.positiveText(R.string.accept);
+        builder.negativeText(R.string.cancel);
+        builder.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog)
+            {
+
+            }
+
+            @Override
+            public void onNegative(MaterialDialog dialog)
+            {
+
+            }
+        });
+
+    	return builder.build();
     }
 
 }

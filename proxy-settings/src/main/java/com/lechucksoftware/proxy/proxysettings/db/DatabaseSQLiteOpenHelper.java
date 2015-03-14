@@ -16,6 +16,7 @@ import timber.log.Timber;
 public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 {
     public static final String TABLE_WIFI_AP = "wifiap";
+    public static final String TABLE_PAC = "pac";
     public static final String TABLE_PROXIES = "proxies";
     public static final String TABLE_TAGS = "tags";
     public static final String TABLE_PROXY_TAG_LINKS = "taggedproxies";
@@ -40,9 +41,13 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_WIFI_SECURITY_TYPE = "securitytype";
     public static final String COLUMN_WIFI_PROXY_SETTING = "proxysetting";
     public static final String COLUMN_WIFI_PROXY_ID = "proxyid";
+    public static final String COLUMN_WIFI_PAC_ID = "pacid";
+
+    public static final String COLUMN_PAC_URL_FILE = "pacUrlFile";
+    public static final String COLUMN_PAC_IN_USE = "pacUsed";
 
     public static final String DATABASE_NAME = "proxysettings.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
     // Database creation sql statement
 
@@ -88,6 +93,17 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_WIFI_SECURITY_TYPE + " text not null, "
             + COLUMN_WIFI_PROXY_SETTING + " text not null, "
             + COLUMN_WIFI_PROXY_ID + " integer not null, "
+            + COLUMN_WIFI_PAC_ID + " integer not null, "
+            + COLUMN_CREATION_DATE + " integer not null, "
+            + COLUMN_MODIFIED_DATE + " integer not null"
+            + ");";
+
+    private static final String CREATE_TABLE_PAC = "create table "
+            + TABLE_PAC
+            + "("
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + COLUMN_PAC_URL_FILE + " text not null, "
+            + COLUMN_PAC_IN_USE + " integer not null, "
             + COLUMN_CREATION_DATE + " integer not null, "
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
@@ -133,11 +149,21 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
         }
 
         // Se example of upgrade planning here: http://grepcode.com/file_/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.1_r1/com/android/providers/calendar/CalendarDatabaseHelper.java/?v=source
+
         if (oldVersion == 2)
         {
             // Do something for v3
             upgradeToVersion3(db);
+            oldVersion = 3; // Remember to increment so that next upgrade phase is called
         }
+
+        if (oldVersion == 3)
+        {
+            // Do something for v3
+            upgradeToVersion4(db);
+            oldVersion = 4;
+        }
+
 //
 //        if (oldVersion == 4)
 //        {
@@ -153,7 +179,20 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
          * - Added TABLE_WIFI_AP (Wi-Fi access points table)
          * */
         db.execSQL(CREATE_TABLE_WIFI_AP);
-     }
+    }
+
+    private void upgradeToVersion4(SQLiteDatabase db)
+    {
+        /**
+         * Changes from version 3 to version 4:
+         *
+         * - Added PACId column to TABLE_WIFI_AP
+         * - Added TABLE_PAC (Proxy PAC configurations)
+         * */
+
+        db.execSQL("ALTER TABLE " + TABLE_WIFI_AP + " ADD COLUMN " + COLUMN_WIFI_PAC_ID + " int");
+        db.execSQL(CREATE_TABLE_PAC);
+    }
 
     public void createDB(SQLiteDatabase db)
     {
@@ -163,6 +202,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
         DatabaseUtils.execSQL(db, CREATE_TABLE_TAGS);
         DatabaseUtils.execSQL(db, CREATE_TABLE_TAGGED_PROXIES);
         DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
+        DatabaseUtils.execSQL(db, CREATE_TABLE_PAC);
 
         App.getTraceUtils().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
@@ -175,6 +215,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_TAGS);
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
         DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_WIFI_AP);
+        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PAC);
 
         App.getTraceUtils().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }

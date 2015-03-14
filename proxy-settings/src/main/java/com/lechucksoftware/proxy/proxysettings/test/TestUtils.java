@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiEnterpriseConfig;
 import android.provider.Telephony;
 import android.text.TextUtils;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -29,6 +31,7 @@ import java.util.Random;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
@@ -133,7 +136,7 @@ public class TestUtils
         return proxies;
     }
 
-    public static ProxyEntity createRandomProxy()
+    public static ProxyEntity createRandomHTTPProxy()
     {
         ProxyEntity pd = new ProxyEntity();
         pd.setHost(getRandomIP());
@@ -152,6 +155,14 @@ public class TestUtils
         }
 
         return pd;
+    }
+
+    public static PacEntity createRandomPACProxy()
+    {
+        PacEntity pacEntity = new PacEntity();
+        pacEntity.setPacUrlFile("http://" + getRandomIP()+ "/proxy.pac");
+
+        return pacEntity;
     }
 
     public static ProxyEntity getModifiedExistingProxy()
@@ -196,18 +207,12 @@ public class TestUtils
 
     public static void addProxy()
     {
-        ProxyEntity pd = createRandomProxy();
-
+        ProxyEntity pd = createRandomHTTPProxy();
         ProxyEntity savedProxy = App.getDBManager().upsertProxy(pd);
 
-        if (!savedProxy.equals(pd))
-        {
 
-        }
-        else
-        {
-
-        }
+        PacEntity pac = createRandomPACProxy();
+        PacEntity savedPac = App.getDBManager().upsertPac(pac);
     }
 
     public static void addProxyExamples(Context ctx)
@@ -336,8 +341,6 @@ public class TestUtils
 
     public static void clearProxyForAllAP(Context ctx)
     {
-//        App.getInstance().wifiActionEnabled = false;
-
         for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
@@ -352,15 +355,14 @@ public class TestUtils
                 configuration.setProxyHost("");
                 configuration.setProxyPort(0);
                 configuration.setProxyExclusionString("");
-                configuration.writeConfigurationToDevice();
+
+                App.getWifiNetworksManager().asyncSaveWifiApConfig(configuration);
             }
             catch (Exception e)
             {
                 Timber.e(e, "Exception clearing proxy for all Wi-Fi AP");
             }
         }
-
-//        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
 //        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
@@ -378,10 +380,8 @@ public class TestUtils
         }
         else
         {
-            p = createRandomProxy();
+            p = createRandomHTTPProxy();
         }
-
-//        App.getInstance().wifiActionEnabled = false;
 
         for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
@@ -398,15 +398,13 @@ public class TestUtils
 
             try
             {
-                configuration.writeConfigurationToDevice();
+                App.getWifiNetworksManager().asyncSaveWifiApConfig(configuration);
             }
             catch (Exception e)
             {
                 Timber.e(e, "Exception writing configuration to device");
             }
         }
-
-//        App.getInstance().wifiActionEnabled = true;
 
         // Calling refresh intent only after save of all AP configurations
 //        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
@@ -423,7 +421,7 @@ public class TestUtils
         }
         catch (Exception e)
         {
-            Timber.e(e,"Exception testing APN activity");
+            Timber.e(e, "Exception testing APN activity");
         }
     }
 
@@ -488,9 +486,9 @@ public class TestUtils
         }
 
         int res = APL.getWifiManager().addNetwork(wc);
-        Timber.d("add Network returned " + res );
+        Timber.d("add Network returned " + res);
         boolean es = APL.getWifiManager().saveConfiguration();
-        Timber.d("saveConfiguration returned " + es );
+        Timber.d("saveConfiguration returned " + es);
 
         return wc.SSID;
     }
@@ -503,7 +501,7 @@ public class TestUtils
 
         if (configurations != null && configurations.size() > 0)
         {
-            for(WifiConfiguration conf: configurations)
+            for (WifiConfiguration conf : configurations)
             {
                 String SSID = ProxyUtils.cleanUpSSID(conf.SSID);
                 for (CodeNames codename : CodeNames.values())
@@ -516,7 +514,7 @@ public class TestUtils
             }
         }
 
-        for(int i=0;i<networksToDelete.size();i++)
+        for (int i = 0; i < networksToDelete.size(); i++)
         {
             int networkId = networksToDelete.get(i);
             boolean res = APL.getWifiManager().removeNetwork(networkId);
@@ -525,68 +523,187 @@ public class TestUtils
             Timber.d("saveConfiguration returned " + es);
 
             removedNetworks++;
+
+            try
+            {
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e)
+            {
+                Timber.e(e,"Exception during sleep");
+            }
         }
 
         return removedNetworks;
     }
 
-    private static void setup802xWifiConfig(WifiConfiguration wc, String ssid, String password)
+    private static void setup802xWifiConfig(WifiConfiguration config, String ssid, String password)
     {
-        
+        config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
+        config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.IEEE8021X);
+        config.enterpriseConfig = new WifiEnterpriseConfig();
+
+        int eapMethod = WifiEnterpriseConfig.Eap.PEAP;
+        int phase2Method = WifiEnterpriseConfig.Phase2.GTC;
+
+        config.enterpriseConfig.setEapMethod(eapMethod);
+
+        switch (eapMethod)
+        {
+            case WifiEnterpriseConfig.Eap.PEAP:
+                // PEAP supports limited phase2 values
+                // Map the index from the PHASE2_PEAP_ADAPTER to the one used
+                // by the API which has the full list of PEAP methods.
+                switch (phase2Method)
+                {
+                    case APLReflectionConstants.WIFI_PEAP_PHASE2_NONE:
+                        config.enterpriseConfig.setPhase2Method(WifiEnterpriseConfig.Phase2.NONE);
+                        break;
+                    case APLReflectionConstants.WIFI_PEAP_PHASE2_MSCHAPV2:
+                        config.enterpriseConfig.setPhase2Method(WifiEnterpriseConfig.Phase2.MSCHAPV2);
+                        break;
+                    case APLReflectionConstants.WIFI_PEAP_PHASE2_GTC:
+                        config.enterpriseConfig.setPhase2Method(WifiEnterpriseConfig.Phase2.GTC);
+                        break;
+                    default:
+                        Timber.e("Unknown phase2 method" + phase2Method);
+                        break;
+                }
+                break;
+            default:
+                // The default index from PHASE2_FULL_ADAPTER maps to the API
+                config.enterpriseConfig.setPhase2Method(phase2Method);
+                break;
+        }
+
+        String caCert = "";
+//        config.enterpriseConfig.setCaCertificateAlias(caCert);
+//        String clientCert = (String) mEapUserCertSpinner.getSelectedItem();
+//        if (clientCert.equals(unspecifiedCert)) clientCert = "";
+//        config.enterpriseConfig.setClientCertificateAlias(clientCert);
+//        config.enterpriseConfig.setIdentity(mEapIdentityView.getText().toString());
+//        config.enterpriseConfig.setAnonymousIdentity(mEapAnonymousView.getText().toString());
+
+//         if (mPasswordView.isShown())
+//         {
+//             // For security reasons, a previous password is not displayed to user.
+//             // Update only if it has been changed.
+//             if (mPasswordView.length() > 0)
+//             {
+        config.enterpriseConfig.setPassword(password.toString());
+//             }
+//         }
+//         else
+//         {
+//             // clear password
+//             config.enterpriseConfig.setPassword(mPasswordView.getText().toString());
+//         }
     }
 
     private static void setupNOSECWifiConfig(WifiConfiguration wc, String ssid, String password)
     {
-        wc.SSID = String.format("\"%s\"",ssid);
-        wc.hiddenSSID = false;
-        wc.status = WifiConfiguration.Status.DISABLED;
+        wc.SSID = String.format("\"%s\"", ssid);
+        wc.BSSID = randomMACAddress();
+
         wc.priority = 40;
+        wc.status = WifiConfiguration.Status.DISABLED;
 
         wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
     }
 
     public static void setupWEPWifiConfig(WifiConfiguration wc, String ssid, String password)
     {
-        wc.SSID = String.format("\"%s\"",ssid);
-        wc.hiddenSSID = true;
-        wc.status = WifiConfiguration.Status.DISABLED;
-        wc.priority = 40;
+        wc.SSID = String.format("\"%s\"", ssid);
+        wc.BSSID = randomMACAddress();
+
         wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-        wc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
         wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
         wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
-        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
-        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
 
-        wc.wepKeys[0] = password;
-        wc.wepTxKeyIndex = 0;
+        int length = password.length();
+
+        // WEP-40, WEP-104, and 256-bit WEP (WEP-232?)
+        if ((length == 10 || length == 26 || length == 58) && password.matches("[0-9A-Fa-f]*"))
+        {
+            wc.wepKeys[0] = password;
+        }
+        else
+        {
+            wc.wepKeys[0] = '"' + password + '"';
+        }
+
+//        wc.hiddenSSID = true;
+        wc.status = WifiConfiguration.Status.DISABLED;
+        wc.priority = 40;
+//        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+//        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+//        wc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+//        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+//        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+//        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+//        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+//        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+//        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+//
+//        wc.wepKeys[0] = password;
+//        wc.wepTxKeyIndex = 0;
     }
 
     public static void setupWPAWifiConfig(WifiConfiguration wc, String ssid, String password)
     {
-        wc.SSID = String.format("\"%s\"",ssid);
-        wc.hiddenSSID = true;
+        wc.SSID = String.format("\"%s\"", ssid);
+        wc.BSSID = randomMACAddress();
+//        wc.hiddenSSID = true;
         wc.status = WifiConfiguration.Status.DISABLED;
         wc.priority = 40;
 
-        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-        wc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
-
-        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
-        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-
-        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
         wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
-        wc.preSharedKey = password;
-        wc.wepTxKeyIndex = 0;
+        if (password.matches("[0-9A-Fa-f]{64}"))
+        {
+            wc.preSharedKey = password;
+        }
+        else
+        {
+            wc.preSharedKey = '"' + password + '"';
+        }
+
+//        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+//        wc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+//
+//        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+//        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+//        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+//        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+//
+//        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+//        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+//        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+//        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+
+//        wc.preSharedKey = password;
+//        wc.wepTxKeyIndex = 0;
+    }
+
+    private static String randomMACAddress()
+    {
+        Random rand = new Random();
+        byte[] macAddr = new byte[6];
+        rand.nextBytes(macAddr);
+
+        macAddr[0] = (byte) (macAddr[0] & (byte) 254);  //zeroing last 2 bytes to make it unicast and locally adminstrated
+
+        StringBuilder sb = new StringBuilder(18);
+        for (byte b : macAddr)
+        {
+
+            if (sb.length() > 0)
+                sb.append(":");
+
+            sb.append(String.format("%02x", b));
+        }
+
+        return sb.toString();
     }
 }
 

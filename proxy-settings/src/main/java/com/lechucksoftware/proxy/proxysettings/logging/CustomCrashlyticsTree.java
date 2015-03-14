@@ -13,6 +13,7 @@ public class CustomCrashlyticsTree implements Timber.TaggedTree
 {
     private static final ThreadLocal<String> NEXT_TAG = new ThreadLocal<String>();
     private static final Pattern ANONYMOUS_CLASS = Pattern.compile("\\$\\d+$");
+    private static int MIN_LOG_LEVEL = Log.DEBUG;
 
     @Override
     public void tag(String tag)
@@ -115,7 +116,10 @@ public class CustomCrashlyticsTree implements Timber.TaggedTree
 
     private void logMessage(int priority, String tag, String message)
     {
-        Crashlytics.log(priority,tag,message);
+        if (priority >= MIN_LOG_LEVEL)
+        {
+            Crashlytics.log(priority, tag, message);
+        }
     }
 
     private void throwShade(int priority, String message, Throwable t)
@@ -154,6 +158,5 @@ public class CustomCrashlyticsTree implements Timber.TaggedTree
             }
         }
     }
-
 
 }

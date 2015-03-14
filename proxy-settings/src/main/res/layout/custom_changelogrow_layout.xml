@@ -24,7 +24,6 @@
             android:layout_marginLeft="12dp"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:text="@string/changelog_row_bulletpoint"
-            android:textColor="@android:color/primary_text_light"
             />
 
 
@@ -38,7 +37,6 @@
             android:layout_marginRight="5dp"
             android:minHeight="@dimen/listPreferredItemHeightSmall"
             android:textAppearance="@android:style/TextAppearance.Small"
-            android:textColor="@android:color/primary_text_light"
             />
     </LinearLayout>
 

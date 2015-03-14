@@ -1,11 +1,8 @@
 package com.lechucksoftware.proxy.proxysettings.utils;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -24,26 +21,18 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.BuildConfig;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.components.NavDrawerItem;
 
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.net.Proxy.Type;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
@@ -74,7 +63,7 @@ public class UIUtils
     {
         try
         {
-            showDialog(ctx, errorMessage, ctx.getString(R.string.proxy_error));
+            showDialog(ctx, errorMessage, ctx.getString(R.string.proxy_error), null);
         }
         catch (Exception e)
         {
@@ -86,10 +75,10 @@ public class UIUtils
     {
         try
         {
-            new AlertDialog.Builder(ctx)
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(R.string.ok, null)
+            new MaterialDialog.Builder(ctx)
+                    .title(title)
+                    .content(message)
+                    .positiveText(R.string.ok)
                     .show();
         }
         catch (Exception e)
@@ -98,17 +87,26 @@ public class UIUtils
         }
     }
 
-    public static void showDialog(Context ctx, String message, String title)
+    public static void showDialog(Context ctx, String message, String title, MaterialDialog.ButtonCallback callback)
     {
         try
         {
             if (!TextUtils.isEmpty(message))
             {
-                new AlertDialog.Builder(ctx)
-                        .setTitle(title)
-                        .setMessage(message)
-                        .setPositiveButton(R.string.ok, null)
-                        .show();
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(ctx);
+
+                if (!TextUtils.isEmpty(title))
+                    builder.title(title);
+
+                builder.content(message);
+                builder.positiveText(R.string.ok);
+
+                if (callback != null)
+                {
+                    builder.callback(callback);
+                }
+
+                builder.show();
             }
         }
         catch (Exception e)
@@ -147,6 +145,17 @@ public class UIUtils
         return dp;
     }
 
+    public static String CleanExclusion(String exclusion)
+    {
+        if (TextUtils.isEmpty(exclusion))
+            return "";
+        else
+        {
+            String [] splitted = exclusion.split(",");
+            return TextUtils.join(", ", splitted);
+        }
+    }
+
     @IntDef({View.VISIBLE, View.INVISIBLE, View.GONE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Visibility {}
@@ -171,23 +180,23 @@ public class UIUtils
         switch (i)
         {
             case 1:
-                c = ctx.getResources().getColor(R.color.Holo_Red_Light);
+                c = ctx.getResources().getColor(R.color.red_500);
                 break;
             case 2:
-                c = ctx.getResources().getColor(R.color.Holo_Yellow_Light);
+                c = ctx.getResources().getColor(R.color.yellow_500);
                 break;
             case 3:
-                c = ctx.getResources().getColor(R.color.Holo_Green_Light);
+                c = ctx.getResources().getColor(R.color.green_500);
                 break;
             case 4:
-                c = ctx.getResources().getColor(R.color.Holo_Purple_Light);
+                c = ctx.getResources().getColor(R.color.purple_500);
                 break;
             case 5:
-                c = ctx.getResources().getColor(R.color.Holo_Blue_Dark);
+                c = ctx.getResources().getColor(R.color.blue_500);
                 break;
 
             default:
-                c = ctx.getResources().getColor(R.color.Gray);
+                c = ctx.getResources().getColor(R.color.grey_500);
                 break;
         }
 
@@ -264,199 +273,34 @@ public class UIUtils
         return bd;
     }
 
-    public static AlertDialog getBetaTestDialog(final Context ctx)
+    public static MaterialDialog getBetaTestDialog(final Context ctx)
     {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setTitle(R.string.beta_testing);
-        builder.setMessage(R.string.beta_testing_instructions);
-        builder.setPositiveButton(R.string.cont, new DialogInterface.OnClickListener()
-        {
+        final MaterialDialog.Builder builder = new MaterialDialog.Builder(ctx);
+        builder.title(R.string.beta_testing);
+        builder.content(R.string.beta_testing_instructions);
+        builder.positiveText(R.string.cont);
+        builder.negativeText(R.string.cancel);
+        builder.callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i)
+            public void onPositive(MaterialDialog dialog)
             {
                 openBetaTestProject(ctx);
             }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
-        {
+
             @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-        {
-            @Override
-            public void onCancel(DialogInterface dialog)
+            public void onNegative(MaterialDialog dialog)
             {
                 dialog.dismiss();
             }
         });
 
-        return builder.create();
+        return builder.build();
     }
 
     public static void openBetaTestProject(Context ctx)
     {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/communities/104290788068260973104"));
         ctx.startActivity(browserIntent);
-    }
-
-    public static void showHTMLAssetsAlertDialog(final Context ctx, String title, String filename, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
-    {
-        String BASE_URL = "file:///android_asset/www/www-" + LocaleManager.getTranslatedAssetLanguage() + '/';
-
-        App.getTraceUtils().startTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-
-        try
-        {
-            //Create web view and load html
-            final WebView webView = new WebView(ctx);
-            webView.setWebViewClient(new WebViewClient()
-            {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url)
-                {
-                    Uri uri = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    ctx.startActivity(intent);
-                    return true;
-                }
-
-            });
-
-            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-
-            webView.loadUrl(BASE_URL + filename);
-
-            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-                    .setTitle(title)
-                    .setView(webView)
-                    .setPositiveButton(closeString, new Dialog.OnClickListener()
-                    {
-                        public void onClick(final DialogInterface dialogInterface, final int i)
-                        {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setOnCancelListener(new DialogInterface.OnCancelListener()
-                    {
-
-                        @Override
-                        public void onCancel(DialogInterface dialog)
-                        {
-                            dialog.dismiss();
-                        }
-                    });
-
-            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-
-            final AlertDialog dialog = builder.create();
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
-            {
-                @Override
-                public void onDismiss(final DialogInterface dialog)
-                {
-                    if (mOnDismissListener != null)
-                    {
-                        mOnDismissListener.onDismiss(dialog);
-                    }
-                }
-            });
-
-            webView.setWebViewClient(new WebViewClient()
-            {
-
-                @Override
-                public void onPageFinished(WebView view, String url)
-                {
-                    super.onPageFinished(view, url);
-                    dialog.show();
-                }
-            });
-
-            App.getTraceUtils().partialTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-        }
-        catch (Exception e)
-        {
-            Timber.e(e,"Exception on showHTMLAssetsAlertDialog");
-            return;
-        }
-
-        App.getTraceUtils().stopTrace(TAG, "showHTMLAssetsAlertDialog", Log.DEBUG);
-    }
-
-    public static void showHTMLAlertDialog(final Context ctx, String title, String htmlFile, String closeString, final DialogInterface.OnDismissListener mOnDismissListener)
-    {
-        final WebView webView = new WebView(ctx);
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setTitle(title);
-        builder.setView(webView);
-
-        builder.setPositiveButton(closeString, new Dialog.OnClickListener()
-        {
-            public void onClick(final DialogInterface dialogInterface, final int i)
-            {
-                dialogInterface.dismiss();
-            }
-        });
-
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-        {
-            @Override
-            public void onCancel(DialogInterface dialog)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
-        {
-            @Override
-            public void onDismiss(final DialogInterface dialog)
-            {
-                if (mOnDismissListener != null)
-                {
-                    mOnDismissListener.onDismiss(dialog);
-                }
-            }
-        });
-
-        webView.setWebViewClient(new WebViewClient()
-        {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url)
-            {
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                ctx.startActivity(intent);
-                return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url)
-            {
-                super.onPageFinished(view, url);
-
-                try
-                {
-                    Thread.sleep(200);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-
-                dialog.show();
-            }
-        });
-
-        webView.loadUrl(htmlFile);
     }
 
     public static String GetStatusSummary(WiFiApConfig conf, Context ctx)
@@ -489,14 +333,17 @@ public class UIUtils
 
         if (conf.getCheckingStatus() == CheckStatusValues.CHECKED)
         {
-            if (conf.getProxy().type() == Type.DIRECT)
-            {
-                DisableProxyNotification(context);
-            }
-            else
-            {
-                SetProxyNotification(conf, context);
-            }
+            DisableProxyNotification(context);
+
+            //TODO: Re-enable notification
+//            if (conf.getProxySetting() == ProxySetting.NONE)
+//            {
+//
+//            }
+//            else
+//            {
+//                SetProxyNotification(conf, context);
+//            }
         }
         else
         {
@@ -626,23 +473,4 @@ public class UIUtils
         int pick = new Random().nextInt(CodeNames.values().length);
         return CodeNames.values()[pick];
     }
-
-    public static List<NavDrawerItem> getNavDrawerItems(Context ctx)
-    {
-        List<NavDrawerItem> list = new ArrayList<NavDrawerItem>();
-
-//        list.add(new NavDrawerItem(ctx.getString(R.string.home), "", R.drawable.ic_action_house_icon, false, "22" ));
-        list.add(new NavDrawerItem(ctx.getString(R.string.wifi_access_points), "", R.drawable.ic_wifi_signal_4, false, "50+" ));
-        list.add(new NavDrawerItem(ctx.getString(R.string.proxies_list), "", R.drawable.ic_action_shuffle, false, "50+" ));
-//        list.add(new NavDrawerItem(ctx.getString(R.string.settings), "", R.drawable.ic_action_settings, false, "50+" ));
-        list.add(new NavDrawerItem(ctx.getString(R.string.help), "", R.drawable.ic_action_ic_help, false, "50+" ));
-
-        if (BuildConfig.DEBUG)
-        {
-            list.add(new NavDrawerItem(ctx.getString(R.string.developers_options), "", R.drawable.ic_action_debug_bug_icon));
-        }
-
-        return list;
-    }
-
 }

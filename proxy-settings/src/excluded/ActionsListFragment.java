@@ -23,7 +23,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.WiFiAPConfig;
 
 /**
  * Created by marco on 17/05/13.
@@ -48,7 +48,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
     // Arguments
     private static final String FRAGMENT_MODE_ARG = "FRAGMENT_MODE_ARG";
     private static final String PROXY_CONF_ARG = "PROXY_CONF_ARG";
-    private WiFiApConfig apConf;
+    private WiFiAPConfig apConf;
 
 
     public static ActionsListFragment newInstance()
@@ -56,7 +56,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
         return newInstance(FragmentMode.FULLSIZE, null);
     }
 
-    public static ActionsListFragment newInstance(FragmentMode mode, WiFiApConfig apConf)
+    public static ActionsListFragment newInstance(FragmentMode mode, WiFiAPConfig apConf)
     {
         ActionsListFragment instance = new ActionsListFragment();
 
@@ -73,7 +73,7 @@ public class ActionsListFragment extends BaseDialogFragment implements IBaseFrag
     {
         super.onCreate(savedInstanceState);
         fragmentMode = (FragmentMode) getArguments().getSerializable(FRAGMENT_MODE_ARG);
-        apConf = (WiFiApConfig) getArguments().getSerializable(PROXY_CONF_ARG);
+        apConf = (WiFiAPConfig) getArguments().getSerializable(PROXY_CONF_ARG);
     }
 
     @Override

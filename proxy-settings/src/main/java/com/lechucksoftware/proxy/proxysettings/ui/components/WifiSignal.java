@@ -2,21 +2,17 @@ package com.lechucksoftware.proxy.proxysettings.ui.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
-import be.shouldit.proxy.lib.AccessPoint;
 import be.shouldit.proxy.lib.enums.SecurityType;
-import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 /**
  * Created by marco on 02/12/13.
@@ -25,10 +21,14 @@ public class WifiSignal extends LinearLayout
 {
     private ViewGroup layout;
     private ImageView iconImageView;
-    private TextView securityTextView;
+//    private TextView securityTextView;
 
     private String text;
+    private boolean showSecurityText;
+
     private WiFiApConfig configuration;
+    private String securityString;
+
 
     public WifiSignal(Context context, AttributeSet attrs)
     {
@@ -42,9 +42,9 @@ public class WifiSignal extends LinearLayout
 
         if (inflater != null)
         {
-            layout = (ViewGroup) v.findViewById(R.id.wifi_signal_layout);
-            iconImageView = (ImageView) v.findViewById(R.id.ap_icon);
-            securityTextView = (TextView) v.findViewById(R.id.ap_security);
+            layout = (ViewGroup) v.findViewById(R.id.wifi_proxy_layout);
+            iconImageView = (ImageView) v.findViewById(R.id.wifi_ap_signal);
+//            securityTextView = (TextView) v.findViewById(R.id.ap_security);
         }
     }
 
@@ -55,6 +55,7 @@ public class WifiSignal extends LinearLayout
         try
         {
             text = a.getString(R.styleable.WifiSignal_text);
+            showSecurityText = a.getBoolean(R.styleable.WifiSignal_showSecurityText, true);
         }
         finally
         {
@@ -64,35 +65,28 @@ public class WifiSignal extends LinearLayout
 
     private void refreshUI()
     {
-        String sec = ProxyUtils.getSecurityString(configuration, getContext(), true);
-        if (!TextUtils.isEmpty(sec))
-        {
-            securityTextView.setText(sec);
-        }
-        else
-        {
-            securityTextView.setText("");
-        }
+//        securityString = ProxyUtils.getSecurityString(configuration, getContext(), true);
+//
+//        if (!TextUtils.isEmpty(securityString))
+//        {
+//            securityTextView.setText(securityString);
+//        }
+//        else
+//        {
+//            securityTextView.setText("");
+//        }
+//
+//        securityTextView.setVisibility(UIUtils.booleanToVisibility(showSecurityText));
 
         if (configuration.getLevel() == -1)
         {
             iconImageView.setImageResource(R.drawable.ic_action_nowifi);
-            layout.setBackgroundResource(R.color.DarkGrey);
         }
         else
         {
             iconImageView.setImageLevel(configuration.getLevel());
             iconImageView.setImageResource(R.drawable.wifi_signal);
-            iconImageView.setImageState((configuration.getSecurityType() != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
-
-            if (configuration.isActive())
-            {
-                layout.setBackgroundResource(R.color.Holo_Blue_Dark);
-            }
-            else
-            {
-                layout.setBackgroundResource(R.color.Holo_Green_Dark);
-            }
+            iconImageView.setImageState((configuration.getSecurityType() != SecurityType.SECURITY_NONE) ? WiFiApConfig.STATE_SECURED : WiFiApConfig.STATE_NONE, true);
         }
     }
 

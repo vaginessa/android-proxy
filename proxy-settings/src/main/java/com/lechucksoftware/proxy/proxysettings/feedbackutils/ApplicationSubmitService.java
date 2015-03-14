@@ -43,7 +43,7 @@ public class ApplicationSubmitService extends IntentService
         {
 			Proxy proxyConf = APL.getCurrentHttpProxyConfiguration();
     		URI uri = URI.create("");
-			String result = ProxyUtils.getURI(uri, proxyConf, APLConstants.DEFAULT_TIMEOUT);
+			String result = ProxyUtils.getURI(uri, proxyConf, APLConstants.MAX_DOWNLOAD_LENGTH, APLConstants.DEFAULT_TIMEOUT);
         }
         catch (Exception e)
         {

@@ -8,10 +8,10 @@
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true">
 
-    <com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView
-        android:id="@+id/actions_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <!--<com.lechucksoftware.proxy.proxysettings.ui.components.ActionsView-->
+        <!--android:id="@+id/actions_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
 
     <!--<TextView-->
         <!--android:id="@+id/list_header_title"-->

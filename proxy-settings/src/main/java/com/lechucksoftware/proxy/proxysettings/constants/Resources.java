@@ -15,6 +15,7 @@ public class Resources
 
     public static final String CHANGELOG_HTML =  BASE_LOCALIZED_WWW + "changelog.html";
     public static final String WHATSNEW_2_16_HTML = BASE_LOCALIZED_WWW + "whats_new_2_16.html";
+    public static final String WHATSNEW_3_0_HTML = BASE_LOCALIZED_WWW + "whats_new_3_00.html";
 
     public static final String getWhatsNewHTML()
     {
@@ -24,6 +25,10 @@ public class Resources
         {
             case 1300216:
                 resource = WHATSNEW_2_16_HTML;
+                break;
+
+            case 1300300:
+                resource = WHATSNEW_3_0_HTML;
                 break;
         }
 

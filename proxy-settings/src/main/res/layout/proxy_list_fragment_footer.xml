@@ -6,17 +6,16 @@
     android:layout_height="wrap_content"
     tools:showIn="@layout/proxy_list_fragment">
 
-    <TextView
-        android:background="@color/MediumDarkGrey"
-        android:textSize="14sp"
-        android:id="@+id/proxy_footer_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/num_proxies_configured"
-        android:gravity="center"
-        android:paddingRight="10dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:layout_alignParentBottom="true"/>
+    <!--<TextView-->
+        <!--android:textSize="14sp"-->
+        <!--android:id="@+id/proxy_footer_textview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/num_proxies_configured"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingRight="10dp"-->
+        <!--android:paddingTop="7dp"-->
+        <!--android:paddingBottom="7dp"-->
+        <!--android:layout_alignParentBottom="true"/>-->
 
 </LinearLayout>

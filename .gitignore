@@ -14,6 +14,7 @@
 # generated files
 bin/
 gen/
+manifest-merger-play-release-report.txt
 
 # Ignore gradle files
 .gradle/

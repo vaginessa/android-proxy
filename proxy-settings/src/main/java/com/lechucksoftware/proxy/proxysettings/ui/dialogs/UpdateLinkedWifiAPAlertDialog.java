@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
@@ -18,18 +19,21 @@ public class UpdateLinkedWifiAPAlertDialog extends BaseDialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
-        builder.setTitle(getActivity().getString(R.string.warning));
-        builder.setMessage(getActivity().getString(R.string.wifi_ap_will_be_updated));
-        builder.setPositiveButton(getResources().getText(R.string.ok), new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface paramDialogInterface, int paramInt)
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
+        builder.title(R.string.warning);
+        builder.content(R.string.wifi_ap_will_be_updated);
+
+        builder.positiveText(getResources().getText(R.string.ok));
+
+        builder.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog)
             {
                 onResult(Activity.RESULT_OK);
             }
         });
 
-        AlertDialog alert = builder.create();
+        MaterialDialog alert = builder.build();
         return alert;
     }
 

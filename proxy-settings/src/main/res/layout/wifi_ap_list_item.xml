@@ -2,44 +2,106 @@
 
 
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/list_item_ap_layout"
-        android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wifi_ap_layout"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/wifi_ap_ssid"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp">
-
-    <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
-            android:id="@+id/list_item_wifi_signal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"/>
-
-    <TextView
-            android:id="@+id/list_item_ap_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/list_item_wifi_signal"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:singleLine="true"
-            android:lines="1"
-            android:ellipsize="end"
-            android:padding="3dp"
-            android:text="AP NAME">
+        android:textStyle="bold"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:lines="1"
+        android:ellipsize="end"
+        android:padding="3dp"
+        android:text="AP NAME asdf asdf asdfas dfasdf asdf asdf asdf"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/wifi_ap_label">
     </TextView>
 
-    <TextView
-            android:id="@+id/list_item_ap_status"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/blue_400"
+        android:id="@+id/wifi_ap_label">
+
+        <TextView
+            android:id="@+id/wifi_ap_security_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/list_item_wifi_signal"
-            android:layout_below="@id/list_item_ap_name"
-            android:singleLine="true"
-            android:lines="1"
-            android:ellipsize="end"
-            android:textSize="13sp"
-            android:text="STATUS DESC"
-            android:padding="3dp">
-    </TextView>
+            android:text="WEP/WPA2"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"/>
+
+        <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
+            android:id="@+id/wifi_ap_signal_icon"
+            android:layout_gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red_400"
+        android:id="@+id/wifi_ap_proxy_label">
+
+        <TextView
+            android:id="@+id/wifi_ap_proxy_settings_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/static_proxy"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"/>
+
+        <ImageView
+            android:id="@+id/wifi_ap_proxy_settings_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_action_proxy_dark"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/wifi_ap_proxy_status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wifi_ap_ssid"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textSize="13sp"
+        android:text="STATUS DESC"
+        android:textColor="@color/grey_400"
+        android:padding="3dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/wifi_ap_proxy_label"
+        android:layout_alignBottom="@id/wifi_ap_proxy_label"
+        android:layout_alignTop="@id/wifi_ap_proxy_label"
+        android:layout_alignParentLeft="true"/>
 
 </RelativeLayout>

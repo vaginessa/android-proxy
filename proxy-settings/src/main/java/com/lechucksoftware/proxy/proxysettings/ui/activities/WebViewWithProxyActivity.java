@@ -3,22 +3,22 @@ package com.lechucksoftware.proxy.proxysettings.ui.activities;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.LocalWebViewClient;
 
 import java.net.URL;
 
+import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class WebViewWithProxyActivity extends FragmentActivity
+public class WebViewWithProxyActivity extends ActionBarActivity
 {
 	WebView mWebView;
 	public static String TAG = WebViewWithProxyActivity.class.getSimpleName();
@@ -34,8 +34,17 @@ public class WebViewWithProxyActivity extends FragmentActivity
 		setContentView(R.layout.webview);
 
 		if (Build.VERSION.SDK_INT < 12)
-			ProxyUtils.setWebViewProxy(getApplicationContext(), App.getWifiNetworksManager().getCachedConfiguration()); // Only
-																								  // for
+        {
+            try
+            {
+                ProxyUtils.setWebViewProxy(getApplicationContext(), APL.getCurrentHttpProxyConfiguration()); // Only
+            }
+            catch (Exception e)
+            {
+                Timber.e(e,"Exception setting proxy for WebView");
+            }
+        }																					  // for
+
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setDomStorageEnabled(true);

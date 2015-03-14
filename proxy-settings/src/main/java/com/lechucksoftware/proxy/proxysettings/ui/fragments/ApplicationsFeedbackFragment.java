@@ -1,9 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.app.LoaderManager;
 import android.app.ProgressDialog;
-import android.content.Loader;
+
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class ApplicationsFeedbackFragment extends BaseListFragment implements Lo
     @Override
     public Loader<List<PInfo>> onCreateLoader(int id, Bundle args)
     {
-        return new PInfoTaskLoader(getActivity());
+        return new PInfoTaskLoader(getActivity().getBaseContext());
     }
 
     @Override

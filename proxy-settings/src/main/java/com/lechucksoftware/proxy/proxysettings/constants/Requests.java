@@ -19,4 +19,9 @@ public interface Requests
      * Request to create a new proxy configuration after showing dialog that no proxies are defined
      * */
     int CREATE_NEW_PROXY = 3;
+
+    /**
+     * Request to select a proxy configuration
+     * */
+    int SELECT_PROXY_FOR_WIFI_NETWORK = 4;
 }

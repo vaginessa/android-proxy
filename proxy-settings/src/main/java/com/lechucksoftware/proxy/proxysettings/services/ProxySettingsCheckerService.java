@@ -1,5 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.services;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,7 +21,7 @@ import be.shouldit.proxy.lib.enums.ProxyCheckOptions;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class ProxySettingsCheckerService extends EnhancedIntentService
+public class ProxySettingsCheckerService extends IntentService
 {
     public static final String CALLER_INTENT = "CallerIntent";
     public static String TAG = ProxySettingsCheckerService.class.getSimpleName();
@@ -202,13 +203,13 @@ public class ProxySettingsCheckerService extends EnhancedIntentService
         Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
         getApplicationContext().sendBroadcast(intent);
 
-        WiFiApConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
-        if (wiFiAPConfig == null)
-            wiFiAPConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
+        WiFiApConfig wiFiApConfig = App.getWifiNetworksManager().getCachedConfiguration();
+        if (wiFiApConfig == null)
+            wiFiApConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
 
-        if (wiFiAPConfig != null)
+        if (wiFiApConfig != null)
         {
-            UIUtils.UpdateStatusBarNotification(wiFiAPConfig, getApplicationContext());
+            UIUtils.UpdateStatusBarNotification(wiFiApConfig, getApplicationContext());
         }
     }
 }

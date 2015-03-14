@@ -299,7 +299,7 @@ public class InputField extends LinearLayout
         {
             title = a.getString(R.styleable.InputField_title);
             hint = a.getString(R.styleable.InputField_hint);
-            value = a.getString(R.styleable.InputField_value);
+            value = a.getString(R.styleable.InputField_if_value);
             readonly = a.getBoolean(R.styleable.InputField_readonly, false);
             fullsize = a.getBoolean(R.styleable.InputField_fullsize, false);
             type = a.getInt(R.styleable.InputField_inputType, 0);

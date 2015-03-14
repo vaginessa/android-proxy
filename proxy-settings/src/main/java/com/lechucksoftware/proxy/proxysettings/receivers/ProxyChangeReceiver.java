@@ -13,8 +13,9 @@ import com.lechucksoftware.proxy.proxysettings.services.MaintenanceService;
 import com.lechucksoftware.proxy.proxysettings.services.WifiStatusUpdateService;
 import com.lechucksoftware.proxy.proxysettings.services.WifiSyncService;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
-import be.shouldit.proxy.lib.constants.APLIntents;
+
 import be.shouldit.proxy.lib.WiFiApConfig;
+import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
 import timber.log.Timber;
 
@@ -25,7 +26,7 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        App.getTraceUtils().logIntent(TAG, intent, Log.INFO);
+        App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
 
         if (intent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
         {
@@ -67,13 +68,13 @@ public class ProxyChangeReceiver extends BroadcastReceiver
         {
             App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
 
-            WiFiApConfig wiFiAPConfig = App.getWifiNetworksManager().getCachedConfiguration();
-            if (wiFiAPConfig == null)
-                wiFiAPConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
+            WiFiApConfig wiFiApConfig = App.getWifiNetworksManager().getCachedConfiguration();
+            if (wiFiApConfig == null)
+                wiFiApConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
 
-            if (wiFiAPConfig != null)
+            if (wiFiApConfig != null)
             {
-                UIUtils.UpdateStatusBarNotification(wiFiAPConfig, context);
+                UIUtils.UpdateStatusBarNotification(wiFiApConfig, context);
             }
         }
         else
@@ -85,7 +86,6 @@ public class ProxyChangeReceiver extends BroadcastReceiver
 
     public static void callWifiSyncService(Context context, Intent intent)
     {
-//        if (App.getInstance().wifiActionEnabled)
         {
             try
             {

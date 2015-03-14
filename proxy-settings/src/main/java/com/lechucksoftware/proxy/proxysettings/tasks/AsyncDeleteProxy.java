@@ -1,13 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.tasks;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
@@ -23,6 +24,7 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
     private static final String TAG = AsyncDeleteProxy.class.getSimpleName();
 
     private ProxyEntity proxyEntity;
+    private PacEntity pacEntity;
     private Context context;
 
     public AsyncDeleteProxy(Fragment caller, ProxyEntity proxy)
@@ -34,6 +36,15 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
         }
     }
 
+    public AsyncDeleteProxy(Fragment caller, PacEntity pac)
+    {
+        if (caller != null)
+        {
+            context = caller.getActivity().getBaseContext();
+            pacEntity = pac;
+        }
+    }
+
     @Override
     protected void onPostExecute(Boolean result)
     {
@@ -41,7 +52,15 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
 
         if (result)
         {
-            Toast.makeText(context, context.getString(R.string.proxy_deleted), Toast.LENGTH_SHORT).show();
+            if (proxyEntity != null)
+            {
+                Toast.makeText(context, context.getString(R.string.proxy_deleted), Toast.LENGTH_SHORT).show();
+            }
+
+            if (pacEntity != null)
+            {
+                Toast.makeText(context, context.getString(R.string.pac_deleted), Toast.LENGTH_SHORT).show();
+            }
         }
         else
         {
@@ -52,7 +71,7 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
     @Override
     protected Boolean doInBackground(Void... voids)
     {
-        App.getTraceUtils().startTrace(TAG, "saveProxy", Log.DEBUG);
+        App.getTraceUtils().startTrace(TAG, "deleteProxy", Log.DEBUG);
 
         try
         {
@@ -61,7 +80,12 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
                 App.getDBManager().deleteProxy(proxyEntity.getId());
             }
 
-            App.getTraceUtils().stopTrace(TAG, "saveProxy", Log.DEBUG);
+            if (pacEntity != null)
+            {
+                App.getDBManager().deletePac(pacEntity.getId());
+            }
+
+            App.getTraceUtils().stopTrace(TAG, "deleteProxy", Log.DEBUG);
             return true;
         }
         catch (Exception e)

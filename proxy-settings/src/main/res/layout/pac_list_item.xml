@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wifi_ap_layout"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:padding="5dp">
+
+    <TextView
+            android:id="@+id/list_item_pac_url_file"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:padding="3dp"
+            android:text="255.255.255.255">
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/li_pac_used_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red_400"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:id="@+id/proxy_used_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_locked"/>
+
+        <TextView
+            android:id="@+id/li_pac_used_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/proxy_used_icon"
+            android:text="21"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ProxySettingsTheme" parent="@android:style/Theme.Holo" >
+    <style name="ProxySettingsTheme" parent="Theme.AppCompat">
+        <!-- Here we setting appcompat’s actionBarStyle -->
+        <item name="actionBarStyle">@style/CustomActionBarStyle</item>
+
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/grey_800</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/grey_1000</item>
+        <!-- colorAccent is used as the default value for colorControlActivated, which is used to tint widgets -->
+        <item name="colorAccent">@color/red_500</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated colorControlHighlight, and colorSwitchThumbNormal. -->
+
+        <!--The color applied to framework controls in their normal state.-->
+        <!--<item name="colorControlNormal">@color/red_600</item>-->
+
+        <!--The color applied to framework controls in their activated (ex. checked, switch on) state.-->
+        <item name="colorControlActivated">@color/red_500</item>
+
+        <!--The color applied to framework control highlights (ex. ripples, list selectors).-->
+        <!--<item name="colorControlHighlight">@color/yellow_400</item>-->
+
+        <!--The color applied to framework buttons in their normal state.-->
+        <!--<item name="colorButtonNormal">@color/blue_500</item>-->
+
+        <!--The color applied to framework switch thumbs in their normal state. (switch off)-->
+        <!--<item name="colorSwitchThumbNormal">@color/orange_500</item>-->
+
+        <!-- The rest of your attributes -->
+        <item name="android:windowBackground">@color/grey_900</item>
+        <item name="android:textColorPrimary">@color/grey_0</item>
+        <item name="android:textColor">@color/grey_0</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="CustomActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/grey_800</item>
+        <!-- Support library compatibility -->
+        <item name="background">@color/grey_800</item>
+    </style>
+
+    <style name="RedButtonStyle" parent="android:Widget.Button">
+        <item name="android:background">@drawable/material_red_button</item>
+        <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
+        <item name="android:textColor">@color/grey_0</item>
+    </style>
+
+    <style name="GreenButtonStyle" parent="android:Widget.Button">
+        <item name="android:background">@drawable/material_green_button</item>
+        <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
+        <item name="android:textColor">@color/grey_0</item>
     </style>
 
     <style name="Invisible" parent="@android:style/Theme.Holo.Dialog">

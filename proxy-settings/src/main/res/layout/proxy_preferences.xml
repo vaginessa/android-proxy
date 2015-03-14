@@ -30,7 +30,7 @@
                 app:hint="@string/proxy_hostname_hint"
                 app:readonly="false"
                 app:fullsize="true"
-                app:value=""/>
+                app:if_value=""/>
 
         <com.lechucksoftware.proxy.proxysettings.ui.components.InputField
                 android:id="@+id/proxy_port"
@@ -45,7 +45,7 @@
                 app:inputType="numeric"
                 app:readonly="false"
                 app:fullsize="true"
-                app:value=""/>
+                app:if_value=""/>
 
         <com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList
                 android:id="@+id/proxy_bypass"
