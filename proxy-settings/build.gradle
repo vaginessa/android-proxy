@@ -56,11 +56,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
-    compile 'com.afollestad:material-dialogs:0.6.3.5'
+    compile 'com.afollestad:material-dialogs:0.6.4.1'
     compile 'com.nispok:snackbar:2.10.2'
     compile 'com.jpardogo.materialtabstrip:library:1.0.9'
     compile 'com.github.traex.rippleeffect:library:1.2.3'
-    compile 'com.getbase:floatingactionbutton:1.8.0'
+    compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'com.rengwuxian.materialedittext:library:1.8.2'   // Not stable at the moment
 
     // Testing dependencies
@@ -85,8 +85,8 @@ allprojects {
 
 android {
 
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 22
+    buildToolsVersion '22'
 
 //    Scheme for version codes: ##@@$$$%% , using:
 //    ##   - the first two digits for the API Level,
@@ -100,8 +100,8 @@ android {
     defaultConfig {
 
         minSdkVersion 15
-        targetSdkVersion 21
-        versionCode 130030001
+        targetSdkVersion 22
+        versionCode 130030002
         versionName "3.00"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
@@ -210,6 +210,10 @@ android {
             project.hasProperty('android_key_password')) {
 
         println 'Signing Configurations succesfully found'
+        println 'android_keystore: ' + android_keystore
+        println 'android_keystore_password: ' + android_keystore_password
+        println 'android_key_alias: ' + android_key_alias
+        println 'android_key_password: ' + android_key_password
 
         android.signingConfigs.release.storeFile = file(android_keystore)
         android.signingConfigs.release.storePassword = android_keystore_password
