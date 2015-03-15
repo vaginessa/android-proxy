@@ -42,8 +42,8 @@ dependencies {
 //    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':android-proxy-library')
 
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.android.support:cardview-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:cardview-v7:22.0.0'
 
     compile 'com.google.android.gms:play-services-base:6.5.87'
     compile 'com.google.code.gson:gson:2.3.1'
@@ -237,16 +237,16 @@ testdroid {
 
 
     // optional - Custom settings for test execution
-    fullRunConfig {
-        instrumentationRunner = android.defaultConfig.testInstrumentationRunner //  "com.android.testRunner"
+//    fullRunConfig {
+//        instrumentationRunner = android.defaultConfig.testInstrumentationRunner //  "com.android.testRunner"
 //        withAnnotation = "com.my.annotation"
 //        withOutAnnotation = "com.my.not.annotation"
 //        limitationType = "CLASS"
 //        limitationValue = "foo.bar"
 //        instrumentationAPKPath = "/tmp/mytesti.apk" //optional - custom instrumentation apk path
-    }
+//    }
 
 
-    mode "FULL_RUN" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
-//    mode "APP_CRAWLER" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
+//    mode "FULL_RUN" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
+    mode "APP_CRAWLER" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
 }
