@@ -168,6 +168,7 @@ android {
             debuggable false
 
             buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + (project.hasProperty('analytics_track_id_release') ? analytics_track_id_release : 1234)  + "\""
+            buildConfigField "String", "PLAY_IN_APP_BILLING_PUBLIC_KEY", "\"" + (project.hasProperty('in_app_billing_public_key') ? in_app_billing_public_key : 0)  + "\""
 
             signingConfig project.hasProperty('android_keystore') ? signingConfigs.release : signingConfigs.debug
 
@@ -188,6 +189,7 @@ android {
             versionNameSuffix "-DEBUG"
 
             buildConfigField "String", "ANALYTICS_TRACK_ID", "\"" + (project.hasProperty('analytics_track_id_debug') ? analytics_track_id_debug : 1234)  + "\""
+            buildConfigField "String", "PLAY_IN_APP_BILLING_PUBLIC_KEY", "\"" + (project.hasProperty('in_app_billing_public_key') ? in_app_billing_public_key : 0)  + "\""
         }
 
         CI {
@@ -200,6 +202,7 @@ android {
             versionNameSuffix "-CI"
 
             buildConfigField "String", "ANALYTICS_TRACK_ID", 'null'
+            buildConfigField "String", "PLAY_IN_APP_BILLING_PUBLIC_KEY", 'null'
             ext.enableCrashlytics = false
         }
     }

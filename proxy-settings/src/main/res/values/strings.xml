@@ -440,4 +440,9 @@
     <string name="static_proxy">STATIC</string>
     <string name="pac_proxy">PAC</string>
     <string name="enable_wifi">Enable Wi-Fi</string>
+    <string name="title_activity_in_app_billing">InAppBillingActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
