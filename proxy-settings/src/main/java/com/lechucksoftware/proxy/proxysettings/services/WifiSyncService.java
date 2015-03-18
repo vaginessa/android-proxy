@@ -178,16 +178,16 @@ public class WifiSyncService extends IntentService
                 if (configuredNetworks.containsKey(aplNetworkId))
                 {
                     WifiConfiguration wifiConfiguration = configuredNetworks.get(aplNetworkId);
-                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WifiConfiguration", Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", String.format("Got WifiConfiguration: ID '%d'", wifiConfiguration.networkId), Log.DEBUG);
 
                     WiFiApConfig wiFiApConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
-                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Get WiFiApConfig", Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", String.format("Got WiFiApConfig: '%s'", wiFiApConfig.toShortString()), Log.DEBUG);
 
                     WiFiAPEntity wiFiAPEntity = App.getDBManager().upsertWifiAP(wiFiApConfig);
-                    App.getTraceUtils().partialTrace(TAG, "syncAP", "Upsert WiFiAPEntity", Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", String.format("Upserted WiFiAPEntity: '%s'", wiFiAPEntity.toString()), Log.DEBUG);
 
                     App.getWifiNetworksManager().updateWifiConfig(wiFiApConfig);
-                    App.getTraceUtils().partialTrace(TAG, "syncAP", "updateWifiConfig: " + wiFiAPEntity.toString(), Log.DEBUG);
+                    App.getTraceUtils().partialTrace(TAG, "syncAP", String.format("Updated in memory networks status with WifiConfig: '%s'", wiFiAPEntity.toString()), Log.DEBUG);
 
                     upserted++;
                 }

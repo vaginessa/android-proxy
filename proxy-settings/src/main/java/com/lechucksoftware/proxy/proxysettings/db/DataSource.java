@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -159,7 +160,7 @@ public class DataSource
 
         if (config != null)
         {
-            Timber.d("Upserting Wi-fi configuration %s",config.toShortString());
+            Timber.d("Upserting Wi-fi configuration: '%s'", config.toShortString());
 
             WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
             wiFiAPEntity.setSsid(config.getSSID());
@@ -194,7 +195,7 @@ public class DataSource
                 }
             }
 
-            Timber.d("Upsert Wi-Fi entity to DB: %s", wiFiAPEntity.toString());
+            Timber.d("Upsert Wi-Fi entity to DB: '%s'", wiFiAPEntity.toString());
             result = upsertWifiAP(wiFiAPEntity);
         }
 
@@ -217,13 +218,14 @@ public class DataSource
 
         if (wifiApId == -1)
         {
-//            LogWrapper.d(TAG,"Insert new Proxy: " + proxyData);
+            // Insert
+            Timber.d("Insert WifiAp: '%s'", wiFiAPEntity);
             result = createWifiAp(wiFiAPEntity);
         }
         else
         {
             // Update
-//            LogWrapper.d(TAG,"Update Proxy: " + proxyData);
+            Timber.d("Update WifiAp: '%s'" + wiFiAPEntity);
             result = updateWifiAP(wifiApId, wiFiAPEntity);
         }
 
@@ -278,8 +280,16 @@ public class DataSource
 
         cursor.close();
 
-        App.getTraceUtils().stopTrace(TAG, "getWifiAP", wiFiAPEntity.toString(), Log.DEBUG);
-        return wiFiAPEntity;
+        if (wiFiAPEntity == null)
+        {
+            App.getTraceUtils().stopTrace(TAG, "getWifiAP", String.format("Cannot get Wi-Fi AP: '%d'", wifiId), Log.ERROR);
+            return null;
+        }
+        else
+        {
+            App.getTraceUtils().stopTrace(TAG, "getWifiAP", wiFiAPEntity.toString(), Log.DEBUG);
+            return wiFiAPEntity;
+        }
     }
 
     public ProxyEntity getProxy(long proxyId)
@@ -301,9 +311,17 @@ public class DataSource
 
         cursor.close();
 
-        proxyData.setTags(getTagsForProxy(proxyId));
-        App.getTraceUtils().stopTrace(TAG, "getProxy", proxyData.toString(), Log.DEBUG);
-        return proxyData;
+        if (proxyData == null)
+        {
+            App.getTraceUtils().stopTrace(TAG, "getProxy", String.format("Cannot get STATIC proxy: '%d'", proxyId), Log.ERROR);
+            return null;
+        }
+        else
+        {
+            proxyData.setTags(getTagsForProxy(proxyId));
+            App.getTraceUtils().stopTrace(TAG, "getProxy", proxyData.toString(), Log.DEBUG);
+            return proxyData;
+        }
     }
 
     public PacEntity getPac(Long pacId)
@@ -325,8 +343,16 @@ public class DataSource
 
         cursor.close();
 
-        App.getTraceUtils().stopTrace(TAG, "getPac", pacData.toString(), Log.DEBUG);
-        return pacData;
+        if (pacData == null)
+        {
+            App.getTraceUtils().stopTrace(TAG, "getPac", String.format("Cannot get PAC: '%d'", pacId), Log.ERROR);
+            return null;
+        }
+        else
+        {
+            App.getTraceUtils().stopTrace(TAG, "getPac", pacData.toString(), Log.DEBUG);
+            return pacData;
+        }
     }
 
     public TagEntity getRandomTag()
@@ -454,7 +480,7 @@ public class DataSource
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " =?"
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE + "=?";
 
-        String[] selectionArgs = {aplNetworkId.SSID, aplNetworkId.Security.toString()};
+        String[] selectionArgs = { aplNetworkId.SSID, aplNetworkId.Security.toString()};
         Cursor cursor = database.rawQuery(query, selectionArgs);
 
         cursor.moveToFirst();
@@ -465,7 +491,7 @@ public class DataSource
         }
 
         cursor.close();
-        App.getTraceUtils().stopTrace(TAG, "findWifiAp", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "findWifiAp", String.format("Found Wi-Fi Id: '%d'", wifiId) , Log.DEBUG);
         return wifiId;
     }
 
@@ -611,7 +637,8 @@ public class DataSource
         }
 
         cursor.close();
-        App.getTraceUtils().stopTrace(TAG, "findPac", Log.DEBUG);
+
+        App.getTraceUtils().stopTrace(TAG, "findPac", String.format("Found PAC Id: '%d'", pacId) , Log.DEBUG);
         return pacId;
     }
 
@@ -637,7 +664,8 @@ public class DataSource
         }
 
         cursor.close();
-        App.getTraceUtils().stopTrace(TAG, "findProxy", Log.DEBUG);
+
+        App.getTraceUtils().stopTrace(TAG, "findProxy", String.format("Found STATIC proxy Id: '%d'", proxyId) , Log.DEBUG);
         return proxyId;
     }
 
@@ -660,7 +688,8 @@ public class DataSource
         }
 
         cursor.close();
-        App.getTraceUtils().stopTrace(TAG, "findTag", Log.DEBUG);
+
+        App.getTraceUtils().stopTrace(TAG, "findTag", String.format("Found TAG Id: '%d'", tagId) , Log.DEBUG);
         return tagId;
     }
 
@@ -686,7 +715,7 @@ public class DataSource
         updateInUseFlag(newWifiAp.getProxyId(), ProxySetting.STATIC);
         updateInUseFlag(newWifiAp.getPacId(), ProxySetting.PAC);
 
-        App.getTraceUtils().stopTrace(TAG, "createWifiAp", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createWifiAp", String.format("Created Wi-Fi AP Id: '%d'", insertId) , Log.DEBUG);
 
         return newWifiAp;
     }
@@ -716,7 +745,7 @@ public class DataSource
             createProxyTagLink(newProxy.getId(), tag.getId());
         }
 
-        App.getTraceUtils().stopTrace(TAG, "createProxy", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createProxy", String.format("Created STATIC proxy Id: '%d'", insertId) , Log.DEBUG);
 
         notifyProxyChange();
 
@@ -739,7 +768,7 @@ public class DataSource
         long insertId = database.insert(DatabaseSQLiteOpenHelper.TABLE_PAC, null, values);
         PacEntity newPac = getPac(insertId);
 
-        App.getTraceUtils().stopTrace(TAG, "createPac", Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createPac", String.format("Created PAC Id: '%d'", insertId) , Log.DEBUG);
 
         notifyProxyChange();
 
@@ -1279,6 +1308,8 @@ public class DataSource
 
     private ProxyEntity cursorToProxy(Cursor cursor)
     {
+        Timber.d("Cursor to StaticProxy entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+
         ProxyEntity proxy = new ProxyEntity();
         proxy.setId(cursor.getLong(0));
         proxy.setHost(cursor.getString(1));
@@ -1296,6 +1327,8 @@ public class DataSource
 
     private PacEntity cursorToPAC(Cursor cursor)
     {
+        Timber.d("Cursor to PAC entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+
         PacEntity pac = new PacEntity();
         pac.setId(cursor.getLong(0));
         pac.setPacUrlFile(cursor.getString(1));
@@ -1310,6 +1343,8 @@ public class DataSource
 
     private WiFiAPEntity cursorToWifiAP(Cursor cursor)
     {
+        Timber.d("Cursor to WiFiAP entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+
         WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
         wiFiAPEntity.setId(cursor.getLong(0));
 
@@ -1338,6 +1373,8 @@ public class DataSource
 
     private TagEntity cursorToTag(Cursor cursor)
     {
+        Timber.d("Cursor to TAG entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+
         TagEntity tag = new TagEntity();
         tag.setId(cursor.getLong(0));
         tag.setTag(cursor.getString(1));
@@ -1352,6 +1389,8 @@ public class DataSource
 
     private ProxyTagLinkEntity cursorToProxyTagLink(Cursor cursor)
     {
+        Timber.d("Cursor to ProxyTagLink entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+
         ProxyTagLinkEntity link = new ProxyTagLinkEntity();
         link.setId(cursor.getLong(0));
         link.proxyId = cursor.getLong(1);
