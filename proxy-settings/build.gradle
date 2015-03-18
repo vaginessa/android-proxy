@@ -209,7 +209,7 @@ android {
             project.hasProperty('android_key_alias') &&
             project.hasProperty('android_key_password')) {
 
-        println 'Signing Configurations succesfully found'
+        println 'Signing config values succesfully found'
         println 'android_keystore: ' + android_keystore
         println 'android_keystore_password: ' + android_keystore_password
         println 'android_key_alias: ' + android_key_alias
@@ -222,14 +222,31 @@ android {
 
     } else {
 
-        println 'Signing Configurations not found'
+        println 'Signing config values not found'
         buildTypes.release.signingConfig = null
     }
 }
 
 testdroid {
-    username testDroidUsername
-    password testDroidPassword
+
+    if (project.hasProperty('testDroidUsername') &&
+        project.hasProperty('testDroidPassword')) {
+
+        println 'Testdroid config values succesfully found'
+        println 'testDroidUsername: ' + testDroidUsername
+        println 'testDroidUsername: ' + testDroidPassword
+
+        username testDroidUsername
+        password testDroidPassword
+
+    } else {
+
+        println 'Testdroid config values not found'
+
+        username ""
+        password ""
+    }
+
 
     projectName "Proxy Settings"
     testRunName "BUILD " + android.defaultConfig.versionCode + " - " + new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Date())  //optional - default: build variant name
