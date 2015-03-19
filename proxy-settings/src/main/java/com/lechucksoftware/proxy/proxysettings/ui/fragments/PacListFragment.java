@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,7 +27,6 @@ import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.loaders.PacDBTaskLoader;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
@@ -60,12 +58,11 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
 
     @InjectView(R.id.progress) RelativeLayout progress;
     @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
-    @InjectView(R.id.add_new_proxy) FloatingActionButton addNewProxyButton;
+    @InjectView(R.id.add_new_pac_proxy) FloatingActionButton addNewPacProxyButton;
 
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
 
-//    @Optional @InjectView(R.id.proxy_footer_textview) TextView footerTextView; // Footer not displayed into dialog
     @Optional @InjectView(R.id.dialog_cancel) Button cancelDialogButton; // Cancel not displayed into full fragment
 
     private FragmentMode fragmentMode;
@@ -128,7 +125,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
 
         setHasOptionsMenu(true);
 
-        v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
+        v = inflater.inflate(R.layout.pac_list_fragment, container, false);
 
         ButterKnife.inject(this, v);
 
@@ -165,7 +162,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             }
         });
 
-        addNewProxyButton.setVisibility(UIUtils.booleanToVisibility(fragmentMode == FragmentMode.FULLSIZE));
+        addNewPacProxyButton.setVisibility(UIUtils.booleanToVisibility(fragmentMode == FragmentMode.FULLSIZE));
 
         loader = getLoaderManager().initLoader(LOADER_PACDB, new Bundle(), this);
         loader.forceLoad();
@@ -330,7 +327,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
         }
     }
 
-    @OnClick(R.id.add_new_proxy)
+    @OnClick(R.id.add_new_pac_proxy)
     public void createNewProxy()
     {
         Intent addNewProxyIntent = new Intent(getActivity(), PacDetailActivity.class);
