@@ -36,7 +36,26 @@ public class APLTests
     }
 
     @Test
-    public void changeWifiSettings() throws Exception
+    public void testToggleWifi() throws Exception
+    {
+        for(int i=0;i<10;i++)
+        {
+            APL.enableWifi();
+            Thread.sleep(5000);
+            junit.framework.Assert.assertEquals(true, APL.getWifiManager().isWifiEnabled());
+
+            APL.disableWifi();
+            Thread.sleep(5000);
+            junit.framework.Assert.assertEquals(false, APL.getWifiManager().isWifiEnabled());
+
+            APL.enableWifi();
+            Thread.sleep(5000);
+            junit.framework.Assert.assertEquals(true, APL.getWifiManager().isWifiEnabled());
+        }
+    }
+
+    @Test
+    public void testChangeWifiSettings() throws Exception
     {
         Map<APLNetworkId, WiFiApConfig> networksMap = APL.getWifiAPConfigurations();
 

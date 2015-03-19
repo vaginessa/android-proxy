@@ -7,14 +7,14 @@
                 android:layout_height="match_parent">
 
     <include
-        android:id="@+id/static_proxy_list"
+        android:id="@+id/pac_proxy_list"
         layout="@layout/standard_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="2dp" />
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_new_static_proxy"
+        android:id="@+id/add_new_pac_proxy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_icon="@drawable/ic_action_new"

@@ -408,7 +408,6 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
         sb.append(String.format("INTERNAL Id: %s, SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getId().toString(), getSSID(), mRssi, getLevel(), getNetworkId()));
 
         sb.append(" - " + getProxyStatusString());
-//        sb.append(" " + getProxyExclusionList());
 
         if (getStatus() != null)
             sb.append(" - " + getStatus().toShortString());
