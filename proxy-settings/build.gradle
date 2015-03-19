@@ -64,7 +64,8 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:1.8.2'   // Not stable at the moment
 
     // Testing dependencies
-    compile 'com.android.support:support-annotations:21.0.3'    // Required by Espresso
+    compile 'com.android.support:support-annotations:22.0.0'    // Required by Espresso
+
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.0') {
@@ -101,7 +102,7 @@ android {
 
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 130030004
+        versionCode 130030005
         versionName "3.00"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
@@ -212,7 +213,7 @@ android {
             project.hasProperty('android_key_alias') &&
             project.hasProperty('android_key_password')) {
 
-        println 'Signing Configurations succesfully found'
+        println 'Signing config values succesfully found'
         println 'android_keystore: ' + android_keystore
         println 'android_keystore_password: ' + android_keystore_password
         println 'android_key_alias: ' + android_key_alias
@@ -225,31 +226,46 @@ android {
 
     } else {
 
-        println 'Signing Configurations not found'
+        println 'Signing config values not found'
         buildTypes.release.signingConfig = null
     }
 }
 
 testdroid {
-    username testDroidUsername
-    password testDroidPassword
+
+    if (project.hasProperty('testDroidUsername') &&
+        project.hasProperty('testDroidPassword')) {
+
+        println 'Testdroid config values succesfully found'
+        println 'testDroidUsername: ' + testDroidUsername
+        println 'testDroidUsername: ' + testDroidPassword
+
+        username testDroidUsername
+        password testDroidPassword
+
+    } else {
+
+        println 'Testdroid config values not found'
+
+        username ""
+        password ""
+    }
 
     projectName "Proxy Settings"
     testRunName "BUILD " + android.defaultConfig.versionCode + " - " + new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Date())  //optional - default: build variant name
     deviceGroup 'FREE_DEVICES'
 
-
     // optional - Custom settings for test execution
-//    fullRunConfig {
-//        instrumentationRunner = android.defaultConfig.testInstrumentationRunner //  "com.android.testRunner"
+    fullRunConfig {
+        instrumentationRunner = android.defaultConfig.testInstrumentationRunner //  "com.android.testRunner"
 //        withAnnotation = "com.my.annotation"
 //        withOutAnnotation = "com.my.not.annotation"
 //        limitationType = "CLASS"
 //        limitationValue = "foo.bar"
 //        instrumentationAPKPath = "/tmp/mytesti.apk" //optional - custom instrumentation apk path
-//    }
+    }
 
 
-//    mode "FULL_RUN" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
-    mode "APP_CRAWLER" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
+    mode "FULL_RUN" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
+//    mode "APP_CRAWLER" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
 }

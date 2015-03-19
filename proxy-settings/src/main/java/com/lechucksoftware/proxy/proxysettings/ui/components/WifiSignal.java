@@ -65,20 +65,7 @@ public class WifiSignal extends LinearLayout
 
     private void refreshUI()
     {
-//        securityString = ProxyUtils.getSecurityString(configuration, getContext(), true);
-//
-//        if (!TextUtils.isEmpty(securityString))
-//        {
-//            securityTextView.setText(securityString);
-//        }
-//        else
-//        {
-//            securityTextView.setText("");
-//        }
-//
-//        securityTextView.setVisibility(UIUtils.booleanToVisibility(showSecurityText));
-
-        if (configuration.getLevel() == -1)
+        if (configuration == null || configuration.getLevel() == -1)
         {
             iconImageView.setImageResource(R.drawable.ic_action_nowifi);
         }

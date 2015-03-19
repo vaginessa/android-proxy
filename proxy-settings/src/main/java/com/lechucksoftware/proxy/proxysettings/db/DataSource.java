@@ -234,7 +234,7 @@ public class DataSource
 
     public ProxyEntity getRandomProxy()
     {
-        App.getTraceUtils().startTrace(TAG, "createRandomHTTPProxy", Log.INFO);
+        App.getTraceUtils().startTrace(TAG, "getRandomProxy", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         String query = "SELECT * "
@@ -256,8 +256,36 @@ public class DataSource
         else
         {
             proxyData.setTags(getTagsForProxy(proxyData.getId()));
-            App.getTraceUtils().stopTrace(TAG, "createRandomHTTPProxy", proxyData.toString(), Log.INFO);
+            App.getTraceUtils().stopTrace(TAG, "getRandomProxy", proxyData.toString(), Log.INFO);
             return proxyData;
+        }
+    }
+
+    public PacEntity getRandomPac()
+    {
+        App.getTraceUtils().startTrace(TAG, "getRandomPac", Log.INFO);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        String query = "SELECT * "
+                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC
+                + " ORDER BY Random() LIMIT 1";
+
+        Cursor cursor = database.rawQuery(query, null);
+        cursor.moveToFirst();
+        PacEntity pacData = null;
+        if (!cursor.isAfterLast())
+        {
+            pacData = cursorToPAC(cursor);
+        }
+
+        cursor.close();
+
+        if (pacData == null)
+            return null;
+        else
+        {
+            App.getTraceUtils().stopTrace(TAG, "getRandomPac", pacData.toString(), Log.INFO);
+            return pacData;
         }
     }
 
