@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.logging;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -118,7 +119,14 @@ public class CustomCrashlyticsTree implements Timber.TaggedTree
     {
         if (priority >= MIN_LOG_LEVEL)
         {
-            Crashlytics.log(priority, tag, message);
+            if (BuildConfig.DEBUG)
+            {
+                Crashlytics.log(priority, tag, message);
+            }
+            else
+            {
+                Crashlytics.log(String.format("%s: %s", tag, message));
+            }
         }
     }
 
