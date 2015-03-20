@@ -367,7 +367,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
             case Requests.SELECT_PROXY_FOR_WIFI_NETWORK:
 
-                if (data != null && data.hasExtra(Constants.SELECTED_PROXY_TYPE_ARG))
+                if (selectedWiFiAP != null && data != null && data.hasExtra(Constants.SELECTED_PROXY_TYPE_ARG))
                 {
                     Bundle args = data.getExtras();
                     if (resultCode == ActionBarActivity.RESULT_OK && args != null)
