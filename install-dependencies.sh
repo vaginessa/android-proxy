@@ -20,15 +20,15 @@ if [ ! -e $DEPS ]; then
 
   echo y | android update sdk -u -a -t platform-tools &&
   echo y | android update sdk -u -a -t tools &&
-  echo y | android update sdk -u -a -t android-21 &&
-  echo y | android update sdk -u -a -t build-tools-21.1.2 &&
+  echo y | android update sdk -u -a -t android-22 &&
+  echo y | android update sdk -u -a -t build-tools-22.0.0 &&
   echo y | android update sdk -u -a -t extra-google-google_play_services &&
   echo y | android update sdk -u -a -t extra-android-m2repository &&
   echo y | android update sdk -u -a -t extra-android-support &&
   echo y | android update sdk -u -a -t extra-google-m2repository &&
   echo y | android update sdk -u -a -t extra-google-play_licensing &&
-  echo y | android update sdk -u -a -t sys-img-x86-android-21 &&
-  echo y | android update sdk -u -a -t addon-google_apis-google-21 &&
+  echo y | android update sdk -u -a -t sys-img-x86-android-22 &&
+  echo y | android update sdk -u -a -t addon-google_apis-google-22 &&
 
   # DO NOT CREATE EMULATOR FOR THE MOMENT
   # echo n | android create avd -n testing -f -t android-21 &&
