@@ -53,20 +53,21 @@ public class InAppBillingFragment extends BaseFragment
     void inAppBillingTest()
     {
         IabHelper mHelper = new IabHelper(getActivity(), BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
+        mHelper.startSetup(new MyOnIabSetupFinishedListener());
+    }
 
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener()
-                                   {
-                                       public void onIabSetupFinished(IabResult result)
-                                       {
-                                           if (!result.isSuccess())
-                                           {
-                                               Timber.d("In-app Billing setup failed: " + result);
-                                           }
-                                           else
-                                           {
-                                               Timber.d("In-app Billing is set up OK");
-                                           }
-                                       }
-                                   });
+    private static class MyOnIabSetupFinishedListener implements IabHelper.OnIabSetupFinishedListener
+    {
+        public void onIabSetupFinished(IabResult result)
+        {
+            if (!result.isSuccess())
+            {
+                Timber.e("In-app Billing setup failed: " + result);
+            }
+            else
+            {
+                Timber.d("In-app Billing is set up OK");
+            }
+        }
     }
 }
