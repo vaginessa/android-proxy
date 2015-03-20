@@ -37,6 +37,12 @@
             <!--android:summary="@string/pref_send_feedback_summary"/>-->
 
     <Preference
+        android:enabled="true"
+        android:key="pref_support_app"
+        android:title="@string/support"
+        android:summary="@string/help_android_proxy_project" />
+
+    <Preference
             android:enabled="true"
             android:key="pref_betatest"
             android:title="@string/pref_become_tester"

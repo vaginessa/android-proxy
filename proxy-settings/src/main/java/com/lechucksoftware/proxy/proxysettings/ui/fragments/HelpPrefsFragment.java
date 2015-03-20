@@ -18,6 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.InAppBillingActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -33,6 +34,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
     private Preference appRatePref;
     private Preference shareApp;
     private Preference contactPref;
+    private Preference supportPref;
 //    private Preference aboutPref;
 
 
@@ -157,6 +159,21 @@ public class HelpPrefsFragment extends BasePreferenceFragment
                 return true;
             }
         });
+
+        supportPref = findPreference("pref_support_app");
+        supportPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+
+                Intent i = new Intent(getActivity(), InAppBillingActivity.class);
+                startActivity(i);
+
+                return true;
+            }
+        });
+
 
 //        shareApp = findPreference("pref_share_app");
 //        shareApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
