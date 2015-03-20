@@ -205,7 +205,7 @@ public class TestUtils
         return pd;
     }
 
-    public static void addProxy()
+    public static void addRandomProxy()
     {
         ProxyEntity pd = createRandomHTTPProxy();
         ProxyEntity savedProxy = App.getDBManager().upsertProxy(pd);

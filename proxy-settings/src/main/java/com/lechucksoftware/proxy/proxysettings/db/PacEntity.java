@@ -4,9 +4,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.UUID;
 
 /**
  * Created by Marco on 13/09/13.

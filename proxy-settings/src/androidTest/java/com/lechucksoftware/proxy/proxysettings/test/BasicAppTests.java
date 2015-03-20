@@ -7,6 +7,7 @@ import android.support.test.filters.RequiresDevice;
 import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Smoke;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -36,18 +37,15 @@ import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasEntry;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
+@Smoke
 public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivity>
 {
     private MasterActivity mActivity;
@@ -93,8 +91,6 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         ProxyEntity staticProxy = TestUtils.createRandomHTTPProxy();
         onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_host)))).perform(typeText(staticProxy.getHost()));
         onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_port)))).perform(typeText(String.valueOf(staticProxy.getPort())));
-
-//        onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_bypass)))).perform(typeText(String.valueOf(proxyPort)));
 
         onView(withId(R.id.menu_save)).perform(click());
 
@@ -148,6 +144,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         assertNotNull(selectedWifiApConfig);
         assertNotNull(selectedProxyEntity);
 
+        // Enable proxy
         onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
                 .inAdapterView(withId(android.R.id.list))
                 .perform(click());
@@ -160,6 +157,17 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         onData(hasToString(containsString(String.format("%s", selectedProxyEntity.getHost()))))
                 .inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.static_proxy_list))))
                 .perform(click());
+
+        onView(isRoot()).perform(ViewActions.pressBack());
+
+
+        // Disable proxy
+        onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
+                .inAdapterView(withId(android.R.id.list))
+                .perform(click());
+
+        onView(withId(R.id.wifi_name)).check(matches(withText(selectedWifiApConfig.getSSID())));
+        onView(withId(R.id.wifi_proxy_switch)).perform(click());
 
         onView(isRoot()).perform(ViewActions.pressBack());
     }
@@ -211,6 +219,16 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         onData(hasToString(containsString(String.format("%s",selectedPacProxyEntity.getPacUriFile().toString()))))
                 .inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.pac_proxy_list))))
                 .perform(click());
+
+        onView(isRoot()).perform(ViewActions.pressBack());
+
+        // Disable proxy
+        onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
+                .inAdapterView(withId(android.R.id.list))
+                .perform(click());
+
+        onView(withId(R.id.wifi_name)).check(matches(withText(selectedWifiApConfig.getSSID())));
+        onView(withId(R.id.wifi_proxy_switch)).perform(click());
 
         onView(isRoot()).perform(ViewActions.pressBack());
     }

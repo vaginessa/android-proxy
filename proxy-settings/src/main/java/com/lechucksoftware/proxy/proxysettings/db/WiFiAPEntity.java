@@ -1,8 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.lechucksoftware.proxy.proxysettings.App;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import be.shouldit.proxy.lib.enums.SecurityType;
@@ -11,7 +13,7 @@ import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 /**
  * Created by Marco on 13/09/13.
  */
-public class WiFiAPEntity extends BaseEntity implements Serializable
+public class WiFiAPEntity extends BaseEntity implements Parcelable
 {
     private String ssid;
     private SecurityType securityType;
@@ -232,4 +234,43 @@ public class WiFiAPEntity extends BaseEntity implements Serializable
     {
         return pacId;
     }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        super.writeToParcel(dest,flags);
+
+        dest.writeString(this.ssid);
+        dest.writeInt(this.securityType == null ? -1 : this.securityType.ordinal());
+        dest.writeInt(this.proxySetting == null ? -1 : this.proxySetting.ordinal());
+        dest.writeValue(this.proxyId);
+        dest.writeValue(this.pacId);
+        dest.writeParcelable(this.proxyEntity, 0);
+        dest.writeParcelable(this.pacEntity, 0);
+    }
+
+    private WiFiAPEntity(Parcel in)
+    {
+        super(in);
+
+        this.ssid = in.readString();
+        int tmpSecurityType = in.readInt();
+        this.securityType = tmpSecurityType == -1 ? null : SecurityType.values()[tmpSecurityType];
+        int tmpProxySetting = in.readInt();
+        this.proxySetting = tmpProxySetting == -1 ? null : ProxySetting.values()[tmpProxySetting];
+        this.proxyId = (Long) in.readValue(Long.class.getClassLoader());
+        this.pacId = (Long) in.readValue(Long.class.getClassLoader());
+        this.proxyEntity = in.readParcelable(ProxyEntity.class.getClassLoader());
+        this.pacEntity = in.readParcelable(PacEntity.class.getClassLoader());
+    }
+
+    public static final Creator<WiFiAPEntity> CREATOR = new Creator<WiFiAPEntity>()
+    {
+        public WiFiAPEntity createFromParcel(Parcel source) {return new WiFiAPEntity(source);}
+
+        public WiFiAPEntity[] newArray(int size) {return new WiFiAPEntity[size];}
+    };
 }

@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class StartupActions
 {
-    private static final String TAG = StartupAction.class.getSimpleName();
+    private static final String TAG = StartupActions.class.getSimpleName();
     private static List<StartupAction> availableActions;
 
-    private static List<StartupAction> buildStartupActions(Activity activity)
+    private static List<StartupAction> buildStartupActions()
     {
         ArrayList<StartupAction> actions = new ArrayList<StartupAction>();
 
@@ -43,7 +43,7 @@ public class StartupActions
 //                new StartupCondition(null, null, 1300216));
 //        actions.add(whatsNew216);
 
-        StartupAction rating = new StartupAction(activity,
+        StartupAction rating = new StartupAction(
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
                 new StartupCondition(30, null, null),
@@ -52,7 +52,7 @@ public class StartupActions
                 new StartupCondition(null, 30, null));
         actions.add(rating);
 
-        StartupAction betaTest = new StartupAction(activity,
+        StartupAction betaTest = new StartupAction(
                 StartupActionType.BETA_TEST_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
                 new StartupCondition(80, null, null),
@@ -64,12 +64,12 @@ public class StartupActions
         return actions;
     }
 
-    public static List<StartupAction> getAvailableActions(Activity activity)
+    public static List<StartupAction> getAvailableActions()
     {
         if (availableActions == null)
         {
             App.getTraceUtils().startTrace(TAG, "build startup actions list", Log.DEBUG);
-            availableActions = buildStartupActions(activity);
+            availableActions = buildStartupActions();
             App.getTraceUtils().stopTrace(TAG, "build startup actions list", Log.DEBUG);
         }
 

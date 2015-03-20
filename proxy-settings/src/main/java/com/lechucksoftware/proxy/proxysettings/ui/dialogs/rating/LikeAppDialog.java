@@ -77,7 +77,7 @@ public class LikeAppDialog extends BaseDialogFragment
         LikeAppDialog frag = new LikeAppDialog();
 
         Bundle b = new Bundle();
-        b.putSerializable("ACTION", action);
+        b.putParcelable("ACTION", action);
         frag.setArguments(b);
 
         return frag;

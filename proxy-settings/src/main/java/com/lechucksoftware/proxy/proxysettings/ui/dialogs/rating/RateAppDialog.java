@@ -58,7 +58,7 @@ public class RateAppDialog extends BaseDialogFragment
         RateAppDialog frag = new RateAppDialog();
 
         Bundle b = new Bundle();
-        b.putSerializable("ACTION", action);
+        b.putParcelable("ACTION", action);
         frag.setArguments(b);
 
         return frag;

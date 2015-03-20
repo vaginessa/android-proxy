@@ -3,7 +3,6 @@ package com.lechucksoftware.proxy.proxysettings.db;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.UUID;

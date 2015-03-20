@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import be.shouldit.proxy.lib.enums.SecurityType;
 
-import java.io.Serializable;
-
 /**
  * Created by Marco on 08/06/13.
  */

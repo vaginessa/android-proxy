@@ -1,11 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.db;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.UUID;
 
 /**
  * Created by Marco on 13/09/13.
  */
-public class TagEntity extends BaseEntity implements Serializable
+public class TagEntity extends BaseEntity implements Parcelable
 {
     private String tag;
     private Integer tagColor;
@@ -71,4 +74,31 @@ public class TagEntity extends BaseEntity implements Serializable
     {
         this.tagColor = tagColor;
     }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        super.writeToParcel(dest,flags);
+
+        dest.writeString(this.tag);
+        dest.writeValue(this.tagColor);
+    }
+
+    private TagEntity(Parcel in)
+    {
+        super(in);
+
+        this.tag = in.readString();
+        this.tagColor = (Integer) in.readValue(Integer.class.getClassLoader());
+    }
+
+    public static final Creator<TagEntity> CREATOR = new Creator<TagEntity>()
+    {
+        public TagEntity createFromParcel(Parcel source) {return new TagEntity(source);}
+
+        public TagEntity[] newArray(int size) {return new TagEntity[size];}
+    };
 }

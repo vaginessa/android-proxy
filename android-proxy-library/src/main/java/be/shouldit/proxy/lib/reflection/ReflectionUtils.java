@@ -286,6 +286,43 @@ public class ReflectionUtils
         return internalSaveDone;
     }
 
+    public static Constructor getConstructor(Constructor[] constructors, Class[] knownParameters) throws Exception
+    {
+        Constructor c = null;
+
+        for (Constructor lc : constructors)
+        {
+            Boolean found = false;
+
+            for (Class knowParam : knownParameters)
+            {
+                found = false;
+                for (Class param : lc.getParameterTypes())
+                {
+                    if (param.getName().equals(knowParam.getName()))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found == false)
+                    break;
+            }
+
+            if (found)
+            {
+                c = lc;
+                break;
+            }
+        }
+
+        if (c == null)
+            throw new Exception("Constructor not found!");
+
+        return c;
+    }
+
     public static Method getMethod(Method[] methods, String methodName) throws Exception
     {
         Method m = null;
