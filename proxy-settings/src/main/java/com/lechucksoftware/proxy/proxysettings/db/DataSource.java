@@ -65,6 +65,7 @@ public class DataSource
             DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID,
             DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
             DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
+    private WiFiAPEntity randomWifiAp;
 
     public DataSource(Context ctx)
     {
@@ -286,6 +287,34 @@ public class DataSource
         {
             App.getTraceUtils().stopTrace(TAG, "getRandomPac", pacData.toString(), Log.INFO);
             return pacData;
+        }
+    }
+
+    public WiFiAPEntity getRandomWifiAp()
+    {
+        App.getTraceUtils().startTrace(TAG, "getRandomWifiAp", Log.INFO);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
+
+        String query = "SELECT * "
+                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
+                + " ORDER BY Random() LIMIT 1";
+
+        Cursor cursor = database.rawQuery(query, null);
+        cursor.moveToFirst();
+        WiFiAPEntity wiFiAPEntity = null;
+        if (!cursor.isAfterLast())
+        {
+            wiFiAPEntity = cursorToWifiAP(cursor);
+        }
+
+        cursor.close();
+
+        if (wiFiAPEntity == null)
+            return null;
+        else
+        {
+            App.getTraceUtils().stopTrace(TAG, "getRandomWifiAp", wiFiAPEntity.toString(), Log.INFO);
+            return wiFiAPEntity;
         }
     }
 

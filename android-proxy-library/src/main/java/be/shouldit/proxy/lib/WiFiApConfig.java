@@ -65,7 +65,7 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
     {
         dest.writeSerializable(this.id);
         dest.writeParcelable(this.internalWifiNetworkId, 0);
-        dest.writeSerializable(this.status);
+        dest.writeParcelable(this.status, flags);
         dest.writeInt(this.proxySetting == null ? -1 : this.proxySetting.ordinal());
         dest.writeString(this.proxyHost);
         dest.writeValue(this.proxyPort);
@@ -87,7 +87,7 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
     {
         this.id = (UUID) in.readSerializable();
         this.internalWifiNetworkId = in.readParcelable(APLNetworkId.class.getClassLoader());
-        this.status = (ProxyStatus) in.readSerializable();
+        this.status = in.readParcelable(ProxyStatus.class.getClassLoader());
         int tmpProxySetting = in.readInt();
         this.proxySetting = tmpProxySetting == -1 ? null : ProxySetting.values()[tmpProxySetting];
         this.proxyHost = in.readString();
