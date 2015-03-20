@@ -418,43 +418,54 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
     public String getProxyStatusString()
     {
         ProxySetting setting = getProxySetting();
+        String result = "";
 
-        if (setting == null)
+        try
         {
-            return APL.getContext().getResources().getString(R.string.not_available);
-        }
+            if (setting == null)
+            {
+                result = APL.getContext().getResources().getString(R.string.not_available);
+            }
+            else if (setting == ProxySetting.NONE || setting == ProxySetting.UNASSIGNED)
+            {
+                result = APL.getContext().getResources().getString(R.string.direct_connection);
+            }
+            else if (setting == ProxySetting.STATIC)
+            {
+                StringBuilder sb = new StringBuilder();
+                if (!TextUtils.isEmpty(proxyHost) && proxyPort != null && proxyPort > 0)
+                    sb.append(String.format("%s:%d", proxyHost, proxyPort));
+                else
+                {
+                    sb.append(APL.getContext().getResources().getString(R.string.not_set));
+                }
 
-        if (setting == ProxySetting.NONE || setting == ProxySetting.UNASSIGNED)
-        {
-            return APL.getContext().getResources().getString(R.string.direct_connection);
-        }
-        else if (setting == ProxySetting.STATIC)
-        {
-            StringBuilder sb = new StringBuilder();
-            if (!TextUtils.isEmpty(proxyHost) && proxyPort != null && proxyPort > 0)
-                sb.append(String.format("%s:%d", proxyHost, proxyPort));
+                result = sb.toString();
+            }
+            else if (setting == ProxySetting.PAC)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                if (!TextUtils.isEmpty(pacFileUri.toString()))
+                    sb.append(String.format("%s", pacFileUri));
+                else
+                {
+                    sb.append(APL.getContext().getResources().getString(R.string.not_set));
+                }
+
+                result = sb.toString();
+            }
             else
             {
-                sb.append(APL.getContext().getResources().getString(R.string.not_set));
+                result = APL.getContext().getResources().getString(R.string.not_valid_proxy_setting);
             }
-
-            return sb.toString();
         }
-        else if (setting == ProxySetting.PAC)
+        catch (Exception e)
         {
-            StringBuilder sb = new StringBuilder();
-
-            if (!TextUtils.isEmpty(pacFileUri.toString()))
-                sb.append(String.format("%s", pacFileUri));
-            else
-            {
-                sb.append(APL.getContext().getResources().getString(R.string.not_set));
-            }
-
-            return sb.toString();
+            Timber.e(e,"Exception building proxy status string");
         }
 
-        return APL.getContext().getResources().getString(R.string.not_valid_proxy_setting);
+        return result;
     }
 
     public String getProxyHostString()
