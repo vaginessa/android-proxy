@@ -20,7 +20,7 @@ public class LikeAppDialog extends BaseDialogFragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        startupAction = (StartupAction) getArguments().getSerializable("ACTION");
+        startupAction = getArguments().getParcelable("ACTION");
     }
 
     @Override
