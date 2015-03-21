@@ -60,50 +60,25 @@ public class WifiAp extends LinearLayout
 
     private void refreshUI()
     {
-        wifiName.setText(ProxyUtils.cleanUpSSID(wifiApConfig.getSSID()));
+        if (wifiApConfig != null)
+        {
+            wifiName.setText(ProxyUtils.cleanUpSSID(wifiApConfig.getSSID()));
 
-        SpannableStringBuilder ssb = new SpannableStringBuilder();
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
 
-        String securityTitle = context.getString(R.string.security);
-        String securityString = ProxyUtils.getSecurityString(wifiApConfig, context, true);
+            String securityTitle = context.getString(R.string.security);
+            String securityString = ProxyUtils.getSecurityString(wifiApConfig, context, true);
 
-//        if (!TextUtils.isEmpty(securityString))
-//        {
-//            wifiStatus.setText(getContext().getString(R.string.security,securityString));
-//        }
-//        else
-//        {
-//            wifiStatus.setText("");
-//        }
-
-        ssb.append(securityTitle);
-        ssb.append("  " + securityString);
-        ssb.setSpan(bss, 0, securityTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        wifiStatus.setText(ssb);
-
-
-//        wifiStatus.setText(wifiApConfig.getProxyStatusString());
-
-//        if (configuration.getLevel() == -1)
-//        {
-//            iconImageView.setImageResource(R.drawable.ic_action_nowifi);
-//            layout.setBackgroundResource(R.color.DarkGrey);
-//        }
-//        else
-//        {
-//            iconImageView.setImageLevel(configuration.getLevel());
-//            iconImageView.setImageResource(R.drawable.wifi_signal);
-//            iconImageView.setImageState((configuration.getSecurityType() != SecurityType.SECURITY_NONE) ? AccessPoint.STATE_SECURED : AccessPoint.STATE_NONE, true);
-//
-//            if (configuration.isActive())
-//            {
-//                layout.setBackgroundResource(R.color.Holo_Blue_Dark);
-//            }
-//            else
-//            {
-//                layout.setBackgroundResource(R.color.Holo_Green_Dark);
-//            }
-//        }
+            ssb.append(securityTitle);
+            ssb.append("  " + securityString);
+            ssb.setSpan(bss, 0, securityTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            wifiStatus.setText(ssb);
+        }
+        else
+        {
+            wifiName.setText(R.string.not_available);
+            wifiStatus.setText(R.string.not_available);
+        }
     }
 
     public void setConfiguration(WiFiApConfig configuration)

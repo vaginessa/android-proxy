@@ -24,7 +24,7 @@ public class ApplicationSubmitService extends IntentService
     @Override
     protected void onHandleIntent(Intent intent) 
     {
-    	PInfo appInfo = (PInfo) intent.getSerializableExtra("appInfo");
+    	PInfo appInfo = intent.getParcelableExtra("appInfo");
         SubmitApplicationFeedback(getApplicationContext(),appInfo);
     }
     

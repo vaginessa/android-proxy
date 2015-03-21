@@ -60,7 +60,17 @@ public class WifiStatusUpdateService extends IntentService
 
         // TODO: getScanResults() seems to Trigger a query to LocationManager
         // Add a possibility to disable the behaviour in order to avoid problems with KitKat AppOps
-        List<ScanResult> scanResults = APL.getWifiManager().getScanResults();
+        List<ScanResult> scanResults = null;
+
+        try
+        {
+           scanResults = APL.getWifiManager().getScanResults();
+        }
+        catch (Exception e)
+        {
+            Timber.e(e, "Exception retrieving scan results from WifiManager");
+        }
+
         if (scanResults != null)
         {
             App.getWifiNetworksManager().updateWifiConfigWithScanResults(scanResults);

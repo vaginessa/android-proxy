@@ -22,7 +22,7 @@ public class BetaTestDismissedDialog extends BaseDialogFragment
         builder.title(R.string.no_problem);
 		builder.content(R.string.beta_testing_dismissed);
 
-		builder.positiveText(getResources().getString(R.string.ok));
+		builder.positiveText(R.string.ok);
 
         builder.callback(new MaterialDialog.ButtonCallback() {
             @Override

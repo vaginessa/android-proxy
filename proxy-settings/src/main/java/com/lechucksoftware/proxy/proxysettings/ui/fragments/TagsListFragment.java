@@ -154,7 +154,7 @@ public class TagsListFragment extends BaseDialogFragment implements LoaderManage
         {
             tagsListAdapter.setData(new ArrayList<TagEntity>());
             listView.setVisibility(View.GONE);
-            emptyText.setText(getResources().getString(R.string.tags_empty_list));
+            emptyText.setText(getString(R.string.tags_empty_list));
             emptyText.setVisibility(View.VISIBLE);
         }
 

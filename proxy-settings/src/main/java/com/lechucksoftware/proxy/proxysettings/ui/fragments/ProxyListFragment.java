@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -59,12 +58,11 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
     @InjectView(R.id.progress) RelativeLayout progress;
     @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
-    @InjectView(R.id.add_new_proxy) FloatingActionButton addNewProxyButton;
+    @InjectView(R.id.add_new_static_proxy) FloatingActionButton addNewStaticProxyButton;
 
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
 
-//    @Optional @InjectView(R.id.proxy_footer_textview) TextView footerTextView; // Footer not displayed into dialog
     @Optional @InjectView(R.id.dialog_cancel) Button cancelDialogButton; // Cancel not displayed into full fragment
 
     private FragmentMode fragmentMode;
@@ -177,7 +175,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
 //        footerTextView.setVisibility(View.GONE);
 
-        addNewProxyButton.setVisibility(UIUtils.booleanToVisibility(fragmentMode == FragmentMode.FULLSIZE));
+        addNewStaticProxyButton.setVisibility(UIUtils.booleanToVisibility(fragmentMode == FragmentMode.FULLSIZE));
 
         loader = getLoaderManager().initLoader(LOADER_PROXYDB, new Bundle(), this);
         loader.forceLoad();
@@ -235,7 +233,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             proxiesListAdapter.setData(new ArrayList<ProxyEntity>());
 
             emptySection.setVisibility(View.VISIBLE);
-            emptyText.setText(getResources().getString(R.string.proxy_empty_list));
+            emptyText.setText(getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
 
 //            footerTextView.setVisibility(View.GONE);
@@ -343,7 +341,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
         }
     }
 
-    @OnClick(R.id.add_new_proxy)
+    @OnClick(R.id.add_new_static_proxy)
     public void createNewProxy()
     {
         Intent addNewProxyIntent = new Intent(getActivity(), ProxyDetailActivity.class);

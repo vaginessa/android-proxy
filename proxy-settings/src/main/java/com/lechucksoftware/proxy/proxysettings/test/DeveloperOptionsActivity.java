@@ -415,7 +415,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
                     switch (_action)
                     {
                         case ADD_PROXY:
-                            TestUtils.addProxy();
+                            TestUtils.addRandomProxy();
                             break;
                         case TEST_SERIALIZATION:
                             TestUtils.testSerialization();
@@ -424,7 +424,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
                             TestUtils.addTags();
                             break;
                         case UPDATE_TAGS:
-//                            TestUtils.addProxy();
+//                            TestUtils.addRandomProxy();
                             break;
                     }
 

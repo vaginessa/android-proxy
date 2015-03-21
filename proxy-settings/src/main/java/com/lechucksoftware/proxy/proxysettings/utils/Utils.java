@@ -151,7 +151,7 @@ public class Utils
 
         if (pi != null)
         {
-            appVersionName = ctx.getResources().getString(R.string.app_versionname, pi.versionName, pi.versionCode);
+            appVersionName = ctx.getString(R.string.app_versionname, pi.versionName, pi.versionCode);
         }
         else
         {

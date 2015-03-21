@@ -78,7 +78,7 @@ public class MailFeedbackDialog extends BaseDialogFragment
         MailFeedbackDialog frag = new MailFeedbackDialog();
 
         Bundle b = new Bundle();
-        b.putSerializable("ACTION", action);
+        b.putParcelable("ACTION", action);
         frag.setArguments(b);
 
         return frag;

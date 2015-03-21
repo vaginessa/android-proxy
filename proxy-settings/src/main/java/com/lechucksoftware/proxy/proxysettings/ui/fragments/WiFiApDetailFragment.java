@@ -221,32 +221,40 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     {
         refreshingUI = true;
 
-        wifiApHeader.setConfiguration(selectedWiFiAP);
-
-        int selectedColor = R.color.grey_600;
-        if (selectedWiFiAP.getLevel() != -1)
+        if (selectedWiFiAP != null)
         {
-            if (selectedWiFiAP.isActive())
+            wifiApHeader.setConfiguration(selectedWiFiAP);
+
+            int selectedColor = R.color.grey_600;
+            if (selectedWiFiAP.getLevel() != -1)
             {
-                selectedColor = R.color.blue_500;
+                if (selectedWiFiAP.isActive())
+                {
+                    selectedColor = R.color.blue_500;
+                }
+                else
+                {
+                    selectedColor = R.color.green_500;
+                }
             }
-            else
+
+            wifiLayout.setBackgroundResource(selectedColor);
+
+            ActionBarActivity activity = (ActionBarActivity) getActivity();
+            if (activity != null)
             {
-                selectedColor = R.color.green_500;
+                ActionBar actionBar = activity.getSupportActionBar();
+                if (actionBar != null)
+                {
+                    actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(selectedColor)));
+                }
             }
         }
-
-        wifiLayout.setBackgroundResource(selectedColor);
-
-        ActionBarActivity activity = (ActionBarActivity) getActivity();
-        if (activity != null)
+        else
         {
-            ActionBar actionBar = activity.getSupportActionBar();
-            if (actionBar != null)
-            {
-                actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(selectedColor)));
-            }
+            FragmentsUtils.goToMainActivity(getActivity());
         }
+
 
         refreshingUI = false;
     }
@@ -359,7 +367,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
             case Requests.SELECT_PROXY_FOR_WIFI_NETWORK:
 
-                if (data != null && data.hasExtra(Constants.SELECTED_PROXY_TYPE_ARG))
+                if (selectedWiFiAP != null && data != null && data.hasExtra(Constants.SELECTED_PROXY_TYPE_ARG))
                 {
                     Bundle args = data.getExtras();
                     if (resultCode == ActionBarActivity.RESULT_OK && args != null)

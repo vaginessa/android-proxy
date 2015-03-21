@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
@@ -65,7 +66,7 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
     {
         dest.writeSerializable(this.id);
         dest.writeParcelable(this.internalWifiNetworkId, 0);
-        dest.writeSerializable(this.status);
+        dest.writeParcelable(this.status, flags);
         dest.writeInt(this.proxySetting == null ? -1 : this.proxySetting.ordinal());
         dest.writeString(this.proxyHost);
         dest.writeValue(this.proxyPort);
@@ -83,13 +84,54 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
         dest.writeInt(this.mState == null ? -1 : this.mState.ordinal());
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof WiFiApConfig)) return false;
+
+        WiFiApConfig that = (WiFiApConfig) o;
+
+        if (mRssi != that.mRssi) return false;
+        if (networkId != that.networkId) return false;
+        if (bssid != null ? !bssid.equals(that.bssid) : that.bssid != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (internalWifiNetworkId != null ? !internalWifiNetworkId.equals(that.internalWifiNetworkId) : that.internalWifiNetworkId != null)
+            return false;
+        if (mInfo != null ? !mInfo.equals(that.mInfo) : that.mInfo != null) return false;
+        if (mState != that.mState) return false;
+        if (pacFileUri != null ? !pacFileUri.equals(that.pacFileUri) : that.pacFileUri != null)
+            return false;
+        if (!Arrays.equals(parsedProxyExclusionList, that.parsedProxyExclusionList))
+            return false;
+        if (proxyHost != null ? !proxyHost.equals(that.proxyHost) : that.proxyHost != null)
+            return false;
+        if (proxyPort != null ? !proxyPort.equals(that.proxyPort) : that.proxyPort != null)
+            return false;
+        if (proxySetting != that.proxySetting) return false;
+        if (pskType != that.pskType) return false;
+        if (securityType != that.securityType) return false;
+        if (ssid != null ? !ssid.equals(that.ssid) : that.ssid != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (stringProxyExclusionList != null ? !stringProxyExclusionList.equals(that.stringProxyExclusionList) : that.stringProxyExclusionList != null)
+            return false;
+
+        // Cannot call equals on WifiConfiguration class, since it doesn't override the base method
+//        if (wifiConfig != null ? !wifiConfig.equals(that.wifiConfig) : that.wifiConfig != null)
+//            return false;
+
+        return true;
+    }
+
     private WiFiApConfig(Parcel in)
     {
         this.id = (UUID) in.readSerializable();
         this.internalWifiNetworkId = in.readParcelable(APLNetworkId.class.getClassLoader());
-        this.status = (ProxyStatus) in.readSerializable();
+        this.status = in.readParcelable(ProxyStatus.class.getClassLoader());
+
         int tmpProxySetting = in.readInt();
-        this.proxySetting = tmpProxySetting == -1 ? null : ProxySetting.values()[tmpProxySetting];
+        this.proxySetting = tmpProxySetting < 0 || tmpProxySetting >= ProxySetting.values().length ? null : ProxySetting.values()[tmpProxySetting];
+
         this.proxyHost = in.readString();
         this.proxyPort = (Integer) in.readValue(Integer.class.getClassLoader());
         this.stringProxyExclusionList = in.readString();
@@ -97,16 +139,21 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
         this.parsedProxyExclusionList = in.createStringArray();
         this.ssid = in.readString();
         this.bssid = in.readString();
+
         int tmpSecurityType = in.readInt();
-        this.securityType = tmpSecurityType == -1 ? null : SecurityType.values()[tmpSecurityType];
+        this.securityType = tmpSecurityType < 0 || tmpSecurityType >= SecurityType.values().length ? null : SecurityType.values()[tmpSecurityType];
+
         this.networkId = in.readInt();
+
         int tmpPskType = in.readInt();
-        this.pskType = tmpPskType == -1 ? null : PskType.values()[tmpPskType];
+        this.pskType = tmpPskType < 0 || tmpPskType >= PskType.values().length ? null : PskType.values()[tmpPskType];
+
         this.wifiConfig = in.readParcelable(WifiConfiguration.class.getClassLoader());
         this.mInfo = in.readParcelable(WifiInfo.class.getClassLoader());
         this.mRssi = in.readInt();
+
         int tmpMState = in.readInt();
-        this.mState = tmpMState == -1 ? null : NetworkInfo.DetailedState.values()[tmpMState];
+        this.mState = tmpMState < 0 || tmpMState >= NetworkInfo.DetailedState.values().length ? null : NetworkInfo.DetailedState.values()[tmpMState];
     }
 
     public static final Creator<WiFiApConfig> CREATOR = new Creator<WiFiApConfig>()
@@ -408,7 +455,6 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
         sb.append(String.format("INTERNAL Id: %s, SSID: %s, RSSI: %d, LEVEL: %d, NETID: %d", getId().toString(), getSSID(), mRssi, getLevel(), getNetworkId()));
 
         sb.append(" - " + getProxyStatusString());
-//        sb.append(" " + getProxyExclusionList());
 
         if (getStatus() != null)
             sb.append(" - " + getStatus().toShortString());
@@ -419,43 +465,54 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
     public String getProxyStatusString()
     {
         ProxySetting setting = getProxySetting();
+        String result = "";
 
-        if (setting == null)
+        try
         {
-            return APL.getContext().getResources().getString(R.string.not_available);
-        }
+            if (setting == null)
+            {
+                result = APL.getContext().getString(R.string.not_available);
+            }
+            else if (setting == ProxySetting.NONE || setting == ProxySetting.UNASSIGNED)
+            {
+                result = APL.getContext().getString(R.string.direct_connection);
+            }
+            else if (setting == ProxySetting.STATIC)
+            {
+                StringBuilder sb = new StringBuilder();
+                if (!TextUtils.isEmpty(proxyHost) && proxyPort != null && proxyPort > 0)
+                    sb.append(String.format("%s:%d", proxyHost, proxyPort));
+                else
+                {
+                    sb.append(APL.getContext().getString(R.string.not_set));
+                }
 
-        if (setting == ProxySetting.NONE || setting == ProxySetting.UNASSIGNED)
-        {
-            return APL.getContext().getResources().getString(R.string.direct_connection);
-        }
-        else if (setting == ProxySetting.STATIC)
-        {
-            StringBuilder sb = new StringBuilder();
-            if (!TextUtils.isEmpty(proxyHost) && proxyPort != null && proxyPort > 0)
-                sb.append(String.format("%s:%d", proxyHost, proxyPort));
+                result = sb.toString();
+            }
+            else if (setting == ProxySetting.PAC)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                if (!TextUtils.isEmpty(pacFileUri.toString()))
+                    sb.append(String.format("%s", pacFileUri));
+                else
+                {
+                    sb.append(APL.getContext().getString(R.string.not_set));
+                }
+
+                result = sb.toString();
+            }
             else
             {
-                sb.append(APL.getContext().getResources().getString(R.string.not_set));
+                result = APL.getContext().getString(R.string.not_valid_proxy_setting);
             }
-
-            return sb.toString();
         }
-        else if (setting == ProxySetting.PAC)
+        catch (Exception e)
         {
-            StringBuilder sb = new StringBuilder();
-
-            if (!TextUtils.isEmpty(pacFileUri.toString()))
-                sb.append(String.format("%s", pacFileUri));
-            else
-            {
-                sb.append(APL.getContext().getResources().getString(R.string.not_set));
-            }
-
-            return sb.toString();
+            Timber.e(e,"Exception building proxy status string");
         }
 
-        return APL.getContext().getResources().getString(R.string.not_valid_proxy_setting);
+        return result;
     }
 
     public String getProxyHostString()
