@@ -220,7 +220,7 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
             pacListAdapter.setData(new ArrayList<PacEntity>());
 
             emptySection.setVisibility(View.VISIBLE);
-            emptyText.setText(getResources().getString(R.string.proxy_empty_list));
+            emptyText.setText(getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
 
 //            footerTextView.setVisibility(View.GONE);

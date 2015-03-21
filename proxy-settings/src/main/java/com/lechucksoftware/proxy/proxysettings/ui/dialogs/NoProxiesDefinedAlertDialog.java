@@ -21,8 +21,8 @@ public class NoProxiesDefinedAlertDialog extends BaseDialogFragment
         builder.title(getActivity().getString(R.string.warning));
         builder.content(getActivity().getString(R.string.no_proxy_defined));
 
-        builder.negativeText(getResources().getText(R.string.cancel));
-        builder.positiveText(getResources().getText(R.string.create_new));
+        builder.negativeText(R.string.cancel);
+        builder.positiveText(R.string.create_new);
 
         builder.callback(new MaterialDialog.ButtonCallback() {
 

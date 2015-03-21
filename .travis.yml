@@ -2,7 +2,7 @@ language: android
 jdk: oraclejdk7
 env:
   matrix:
-    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-22  ANDROID_ABI=armeabi-v7a
     
 notifications:
   email: false
@@ -18,21 +18,21 @@ android:
     - tools
     
     # The SDK version used to compile your project
-    - android-21
+    - android-22
     # The BuildTools version used by your project
-    - build-tools-21.1.2
+    - build-tools-22.0.0
     
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-support
     - extra-android-m2repository
-    - addon-google_apis-google-20
+    - addon-google_apis-google-22
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-21
-    - sys-img-x86-android-21
+    - sys-img-armeabi-v7a-android-22
+    - sys-img-x86-android-22
 
 before_install:
   

@@ -114,7 +114,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 
         App.getTraceUtils().startTrace(TAG, "getStartupAction", Log.DEBUG);
 
-        for (StartupAction action : StartupActions.getAvailableActions(activity))
+        for (StartupAction action : StartupActions.getAvailableActions())
         {
             if (action.canExecute(statistics))
             {

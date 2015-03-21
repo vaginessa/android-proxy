@@ -26,7 +26,7 @@ public class ApplicationFeedbacksConfirmDialog extends BaseDialogFragment
     	ApplicationFeedbacksConfirmDialog frag = new ApplicationFeedbacksConfirmDialog();
         
     	Bundle args = new Bundle();
-        args.putSerializable("appInfo", pInfo);
+        args.putParcelable("appInfo", pInfo);
         frag.setArguments(args);  
         
         return frag;
@@ -35,7 +35,7 @@ public class ApplicationFeedbacksConfirmDialog extends BaseDialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) 
     {	
-    	PInfo appInfo = (PInfo) getArguments().getSerializable("appInfo");
+    	PInfo appInfo = getArguments().getParcelable("appInfo");
     	
     	View view = LayoutInflater.from(getActivity()).inflate(R.layout.feedback_submit_dialog, (ViewGroup) getActivity().findViewById(R.id.layout_root));
     	ImageView appico = (ImageView) view.findViewById(R.id.feedback_app_icon);
