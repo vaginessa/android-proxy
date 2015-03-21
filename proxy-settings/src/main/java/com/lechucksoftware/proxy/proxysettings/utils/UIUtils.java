@@ -51,7 +51,7 @@ public class UIUtils
     {
         try
         {
-            showError(ctx, ctx.getResources().getString(error));
+            showError(ctx, ctx.getString(error));
         }
         catch (Exception e)
         {
@@ -401,7 +401,7 @@ public class UIUtils
         //
         // manager.notify(URL_DOWNLOADER_COMPLETED_ID, n);
 
-        CharSequence text = downloadedFile.getName() + " " + callerContext.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_file_saved);
+        CharSequence text = downloadedFile.getName() + " " + callerContext.getText(R.string.preference_test_proxy_urlretriever_dialog_file_saved);
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(callerContext, text, duration);
@@ -410,7 +410,7 @@ public class UIUtils
 
     public static void NotifyExceptionOnDownload(Context callerContext, String exceptionDetail)
     {
-        CharSequence text = callerContext.getResources().getText(R.string.preference_test_proxy_urlretriever_dialog_file_exception) + "\n\n" + exceptionDetail;
+        CharSequence text = callerContext.getText(R.string.preference_test_proxy_urlretriever_dialog_file_exception) + "\n\n" + exceptionDetail;
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(callerContext, text, duration);
         toast.show();

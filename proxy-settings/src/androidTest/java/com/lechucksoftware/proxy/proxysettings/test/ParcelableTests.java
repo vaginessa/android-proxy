@@ -50,26 +50,14 @@ public class ParcelableTests
     }
 
     @Test
-    public void testParcelableWiFiApConfig()
+    public void testParcelableWiFiApConfig() throws Exception
     {
         Map<APLNetworkId, WiFiApConfig> configurations = APL.getWifiAPConfigurations();
-        assertTrue(configurations.size() > 0);
 
-        APLNetworkId networkId = (APLNetworkId) configurations.keySet().toArray()[0];
-        WiFiApConfig wiFiApConfig = configurations.get(networkId);
-
-        // Obtain a Parcel object and write the parcelable object to it:
-        Parcel parcel = Parcel.obtain();
-        wiFiApConfig.writeToParcel(parcel, 0);
-
-        // After you're done with writing, you need to reset the parcel for reading:
-        parcel.setDataPosition(0);
-
-        // Reconstruct object from parcel and asserts:
-        WiFiApConfig wifiApConfigFromParcel = WiFiApConfig.CREATOR.createFromParcel(parcel);
-
-        assertFalse(wiFiApConfig == wifiApConfigFromParcel);
-        assertTrue(wiFiApConfig.isSameConfiguration(wifiApConfigFromParcel));
+        for(WiFiApConfig config : configurations.values())
+        {
+            testParcelability(WiFiApConfig.class, config);
+        }
     }
 
     @Test

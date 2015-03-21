@@ -149,4 +149,24 @@ public class ProxyStatusItem implements Parcelable
 
         public ProxyStatusItem[] newArray(int size) {return new ProxyStatusItem[size];}
     };
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof ProxyStatusItem)) return false;
+
+        ProxyStatusItem that = (ProxyStatusItem) o;
+
+        if (checkedDate != null ? !checkedDate.equals(that.checkedDate) : that.checkedDate != null)
+            return false;
+        if (effective != null ? !effective.equals(that.effective) : that.effective != null)
+            return false;
+        if (message != null ? !message.equals(that.message) : that.message != null) return false;
+        if (result != null ? !result.equals(that.result) : that.result != null) return false;
+        if (status != that.status) return false;
+        if (statusCode != that.statusCode) return false;
+
+        return true;
+    }
 }

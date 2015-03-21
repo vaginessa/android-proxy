@@ -233,7 +233,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
             proxiesListAdapter.setData(new ArrayList<ProxyEntity>());
 
             emptySection.setVisibility(View.VISIBLE);
-            emptyText.setText(getResources().getString(R.string.proxy_empty_list));
+            emptyText.setText(getString(R.string.proxy_empty_list));
             emptyText.setVisibility(View.VISIBLE);
 
 //            footerTextView.setVisibility(View.GONE);

@@ -182,7 +182,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                     listView.setVisibility(View.GONE);
                     emptySection.setVisibility(View.VISIBLE);
                     emptyText.setVisibility(View.VISIBLE);
-                    emptyText.setText(getResources().getString(R.string.wifi_empty_list_no_ap));
+                    emptyText.setText(getString(R.string.wifi_empty_list_no_ap));
                 }
             }
             else
@@ -191,7 +191,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                 listView.setVisibility(View.GONE);
                 emptySection.setVisibility(View.VISIBLE);
                 emptyText.setVisibility(View.VISIBLE);
-                emptyText.setText(getResources().getString(R.string.wifi_empty_list_wifi_off));
+                emptyText.setText(getString(R.string.wifi_empty_list_wifi_off));
 
                 showEnableWifiSnackbar();
             }
@@ -274,7 +274,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             {
                 new MaterialDialog.Builder(getActivity())
                         .title(R.string.oops)
-                        .content(getResources().getString(R.string.not_supported_network_8021x_error_message))
+                        .content(getString(R.string.not_supported_network_8021x_error_message))
                         .positiveText(R.string.proxy_error_dismiss)
                         .show();
 

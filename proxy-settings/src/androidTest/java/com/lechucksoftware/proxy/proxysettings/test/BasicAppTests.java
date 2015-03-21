@@ -8,6 +8,7 @@ import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.view.KeyEvent;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -170,6 +171,8 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         onView(withId(R.id.wifi_proxy_switch)).perform(click());
 
         onView(isRoot()).perform(ViewActions.pressBack());
+
+        ViewActions.pressKey(KeyEvent.KEYCODE_HOME);
     }
 
     @Test
