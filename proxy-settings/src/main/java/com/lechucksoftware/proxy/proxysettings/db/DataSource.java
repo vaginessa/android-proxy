@@ -32,6 +32,7 @@ public class DataSource
     // Database fields
     public static String TAG = DataSource.class.getSimpleName();
     private final Context context;
+    private final boolean DUMP_CURSOR_TOSTRING = false;
 
     private String[] proxyTableColumns = {
             DatabaseSQLiteOpenHelper.COLUMN_ID,
@@ -1365,7 +1366,10 @@ public class DataSource
 
     private ProxyEntity cursorToProxy(Cursor cursor)
     {
-        Timber.d("Cursor to StaticProxy entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+        if (DUMP_CURSOR_TOSTRING)
+        {
+            Timber.d("Cursor to StaticProxy entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+        }
 
         ProxyEntity proxy = new ProxyEntity();
         proxy.setId(cursor.getLong(0));
@@ -1384,7 +1388,10 @@ public class DataSource
 
     private PacEntity cursorToPAC(Cursor cursor)
     {
-        Timber.d("Cursor to PAC entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+        if (DUMP_CURSOR_TOSTRING)
+        {
+            Timber.d("Cursor to PAC entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+        }
 
         PacEntity pac = new PacEntity();
         pac.setId(cursor.getLong(0));
@@ -1400,7 +1407,10 @@ public class DataSource
 
     private WiFiAPEntity cursorToWifiAP(Cursor cursor)
     {
-        Timber.d("Cursor to WiFiAP entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+        if (DUMP_CURSOR_TOSTRING)
+        {
+            Timber.d("Cursor to WiFiAP entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+        }
 
         WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
         wiFiAPEntity.setId(cursor.getLong(0));

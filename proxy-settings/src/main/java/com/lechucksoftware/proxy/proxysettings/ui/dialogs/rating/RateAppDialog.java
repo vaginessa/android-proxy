@@ -1,8 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,7 +19,7 @@ public class RateAppDialog extends BaseDialogFragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        startupAction = (StartupAction) getArguments().getSerializable("ACTION");
+        startupAction = getArguments().getParcelable("ACTION");
     }
 
     @Override
