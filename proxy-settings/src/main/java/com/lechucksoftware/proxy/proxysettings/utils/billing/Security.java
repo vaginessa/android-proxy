@@ -18,6 +18,8 @@ package com.lechucksoftware.proxy.proxysettings.utils.billing;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +33,8 @@ import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
+import timber.log.Timber;
+
 /**
  * Security-related methods. For a secure implementation, all of this code
  * should be implemented on a server that communicates with the
@@ -40,7 +44,8 @@ import java.security.spec.X509EncodedKeySpec;
  * make it harder for an attacker to replace the code with stubs that treat all
  * purchases as verified.
  */
-public class Security {
+public class Security
+{
     private static final String TAG = "IABUtil/Security";
 
     private static final String KEY_FACTORY_ALGORITHM = "RSA";
@@ -51,14 +56,25 @@ public class Security {
      * the verified purchase. The data is in JSON format and signed
      * with a private key. The data also contains the {@link PurchaseState}
      * and product ID of the purchase.
+     *
      * @param base64PublicKey the base64-encoded public key to use for verifying.
-     * @param signedData the signed JSON string (signed, not encrypted)
-     * @param signature the signature for the data, signed with the private key
+     * @param signedData      the signed JSON string (signed, not encrypted)
+     * @param signature       the signature for the data, signed with the private key
      */
-    public static boolean verifyPurchase(String base64PublicKey, String signedData, String signature) {
-        if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
-                TextUtils.isEmpty(signature)) {
-            Log.e(TAG, "Purchase verification failed: missing data.");
+    public static boolean verifyPurchase(String base64PublicKey,
+                                         String signedData, String signature)
+    {
+        if (TextUtils.isEmpty(signedData) ||
+                TextUtils.isEmpty(base64PublicKey) ||
+                TextUtils.isEmpty(signature))
+        {
+            Timber.e(TAG, "Purchase verification failed: missing data.");
+
+            if (BuildConfig.DEBUG)
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -73,18 +89,27 @@ public class Security {
      * @param encodedPublicKey Base64-encoded public key
      * @throws IllegalArgumentException if encodedPublicKey is invalid
      */
-    public static PublicKey generatePublicKey(String encodedPublicKey) {
-        try {
+    public static PublicKey generatePublicKey(String encodedPublicKey)
+    {
+        try
+        {
             byte[] decodedKey = Base64.decode(encodedPublicKey);
             KeyFactory keyFactory = KeyFactory.getInstance(KEY_FACTORY_ALGORITHM);
             return keyFactory.generatePublic(new X509EncodedKeySpec(decodedKey));
-        } catch (NoSuchAlgorithmException e) {
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            Timber.e(e, "No such algorithm exception");
             throw new RuntimeException(e);
-        } catch (InvalidKeySpecException e) {
-            Log.e(TAG, "Invalid key specification.");
+        }
+        catch (InvalidKeySpecException e)
+        {
+            Timber.e(e, "Invalid key specification.");
             throw new IllegalArgumentException(e);
-        } catch (Base64DecoderException e) {
-            Log.e(TAG, "Base64 decoding failed.");
+        }
+        catch (Base64DecoderException e)
+        {
+            Timber.e(e,"Base64 decoding failed.");
             throw new IllegalArgumentException(e);
         }
     }
@@ -93,31 +118,43 @@ public class Security {
      * Verifies that the signature from the server matches the computed
      * signature on the data.  Returns true if the data is correctly signed.
      *
-     * @param publicKey public key associated with the developer account
+     * @param publicKey  public key associated with the developer account
      * @param signedData signed data from server
-     * @param signature server signature
+     * @param signature  server signature
      * @return true if the data and signature match
      */
-    public static boolean verify(PublicKey publicKey, String signedData, String signature) {
+    public static boolean verify(PublicKey publicKey, String signedData, String signature)
+    {
         Signature sig;
-        try {
+        try
+        {
             sig = Signature.getInstance(SIGNATURE_ALGORITHM);
             sig.initVerify(publicKey);
             sig.update(signedData.getBytes());
-            if (!sig.verify(Base64.decode(signature))) {
-                Log.e(TAG, "Signature verification failed.");
+            if (!sig.verify(Base64.decode(signature)))
+            {
+                Timber.e("Signature verification failed.");
                 return false;
             }
             return true;
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "NoSuchAlgorithmException.");
-        } catch (InvalidKeyException e) {
-            Log.e(TAG, "Invalid key specification.");
-        } catch (SignatureException e) {
-            Log.e(TAG, "Signature exception.");
-        } catch (Base64DecoderException e) {
-            Log.e(TAG, "Base64 decoding failed.");
         }
+        catch (NoSuchAlgorithmException e)
+        {
+            Timber.e(e, "NoSuchAlgorithmException.");
+        }
+        catch (InvalidKeyException e)
+        {
+            Timber.e(e, "Invalid key specification.");
+        }
+        catch (SignatureException e)
+        {
+            Timber.e(e, "Signature exception.");
+        }
+        catch (Base64DecoderException e)
+        {
+            Timber.e(e, "Base64 decoding failed.");
+        }
+
         return false;
     }
 }

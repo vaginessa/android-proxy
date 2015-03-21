@@ -142,11 +142,6 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             }
         });
 
-        if (App.getInstance().activeMarket != AndroidMarket.PLAY)
-        {
-            getPreferenceScreen().removePreference(betaTestPref);
-        }
-
         appRatePref = findPreference("pref_rate_app");
         appRatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
@@ -203,6 +198,12 @@ public class HelpPrefsFragment extends BasePreferenceFragment
 //            }
 //        });
 
+        if (App.getInstance().activeMarket != AndroidMarket.PLAY)
+        {
+            getPreferenceScreen().removePreference(betaTestPref);
+            getPreferenceScreen().removePreference(supportPref);
+
+        }
 
         return v;
     }
