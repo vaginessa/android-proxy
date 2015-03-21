@@ -70,6 +70,7 @@ public class ParcelableTests
 
         assertFalse(wiFiApConfig == wifiApConfigFromParcel);
         assertTrue(wiFiApConfig.isSameConfiguration(wifiApConfigFromParcel));
+        assertTrue(wiFiApConfig.equals(wifiApConfigFromParcel));
     }
 
     @Test
