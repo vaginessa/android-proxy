@@ -471,11 +471,11 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
         {
             if (setting == null)
             {
-                result = APL.getContext().getResources().getString(R.string.not_available);
+                result = APL.getContext().getString(R.string.not_available);
             }
             else if (setting == ProxySetting.NONE || setting == ProxySetting.UNASSIGNED)
             {
-                result = APL.getContext().getResources().getString(R.string.direct_connection);
+                result = APL.getContext().getString(R.string.direct_connection);
             }
             else if (setting == ProxySetting.STATIC)
             {
@@ -484,7 +484,7 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
                     sb.append(String.format("%s:%d", proxyHost, proxyPort));
                 else
                 {
-                    sb.append(APL.getContext().getResources().getString(R.string.not_set));
+                    sb.append(APL.getContext().getString(R.string.not_set));
                 }
 
                 result = sb.toString();
@@ -497,14 +497,14 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
                     sb.append(String.format("%s", pacFileUri));
                 else
                 {
-                    sb.append(APL.getContext().getResources().getString(R.string.not_set));
+                    sb.append(APL.getContext().getString(R.string.not_set));
                 }
 
                 result = sb.toString();
             }
             else
             {
-                result = APL.getContext().getResources().getString(R.string.not_valid_proxy_setting);
+                result = APL.getContext().getString(R.string.not_valid_proxy_setting);
             }
         }
         catch (Exception e)

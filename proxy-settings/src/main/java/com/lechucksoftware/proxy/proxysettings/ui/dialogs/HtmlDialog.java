@@ -98,7 +98,7 @@ public class HtmlDialog extends BaseDialogFragment
         builder.title(title);
         builder.customView(webView, false);
 
-        builder.positiveText(getResources().getText(R.string.ok));
+        builder.positiveText(R.string.ok);
         builder.callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog)

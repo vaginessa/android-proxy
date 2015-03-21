@@ -23,7 +23,7 @@ public class UpdateLinkedWifiAPAlertDialog extends BaseDialogFragment
         builder.title(R.string.warning);
         builder.content(R.string.wifi_ap_will_be_updated);
 
-        builder.positiveText(getResources().getText(R.string.ok));
+        builder.positiveText(R.string.ok);
 
         builder.callback(new MaterialDialog.ButtonCallback() {
             @Override
