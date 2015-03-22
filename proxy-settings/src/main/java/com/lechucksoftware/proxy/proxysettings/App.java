@@ -106,7 +106,7 @@ public class App extends Application
     {
         if (mInstance == null)
         {
-            Timber.e(new Exception(),"Cannot find valid instance of App, trying to instanciate a new one");
+            Timber.e(new Exception(),"Cannot find valid instance of App, trying to instantiate a new one");
             mInstance = new App();
         }
 
@@ -117,7 +117,7 @@ public class App extends Application
     {
         if (getInstance().wifiNetworksManager == null)
         {
-            Timber.e(new Exception(),"Cannot find valid instance of WifiNetworksManager, trying to instanciate a new one");
+            Timber.e(new Exception(),"Cannot find valid instance of WifiNetworksManager, trying to instantiate a new one");
             getInstance().wifiNetworksManager = new WifiNetworksManager(getInstance());
         }
 
@@ -128,7 +128,7 @@ public class App extends Application
     {
         if (getInstance().dbManager == null)
         {
-            Timber.e(new Exception(),"Cannot find valid instance of DataSource, trying to instanciate a new one");
+            Timber.e(new Exception(),"Cannot find valid instance of DataSource, trying to instantiate a new one");
             getInstance().dbManager = new DataSource(getInstance());
         }
 
@@ -139,20 +139,10 @@ public class App extends Application
     {
         if (getInstance().navigationManager == null)
         {
-            Timber.e(new Exception(),"Cannot find valid instance of NavigationManager, trying to instanciate a new one");
+            Timber.e(new Exception(),"Cannot find valid instance of NavigationManager, trying to instantiate a new one");
             getInstance().navigationManager = new NavigationManager(getInstance());
         }
 
         return getInstance().navigationManager;
     }
-//    public static CacheManager getCacheManager()
-//    {
-//        if (getInstance().cacheManager == null)
-//        {
-//            getEventsReporter().sendException(new Exception("Cannot find valid instance of CacheManager, trying to instanciate a new one"));
-//            getInstance().cacheManager = new CacheManager(getInstance());
-//        }
-//
-//        return getInstance().cacheManager;
-//    }
 }

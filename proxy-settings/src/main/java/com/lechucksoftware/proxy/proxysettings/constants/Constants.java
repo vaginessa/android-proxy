@@ -43,4 +43,9 @@ public class Constants
     public static final String SERVICE_COMUNICATION_TITLE = "SERVICE_COMUNICATION_TITLE";
     public static final String SERVICE_COMUNICATION_MESSAGE = "SERVICE_COMUNICATION_MESSAGE";
     public static final String SERVICE_COMUNICATION_CLOSE_ACTIVITY = "SERVICE_COMUNICATION_CLOSE_ACTIVITY";
+
+    // IAB SKUs
+    public static final String IAB_ITEM_SKU_BASE = "be.shouldit.proxy.billing.base";
+    public static final String IAB_ITEM_SKU_PRO = "be.shouldit.proxy.billing.pro";
+    public static final String IAB_ITEM_SKU_TEST = "test_sku";
 }

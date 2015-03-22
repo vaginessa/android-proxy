@@ -24,7 +24,8 @@ import java.util.Map;
  * Represents a block of information about in-app items.
  * An Inventory is returned by such methods as {@link IabHelper#queryInventory}.
  */
-public class Inventory {
+public class Inventory
+{
     Map<String,SkuDetails> mSkuMap = new HashMap<String,SkuDetails>();
     Map<String,Purchase> mPurchaseMap = new HashMap<String,Purchase>();
 
@@ -77,8 +78,15 @@ public class Inventory {
     }
 
     /** Returns a list of all purchases. */
-    List<Purchase> getAllPurchases() {
+    public List<Purchase> getAllPurchases()
+    {
         return new ArrayList<Purchase>(mPurchaseMap.values());
+    }
+
+    /** Returns a list of all purchases. */
+    public List<SkuDetails> getAllSkus()
+    {
+        return new ArrayList<SkuDetails>(mSkuMap.values());
     }
 
     void addSkuDetails(SkuDetails d) {
