@@ -178,7 +178,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
          *
          * - Added TABLE_WIFI_AP (Wi-Fi access points table)
          * */
-        db.execSQL(CREATE_TABLE_WIFI_AP);
+        DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
     }
 
     private void upgradeToVersion4(SQLiteDatabase db)
@@ -190,8 +190,8 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
          * - Added TABLE_PAC (Proxy PAC configurations)
          * */
 
-        db.execSQL("ALTER TABLE " + TABLE_WIFI_AP + " ADD COLUMN " + COLUMN_WIFI_PAC_ID + " int");
-        db.execSQL(CREATE_TABLE_PAC);
+        DatabaseUtils.execSQL(db, "ALTER TABLE " + TABLE_WIFI_AP + " ADD COLUMN " + COLUMN_WIFI_PAC_ID + " int");
+        DatabaseUtils.execSQL(db, CREATE_TABLE_PAC);
     }
 
     public void createDB(SQLiteDatabase db)
