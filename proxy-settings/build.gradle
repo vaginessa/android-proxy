@@ -89,7 +89,7 @@ allprojects {
 android {
 
     compileSdkVersion 22
-    buildToolsVersion '22'
+    buildToolsVersion '22.0.1'
 
 //    Scheme for version codes: ##@@$$$%% , using:
 //    ##   - the first two digits for the API Level,
