@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -15,6 +16,8 @@ import timber.log.Timber;
  */
 public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 {
+    private static final String TAG = DatabaseSQLiteOpenHelper.class.getSimpleName();
+
     public static final String TABLE_WIFI_AP = "wifiap";
     public static final String TABLE_PAC = "pac";
     public static final String TABLE_PROXIES = "proxies";
@@ -64,6 +67,18 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
 
+    public static final String [] TABLE_PROXIES_COLUMNS = new String[] {
+            COLUMN_ID,
+            COLUMN_PROXY_HOST,
+            COLUMN_PROXY_PORT,
+            COLUMN_PROXY_EXCLUSION,
+            COLUMN_PROXY_COUNTRY_CODE,
+            COLUMN_PROXY_IN_USE,
+            COLUMN_CREATION_DATE,
+            COLUMN_MODIFIED_DATE};
+
+    public static final String TABLE_PROXIES_COLUMNS_STRING = TextUtils.join(", ", TABLE_PROXIES_COLUMNS);
+
     private static final String CREATE_TABLE_TAGS = "create table "
             + TABLE_TAGS
             + "("
@@ -73,6 +88,15 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_CREATION_DATE + " integer not null, "
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
+
+    public static final String [] TABLE_TAGS_COLUMNS = new String[] {
+            COLUMN_ID,
+            COLUMN_TAG,
+            COLUMN_TAG_COLOR,
+            COLUMN_CREATION_DATE,
+            COLUMN_MODIFIED_DATE};
+
+    public static final String TABLE_TAGS_COLUMNS_STRING = TextUtils.join(", ", TABLE_TAGS_COLUMNS);
 
     private static final String CREATE_TABLE_TAGGED_PROXIES = "create table "
             + TABLE_PROXY_TAG_LINKS
@@ -84,7 +108,15 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
 
-    private static final String TAG = DatabaseSQLiteOpenHelper.class.getSimpleName();
+    public static final String [] TABLE_TAGGED_PROXIES_COLUMNS = new String[] {
+            COLUMN_ID,
+            COLUMN_PROXY_ID,
+            COLUMN_TAG_ID,
+            COLUMN_CREATION_DATE,
+            COLUMN_MODIFIED_DATE};
+
+    public static final String TABLE_TAGGED_PROXIES_COLUMNS_STRING = TextUtils.join(", ", TABLE_TAGGED_PROXIES_COLUMNS);
+
     private static final String CREATE_TABLE_WIFI_AP = "create table "
             + TABLE_WIFI_AP
             + "("
@@ -98,6 +130,18 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
 
+    public static final String [] TABLE_TABLE_WIFI_AP_COLUMNS = new String[] {
+            COLUMN_ID,
+            COLUMN_WIFI_SSID,
+            COLUMN_WIFI_SECURITY_TYPE,
+            COLUMN_WIFI_PROXY_SETTING,
+            COLUMN_WIFI_PROXY_ID,
+            COLUMN_WIFI_PAC_ID,
+            COLUMN_CREATION_DATE,
+            COLUMN_MODIFIED_DATE};
+
+    public static final String TABLE_TABLE_WIFI_AP_COLUMNS_STRING = TextUtils.join(", ", TABLE_TABLE_WIFI_AP_COLUMNS);
+
     private static final String CREATE_TABLE_PAC = "create table "
             + TABLE_PAC
             + "("
@@ -108,8 +152,16 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
 
-    private static DatabaseSQLiteOpenHelper instance;
+    public static final String [] TABLE_TABLE_PAC_COLUMNS = new String[] {
+            COLUMN_ID,
+            COLUMN_PAC_URL_FILE,
+            COLUMN_PAC_IN_USE,
+            COLUMN_CREATION_DATE,
+            COLUMN_MODIFIED_DATE};
 
+    public static final String TABLE_TABLE_PAC_COLUMNS_STRING = TextUtils.join(", ", TABLE_TABLE_PAC_COLUMNS);
+
+    private static DatabaseSQLiteOpenHelper instance;
 
     public static synchronized DatabaseSQLiteOpenHelper getInstance(Context context)
     {
