@@ -221,13 +221,13 @@ public class DataSource
         if (wifiApId == -1)
         {
             // Insert
-            Timber.d("Insert WifiAp: '%s'", wiFiAPEntity);
+            Timber.d("Insert WifiAp: %s", wiFiAPEntity);
             result = createWifiAp(wiFiAPEntity);
         }
         else
         {
             // Update
-            Timber.d("Update WifiAp: '%s'" + wiFiAPEntity);
+            Timber.d("Update WifiAp: %s", wiFiAPEntity);
             result = updateWifiAP(wifiApId, wiFiAPEntity);
         }
 

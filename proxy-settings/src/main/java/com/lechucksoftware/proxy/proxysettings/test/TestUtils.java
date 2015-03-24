@@ -461,6 +461,18 @@ public class TestUtils
 
     public static String createFakeWifiNetwork(Context ctx)
     {
+        WifiConfiguration wc = prepareFakeWifiNetwork();
+
+        int res = APL.getWifiManager().addNetwork(wc);
+        Timber.d("add Network returned " + res);
+        boolean es = APL.getWifiManager().saveConfiguration();
+        Timber.d("saveConfiguration returned " + es);
+
+        return wc.SSID;
+    }
+
+    public static WifiConfiguration prepareFakeWifiNetwork()
+    {
         WifiConfiguration wc = new WifiConfiguration();
         Random r = new Random();
 
@@ -484,13 +496,7 @@ public class TestUtils
 //                setup802xWifiConfig(wc, ssid, password);
 //                break;
         }
-
-        int res = APL.getWifiManager().addNetwork(wc);
-        Timber.d("add Network returned " + res);
-        boolean es = APL.getWifiManager().saveConfiguration();
-        Timber.d("saveConfiguration returned " + es);
-
-        return wc.SSID;
+        return wc;
     }
 
     public static int deleteFakeWifiNetworks(Context ctx)

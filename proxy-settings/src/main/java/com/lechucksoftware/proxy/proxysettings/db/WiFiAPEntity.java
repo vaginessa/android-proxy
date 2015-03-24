@@ -103,6 +103,28 @@ public class WiFiAPEntity extends BaseEntity implements Parcelable
         }
     }
 
+// TODO: swith to better equals, needs to be done in a new DEV version
+//    @Override
+//    public boolean equals(Object o)
+//    {
+//        if (this == o) return true;
+//        if (!(o instanceof WiFiAPEntity)) return false;
+//
+//        WiFiAPEntity that = (WiFiAPEntity) o;
+//
+//        if (pacEntity != null ? !pacEntity.equals(that.pacEntity) : that.pacEntity != null)
+//            return false;
+//        if (pacId != null ? !pacId.equals(that.pacId) : that.pacId != null) return false;
+//        if (proxyEntity != null ? !proxyEntity.equals(that.proxyEntity) : that.proxyEntity != null)
+//            return false;
+//        if (proxyId != null ? !proxyId.equals(that.proxyId) : that.proxyId != null) return false;
+//        if (proxySetting != that.proxySetting) return false;
+//        if (securityType != that.securityType) return false;
+//        if (ssid != null ? !ssid.equals(that.ssid) : that.ssid != null) return false;
+//
+//        return true;
+//    }
+
     @Override
     public boolean equals(Object another)
     {
@@ -117,6 +139,7 @@ public class WiFiAPEntity extends BaseEntity implements Parcelable
                 return otherAp.getId() == this.getId();
             }
             else
+
             {
                 if (otherAp.getSsid().equalsIgnoreCase(this.getSsid())
                         && otherAp.getSecurityType().equals(this.getSecurityType()))
