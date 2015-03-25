@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
-import be.shouldit.proxy.lib.utils.ProxyUtils;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -52,9 +51,9 @@ public class DataSourceTests
         WiFiApConfig wiFiApConfig = APL.getWiFiAPConfiguration(wifiConfiguration);
 
         WiFiAPEntity wae1 = new WiFiAPEntity();
-        wae1.setSsid(wifiConfiguration.SSID);
-        wae1.setSecurityType(ProxyUtils.getSecurity(wifiConfiguration));
-        wae1.setProxySetting(ProxySetting.NONE);
+        wae1.setSsid(wiFiApConfig.getSSID());
+        wae1.setSecurityType(wiFiApConfig.getSecurityType());
+        wae1.setProxySetting(wiFiApConfig.getProxySetting());
 
         assertTrue(App.getDBManager().findWifiAp(wae1) == -1);
 
@@ -70,8 +69,9 @@ public class DataSourceTests
         wae1.setProxy(proxyEntity);
         assertTrue(!wae1.equals(wae2));
         assertTrue(!wae1.equals(wae3));
+
         WiFiAPEntity wae4 = App.getDBManager().upsertWifiAP(wae1);
-        assertEquals(wae1, wae4);
+        assertTrue(!wae1.equals(wae4));
         assertTrue(!wae4.equals(wae2));
         assertTrue(!wae4.equals(wae3));
 
