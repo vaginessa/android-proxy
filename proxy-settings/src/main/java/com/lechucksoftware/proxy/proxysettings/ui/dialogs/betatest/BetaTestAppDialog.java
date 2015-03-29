@@ -17,6 +17,13 @@ public class BetaTestAppDialog extends BaseDialogFragment
     private static StartupAction startupAction;
 
     @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        startupAction = getArguments().getParcelable("ACTION");
+    }
+
+    @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
 		MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
@@ -71,7 +78,11 @@ public class BetaTestAppDialog extends BaseDialogFragment
     public static BetaTestAppDialog newInstance(StartupAction action)
 	{
 		BetaTestAppDialog frag = new BetaTestAppDialog();
-        startupAction = action;
+
+        Bundle b = new Bundle();
+        b.putParcelable("ACTION", action);
+        frag.setArguments(b);
+
 		return frag;
 	}
 }

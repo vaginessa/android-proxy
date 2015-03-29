@@ -122,37 +122,63 @@ public class ProxyEntity extends BaseEntity implements Parcelable, Comparable<Pr
     }
 
     @Override
-    public boolean equals(Object another)
+    public boolean equals(Object o)
     {
-        Boolean result = false;
+        if (this == o) return true;
+        if (!(o instanceof ProxyEntity)) return false;
 
-        if ((another instanceof ProxyEntity))
-        {
-            ProxyEntity anotherProxy = (ProxyEntity) another;
+        ProxyEntity that = (ProxyEntity) o;
 
-//            if (this.isPersisted() && anotherProxy.isPersisted())
-//            {
-//                return anotherProxy.getId() == this.getId();
-//            }
-//            else
-//            {
-                if (anotherProxy.host.equalsIgnoreCase(this.host)
-                       && anotherProxy.port.equals(this.port)
-                       && anotherProxy.exclusion.equalsIgnoreCase(this.exclusion)
-                       && anotherProxy.getInUse() == this.getInUse())
-                {
-                    // TODO: compare also linked TAGS?
-                    result = true;
-                }
-                else
-                {
-                    result = false;
-                }
-//            }
-        }
+        if (usedByCount != that.usedByCount)
+            return false;
+        if (countryCode != null ? !countryCode.equals(that.countryCode) : that.countryCode != null)
+            return false;
+        if (exclusion != null ? !exclusion.equals(that.exclusion) : that.exclusion != null)
+            return false;
+        if (host != null ? !host.equals(that.host) : that.host != null)
+            return false;
+        if (port != null ? !port.equals(that.port) : that.port != null)
+            return false;
 
-        return result;
+// TODO: compare also linked TAGS?
+//        if (tags != null ? !tags.equals(that.tags) : that.tags != null)
+//            return false;
+
+        return true;
     }
+
+//    @Override
+//    public boolean equals(Object another)
+//    {
+//        Boolean result = false;
+//
+//        if ((another instanceof ProxyEntity))
+//        {
+//            ProxyEntity anotherProxy = (ProxyEntity) another;
+//
+////            if (this.isPersisted() && anotherProxy.isPersisted())
+////            {
+////                return anotherProxy.getId() == this.getId();
+////            }
+////            else
+////            {
+//                if (anotherProxy.host.equalsIgnoreCase(this.host)
+//                       && anotherProxy.port.equals(this.port)
+//                       && anotherProxy.exclusion.equalsIgnoreCase(this.exclusion)
+//                       && anotherProxy.getInUse() == this.getInUse())
+//                {
+//                    // TODO: compare also linked TAGS?
+//                    result = true;
+//                }
+//                else
+//                {
+//                    result = false;
+//                }
+////            }
+//        }
+//
+//        return result;
+//    }
 
     @Override
     public String toString()

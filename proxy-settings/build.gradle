@@ -11,14 +11,14 @@ buildscript {
         classpath 'com.android.tools.build:gradle:1.1.0'
         classpath 'io.fabric.tools:gradle:1.+'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
-//        classpath 'com.testdroid:gradle:1.2.2'
+        classpath 'com.testdroid:gradle:1.3.0'
     }
 }
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-//apply plugin: 'testdroid'
+apply plugin: 'testdroid'
 
 repositories {
 
@@ -89,7 +89,7 @@ allprojects {
 android {
 
     compileSdkVersion 22
-    buildToolsVersion '22'
+    buildToolsVersion '22.0.1'
 
 //    Scheme for version codes: ##@@$$$%% , using:
 //    ##   - the first two digits for the API Level,
@@ -104,7 +104,7 @@ android {
 
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 130030100
+        versionCode 130030102
         versionName "3.01"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
@@ -230,41 +230,41 @@ android {
     }
 }
 
-//testdroid {
-//
-//    if (project.hasProperty('testDroidUsername') &&
-//        project.hasProperty('testDroidPassword')) {
-//
-//        println 'Testdroid config values succesfully found'
-//        println 'testDroidUsername: ' + testDroidUsername
-//        println 'testDroidUsername: ' + testDroidPassword
-//
-//        username testDroidUsername
-//        password testDroidPassword
-//
-//    } else {
-//
-//        println 'Testdroid config values not found'
-//
-//        username ""
-//        password ""
-//    }
-//
-//    projectName "Proxy Settings"
-//    testRunName "BUILD " + android.defaultConfig.versionCode + " - " + new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Date())  //optional - default: build variant name
-//    deviceGroup 'FREE_DEVICES'
-//
-//    // optional - Custom settings for test execution
-//    fullRunConfig {
-//        instrumentationRunner = android.defaultConfig.testInstrumentationRunner //  "com.android.testRunner"
-////        withAnnotation = "com.my.annotation"
-////        withOutAnnotation = "com.my.not.annotation"
-////        limitationType = "CLASS"
-////        limitationValue = "foo.bar"
-////        instrumentationAPKPath = "/tmp/mytesti.apk" //optional - custom instrumentation apk path
-//    }
-//
-//
-//    mode "FULL_RUN" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
-////    mode "APP_CRAWLER" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
-//}
+testdroid {
+
+    if (project.hasProperty('testDroidUsername') &&
+        project.hasProperty('testDroidPassword')) {
+
+        println 'Testdroid config values succesfully found'
+        println 'testDroidUsername: ' + testDroidUsername
+        println 'testDroidUsername: ' + testDroidPassword
+
+        username testDroidUsername
+        password testDroidPassword
+
+    } else {
+
+        println 'Testdroid config values not found'
+
+        username ""
+        password ""
+    }
+
+    projectName "Proxy Settings"
+    testRunName "BUILD " + android.defaultConfig.versionCode + " - " + new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Date())  //optional - default: build variant name
+    deviceGroup 'FREE_DEVICES'
+
+    // optional - Custom settings for test execution
+    fullRunConfig {
+        instrumentationRunner = android.defaultConfig.testInstrumentationRunner //  "com.android.testRunner"
+//        withAnnotation = "com.my.annotation"
+//        withOutAnnotation = "com.my.not.annotation"
+//        limitationType = "CLASS"
+//        limitationValue = "foo.bar"
+//        instrumentationAPKPath = "/tmp/mytesti.apk" //optional - custom instrumentation apk path
+    }
+
+
+    mode "FULL_RUN" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
+//    mode "APP_CRAWLER" //FULL_RUN / APP_CRAWLER / UI_AUTOMATOR
+}
