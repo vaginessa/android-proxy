@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
+
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -13,8 +14,6 @@ import java.util.Map;
 
 import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
-
-//import com.bugsense.trace.BugSenseHandler;
 
 public class EventsReporting
 {

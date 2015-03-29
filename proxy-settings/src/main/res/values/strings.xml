@@ -447,4 +447,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="support">Support</string>
     <string name="help_android_proxy_project">Help the Android Proxy project</string>
+    <string name="billing_error">Unfortunately a problem occurred during the billing operation</string>
 </resources>

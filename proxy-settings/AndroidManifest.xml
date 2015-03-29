@@ -148,12 +148,9 @@
         <activity
             android:name=".ui.activities.InAppBillingActivity"
             android:label="@string/title_activity_in_app_billing"
-            android:configChanges="orientation|screenSize"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.base.BaseActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity" />
+            android:configChanges="orientation|screenSize">
+
+
         </activity>
     </application>
 

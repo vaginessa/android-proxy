@@ -47,5 +47,9 @@ public class Constants
     // IAB SKUs
     public static final String IAB_ITEM_SKU_BASE = "be.shouldit.proxy.billing.base";
     public static final String IAB_ITEM_SKU_PRO = "be.shouldit.proxy.billing.pro";
-    public static final String IAB_ITEM_SKU_TEST = "test_sku";
+
+    public static final String IAB_ITEM_SKU_TEST_PURCHASED = "android.test.purchased"; // Buying this item will cause a successful purchase response.
+    public static final String IAB_ITEM_SKU_TEST_CANCELED = "android.test.canceled"; // Buying this item will act as if the user had canceled the purchase.
+    public static final String IAB_ITEM_SKU_TEST_REFUNDED = "android.test.refunded"; // Buying this item will act as if the purchase was refunded.
+    public static final String IAB_ITEM_SKU_TEST_UNAVAILABLE = "android.test.item_unavailable"; // Buying this item will act as if this item was not added to the Google Developer Console for your game.
 }
