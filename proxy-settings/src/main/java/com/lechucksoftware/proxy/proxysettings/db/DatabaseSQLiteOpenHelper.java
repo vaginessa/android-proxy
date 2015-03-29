@@ -223,7 +223,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 //        }
     }
 
-    private void upgradeToVersion3(SQLiteDatabase db)
+    public void upgradeToVersion3(SQLiteDatabase db)
     {
         /**
          * Changes from version 2 to version 3:
@@ -233,7 +233,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
         DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
     }
 
-    private void upgradeToVersion4(SQLiteDatabase db)
+    public void upgradeToVersion4(SQLiteDatabase db)
     {
         /**
          * Changes from version 3 to version 4:
