@@ -104,34 +104,60 @@ public class WiFiAPEntity extends BaseEntity implements Parcelable
     }
 
     @Override
-    public boolean equals(Object another)
+    public boolean equals(Object o)
     {
-        Boolean result = false;
+        if (this == o) return true;
+        if (!(o instanceof WiFiAPEntity)) return false;
 
-        if ((another instanceof WiFiAPEntity))
-        {
-            WiFiAPEntity otherAp = (WiFiAPEntity) another;
+        WiFiAPEntity that = (WiFiAPEntity) o;
 
-            if (this.isPersisted() && otherAp.isPersisted())
-            {
-                return otherAp.getId() == this.getId();
-            }
-            else
-            {
-                if (otherAp.getSsid().equalsIgnoreCase(this.getSsid())
-                        && otherAp.getSecurityType().equals(this.getSecurityType()))
-                {
-                    result = true;
-                }
-                else
-                {
-                    result = false;
-                }
-            }
-        }
+        if (pacEntity != null ? !pacEntity.equals(that.pacEntity) : that.pacEntity != null)
+            return false;
+        if (pacId != null ? !pacId.equals(that.pacId) : that.pacId != null)
+            return false;
+        if (proxyEntity != null ? !proxyEntity.equals(that.proxyEntity) : that.proxyEntity != null)
+            return false;
+        if (proxyId != null ? !proxyId.equals(that.proxyId) : that.proxyId != null)
+            return false;
+        if (proxySetting != that.proxySetting)
+            return false;
+        if (securityType != that.securityType)
+            return false;
+        if (ssid != null ? !ssid.equals(that.ssid) : that.ssid != null)
+            return false;
 
-        return result;
+        return true;
     }
+
+//    @Override
+//    public boolean equals(Object another)
+//    {
+//        Boolean result = false;
+//
+//        if ((another instanceof WiFiAPEntity))
+//        {
+//            WiFiAPEntity otherAp = (WiFiAPEntity) another;
+//
+//            if (this.isPersisted() && otherAp.isPersisted())
+//            {
+//                return otherAp.getId() == this.getId();
+//            }
+//            else
+//            {
+//                if (   otherAp.getSsid().equalsIgnoreCase(this.getSsid())
+//                    && otherAp.getSecurityType().equals(this.getSecurityType()))
+//                {
+//                    result = true;
+//                }
+//                else
+//                {
+//                    result = false;
+//                }
+//            }
+//        }
+//
+//        return result;
+//    }
 
     @Override
     public String toString()

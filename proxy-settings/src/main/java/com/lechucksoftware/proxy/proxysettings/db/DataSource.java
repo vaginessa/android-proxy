@@ -221,13 +221,13 @@ public class DataSource
         if (wifiApId == -1)
         {
             // Insert
-            Timber.d("Insert WifiAp: '%s'", wiFiAPEntity);
+            Timber.d("Insert WifiAp: %s", wiFiAPEntity);
             result = createWifiAp(wiFiAPEntity);
         }
         else
         {
             // Update
-            Timber.d("Update WifiAp: '%s'" + wiFiAPEntity);
+            Timber.d("Update WifiAp: %s", wiFiAPEntity);
             result = updateWifiAP(wifiApId, wiFiAPEntity);
         }
 
@@ -239,7 +239,7 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getRandomProxy", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
                 + " ORDER BY Random() LIMIT 1";
 
@@ -268,7 +268,7 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getRandomPac", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TABLE_PAC_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC
                 + " ORDER BY Random() LIMIT 1";
 
@@ -296,7 +296,7 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getRandomWifiAp", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TABLE_WIFI_AP_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
                 + " ORDER BY Random() LIMIT 1";
 
@@ -324,7 +324,7 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getWifiAP", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TABLE_WIFI_AP_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
@@ -355,7 +355,7 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getProxy", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
@@ -387,7 +387,7 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getPac", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TABLE_PAC_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
@@ -418,7 +418,7 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getTag", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TAGS_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_TAG + " != 'IN USE'"
                 + " ORDER BY Random() LIMIT 1";
@@ -449,7 +449,7 @@ public class DataSource
 //        LogWrapper.startTrace(TAG, "getTag", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TAGS_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
@@ -478,7 +478,7 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getProxyTagLink", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT * "
+        String query = "SELECT " +  DatabaseSQLiteOpenHelper.TABLE_TAGGED_PROXIES_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
@@ -1125,7 +1125,7 @@ public class DataSource
         {
             SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-            String query = "SELECT COUNT(*)"
+            String query = "SELECT COUNT(1)"
                     + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES;
 
             Cursor cursor = database.rawQuery(query, null);
@@ -1151,7 +1151,7 @@ public class DataSource
         {
             SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-            String query = "SELECT COUNT(*)"
+            String query = "SELECT COUNT(1)"
                     + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC;
 
             Cursor cursor = database.rawQuery(query, null);
@@ -1177,7 +1177,7 @@ public class DataSource
         {
             SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-            String query = "SELECT COUNT(*)"
+            String query = "SELECT COUNT(1)"
                     + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP;
 
             Cursor cursor = database.rawQuery(query, null);
@@ -1199,7 +1199,7 @@ public class DataSource
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT COUNT(*)"
+        String query = "SELECT COUNT(1)"
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS;
 
         Cursor cursor = database.rawQuery(query, null);
@@ -1284,7 +1284,7 @@ public class DataSource
 
         List<ProxyEntity> proxies = new ArrayList<ProxyEntity>();
 
-        String query = "SELECT *"
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE + " =?";
 
@@ -1343,7 +1343,7 @@ public class DataSource
     {
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT *"
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TAGGED_PROXIES_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_ID + " =?";
 
