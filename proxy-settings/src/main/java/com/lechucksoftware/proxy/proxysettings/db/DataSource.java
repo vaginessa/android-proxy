@@ -32,7 +32,7 @@ public class DataSource
     // Database fields
     public static String TAG = DataSource.class.getSimpleName();
     private final Context context;
-    private final boolean DUMP_CURSOR_TOSTRING = false;
+    private final boolean DUMP_CURSOR_TOSTRING = true;
 
     private String[] proxyTableColumns = {
             DatabaseSQLiteOpenHelper.COLUMN_ID,
