@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
+import com.lechucksoftware.proxy.proxysettings.utils.DBUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +67,6 @@ public class DataSource
             DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID,
             DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
             DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
-    private WiFiAPEntity randomWifiAp;
 
     public DataSource(Context ctx)
     {
@@ -243,7 +243,7 @@ public class DataSource
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
                 + " ORDER BY Random() LIMIT 1";
 
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = DBUtils.rawQuery(database, query, null);
         cursor.moveToFirst();
         ProxyEntity proxyData = null;
         if (!cursor.isAfterLast())
@@ -268,11 +268,11 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getRandomPac", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TABLE_PAC_COLUMNS_STRING
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_PAC_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC
                 + " ORDER BY Random() LIMIT 1";
 
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = DBUtils.rawQuery(database, query, null);
         cursor.moveToFirst();
         PacEntity pacData = null;
         if (!cursor.isAfterLast())
@@ -296,11 +296,20 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getRandomWifiAp", Log.INFO);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TABLE_WIFI_AP_COLUMNS_STRING
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP_COLUMNS_STRING
+                + " , " + DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS_STRING
+                + " , " + DatabaseSQLiteOpenHelper.TABLE_PAC_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
+                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
+                        + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " = "
+                        + DatabaseSQLiteOpenHelper.TABLE_PROXIES + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
+                        + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " = "
+                        + DatabaseSQLiteOpenHelper.TABLE_PAC + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
                 + " ORDER BY Random() LIMIT 1";
 
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = DBUtils.rawQuery(database, query, null);
+
         cursor.moveToFirst();
         WiFiAPEntity wiFiAPEntity = null;
         if (!cursor.isAfterLast())
@@ -324,11 +333,20 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getWifiAP", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TABLE_WIFI_AP_COLUMNS_STRING
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP_COLUMNS_STRING
+                + " , " + DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS_STRING
+                + " , " + DatabaseSQLiteOpenHelper.TABLE_PAC_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
-                + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
+                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
+                    + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " = "
+                    + DatabaseSQLiteOpenHelper.TABLE_PROXIES + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PAC + " ON "
+                    + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " = "
+                    + DatabaseSQLiteOpenHelper.TABLE_PAC + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " WHERE " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(wifiId)});
+        Cursor cursor = DBUtils.rawQuery(database, query, new String[]{String.valueOf(wifiId)});
+
         cursor.moveToFirst();
         WiFiAPEntity wiFiAPEntity = null;
         if (!cursor.isAfterLast())
@@ -359,7 +377,8 @@ public class DataSource
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(proxyId)});
+        Cursor cursor = DBUtils.rawQuery(database, query, new String[]{String.valueOf(proxyId)});
+
         cursor.moveToFirst();
         ProxyEntity proxyData = null;
         if (!cursor.isAfterLast())
@@ -387,11 +406,12 @@ public class DataSource
         App.getTraceUtils().startTrace(TAG, "getPac", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
-        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_TABLE_PAC_COLUMNS_STRING
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_PAC_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(pacId)});
+        Cursor cursor = DBUtils.rawQuery(database, query, new String[]{String.valueOf(pacId)});
+
         cursor.moveToFirst();
         PacEntity pacData = null;
         if (!cursor.isAfterLast())
@@ -423,7 +443,8 @@ public class DataSource
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_TAG + " != 'IN USE'"
                 + " ORDER BY Random() LIMIT 1";
 
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = DBUtils.rawQuery(database, query, null);
+
         cursor.moveToFirst();
         TagEntity tag = null;
         if (!cursor.isAfterLast())
@@ -453,7 +474,8 @@ public class DataSource
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(tagId)});
+        Cursor cursor = DBUtils.rawQuery(database, query, new String[]{String.valueOf(tagId)});
+
         cursor.moveToFirst();
         TagEntity tag = null;
         if (!cursor.isAfterLast())
@@ -482,7 +504,8 @@ public class DataSource
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(linkId)});
+        Cursor cursor = DBUtils.rawQuery(database, query, new String[]{String.valueOf(linkId)});
+
         cursor.moveToFirst();
         ProxyTagLinkEntity link = null;
         if (!cursor.isAfterLast())
@@ -539,7 +562,7 @@ public class DataSource
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE + "=?";
 
         String[] selectionArgs = { aplNetworkId.SSID, aplNetworkId.Security.toString()};
-        Cursor cursor = database.rawQuery(query, selectionArgs);
+        Cursor cursor = DBUtils.rawQuery(database, query, selectionArgs);
 
         cursor.moveToFirst();
         long wifiId = -1;
@@ -619,7 +642,7 @@ public class DataSource
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT + "=?";
 
         String[] selectionArgs = {proxyHost, Integer.toString(proxyPort)};
-        Cursor cursor = database.rawQuery(query, selectionArgs);
+        Cursor cursor = DBUtils.rawQuery(database, query, selectionArgs);
 
         cursor.moveToFirst();
         long proxyId = -1;
@@ -653,7 +676,7 @@ public class DataSource
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE + " =?";
 
         String[] selectionArgs = {pacUrlFile};
-        Cursor cursor = database.rawQuery(query, selectionArgs);
+        Cursor cursor = DBUtils.rawQuery(database, query, selectionArgs);
 
         cursor.moveToFirst();
         long proxyId = -1;
@@ -685,7 +708,7 @@ public class DataSource
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE + " =?";
 
         String[] selectionArgs = {pacEntity.getPacUriFile().toString()};
-        Cursor cursor = database.rawQuery(query, selectionArgs);
+        Cursor cursor = DBUtils.rawQuery(database, query, selectionArgs);
 
         cursor.moveToFirst();
         long pacId = -1;
@@ -712,7 +735,7 @@ public class DataSource
                 + " AND " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION + "=?";
 
         String[] selectionArgs = {proxyData.getHost(), Integer.toString(proxyData.getPort()), proxyData.getExclusion()};
-        Cursor cursor = database.rawQuery(query, selectionArgs);
+        Cursor cursor = DBUtils.rawQuery(database, query, selectionArgs);
 
         cursor.moveToFirst();
         long proxyId = -1;
@@ -736,7 +759,7 @@ public class DataSource
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_TAG + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{tagName});
+        Cursor cursor = DBUtils.rawQuery(database, query, new String[]{tagName});
 
         cursor.moveToFirst();
         long tagId = -1;
@@ -998,7 +1021,7 @@ public class DataSource
                         " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " =?";
             }
 
-            Cursor countCursor = database.rawQuery(countQuery, new String[]{String.valueOf(proxyId)});
+            Cursor countCursor = DBUtils.rawQuery(database, countQuery, new String[]{String.valueOf(proxyId)});
             countCursor.moveToFirst();
             if (!countCursor.isAfterLast())
             {
@@ -1128,7 +1151,7 @@ public class DataSource
             String query = "SELECT COUNT(1)"
                     + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES;
 
-            Cursor cursor = database.rawQuery(query, null);
+            Cursor cursor = DBUtils.rawQuery(database, query, null);
             cursor.moveToFirst();
             result = cursor.getLong(0);
 
@@ -1154,7 +1177,7 @@ public class DataSource
             String query = "SELECT COUNT(1)"
                     + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PAC;
 
-            Cursor cursor = database.rawQuery(query, null);
+            Cursor cursor = DBUtils.rawQuery(database, query, null);
             cursor.moveToFirst();
             result = cursor.getLong(0);
 
@@ -1180,7 +1203,7 @@ public class DataSource
             String query = "SELECT COUNT(1)"
                     + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP;
 
-            Cursor cursor = database.rawQuery(query, null);
+            Cursor cursor = DBUtils.rawQuery(database, query, null);
             cursor.moveToFirst();
             result = cursor.getLong(0);
 
@@ -1202,7 +1225,7 @@ public class DataSource
         String query = "SELECT COUNT(1)"
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_TAGS;
 
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = DBUtils.rawQuery(database, query, null);
         cursor.moveToFirst();
         long result = cursor.getLong(0);
 
@@ -1288,7 +1311,7 @@ public class DataSource
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXIES
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{""});
+        Cursor cursor = DBUtils.rawQuery(database, query, new String[]{""});
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -1347,7 +1370,7 @@ public class DataSource
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_PROXY_TAG_LINKS
                 + " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_ID + " =?";
 
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(proxyId)});
+        Cursor cursor = DBUtils.rawQuery(database, query, new String[]{String.valueOf(proxyId)});
         cursor.moveToFirst();
 
         List<ProxyTagLinkEntity> links = new ArrayList<ProxyTagLinkEntity>();

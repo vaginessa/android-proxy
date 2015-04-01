@@ -25,7 +25,7 @@ import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.DBUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.ArrayList;
@@ -137,7 +137,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
 
     public void backupDB(View view)
     {
-        DatabaseUtils.backupDB(this);
+        DBUtils.backupDB(this);
     }
 
     public void addProxyClicked(View caller)

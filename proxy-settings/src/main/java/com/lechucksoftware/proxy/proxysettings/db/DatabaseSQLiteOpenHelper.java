@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.utils.DatabaseUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.DBUtils;
 
 import timber.log.Timber;
 
@@ -68,14 +68,14 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + ");";
 
     public static final String [] TABLE_PROXIES_COLUMNS = new String[] {
-            COLUMN_ID,
-            COLUMN_PROXY_HOST,
-            COLUMN_PROXY_PORT,
-            COLUMN_PROXY_EXCLUSION,
-            COLUMN_PROXY_COUNTRY_CODE,
-            COLUMN_PROXY_IN_USE,
-            COLUMN_CREATION_DATE,
-            COLUMN_MODIFIED_DATE};
+            TABLE_PROXIES + "." + COLUMN_ID,
+            TABLE_PROXIES + "." + COLUMN_PROXY_HOST,
+            TABLE_PROXIES + "." + COLUMN_PROXY_PORT,
+            TABLE_PROXIES + "." + COLUMN_PROXY_EXCLUSION,
+            TABLE_PROXIES + "." + COLUMN_PROXY_COUNTRY_CODE,
+            TABLE_PROXIES + "." + COLUMN_PROXY_IN_USE,
+            TABLE_PROXIES + "." + COLUMN_CREATION_DATE,
+            TABLE_PROXIES + "." + COLUMN_MODIFIED_DATE};
 
     public static final String TABLE_PROXIES_COLUMNS_STRING = TextUtils.join(", ", TABLE_PROXIES_COLUMNS);
 
@@ -90,11 +90,11 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + ");";
 
     public static final String [] TABLE_TAGS_COLUMNS = new String[] {
-            COLUMN_ID,
-            COLUMN_TAG,
-            COLUMN_TAG_COLOR,
-            COLUMN_CREATION_DATE,
-            COLUMN_MODIFIED_DATE};
+            TABLE_TAGS + "." + COLUMN_ID,
+            TABLE_TAGS + "." + COLUMN_TAG,
+            TABLE_TAGS + "." + COLUMN_TAG_COLOR,
+            TABLE_TAGS + "." + COLUMN_CREATION_DATE,
+            TABLE_TAGS + "." + COLUMN_MODIFIED_DATE};
 
     public static final String TABLE_TAGS_COLUMNS_STRING = TextUtils.join(", ", TABLE_TAGS_COLUMNS);
 
@@ -109,11 +109,11 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + ");";
 
     public static final String [] TABLE_TAGGED_PROXIES_COLUMNS = new String[] {
-            COLUMN_ID,
-            COLUMN_PROXY_ID,
-            COLUMN_TAG_ID,
-            COLUMN_CREATION_DATE,
-            COLUMN_MODIFIED_DATE};
+            TABLE_PROXY_TAG_LINKS + "." + COLUMN_ID,
+            TABLE_PROXY_TAG_LINKS + "." + COLUMN_PROXY_ID,
+            TABLE_PROXY_TAG_LINKS + "." + COLUMN_TAG_ID,
+            TABLE_PROXY_TAG_LINKS + "." + COLUMN_CREATION_DATE,
+            TABLE_PROXY_TAG_LINKS + "." + COLUMN_MODIFIED_DATE};
 
     public static final String TABLE_TAGGED_PROXIES_COLUMNS_STRING = TextUtils.join(", ", TABLE_TAGGED_PROXIES_COLUMNS);
 
@@ -130,17 +130,17 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
 
-    public static final String [] TABLE_TABLE_WIFI_AP_COLUMNS = new String[] {
-            COLUMN_ID,
-            COLUMN_WIFI_SSID,
-            COLUMN_WIFI_SECURITY_TYPE,
-            COLUMN_WIFI_PROXY_SETTING,
-            COLUMN_WIFI_PROXY_ID,
-            COLUMN_WIFI_PAC_ID,
-            COLUMN_CREATION_DATE,
-            COLUMN_MODIFIED_DATE};
+    public static final String [] TABLE_WIFI_AP_COLUMNS = new String[] {
+            TABLE_WIFI_AP + "." + COLUMN_ID,
+            TABLE_WIFI_AP + "." + COLUMN_WIFI_SSID,
+            TABLE_WIFI_AP + "." + COLUMN_WIFI_SECURITY_TYPE,
+            TABLE_WIFI_AP + "." + COLUMN_WIFI_PROXY_SETTING,
+            TABLE_WIFI_AP + "." + COLUMN_WIFI_PROXY_ID,
+            TABLE_WIFI_AP + "." + COLUMN_WIFI_PAC_ID,
+            TABLE_WIFI_AP + "." + COLUMN_CREATION_DATE,
+            TABLE_WIFI_AP + "." + COLUMN_MODIFIED_DATE};
 
-    public static final String TABLE_TABLE_WIFI_AP_COLUMNS_STRING = TextUtils.join(", ", TABLE_TABLE_WIFI_AP_COLUMNS);
+    public static final String TABLE_WIFI_AP_COLUMNS_STRING = TextUtils.join(", ", TABLE_WIFI_AP_COLUMNS);
 
     private static final String CREATE_TABLE_PAC = "create table "
             + TABLE_PAC
@@ -152,14 +152,14 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
             + COLUMN_MODIFIED_DATE + " integer not null"
             + ");";
 
-    public static final String [] TABLE_TABLE_PAC_COLUMNS = new String[] {
-            COLUMN_ID,
-            COLUMN_PAC_URL_FILE,
-            COLUMN_PAC_IN_USE,
-            COLUMN_CREATION_DATE,
-            COLUMN_MODIFIED_DATE};
+    public static final String [] TABLE_PAC_COLUMNS = new String[] {
+            TABLE_PAC + "." + COLUMN_ID,
+            TABLE_PAC + "." + COLUMN_PAC_URL_FILE,
+            TABLE_PAC + "." + COLUMN_PAC_IN_USE,
+            TABLE_PAC + "." + COLUMN_CREATION_DATE,
+            TABLE_PAC + "." + COLUMN_MODIFIED_DATE};
 
-    public static final String TABLE_TABLE_PAC_COLUMNS_STRING = TextUtils.join(", ", TABLE_TABLE_PAC_COLUMNS);
+    public static final String TABLE_PAC_COLUMNS_STRING = TextUtils.join(", ", TABLE_PAC_COLUMNS);
 
     private static DatabaseSQLiteOpenHelper instance;
 
@@ -230,7 +230,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
          *
          * - Added TABLE_WIFI_AP (Wi-Fi access points table)
          * */
-        DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
+        DBUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
     }
 
     public void upgradeToVersion4(SQLiteDatabase db)
@@ -242,19 +242,19 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
          * - Added TABLE_PAC (Proxy PAC configurations)
          * */
 
-        DatabaseUtils.execSQL(db, "ALTER TABLE " + TABLE_WIFI_AP + " ADD COLUMN " + COLUMN_WIFI_PAC_ID + " int");
-        DatabaseUtils.execSQL(db, CREATE_TABLE_PAC);
+        DBUtils.execSQL(db, "ALTER TABLE " + TABLE_WIFI_AP + " ADD COLUMN " + COLUMN_WIFI_PAC_ID + " int");
+        DBUtils.execSQL(db, CREATE_TABLE_PAC);
     }
 
     public void createDB(SQLiteDatabase db)
     {
         App.getTraceUtils().startTrace(TAG, "CREATE DATABASE", Log.DEBUG);
 
-        DatabaseUtils.execSQL(db, CREATE_TABLE_PROXIES);
-        DatabaseUtils.execSQL(db, CREATE_TABLE_TAGS);
-        DatabaseUtils.execSQL(db, CREATE_TABLE_TAGGED_PROXIES);
-        DatabaseUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
-        DatabaseUtils.execSQL(db, CREATE_TABLE_PAC);
+        DBUtils.execSQL(db, CREATE_TABLE_PROXIES);
+        DBUtils.execSQL(db, CREATE_TABLE_TAGS);
+        DBUtils.execSQL(db, CREATE_TABLE_TAGGED_PROXIES);
+        DBUtils.execSQL(db, CREATE_TABLE_WIFI_AP);
+        DBUtils.execSQL(db, CREATE_TABLE_PAC);
 
         App.getTraceUtils().stopTrace(TAG, "CREATE DATABASE", Log.DEBUG);
     }
@@ -263,11 +263,11 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
     {
         App.getTraceUtils().startTrace(TAG, "DROP DATABASE", Log.DEBUG);
 
-        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXIES);
-        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_TAGS);
-        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
-        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_WIFI_AP);
-        DatabaseUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PAC);
+        DBUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXIES);
+        DBUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_TAGS);
+        DBUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PROXY_TAG_LINKS);
+        DBUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_WIFI_AP);
+        DBUtils.execSQL(db, "DROP TABLE IF EXISTS " + TABLE_PAC);
 
         App.getTraceUtils().stopTrace(TAG, "DROP DATABASE", Log.DEBUG);
     }

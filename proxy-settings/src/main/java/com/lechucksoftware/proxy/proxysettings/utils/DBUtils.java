@@ -2,11 +2,12 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.db.DatabaseSQLiteOpenHelper;
 
 import java.io.File;
@@ -22,10 +23,8 @@ import timber.log.Timber;
 /**
  * Created by Marco on 17/08/14.
  */
-public class DatabaseUtils
+public class DBUtils
 {
-    private static final String TAG = DatabaseUtils.class.getSimpleName();
-
     public static void execSQL(SQLiteDatabase db, String sql)
     {
         try
@@ -39,6 +38,23 @@ public class DatabaseUtils
         }
     }
 
+    public static Cursor rawQuery(SQLiteDatabase database, String sql, String [] args)
+    {
+        Cursor cursor = null;
+
+        try
+        {
+            Timber.d("RAW QUERY SQL: '%s', PARAMS '%s'", sql, args != null ? TextUtils.join("', '",args) : "NULL");
+            cursor = database.rawQuery(sql, args);
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Exception during rawQuery");
+        }
+
+        return cursor;
+    }
+
     public static void backupDB(Context ctx)
     {
         PackageInfo applicationInfo = Utils.getAppInfo(ctx);
@@ -49,8 +65,8 @@ public class DatabaseUtils
         try
         {
             FileInputStream fis = new FileInputStream(dbFile);
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String outFileName = String.format("%s/proxy_settings_backup_%s.db",Environment.getExternalStorageDirectory(),df.format(new Date()));
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd--HH-mm-ss");
+            String outFileName = String.format("%s/proxy_settings_backup_%s.db", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), df.format(new Date()));
 
             // Open the empty db as the output stream
             OutputStream output = new FileOutputStream(outFileName);
@@ -67,11 +83,16 @@ public class DatabaseUtils
             output.flush();
             output.close();
 
-            Toast.makeText(ctx, "Proxy Settings DB saved on: " + outFileName, Toast.LENGTH_SHORT).show();
+            String msg = "Proxy Settings DB saved on: " + outFileName;
+
+            Timber.w(msg);
+            Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e)
         {
-            Timber.e(e,"Exception during DB backup");
+            String msg ="Exception during DB backup";
+            Timber.e(e, msg);
+            Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
         }
     }
 }
