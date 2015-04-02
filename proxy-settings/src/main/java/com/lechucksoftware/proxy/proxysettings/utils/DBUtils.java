@@ -95,4 +95,17 @@ public class DBUtils
             Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
         }
     }
+
+    public static String dumpCursorColumns(Cursor cursor)
+    {
+        String [] columns = cursor.getColumnNames();
+        String [] enColumns = new String[columns.length];
+
+        for (int i=0; i<columns.length; i++)
+        {
+            enColumns[i] = String.format("'[%d] %s'", i, cursor.getColumnName(i));
+        }
+
+        return TextUtils.join(", ", enColumns);
+    }
 }

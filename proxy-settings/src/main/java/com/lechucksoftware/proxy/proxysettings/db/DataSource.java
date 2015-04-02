@@ -148,7 +148,7 @@ public class DataSource
                     proxy.setPort(config.getProxyPort());
                     proxy.setExclusion(config.getProxyExclusionList());
 
-                    wiFiAPEntity.setProxy(proxy);
+                    wiFiAPEntity.upsertProxy(proxy);
                     wiFiAPEntity.setPACId(-1L);
                 }
             }
@@ -159,7 +159,7 @@ public class DataSource
                     PacEntity pac = new PacEntity();
                     pac.setPacUrlFile(config.getPacFileUri().toString());
 
-                    wiFiAPEntity.setProxyPAC(pac);
+                    wiFiAPEntity.upsertProxyPAC(pac);
                     wiFiAPEntity.setProxyId(-1L);
                 }
             }
@@ -1411,7 +1411,8 @@ public class DataSource
     {
         if (DUMP_CURSOR_TOSTRING)
         {
-            Timber.d("Cursor to WiFiAP entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+            Timber.d("Cursor to WiFiAp columns: '%s'", DBUtils.dumpCursorColumns(cursor));
+            Timber.d("Cursor to WiFiAP values: %s", DatabaseUtils.dumpCursorToString(cursor));
         }
 
         WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
@@ -1423,14 +1424,57 @@ public class DataSource
         wiFiAPEntity.setProxySetting(ProxySetting.valueOf(cursor.getString(3)));
 
         if (cursor.isNull(4))
+        {
             wiFiAPEntity.setProxyId(-1L);
+            wiFiAPEntity.setProxyEntity(null);
+        }
         else
+        {
             wiFiAPEntity.setProxyId(cursor.getLong(4));
+            if (wiFiAPEntity.getProxyId() != -1)
+            {
+                ProxyEntity proxyEntity = new ProxyEntity();
+                proxyEntity.setId(cursor.getLong(8));
+                proxyEntity.setHost(cursor.getString(9));
+                proxyEntity.setPort(cursor.getInt(10));
+                proxyEntity.setExclusion(cursor.getString(11));
+                proxyEntity.setCountryCode(cursor.getString(12));
+                proxyEntity.setUsedByCount(cursor.getInt(13));
+                proxyEntity.setCreationDate(cursor.getLong(14));
+                proxyEntity.setModifiedDate(cursor.getLong(15));
+                proxyEntity.setPersisted(true);
+                wiFiAPEntity.setProxyEntity(proxyEntity);
+            }
+            else
+            {
+                wiFiAPEntity.setProxyEntity(null);
+            }
+        }
 
         if (cursor.isNull(5))
+        {
             wiFiAPEntity.setPACId(-1L);
+            wiFiAPEntity.setPacEntity(null);
+        }
         else
+        {
             wiFiAPEntity.setPACId(cursor.getLong(5));
+            if (wiFiAPEntity.getPacId() != -1)
+            {
+                PacEntity pacEntity = new PacEntity();
+                pacEntity.setId(cursor.getLong(16));
+                pacEntity.setPacUrlFile(cursor.getString(17));
+                pacEntity.setUsedByCount(cursor.getInt(18));
+                pacEntity.setCreationDate(cursor.getLong(19));
+                pacEntity.setModifiedDate(cursor.getLong(20));
+                pacEntity.setPersisted(true);
+                wiFiAPEntity.setPacEntity(pacEntity);
+            }
+            else
+            {
+                wiFiAPEntity.setPacEntity(null);
+            }
+        }
 
         wiFiAPEntity.setCreationDate(cursor.getLong(6));
         wiFiAPEntity.setModifiedDate(cursor.getLong(7));
