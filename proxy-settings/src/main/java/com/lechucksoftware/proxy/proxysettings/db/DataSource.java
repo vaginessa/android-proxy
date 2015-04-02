@@ -35,39 +35,6 @@ public class DataSource
     private final Context context;
     private final boolean DUMP_CURSOR_TOSTRING = true;
 
-    private String[] proxyTableColumns = {
-            DatabaseSQLiteOpenHelper.COLUMN_ID,
-            DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST,
-            DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT,
-            DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION,
-            DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE,
-            DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE,
-            DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
-            DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
-
-    private String[] pacTableColumns = {
-            DatabaseSQLiteOpenHelper.COLUMN_ID,
-            DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE,
-            DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE,
-            DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
-            DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
-
-    private String[] tagsTableColumns = {
-            DatabaseSQLiteOpenHelper.COLUMN_ID,
-            DatabaseSQLiteOpenHelper.COLUMN_TAG,
-            DatabaseSQLiteOpenHelper.COLUMN_TAG_COLOR,
-            DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
-            DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
-
-    private String[] wifiApTableColumns = {
-            DatabaseSQLiteOpenHelper.COLUMN_ID,
-            DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID,
-            DatabaseSQLiteOpenHelper.COLUMN_WIFI_SECURITY_TYPE,
-            DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_SETTING,
-            DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID,
-            DatabaseSQLiteOpenHelper.COLUMN_CREATION_DATE,
-            DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE};
-
     public DataSource(Context ctx)
     {
         context = ctx;
@@ -1241,7 +1208,7 @@ public class DataSource
 
         Map<Long, ProxyEntity> proxies = new HashMap<Long, ProxyEntity>();
 
-        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PROXIES, proxyTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " ASC");
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PROXIES, DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " ASC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -1267,7 +1234,7 @@ public class DataSource
 
         Map<Long, PacEntity> pacs = new HashMap<Long, PacEntity>();
 
-        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PAC, pacTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE + " ASC");
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PAC, DatabaseSQLiteOpenHelper.TABLE_PAC_COLUMNS, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE + " ASC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -1287,7 +1254,19 @@ public class DataSource
 
         Map<Long, WiFiAPEntity> wifiAPs = new HashMap<Long, WiFiAPEntity>();
 
-        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_WIFI_AP, wifiApTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " ASC");
+        String query = "SELECT " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP_COLUMNS_STRING
+                + " , " + DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS_STRING
+                + " , " + DatabaseSQLiteOpenHelper.TABLE_PAC_COLUMNS_STRING
+                + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
+                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
+                + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " = "
+                + DatabaseSQLiteOpenHelper.TABLE_PROXIES + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
+                + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " = "
+                + DatabaseSQLiteOpenHelper.TABLE_PAC + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " ORDER BY " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " ASC";
+
+        Cursor cursor = DBUtils.rawQuery(database, query, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -1334,7 +1313,7 @@ public class DataSource
 
         List<TagEntity> proxies = new ArrayList<TagEntity>();
 
-        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_TAGS, tagsTableColumns, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_TAG + " ASC");
+        Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_TAGS, DatabaseSQLiteOpenHelper.TABLE_TAGS_COLUMNS, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_TAG + " ASC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
