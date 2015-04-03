@@ -270,7 +270,7 @@ public class DataSource
                 + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
                         + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " = "
                         + DatabaseSQLiteOpenHelper.TABLE_PROXIES + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
-                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
+                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PAC + " ON "
                         + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " = "
                         + DatabaseSQLiteOpenHelper.TABLE_PAC + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
                 + " ORDER BY Random() LIMIT 1";
@@ -1259,11 +1259,11 @@ public class DataSource
                 + " , " + DatabaseSQLiteOpenHelper.TABLE_PAC_COLUMNS_STRING
                 + " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP
                 + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
-                + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " = "
-                + DatabaseSQLiteOpenHelper.TABLE_PROXIES + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
-                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PROXIES + " ON "
-                + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " = "
-                + DatabaseSQLiteOpenHelper.TABLE_PAC + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
+                    + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " = "
+                    + DatabaseSQLiteOpenHelper.TABLE_PROXIES + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
+                + " LEFT JOIN " + DatabaseSQLiteOpenHelper.TABLE_PAC + " ON "
+                    + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP + "." + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " = "
+                    + DatabaseSQLiteOpenHelper.TABLE_PAC + "." + DatabaseSQLiteOpenHelper.COLUMN_ID
                 + " ORDER BY " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_SSID + " ASC";
 
         Cursor cursor = DBUtils.rawQuery(database, query, null);
