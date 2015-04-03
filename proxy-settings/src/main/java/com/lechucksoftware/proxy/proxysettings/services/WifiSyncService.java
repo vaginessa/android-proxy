@@ -204,7 +204,7 @@ public class WifiSyncService extends IntentService
             }
             catch (Exception e)
             {
-                Timber.e(e, "Exception during ProxySyncService");
+                Timber.e(e, "Exception during WifiSyncService");
             }
         }
 
