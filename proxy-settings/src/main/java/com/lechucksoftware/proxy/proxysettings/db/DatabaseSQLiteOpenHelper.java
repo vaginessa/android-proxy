@@ -198,6 +198,7 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper
 
             dropDB(db);
             createDB(db);
+            return;
         }
 
         // Se example of upgrade planning here: http://grepcode.com/file_/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.1_r1/com/android/providers/calendar/CalendarDatabaseHelper.java/?v=source
