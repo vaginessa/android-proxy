@@ -162,9 +162,8 @@ android {
 
         release {
 
-            // As long as proxy settings is open source this shouldn't be needed
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 
