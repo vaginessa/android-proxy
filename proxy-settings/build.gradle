@@ -50,7 +50,7 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.3.1'
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.2.2@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true
     }
 
@@ -106,8 +106,8 @@ android {
 
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 130031001
-        versionName "3.1"
+        versionCode 130030103
+        versionName "3.01"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
 
@@ -164,9 +164,8 @@ android {
 
         release {
 
-            // As long as proxy settings is open source this shouldn't be needed
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 

@@ -68,7 +68,7 @@ public class DataSourceTests
         assertEquals(wae1, wae3);
 
         wae1.setProxySetting(ProxySetting.STATIC);
-        wae1.setProxy(proxyEntity);
+        wae1.setProxyEntity(proxyEntity);
         assertTrue(!wae1.equals(wae2));
         assertTrue(!wae1.equals(wae3));
 
@@ -90,7 +90,7 @@ public class DataSourceTests
         assertEquals(wae4,wae5);
 
         wae5.setProxySetting(ProxySetting.PAC);
-        wae5.setProxyPAC(pacProxy);
+        wae5.setPacEntity(pacProxy);
         WiFiAPEntity wae6 = App.getDBManager().upsertWifiAP(wae5);
         assertTrue(!wae5.equals(wae6));
         assertEquals(wae5.getSsid(), wae6.getSsid());
