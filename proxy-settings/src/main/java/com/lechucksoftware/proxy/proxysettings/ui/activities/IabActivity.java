@@ -1,13 +1,15 @@
-package com.lechucksoftware.proxy.proxysettings;
+package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.util.Log;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
+import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.IabFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.IabException;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.IabHelper;
@@ -15,51 +17,107 @@ import com.lechucksoftware.proxy.proxysettings.utils.billing.IabResult;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.Purchase;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.SkuDetails;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
-import com.nispok.snackbar.listeners.ActionClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import be.shouldit.proxy.lib.APL;
 import timber.log.Timber;
 
-/**
- * Created by Marco on 15/09/13.
- */
-public class IABManager
+public class IabActivity extends ActionBarActivity
 {
-    private final Context context;
     private IabHelper iabHelper;
-
     private Inventory iabInventory;
+    private IabFragment iabFragment;
 
-    public IABManager(Context ctx)
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
     {
-        context = ctx;
+        super.onCreate(savedInstanceState);
 
-        init();
+        setContentView(R.layout.activity_in_app_billing);
+
+        initIAB();
+
+        if (savedInstanceState == null)
+        {
+            iabFragment = IabFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, iabFragment)
+                    .commit();
+        }
     }
 
-    private void init()
+    private void initIAB()
     {
-        // Setup IN APP BILLING
-        iabHelper = new IabHelper(context, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
+        iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
 
         iabHelper.enableDebugLogging(true);
         iabHelper.startSetup(new CustomOnIabSetupFinishedListener());
     }
 
-    public void close()
+    private boolean checkIabHelper()
     {
+        if (iabHelper == null)
+        {
+            Timber.e("iabHelper not initialized. Try again to initIAB.");
+            initIAB();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+
         if (iabHelper != null)
         {
             iabHelper.dispose();
         }
 
         iabHelper = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        Timber.d("Received activity result. Request: %d, Result: %d", requestCode, resultCode);
+
+        if (iabHelper != null && iabHelper.handleActivityResult(requestCode, resultCode, data))
+        {
+
+        }
+        else
+        {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_in_app_billing, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings)
+        {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class CustomOnIabSetupFinishedListener implements IabHelper.OnIabSetupFinishedListener
@@ -91,7 +149,7 @@ public class IABManager
         iabHelper.queryInventoryAsync(true, skus, queryAvailableSkuReceivedInventoryListener);
     }
 
-    public void launchPurchase(Activity activity, String sku, int resultCode)
+    public void launchPurchase(String sku, int resultCode)
     {
         if (checkIabHelper()) return;
 
@@ -106,13 +164,13 @@ public class IABManager
             }
             else
             {
-                iabHelper.launchPurchaseFlow(activity, sku, resultCode, mPurchaseFinishedListener, "mypurchasetoken");
+                iabHelper.launchPurchaseFlow(this, sku, resultCode, mPurchaseFinishedListener, "mypurchasetoken");
             }
         }
         catch (Exception e)
         {
             Timber.e(e, "Exception during launchPurchaseFlow");
-            UIUtils.showError(context, R.string.billing_error);
+            UIUtils.showError(this, R.string.billing_error);
         }
     }
 
@@ -121,18 +179,6 @@ public class IABManager
         if (checkIabHelper()) return false;
 
         return iabHelper.handleActivityResult(requestCode, resultCode, data);
-    }
-
-    private boolean checkIabHelper()
-    {
-        if (iabHelper == null)
-        {
-            Timber.e("iabHelper not initialized. Try again to init.");
-            init();
-            return true;
-        }
-
-        return false;
     }
 
     IabHelper.OnConsumeFinishedListener mOnConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener()
@@ -170,7 +216,6 @@ public class IABManager
                         Timber.e(new IabException(result), "Failure on Iab Purchase Finished");
                         break;
                 }
-
 
                 return;
             }
@@ -224,6 +269,8 @@ public class IABManager
                 {
                     Timber.d(purchase.toString());
                 }
+
+                iabFragment.setSkus(skus);
             }
         }
     };

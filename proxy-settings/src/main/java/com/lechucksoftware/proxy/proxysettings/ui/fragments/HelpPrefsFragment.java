@@ -18,7 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.InAppBillingActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.IabActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -162,7 +162,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             public boolean onPreferenceClick(Preference preference)
             {
 
-                Intent i = new Intent(getActivity(), InAppBillingActivity.class);
+                Intent i = new Intent(getActivity(), IabActivity.class);
                 startActivity(i);
 
                 return true;
