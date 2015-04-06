@@ -543,6 +543,7 @@ public class TestUtils
         return removedNetworks;
     }
 
+    @TargetApi(18)
     private static void setup802xWifiConfig(WifiConfiguration config, String ssid, String password)
     {
         config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);

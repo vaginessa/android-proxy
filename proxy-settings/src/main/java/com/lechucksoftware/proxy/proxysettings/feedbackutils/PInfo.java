@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.lechucksoftware.proxy.proxysettings.App;
+
 import timber.log.Timber;
 
 public class PInfo implements Parcelable
@@ -50,7 +52,7 @@ public class PInfo implements Parcelable
         this.versionCode = in.readInt();
 
         Bitmap bitmap = in.readParcelable(getClass().getClassLoader());
-        this.icon = new BitmapDrawable(bitmap);
+        this.icon = new BitmapDrawable(App.getInstance().getResources(), bitmap);
 
         this.applicationInfo = in.readParcelable(ApplicationInfo.class.getClassLoader());
     }
