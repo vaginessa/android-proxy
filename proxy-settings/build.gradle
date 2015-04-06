@@ -58,7 +58,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
-    compile 'com.afollestad:material-dialogs:0.6.6.3'
+    compile 'com.afollestad:material-dialogs:0.6.7.2'
     compile 'com.nispok:snackbar:2.10.6'
     compile 'com.jpardogo.materialtabstrip:library:1.0.9'
     compile 'com.github.traex.rippleeffect:library:1.2.3'
@@ -106,8 +106,8 @@ android {
 
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 130030103
-        versionName "3.01"
+        versionCode 130031001
+        versionName "3.1"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
 
