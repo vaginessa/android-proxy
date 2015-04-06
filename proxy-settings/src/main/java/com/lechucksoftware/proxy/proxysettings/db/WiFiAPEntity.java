@@ -51,14 +51,14 @@ public class WiFiAPEntity extends BaseEntity implements Parcelable
         this.pacEntity = ap.pacEntity;
     }
 
-    public void setProxy(ProxyEntity proxy)
+    public void upsertProxy(ProxyEntity proxy)
     {
         ProxyEntity upsertedProxy = App.getDBManager().upsertProxy(proxy);
         proxyEntity = upsertedProxy;
         proxyId = upsertedProxy.getId();
     }
 
-    public void setProxyPAC(PacEntity pac)
+    public void upsertProxyPAC(PacEntity pac)
     {
         PacEntity upsertedPac = App.getDBManager().upsertPac(pac);
         pacEntity = upsertedPac;
@@ -78,29 +78,37 @@ public class WiFiAPEntity extends BaseEntity implements Parcelable
     public void setProxyId(Long id)
     {
         proxyId = id;
-
-        if (id != -1)
-        {
-            proxyEntity = App.getDBManager().getProxy(id);
-        }
-        else
-        {
-            proxyEntity = null;
-        }
+//        if (id != -1)
+//        {
+//            proxyEntity = App.getDBManager().getProxy(id);
+//        }
+//        else
+//        {
+//            proxyEntity = null;
+//        }
     }
 
     public void setPACId(Long id)
     {
         pacId = id;
+//        if (id != -1)
+//        {
+//            pacEntity = App.getDBManager().getPac(id);
+//        }
+//        else
+//        {
+//            pacEntity = null;
+//        }
+    }
 
-        if (id != -1)
-        {
-            pacEntity = App.getDBManager().getPac(id);
-        }
-        else
-        {
-            pacEntity = null;
-        }
+    public void setProxyEntity(ProxyEntity proxyEntity)
+    {
+        this.proxyEntity = proxyEntity;
+    }
+
+    public void setPacEntity(PacEntity pacEntity)
+    {
+        this.pacEntity = pacEntity;
     }
 
     @Override

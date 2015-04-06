@@ -9,6 +9,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -81,6 +82,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         assertThat(getInstrumentation(), notNullValue());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCreateNewStaticProxy()
     {
