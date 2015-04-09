@@ -106,7 +106,7 @@ android {
 
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 130030103
+        versionCode 130030104
         versionName "3.01"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
@@ -184,8 +184,10 @@ android {
 
         debug {
 
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 
             debuggable true
 
