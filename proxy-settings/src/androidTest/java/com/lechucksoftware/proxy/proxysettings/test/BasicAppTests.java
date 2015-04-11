@@ -97,9 +97,10 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
 
         onView(withId(R.id.menu_save)).perform(click());
 
-        assertTrue(App.getDBManager().findProxy(staticProxy.getHost(),staticProxy.getPort(),"") != -1);
+        assertTrue(App.getDBManager().findProxy(staticProxy.getHost(), staticProxy.getPort(), "") != -1);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.LOLLIPOP)
     public void testCreateNewPACProxy()
@@ -116,6 +117,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         onView(withId(R.id.menu_save)).perform(click());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     @RequiresDevice
     public void testsEnableStaticProxyForWifiNetwork()
@@ -177,6 +179,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         ViewActions.pressKey(KeyEvent.KEYCODE_HOME);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     @RequiresDevice
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.LOLLIPOP)
