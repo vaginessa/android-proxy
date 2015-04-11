@@ -48,6 +48,18 @@ public class APL
     private static int deviceVersion;
     private static TraceUtils traceUtils;
 
+    private static String webIsReachableUrl = "http://www.telize.com/ip";
+
+    public static String getWebIsReachableUrl()
+    {
+        return webIsReachableUrl;
+    }
+
+    public static void setWebIsReachableUrl(String webIsReachableUrl)
+    {
+        APL.webIsReachableUrl = webIsReachableUrl;
+    }
+
     public static TraceUtils getTraceUtils()
     {
         return traceUtils;
@@ -494,7 +506,6 @@ public class APL
             throw new RuntimeException("you need to call setup() first");
 
         APL.getTraceUtils().startTrace(TAG,WRITE_WIFI_KEY, Log.INFO, true);
-
 
         SaveResult result = new SaveResult();
         result.status = SaveStatus.FAILED;
