@@ -32,10 +32,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,14 +61,35 @@ public class Utils
     public static String getProxyCountryCode(ProxyEntity proxy) throws Exception
     {
         String result = null;
+        String host = proxy.getHost();
 
-        String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + proxy.getHost()).trim();
-        result = getProxyCountryCode(stringUrl, proxy);
+        InetAddress ia = null;
 
-        if (TextUtils.isEmpty(result))
+        try
         {
-            stringUrl = (HTTP_TELIZE_NET_JSON_STRING + proxy.getHost()).trim();
+            InetAddress ad = InetAddress.getByName(host);
+            byte[] ip = ad.getAddress();
+            ia = InetAddress.getByAddress(ip);
+        }
+        catch (UnknownHostException e)
+        {
+            Timber.e(e.getMessage());
+        }
+
+        if (ia != null && ia.isSiteLocalAddress())
+        {
+            result = "PRIVATE";
+        }
+        else
+        {
+            String stringUrl = (HTTP_FREEGEOIP_NET_JSON_STRING + host).trim();
             result = getProxyCountryCode(stringUrl, proxy);
+
+            if (TextUtils.isEmpty(result))
+            {
+                stringUrl = (HTTP_TELIZE_NET_JSON_STRING + host).trim();
+                result = getProxyCountryCode(stringUrl, proxy);
+            }
         }
 
         return result;

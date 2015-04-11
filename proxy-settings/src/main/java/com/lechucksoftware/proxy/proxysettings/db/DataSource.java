@@ -1370,7 +1370,7 @@ public class DataSource
     {
         if (DUMP_CURSOR_TOSTRING)
         {
-            Timber.d("Cursor to StaticProxy entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+            Timber.d("Cursor to StaticProxy entity: %s", DatabaseUtils.dumpCurrentRowToString(cursor));
         }
 
         ProxyEntity proxy = new ProxyEntity();
@@ -1392,7 +1392,7 @@ public class DataSource
     {
         if (DUMP_CURSOR_TOSTRING)
         {
-            Timber.d("Cursor to PAC entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+            Timber.d("Cursor to PAC entity: %s", DatabaseUtils.dumpCurrentRowToString(cursor));
         }
 
         PacEntity pac = new PacEntity();
@@ -1412,7 +1412,7 @@ public class DataSource
         if (DUMP_CURSOR_TOSTRING)
         {
             Timber.d("Cursor to WiFiAp columns: '%s'", DBUtils.dumpCursorColumns(cursor));
-            Timber.d("Cursor to WiFiAP values: %s", DatabaseUtils.dumpCursorToString(cursor));
+            Timber.d("Cursor to WiFiAP values: %s", DatabaseUtils.dumpCurrentRowToString(cursor));
         }
 
         WiFiAPEntity wiFiAPEntity = new WiFiAPEntity();
@@ -1486,7 +1486,7 @@ public class DataSource
 
     private TagEntity cursorToTag(Cursor cursor)
     {
-        Timber.d("Cursor to TAG entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+        Timber.d("Cursor to TAG entity: %s", DatabaseUtils.dumpCurrentRowToString(cursor));
 
         TagEntity tag = new TagEntity();
         tag.setId(cursor.getLong(0));
@@ -1502,7 +1502,7 @@ public class DataSource
 
     private ProxyTagLinkEntity cursorToProxyTagLink(Cursor cursor)
     {
-        Timber.d("Cursor to ProxyTagLink entity: %s", DatabaseUtils.dumpCursorToString(cursor));
+        Timber.d("Cursor to ProxyTagLink entity: %s", DatabaseUtils.dumpCurrentRowToString(cursor));
 
         ProxyTagLinkEntity link = new ProxyTagLinkEntity();
         link.setId(cursor.getLong(0));

@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,6 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 
 import be.shouldit.proxy.lib.APLNetworkId;
