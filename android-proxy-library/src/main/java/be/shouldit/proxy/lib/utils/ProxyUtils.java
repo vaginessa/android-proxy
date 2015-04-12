@@ -431,7 +431,7 @@ public class ProxyUtils
         try
         {
             // TODO: add better method to check web resources
-            int result = testHTTPConnection(new URI("http://www.un.org/"), proxy, timeout);
+            int result = testHTTPConnection(new URI(APL.getWebIsReachableUrl()), proxy, timeout);
 //            int rawresult = testHTTPConnection(new URI("http://157.150.34.32"), WiFiApConfig, timeout);
 
             switch (result)

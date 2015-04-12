@@ -15,28 +15,27 @@ import timber.log.Timber;
  */
 public class WifiNetworkStatus
 {
-    private static final String TAG = WifiNetworkStatus.class.getSimpleName();
     private Map<APLNetworkId, WiFiApConfig> wifiApConfigsByAPLNetId;
-//    private Map<Integer, WiFiApConfig> wifiApConfigsByWifiNetworkId;
-    private Map<APLNetworkId, ScanResult> notConfiguredWifi; // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
+
+    // Wi-Fi networks available but still not configured into Android's Wi-Fi settings
+    private Map<APLNetworkId, ScanResult> notConfiguredWifi;
 
     private WiFiApConfig currentConfiguration;
 
     public WifiNetworkStatus()
     {
-//        wifiApConfigsByWifiNetworkId = new ConcurrentHashMap<Integer, WiFiApConfig>();
         wifiApConfigsByAPLNetId = new ConcurrentHashMap<APLNetworkId, WiFiApConfig>();
         notConfiguredWifi = new ConcurrentHashMap<APLNetworkId, ScanResult>();
     }
 
     public boolean isEmpty()
     {
-        return wifiApConfigsByAPLNetId.isEmpty();
+        return wifiApConfigsByAPLNetId != null && wifiApConfigsByAPLNetId.isEmpty();
     }
 
     public boolean containsKey(APLNetworkId aplNetworkId)
     {
-        return wifiApConfigsByAPLNetId.containsKey(aplNetworkId);
+        return wifiApConfigsByAPLNetId != null && wifiApConfigsByAPLNetId.containsKey(aplNetworkId);
     }
 
 //    public boolean containsKey(int networkId)
