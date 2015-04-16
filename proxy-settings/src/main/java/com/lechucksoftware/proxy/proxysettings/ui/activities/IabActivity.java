@@ -36,8 +36,6 @@ public class IabActivity extends ActionBarActivity
 
         setContentView(R.layout.activity_in_app_billing);
 
-        initIAB();
-
         if (savedInstanceState == null)
         {
             iabFragment = IabFragment.newInstance();
@@ -47,12 +45,27 @@ public class IabActivity extends ActionBarActivity
         }
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        initIAB();
+    }
+
     private void initIAB()
     {
-        iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
+        try
+        {
+            iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
 
-        iabHelper.enableDebugLogging(true);
-        iabHelper.startSetup(new CustomOnIabSetupFinishedListener());
+            iabHelper.enableDebugLogging(true);
+            iabHelper.startSetup(new CustomOnIabSetupFinishedListener());
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Cannot initIAB");
+        }
     }
 
     private boolean checkIabHelper()
