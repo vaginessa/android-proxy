@@ -30,10 +30,10 @@ import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import be.shouldit.proxy.lib.APL;
 import timber.log.Timber;
 
 /**
@@ -202,18 +202,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
 
     public void testBugReporting(View caller)
     {
-        Map<String,String> map = new HashMap<String, String>();
-
-        Timber.v("Test bug reporting log 0");
-        Timber.i("Test bug reporting log 1");
-        Timber.w("Test bug reporting log 2");
-        Timber.d("Test bug reporting log 3");
-
-        Timber.e("config_list", App.getWifiNetworksManager().configListToDBG().toString());
-        Timber.e(new Exception(),"EXCEPTION ONLY FOR TEST");
-
-        // Force a CRASH
-        throw new RuntimeException("Application forced to crash!");
+        APL.crash();
     }
 
     public void listDBProxies(View caller)
