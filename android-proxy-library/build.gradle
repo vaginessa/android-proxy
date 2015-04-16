@@ -29,27 +29,6 @@ android {
             assets.srcDirs = ['src/main/assets']
         }
     }
-
-    buildTypes {
-
-        release {
-
-            minifyEnabled true
-            shrinkResources true
-
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-
-            debuggable false
-        }
-
-        debug {
-
-            minifyEnabled false
-            shrinkResources false
-
-            debuggable true
-        }
-    }
 }
 
 allprojects {
