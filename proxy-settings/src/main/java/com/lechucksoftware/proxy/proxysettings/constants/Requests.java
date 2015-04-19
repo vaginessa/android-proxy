@@ -26,7 +26,7 @@ public interface Requests
     int SELECT_PROXY_FOR_WIFI_NETWORK = 4;
 
     /**
-     * Request to purchase the PRO version with IAB
+     * Request to purchase IAB
      * */
-    int IAB_PURCHASE_PRO = 4;
+    int IAB_PURCHASE = 4;
 }

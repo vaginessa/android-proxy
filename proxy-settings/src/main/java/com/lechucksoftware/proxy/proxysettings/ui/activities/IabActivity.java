@@ -154,15 +154,20 @@ public class IabActivity extends ActionBarActivity
         List<String> skus = new ArrayList<>();
         skus.add(Constants.IAB_ITEM_SKU_BASE);
         skus.add(Constants.IAB_ITEM_SKU_PRO);
-        skus.add(Constants.IAB_ITEM_SKU_TEST_PURCHASED);
-        skus.add(Constants.IAB_ITEM_SKU_TEST_CANCELED);
-        skus.add(Constants.IAB_ITEM_SKU_TEST_REFUNDED);
-        skus.add(Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE);
+        skus.add(Constants.IAB_ITEM_SKU_NINJA);
+
+        if (BuildConfig.DEBUG)
+        {
+            skus.add(Constants.IAB_ITEM_SKU_TEST_PURCHASED);
+            skus.add(Constants.IAB_ITEM_SKU_TEST_CANCELED);
+            skus.add(Constants.IAB_ITEM_SKU_TEST_REFUNDED);
+            skus.add(Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE);
+        }
 
         iabHelper.queryInventoryAsync(true, skus, queryAvailableSkuReceivedInventoryListener);
     }
 
-    public void launchPurchase(String sku, int resultCode)
+    public void launchPurchase(String sku, int requestCode)
     {
         if (checkIabHelper()) return;
 
@@ -177,7 +182,7 @@ public class IabActivity extends ActionBarActivity
             }
             else
             {
-                iabHelper.launchPurchaseFlow(this, sku, resultCode, mPurchaseFinishedListener, "mypurchasetoken");
+                iabHelper.launchPurchaseFlow(this, sku, requestCode, mPurchaseFinishedListener, "mypurchasetoken");
             }
         }
         catch (Exception e)
@@ -283,7 +288,7 @@ public class IabActivity extends ActionBarActivity
                     Timber.d(purchase.toString());
                 }
 
-                iabFragment.setSkus(skus);
+                iabFragment.setInventory(inventory);
             }
         }
     };

@@ -47,6 +47,8 @@ public class Constants
     // IAB SKUs
     public static final String IAB_ITEM_SKU_BASE = "be.shouldit.proxy.billing.base";
     public static final String IAB_ITEM_SKU_PRO = "be.shouldit.proxy.billing.pro";
+    public static final String IAB_ITEM_SKU_NINJA = "be.shouldit.proxy.billing.ninja";
+
 
     public static final String IAB_ITEM_SKU_TEST_PURCHASED = "android.test.purchased"; // Buying this item will cause a successful purchase response.
     public static final String IAB_ITEM_SKU_TEST_CANCELED = "android.test.canceled"; // Buying this item will act as if the user had canceled the purchase.

@@ -107,7 +107,7 @@ public class HtmlDialog extends BaseDialogFragment
             }
         });
 
-        AlertDialog alert = builder.build();
+        MaterialDialog alert = builder.build();
         return alert;
     }
 

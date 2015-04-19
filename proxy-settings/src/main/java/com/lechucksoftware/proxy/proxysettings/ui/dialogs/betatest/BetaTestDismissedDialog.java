@@ -34,7 +34,7 @@ public class BetaTestDismissedDialog extends BaseDialogFragment
             }
         });
 
-		AlertDialog alert = builder.build();
+		MaterialDialog alert = builder.build();
 		return alert;
 	}
 

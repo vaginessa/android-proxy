@@ -10,25 +10,29 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.IabActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.IabSkuRecyclerViewAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.Purchase;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.SkuDetails;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
+import timber.log.Timber;
 
 public class IabFragment extends BaseFragment
 {
-    @InjectView(R.id.iab_test_button) Button inAppBillingTestBtn;
     @InjectView(R.id.iab_recycler_view) RecyclerView iabRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private IabSkuRecyclerViewAdapter mAdapter;
+
+    private Inventory mInventory;
+    private List<SkuDetails> mSkus;
+    private List<Purchase> mPurchase;
 
     public static IabFragment newInstance()
     {
@@ -51,26 +55,55 @@ public class IabFragment extends BaseFragment
         iabRecyclerView.setHasFixedSize(true);
         iabRecyclerView.setLayoutManager(mLayoutManager);
 
-        setSkus(null);
+        setInventory(null);
 
         return v;
     }
 
-    public void setSkus(List<SkuDetails> skus)
+    public void setInventory(Inventory inventory)
     {
-        mAdapter = new IabSkuRecyclerViewAdapter(skus, R.layout.iab_sku_item);
+        mInventory = inventory;
+
+        if (mInventory != null)
+        {
+            mSkus = inventory.getAllSkus();
+            mPurchase = inventory.getAllPurchases();
+        }
+
+        mAdapter = new IabSkuRecyclerViewAdapter(inventory, R.layout.iab_sku_item);
+        mAdapter.setOnItemClickListener(new IabSkuRecyclerViewAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View view, int position)
+            {
+                Timber.d("Selected SKU Item %d", position);
+
+                if (mSkus != null)
+                {
+                    SkuDetails sku = mSkus.get(position);
+                    if (sku != null)
+                    {
+                        Timber.d("Selected SKU: %s", sku.toString());
+                        launchSkuPurchase(sku);
+                    }
+                    else
+                    {
+                        Timber.e("Cannot find SKU (size: %d) for position %d", mSkus.size(), position);
+                    }
+                }
+            }
+
+        });
+
         iabRecyclerView.setAdapter(mAdapter);
     }
 
-    @OnClick(R.id.iab_test_button)
-    void inAppBillingTest()
+    void launchSkuPurchase(SkuDetails sku)
     {
         Activity activity = getActivity();
         if (activity != null && activity instanceof IabActivity)
         {
-            ((IabActivity) activity).launchPurchase(Constants.IAB_ITEM_SKU_TEST_PURCHASED, Requests.IAB_PURCHASE_PRO);
+            ((IabActivity) activity).launchPurchase(sku.getSku(), Requests.IAB_PURCHASE);
         }
     }
-
-
 }
