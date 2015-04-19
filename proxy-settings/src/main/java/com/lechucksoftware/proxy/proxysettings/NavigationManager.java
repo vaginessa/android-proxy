@@ -40,10 +40,10 @@ public class NavigationManager
 
         navigationActionsList.add(NavigationAction.HELP);
 
-//        if (BuildConfig.DEBUG)
-//        {
+        if (BuildConfig.DEBUG)
+        {
             navigationActionsList.add(NavigationAction.DEVELOPER);
-//        }
+        }
     }
 
     public NavigationAction getAction(int position)
