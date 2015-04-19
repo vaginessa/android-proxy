@@ -1,9 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -34,6 +36,8 @@ public class IabSkuRecyclerViewAdapter extends RecyclerView.Adapter<IabSkuRecycl
 
     public class IabSkuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
+        @InjectView(R.id.iab_sku_disabled) RelativeLayout skuDisabled;
+        @InjectView(R.id.iab_sku_cardview) CardView skuCardView;
         @InjectView(R.id.iab_sku_title) TextView skuTitle;
         @InjectView(R.id.iab_sku_description) TextView skuDescription;
 
@@ -47,11 +51,12 @@ public class IabSkuRecyclerViewAdapter extends RecyclerView.Adapter<IabSkuRecycl
         @Override
         public void onClick(View view)
         {
-            Timber.d("Selected Recycler View Item %d", getLayoutPosition());
+            int position = getLayoutPosition();
+            Timber.d("Selected Recycler View Item %d", position);
 
             if (mItemClickListener != null)
             {
-                mItemClickListener.onItemClick(view, getLayoutPosition());
+                mItemClickListener.onItemClick(view, position);
             }
         }
     }
@@ -59,7 +64,6 @@ public class IabSkuRecyclerViewAdapter extends RecyclerView.Adapter<IabSkuRecycl
     public IabSkuRecyclerViewAdapter(Inventory inventory, int itemLayout)
     {
         this.inventory = inventory;
-
         this.itemLayout = itemLayout;
     }
 
@@ -86,10 +90,12 @@ public class IabSkuRecyclerViewAdapter extends RecyclerView.Adapter<IabSkuRecycl
         holder.skuTitle.setText(iabSku.getTitle());
         holder.skuDescription.setText(iabSku.getDescription());
 
-        if (this.inventory.hasPurchase(iabSku.getSku()))
-        {
-            Purchase p = this.inventory.getPurchase(iabSku.getSku());
-        }
+//        SkuDetails sku = inventory.getAllSkus().get(position);
+//        if (inventory.hasPurchase(sku.getSku()))
+//        {
+//            Purchase p = inventory.getPurchase(sku.getSku());
+//            Timber.d("SKU purchased: %s", p.toString());
+//        }
     }
 
     @Override

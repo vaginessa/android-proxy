@@ -26,7 +26,8 @@ import timber.log.Timber;
 
 public class IabFragment extends BaseFragment
 {
-    @InjectView(R.id.iab_recycler_view) RecyclerView iabRecyclerView;
+    @InjectView(R.id.iab_recycler_view)
+    RecyclerView iabRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private IabSkuRecyclerViewAdapter mAdapter;
 
@@ -71,7 +72,8 @@ public class IabFragment extends BaseFragment
         }
 
         mAdapter = new IabSkuRecyclerViewAdapter(inventory, R.layout.iab_sku_item);
-        mAdapter.setOnItemClickListener(new IabSkuRecyclerViewAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new IabSkuRecyclerViewAdapter.OnItemClickListener()
+        {
 
             @Override
             public void onItemClick(View view, int position)
@@ -80,11 +82,21 @@ public class IabFragment extends BaseFragment
 
                 if (mSkus != null)
                 {
-                    SkuDetails sku = mSkus.get(position);
-                    if (sku != null)
+                    SkuDetails skuDetails = mSkus.get(position);
+                    if (skuDetails != null)
                     {
-                        Timber.d("Selected SKU: %s", sku.toString());
-                        launchSkuPurchase(sku);
+                        Timber.d("Selected SKU: %s", skuDetails.toString());
+
+                        if (mInventory.hasPurchase(skuDetails.getSku()))
+                        {
+                            Purchase p = mInventory.getPurchase(skuDetails.getSku());
+                            Timber.d("SKU purchased: %s", p.toString());
+                        }
+                        else
+                        {
+                            Timber.d("Launching purchase for SKU: %s", skuDetails.toString());
+                            launchSkuPurchase(skuDetails);
+                        }
                     }
                     else
                     {
