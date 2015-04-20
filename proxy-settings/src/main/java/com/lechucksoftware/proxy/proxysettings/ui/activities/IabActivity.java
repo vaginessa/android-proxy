@@ -153,16 +153,16 @@ public class IabActivity extends ActionBarActivity
     {
         List<String> skus = new ArrayList<>();
         skus.add(Constants.IAB_ITEM_SKU_BASE);
-        skus.add(Constants.IAB_ITEM_SKU_PRO);
-        skus.add(Constants.IAB_ITEM_SKU_NINJA);
+//        skus.add(Constants.IAB_ITEM_SKU_PRO);
+//        skus.add(Constants.IAB_ITEM_SKU_NINJA);
 
-        if (BuildConfig.DEBUG)
-        {
-            skus.add(Constants.IAB_ITEM_SKU_TEST_PURCHASED);
-            skus.add(Constants.IAB_ITEM_SKU_TEST_CANCELED);
-            skus.add(Constants.IAB_ITEM_SKU_TEST_REFUNDED);
-            skus.add(Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE);
-        }
+//        if (BuildConfig.DEBUG)
+//        {
+//            skus.add(Constants.IAB_ITEM_SKU_TEST_PURCHASED);
+//            skus.add(Constants.IAB_ITEM_SKU_TEST_CANCELED);
+//            skus.add(Constants.IAB_ITEM_SKU_TEST_REFUNDED);
+//            skus.add(Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE);
+//        }
 
         iabHelper.queryInventoryAsync(true, skus, queryAvailableSkuReceivedInventoryListener);
     }
@@ -175,15 +175,15 @@ public class IabActivity extends ActionBarActivity
 
         try
         {
-            if (iabInventory.hasPurchase(sku))
-            {
-                Purchase purchase = iabInventory.getPurchase(sku);
-                iabHelper.consumeAsync(purchase, mOnConsumeFinishedListener);
-            }
-            else
-            {
+//            if (iabInventory.hasPurchase(sku))
+//            {
+//                Purchase purchase = iabInventory.getPurchase(sku);
+//                iabHelper.consumeAsync(purchase, mOnConsumeFinishedListener);
+//            }
+//            else
+//            {
                 iabHelper.launchPurchaseFlow(this, sku, requestCode, mPurchaseFinishedListener, "mypurchasetoken");
-            }
+//            }
         }
         catch (Exception e)
         {
@@ -227,7 +227,7 @@ public class IabActivity extends ActionBarActivity
                 switch (result.getResponse())
                 {
                     case IabHelper.IABHELPER_USER_CANCELLED:
-                        Timber.d("User canceled IAB: '%s'", result.toString());
+                        Timber.e("User canceled IAB: '%s'", result.toString());
                         break;
 
                     default:
@@ -239,6 +239,7 @@ public class IabActivity extends ActionBarActivity
             }
             else
             {
+                Timber.d("Purchase successful: %s", result.toString());
                 switch (purchase.getSku())
                 {
                     case Constants.IAB_ITEM_SKU_PRO:
