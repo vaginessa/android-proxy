@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncDeleteProxy;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxy;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
@@ -315,13 +315,23 @@ public class PacDetailFragment extends BaseDialogFragment
     public void enableSave()
     {
         saveEnabled = true;
-        getActivity().invalidateOptionsMenu();
+
+        FragmentActivity activity = getActivity();
+        if (activity != null)
+        {
+            activity.invalidateOptionsMenu();
+        }
     }
 
     public void disableSave()
     {
         saveEnabled = false;
-        getActivity().invalidateOptionsMenu();
+
+        FragmentActivity activity = getActivity();
+        if (activity != null)
+        {
+            activity.invalidateOptionsMenu();
+        }
     }
 
     @Override
