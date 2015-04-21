@@ -9,6 +9,16 @@
 
 # Add any project specific keep options here:
 
+-printmapping out.map
+
+# Crashlytics ##################################
+-keepparameternames
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+-dontoptimize
+-dontusemixedcaseclassnames
+-keeppackagenames
+################################################
+
 # Butterknife ##################################
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
@@ -21,10 +31,6 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
-################################################
-
-# Crashlytics ##################################
--keepattributes SourceFile,LineNumberTable
 ################################################
 
 # If your project uses WebView with JS, uncomment the following
