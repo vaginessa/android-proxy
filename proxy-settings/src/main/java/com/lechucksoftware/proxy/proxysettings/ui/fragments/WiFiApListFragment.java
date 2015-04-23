@@ -57,7 +57,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     private Loader<List<WiFiApConfig>> loader;
 
     @InjectView(R.id.progress) RelativeLayout progress;
-//    @InjectView(R.id.actions_view) ActionsView actionsView;
+    //    @InjectView(R.id.actions_view) ActionsView actionsView;
     @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
 //    @InjectView(R.id.wifi_ap_footer_textview) TextView footerTextView;
 //    @InjectView(R.id.wifi_ap_footer_progress) ProgressBar footerProgress;
@@ -156,43 +156,37 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
         progress.setVisibility(View.GONE);
 
-        if (Utils.isAirplaneModeOn(getActivity()))
+        if (APL.getWifiManager().isWifiEnabled())
         {
-            emptySection.setVisibility(View.VISIBLE);
-            emptyText.setVisibility(View.VISIBLE);
-            emptyText.setText(getActivity().getString(R.string.airplane_mode_message));
-            listView.setVisibility(View.GONE);
-        }
-        else
-        {
-            if (APL.getWifiManager().isWifiEnabled())
+            SnackbarManager.dismiss();
+
+            if (wiFiApConfigs != null && wiFiApConfigs.size() > 0)
             {
-                SnackbarManager.dismiss();
+                apListAdapter.setData(wiFiApConfigs);
 
-                if (wiFiApConfigs != null && wiFiApConfigs.size() > 0)
-                {
-                    apListAdapter.setData(wiFiApConfigs);
-
-                    listView.setVisibility(View.VISIBLE);
-                    emptySection.setVisibility(View.GONE);
-                    emptyText.setVisibility(View.GONE);
-                }
-                else
-                {
-                    listView.setVisibility(View.GONE);
-                    emptySection.setVisibility(View.VISIBLE);
-                    emptyText.setVisibility(View.VISIBLE);
-                    emptyText.setText(getString(R.string.wifi_empty_list_no_ap));
-                }
+                listView.setVisibility(View.VISIBLE);
+                emptySection.setVisibility(View.GONE);
+                emptyText.setVisibility(View.GONE);
             }
             else
             {
-                // Do not display results when Wi-Fi is not enabled
                 listView.setVisibility(View.GONE);
                 emptySection.setVisibility(View.VISIBLE);
                 emptyText.setVisibility(View.VISIBLE);
-                emptyText.setText(getString(R.string.wifi_empty_list_wifi_off));
+                emptyText.setText(getString(R.string.wifi_empty_list_no_ap));
+            }
+        }
+        else
+        {
+            // Do not display results when Wi-Fi is not enabled
+            listView.setVisibility(View.GONE);
+            emptySection.setVisibility(View.VISIBLE);
+            emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText(getString(R.string.wifi_empty_list_wifi_off));
 
+            if (!Utils.isAirplaneModeOn(getActivity()))
+            {
+                // Show enable Wi-fi action only if not in airplane mode
                 showEnableWifiSnackbar();
             }
         }
@@ -293,7 +287,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         }
         catch (Exception e)
         {
-            Timber.e(e,"Exception during WiFiApListFragment showDetails(%d)",index);
+            Timber.e(e, "Exception during WiFiApListFragment showDetails(%d)", index);
         }
     }
 
