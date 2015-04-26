@@ -2,9 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.services;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Bundle;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
@@ -49,29 +48,38 @@ public class SaveWifiNetworkService extends IntentService
 
         SaveResult result = null;
 
-        Bundle extras = intent.getExtras();
-        if (extras.containsKey(Constants.WIFI_AP_NETWORK_ARG))
+        while(App.getWifiNetworksManager().savingOperationsCount() > 0)
         {
-            WiFiApConfig wiFiApConfig = extras.getParcelable(Constants.WIFI_AP_NETWORK_ARG);
+            WiFiApConfig wiFiApConfig = App.getWifiNetworksManager().getSavingOperation();
 
-            try
+            if (wiFiApConfig != null)
             {
-                result = APL.writeWifiAPConfig(wiFiApConfig, 50, 5000); // 50 attempts, 5 seconds
-                if (result != null)
-                    Timber.i("Configuration %s in %d attempts after %d ms", result.status.toString(), result.attempts, result.elapsedTime);
+                try
+                {
+                    result = APL.writeWifiAPConfig(wiFiApConfig, 1000, 5000); // 1000 attempts, 5 seconds
+                    if (result != null)
+                        Timber.i("Configuration %s in %d attempts after %d ms", result.status.toString(), result.attempts, result.elapsedTime);
+                }
+                catch (Exception e)
+                {
+                    Timber.e(e, "Exception saving Wi-Fi network configuration to device");
+
+                    Intent i = new Intent(Intents.SERVICE_COMUNICATION);
+                    i.putExtra(Constants.SERVICE_COMUNICATION_TITLE, getString(R.string.proxy_error));
+                    i.putExtra(Constants.SERVICE_COMUNICATION_MESSAGE, getString(R.string.exception_apl_writeconfig_error_message));
+                    i.putExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY, WiFiApDetailActivity.class.getSimpleName());
+                    sendBroadcast(i);
+                }
+
+                Intents.callIntent(getApplicationContext(), Intents.PROXY_REFRESH_UI);
             }
-            catch (Exception e)
+            else
             {
-                Timber.e(e,"Exception saving Wi-Fi network configuration to device");
-
-                Intent i = new Intent(Intents.SERVICE_COMUNICATION);
-                i.putExtra(Constants.SERVICE_COMUNICATION_TITLE, getString(R.string.proxy_error));
-                i.putExtra(Constants.SERVICE_COMUNICATION_MESSAGE, getString(R.string.exception_apl_writeconfig_error_message));
-                i.putExtra(Constants.SERVICE_COMUNICATION_CLOSE_ACTIVITY, WiFiApDetailActivity.class.getSimpleName());
-                sendBroadcast(i);
+                Timber.w("Got null configuration to save from queue");
             }
         }
 
         isHandling = false;
     }
+
 }

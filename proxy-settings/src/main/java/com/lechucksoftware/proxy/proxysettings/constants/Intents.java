@@ -1,5 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.constants;
 
+import android.content.Context;
+import android.content.Intent;
+
+import timber.log.Timber;
+
 /**
  * Created by Marco on 11/02/14.
  */
@@ -44,4 +49,19 @@ public class Intents
      * Receive information from a service for the user
      */
     public static final String SERVICE_COMUNICATION = INTENT_PREFIX + "SERVICE_COMUNICATION";
+
+
+    public static void callIntent(Context context, String intentString)
+    {
+        try
+        {
+            Timber.d("Sending broadcast intent : '%s'" + intentString);
+            Intent intent = new Intent(intentString);
+            context.sendBroadcast(intent);
+        }
+        catch (Exception e)
+        {
+            Timber.e(e, "Exception forcing UI update");
+        }
+    }
 }

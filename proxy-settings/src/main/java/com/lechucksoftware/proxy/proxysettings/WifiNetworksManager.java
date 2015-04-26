@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
+import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.SaveWifiNetworkService;
 
 import org.json.JSONArray;
@@ -16,9 +17,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
@@ -35,21 +38,46 @@ public class WifiNetworksManager
     private static final String TAG = WifiNetworksManager.class.getSimpleName();
     private final WifiNetworkStatus wifiNetworkStatus;
     private final Context context;
+    private ConcurrentLinkedQueue<WiFiApConfig> saveOperations;
+
+    public Integer savingOperationsCount()
+    {
+        Integer current = saveOperations.size();
+        Timber.d("Saving operations: %d", current);
+        return current;
+    }
+
+    public void addSavingOperation(List<WiFiApConfig> configurations)
+    {
+        if (configurations != null)
+        {
+            addSavingOperation(configurations.toArray(new WiFiApConfig[configurations.size()]));
+        }
+    }
+
+    public void addSavingOperation(WiFiApConfig ... config)
+    {
+        saveOperations.addAll(Arrays.asList(config));
+        Timber.d("Save operations: %d (after ADD)", saveOperations.size());
+
+        Intents.callIntent(context, Intents.PROXY_REFRESH_UI);
+
+        Intent serviceIntent = new Intent(context, SaveWifiNetworkService.class);
+        context.startService(serviceIntent);
+    }
+
+    public WiFiApConfig getSavingOperation()
+    {
+        WiFiApConfig config = saveOperations.poll();
+        Timber.d("Save operations: %d (after REMOVE)", saveOperations.size());
+        return config;
+    }
 
     public WifiNetworksManager(Context ctx)
     {
         context = ctx;
         wifiNetworkStatus = new WifiNetworkStatus();
-    }
-
-    public void asyncSaveWifiApConfig(WiFiApConfig configuration)
-    {
-        if (configuration != null)
-        {
-            Intent serviceIntent = new Intent(context, SaveWifiNetworkService.class);
-            serviceIntent.putExtra(Constants.WIFI_AP_NETWORK_ARG, configuration);
-            context.startService(serviceIntent);
-        }
+        saveOperations = new ConcurrentLinkedQueue<>();
     }
 
     public void updateWifiApConfigs()

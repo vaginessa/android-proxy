@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
@@ -13,12 +16,19 @@ import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
+import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.enums.SnackbarType;
 
+import java.lang.ref.WeakReference;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 import timber.log.Timber;
 
@@ -28,6 +38,8 @@ import timber.log.Timber;
 public class BaseActivity extends ActionBarActivity
 {
     private static boolean active = false;
+    Snackbar snackbar = null;
+    private UIHandler uiHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,13 +84,15 @@ public class BaseActivity extends ActionBarActivity
         IntentFilter ifilt = new IntentFilter();
         ifilt.addAction(Intents.SERVICE_COMUNICATION);
 
+        uiHandler = new UIHandler(this);
+
         try
         {
             registerReceiver(broadcastReceiver, ifilt);
         }
         catch (IllegalArgumentException e)
         {
-            Timber.e(e,"Exception resuming BaseActivity");
+            Timber.e(e, "Exception resuming BaseActivity");
         }
     }
 
@@ -90,6 +104,9 @@ public class BaseActivity extends ActionBarActivity
         Timber.tag(this.getClass().getSimpleName());
         Timber.d("onPause");
 
+        uiHandler.dismissSnackbar();
+        uiHandler = null;
+
         try
         {
             // Stop the registered status receivers
@@ -97,7 +114,7 @@ public class BaseActivity extends ActionBarActivity
         }
         catch (IllegalArgumentException e)
         {
-            Timber.e(e,"Exception pausing BaseWifiActivity");
+            Timber.e(e, "Exception pausing BaseWifiActivity");
         }
     }
 
@@ -126,8 +143,114 @@ public class BaseActivity extends ActionBarActivity
         // Intentionally left blank
     }
 
+    private class UIHandler extends Handler
+    {
+        private static final int SNACKBAR_CREATION = 1;
+        private static final String CREATE_SNACKBAR = "CREATE_SNACKBAR";
+        private static final String DISMISS_SNACKBAR = "DISMISS_SNACKBAR";
+        WeakReference<BaseActivity> mActivity;
+
+        public UIHandler(BaseActivity activity)
+        {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message message)
+        {
+            Bundle b = message.getData();
+            Timber.w("handleMessage: " + b.toString());
+
+            if (b.containsKey(CREATE_SNACKBAR))
+            {
+                startSnackbarHandler(b.getInt(CREATE_SNACKBAR));
+            }
+
+            if (b.containsKey(DISMISS_SNACKBAR))
+            {
+                dismissSnackbarHandler();
+            }
+        }
+
+        private void dismissSnackbarHandler()
+        {
+            BaseActivity activity = mActivity.get();
+            if (activity != null)
+            {
+                if (snackbar != null)
+                {
+                    Date creationTime = (Date) snackbar.getTag();
+                    Date currentTime = new Date();
+
+                    long diffFromLast = currentTime.getTime() - creationTime.getTime();
+
+                    if (diffFromLast < 1000)
+                    {
+                        dismissSnackbar();
+                    }
+                    else
+                    {
+                        snackbar.dismiss();
+                        snackbar = null;
+                    }
+                }
+            }
+        }
+
+        private void startSnackbarHandler(int savingOperations)
+        {
+            BaseActivity activity = mActivity.get();
+            if (activity != null)
+            {
+                if (snackbar == null)
+                {
+                    snackbar = Snackbar.with(activity)
+                            .type(SnackbarType.SINGLE_LINE)
+                            .text(getResources().getQuantityString(R.plurals.saving_wifi_networks, savingOperations, savingOperations))
+                            .swipeToDismiss(false)
+                            .color(Color.GRAY)
+                            .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE);
+                    snackbar.setTag(new Date());
+                    snackbar.show(activity);
+                }
+                else
+                {
+                    snackbar.text(getResources().getQuantityString(R.plurals.saving_wifi_networks, savingOperations, savingOperations));
+                }
+            }
+        }
+
+        public void dismissSnackbar()
+        {
+            Message message = this.obtainMessage();
+            Bundle b = new Bundle();
+            b.putString(DISMISS_SNACKBAR, "");
+            message.setData(b);
+            sendMessageDelayed(message, 500);
+        }
+
+        public void startSnackbar(int savingOperations)
+        {
+            Message message = this.obtainMessage();
+            Bundle b = new Bundle();
+            b.putInt(CREATE_SNACKBAR, savingOperations);
+            message.setData(b);
+            sendMessageDelayed(message, 0);
+        }
+    }
+
     public void refreshUI()
     {
+        int savingOperations = App.getWifiNetworksManager().savingOperationsCount();
+        if (savingOperations > 0)
+        {
+            uiHandler.startSnackbar(savingOperations);
+        }
+        else
+        {
+            uiHandler.dismissSnackbar();
+        }
+
         try
         {
             List<Fragment> fragments = getSupportFragmentManager().getFragments(); //findFragmentById(R.id.fragment_container);
@@ -140,10 +263,15 @@ public class BaseActivity extends ActionBarActivity
                 }
             }
         }
-        catch (Exception e)
+
+        catch (
+                Exception e
+                )
+
         {
-            Timber.e(e, "Exception during IBaseFragment refresh from %s",this.getClass().getSimpleName());
+            Timber.e(e, "Exception during IBaseFragment refresh from %s", this.getClass().getSimpleName());
         }
+
     }
 
     private void handleIntent(Intent intent)

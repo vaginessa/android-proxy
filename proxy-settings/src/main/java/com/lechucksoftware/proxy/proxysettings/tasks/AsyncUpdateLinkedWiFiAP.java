@@ -10,6 +10,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
@@ -34,6 +35,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, Integer, Integer>
     private final ProxySetting proxySetting;
 
     private int updatedWiFiAP;
+    private List<WiFiApConfig> configsToSave;
 
     public AsyncUpdateLinkedWiFiAP(Context caller, ProxyEntity current, ProxyEntity updated)
     {
@@ -87,6 +89,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, Integer, Integer>
     protected Integer doInBackground(Void... voids)
     {
         List<WiFiApConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
+        configsToSave = new ArrayList<>();
 
         if (configurations != null)
         {
@@ -115,6 +118,15 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, Integer, Integer>
                     }
                 }
             }
+
+            try
+            {
+                App.getWifiNetworksManager().addSavingOperation(configsToSave);
+            }
+            catch (Exception e)
+            {
+                Timber.e(e,"Exception on writeConfigurationToDevice");
+            }
         }
 
         return updatedWiFiAP;
@@ -127,30 +139,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, Integer, Integer>
         if (pacFileUri.equals(currentPac.getPacUriFile()))
         {
             conf.setPacUriFile(updatedPac.getPacUriFile());
-
-            Timber.d("Writing updated AP configuration on device: " + conf.toShortString());
-
-            try
-            {
-                App.getWifiNetworksManager().asyncSaveWifiApConfig(conf);
-            }
-            catch (Exception e)
-            {
-                Timber.e(e, "Exception on writeConfigurationToDevice");
-            }
-
-            updatedWiFiAP++;
-
-            publishProgress(updatedWiFiAP);
-
-            try
-            {
-                Thread.sleep(1);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+            configsToSave.add(conf);
         }
     }
 
@@ -167,31 +156,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, Integer, Integer>
             conf.setProxyHost(updatedProxy.getHost());
             conf.setProxyPort(updatedProxy.getPort());
             conf.setProxyExclusionString(updatedProxy.getExclusion());
-
-            Timber.d("Writing updated AP configuration on device: " + conf.toShortString());
-
-            try
-            {
-                App.getWifiNetworksManager().asyncSaveWifiApConfig(conf);
-            }
-            catch (Exception e)
-            {
-                Timber.e(e,"Exception on writeConfigurationToDevice");
-            }
-
-            updatedWiFiAP++;
-
-            publishProgress(updatedWiFiAP);
-
-            try
-            {
-                Thread.sleep(1);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-
+            configsToSave.add(conf);
         }
     }
 }
