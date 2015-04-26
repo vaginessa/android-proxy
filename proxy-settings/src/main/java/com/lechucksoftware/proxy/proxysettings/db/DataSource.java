@@ -33,7 +33,7 @@ public class DataSource
     // Database fields
     public static String TAG = DataSource.class.getSimpleName();
     private final Context context;
-    private final boolean DUMP_CURSOR_TOSTRING = true;
+    private final boolean DUMP_CURSOR_TOSTRING = false;
 
     public DataSource(Context ctx)
     {
@@ -1204,11 +1204,13 @@ public class DataSource
 
     public Map<Long, ProxyEntity> getAllProxiesWithTAGs()
     {
+        App.getTraceUtils().startTrace(TAG,"getAllProxiesWithTAGs", Log.DEBUG);
         SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getReadableDatabase();
 
         Map<Long, ProxyEntity> proxies = new HashMap<Long, ProxyEntity>();
 
         Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PROXIES, DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " ASC");
+        App.getTraceUtils().partialTrace(TAG,"getAllProxiesWithTAGs", "query", Log.DEBUG);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -1218,13 +1220,16 @@ public class DataSource
             cursor.moveToNext();
         }
         cursor.close();
+        App.getTraceUtils().partialTrace(TAG, "getAllProxiesWithTAGs", "cursor", Log.DEBUG);
 
-        for (long proxyId : proxies.keySet())
-        {
-            ProxyEntity proxy = proxies.get(proxyId);
-            proxy.setTags(getTagsForProxy(proxy.getId()));
-        }
+        // TODO: enable tags reading
+//        for (long proxyId : proxies.keySet())
+//        {
+//            ProxyEntity proxy = proxies.get(proxyId);
+//            proxy.setTags(getTagsForProxy(proxy.getId()));
+//        }
 
+        App.getTraceUtils().stopTrace(TAG, "getAllProxiesWithTAGs", Log.DEBUG);
         return proxies;
     }
 

@@ -1,6 +1,7 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,6 +34,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
@@ -451,10 +453,13 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             ProxyEntity persistedProxy = App.getDBManager().getProxy(selectedProxy.getId());
 
-            AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(getActivity(), persistedProxy, selectedProxy);
-            asyncUpdateLinkedWiFiAP.execute();
+            AsyncSaveProxy asyncSaveProxy = new AsyncSaveProxy(this,selectedProxy);
+            asyncSaveProxy.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
 
-            App.getDBManager().upsertProxy(selectedProxy);
+            AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(getActivity(), persistedProxy, selectedProxy);
+            asyncUpdateLinkedWiFiAP.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+
+            getActivity().finish();
         }
     }
 }

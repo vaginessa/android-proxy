@@ -79,10 +79,6 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, Integer, Integer>
     protected void onPostExecute(Integer updatedWiFiAP)
     {
         super.onPostExecute(updatedWiFiAP);
-
-        final int updatedWifi = updatedWiFiAP;
-
-        Toast.makeText(context, context.getResources().getQuantityString(R.plurals.updated_wifi_networks, updatedWifi, updatedWifi), Toast.LENGTH_SHORT).show();
     }
 
     @Override
