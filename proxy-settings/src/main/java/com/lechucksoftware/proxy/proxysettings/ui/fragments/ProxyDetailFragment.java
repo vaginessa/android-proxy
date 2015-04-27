@@ -34,7 +34,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.enums.ProxyStatusProperties;
@@ -323,7 +322,7 @@ public class ProxyDetailFragment extends BaseDialogFragment
         {
             Bundle b = message.getData();
 
-            Timber.w("handleMessage: " + b.toString());
+//            Timber.w("handleMessage: " + b.toString());
 
             refreshUI();
         }

@@ -29,7 +29,7 @@ public class DBUtils
     {
         try
         {
-            Timber.d("EXEC SQL: " + sql);
+//            Timber.d("EXEC SQL: " + sql);
             db.execSQL(sql);
         }
         catch (Exception e)
@@ -44,7 +44,7 @@ public class DBUtils
 
         try
         {
-            Timber.d("RAW QUERY SQL: '%s', PARAMS '%s'", sql, args != null ? TextUtils.join("', '",args) : "NULL");
+//            Timber.d("RAW QUERY SQL: '%s', PARAMS '%s'", sql, args != null ? TextUtils.join("', '",args) : "NULL");
             cursor = database.rawQuery(sql, args);
         }
         catch (Exception e)

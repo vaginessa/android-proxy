@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import be.shouldit.proxy.lib.APL;
-import timber.log.Timber;
 
 /**
  * Created by Marco on 29/11/13.
@@ -21,21 +20,21 @@ public class WifiScannerHandler extends Handler
     {
         if (!hasMessages(0))
         {
-            Timber.d("Resume Wi-Fi scanner");
+//            Timber.d("Resume Wi-Fi scanner");
             sendEmptyMessage(0);
         }
     }
 
     public void forceScan()
     {
-        Timber.d("Force Wi-Fi scanner");
+//        Timber.d("Force Wi-Fi scanner");
         removeMessages(0);
         sendEmptyMessage(0);
     }
 
     public void pause()
     {
-        Timber.d("Pause Wi-Fi scanner");
+//        Timber.d("Pause Wi-Fi scanner");
         mRetry = 0;
         removeMessages(0);
     }
@@ -45,7 +44,7 @@ public class WifiScannerHandler extends Handler
     {
         if (APL.getWifiManager().isWifiEnabled())
         {
-            Timber.d("Calling Wi-Fi scanner");
+//            Timber.d("Calling Wi-Fi scanner");
 
             if (APL.getWifiManager().startScan())
             {
@@ -59,7 +58,7 @@ public class WifiScannerHandler extends Handler
         }
         else
         {
-            Timber.d("Wi-Fi scanner disabled");
+//            Timber.d("Wi-Fi scanner disabled");
         }
 
         sendEmptyMessageDelayed(0, WIFI_RESCAN_INTERVAL_MS);

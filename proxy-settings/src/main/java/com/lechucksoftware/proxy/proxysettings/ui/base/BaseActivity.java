@@ -27,8 +27,6 @@ import com.nispok.snackbar.enums.SnackbarType;
 import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 
 import timber.log.Timber;
 
@@ -159,7 +157,7 @@ public class BaseActivity extends ActionBarActivity
         public void handleMessage(Message message)
         {
             Bundle b = message.getData();
-            Timber.w("handleMessage: " + b.toString());
+//            Timber.d("handleMessage: " + b.toString());
 
             if (b.containsKey(CREATE_SNACKBAR))
             {

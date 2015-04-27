@@ -30,7 +30,6 @@ import java.util.UUID;
 
 import be.shouldit.proxy.lib.ProxyStatusItem;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
-import timber.log.Timber;
 
 public class InputExclusionList extends LinearLayout
 {
@@ -283,7 +282,7 @@ public class InputExclusionList extends LinearLayout
         {
             Bundle b = message.getData();
 
-            Timber.w("handleMessage: " + b.toString());
+//            Timber.w("handleMessage: " + b.toString());
 
             if (b.containsKey(REFRESH_UI_ACTION))
                 refreshUI();

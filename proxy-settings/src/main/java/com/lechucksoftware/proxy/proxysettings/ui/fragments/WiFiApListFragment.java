@@ -152,8 +152,6 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
     public void refreshLoaderResults(List<WiFiApConfig> wiFiApConfigs)
     {
-        App.getTraceUtils().startTrace(TAG, "refreshLoaderResults", Log.DEBUG);
-
         progress.setVisibility(View.GONE);
 
         if (APL.getWifiManager().isWifiEnabled())
@@ -190,8 +188,6 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                 showEnableWifiSnackbar();
             }
         }
-
-        App.getTraceUtils().stopTrace(TAG, "refreshLoaderResults", Log.DEBUG);
     }
 
     private void showEnableWifiSnackbar()
@@ -227,24 +223,14 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     @Override
     public Loader<List<WiFiApConfig>> onCreateLoader(int i, Bundle bundle)
     {
-        App.getTraceUtils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
-
         ProxyConfigurationTaskLoader proxyConfigurationTaskLoader = new ProxyConfigurationTaskLoader(getActivity());
-
-        App.getTraceUtils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
-
         return proxyConfigurationTaskLoader;
     }
 
     @Override
     public void onLoadFinished(Loader<List<WiFiApConfig>> listLoader, List<WiFiApConfig> aps)
     {
-        App.getTraceUtils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
-
         refreshLoaderResults(aps);
-
-        App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.INFO);
     }
 
     @Override

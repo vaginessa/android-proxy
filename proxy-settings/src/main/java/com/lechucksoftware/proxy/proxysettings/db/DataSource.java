@@ -937,8 +937,8 @@ public class DataSource
         updateInUseFlag(persistedWifiAp.getPacId(), ProxySetting.PAC);
         updateInUseFlag(wiFiAPEntity.getPacId(), ProxySetting.PAC);
 
-        WiFiAPEntity updatedTag = getWifiAP(persistedWifiAp.getId());
-        return updatedTag;
+        WiFiAPEntity updatedWifiAP = getWifiAP(persistedWifiAp.getId());
+        return updatedWifiAP;
     }
 
     public TagEntity updateTag(long tagId, TagEntity newData)
@@ -960,9 +960,9 @@ public class DataSource
         return updatedTag;
     }
 
-    public void updateInUseFlag(long proxyId, ProxySetting proxySettings)
+    public void updateInUseFlag(long id, ProxySetting proxySettings)
     {
-        if (proxyId == -1)
+        if (id == -1)
             return;
 
         App.getTraceUtils().startTrace(TAG, "updateInUseFlag", Log.DEBUG);
@@ -970,6 +970,7 @@ public class DataSource
         database.beginTransaction();
 
         int inUseCount = -1;
+        long updatedRows = 0;
 
         try
         {
@@ -988,7 +989,7 @@ public class DataSource
                         " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " =?";
             }
 
-            Cursor countCursor = DBUtils.rawQuery(database, countQuery, new String[]{String.valueOf(proxyId)});
+            Cursor countCursor = DBUtils.rawQuery(database, countQuery, new String[]{String.valueOf(id)});
             countCursor.moveToFirst();
             if (!countCursor.isAfterLast())
             {
@@ -999,29 +1000,21 @@ public class DataSource
 
             if (proxySettings == ProxySetting.STATIC)
             {
-                String updateQuery = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PROXIES +
-                        " SET " + DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE + " =? " +
-                        " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
-
                 ContentValues values = new ContentValues();
                 values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, inUseCount);
                 long currentDate = System.currentTimeMillis();
                 values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
-                long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(proxyId)});
+                updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(id)});
             }
             else if(proxySettings == ProxySetting.PAC)
             {
-                String updateQuery = "UPDATE " + DatabaseSQLiteOpenHelper.TABLE_PAC +
-                        " SET " + DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE + " =? " +
-                        " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_ID + " =?";
-
                 ContentValues values = new ContentValues();
                 values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE, inUseCount);
                 long currentDate = System.currentTimeMillis();
                 values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
 
-                long updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PAC, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(proxyId)});
+                updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PAC, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(id)});
             }
 
             database.setTransactionSuccessful();
@@ -1035,7 +1028,7 @@ public class DataSource
             database.endTransaction();
         }
 
-        App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("%s proxy #%d used by %d Wi-Fi AP", proxySettings, proxyId, inUseCount), Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("%s proxy #%d used by %d Wi-Fi AP", proxySettings, id, inUseCount), Log.DEBUG);
     }
 
     public void deleteProxy(long proxyId)
@@ -1210,7 +1203,7 @@ public class DataSource
         Map<Long, ProxyEntity> proxies = new HashMap<Long, ProxyEntity>();
 
         Cursor cursor = database.query(DatabaseSQLiteOpenHelper.TABLE_PROXIES, DatabaseSQLiteOpenHelper.TABLE_PROXIES_COLUMNS, null, null, null, null, DatabaseSQLiteOpenHelper.COLUMN_PROXY_HOST + " ASC");
-        App.getTraceUtils().partialTrace(TAG,"getAllProxiesWithTAGs", "query", Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG,"getAllProxiesWithTAGs", "query", Log.DEBUG);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -1220,7 +1213,7 @@ public class DataSource
             cursor.moveToNext();
         }
         cursor.close();
-        App.getTraceUtils().partialTrace(TAG, "getAllProxiesWithTAGs", "cursor", Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG, "getAllProxiesWithTAGs", "cursor", Log.DEBUG);
 
         // TODO: enable tags reading
 //        for (long proxyId : proxies.keySet())

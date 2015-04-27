@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -183,24 +182,14 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
     @Override
     public Loader<List<PacEntity>> onCreateLoader(int i, Bundle bundle)
     {
-        App.getTraceUtils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
-
         PacDBTaskLoader pacDBTaskLoader = new PacDBTaskLoader(getActivity());
-
-        App.getTraceUtils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
-
         return pacDBTaskLoader;
     }
 
     @Override
     public void onLoadFinished(Loader<List<PacEntity>> listLoader, List<PacEntity> dbPacs)
     {
-        App.getTraceUtils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
-
         refreshLoaderResults(dbPacs);
-
-        App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.INFO);
     }
 
     private void refreshLoaderResults(List<PacEntity> dbPacs)

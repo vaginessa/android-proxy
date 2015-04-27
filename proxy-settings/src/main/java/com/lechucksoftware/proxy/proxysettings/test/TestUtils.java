@@ -366,11 +366,6 @@ public class TestUtils
         {
             Timber.e(e, "Exception clearing proxy for all Wi-Fi AP");
         }
-
-        // Calling refresh intent only after save of all AP configurations
-//        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-//        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-//        APL.getContext().sendBroadcast(intent);
     }
 
     public static void setProxyForAllAP(Context ctx)
@@ -411,11 +406,6 @@ public class TestUtils
         {
             Timber.e(e, "Exception writing configuration to device");
         }
-
-        // Calling refresh intent only after save of all AP configurations
-//        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-//        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-//        APL.getContext().sendBroadcast(intent);
     }
 
     @TargetApi(19)

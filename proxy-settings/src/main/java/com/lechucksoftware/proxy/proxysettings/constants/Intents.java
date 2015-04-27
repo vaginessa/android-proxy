@@ -55,7 +55,6 @@ public class Intents
     {
         try
         {
-            Timber.d("Sending broadcast intent : '%s'" + intentString);
             Intent intent = new Intent(intentString);
             context.sendBroadcast(intent);
         }
