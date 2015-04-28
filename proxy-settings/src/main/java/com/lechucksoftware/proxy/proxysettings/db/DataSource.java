@@ -793,7 +793,7 @@ public class DataSource
             createProxyTagLink(newProxy.getId(), tag.getId());
         }
 
-        App.getTraceUtils().stopTrace(TAG, "createProxy", String.format("Created STATIC proxy Id: '%d'", insertId) , Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createProxy", String.format("Created STATIC proxy Id: '%d'", insertId), Log.DEBUG);
 
         notifyProxyChange();
 
@@ -959,6 +959,87 @@ public class DataSource
         TagEntity updatedTag = getTag(persistedTag.getId());
         return updatedTag;
     }
+
+    public void updateInUseFlag()
+    {
+        App.getTraceUtils().startTrace(TAG, "updateInUseFlag", Log.DEBUG);
+        SQLiteDatabase database = DatabaseSQLiteOpenHelper.getInstance(context).getWritableDatabase();
+        database.beginTransaction();
+
+        int inUseCount = -1;
+        long updatedRows = 0;
+
+        try
+        {
+            Map<Integer,Integer> staticCount = new HashMap<>();
+            Map<Integer,Integer> pacCount = new HashMap<>();
+
+            String staticCountQuery = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " , count(1)" +
+                        " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP +
+                        " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID + " != -1" +
+                        " GROUP BY " +  DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID  +
+                        " ORDER BY " +  DatabaseSQLiteOpenHelper.COLUMN_WIFI_PROXY_ID;
+
+            String pacCountQuery = "SELECT " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " , count(1)" +
+                        " FROM " + DatabaseSQLiteOpenHelper.TABLE_WIFI_AP +
+                        " WHERE " + DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID + " != -1"+
+                        " GROUP BY " +  DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID  +
+                        " ORDER BY " +  DatabaseSQLiteOpenHelper.COLUMN_WIFI_PAC_ID;
+
+            Cursor staticCountCursor = DBUtils.rawQuery(database, staticCountQuery, null);
+            staticCountCursor.moveToFirst();
+            if (!staticCountCursor.isAfterLast())
+            {
+                staticCount.put(staticCountCursor.getInt(0), staticCountCursor.getInt(1));
+            }
+            staticCountCursor.close();
+
+            App.getTraceUtils().partialTrace(TAG, "updateInUseFlag", String.format("STATIC proxy used: %d", staticCount.size()), Log.DEBUG);
+
+            Cursor pacCountCursor = DBUtils.rawQuery(database, pacCountQuery, null);
+            pacCountCursor.moveToFirst();
+            if (!pacCountCursor.isAfterLast())
+            {
+                pacCount.put(staticCountCursor.getInt(0), staticCountCursor.getInt(1));
+            }
+            pacCountCursor.close();
+
+            App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("PAC proxy used: %d", pacCount.size()), Log.DEBUG);
+
+            for(int proxyId : staticCount.keySet())
+            {
+                ContentValues values = new ContentValues();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, staticCount.get(proxyId));
+                long currentDate = System.currentTimeMillis();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+                updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PROXIES, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(proxyId)});
+            }
+
+            App.getTraceUtils().stopTrace(TAG, "updateInUseFlag", String.format("Updated STATIC proxy used flag: %d", pacCount.size()), Log.DEBUG);
+
+            for(int pacId : pacCount.keySet())
+            {
+                ContentValues values = new ContentValues();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE, staticCount.get(pacId));
+                long currentDate = System.currentTimeMillis();
+                values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
+                updatedRows = database.update(DatabaseSQLiteOpenHelper.TABLE_PAC, values, DatabaseSQLiteOpenHelper.COLUMN_ID + " =?", new String[]{String.valueOf(pacId)});
+            }
+
+            database.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Exception during updateInUseFlag");
+        }
+        finally
+        {
+            database.endTransaction();
+        }
+
+
+    }
+
 
     public void updateInUseFlag(long id, ProxySetting proxySettings)
     {
