@@ -2,7 +2,11 @@ package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,7 +31,12 @@ import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DBUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,7 +87,8 @@ public class DeveloperOptionsActivity extends ActionBarActivity
         setContentView(R.layout.test_layout);
 
         addWifiNetworksBtn = (Button) findViewById(R.id.add_wifi_networks);
-        addWifiNetworksBtn.setOnTouchListener(new View.OnTouchListener() {
+        addWifiNetworksBtn.setOnTouchListener(new View.OnTouchListener()
+        {
 
             private Date touchEventStarted;
             private Toast toast;
@@ -102,7 +112,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
                     asyncToast.execute();
                 }
                 else if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP ||
-                         motionEvent.getActionMasked() == MotionEvent.ACTION_CANCEL)
+                        motionEvent.getActionMasked() == MotionEvent.ACTION_CANCEL)
                 {
                     // End touch
                     if (touchEventStarted != null)
@@ -110,7 +120,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
                         Date touchEventEnd = new Date();
                         Long diff = touchEventEnd.getTime() - touchEventStarted.getTime();
                         int numWifis = (int) ((diff / 100) % 200) + 1;
-                        addWifiNetworks(view,numWifis);
+                        addWifiNetworks(view, numWifis);
 
                         touching = false;
                         asyncToast.stop();
@@ -137,7 +147,36 @@ public class DeveloperOptionsActivity extends ActionBarActivity
 
     public void backupDB(View view)
     {
-        DBUtils.backupDB(this);
+        final String filename = DBUtils.backupDB(this);
+        SnackbarManager.show(
+                Snackbar.with(this)
+                        .type(SnackbarType.SINGLE_LINE)
+                        .text(String.format("Saved on: '%s'", filename))
+                        .swipeToDismiss(false)
+                        .animation(false)
+                        .color(Color.RED)
+                        .actionLabel("OPEN")
+                        .actionLabelTypeface(Typeface.DEFAULT_BOLD)
+                        .actionListener(new ActionClickListener()
+                        {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar)
+                            {
+                                try
+                                {
+                                    File fileToOpen = new File(filename);
+                                    Intent myIntent = new Intent();
+                                    myIntent.setAction(android.content.Intent.ACTION_VIEW);
+                                    myIntent.setDataAndType(Uri.fromFile(fileToOpen), "*/*");
+                                    startActivity(myIntent);
+                                }
+                                catch (Exception e)
+                                {
+                                    Timber.e(e, "Exception during ActionsView enableWifiClickListener action");
+                                }
+                            }
+                        })
+                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE));
     }
 
     public void addProxyClicked(View caller)
@@ -261,7 +300,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
         Map<String, ?> prefsMap = preferences.getAll();
         for (String key : prefsMap.keySet())
         {
-            textViewTest.append("'" + key + "': " +  prefsMap.get(key) + "\n");
+            textViewTest.append("'" + key + "': " + prefsMap.get(key) + "\n");
         }
     }
 
@@ -316,7 +355,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
         {
             if (progress != null && progress.length > 0)
             {
-                String msg = TextUtils.join("\n",progress);
+                String msg = TextUtils.join("\n", progress);
                 textViewTest.setText(msg);
             }
             else
@@ -339,7 +378,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
             {
                 int numWifis = (Integer) _params[0];
 
-                for (int i=0;i<=numWifis;i++)
+                for (int i = 0; i <= numWifis; i++)
                 {
                     String ssid = TestUtils.createFakeWifiNetwork(_developerOptionsActivity);
                     Timber.e("----------------------------------------------");
@@ -351,7 +390,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
                     }
                     catch (InterruptedException e)
                     {
-                        Timber.e(e,"Exception during sleep");
+                        Timber.e(e, "Exception during sleep");
                     }
                 }
             }
@@ -474,7 +513,7 @@ public class DeveloperOptionsActivity extends ActionBarActivity
         @Override
         protected Void doInBackground(Void... params)
         {
-            while(run)
+            while (run)
             {
                 Date touchEventPartial = new Date();
                 Long diff = touchEventPartial.getTime() - start.getTime();

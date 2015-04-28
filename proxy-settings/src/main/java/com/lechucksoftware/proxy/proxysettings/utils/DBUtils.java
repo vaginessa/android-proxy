@@ -55,7 +55,7 @@ public class DBUtils
         return cursor;
     }
 
-    public static void backupDB(Context ctx)
+    public static String backupDB(Context ctx)
     {
         PackageInfo applicationInfo = Utils.getAppInfo(ctx);
 
@@ -86,7 +86,6 @@ public class DBUtils
             String msg = "Proxy Settings DB saved on: " + outFileName;
 
             Timber.w(msg);
-            Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e)
         {
@@ -94,6 +93,8 @@ public class DBUtils
             Timber.e(e, msg);
             Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
         }
+
+        return inFileName;
     }
 
     public static String dumpCursorColumns(Cursor cursor)
