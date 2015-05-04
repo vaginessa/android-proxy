@@ -19,22 +19,12 @@ import be.shouldit.proxy.lib.enums.SecurityType;
  */
 public class WifiSignal extends LinearLayout
 {
-    private ViewGroup layout;
     private ImageView iconImageView;
-//    private TextView securityTextView;
-
-    private String text;
-    private boolean showSecurityText;
-
     private WiFiApConfig configuration;
-    private String securityString;
-
 
     public WifiSignal(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-
-        readStyleParameters(context,attrs);
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -42,24 +32,7 @@ public class WifiSignal extends LinearLayout
 
         if (inflater != null)
         {
-            layout = (ViewGroup) v.findViewById(R.id.wifi_proxy_layout);
             iconImageView = (ImageView) v.findViewById(R.id.wifi_ap_signal);
-//            securityTextView = (TextView) v.findViewById(R.id.ap_security);
-        }
-    }
-
-    private void readStyleParameters(Context context, AttributeSet attributeSet)
-    {
-        TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.WifiSignal);
-
-        try
-        {
-            text = a.getString(R.styleable.WifiSignal_text);
-            showSecurityText = a.getBoolean(R.styleable.WifiSignal_showSecurityText, true);
-        }
-        finally
-        {
-            a.recycle();
         }
     }
 

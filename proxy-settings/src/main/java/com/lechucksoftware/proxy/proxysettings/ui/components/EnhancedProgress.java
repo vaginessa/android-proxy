@@ -39,7 +39,6 @@ public class EnhancedProgress extends LinearLayout
 
     public void getUI(View v)
     {
-        layout = (ViewGroup) v.findViewById(R.id.wifi_proxy_layout);
         progressText = (TextView) v.findViewById(R.id.progressText);
     }
 
