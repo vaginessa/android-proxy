@@ -910,7 +910,7 @@ public class DataSource
 
         if (newData.getUsedByCount() != -1)
         {
-            values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, newData.getUsedByCount());
+            values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE, newData.getUsedByCount());
         }
 
         long currentDate = System.currentTimeMillis();
