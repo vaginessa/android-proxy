@@ -8831,26 +8831,26 @@ be.shouldit.proxy.lib.WiFiApConfig -> be.shouldit.proxy.lib.WiFiApConfig:
     408:421:java.lang.String toString() -> toString
     426:448:org.json.JSONObject toJSON() -> e
     453:462:java.lang.String toShortString() -> f
-    467:515:java.lang.String getProxyStatusString() -> g
-    520:520:java.lang.String getProxyHostString() -> h
-    530:530:java.lang.String getProxyHost() -> i
-    535:535:java.lang.Integer getProxyPort() -> j
-    540:543:java.lang.String getProxyExclusionList() -> k
-    548:548:android.net.Uri getPacFileUri() -> l
-    553:554:void setPacUriFile(android.net.Uri) -> a
-    558:558:be.shouldit.proxy.lib.enums.CheckStatusValues getCheckingStatus() -> m
-    584:589:java.lang.String removeDoubleQuotes(java.lang.String) -> c
-    599:603:int getLevel() -> n
-    608:610:void clearScanStatus() -> o
-    614:614:java.util.UUID getId() -> p
-    619:619:be.shouldit.proxy.lib.APLNetworkId getAPLNetworkId() -> q
-    624:624:be.shouldit.proxy.lib.ProxyStatus getStatus() -> r
-    629:629:java.lang.String getStringProxyExclusionList() -> s
-    634:634:java.lang.String getSSID() -> t
-    639:639:be.shouldit.proxy.lib.enums.SecurityType getSecurityType() -> u
-    644:644:int getNetworkId() -> v
-    649:649:be.shouldit.proxy.lib.enums.PskType getPskType() -> w
-    659:659:int getRssi() -> x
+    467:519:java.lang.String getProxyStatusString() -> g
+    524:524:java.lang.String getProxyHostString() -> h
+    534:534:java.lang.String getProxyHost() -> i
+    539:539:java.lang.Integer getProxyPort() -> j
+    544:547:java.lang.String getProxyExclusionList() -> k
+    552:552:android.net.Uri getPacFileUri() -> l
+    557:558:void setPacUriFile(android.net.Uri) -> a
+    562:562:be.shouldit.proxy.lib.enums.CheckStatusValues getCheckingStatus() -> m
+    588:593:java.lang.String removeDoubleQuotes(java.lang.String) -> c
+    603:607:int getLevel() -> n
+    612:614:void clearScanStatus() -> o
+    618:618:java.util.UUID getId() -> p
+    623:623:be.shouldit.proxy.lib.APLNetworkId getAPLNetworkId() -> q
+    628:628:be.shouldit.proxy.lib.ProxyStatus getStatus() -> r
+    633:633:java.lang.String getStringProxyExclusionList() -> s
+    638:638:java.lang.String getSSID() -> t
+    643:643:be.shouldit.proxy.lib.enums.SecurityType getSecurityType() -> u
+    648:648:int getNetworkId() -> v
+    653:653:be.shouldit.proxy.lib.enums.PskType getPskType() -> w
+    663:663:int getRssi() -> x
     26:26:int compareTo(java.lang.Object) -> compareTo
 be.shouldit.proxy.lib.WiFiApConfig$1 -> be.shouldit.proxy.lib.WiFiApConfig$1:
     161:161:be.shouldit.proxy.lib.WiFiApConfig createFromParcel(android.os.Parcel) -> a
@@ -8941,13 +8941,12 @@ be.shouldit.proxy.lib.logging.TraceDate -> be.shouldit.proxy.lib.logging.a:
     31:32:void updateLast(java.util.Date) -> a
 be.shouldit.proxy.lib.logging.TraceUtils -> be.shouldit.proxy.lib.logging.b:
     java.util.Map startTraces -> a
-    53:73:void log(java.lang.String,java.lang.String,int) -> d
+    53:73:void log(java.lang.String,java.lang.String,int) -> c
     77:78:void startTrace(java.lang.String,java.lang.String,int) -> a
     82:83:void startTrace(java.lang.String,java.lang.String,int,boolean) -> a
     87:103:void startTrace(java.lang.String,java.lang.String,java.lang.String,int,boolean) -> a
-    107:108:void partialTrace(java.lang.String,java.lang.String,int) -> b
     112:124:void partialTrace(java.lang.String,java.lang.String,java.lang.String,int) -> a
-    128:129:void stopTrace(java.lang.String,java.lang.String,int) -> c
+    128:129:void stopTrace(java.lang.String,java.lang.String,int) -> b
     133:147:void stopTrace(java.lang.String,java.lang.String,java.lang.String,int) -> b
     151:152:void logIntent(java.lang.String,java.lang.String,android.content.Intent,int) -> a
     156:157:void logIntent(java.lang.String,android.content.Intent,int) -> a
@@ -13642,14 +13641,14 @@ com.lechucksoftware.proxy.proxysettings.App -> com.lechucksoftware.proxy.proxyse
     java.lang.Boolean demoMode -> b
     be.shouldit.proxy.lib.logging.TraceUtils traceUtils -> i
     com.lechucksoftware.proxy.proxysettings.utils.EventsReporting eventsReporter -> j
-    37:37:int getAppMajorVersion() -> a
-    48:83:void onCreate() -> onCreate
-    87:92:com.lechucksoftware.proxy.proxysettings.utils.EventsReporting getEventsReporter() -> b
-    97:102:be.shouldit.proxy.lib.logging.TraceUtils getTraceUtils() -> c
-    107:113:com.lechucksoftware.proxy.proxysettings.App getInstance() -> d
-    118:124:com.lechucksoftware.proxy.proxysettings.WifiNetworksManager getWifiNetworksManager() -> e
-    129:135:com.lechucksoftware.proxy.proxysettings.db.DataSource getDBManager() -> f
-    140:146:com.lechucksoftware.proxy.proxysettings.NavigationManager getNavigationManager() -> g
+    36:36:int getAppMajorVersion() -> a
+    47:76:void onCreate() -> onCreate
+    80:85:com.lechucksoftware.proxy.proxysettings.utils.EventsReporting getEventsReporter() -> b
+    90:95:be.shouldit.proxy.lib.logging.TraceUtils getTraceUtils() -> c
+    100:106:com.lechucksoftware.proxy.proxysettings.App getInstance() -> d
+    111:117:com.lechucksoftware.proxy.proxysettings.WifiNetworksManager getWifiNetworksManager() -> e
+    122:128:com.lechucksoftware.proxy.proxysettings.db.DataSource getDBManager() -> f
+    133:139:com.lechucksoftware.proxy.proxysettings.NavigationManager getNavigationManager() -> g
 com.lechucksoftware.proxy.proxysettings.CacheManager -> com.lechucksoftware.proxy.proxysettings.a:
     java.lang.String TAG -> a
     android.content.Context context -> b
@@ -14076,31 +14075,35 @@ com.lechucksoftware.proxy.proxysettings.WifiNetworkStatus -> com.lechucksoftware
     java.util.Map wifiApConfigsByAPLNetId -> a
     java.util.Map notConfiguredWifi -> b
     be.shouldit.proxy.lib.WiFiApConfig currentConfiguration -> c
-    33:33:boolean isEmpty() -> a
-    38:38:boolean containsKey(be.shouldit.proxy.lib.APLNetworkId) -> a
-    48:48:be.shouldit.proxy.lib.WiFiApConfig get(be.shouldit.proxy.lib.APLNetworkId) -> b
-    58:73:void put(be.shouldit.proxy.lib.APLNetworkId,be.shouldit.proxy.lib.WiFiApConfig) -> a
-    77:103:void remove(be.shouldit.proxy.lib.APLNetworkId) -> c
-    107:107:java.util.Collection values() -> b
-    112:112:java.util.Map getNotConfiguredWifi() -> c
-    117:117:be.shouldit.proxy.lib.WiFiApConfig getCurrentConfiguration() -> d
-    122:123:void setCurrentConfiguration(be.shouldit.proxy.lib.WiFiApConfig) -> a
+    34:34:boolean isEmpty() -> a
+    39:39:boolean containsKey(be.shouldit.proxy.lib.APLNetworkId) -> a
+    44:44:be.shouldit.proxy.lib.WiFiApConfig get(be.shouldit.proxy.lib.APLNetworkId) -> b
+    49:64:void put(be.shouldit.proxy.lib.APLNetworkId,be.shouldit.proxy.lib.WiFiApConfig) -> a
+    68:94:void remove(be.shouldit.proxy.lib.APLNetworkId) -> c
+    98:98:java.util.Collection values() -> b
+    103:103:java.util.Map getNotConfiguredWifi() -> c
+    108:108:be.shouldit.proxy.lib.WiFiApConfig getCurrentConfiguration() -> d
+    113:114:void setCurrentConfiguration(be.shouldit.proxy.lib.WiFiApConfig) -> a
 com.lechucksoftware.proxy.proxysettings.WifiNetworksManager -> com.lechucksoftware.proxy.proxysettings.e:
     java.lang.String TAG -> a
     com.lechucksoftware.proxy.proxysettings.WifiNetworkStatus wifiNetworkStatus -> b
     android.content.Context context -> c
-    47:53:void asyncSaveWifiApConfig(be.shouldit.proxy.lib.WiFiApConfig) -> a
-    57:74:void updateWifiApConfigs() -> a
-    78:95:void updateWifiConfig(be.shouldit.proxy.lib.WiFiApConfig) -> b
-    99:106:void removeWifiConfig(be.shouldit.proxy.lib.APLNetworkId) -> a
-    110:124:void updateCurrentWifiInfo(android.net.wifi.WifiInfo) -> a
-    128:178:void updateWifiConfigWithScanResults(java.util.List) -> a
-    182:211:java.util.List getSortedWifiApConfigsList() -> b
-    216:233:be.shouldit.proxy.lib.WiFiApConfig getConfiguration(be.shouldit.proxy.lib.APLNetworkId) -> b
-    238:282:be.shouldit.proxy.lib.WiFiApConfig updateCurrentConfiguration() -> c
-    287:309:void mergeWithCurrentConfiguration(be.shouldit.proxy.lib.WiFiApConfig) -> c
-    315:315:be.shouldit.proxy.lib.WiFiApConfig getCachedConfiguration() -> d
-    323:344:org.json.JSONObject configListToDBG() -> e
+    java.util.concurrent.ConcurrentLinkedQueue saveOperations -> d
+    45:47:java.lang.Integer savingOperationsCount() -> a
+    52:56:void addSavingOperation(java.util.List) -> a
+    60:67:void addSavingOperation(be.shouldit.proxy.lib.WiFiApConfig[]) -> a
+    71:73:be.shouldit.proxy.lib.WiFiApConfig getSavingOperation() -> b
+    85:102:void updateWifiApConfigs() -> c
+    106:123:void updateWifiConfig(be.shouldit.proxy.lib.WiFiApConfig) -> a
+    127:134:void removeWifiConfig(be.shouldit.proxy.lib.APLNetworkId) -> a
+    138:152:void updateCurrentWifiInfo(android.net.wifi.WifiInfo) -> a
+    156:206:void updateWifiConfigWithScanResults(java.util.List) -> b
+    210:239:java.util.List getSortedWifiApConfigsList() -> d
+    244:261:be.shouldit.proxy.lib.WiFiApConfig getConfiguration(be.shouldit.proxy.lib.APLNetworkId) -> b
+    266:310:be.shouldit.proxy.lib.WiFiApConfig updateCurrentConfiguration() -> e
+    315:337:void mergeWithCurrentConfiguration(be.shouldit.proxy.lib.WiFiApConfig) -> b
+    343:343:be.shouldit.proxy.lib.WiFiApConfig getCachedConfiguration() -> f
+    351:372:org.json.JSONObject configListToDBG() -> g
 com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket -> com.lechucksoftware.proxy.proxysettings.constants.a:
     com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket PLAY -> a
     com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket AMAZON -> b
@@ -14139,7 +14142,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Agda -> B
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgelessEntity -> C
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgentoftheFates -> D
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Agrajagƒ -> E
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgrajagÆ’ -> E
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgrusKosWojekVeteran -> F
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AhsokaTano -> G
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Aikhibba -> H
@@ -15125,7 +15128,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Lightspeed -> sz
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LightwielderPaladin -> sA
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LilianasReaver -> sB
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames LimDûltheNecromancer -> sC
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames LimDÃ»ltheNecromancer -> sC
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LiNalas -> sD
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LinessaZephyrMage -> sE
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LinvalaKeeperofSilence -> sF
@@ -16107,7 +16110,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames ZoZuthePunisher -> Lt
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Zuckuss -> Lu
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames ZurtheEnchanter -> Lv
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Ætherling -> Lw
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Ã†therling -> Lw
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames[] $VALUES -> Lx
     6:6:com.lechucksoftware.proxy.proxysettings.constants.CodeNames[] values() -> values
     6:6:com.lechucksoftware.proxy.proxysettings.constants.CodeNames valueOf(java.lang.String) -> valueOf
@@ -16120,10 +16123,12 @@ com.lechucksoftware.proxy.proxysettings.constants.FragmentMode -> com.lechucksof
     com.lechucksoftware.proxy.proxysettings.constants.FragmentMode[] $VALUES -> c
     6:6:com.lechucksoftware.proxy.proxysettings.constants.FragmentMode[] values() -> values
     6:6:com.lechucksoftware.proxy.proxysettings.constants.FragmentMode valueOf(java.lang.String) -> valueOf
-com.lechucksoftware.proxy.proxysettings.constants.Measures -> com.lechucksoftware.proxy.proxysettings.constants.e:
+com.lechucksoftware.proxy.proxysettings.constants.Intents -> com.lechucksoftware.proxy.proxysettings.constants.e:
+    58:65:void callIntent(android.content.Context,java.lang.String) -> a
+com.lechucksoftware.proxy.proxysettings.constants.Measures -> com.lechucksoftware.proxy.proxysettings.constants.f:
     float DefaultTitleSize -> a
     float DefaultTextFontSize -> b
-com.lechucksoftware.proxy.proxysettings.constants.NavigationAction -> com.lechucksoftware.proxy.proxysettings.constants.f:
+com.lechucksoftware.proxy.proxysettings.constants.NavigationAction -> com.lechucksoftware.proxy.proxysettings.constants.g:
     com.lechucksoftware.proxy.proxysettings.constants.NavigationAction WIFI_NETWORKS -> a
     com.lechucksoftware.proxy.proxysettings.constants.NavigationAction HTTP_PROXIES_LIST -> b
     com.lechucksoftware.proxy.proxysettings.constants.NavigationAction PAC_PROXIES_LIST -> c
@@ -16135,14 +16140,14 @@ com.lechucksoftware.proxy.proxysettings.constants.NavigationAction -> com.lechuc
     6:6:com.lechucksoftware.proxy.proxysettings.constants.NavigationAction[] values() -> values
     6:6:com.lechucksoftware.proxy.proxysettings.constants.NavigationAction valueOf(java.lang.String) -> valueOf
     29:40:com.lechucksoftware.proxy.proxysettings.constants.NavigationAction parseInt(int) -> a
-com.lechucksoftware.proxy.proxysettings.constants.Resources -> com.lechucksoftware.proxy.proxysettings.constants.g:
+com.lechucksoftware.proxy.proxysettings.constants.Resources -> com.lechucksoftware.proxy.proxysettings.constants.h:
     java.lang.String BASE_LOCALIZED_WWW -> a
     java.lang.String ABOUT -> b
     java.lang.String CHANGELOG_HTML -> c
     java.lang.String WHATSNEW_2_16_HTML -> d
     java.lang.String WHATSNEW_3_0_HTML -> e
     22:35:java.lang.String getWhatsNewHTML() -> a
-com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus -> com.lechucksoftware.proxy.proxysettings.constants.h:
+com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus -> com.lechucksoftware.proxy.proxysettings.constants.i:
     com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus DONE -> a
     com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus REJECTED -> b
     com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus POSTPONED -> c
@@ -16154,7 +16159,7 @@ com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus -> com.lec
     6:6:com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus valueOf(java.lang.String) -> valueOf
     23:23:java.lang.Integer getValue() -> a
     28:39:com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus parseInt(int) -> a
-com.lechucksoftware.proxy.proxysettings.constants.StartupActionType -> com.lechucksoftware.proxy.proxysettings.constants.i:
+com.lechucksoftware.proxy.proxysettings.constants.StartupActionType -> com.lechucksoftware.proxy.proxysettings.constants.j:
     com.lechucksoftware.proxy.proxysettings.constants.StartupActionType WHATSNEW_300 -> a
     com.lechucksoftware.proxy.proxysettings.constants.StartupActionType WHATSNEW_216 -> b
     com.lechucksoftware.proxy.proxysettings.constants.StartupActionType FIRST_QUICK_TOUR -> c
@@ -16184,60 +16189,62 @@ com.lechucksoftware.proxy.proxysettings.db.DataSource -> com.lechucksoftware.pro
     java.lang.String TAG -> a
     android.content.Context context -> b
     boolean DUMP_CURSOR_TOSTRING -> c
-    50:55:void resetDB() -> a
-    59:80:com.lechucksoftware.proxy.proxysettings.db.PacEntity upsertPac(com.lechucksoftware.proxy.proxysettings.db.PacEntity) -> a
-    85:106:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity upsertProxy(com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> a
-    111:122:com.lechucksoftware.proxy.proxysettings.db.TagEntity upsertTag(com.lechucksoftware.proxy.proxysettings.db.TagEntity) -> a
-    128:171:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity upsertWifiAP(be.shouldit.proxy.lib.WiFiApConfig) -> a
-    176:201:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity upsertWifiAP(com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity) -> a
-    206:229:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity getRandomProxy() -> b
-    300:334:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity getWifiAP(long) -> a
-    340:367:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity getProxy(long) -> b
-    373:399:com.lechucksoftware.proxy.proxysettings.db.PacEntity getPac(java.lang.Long) -> a
-    405:431:com.lechucksoftware.proxy.proxysettings.db.TagEntity getRandomTag() -> c
-    438:461:com.lechucksoftware.proxy.proxysettings.db.TagEntity getTag(long) -> c
-    467:493:com.lechucksoftware.proxy.proxysettings.db.ProxyTagLinkEntity getProxyTagLink(long) -> d
-    518:518:long findWifiAp(com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity) -> b
-    523:543:long findWifiAp(be.shouldit.proxy.lib.APLNetworkId) -> a
-    548:561:long findPac(be.shouldit.proxy.lib.WiFiApConfig) -> b
-    566:581:long findProxy(be.shouldit.proxy.lib.WiFiApConfig) -> c
-    601:631:java.util.List findDuplicatedProxy(java.lang.String,java.lang.Integer) -> a
-    636:665:java.util.List findDuplicatedPac(java.lang.String) -> a
-    670:690:long findPac(com.lechucksoftware.proxy.proxysettings.db.PacEntity) -> b
-    695:717:long findProxy(com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> b
-    722:741:long findTag(java.lang.String) -> b
-    746:768:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity createWifiAp(com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity) -> c
+    52:57:void resetDB() -> a
+    61:82:com.lechucksoftware.proxy.proxysettings.db.PacEntity upsertPac(com.lechucksoftware.proxy.proxysettings.db.PacEntity) -> a
+    87:108:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity upsertProxy(com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> a
+    113:124:com.lechucksoftware.proxy.proxysettings.db.TagEntity upsertTag(com.lechucksoftware.proxy.proxysettings.db.TagEntity) -> a
+    130:173:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity upsertWifiAP(be.shouldit.proxy.lib.WiFiApConfig) -> a
+    178:203:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity upsertWifiAP(com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity) -> a
+    208:231:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity getRandomProxy() -> b
+    302:336:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity getWifiAP(long) -> a
+    342:369:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity getProxy(long) -> b
+    375:401:com.lechucksoftware.proxy.proxysettings.db.PacEntity getPac(java.lang.Long) -> a
+    407:433:com.lechucksoftware.proxy.proxysettings.db.TagEntity getRandomTag() -> c
+    440:463:com.lechucksoftware.proxy.proxysettings.db.TagEntity getTag(long) -> c
+    469:495:com.lechucksoftware.proxy.proxysettings.db.ProxyTagLinkEntity getProxyTagLink(long) -> d
+    520:520:long findWifiAp(com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity) -> b
+    525:545:long findWifiAp(be.shouldit.proxy.lib.APLNetworkId) -> a
+    550:563:long findPac(be.shouldit.proxy.lib.WiFiApConfig) -> b
+    568:583:long findProxy(be.shouldit.proxy.lib.WiFiApConfig) -> c
+    603:633:java.util.List findDuplicatedProxy(java.lang.String,java.lang.Integer) -> a
+    638:667:java.util.List findDuplicatedPac(java.lang.String) -> a
+    672:692:long findPac(com.lechucksoftware.proxy.proxysettings.db.PacEntity) -> b
+    697:719:long findProxy(com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> b
+    724:743:long findTag(java.lang.String) -> b
+    748:768:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity createWifiAp(com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity) -> c
     773:800:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity createProxy(com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> c
     805:823:com.lechucksoftware.proxy.proxysettings.db.PacEntity createPac(com.lechucksoftware.proxy.proxysettings.db.PacEntity) -> c
     828:843:com.lechucksoftware.proxy.proxysettings.db.TagEntity createTag(com.lechucksoftware.proxy.proxysettings.db.TagEntity) -> b
     848:863:com.lechucksoftware.proxy.proxysettings.db.ProxyTagLinkEntity createProxyTagLink(long,long) -> a
-    868:896:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity updateProxy(long,com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> a
-    901:916:com.lechucksoftware.proxy.proxysettings.db.PacEntity updatePac(long,com.lechucksoftware.proxy.proxysettings.db.PacEntity) -> a
-    921:941:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity updateWifiAP(long,com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity) -> a
-    946:960:com.lechucksoftware.proxy.proxysettings.db.TagEntity updateTag(long,com.lechucksoftware.proxy.proxysettings.db.TagEntity) -> a
-    965:1039:void updateInUseFlag(long,be.shouldit.proxy.lib.reflection.android.ProxySetting) -> a
-    1043:1045:void deleteProxy(long) -> e
-    1049:1051:void deletePac(java.lang.Long) -> b
-    1055:1070:void deleteWifiAP(long) -> f
-    1074:1084:void deleteWifiAP(be.shouldit.proxy.lib.APLNetworkId) -> b
-    1094:1096:void deleteProxyTagLinksForProxy(long) -> g
-    1112:1133:long getProxiesCount() -> d
-    1138:1159:long getPacCount() -> e
-    1164:1185:long getWifiApCount() -> f
-    1207:1228:java.util.Map getAllProxiesWithTAGs() -> g
-    1233:1248:java.util.Map getAllPac() -> h
-    1253:1280:java.util.Map getAllWifiAp() -> i
-    1285:1307:java.util.List getProxyWithEmptyCountryCode() -> j
-    1312:1327:java.util.List getAllTags() -> k
-    1333:1341:java.util.List getTagsForProxy(long) -> h
-    1346:1366:java.util.List getProxyTagLinkForProxy(long) -> i
-    1373:1388:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity cursorToProxy(android.database.Cursor) -> a
-    1395:1407:com.lechucksoftware.proxy.proxysettings.db.PacEntity cursorToPAC(android.database.Cursor) -> b
-    1414:1484:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity cursorToWifiAP(android.database.Cursor) -> c
-    1489:1500:com.lechucksoftware.proxy.proxysettings.db.TagEntity cursorToTag(android.database.Cursor) -> d
-    1505:1517:com.lechucksoftware.proxy.proxysettings.db.ProxyTagLinkEntity cursorToProxyTagLink(android.database.Cursor) -> e
-    1556:1558:void notifyProxyChange() -> l
-    1562:1564:void notifyDBReset() -> m
+    868:900:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity updateProxy(long,com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> a
+    905:925:com.lechucksoftware.proxy.proxysettings.db.PacEntity updatePac(long,com.lechucksoftware.proxy.proxysettings.db.PacEntity) -> a
+    930:946:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity updateWifiAP(long,com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity) -> a
+    951:965:com.lechucksoftware.proxy.proxysettings.db.TagEntity updateTag(long,com.lechucksoftware.proxy.proxysettings.db.TagEntity) -> a
+    970:991:void updateInUseFlag() -> d
+    995:1032:void updatePacInUseFlag(android.database.sqlite.SQLiteDatabase) -> a
+    1036:1074:void updateStaticInUseFlag(android.database.sqlite.SQLiteDatabase) -> b
+    1078:1080:void deleteProxy(long) -> e
+    1084:1086:void deletePac(java.lang.Long) -> b
+    1090:1094:void deleteWifiAP(long) -> f
+    1098:1108:void deleteWifiAP(be.shouldit.proxy.lib.APLNetworkId) -> b
+    1118:1120:void deleteProxyTagLinksForProxy(long) -> g
+    1136:1157:long getProxiesCount() -> e
+    1162:1183:long getPacCount() -> f
+    1188:1209:long getWifiApCount() -> g
+    1231:1257:java.util.Map getAllProxiesWithTAGs() -> h
+    1262:1277:java.util.Map getAllPac() -> i
+    1282:1309:java.util.Map getAllWifiAp() -> j
+    1314:1336:java.util.List getProxyWithEmptyCountryCode() -> k
+    1341:1356:java.util.List getAllTags() -> l
+    1362:1370:java.util.List getTagsForProxy(long) -> h
+    1375:1395:java.util.List getProxyTagLinkForProxy(long) -> i
+    1405:1417:com.lechucksoftware.proxy.proxysettings.db.ProxyEntity cursorToProxy(android.database.Cursor) -> a
+    1427:1436:com.lechucksoftware.proxy.proxysettings.db.PacEntity cursorToPAC(android.database.Cursor) -> b
+    1447:1513:com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity cursorToWifiAP(android.database.Cursor) -> c
+    1518:1529:com.lechucksoftware.proxy.proxysettings.db.TagEntity cursorToTag(android.database.Cursor) -> d
+    1534:1546:com.lechucksoftware.proxy.proxysettings.db.ProxyTagLinkEntity cursorToProxyTagLink(android.database.Cursor) -> e
+    1585:1587:void notifyProxyChange() -> m
+    1591:1593:void notifyDBReset() -> n
 com.lechucksoftware.proxy.proxysettings.db.DatabaseSQLiteOpenHelper -> com.lechucksoftware.proxy.proxysettings.db.b:
     java.lang.String TAG -> k
     java.lang.String[] TABLE_PROXIES_COLUMNS -> a
@@ -16408,8 +16415,8 @@ com.lechucksoftware.proxy.proxysettings.logging.CustomCrashlyticsTree -> com.lec
     96:97:void w(java.lang.String,java.lang.Object[]) -> e
     108:109:void e(java.lang.String,java.lang.Object[]) -> f
     114:116:void e(java.lang.Throwable,java.lang.String,java.lang.Object[]) -> a
-    120:131:void logMessage(int,java.lang.String,java.lang.String) -> a
-    135:168:void throwShade(int,java.lang.String,java.lang.Throwable) -> a
+    120:132:void logMessage(int,java.lang.String,java.lang.String) -> a
+    136:169:void throwShade(int,java.lang.String,java.lang.Throwable) -> a
 com.lechucksoftware.proxy.proxysettings.receivers.ProxyChangeReceiver -> com.lechucksoftware.proxy.proxysettings.receivers.ProxyChangeReceiver:
     java.lang.String TAG -> a
     29:85:void onReceive(android.content.Context,android.content.Intent) -> onReceive
@@ -16427,13 +16434,13 @@ com.lechucksoftware.proxy.proxysettings.services.MaintenanceService -> com.lechu
     java.lang.String TAG -> a
     boolean isHandling -> b
     com.lechucksoftware.proxy.proxysettings.services.MaintenanceService instance -> c
-    39:39:com.lechucksoftware.proxy.proxysettings.services.MaintenanceService getInstance() -> a
-    44:44:boolean isHandlingIntent() -> b
-    50:59:void onHandleIntent(android.content.Intent) -> onHandleIntent
-    63:93:void handleIntentLogic(android.content.Intent) -> a
-    101:102:void checkDBConsistence() -> c
-    106:138:void checkInUseProxyFlag() -> d
-    142:179:void checkProxiesCountryCodes() -> e
+    36:36:com.lechucksoftware.proxy.proxysettings.services.MaintenanceService getInstance() -> a
+    41:41:boolean isHandlingIntent() -> b
+    47:56:void onHandleIntent(android.content.Intent) -> onHandleIntent
+    60:90:void handleIntentLogic(android.content.Intent) -> a
+    98:99:void checkDBConsistence() -> c
+    103:115:void checkInUseProxyFlag() -> d
+    119:156:void checkProxiesCountryCodes() -> e
 com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService -> com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService:
     java.lang.String TAG -> a
     boolean isHandling -> b
@@ -16442,12 +16449,12 @@ com.lechucksoftware.proxy.proxysettings.services.ProxySettingsCheckerService -> 
     64:115:void handleIntentLogic(android.content.Intent) -> a
     122:122:void onDestroy() -> onDestroy
     126:195:void checkProxySettings() -> b
-    202:214:void callRefreshApplicationStatus() -> a
+    199:209:void callRefreshApplicationStatus() -> a
 com.lechucksoftware.proxy.proxysettings.services.SaveWifiNetworkService -> com.lechucksoftware.proxy.proxysettings.services.SaveWifiNetworkService:
     java.lang.String TAG -> a
     boolean isHandling -> b
     com.lechucksoftware.proxy.proxysettings.services.SaveWifiNetworkService instance -> c
-    47:76:void onHandleIntent(android.content.Intent) -> onHandleIntent
+    46:83:void onHandleIntent(android.content.Intent) -> onHandleIntent
 com.lechucksoftware.proxy.proxysettings.services.ViewServer -> com.lechucksoftware.proxy.proxysettings.services.a:
     java.net.ServerSocket mServer -> a
     int mPort -> b
@@ -16558,51 +16565,56 @@ com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP -> com.lec
     com.lechucksoftware.proxy.proxysettings.db.PacEntity updatedPac -> e
     be.shouldit.proxy.lib.reflection.android.ProxySetting proxySetting -> f
     int updatedWiFiAP -> g
-    71:74:void onProgressUpdate(java.lang.Integer[]) -> a
-    79:84:void onPostExecute(java.lang.Integer) -> a
-    89:120:java.lang.Integer doInBackground(java.lang.Void[]) -> a
-    125:155:void updateWifiNetworkPacProxy(be.shouldit.proxy.lib.WiFiApConfig) -> a
-    159:196:void updateWifiNetworkStaticProxy(be.shouldit.proxy.lib.WiFiApConfig) -> b
-    24:24:void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-    24:24:void onPostExecute(java.lang.Object) -> onPostExecute
-    24:24:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    java.util.List configsToSave -> h
+    73:76:void onProgressUpdate(java.lang.Integer[]) -> a
+    81:82:void onPostExecute(java.lang.Integer) -> a
+    87:128:java.lang.Integer doInBackground(java.lang.Void[]) -> a
+    133:140:void updateWifiNetworkPacProxy(be.shouldit.proxy.lib.WiFiApConfig) -> a
+    144:157:void updateWifiNetworkStaticProxy(be.shouldit.proxy.lib.WiFiApConfig) -> b
+    25:25:void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
+    25:25:void onPostExecute(java.lang.Object) -> onPostExecute
+    25:25:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity -> com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity:
     java.lang.String TAG -> n
     android.widget.LinearLayout testDBContainer -> o
     android.widget.ScrollView testLogScroll -> p
     android.widget.Button addWifiNetworksBtn -> q
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity developerOptionsActivity -> r
-    73:128:void onCreate(android.os.Bundle) -> onCreate
-    132:136:void APNTest(android.view.View) -> APNTest
-    140:141:void backupDB(android.view.View) -> backupDB
-    145:147:void addProxyClicked(android.view.View) -> addProxyClicked
-    151:153:void addWifiNetworks(android.view.View,int) -> a
-    157:159:void removeWifiNetworks(android.view.View) -> removeWifiNetworks
-    163:165:void startStartupActions(android.view.View) -> startStartupActions
-    169:171:void addExampleProxyClicked(android.view.View) -> addExampleProxyClicked
-    175:177:void toggleDemoModeClicked(android.view.View) -> toggleDemoModeClicked
-    181:183:void addTagsDBClicked(android.view.View) -> addTagsDBClicked
-    187:189:void setProxyForAllAp(android.view.View) -> setProxyForAllAp
-    193:195:void clearProxyForAllAp(android.view.View) -> clearProxyForAllAp
-    199:201:void testProxyValidations(android.view.View) -> testProxyValidations
-    205:206:void testBugReporting(android.view.View) -> testBugReporting
-    210:227:void listDBProxies(android.view.View) -> listDBProxies
-    231:240:void listDBWifiAp(android.view.View) -> listDBWifiAp
-    244:252:void listDBTags(android.view.View) -> listDBTags
-    256:266:void listPrefs(android.view.View) -> listPrefs
-    270:271:void clearOutput(android.view.View) -> clearOutput
-    275:277:void testSerializationClicked(android.view.View) -> testSerializationClicked
-    281:283:void clearPrefAndDB(android.view.View) -> clearPrefAndDB
-    42:42:com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity access$000(com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity) -> a
-    42:42:android.widget.ScrollView access$100(com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity) -> b
+    82:138:void onCreate(android.os.Bundle) -> onCreate
+    142:146:void APNTest(android.view.View) -> APNTest
+    150:180:void backupDB(android.view.View) -> backupDB
+    184:186:void addProxyClicked(android.view.View) -> addProxyClicked
+    190:192:void addWifiNetworks(android.view.View,int) -> a
+    196:198:void removeWifiNetworks(android.view.View) -> removeWifiNetworks
+    202:204:void startStartupActions(android.view.View) -> startStartupActions
+    208:210:void addExampleProxyClicked(android.view.View) -> addExampleProxyClicked
+    214:216:void toggleDemoModeClicked(android.view.View) -> toggleDemoModeClicked
+    220:222:void addTagsDBClicked(android.view.View) -> addTagsDBClicked
+    226:228:void setProxyForAllAp(android.view.View) -> setProxyForAllAp
+    232:234:void clearProxyForAllAp(android.view.View) -> clearProxyForAllAp
+    238:240:void testProxyValidations(android.view.View) -> testProxyValidations
+    244:245:void testBugReporting(android.view.View) -> testBugReporting
+    249:266:void listDBProxies(android.view.View) -> listDBProxies
+    270:279:void listDBWifiAp(android.view.View) -> listDBWifiAp
+    283:291:void listDBTags(android.view.View) -> listDBTags
+    295:305:void listPrefs(android.view.View) -> listPrefs
+    309:310:void clearOutput(android.view.View) -> clearOutput
+    314:316:void testSerializationClicked(android.view.View) -> testSerializationClicked
+    320:322:void clearPrefAndDB(android.view.View) -> clearPrefAndDB
+    51:51:com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity access$000(com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity) -> a
+    51:51:android.widget.ScrollView access$100(com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity) -> b
 com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$1 -> com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$1:
     java.util.Date touchEventStarted -> c
     android.content.Context context -> d
     java.lang.Boolean touching -> e
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$AsyncToast asyncToast -> a
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity this$0 -> b
-    92:121:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
+    102:131:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
 com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$2 -> com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$2:
+    java.lang.String val$filename -> a
+    com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity this$0 -> b
+    167:177:void onActionClicked(com.nispok.snackbar.Snackbar) -> a
+com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$3 -> com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$3:
     int[] $SwitchMap$com$lechucksoftware$proxy$proxysettings$test$DeveloperOptionsActivity$TestAction -> a
 com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$AsyncTest -> com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$a:
     java.lang.Object[] _params -> e
@@ -16610,27 +16622,27 @@ com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$AsyncTest 
     android.widget.TextView textViewTest -> b
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction _action -> c
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity this$0 -> d
-    302:303:void onPostExecute(java.lang.Void) -> a
-    308:312:void onPreExecute() -> onPreExecute
-    317:324:void onProgressUpdate(java.lang.String[]) -> a
-    329:425:java.lang.Void doInBackground(java.lang.Void[]) -> a
-    285:285:void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-    285:285:void onPostExecute(java.lang.Object) -> onPostExecute
-    285:285:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    341:342:void onPostExecute(java.lang.Void) -> a
+    347:351:void onPreExecute() -> onPreExecute
+    356:363:void onProgressUpdate(java.lang.String[]) -> a
+    368:464:java.lang.Void doInBackground(java.lang.Void[]) -> a
+    324:324:void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
+    324:324:void onPostExecute(java.lang.Object) -> onPostExecute
+    324:324:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$AsyncToast -> com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$b:
     android.app.Activity activity -> d
     java.util.Date start -> e
     android.widget.Toast toast -> a
     boolean run -> b
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity this$0 -> c
-    448:448:void onPostExecute(java.lang.Void) -> a
-    454:454:void onPreExecute() -> onPreExecute
-    458:459:void stop() -> a
-    464:472:void onProgressUpdate(java.lang.String[]) -> a
-    477:500:java.lang.Void doInBackground(java.lang.Void[]) -> a
-    430:430:void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-    430:430:void onPostExecute(java.lang.Object) -> onPostExecute
-    430:430:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    487:487:void onPostExecute(java.lang.Void) -> a
+    493:493:void onPreExecute() -> onPreExecute
+    497:498:void stop() -> a
+    503:511:void onProgressUpdate(java.lang.String[]) -> a
+    516:539:java.lang.Void doInBackground(java.lang.Void[]) -> a
+    469:469:void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
+    469:469:void onPostExecute(java.lang.Object) -> onPostExecute
+    469:469:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction -> com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$c:
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction ADD_PROXY -> a
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction ADD_TEST_WIFI_NETWORKS -> b
@@ -16649,8 +16661,8 @@ com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction RUN_STARTUP_ACTIONS -> o
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction ASSIGN_PROXY -> p
     com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction[] $VALUES -> q
-    50:50:com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction[] values() -> values
-    50:50:com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction valueOf(java.lang.String) -> valueOf
+    59:59:com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction[] values() -> values
+    59:59:com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity$TestAction valueOf(java.lang.String) -> valueOf
 com.lechucksoftware.proxy.proxysettings.test.TestUtils -> com.lechucksoftware.proxy.proxysettings.test.a:
     java.lang.String TAG -> a
     58:68:java.lang.String getRandomExclusionList() -> a
@@ -16665,30 +16677,30 @@ com.lechucksoftware.proxy.proxysettings.test.TestUtils -> com.lechucksoftware.pr
     239:244:void addTags() -> h
     326:330:void resetPreferences(android.content.Context) -> c
     335:340:void testValidation() -> i
-    344:371:void clearProxyForAllAP(android.content.Context) -> d
-    377:413:void setProxyForAllAP(android.content.Context) -> e
-    420:426:void testAPN(android.content.Context) -> f
-    430:460:void testSerialization() -> j
-    464:471:java.lang.String createFakeWifiNetwork(android.content.Context) -> g
-    476:499:android.net.wifi.WifiConfiguration prepareFakeWifiNetwork() -> k
-    504:543:int deleteFakeWifiNetworks(android.content.Context) -> h
-    612:619:void setupNOSECWifiConfig(android.net.wifi.WifiConfiguration,java.lang.String,java.lang.String) -> c
-    623:657:void setupWEPWifiConfig(android.net.wifi.WifiConfiguration,java.lang.String,java.lang.String) -> a
-    661:693:void setupWPAWifiConfig(android.net.wifi.WifiConfiguration,java.lang.String,java.lang.String) -> b
-    697:713:java.lang.String randomMACAddress() -> l
+    344:369:void clearProxyForAllAP(android.content.Context) -> d
+    375:409:void setProxyForAllAP(android.content.Context) -> e
+    416:422:void testAPN(android.content.Context) -> f
+    426:456:void testSerialization() -> j
+    460:467:java.lang.String createFakeWifiNetwork(android.content.Context) -> g
+    472:495:android.net.wifi.WifiConfiguration prepareFakeWifiNetwork() -> k
+    500:539:int deleteFakeWifiNetworks(android.content.Context) -> h
+    608:615:void setupNOSECWifiConfig(android.net.wifi.WifiConfiguration,java.lang.String,java.lang.String) -> c
+    619:653:void setupWEPWifiConfig(android.net.wifi.WifiConfiguration,java.lang.String,java.lang.String) -> a
+    657:689:void setupWPAWifiConfig(android.net.wifi.WifiConfiguration,java.lang.String,java.lang.String) -> b
+    693:709:java.lang.String randomMACAddress() -> l
 com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity instance -> o
+    com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity instance -> p
     29:49:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity instance -> o
+    com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity instance -> p
     26:46:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment mNavigationDrawerFragment -> o
-    java.lang.CharSequence mTitle -> p
-    com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions asyncStartupActionsTask -> q
+    com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment mNavigationDrawerFragment -> p
+    java.lang.CharSequence mTitle -> q
+    com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions asyncStartupActionsTask -> r
     40:51:void onCreate(android.os.Bundle) -> onCreate
     57:97:void onNavigationDrawerItemSelected(int) -> a
     101:123:void onSectionAttached(int) -> b
@@ -16698,17 +16710,17 @@ com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity$1 -> com.le
     int[] $SwitchMap$com$lechucksoftware$proxy$proxysettings$constants$NavigationAction -> a
 com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity instance -> o
-    java.lang.Long pacId -> p
+    com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity instance -> p
+    java.lang.Long pacId -> q
     31:71:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity instance -> o
-    java.lang.Long proxyId -> p
+    com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity instance -> p
+    java.lang.Long proxyId -> q
     31:71:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.ProxySelectorListActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.ProxySelectorListActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.ProxySelectorListActivity instance -> o
+    com.lechucksoftware.proxy.proxysettings.ui.activities.ProxySelectorListActivity instance -> p
     32:51:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity:
     16:21:void onCreate(android.os.Bundle) -> onCreate
@@ -16728,7 +16740,7 @@ com.lechucksoftware.proxy.proxysettings.ui.activities.WebViewWithProxyActivity$1
     62:73:void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
 com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity instance -> o
+    com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity instance -> p
     34:62:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.adapters.NavDrawerListAdapter -> com.lechucksoftware.proxy.proxysettings.ui.adapters.a:
     android.content.Context context -> a
@@ -16742,8 +16754,8 @@ com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter -> com.lechuc
     java.lang.String TAG -> a
     android.view.LayoutInflater vi -> b
     android.content.Context ctx -> c
-    45:91:void setData(java.util.List) -> a
-    96:123:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    41:85:void setData(java.util.List) -> a
+    90:117:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
 com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter$ApViewHolder -> com.lechucksoftware.proxy.proxysettings.ui.adapters.b$a:
     android.widget.TextView pacUrlFile -> a
     android.widget.TextView used -> b
@@ -16753,8 +16765,8 @@ com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesListAdapter -> com.le
     android.view.LayoutInflater vi -> b
     android.text.style.StyleSpan bss -> c
     android.content.Context ctx -> d
-    54:100:void setData(java.util.List) -> a
-    105:147:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    52:96:void setData(java.util.List) -> a
+    101:143:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
 com.lechucksoftware.proxy.proxysettings.ui.adapters.ProxiesListAdapter$ApViewHolder -> com.lechucksoftware.proxy.proxysettings.ui.adapters.c$a:
     android.widget.TextView host -> a
     android.widget.TextView port -> b
@@ -16766,8 +16778,8 @@ com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter -> com.lec
     android.view.LayoutInflater inflater -> c
     android.content.Context ctx -> d
     com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter$ApViewHolder viewHolder -> a
-    57:104:void setData(java.util.List) -> a
-    108:192:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    54:99:void setData(java.util.List) -> a
+    103:187:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
 com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter$1 -> com.lechucksoftware.proxy.proxysettings.ui.adapters.d$1:
     int[] $SwitchMap$be$shouldit$proxy$lib$reflection$android$ProxySetting -> a
 com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter$ApViewHolder -> com.lechucksoftware.proxy.proxysettings.ui.adapters.d$a:
@@ -16782,24 +16794,34 @@ com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter$ApViewHold
     android.widget.RelativeLayout wifiApLayout -> i
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity -> com.lechucksoftware.proxy.proxysettings.ui.base.a:
     boolean active -> n
-    android.content.BroadcastReceiver broadcastReceiver -> o
-    35:39:void onCreate(android.os.Bundle) -> onCreate
-    44:46:void onNewIntent(android.content.Intent) -> onNewIntent
-    51:56:void onDestroy() -> onDestroy
-    61:83:void onResume() -> onResume
-    88:102:void onPause() -> onPause
-    107:112:void onStart() -> onStart
-    117:122:void onStop() -> onStop
-    133:147:void refreshUI() -> m
-    151:208:void handleIntent(android.content.Intent) -> c
-    28:28:void access$000(com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity,android.content.Intent) -> a
+    com.nispok.snackbar.Snackbar snackbar -> o
+    com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$UIHandler uiHandler -> p
+    android.content.BroadcastReceiver broadcastReceiver -> q
+    45:49:void onCreate(android.os.Bundle) -> onCreate
+    54:56:void onNewIntent(android.content.Intent) -> onNewIntent
+    61:66:void onDestroy() -> onDestroy
+    71:95:void onResume() -> onResume
+    100:117:void onPause() -> onPause
+    122:127:void onStart() -> onStart
+    132:137:void onStop() -> onStop
+    242:273:void refreshUI() -> m
+    277:334:void handleIntent(android.content.Intent) -> c
+    36:36:void access$000(com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity,android.content.Intent) -> a
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$1 -> com.lechucksoftware.proxy.proxysettings.ui.base.a$1:
     java.lang.String val$closeActivty -> a
     com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity this$0 -> b
-    195:200:void onPositive(com.afollestad.materialdialogs.MaterialDialog) -> a
+    321:326:void onPositive(com.afollestad.materialdialogs.MaterialDialog) -> a
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$2 -> com.lechucksoftware.proxy.proxysettings.ui.base.a$2:
     com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity this$0 -> a
-    215:216:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    341:342:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$UIHandler -> com.lechucksoftware.proxy.proxysettings.ui.base.a$a:
+    java.lang.ref.WeakReference mActivity -> a
+    com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity this$0 -> b
+    159:171:void handleMessage(android.os.Message) -> handleMessage
+    175:196:void dismissSnackbarHandler() -> b
+    200:219:void startSnackbarHandler(int) -> b
+    223:228:void dismissSnackbar() -> a
+    232:237:void startSnackbar(int) -> a
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment -> com.lechucksoftware.proxy.proxysettings.ui.base.b:
     43:47:void onCreate(android.os.Bundle) -> a
     52:56:void onResume() -> r
@@ -16814,8 +16836,8 @@ com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment -> com.le
     56:58:void onPause() -> s
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity -> com.lechucksoftware.proxy.proxysettings.ui.base.e:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler mScanner -> o
-    android.content.BroadcastReceiver changeStatusReceiver -> p
+    com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler mScanner -> p
+    android.content.BroadcastReceiver changeStatusReceiver -> q
     26:29:com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler getWifiScanner() -> n
     35:56:void onResume() -> onResume
     61:74:void onPause() -> onPause
@@ -16876,38 +16898,38 @@ com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList -> com.
     float textSize -> l
     float titleSize -> m
     java.util.ArrayList mListeners -> n
-    82:121:com.lechucksoftware.proxy.proxysettings.ui.components.InputField createExclusionInputField() -> a
-    126:141:void readStyleParameters(android.content.Context,android.util.AttributeSet) -> a
-    145:168:void setExclusionString(java.lang.String) -> setExclusionString
-    172:181:java.lang.String getExclusionString() -> getExclusionString
-    186:211:void refreshUI() -> b
-    215:261:void refreshExclusionList() -> c
-    265:273:void addEmptyItem() -> d
-    368:374:void updateExclusionStringValue() -> e
-    378:384:void addValueChangedListener(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$ValueChangedListener) -> a
-    393:402:void sendOnValueChanged(java.lang.String) -> a
-    35:35:java.util.Map access$100(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> a
-    35:35:android.widget.LinearLayout access$200(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> b
-    35:35:com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$UIHandler access$300(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> c
-    35:35:void access$400(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> d
-    35:35:void access$500(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> e
-    35:35:void access$600(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> f
-    35:35:boolean access$700(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> g
-    35:35:void access$800(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> h
+    81:120:com.lechucksoftware.proxy.proxysettings.ui.components.InputField createExclusionInputField() -> a
+    125:140:void readStyleParameters(android.content.Context,android.util.AttributeSet) -> a
+    144:167:void setExclusionString(java.lang.String) -> setExclusionString
+    171:180:java.lang.String getExclusionString() -> getExclusionString
+    185:210:void refreshUI() -> b
+    214:260:void refreshExclusionList() -> c
+    264:272:void addEmptyItem() -> d
+    367:373:void updateExclusionStringValue() -> e
+    377:383:void addValueChangedListener(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$ValueChangedListener) -> a
+    392:401:void sendOnValueChanged(java.lang.String) -> a
+    34:34:java.util.Map access$100(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> a
+    34:34:android.widget.LinearLayout access$200(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> b
+    34:34:com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$UIHandler access$300(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> c
+    34:34:void access$400(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> d
+    34:34:void access$500(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> e
+    34:34:void access$600(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> f
+    34:34:boolean access$700(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> g
+    34:34:void access$800(com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList) -> h
 com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$1 -> com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$1:
     com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList this$0 -> a
-    107:111:void onClick(android.view.View) -> onClick
+    106:110:void onClick(android.view.View) -> onClick
 com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$BypassTextWatcher -> com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$a:
     com.lechucksoftware.proxy.proxysettings.ui.components.InputField inputField -> b
     com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList this$0 -> a
-    336:336:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    341:349:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    354:363:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    335:335:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    340:348:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    353:362:void afterTextChanged(android.text.Editable) -> afterTextChanged
 com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$UIHandler -> com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$b:
     com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList this$0 -> a
-    284:294:void handleMessage(android.os.Message) -> handleMessage
-    307:312:void callRefreshExclusionList() -> a
-    316:321:void callAddEmptyItem() -> b
+    283:293:void handleMessage(android.os.Message) -> handleMessage
+    306:311:void callRefreshExclusionList() -> a
+    315:320:void callAddEmptyItem() -> b
 com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$ValueChangedListener -> com.lechucksoftware.proxy.proxysettings.ui.components.InputExclusionList$c:
     void onExclusionListChanged(java.lang.String) -> a
 com.lechucksoftware.proxy.proxysettings.ui.components.InputField -> com.lechucksoftware.proxy.proxysettings.ui.components.InputField:
@@ -17001,14 +17023,10 @@ com.lechucksoftware.proxy.proxysettings.ui.components.WifiAp$$ViewInjector -> co
     8:8:void reset(java.lang.Object) -> reset
     8:8:void inject(butterknife.ButterKnife$Finder,java.lang.Object,java.lang.Object) -> inject
 com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal -> com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal:
-    android.view.ViewGroup layout -> a
-    android.widget.ImageView iconImageView -> b
-    java.lang.String text -> c
-    boolean showSecurityText -> d
-    be.shouldit.proxy.lib.WiFiApConfig configuration -> e
-    53:64:void readStyleParameters(android.content.Context,android.util.AttributeSet) -> a
-    68:78:void refreshUI() -> a
-    82:84:void setConfiguration(be.shouldit.proxy.lib.WiFiApConfig) -> setConfiguration
+    android.widget.ImageView iconImageView -> a
+    be.shouldit.proxy.lib.WiFiApConfig configuration -> b
+    41:51:void refreshUI() -> a
+    55:57:void setConfiguration(be.shouldit.proxy.lib.WiFiApConfig) -> setConfiguration
 com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog -> com.lechucksoftware.proxy.proxysettings.ui.dialogs.a:
     20:44:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     50:52:void onCancel(android.content.DialogInterface) -> onCancel
@@ -17218,33 +17236,33 @@ com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment -> com.le
     android.widget.RelativeLayout proxyDuplicatedBanner -> ar
     android.widget.ScrollView proxyScrollView -> as
     java.util.Map validationErrors -> at
-    67:73:com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment newInstance(java.lang.Long) -> a
-    78:79:com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment newInstance() -> N
-    85:90:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    96:116:void onResume() -> r
-    120:139:void getUIComponents(android.view.View) -> a
-    143:158:boolean validatePacUrlFile() -> Q
-    164:188:void checkValidation() -> R
-    192:205:void refreshUI() -> S
-    228:229:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
-    234:245:void onPrepareOptionsMenu(android.view.Menu) -> a
-    250:268:boolean onOptionsItemSelected(android.view.MenuItem) -> a
-    275:292:void saveProxy() -> T
-    298:313:void deleteProxy() -> U
-    317:324:void enableSave() -> O
-    328:335:void disableSave() -> P
-    340:349:void onActivityResult(int,int,android.content.Intent) -> a
-    42:42:void access$100(com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment) -> a
-    42:42:void access$200(com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment) -> b
+    68:74:com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment newInstance(java.lang.Long) -> a
+    79:80:com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment newInstance() -> N
+    86:91:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    97:117:void onResume() -> r
+    121:140:void getUIComponents(android.view.View) -> a
+    144:159:boolean validatePacUrlFile() -> Q
+    165:189:void checkValidation() -> R
+    193:206:void refreshUI() -> S
+    229:230:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
+    235:246:void onPrepareOptionsMenu(android.view.Menu) -> a
+    251:269:boolean onOptionsItemSelected(android.view.MenuItem) -> a
+    276:293:void saveProxy() -> T
+    299:314:void deleteProxy() -> U
+    318:325:void enableSave() -> O
+    329:336:void disableSave() -> P
+    341:353:void onActivityResult(int,int,android.content.Intent) -> a
+    43:43:void access$100(com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment) -> a
+    43:43:void access$200(com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment) -> b
 com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment$1 -> com.lechucksoftware.proxy.proxysettings.ui.fragments.b$1:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment this$0 -> a
-    128:128:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    131:131:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    136:137:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    129:129:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    132:132:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    137:138:void afterTextChanged(android.text.Editable) -> afterTextChanged
 com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment$UIHandler -> com.lechucksoftware.proxy.proxysettings.ui.fragments.b$a:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.PacDetailFragment this$0 -> a
-    212:217:void handleMessage(android.os.Message) -> handleMessage
-    221:222:void callRefreshUI() -> a
+    213:218:void handleMessage(android.os.Message) -> handleMessage
+    222:223:void callRefreshUI() -> a
 com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment -> com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment:
     java.lang.String TAG -> ak
     int mCurCheckPosition -> aj
@@ -17259,24 +17277,24 @@ com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment -> com.lech
     com.lechucksoftware.proxy.proxysettings.constants.FragmentMode fragmentMode -> an
     be.shouldit.proxy.lib.WiFiApConfig wiFiApConfig -> ao
     be.shouldit.proxy.lib.APLNetworkId aplNetworkId -> ap
-    78:78:com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment newInstance(int) -> b
-    83:92:com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment newInstance(int,com.lechucksoftware.proxy.proxysettings.constants.FragmentMode,be.shouldit.proxy.lib.APLNetworkId) -> a
-    98:119:void onCreate(android.os.Bundle) -> a
-    126:132:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    138:169:void onResume() -> r
-    173:177:void refreshUI() -> b_
-    186:192:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
-    198:204:void onLoadFinished(android.support.v4.content.Loader,java.util.List) -> a
-    208:230:void refreshLoaderResults(java.util.List) -> a
-    235:236:void onLoaderReset(android.support.v4.content.Loader) -> a
-    246:266:void showDetails(int) -> c
-    270:289:void selectPac(int) -> d
-    294:297:void onDestroyView() -> e
-    302:308:void onAttach(android.app.Activity) -> a
-    313:328:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
-    333:337:void createNewProxy() -> createNewProxy
-    50:50:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-    50:50:com.lechucksoftware.proxy.proxysettings.constants.FragmentMode access$000(com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment) -> a
+    77:77:com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment newInstance(int) -> b
+    82:91:com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment newInstance(int,com.lechucksoftware.proxy.proxysettings.constants.FragmentMode,be.shouldit.proxy.lib.APLNetworkId) -> a
+    97:118:void onCreate(android.os.Bundle) -> a
+    125:131:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    137:168:void onResume() -> r
+    172:176:void refreshUI() -> b_
+    185:186:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    192:193:void onLoadFinished(android.support.v4.content.Loader,java.util.List) -> a
+    197:219:void refreshLoaderResults(java.util.List) -> a
+    224:225:void onLoaderReset(android.support.v4.content.Loader) -> a
+    235:255:void showDetails(int) -> c
+    259:278:void selectPac(int) -> d
+    283:286:void onDestroyView() -> e
+    291:297:void onAttach(android.app.Activity) -> a
+    302:317:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
+    322:326:void createNewProxy() -> createNewProxy
+    49:49:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
+    49:49:com.lechucksoftware.proxy.proxysettings.constants.FragmentMode access$000(com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment) -> a
 com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment$$ViewInjector -> com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment$$ViewInjector:
     11:31:void inject(butterknife.ButterKnife$Finder,com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment,java.lang.Object) -> inject
     34:40:void reset(com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment) -> reset
@@ -17288,7 +17306,7 @@ com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment$$ViewInject
     22:23:void doClick(android.view.View) -> doClick
 com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment$1 -> com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment$1:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment this$0 -> a
-    154:162:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    153:161:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment -> com.lechucksoftware.proxy.proxysettings.ui.fragments.c:
     java.lang.String TAG -> aj
     boolean saveEnabled -> ak
@@ -17303,43 +17321,43 @@ com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment -> com.
     android.widget.RelativeLayout proxyDuplicatedBanner -> at
     android.widget.ScrollView proxyScrollView -> au
     java.util.Map validationErrors -> av
-    70:76:com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment newInstance(java.lang.Long) -> a
-    81:82:com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment newInstance() -> N
-    88:93:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    99:119:void onResume() -> r
-    123:189:void getUIComponents(android.view.View) -> a
-    193:206:boolean validateBypass() -> Q
-    212:227:boolean validateHost() -> R
-    233:257:boolean validatePort() -> S
-    263:291:void checkValidation() -> T
-    295:315:void refreshUI() -> U
-    338:339:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
-    344:355:void onPrepareOptionsMenu(android.view.Menu) -> a
-    360:378:boolean onOptionsItemSelected(android.view.MenuItem) -> a
-    385:402:void saveProxy() -> V
-    408:423:void deleteProxy() -> W
-    427:434:void enableSave() -> O
-    438:445:void disableSave() -> P
-    450:459:void onActivityResult(int,int,android.content.Intent) -> a
-    42:42:void access$100(com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment) -> a
-    42:42:void access$200(com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment) -> b
+    71:77:com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment newInstance(java.lang.Long) -> a
+    82:83:com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment newInstance() -> N
+    89:94:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    100:120:void onResume() -> r
+    124:190:void getUIComponents(android.view.View) -> a
+    194:207:boolean validateBypass() -> Q
+    213:228:boolean validateHost() -> R
+    234:258:boolean validatePort() -> S
+    264:292:void checkValidation() -> T
+    296:316:void refreshUI() -> U
+    339:340:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
+    345:356:void onPrepareOptionsMenu(android.view.Menu) -> a
+    361:379:boolean onOptionsItemSelected(android.view.MenuItem) -> a
+    386:403:void saveProxy() -> V
+    409:424:void deleteProxy() -> W
+    428:435:void enableSave() -> O
+    439:446:void disableSave() -> P
+    451:463:void onActivityResult(int,int,android.content.Intent) -> a
+    43:43:void access$100(com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment) -> a
+    43:43:void access$200(com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment) -> b
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment$1 -> com.lechucksoftware.proxy.proxysettings.ui.fragments.c$1:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment this$0 -> a
-    131:131:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    134:134:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    139:140:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    132:132:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    135:135:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    140:141:void afterTextChanged(android.text.Editable) -> afterTextChanged
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment$2 -> com.lechucksoftware.proxy.proxysettings.ui.fragments.c$2:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment this$0 -> a
-    150:150:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    156:156:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    161:162:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    151:151:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    157:157:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    162:163:void afterTextChanged(android.text.Editable) -> afterTextChanged
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment$3 -> com.lechucksoftware.proxy.proxysettings.ui.fragments.c$3:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment this$0 -> a
-    175:176:void onExclusionListChanged(java.lang.String) -> a
+    176:177:void onExclusionListChanged(java.lang.String) -> a
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment$UIHandler -> com.lechucksoftware.proxy.proxysettings.ui.fragments.c$a:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyDetailFragment this$0 -> a
-    322:327:void handleMessage(android.os.Message) -> handleMessage
-    331:332:void callRefreshUI() -> a
+    323:328:void handleMessage(android.os.Message) -> handleMessage
+    332:333:void callRefreshUI() -> a
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment -> com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment:
     java.lang.String TAG -> ak
     int mCurCheckPosition -> aj
@@ -17354,24 +17372,24 @@ com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment -> com.le
     com.lechucksoftware.proxy.proxysettings.constants.FragmentMode fragmentMode -> an
     be.shouldit.proxy.lib.WiFiApConfig wiFiApConfig -> ao
     be.shouldit.proxy.lib.APLNetworkId aplNetworkId -> ap
-    78:78:com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment newInstance(int) -> b
-    83:92:com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment newInstance(int,com.lechucksoftware.proxy.proxysettings.constants.FragmentMode,be.shouldit.proxy.lib.APLNetworkId) -> a
-    98:119:void onCreate(android.os.Bundle) -> a
-    126:142:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    148:182:void onResume() -> r
-    186:190:void refreshUI() -> b_
-    199:205:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
-    211:217:void onLoadFinished(android.support.v4.content.Loader,java.util.List) -> a
-    221:243:void refreshLoaderResults(java.util.List) -> a
-    248:249:void onLoaderReset(android.support.v4.content.Loader) -> a
-    259:279:void showDetails(int) -> c
-    283:303:void selectProxy(int) -> d
-    308:311:void onDestroyView() -> e
-    316:322:void onAttach(android.app.Activity) -> a
-    327:342:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
-    347:351:void createNewProxy() -> createNewProxy
-    50:50:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-    50:50:com.lechucksoftware.proxy.proxysettings.constants.FragmentMode access$000(com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment) -> a
+    77:77:com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment newInstance(int) -> b
+    82:91:com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment newInstance(int,com.lechucksoftware.proxy.proxysettings.constants.FragmentMode,be.shouldit.proxy.lib.APLNetworkId) -> a
+    97:118:void onCreate(android.os.Bundle) -> a
+    125:141:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    147:181:void onResume() -> r
+    185:189:void refreshUI() -> b_
+    198:199:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    205:206:void onLoadFinished(android.support.v4.content.Loader,java.util.List) -> a
+    210:232:void refreshLoaderResults(java.util.List) -> a
+    237:238:void onLoaderReset(android.support.v4.content.Loader) -> a
+    248:268:void showDetails(int) -> c
+    272:292:void selectProxy(int) -> d
+    297:300:void onDestroyView() -> e
+    305:311:void onAttach(android.app.Activity) -> a
+    316:331:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
+    336:340:void createNewProxy() -> createNewProxy
+    49:49:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
+    49:49:com.lechucksoftware.proxy.proxysettings.constants.FragmentMode access$000(com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment) -> a
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment$$ViewInjector -> com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment$$ViewInjector:
     11:31:void inject(butterknife.ButterKnife$Finder,com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment,java.lang.Object) -> inject
     34:40:void reset(com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment) -> reset
@@ -17383,7 +17401,7 @@ com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment$$ViewInje
     22:23:void doClick(android.view.View) -> doClick
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment$1 -> com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment$1:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment this$0 -> a
-    164:173:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    163:172:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxySelectorFragment -> com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxySelectorFragment:
     be.shouldit.proxy.lib.APLNetworkId wifiAplNetworkId -> a
     be.shouldit.proxy.lib.WiFiApConfig selectedConfig -> b
@@ -17463,14 +17481,14 @@ com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment -> com.l
     95:99:void onDestroyView() -> e
     115:142:void onResume() -> r
     146:151:void refreshUI() -> b_
-    155:201:void refreshLoaderResults(java.util.List) -> a
-    205:231:void showEnableWifiSnackbar() -> N
-    236:242:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
-    248:254:void onLoadFinished(android.support.v4.content.Loader,java.util.List) -> a
-    259:260:void onLoaderReset(android.support.v4.content.Loader) -> a
-    269:298:void showDetails(int) -> showDetails
-    303:305:void onAttach(android.app.Activity) -> a
-    310:323:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
+    155:191:void refreshLoaderResults(java.util.List) -> a
+    195:221:void showEnableWifiSnackbar() -> N
+    226:227:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    233:234:void onLoadFinished(android.support.v4.content.Loader,java.util.List) -> a
+    239:240:void onLoaderReset(android.support.v4.content.Loader) -> a
+    249:278:void showDetails(int) -> showDetails
+    283:285:void onAttach(android.app.Activity) -> a
+    290:303:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     50:50:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
 com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment$$ViewInjector -> com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment$$ViewInjector:
     11:30:void inject(butterknife.ButterKnife$Finder,com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment,java.lang.Object) -> inject
@@ -17483,7 +17501,7 @@ com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment$$ViewInj
     27:28:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment$1 -> com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment$1:
     com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment this$0 -> a
-    221:227:void onActionClicked(com.nispok.snackbar.Snackbar) -> a
+    211:217:void onActionClicked(com.nispok.snackbar.Snackbar) -> a
 com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics -> com.lechucksoftware.proxy.proxysettings.utils.a:
     java.lang.String TAG -> c
     long LaunchCount -> a
@@ -17492,10 +17510,9 @@ com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics -> com.lechu
     50:63:com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics getInstallationDetails(android.content.Context) -> b
     69:71:java.lang.String toString() -> toString
 com.lechucksoftware.proxy.proxysettings.utils.DBUtils -> com.lechucksoftware.proxy.proxysettings.utils.b:
-    32:39:void execSQL(android.database.sqlite.SQLiteDatabase,java.lang.String) -> a
+    33:39:void execSQL(android.database.sqlite.SQLiteDatabase,java.lang.String) -> a
     43:55:android.database.Cursor rawQuery(android.database.sqlite.SQLiteDatabase,java.lang.String,java.lang.String[]) -> a
-    60:97:void backupDB(android.content.Context) -> backupDB
-    101:109:java.lang.String dumpCursorColumns(android.database.Cursor) -> a
+    60:97:java.lang.String backupDB(android.content.Context) -> backupDB
 com.lechucksoftware.proxy.proxysettings.utils.EventsReporting -> com.lechucksoftware.proxy.proxysettings.utils.c:
     boolean analyticsSetupDone -> a
     boolean crashLyticsSetupDone -> b
@@ -17527,46 +17544,46 @@ com.lechucksoftware.proxy.proxysettings.utils.UIUtils -> com.lechucksoftware.pro
     java.lang.String TAG -> a
     int PROXY_NOTIFICATION_ID -> b
     int URL_DOWNLOADER_COMPLETED_ID -> c
-    54:60:void showError(android.content.Context,int) -> a
-    66:72:void showError(android.content.Context,java.lang.String) -> a
-    94:116:void showDialog(android.content.Context,java.lang.String,java.lang.String,com.afollestad.materialdialogs.MaterialDialog$ButtonCallback) -> a
-    127:130:float convertDpToPixel(float,android.content.Context) -> a
-    150:155:java.lang.String CleanExclusion(java.lang.String) -> a
-    166:172:int booleanToVisibility(boolean) -> a
-    180:203:int getTagsColor(android.content.Context,int) -> b
-    278:297:com.afollestad.materialdialogs.MaterialDialog getBetaTestDialog(android.content.Context) -> a
-    302:304:void openBetaTestProject(android.content.Context) -> b
-    328:352:void UpdateStatusBarNotification(be.shouldit.proxy.lib.WiFiApConfig,android.content.Context) -> a
-    454:469:void DisableProxyNotification(android.content.Context) -> c
-    473:474:com.lechucksoftware.proxy.proxysettings.constants.CodeNames getRandomCodeName() -> a
+    55:61:void showError(android.content.Context,int) -> a
+    67:73:void showError(android.content.Context,java.lang.String) -> a
+    95:117:void showDialog(android.content.Context,java.lang.String,java.lang.String,com.afollestad.materialdialogs.MaterialDialog$ButtonCallback) -> a
+    128:131:float convertDpToPixel(float,android.content.Context) -> a
+    151:156:java.lang.String CleanExclusion(java.lang.String) -> a
+    167:173:int booleanToVisibility(boolean) -> a
+    181:204:int getTagsColor(android.content.Context,int) -> b
+    279:298:com.afollestad.materialdialogs.MaterialDialog getBetaTestDialog(android.content.Context) -> a
+    303:305:void openBetaTestProject(android.content.Context) -> b
+    329:353:void UpdateStatusBarNotification(be.shouldit.proxy.lib.WiFiApConfig,android.content.Context) -> a
+    455:470:void DisableProxyNotification(android.content.Context) -> c
+    474:475:com.lechucksoftware.proxy.proxysettings.constants.CodeNames getRandomCodeName() -> a
 com.lechucksoftware.proxy.proxysettings.utils.UIUtils$1 -> com.lechucksoftware.proxy.proxysettings.utils.g$1:
     android.content.Context val$ctx -> a
-    287:288:void onPositive(com.afollestad.materialdialogs.MaterialDialog) -> a
-    293:294:void onNegative(com.afollestad.materialdialogs.MaterialDialog) -> b
+    288:289:void onPositive(com.afollestad.materialdialogs.MaterialDialog) -> a
+    294:295:void onNegative(com.afollestad.materialdialogs.MaterialDialog) -> b
 com.lechucksoftware.proxy.proxysettings.utils.Utils -> com.lechucksoftware.proxy.proxysettings.utils.h:
     java.lang.String TAG -> a
     java.lang.String BASE_ASSETS -> b
     63:95:java.lang.String getProxyCountryCode(com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> a
-    100:167:java.lang.String getProxyCountryCode(java.lang.String,com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> a
-    172:184:java.lang.String getAppVersionName(android.content.Context) -> a
-    189:199:android.content.pm.PackageInfo getAppInfo(android.content.Context) -> b
-    204:222:void startMarketActivity(android.content.Context) -> c
-    226:233:android.net.Uri getMarketUri(com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket) -> a
-    239:269:com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket getInstallerMarket(android.content.Context) -> d
-    311:320:void checkDemoMode(android.content.Context) -> e
-    324:329:void setDemoMode(android.content.Context,boolean) -> a
-    333:343:boolean ElapsedNDays(java.util.Date,int) -> a
-    349:368:android.content.Intent createEmailOnlyChooserIntent(android.content.Context,android.content.Intent,java.lang.CharSequence) -> a
-    375:396:void sendFeedbackMail(android.content.Context) -> f
-    435:442:boolean isAirplaneModeOn(android.content.Context) -> g
+    100:166:java.lang.String getProxyCountryCode(java.lang.String,com.lechucksoftware.proxy.proxysettings.db.ProxyEntity) -> a
+    171:183:java.lang.String getAppVersionName(android.content.Context) -> a
+    188:198:android.content.pm.PackageInfo getAppInfo(android.content.Context) -> b
+    203:221:void startMarketActivity(android.content.Context) -> c
+    225:232:android.net.Uri getMarketUri(com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket) -> a
+    238:268:com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket getInstallerMarket(android.content.Context) -> d
+    310:319:void checkDemoMode(android.content.Context) -> e
+    323:328:void setDemoMode(android.content.Context,boolean) -> a
+    332:342:boolean ElapsedNDays(java.util.Date,int) -> a
+    348:367:android.content.Intent createEmailOnlyChooserIntent(android.content.Context,android.content.Intent,java.lang.CharSequence) -> a
+    374:395:void sendFeedbackMail(android.content.Context) -> f
+    434:441:boolean isAirplaneModeOn(android.content.Context) -> g
 com.lechucksoftware.proxy.proxysettings.utils.Utils$2 -> com.lechucksoftware.proxy.proxysettings.utils.h$1:
     int[] $SwitchMap$com$lechucksoftware$proxy$proxysettings$constants$AndroidMarket -> a
 com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler -> com.lechucksoftware.proxy.proxysettings.utils.i:
     java.lang.String TAG -> a
     int mRetry -> b
-    22:27:void resume() -> a
-    38:41:void pause() -> b
-    46:66:void handleMessage(android.os.Message) -> handleMessage
+    21:26:void resume() -> a
+    38:40:void pause() -> b
+    45:65:void handleMessage(android.os.Message) -> handleMessage
 com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction -> com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction:
     java.lang.String keyPrefix -> e
     java.lang.String preferenceKey -> a
