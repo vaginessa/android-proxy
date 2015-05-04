@@ -62,7 +62,7 @@ public class ProxyEntity extends BaseEntity implements Parcelable, Comparable<Pr
         tags = new ArrayList<TagEntity>();
         exclusion = "";
         countryCode = null;
-        usedByCount = 0;
+        usedByCount = -1;
     }
 
     public ProxyEntity(ProxyEntity proxy)

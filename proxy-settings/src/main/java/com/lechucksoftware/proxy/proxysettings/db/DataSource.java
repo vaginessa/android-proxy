@@ -764,7 +764,7 @@ public class DataSource
 
         updateInUseFlag();
 
-        App.getTraceUtils().stopTrace(TAG, "createWifiAp", String.format("Created Wi-Fi AP Id: '%d'", insertId) , Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG, "createWifiAp", String.format("Created Wi-Fi AP Id: '%d'", insertId), Log.DEBUG);
         return newWifiAp;
     }
 
@@ -872,7 +872,11 @@ public class DataSource
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_PORT, newData.getPort());
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_EXCLUSION, newData.getExclusion());
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_COUNTRY_CODE, newData.getCountryCode());
-        values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, newData.getUsedByCount());
+
+        if (newData.getUsedByCount() != -1)
+        {
+            values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, newData.getUsedByCount());
+        }
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
@@ -903,6 +907,11 @@ public class DataSource
         ContentValues values = new ContentValues();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_URL_FILE, newData.getPacUriFile().toString());
         values.put(DatabaseSQLiteOpenHelper.COLUMN_PAC_IN_USE, newData.getUsedByCount());
+
+        if (newData.getUsedByCount() != -1)
+        {
+            values.put(DatabaseSQLiteOpenHelper.COLUMN_PROXY_IN_USE, newData.getUsedByCount());
+        }
 
         long currentDate = System.currentTimeMillis();
         values.put(DatabaseSQLiteOpenHelper.COLUMN_MODIFIED_DATE, currentDate);
