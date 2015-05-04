@@ -121,6 +121,7 @@ public class CustomCrashlyticsTree implements Timber.TaggedTree
         {
             if (BuildConfig.DEBUG)
             {
+                message = message.replaceAll(System.getProperty("line.separator"),". ");
                 Crashlytics.log(priority, tag, message);
             }
             else

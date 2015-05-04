@@ -604,4 +604,21 @@ public class APL
         return result;
     }
 
+
+    /**
+     * Force a crash into APL in order to test CrashReporting for library
+     * */
+    public static void crash()
+    {
+        Map<String,String> map = new HashMap<String, String>();
+
+        Timber.v("Test bug reporting log 0");
+        Timber.i("Test bug reporting log 1");
+        Timber.w("Test bug reporting log 2");
+        Timber.d("Test bug reporting log 3");
+        Timber.e(new Exception(),"EXCEPTION ONLY FOR TEST");
+
+        // Force a CRASH
+        throw new RuntimeException("APL forced to crash!");
+    }
 }

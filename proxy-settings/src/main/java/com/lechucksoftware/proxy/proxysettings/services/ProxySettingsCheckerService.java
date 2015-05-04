@@ -196,12 +196,7 @@ public class ProxySettingsCheckerService extends IntentService
 
     public void callRefreshApplicationStatus()
     {
-        /**
-         * Call the update of the UI
-         * */
-        Timber.d("Sending broadcast intent " + Intents.PROXY_REFRESH_UI);
-        Intent intent = new Intent(Intents.PROXY_REFRESH_UI);
-        getApplicationContext().sendBroadcast(intent);
+        Intents.callIntent(getApplicationContext(),Intents.PROXY_REFRESH_UI);
 
         WiFiApConfig wiFiApConfig = App.getWifiNetworksManager().getCachedConfiguration();
         if (wiFiApConfig == null)

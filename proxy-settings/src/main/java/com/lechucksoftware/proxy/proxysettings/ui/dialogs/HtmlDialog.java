@@ -2,7 +2,6 @@ package com.lechucksoftware.proxy.proxysettings.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,8 +16,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-
-import timber.log.Timber;
 
 public class HtmlDialog extends BaseDialogFragment
 {
@@ -123,7 +120,7 @@ public class HtmlDialog extends BaseDialogFragment
         {
             Bundle b = message.getData();
 
-            Timber.w(TAG, "handleMessage: " + b.toString());
+//            Timber.w(TAG, "handleMessage: " + b.toString());
 
             if (b.containsKey(SHOW_DIALOG_ACTION))
             {
