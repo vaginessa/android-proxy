@@ -14142,7 +14142,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Agda -> B
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgelessEntity -> C
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgentoftheFates -> D
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgrajagÆ’ -> E
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Agrajagƒ -> E
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgrusKosWojekVeteran -> F
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AhsokaTano -> G
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Aikhibba -> H
@@ -15128,7 +15128,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Lightspeed -> sz
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LightwielderPaladin -> sA
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LilianasReaver -> sB
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames LimDÃ»ltheNecromancer -> sC
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames LimDûltheNecromancer -> sC
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LiNalas -> sD
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LinessaZephyrMage -> sE
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LinvalaKeeperofSilence -> sF
@@ -16110,7 +16110,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames ZoZuthePunisher -> Lt
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Zuckuss -> Lu
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames ZurtheEnchanter -> Lv
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Ã†therling -> Lw
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Ætherling -> Lw
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames[] $VALUES -> Lx
     6:6:com.lechucksoftware.proxy.proxysettings.constants.CodeNames[] values() -> values
     6:6:com.lechucksoftware.proxy.proxysettings.constants.CodeNames valueOf(java.lang.String) -> valueOf
