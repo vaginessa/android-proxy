@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
 
@@ -26,10 +26,10 @@ import timber.log.Timber;
 public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 {
     private static final String TAG = AsyncStartupActions.class.getSimpleName();
-    private final ActionBarActivity activity;
+    private final AppCompatActivity activity;
     private ApplicationStatistics statistics;
 
-    public AsyncStartupActions(ActionBarActivity a)
+    public AsyncStartupActions(AppCompatActivity a)
     {
         activity = a;
     }

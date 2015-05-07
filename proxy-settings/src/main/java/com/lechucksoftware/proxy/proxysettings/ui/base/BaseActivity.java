@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -33,7 +33,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 07/11/13.
  */
-public class BaseActivity extends ActionBarActivity
+public class BaseActivity extends AppCompatActivity
 {
     private static boolean active = false;
     Snackbar snackbar = null;

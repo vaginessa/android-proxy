@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -23,7 +23,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class IabActivity extends ActionBarActivity
+public class IabActivity extends AppCompatActivity
 {
     private IabHelper iabHelper;
     private Inventory iabInventory;

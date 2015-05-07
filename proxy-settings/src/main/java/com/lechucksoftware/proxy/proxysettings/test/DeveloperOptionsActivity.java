@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +48,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 10/10/13.
  */
-public class DeveloperOptionsActivity extends ActionBarActivity
+public class DeveloperOptionsActivity extends AppCompatActivity
 {
     public static final String TAG = DeveloperOptionsActivity.class.getSimpleName();
     public LinearLayout testDBContainer;
