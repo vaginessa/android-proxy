@@ -469,6 +469,8 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
 
         try
         {
+//            APL.getTraceUtils().startTrace(TAG,"getProxyStatusString", Log.DEBUG);
+
             if (setting == null)
             {
                 result = APL.getContext().getString(R.string.not_available);
@@ -506,6 +508,8 @@ public class WiFiApConfig implements Comparable<WiFiApConfig>, Parcelable
             {
                 result = APL.getContext().getString(R.string.not_valid_proxy_setting);
             }
+
+//            APL.getTraceUtils().stopTrace(TAG, "getProxyStatusString", result, Log.DEBUG);
         }
         catch (Exception e)
         {

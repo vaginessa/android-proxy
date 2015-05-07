@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.List;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
-import be.shouldit.proxy.lib.utils.ProxyUIUtils;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
-import timber.log.Timber;
 
 public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
 {
@@ -54,7 +49,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
 
     public void setData(List<WiFiApConfig> confList)
     {
-        App.getTraceUtils().startTrace(TAG, "setData", Log.DEBUG);
+//        App.getTraceUtils().startTrace(TAG, "setData", Log.DEBUG);
 
         Boolean needsListReplace = false;
 
@@ -68,7 +63,7 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
                 if (conf.getSSID().compareTo(confList.get(i).getSSID()) != 0)
                 {
                     // Changed the SSIDs order
-                    Timber.d("setData order: Expecting %s, Found %s", confList.get(i).getSSID(), conf.getSSID());
+//                    Timber.d("setData order: Expecting %s, Found %s", confList.get(i).getSSID(), conf.getSSID());
                     needsListReplace = true;
                     break;
                 }
@@ -79,28 +74,28 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
             needsListReplace = true;
         }
 
-        App.getTraceUtils().partialTrace(TAG,"setData","Checked if adapter list needs replace",Log.DEBUG);
+//        App.getTraceUtils().partialTrace(TAG,"setData","Checked if adapter list needs replace",Log.DEBUG);
 
         if (needsListReplace)
         {
             setNotifyOnChange(false);
             clear();
             addAll(confList);
-            App.getTraceUtils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
 
             // note that a call to notifyDataSetChanged() implicitly sets the setNotifyOnChange back to 'true'!
             // That's why the call 'setNotifyOnChange(false) should be called first every time (see call before 'clear()').
             notifyDataSetChanged();
-            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
         else
         {
             // Just notifyDataSetChanged
             notifyDataSetChanged();
-            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
 
-        App.getTraceUtils().stopTrace(TAG, "setData", Log.DEBUG);
+//        App.getTraceUtils().stopTrace(TAG, "setData", Log.DEBUG);
     }
 
     public View getView(int position, View view, ViewGroup parent)

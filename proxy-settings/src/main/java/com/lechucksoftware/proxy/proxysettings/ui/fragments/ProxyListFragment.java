@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -196,24 +195,14 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     @Override
     public Loader<List<ProxyEntity>> onCreateLoader(int i, Bundle bundle)
     {
-        App.getTraceUtils().startTrace(TAG, "onCreateLoader", Log.DEBUG);
-
         ProxyDBTaskLoader proxyDBTaskLoader = new ProxyDBTaskLoader(getActivity());
-
-        App.getTraceUtils().stopTrace(TAG, "onCreateLoader", Log.DEBUG);
-
         return proxyDBTaskLoader;
     }
 
     @Override
     public void onLoadFinished(Loader<List<ProxyEntity>> listLoader, List<ProxyEntity> dbProxies)
     {
-        App.getTraceUtils().startTrace(TAG, "onLoadFinished", Log.DEBUG);
-
         refreshLoaderResults(dbProxies);
-
-        App.getTraceUtils().stopTrace(TAG, "onLoadFinished", Log.DEBUG);
-        App.getTraceUtils().stopTrace(TAG, "STARTUP", Log.INFO);
     }
 
     private void refreshLoaderResults(List<ProxyEntity> dbProxies)

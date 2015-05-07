@@ -1,8 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 public class PacListAdapter extends ArrayAdapter<PacEntity>
 {
@@ -42,7 +36,7 @@ public class PacListAdapter extends ArrayAdapter<PacEntity>
 
     public void setData(List<PacEntity> confList)
     {
-        App.getTraceUtils().startTrace(TAG, "setData", Log.INFO);
+//        App.getTraceUtils().startTrace(TAG, "setData", Log.INFO);
 
         Boolean needsListReplace = false;
 
@@ -57,7 +51,7 @@ public class PacListAdapter extends ArrayAdapter<PacEntity>
                 if (!adapterPacItem.equals(newPacItem))
                 {
                     // Changed the Proxies order
-                    Timber.d("setData order: Expecting %s, Found %s", newPacItem, adapterPacItem);
+//                    Timber.d("setData order: Expecting %s, Found %s", newPacItem, adapterPacItem);
                     needsListReplace = true;
                     break;
                 }
@@ -73,21 +67,21 @@ public class PacListAdapter extends ArrayAdapter<PacEntity>
             setNotifyOnChange(false);
             clear();
             addAll(confList);
-            App.getTraceUtils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
 
             // note that a call to notifyDataSetChanged() implicitly sets the setNotifyOnChange back to 'true'!
             // That's why the call 'setNotifyOnChange(false) should be called first every time (see call before 'clear()').
             notifyDataSetChanged();
-            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
         else
         {
             // Just notifyDataSetChanged
             notifyDataSetChanged();
-            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
 
-        App.getTraceUtils().stopTrace(TAG, "setData", Log.INFO);
+//        App.getTraceUtils().stopTrace(TAG, "setData", Log.INFO);
     }
 
     public View getView(int position, View convertView, ViewGroup parent)

@@ -9,7 +9,7 @@
                 tools:context="com.lechucksoftware.proxy.proxysettings.ui.activities.IabActivity$PlaceholderFragment">
 
     <TextView
-        android:text="@string/hello_world"
+        android:text="AAAAAAAAAAA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

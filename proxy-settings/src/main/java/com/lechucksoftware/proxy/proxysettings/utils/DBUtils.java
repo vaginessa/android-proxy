@@ -29,7 +29,7 @@ public class DBUtils
     {
         try
         {
-            Timber.d("EXEC SQL: " + sql);
+//            Timber.d("EXEC SQL: " + sql);
             db.execSQL(sql);
         }
         catch (Exception e)
@@ -44,7 +44,7 @@ public class DBUtils
 
         try
         {
-            Timber.d("RAW QUERY SQL: '%s', PARAMS '%s'", sql, args != null ? TextUtils.join("', '",args) : "NULL");
+//            Timber.d("RAW QUERY SQL: '%s', PARAMS '%s'", sql, args != null ? TextUtils.join("', '",args) : "NULL");
             cursor = database.rawQuery(sql, args);
         }
         catch (Exception e)
@@ -55,7 +55,7 @@ public class DBUtils
         return cursor;
     }
 
-    public static void backupDB(Context ctx)
+    public static String backupDB(Context ctx)
     {
         PackageInfo applicationInfo = Utils.getAppInfo(ctx);
 
@@ -86,7 +86,6 @@ public class DBUtils
             String msg = "Proxy Settings DB saved on: " + outFileName;
 
             Timber.w(msg);
-            Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e)
         {
@@ -94,6 +93,8 @@ public class DBUtils
             Timber.e(e, msg);
             Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
         }
+
+        return inFileName;
     }
 
     public static String dumpCursorColumns(Cursor cursor)
