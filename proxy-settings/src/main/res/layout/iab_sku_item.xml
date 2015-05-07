@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v7.widget.CardView
+<RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<RelativeLayout
+    android:id="@+id/iab_sku_disabled"
+    android:visibility="gone"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/iab_sku_cardview"
+    android:layout_alignBottom="@+id/iab_sku_cardview"
+    android:background="@color/black_transparent"
+    />
+
+<android.support.v7.widget.CardView
+    android:id="@+id/iab_sku_cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/blue_grey_800"
-    tools:showIn="@layout/in_app_billing_fragment">
+    android:layout_margin="5dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -20,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="adadsfasdfas"
 
-            android:textSize="@dimen/abc_text_size_display_1_material"/>
+            android:textSize="@dimen/abc_text_size_title_material"/>
 
         <TextView
             android:id="@+id/iab_sku_description"
@@ -33,3 +47,4 @@
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
+</RelativeLayout>

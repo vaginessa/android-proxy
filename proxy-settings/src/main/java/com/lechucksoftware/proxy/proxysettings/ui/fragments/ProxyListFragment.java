@@ -242,7 +242,6 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
      * displaying a fragment in-place in the current UI, or starting a
      * whole new activity in which it is displayed.
      */
-
     void showDetails(int index)
     {
         mCurCheckPosition = index;

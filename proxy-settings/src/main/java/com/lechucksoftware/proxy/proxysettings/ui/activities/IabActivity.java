@@ -36,8 +36,6 @@ public class IabActivity extends ActionBarActivity
 
         setContentView(R.layout.activity_in_app_billing);
 
-        initIAB();
-
         if (savedInstanceState == null)
         {
             iabFragment = IabFragment.newInstance();
@@ -47,12 +45,27 @@ public class IabActivity extends ActionBarActivity
         }
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        initIAB();
+    }
+
     private void initIAB()
     {
-        iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
+        try
+        {
+            iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
 
-        iabHelper.enableDebugLogging(true);
-        iabHelper.startSetup(new CustomOnIabSetupFinishedListener());
+            iabHelper.enableDebugLogging(true);
+            iabHelper.startSetup(new CustomOnIabSetupFinishedListener());
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Cannot initIAB");
+        }
     }
 
     private boolean checkIabHelper()
@@ -140,16 +153,21 @@ public class IabActivity extends ActionBarActivity
     {
         List<String> skus = new ArrayList<>();
         skus.add(Constants.IAB_ITEM_SKU_BASE);
-        skus.add(Constants.IAB_ITEM_SKU_PRO);
-        skus.add(Constants.IAB_ITEM_SKU_TEST_PURCHASED);
-        skus.add(Constants.IAB_ITEM_SKU_TEST_CANCELED);
-        skus.add(Constants.IAB_ITEM_SKU_TEST_REFUNDED);
-        skus.add(Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE);
+//        skus.add(Constants.IAB_ITEM_SKU_PRO);
+//        skus.add(Constants.IAB_ITEM_SKU_NINJA);
+
+//        if (BuildConfig.DEBUG)
+//        {
+//            skus.add(Constants.IAB_ITEM_SKU_TEST_PURCHASED);
+//            skus.add(Constants.IAB_ITEM_SKU_TEST_CANCELED);
+//            skus.add(Constants.IAB_ITEM_SKU_TEST_REFUNDED);
+//            skus.add(Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE);
+//        }
 
         iabHelper.queryInventoryAsync(true, skus, queryAvailableSkuReceivedInventoryListener);
     }
 
-    public void launchPurchase(String sku, int resultCode)
+    public void launchPurchase(String sku, int requestCode)
     {
         if (checkIabHelper()) return;
 
@@ -157,15 +175,15 @@ public class IabActivity extends ActionBarActivity
 
         try
         {
-            if (iabInventory.hasPurchase(sku))
-            {
-                Purchase purchase = iabInventory.getPurchase(sku);
-                iabHelper.consumeAsync(purchase, mOnConsumeFinishedListener);
-            }
-            else
-            {
-                iabHelper.launchPurchaseFlow(this, sku, resultCode, mPurchaseFinishedListener, "mypurchasetoken");
-            }
+//            if (iabInventory.hasPurchase(sku))
+//            {
+//                Purchase purchase = iabInventory.getPurchase(sku);
+//                iabHelper.consumeAsync(purchase, mOnConsumeFinishedListener);
+//            }
+//            else
+//            {
+                iabHelper.launchPurchaseFlow(this, sku, requestCode, mPurchaseFinishedListener, "mypurchasetoken");
+//            }
         }
         catch (Exception e)
         {
@@ -209,7 +227,7 @@ public class IabActivity extends ActionBarActivity
                 switch (result.getResponse())
                 {
                     case IabHelper.IABHELPER_USER_CANCELLED:
-                        Timber.d("User canceled IAB: '%s'", result.toString());
+                        Timber.e("User canceled IAB: '%s'", result.toString());
                         break;
 
                     default:
@@ -221,6 +239,7 @@ public class IabActivity extends ActionBarActivity
             }
             else
             {
+                Timber.d("Purchase successful: %s", result.toString());
                 switch (purchase.getSku())
                 {
                     case Constants.IAB_ITEM_SKU_PRO:
@@ -270,7 +289,7 @@ public class IabActivity extends ActionBarActivity
                     Timber.d(purchase.toString());
                 }
 
-                iabFragment.setSkus(skus);
+                iabFragment.setInventory(inventory);
             }
         }
     };
