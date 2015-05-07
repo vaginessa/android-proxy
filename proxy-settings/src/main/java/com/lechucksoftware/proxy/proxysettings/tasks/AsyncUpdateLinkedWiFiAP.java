@@ -7,12 +7,11 @@ import android.widget.Toast;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.WifiNetworksManager;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -23,7 +22,7 @@ import timber.log.Timber;
  */
 
 
-public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
+public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, Integer, Integer>
 {
     private final Context context;
 
@@ -35,8 +34,8 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
 
     private final ProxySetting proxySetting;
 
-    private static final String TAG = AsyncUpdateLinkedWiFiAP.class.getSimpleName();
     private int updatedWiFiAP;
+    private List<WiFiApConfig> configsToSave;
 
     public AsyncUpdateLinkedWiFiAP(Context caller, ProxyEntity current, ProxyEntity updated)
     {
@@ -69,48 +68,62 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
     }
 
     @Override
+    protected void onProgressUpdate(Integer... values)
+    {
+        super.onProgressUpdate(values);
+
+        Timber.d("Updated #%d AP", values[0]);
+    }
+
+    @Override
     protected void onPostExecute(Integer updatedWiFiAP)
     {
         super.onPostExecute(updatedWiFiAP);
-
-        final int updatedWifi = updatedWiFiAP;
-
-        Toast.makeText(context, context.getResources().getQuantityString(R.plurals.updated_wifi_networks, updatedWifi, updatedWifi), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected Integer doInBackground(Void... voids)
     {
         List<WiFiApConfig> configurations = App.getWifiNetworksManager().getSortedWifiApConfigsList();
+        configsToSave = new ArrayList<>();
 
         if (configurations != null)
         {
 //            List<WiFiApConfig> configurations = new ArrayList<WiFiApConfig>(sortedConfigurations);
+            Timber.d("Current STATIC proxy: %s", currentProxy == null ? "NULL" : currentProxy);
+            Timber.d("Updated STATIC proxy: %s", updatedProxy == null ? "NULL" : updatedProxy);
+            Timber.d("Current PAC proxy: %s", currentPac == null ? "NULL" : currentPac);
+            Timber.d("Updated PAC proxy: %s", updatedPac == null ? "NULL" : updatedPac);
 
-            Timber.d("Current proxy: " + currentProxy.toString());
-            Timber.d("Updated proxy: " + updatedProxy.toString());
-
-            if (configurations != null)
+            for (WiFiApConfig conf : configurations)
             {
-                for (WiFiApConfig conf : configurations)
+                if (conf.getProxySetting() == proxySetting)
                 {
-                    if (conf.getProxySetting() == proxySetting)
-                    {
-                        Timber.d("Checking AP: " + conf.toShortString());
+                    Timber.d("Checking AP: " + conf.toShortString());
 
-                        if (conf.isValidProxyConfiguration())
+                    if (conf.isValidProxyConfiguration())
+                    {
+                        if (proxySetting == ProxySetting.STATIC)
                         {
                             updateWifiNetworkStaticProxy(conf);
+                        }
+                        else if (proxySetting == ProxySetting.PAC)
+                        {
+                            updateWifiNetworkPacProxy(conf);
                         }
                     }
                 }
             }
+
+            try
+            {
+                App.getWifiNetworksManager().addSavingOperation(configsToSave);
+            }
+            catch (Exception e)
+            {
+                Timber.e(e,"Exception on writeConfigurationToDevice");
+            }
         }
-
-        Timber.d("Current proxy: " + currentProxy.toString());
-        Timber.d("Updated proxy: " + updatedProxy.toString());
-
-//        App.getDBManager().upsertProxy(updatedProxy);
 
         return updatedWiFiAP;
     }
@@ -122,28 +135,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
         if (pacFileUri.equals(currentPac.getPacUriFile()))
         {
             conf.setPacUriFile(updatedPac.getPacUriFile());
-
-            Timber.d("Writing updated AP configuration on device: " + conf.toShortString());
-
-            try
-            {
-                App.getWifiNetworksManager().asyncSaveWifiApConfig(conf);
-            }
-            catch (Exception e)
-            {
-                Timber.e(e, "Exception on writeConfigurationToDevice");
-            }
-
-            updatedWiFiAP++;
-
-            try
-            {
-                Thread.sleep(1);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+            configsToSave.add(conf);
         }
     }
 
@@ -160,29 +152,7 @@ public class AsyncUpdateLinkedWiFiAP extends AsyncTask<Void, UUID, Integer>
             conf.setProxyHost(updatedProxy.getHost());
             conf.setProxyPort(updatedProxy.getPort());
             conf.setProxyExclusionString(updatedProxy.getExclusion());
-
-            Timber.d("Writing updated AP configuration on device: " + conf.toShortString());
-
-            try
-            {
-                App.getWifiNetworksManager().asyncSaveWifiApConfig(conf);
-            }
-            catch (Exception e)
-            {
-                Timber.e(e,"Exception on writeConfigurationToDevice");
-            }
-
-            updatedWiFiAP++;
-
-            try
-            {
-                Thread.sleep(1);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-
+            configsToSave.add(conf);
         }
     }
 }

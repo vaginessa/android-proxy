@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/wifi_layout"
@@ -25,50 +25,23 @@
         android:layout_marginBottom="10dp"
         android:text="WIFI saf asdfasd fasdf"/>
 
-    <LinearLayout
+    <TextView
+        android:layout_below="@+id/wifi_name"
+        android:id="@+id/wifi_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:lines="1"
+        android:ellipsize="end"
+        android:text="Security:   WEP WPA AAA"
+        android:textSize="@dimen/text_size_title_material"/>
 
-        <TextView
-            android:id="@+id/wifi_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:ellipsize="end"
-            android:text="Security:   WEP WPA AAA"
-            android:textSize="@dimen/text_size_subhead_material"
-            android:layout_gravity="center"/>
+    <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
+        android:layout_toRightOf="@+id/wifi_status"
+        android:layout_alignTop="@+id/wifi_status"
+        android:layout_alignBottom="@+id/wifi_status"
+        android:id="@+id/wifi_ap_signal_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
-        <com.lechucksoftware.proxy.proxysettings.ui.components.WifiSignal
-            android:id="@+id/wifi_ap_signal_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            app:showSecurityText="true"
-            android:layout_marginLeft="-5dp"
-            android:layout_gravity="center"
-            />
-
-    </LinearLayout>
-
-    <!--<TextView-->
-    <!--android:id="@+id/proxy_status"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:lines="1"-->
-    <!--android:ellipsize="end"-->
-    <!--android:text="proxy status connection bla bla bla"-->
-    <!--/>-->
-
-
-    <!--<TextView-->
-    <!--android:id="@+id/wifi_security"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:text="proxy security bla bla"-->
-    <!--/>-->
-
-</LinearLayout>
+</RelativeLayout>

@@ -139,7 +139,7 @@ public class TraceUtils
                 long diffFromLast = now.getTime() - start.getLastTime().getTime();
                 long diffFromStart = now.getTime() - start.getStartTime().getTime();
                 start.updateLast(now);
-                log(tag, "FINISH " + key + " " + msg + " %%%%%%%%%%%%% " + diffFromLast + " ms (Tot: " + diffFromStart  + " ms) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
+                log(tag, "FINISH " + key + " " + (msg == null? "NULL": msg) + " %%%%%%%%%%%%% " + diffFromLast + " ms (Tot: " + diffFromStart  + " ms) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", logLevel);
 
                 startTraces.remove(key);
             }

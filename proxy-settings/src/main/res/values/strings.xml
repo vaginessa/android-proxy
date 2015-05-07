@@ -440,4 +440,5 @@
     <string name="static_proxy">STATIC</string>
     <string name="pac_proxy">PAC</string>
     <string name="enable_wifi">Enable Wi-Fi</string>
+    <string name="saving_configuration">Saving configuration…</string>
 </resources>

@@ -5,7 +5,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
 {
@@ -51,7 +47,7 @@ public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
 
     public void setData(List<ProxyEntity> confList)
     {
-        App.getTraceUtils().startTrace(TAG, "setData", Log.INFO);
+//        App.getTraceUtils().startTrace(TAG, "setData", Log.DEBUG);
 
         Boolean needsListReplace = false;
 
@@ -66,7 +62,7 @@ public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
                 if (!adapterProxyItem.equals(newProxyItem))
                 {
                     // Changed the Proxies order
-                    Timber.d("setData order: Expecting %s, Found %s", newProxyItem, adapterProxyItem);
+//                    Timber.d("setData order: Expecting %s, Found %s", newProxyItem, adapterProxyItem);
                     needsListReplace = true;
                     break;
                 }
@@ -82,21 +78,21 @@ public class ProxiesListAdapter extends ArrayAdapter<ProxyEntity>
             setNotifyOnChange(false);
             clear();
             addAll(confList);
-            App.getTraceUtils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","Replaced adapter list items",Log.DEBUG);
 
             // note that a call to notifyDataSetChanged() implicitly sets the setNotifyOnChange back to 'true'!
             // That's why the call 'setNotifyOnChange(false) should be called first every time (see call before 'clear()').
             notifyDataSetChanged();
-            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
         else
         {
             // Just notifyDataSetChanged
             notifyDataSetChanged();
-            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
+//            App.getTraceUtils().partialTrace(TAG,"setData","notifyDataSetChanged",Log.DEBUG);
         }
 
-        App.getTraceUtils().stopTrace(TAG, "setData", Log.INFO);
+//        App.getTraceUtils().stopTrace(TAG, "setData", Log.DEBUG);
     }
 
     public View getView(int position, View convertView, ViewGroup parent)

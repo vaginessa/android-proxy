@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <plurals name="saving_wifi_networks">
+        <item quantity="one">Saving %d Wi-Fi network…</item>
+        <item quantity="other">Saving %d Wi-Fi networks…</item>
+    </plurals>
     <plurals name="updated_wifi_networks">
         <item quantity="one">Updated %d Wi-Fi network</item>
         <item quantity="other">Updated %d Wi-Fi networks</item>

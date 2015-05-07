@@ -5,6 +5,7 @@ import android.net.wifi.ScanResult;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
@@ -38,20 +39,10 @@ public class WifiNetworkStatus
         return wifiApConfigsByAPLNetId != null && wifiApConfigsByAPLNetId.containsKey(aplNetworkId);
     }
 
-//    public boolean containsKey(int networkId)
-//    {
-//        return wifiApConfigsByWifiNetworkId.containsKey(networkId);
-//    }
-
     public WiFiApConfig get(APLNetworkId aplNetworkId)
     {
         return wifiApConfigsByAPLNetId.get(aplNetworkId);
     }
-
-//    public WiFiApConfig get(int networkId)
-//    {
-//        return wifiApConfigsByWifiNetworkId.get(networkId);
-//    }
 
     public void put(APLNetworkId aplNetworkId, WiFiApConfig wiFiApConfig)
     {

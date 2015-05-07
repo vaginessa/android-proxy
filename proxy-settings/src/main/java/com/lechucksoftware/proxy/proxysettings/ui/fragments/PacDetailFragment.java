@@ -2,9 +2,11 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,7 +22,6 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
-import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncDeleteProxy;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncSaveProxy;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncUpdateLinkedWiFiAP;
@@ -211,7 +212,7 @@ public class PacDetailFragment extends BaseDialogFragment
         {
             Bundle b = message.getData();
 
-            Timber.w("handleMessage: " + b.toString());
+//            Timber.w("handleMessage: " + b.toString());
 
             refreshUI();
         }
@@ -315,13 +316,23 @@ public class PacDetailFragment extends BaseDialogFragment
     public void enableSave()
     {
         saveEnabled = true;
-        getActivity().invalidateOptionsMenu();
+
+        FragmentActivity activity = getActivity();
+        if (activity != null)
+        {
+            activity.invalidateOptionsMenu();
+        }
     }
 
     public void disableSave()
     {
         saveEnabled = false;
-        getActivity().invalidateOptionsMenu();
+
+        FragmentActivity activity = getActivity();
+        if (activity != null)
+        {
+            activity.invalidateOptionsMenu();
+        }
     }
 
     @Override
@@ -331,10 +342,13 @@ public class PacDetailFragment extends BaseDialogFragment
         {
             PacEntity persistedPac = App.getDBManager().getPac(selectedPac.getId());
 
-            AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(getActivity(), persistedPac, selectedPac);
-            asyncUpdateLinkedWiFiAP.execute();
+            AsyncSaveProxy asyncSaveProxy = new AsyncSaveProxy(this,selectedPac);
+            asyncSaveProxy.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
 
-            App.getDBManager().upsertPac(selectedPac);
+            AsyncUpdateLinkedWiFiAP asyncUpdateLinkedWiFiAP = new AsyncUpdateLinkedWiFiAP(getActivity(), persistedPac, selectedPac);
+            asyncUpdateLinkedWiFiAP.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+
+            getActivity().finish();
         }
     }
 }
