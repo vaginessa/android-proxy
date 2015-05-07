@@ -15,7 +15,7 @@
     <!--Nov.-->
     <!--Dec.-->
 
-    <changelogversion versionName="3.1" versionCode=""  changeDate="May 06,2015">
+    <changelogversion versionName="3.01" versionCode=""  changeDate="May 06,2015">
         <changelogimprovement>Improved save operation</changelogimprovement>
         <changelogbug>Improved application stability</changelogbug>
         <changelogbug>Fixed DB issues on upgrade to new version</changelogbug>
