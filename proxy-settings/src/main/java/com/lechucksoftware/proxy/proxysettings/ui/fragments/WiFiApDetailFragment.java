@@ -179,7 +179,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
             selectedWiFiAP.setProxyPort(0);
             selectedWiFiAP.setProxyExclusionString(null);
 
-            App.getWifiNetworksManager().asyncSaveWifiApConfig(selectedWiFiAP);
+            App.getWifiNetworksManager().addSavingOperation(selectedWiFiAP);
         }
 
         refreshProxyUI();
@@ -395,7 +395,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                             selectedWiFiAP.setProxyExclusionString("");
                         }
 
-                        App.getWifiNetworksManager().asyncSaveWifiApConfig(selectedWiFiAP);
+                        App.getWifiNetworksManager().addSavingOperation(selectedWiFiAP);
                     }
                 }
                 break;

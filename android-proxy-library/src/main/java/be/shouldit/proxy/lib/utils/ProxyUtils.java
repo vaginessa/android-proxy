@@ -406,7 +406,7 @@ public class ProxyUtils
         }
         catch (Exception e)
         {
-            Timber.e(e,"Exception getting HTTP Answer for URI: '%s'", uri.toString());
+            Timber.e("Exception getting HTTP Answer for URI: '%s'", uri.toString());
         }
 
         return answer;

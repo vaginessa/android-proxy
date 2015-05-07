@@ -7,17 +7,14 @@ import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
-import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.net.Proxy;
 import java.util.List;
-import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.constants.APLConstants;
-import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
@@ -105,36 +102,16 @@ public class MaintenanceService extends IntentService
     {
         App.getTraceUtils().startTrace(TAG,"checkInUseProxyFlag",Log.DEBUG);
 
-        int checked = 0;
-
         try
         {
-            Map<Long, ProxyEntity> proxiesMap = App.getDBManager().getAllProxiesWithTAGs();
-            if (proxiesMap != null)
-            {
-                for (Long proxyID : proxiesMap.keySet())
-                {
-                    App.getDBManager().updateInUseFlag(proxyID, ProxySetting.STATIC);
-                    checked++;
-                }
-            }
-
-            Map<Long, PacEntity> pacMac = App.getDBManager().getAllPac();
-            if (pacMac != null)
-            {
-                for (Long pacId : pacMac.keySet())
-                {
-                    App.getDBManager().updateInUseFlag(pacId, ProxySetting.PAC);
-                    checked++;
-                }
-            }
+            App.getDBManager().updateInUseFlag();
         }
         catch (Exception e)
         {
             Timber.e(e,"Exception during checkInUseProxyFlag");
         }
 
-        App.getTraceUtils().stopTrace(TAG,"checkInUseProxyFlag", String.format("Checked %d proxies",checked), Log.DEBUG);
+        App.getTraceUtils().stopTrace(TAG,"checkInUseProxyFlag", Log.DEBUG);
     }
 
     private void checkProxiesCountryCodes()

@@ -160,7 +160,7 @@ public class TestUtils
     public static PacEntity createRandomPACProxy()
     {
         PacEntity pacEntity = new PacEntity();
-        pacEntity.setPacUrlFile("http://" + getRandomIP()+ "/proxy.pac");
+        pacEntity.setPacUrlFile("http://" + getRandomIP() + "/proxy.pac");
 
         return pacEntity;
     }
@@ -341,6 +341,8 @@ public class TestUtils
 
     public static void clearProxyForAllAP(Context ctx)
     {
+        List<WiFiApConfig> configsToSave = new ArrayList<WiFiApConfig>();
+
         for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
@@ -349,25 +351,21 @@ public class TestUtils
                 continue;
             }
 
-            try
-            {
-                configuration.setProxySetting(ProxySetting.NONE);
-                configuration.setProxyHost("");
-                configuration.setProxyPort(0);
-                configuration.setProxyExclusionString("");
-
-                App.getWifiNetworksManager().asyncSaveWifiApConfig(configuration);
-            }
-            catch (Exception e)
-            {
-                Timber.e(e, "Exception clearing proxy for all Wi-Fi AP");
-            }
+            configuration.setProxySetting(ProxySetting.NONE);
+            configuration.setProxyHost("");
+            configuration.setProxyPort(0);
+            configuration.setProxyExclusionString("");
+            configsToSave.add(configuration);
         }
 
-        // Calling refresh intent only after save of all AP configurations
-//        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-//        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-//        APL.getContext().sendBroadcast(intent);
+        try
+        {
+            App.getWifiNetworksManager().addSavingOperation(configsToSave);
+        }
+        catch (Exception e)
+        {
+            Timber.e(e, "Exception clearing proxy for all Wi-Fi AP");
+        }
     }
 
     public static void setProxyForAllAP(Context ctx)
@@ -383,6 +381,8 @@ public class TestUtils
             p = createRandomHTTPProxy();
         }
 
+        List<WiFiApConfig> configsToSave = new ArrayList<WiFiApConfig>();
+
         for (WiFiApConfig configuration : App.getWifiNetworksManager().getSortedWifiApConfigsList())
         {
             if (configuration.getSecurityType() == SecurityType.SECURITY_EAP)
@@ -395,21 +395,17 @@ public class TestUtils
             configuration.setProxyHost(p.getHost());
             configuration.setProxyPort(p.getPort());
             configuration.setProxyExclusionString(p.getExclusion());
-
-            try
-            {
-                App.getWifiNetworksManager().asyncSaveWifiApConfig(configuration);
-            }
-            catch (Exception e)
-            {
-                Timber.e(e, "Exception writing configuration to device");
-            }
+            configsToSave.add(configuration);
         }
 
-        // Calling refresh intent only after save of all AP configurations
-//        Timber.i(TAG, "Sending broadcast intent: " + Intents.WIFI_AP_UPDATED);
-//        Intent intent = new Intent(Intents.WIFI_AP_UPDATED);
-//        APL.getContext().sendBroadcast(intent);
+        try
+        {
+            App.getWifiNetworksManager().addSavingOperation(configsToSave);
+        }
+        catch (Exception e)
+        {
+            Timber.e(e, "Exception writing configuration to device");
+        }
     }
 
     @TargetApi(19)
@@ -536,7 +532,7 @@ public class TestUtils
             }
             catch (InterruptedException e)
             {
-                Timber.e(e,"Exception during sleep");
+                Timber.e(e, "Exception during sleep");
             }
         }
 
