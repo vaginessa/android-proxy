@@ -13,13 +13,13 @@
     <application
         android:name=".App"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/ProxySettingsTheme" >
         <activity
             android:name=".ui.activities.MasterActivity"
             android:configChanges="orientation|screenSize"
-            android:icon="@drawable/ic_launcher"
+            android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
             <intent-filter>
