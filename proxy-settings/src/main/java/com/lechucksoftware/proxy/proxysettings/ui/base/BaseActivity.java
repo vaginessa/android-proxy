@@ -21,6 +21,10 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.IabException;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.IabHelper;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.IabResult;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.Purchase;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
 
@@ -38,6 +42,7 @@ public class BaseActivity extends AppCompatActivity
     private static boolean active = false;
     Snackbar snackbar = null;
     private UIHandler uiHandler;
+    private IabHelper iabHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -339,6 +344,110 @@ public class BaseActivity extends AppCompatActivity
         public void onReceive(Context context, Intent intent)
         {
             handleIntent(intent);
+        }
+    };
+
+    private void iabInit()
+    {
+        try
+        {
+            iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
+
+            iabHelper.enableDebugLogging(true);
+            iabHelper.startSetup(new IABCustomOnIabSetupFinishedListener());
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Cannot initIAB");
+        }
+    }
+
+    private class IABCustomOnIabSetupFinishedListener implements IabHelper.OnIabSetupFinishedListener
+    {
+        public void onIabSetupFinished(IabResult result)
+        {
+            if (!result.isSuccess())
+            {
+                Timber.e(new IabException(result), "In-app Billing setup failed: " + result);
+            }
+            else
+            {
+                Timber.d("In-app Billing is set up OK");
+//                startQueryAvailableSKU();
+            }
+        }
+    }
+
+    private boolean iabCheckIabHelper()
+    {
+        if (iabHelper == null)
+        {
+            Timber.e("iabHelper not initialized. Try again to initIAB.");
+            iabInit();
+            return true;
+        }
+
+        return false;
+    }
+
+    public void iabLaunchPurchase(String sku, int requestCode)
+    {
+        if (iabCheckIabHelper()) return;
+
+        Timber.d("Launching purchase for SKU: '%s'", sku);
+
+        try
+        {
+            iabHelper.launchPurchaseFlow(this, sku, requestCode, iabPurchaseFinishedListener, "mypurchasetoken");
+        }
+        catch (Exception e)
+        {
+            Timber.e(e, "Exception during launchPurchaseFlow");
+            UIUtils.showError(this, R.string.billing_error);
+        }
+    }
+
+    IabHelper.OnIabPurchaseFinishedListener iabPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener()
+    {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase)
+        {
+            if (result.isFailure())
+            {
+                switch (result.getResponse())
+                {
+                    case IabHelper.IABHELPER_USER_CANCELLED:
+                        Timber.e("User canceled IAB: '%s'", result.toString());
+                        break;
+
+                    default:
+                        Timber.e(new IabException(result), "Failure on Iab Purchase Finished");
+                        break;
+                }
+
+                return;
+            }
+            else
+            {
+                Timber.d("Purchase successful: %s", result.toString());
+                switch (purchase.getSku())
+                {
+                    case Constants.IAB_ITEM_SKU_PRO:
+                        break;
+                    case Constants.IAB_ITEM_SKU_BASE:
+                        break;
+                    case Constants.IAB_ITEM_SKU_TEST_PURCHASED:
+                        break;
+                    case Constants.IAB_ITEM_SKU_TEST_CANCELED:
+                        break;
+                    case Constants.IAB_ITEM_SKU_TEST_REFUNDED:
+                        break;
+                    case Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE:
+                        break;
+
+                    default:
+                        Timber.e("Purchase not recognized");
+                }
+            }
         }
     };
 }

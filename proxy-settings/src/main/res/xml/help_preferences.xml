@@ -38,9 +38,9 @@
 
     <Preference
         android:enabled="true"
-        android:key="pref_support_app"
-        android:title="@string/support"
-        android:summary="@string/help_android_proxy_project" />
+        android:key="pref_donate"
+        android:title="@string/donate"
+        android:summary="@string/support_android_proxy_project" />
 
     <Preference
             android:enabled="true"

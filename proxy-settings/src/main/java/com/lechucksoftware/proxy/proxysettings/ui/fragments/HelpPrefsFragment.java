@@ -10,18 +10,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
-import com.lechucksoftware.proxy.proxysettings.constants.Resources;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.IabActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestCommunityDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestDismissedDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
@@ -35,7 +37,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
     private Preference appRatePref;
     private Preference shareApp;
     private Preference contactPref;
-    private Preference supportPref;
+    private Preference donatePref;
 //    private Preference aboutPref;
 
 
@@ -113,6 +115,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
+
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/shouldit/proxy-settings/issues/new")));
                 return true;
             }
@@ -124,6 +127,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
+
                 showBetaTestDialog();
                 return true;
             }
@@ -137,21 +141,51 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             {
 
                 Utils.startMarketActivity(getActivity());
-
                 return true;
             }
         });
 
-        supportPref = findPreference("pref_support_app");
-        supportPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        donatePref = findPreference("pref_donate");
+        donatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
+                MaterialDialog.Builder donateBuilder = new MaterialDialog.Builder(getActivity());
+                donateBuilder.positiveText(R.string.donate);
+                donateBuilder.negativeText(R.string.cancel);
+                donateBuilder.cancelable(true);
+                donateBuilder.items(new String[]{"AAAA", "BBBB", "CCCCC"});
+                donateBuilder.itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice()
+                {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text)
+                    {
+                        /**
+                         * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
+                         * returning false here won't allow the newly selected radio button to actually be selected.
+                         **/
+                        return true;
+                    }
+                });
+                donateBuilder.callback(new MaterialDialog.ButtonCallback()
+                {
+                    @Override
+                    public void onPositive(MaterialDialog dialog)
+                    {
+                        BaseActivity activity = (BaseActivity) getActivity();
 
-                Intent i = new Intent(getActivity(), IabActivity.class);
-                startActivity(i);
+                    }
 
+                    @Override
+                    public void onNegative(MaterialDialog dialog)
+                    {
+
+                    }
+                });
+
+                MaterialDialog donateDialog = donateBuilder.build();
+                donateDialog.show();
                 return true;
             }
         });
@@ -188,7 +222,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
         if (App.getInstance().activeMarket != AndroidMarket.PLAY)
         {
             getPreferenceScreen().removePreference(betaTestPref);
-            getPreferenceScreen().removePreference(supportPref);
+            getPreferenceScreen().removePreference(donatePref);
 
         }
 

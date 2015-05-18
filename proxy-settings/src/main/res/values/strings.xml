@@ -442,7 +442,8 @@
     <string name="enable_wifi">Enable Wi-Fi</string>
     <string name="title_activity_in_app_billing">InAppBillingActivity</string>
     <string name="support">Support</string>
-    <string name="help_android_proxy_project">Help the Android Proxy project</string>
+    <string name="support_android_proxy_project">Support the Android Proxy project</string>
     <string name="billing_error">Unfortunately a problem occurred during the billing operation</string>
     <string name="saving_configuration">Saving configuration…</string>
+    <string name="donate">Donate</string>
 </resources>

@@ -9973,20 +9973,17 @@ com.afollestad.materialdialogs.DialogAction -> com.afollestad.materialdialogs.a:
     6:6:com.afollestad.materialdialogs.DialogAction valueOf(java.lang.String) -> valueOf
 com.afollestad.materialdialogs.DialogBase -> com.afollestad.materialdialogs.b:
     android.content.DialogInterface$OnShowListener mShowListener -> a
-    24:25:void setOnShowListener(android.content.DialogInterface$OnShowListener) -> setOnShowListener
-    28:29:void setOnShowListenerInternal() -> a
-    32:33:void setViewInternal(android.view.View) -> a
-    37:39:void onShow(android.content.DialogInterface) -> onShow
-    43:56:void onStop() -> onStop
-    59:66:void scrubMessageField(java.lang.reflect.Field) -> a
+    21:22:void setOnShowListener(android.content.DialogInterface$OnShowListener) -> setOnShowListener
+    25:26:void setOnShowListenerInternal() -> a
+    29:30:void setViewInternal(android.view.View) -> a
+    34:36:void onShow(android.content.DialogInterface) -> onShow
 com.afollestad.materialdialogs.DialogInit -> com.afollestad.materialdialogs.c:
     39:41:int getTheme(com.afollestad.materialdialogs.MaterialDialog$Builder) -> a
     45:56:int getInflateLayout(com.afollestad.materialdialogs.MaterialDialog$Builder) -> b
-    61:313:void init(com.afollestad.materialdialogs.MaterialDialog) -> a
-    316:325:void resetListeners(com.afollestad.materialdialogs.MaterialDialog) -> b
-    328:355:void setupProgressDialog(com.afollestad.materialdialogs.MaterialDialog) -> c
-    358:386:void setupInputDialog(com.afollestad.materialdialogs.MaterialDialog) -> d
-    389:399:android.content.res.ColorStateList getActionTextStateList(android.content.Context,int) -> a
+    61:323:void init(com.afollestad.materialdialogs.MaterialDialog) -> a
+    326:353:void setupProgressDialog(com.afollestad.materialdialogs.MaterialDialog) -> b
+    356:385:void setupInputDialog(com.afollestad.materialdialogs.MaterialDialog) -> c
+    388:398:android.content.res.ColorStateList getActionTextStateList(android.content.Context,int) -> a
 com.afollestad.materialdialogs.GravityEnum -> com.afollestad.materialdialogs.d:
     com.afollestad.materialdialogs.GravityEnum START -> a
     com.afollestad.materialdialogs.GravityEnum CENTER -> b
@@ -10018,37 +10015,38 @@ com.afollestad.materialdialogs.MaterialDialog -> com.afollestad.materialdialogs.
     com.afollestad.materialdialogs.internal.MDButton negativeButton -> p
     com.afollestad.materialdialogs.MaterialDialog$ListType listType -> q
     java.util.List selectedIndicesList -> r
-    77:77:com.afollestad.materialdialogs.MaterialDialog$Builder getBuilder() -> b
-    90:94:void setTypeface(android.widget.TextView,android.graphics.Typeface) -> a
-    97:139:void checkIfListInitScroll() -> c
-    145:153:void invalidateList() -> d
-    157:236:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-    251:255:android.graphics.drawable.Drawable getListSelector() -> e
-    259:286:android.graphics.drawable.Drawable getButtonSelector(com.afollestad.materialdialogs.DialogAction,boolean) -> a
-    293:297:boolean sendSingleChoiceCallback(android.view.View) -> b
-    301:306:boolean sendMultichoiceCallback() -> h
-    313:340:void onClick(android.view.View) -> onClick
-    1110:1117:void show() -> show
-    1128:1134:android.view.View getActionButton(com.afollestad.materialdialogs.DialogAction) -> a
-    1152:1152:android.widget.EditText getInputEditText() -> f
-    1245:1246:void setTitle(java.lang.CharSequence) -> setTitle
-    1389:1397:void onShow(android.content.DialogInterface) -> onShow
-    1400:1422:void setInternalInputCallback() -> g
-    1425:1435:void invalidateInputMinMaxIndicator(int) -> a
-    1439:1442:void onStop() -> onStop
+    android.os.Handler mHandler -> s
+    78:78:com.afollestad.materialdialogs.MaterialDialog$Builder getBuilder() -> b
+    91:95:void setTypeface(android.widget.TextView,android.graphics.Typeface) -> a
+    98:140:void checkIfListInitScroll() -> c
+    146:154:void invalidateList() -> d
+    158:237:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    252:256:android.graphics.drawable.Drawable getListSelector() -> e
+    260:287:android.graphics.drawable.Drawable getButtonSelector(com.afollestad.materialdialogs.DialogAction,boolean) -> a
+    294:298:boolean sendSingleChoiceCallback(android.view.View) -> b
+    302:307:boolean sendMultichoiceCallback() -> h
+    314:341:void onClick(android.view.View) -> onClick
+    1111:1119:void show() -> show
+    1130:1136:android.view.View getActionButton(com.afollestad.materialdialogs.DialogAction) -> a
+    1154:1154:android.widget.EditText getInputEditText() -> f
+    1247:1248:void setTitle(java.lang.CharSequence) -> setTitle
+    1398:1404:void onShow(android.content.DialogInterface) -> onShow
+    1407:1431:void setInternalInputCallback() -> g
+    1434:1444:void invalidateInputMinMaxIndicator(int,boolean) -> a
+    1448:1451:void onStop() -> onStop
 com.afollestad.materialdialogs.MaterialDialog$1 -> com.afollestad.materialdialogs.e$1:
     com.afollestad.materialdialogs.MaterialDialog this$0 -> a
-    102:137:void onGlobalLayout() -> onGlobalLayout
+    103:138:void onGlobalLayout() -> onGlobalLayout
 com.afollestad.materialdialogs.MaterialDialog$1$1 -> com.afollestad.materialdialogs.e$1$1:
     int val$fScrollIndex -> a
     com.afollestad.materialdialogs.MaterialDialog$1 this$1 -> b
-    131:133:void run() -> run
-com.afollestad.materialdialogs.MaterialDialog$2 -> com.afollestad.materialdialogs.e$2:
+    132:134:void run() -> run
+com.afollestad.materialdialogs.MaterialDialog$3 -> com.afollestad.materialdialogs.e$2:
     com.afollestad.materialdialogs.MaterialDialog this$0 -> a
-    1404:1404:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    1408:1416:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    1420:1420:void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.afollestad.materialdialogs.MaterialDialog$3 -> com.afollestad.materialdialogs.e$3:
+    1411:1411:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    1415:1425:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    1429:1429:void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.afollestad.materialdialogs.MaterialDialog$4 -> com.afollestad.materialdialogs.e$3:
     int[] $SwitchMap$com$afollestad$materialdialogs$DialogAction -> a
     int[] $SwitchMap$com$afollestad$materialdialogs$MaterialDialog$ListType -> b
 com.afollestad.materialdialogs.MaterialDialog$Builder -> com.afollestad.materialdialogs.e$a:
@@ -10119,34 +10117,34 @@ com.afollestad.materialdialogs.MaterialDialog$Builder -> com.afollestad.material
     int btnSelectorPositive -> am
     int btnSelectorNeutral -> an
     int btnSelectorNegative -> ao
-    423:423:android.content.Context getContext() -> a
-    427:427:com.afollestad.materialdialogs.GravityEnum getItemsGravity() -> b
-    431:431:int getItemColor() -> c
-    435:435:android.graphics.Typeface getRegularFont() -> d
-    487:526:void checkSingleton() -> g
-    529:530:com.afollestad.materialdialogs.MaterialDialog$Builder title(int) -> a
-    534:535:com.afollestad.materialdialogs.MaterialDialog$Builder title(java.lang.CharSequence) -> a
-    582:592:com.afollestad.materialdialogs.MaterialDialog$Builder typeface(java.lang.String,java.lang.String) -> a
-    611:612:com.afollestad.materialdialogs.MaterialDialog$Builder content(int) -> b
-    616:619:com.afollestad.materialdialogs.MaterialDialog$Builder content(java.lang.CharSequence) -> b
-    753:754:com.afollestad.materialdialogs.MaterialDialog$Builder positiveText(int) -> c
-    758:759:com.afollestad.materialdialogs.MaterialDialog$Builder positiveText(java.lang.CharSequence) -> c
-    798:798:com.afollestad.materialdialogs.MaterialDialog$Builder negativeText(int) -> d
-    802:803:com.afollestad.materialdialogs.MaterialDialog$Builder negativeText(java.lang.CharSequence) -> d
-    868:878:com.afollestad.materialdialogs.MaterialDialog$Builder customView(android.view.View,boolean) -> a
-    955:956:com.afollestad.materialdialogs.MaterialDialog$Builder callback(com.afollestad.materialdialogs.MaterialDialog$ButtonCallback) -> a
-    965:966:com.afollestad.materialdialogs.MaterialDialog$Builder cancelable(boolean) -> a
-    1098:1098:com.afollestad.materialdialogs.MaterialDialog build() -> e
-    1102:1104:com.afollestad.materialdialogs.MaterialDialog show() -> f
+    424:424:android.content.Context getContext() -> a
+    428:428:com.afollestad.materialdialogs.GravityEnum getItemsGravity() -> b
+    432:432:int getItemColor() -> c
+    436:436:android.graphics.Typeface getRegularFont() -> d
+    488:527:void checkSingleton() -> g
+    530:531:com.afollestad.materialdialogs.MaterialDialog$Builder title(int) -> a
+    535:536:com.afollestad.materialdialogs.MaterialDialog$Builder title(java.lang.CharSequence) -> a
+    583:593:com.afollestad.materialdialogs.MaterialDialog$Builder typeface(java.lang.String,java.lang.String) -> a
+    612:613:com.afollestad.materialdialogs.MaterialDialog$Builder content(int) -> b
+    617:620:com.afollestad.materialdialogs.MaterialDialog$Builder content(java.lang.CharSequence) -> b
+    754:755:com.afollestad.materialdialogs.MaterialDialog$Builder positiveText(int) -> c
+    759:760:com.afollestad.materialdialogs.MaterialDialog$Builder positiveText(java.lang.CharSequence) -> c
+    799:799:com.afollestad.materialdialogs.MaterialDialog$Builder negativeText(int) -> d
+    803:804:com.afollestad.materialdialogs.MaterialDialog$Builder negativeText(java.lang.CharSequence) -> d
+    869:879:com.afollestad.materialdialogs.MaterialDialog$Builder customView(android.view.View,boolean) -> a
+    956:957:com.afollestad.materialdialogs.MaterialDialog$Builder callback(com.afollestad.materialdialogs.MaterialDialog$ButtonCallback) -> a
+    966:967:com.afollestad.materialdialogs.MaterialDialog$Builder cancelable(boolean) -> a
+    1099:1099:com.afollestad.materialdialogs.MaterialDialog build() -> e
+    1103:1105:com.afollestad.materialdialogs.MaterialDialog show() -> f
 com.afollestad.materialdialogs.MaterialDialog$ButtonCallback -> com.afollestad.materialdialogs.e$b:
-    1504:1504:void onPositive(com.afollestad.materialdialogs.MaterialDialog) -> a
-    1507:1507:void onNegative(com.afollestad.materialdialogs.MaterialDialog) -> b
-    1510:1510:void onNeutral(com.afollestad.materialdialogs.MaterialDialog) -> c
-    1518:1518:java.lang.Object clone() -> clone
-    1523:1523:boolean equals(java.lang.Object) -> equals
-    1528:1529:void finalize() -> finalize
-    1533:1533:int hashCode() -> hashCode
-    1538:1538:java.lang.String toString() -> toString
+    1513:1513:void onPositive(com.afollestad.materialdialogs.MaterialDialog) -> a
+    1516:1516:void onNegative(com.afollestad.materialdialogs.MaterialDialog) -> b
+    1519:1519:void onNeutral(com.afollestad.materialdialogs.MaterialDialog) -> c
+    1527:1527:java.lang.Object clone() -> clone
+    1532:1532:boolean equals(java.lang.Object) -> equals
+    1537:1538:void finalize() -> finalize
+    1542:1542:int hashCode() -> hashCode
+    1547:1547:java.lang.String toString() -> toString
 com.afollestad.materialdialogs.MaterialDialog$DialogException -> com.afollestad.materialdialogs.e$c:
 com.afollestad.materialdialogs.MaterialDialog$InputCallback -> com.afollestad.materialdialogs.e$d:
     void onInput(com.afollestad.materialdialogs.MaterialDialog,java.lang.CharSequence) -> a
@@ -10161,9 +10159,9 @@ com.afollestad.materialdialogs.MaterialDialog$ListType -> com.afollestad.materia
     com.afollestad.materialdialogs.MaterialDialog$ListType SINGLE -> b
     com.afollestad.materialdialogs.MaterialDialog$ListType MULTI -> c
     com.afollestad.materialdialogs.MaterialDialog$ListType[] $VALUES -> d
-    1444:1444:com.afollestad.materialdialogs.MaterialDialog$ListType[] values() -> values
-    1444:1444:com.afollestad.materialdialogs.MaterialDialog$ListType valueOf(java.lang.String) -> valueOf
-    1448:1456:int getLayoutForType(com.afollestad.materialdialogs.MaterialDialog$ListType) -> a
+    1453:1453:com.afollestad.materialdialogs.MaterialDialog$ListType[] values() -> values
+    1453:1453:com.afollestad.materialdialogs.MaterialDialog$ListType valueOf(java.lang.String) -> valueOf
+    1457:1465:int getLayoutForType(com.afollestad.materialdialogs.MaterialDialog$ListType) -> a
 com.afollestad.materialdialogs.MaterialDialog$NotImplementedException -> com.afollestad.materialdialogs.e$i:
 com.afollestad.materialdialogs.MaterialDialogAdapter -> com.afollestad.materialdialogs.f:
     com.afollestad.materialdialogs.MaterialDialog dialog -> c
@@ -16100,7 +16098,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Agda -> B
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgelessEntity -> C
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgentoftheFates -> D
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Agrajagƒ -> E
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgrajagÆ’ -> E
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AgrusKosWojekVeteran -> F
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames AhsokaTano -> G
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Aikhibba -> H
@@ -17086,7 +17084,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Lightspeed -> sz
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LightwielderPaladin -> sA
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LilianasReaver -> sB
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames LimDûltheNecromancer -> sC
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames LimDÃ»ltheNecromancer -> sC
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LiNalas -> sD
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LinessaZephyrMage -> sE
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames LinvalaKeeperofSilence -> sF
@@ -18068,7 +18066,7 @@ com.lechucksoftware.proxy.proxysettings.constants.CodeNames -> com.lechucksoftwa
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames ZoZuthePunisher -> Lt
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames Zuckuss -> Lu
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames ZurtheEnchanter -> Lv
-    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Ætherling -> Lw
+    com.lechucksoftware.proxy.proxysettings.constants.CodeNames Ã†therling -> Lw
     com.lechucksoftware.proxy.proxysettings.constants.CodeNames[] $VALUES -> Lx
     6:6:com.lechucksoftware.proxy.proxysettings.constants.CodeNames[] values() -> values
     6:6:com.lechucksoftware.proxy.proxysettings.constants.CodeNames valueOf(java.lang.String) -> valueOf
@@ -18638,11 +18636,11 @@ com.lechucksoftware.proxy.proxysettings.test.TestUtils -> com.lechucksoftware.pr
     693:709:java.lang.String randomMACAddress() -> l
 com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity instance -> p
+    com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity instance -> q
     29:49:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity instance -> p
+    com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity instance -> q
     26:46:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.IabActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.IabActivity:
     com.lechucksoftware.proxy.proxysettings.utils.billing.IabHelper iabHelper -> q
@@ -18676,9 +18674,9 @@ com.lechucksoftware.proxy.proxysettings.ui.activities.IabActivity$CustomOnIabSet
     140:149:void onIabSetupFinished(com.lechucksoftware.proxy.proxysettings.utils.billing.IabResult) -> a
 com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment mNavigationDrawerFragment -> p
-    java.lang.CharSequence mTitle -> q
-    com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions asyncStartupActionsTask -> r
+    com.lechucksoftware.proxy.proxysettings.ui.fragments.NavDrawFragment mNavigationDrawerFragment -> q
+    java.lang.CharSequence mTitle -> r
+    com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions asyncStartupActionsTask -> s
     40:51:void onCreate(android.os.Bundle) -> onCreate
     57:97:void onNavigationDrawerItemSelected(int) -> a
     101:123:void onSectionAttached(int) -> b
@@ -18688,17 +18686,17 @@ com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity$1 -> com.le
     int[] $SwitchMap$com$lechucksoftware$proxy$proxysettings$constants$NavigationAction -> a
 com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity instance -> p
-    java.lang.Long pacId -> q
+    com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity instance -> q
+    java.lang.Long pacId -> r
     31:71:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity instance -> p
-    java.lang.Long proxyId -> q
+    com.lechucksoftware.proxy.proxysettings.ui.activities.ProxyDetailActivity instance -> q
+    java.lang.Long proxyId -> r
     31:71:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.ProxySelectorListActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.ProxySelectorListActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.ProxySelectorListActivity instance -> p
+    com.lechucksoftware.proxy.proxysettings.ui.activities.ProxySelectorListActivity instance -> q
     32:51:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity:
     16:21:void onCreate(android.os.Bundle) -> onCreate
@@ -18718,7 +18716,7 @@ com.lechucksoftware.proxy.proxysettings.ui.activities.WebViewWithProxyActivity$1
     62:73:void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
 com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity -> com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity instance -> p
+    com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity instance -> q
     34:62:void onCreate(android.os.Bundle) -> onCreate
 com.lechucksoftware.proxy.proxysettings.ui.adapters.IabSkuRecyclerViewAdapter -> com.lechucksoftware.proxy.proxysettings.ui.adapters.IabSkuRecyclerViewAdapter:
     com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory inventory -> b
@@ -18796,33 +18794,37 @@ com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter$ApViewHold
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity -> com.lechucksoftware.proxy.proxysettings.ui.base.a:
     boolean active -> n
     com.nispok.snackbar.Snackbar snackbar -> o
-    com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$UIHandler uiHandler -> p
-    android.content.BroadcastReceiver broadcastReceiver -> q
-    45:49:void onCreate(android.os.Bundle) -> onCreate
-    54:56:void onNewIntent(android.content.Intent) -> onNewIntent
-    61:66:void onDestroy() -> onDestroy
-    71:95:void onResume() -> onResume
-    100:117:void onPause() -> onPause
-    122:127:void onStart() -> onStart
-    132:137:void onStop() -> onStop
-    242:273:void refreshUI() -> m
-    277:334:void handleIntent(android.content.Intent) -> c
-    36:36:void access$000(com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity,android.content.Intent) -> a
+    com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$UIHandler uiHandler -> q
+    android.content.BroadcastReceiver broadcastReceiver -> r
+    com.lechucksoftware.proxy.proxysettings.utils.billing.IabHelper$OnIabPurchaseFinishedListener iabPurchaseFinishedListener -> p
+    50:54:void onCreate(android.os.Bundle) -> onCreate
+    59:61:void onNewIntent(android.content.Intent) -> onNewIntent
+    66:71:void onDestroy() -> onDestroy
+    76:100:void onResume() -> onResume
+    105:122:void onPause() -> onPause
+    127:132:void onStart() -> onStart
+    137:142:void onStop() -> onStop
+    247:278:void refreshUI() -> m
+    282:339:void handleIntent(android.content.Intent) -> c
+    40:40:void access$000(com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity,android.content.Intent) -> a
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$1 -> com.lechucksoftware.proxy.proxysettings.ui.base.a$1:
     java.lang.String val$closeActivty -> a
     com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity this$0 -> b
-    321:326:void onPositive(com.afollestad.materialdialogs.MaterialDialog) -> a
+    326:331:void onPositive(com.afollestad.materialdialogs.MaterialDialog) -> a
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$2 -> com.lechucksoftware.proxy.proxysettings.ui.base.a$2:
     com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity this$0 -> a
-    341:342:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    346:347:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$3 -> com.lechucksoftware.proxy.proxysettings.ui.base.a$3:
+    com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity this$0 -> a
+    414:451:void onIabPurchaseFinished(com.lechucksoftware.proxy.proxysettings.utils.billing.IabResult,com.lechucksoftware.proxy.proxysettings.utils.billing.Purchase) -> a
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity$UIHandler -> com.lechucksoftware.proxy.proxysettings.ui.base.a$a:
     java.lang.ref.WeakReference mActivity -> a
     com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity this$0 -> b
-    159:171:void handleMessage(android.os.Message) -> handleMessage
-    175:196:void dismissSnackbarHandler() -> b
-    200:219:void startSnackbarHandler(int) -> b
-    223:228:void dismissSnackbar() -> a
-    232:237:void startSnackbar(int) -> a
+    164:176:void handleMessage(android.os.Message) -> handleMessage
+    180:201:void dismissSnackbarHandler() -> b
+    205:224:void startSnackbarHandler(int) -> b
+    228:233:void dismissSnackbar() -> a
+    237:242:void startSnackbar(int) -> a
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment -> com.lechucksoftware.proxy.proxysettings.ui.base.b:
     43:47:void onCreate(android.os.Bundle) -> a
     52:56:void onResume() -> r
@@ -18837,8 +18839,8 @@ com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment -> com.le
     56:58:void onPause() -> s
 com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity -> com.lechucksoftware.proxy.proxysettings.ui.base.e:
     java.lang.String TAG -> n
-    com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler mScanner -> p
-    android.content.BroadcastReceiver changeStatusReceiver -> q
+    com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler mScanner -> q
+    android.content.BroadcastReceiver changeStatusReceiver -> r
     26:29:com.lechucksoftware.proxy.proxysettings.utils.WifiScannerHandler getWifiScanner() -> n
     35:56:void onResume() -> onResume
     61:74:void onPause() -> onPause
