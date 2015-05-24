@@ -24,11 +24,14 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.IabException;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.IabHelper;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.IabResult;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.Purchase;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.SkuDetails;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +46,18 @@ public class BaseActivity extends AppCompatActivity
     Snackbar snackbar = null;
     private UIHandler uiHandler;
     private IabHelper iabHelper;
+
+    public Inventory getIabInventory()
+    {
+        return iabInventory;
+    }
+
+    public IabHelper getIabHelper()
+    {
+        return iabHelper;
+    }
+
+    private Inventory iabInventory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,6 +103,8 @@ public class BaseActivity extends AppCompatActivity
         ifilt.addAction(Intents.SERVICE_COMUNICATION);
 
         uiHandler = new UIHandler(this);
+
+        iabInit();
 
         try
         {
@@ -358,7 +375,7 @@ public class BaseActivity extends AppCompatActivity
         }
         catch (Exception e)
         {
-            Timber.e(e,"Cannot initIAB");
+            Timber.e(e, "Cannot initIAB");
         }
     }
 
@@ -373,10 +390,62 @@ public class BaseActivity extends AppCompatActivity
             else
             {
                 Timber.d("In-app Billing is set up OK");
-//                startQueryAvailableSKU();
+                startQueryAvailableSKU();
             }
         }
     }
+
+    public void startQueryAvailableSKU()
+    {
+        List<String> skus = new ArrayList<>();
+
+        skus.add(Constants.IAB_ITEM_SKU_DONATION_0_99);
+        skus.add(Constants.IAB_ITEM_SKU_DONATION_1_99);
+        skus.add(Constants.IAB_ITEM_SKU_DONATION_2_99);
+        skus.add(Constants.IAB_ITEM_SKU_DONATION_5_99);
+        skus.add(Constants.IAB_ITEM_SKU_DONATION_9_99);
+
+//        skus.add(Constants.IAB_ITEM_SKU_PRO);
+//        skus.add(Constants.IAB_ITEM_SKU_NINJA);
+
+        if (BuildConfig.DEBUG)
+        {
+            skus.add(Constants.IAB_ITEM_SKU_TEST_PURCHASED);
+            skus.add(Constants.IAB_ITEM_SKU_TEST_CANCELED);
+            skus.add(Constants.IAB_ITEM_SKU_TEST_REFUNDED);
+            skus.add(Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE);
+        }
+
+        iabHelper.queryInventoryAsync(true, skus, queryAvailableSkuReceivedInventoryListener);
+    }
+
+    IabHelper.QueryInventoryFinishedListener queryAvailableSkuReceivedInventoryListener = new IabHelper.QueryInventoryFinishedListener()
+    {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory)
+        {
+            if (result.isFailure())
+            {
+                // Handle failure
+            }
+            else
+            {
+                iabInventory = inventory;
+
+                List<SkuDetails> skus = inventory.getAllSkus();
+                List<Purchase> purchases = inventory.getAllPurchases();
+
+                for (SkuDetails sku : skus)
+                {
+                    Timber.d(sku.toString());
+                }
+
+                for (Purchase purchase : purchases)
+                {
+                    Timber.d(purchase.toString());
+                }
+            }
+        }
+    };
 
     private boolean iabCheckIabHelper()
     {

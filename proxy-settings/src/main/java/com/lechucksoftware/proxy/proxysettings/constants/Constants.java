@@ -49,6 +49,12 @@ public class Constants
     public static final String IAB_ITEM_SKU_PRO = "be.shouldit.proxy.billing.pro";
     public static final String IAB_ITEM_SKU_NINJA = "be.shouldit.proxy.billing.ninja";
 
+    public static final String IAB_ITEM_SKU_DONATION_0_99 = "be.shouldit.proxy.billing.donation.0.99";
+    public static final String IAB_ITEM_SKU_DONATION_1_99 = "be.shouldit.proxy.billing.donation.1.99";
+    public static final String IAB_ITEM_SKU_DONATION_2_99 = "be.shouldit.proxy.billing.donation.2.99";
+    public static final String IAB_ITEM_SKU_DONATION_5_99 = "be.shouldit.proxy.billing.donation.5.99";
+    public static final String IAB_ITEM_SKU_DONATION_9_99 = "be.shouldit.proxy.billing.donation.9.99";
+
 
     public static final String IAB_ITEM_SKU_TEST_PURCHASED = "android.test.purchased"; // Buying this item will cause a successful purchase response.
     public static final String IAB_ITEM_SKU_TEST_CANCELED = "android.test.canceled"; // Buying this item will act as if the user had canceled the purchase.
