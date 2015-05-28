@@ -10,6 +10,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory;
@@ -99,12 +100,16 @@ public class DonateDialog extends BaseDialogFragment
 
                     if (which != -1 && which <= donationSkus.length)
                     {
-                        activity.iabLaunchPurchase(donationSkus[which], Requests.IAB_DONATE);
+                        if (startupAction != null)
+                        {
+                            startupAction.updateStatus(StartupActionStatus.DONE);
+                        }
 
                         App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                                 R.string.analytics_act_dialog_button_click,
                                 R.string.analytics_lab_donate_dialog, 1L);
 
+                        activity.iabLaunchPurchase(donationSkus[which], Requests.IAB_DONATE);
                         return true;
                     }
                     else
