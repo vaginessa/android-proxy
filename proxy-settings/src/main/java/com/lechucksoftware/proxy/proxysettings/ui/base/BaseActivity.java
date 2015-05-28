@@ -480,6 +480,7 @@ public class BaseActivity extends AppCompatActivity
     {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase)
         {
+
             if (result.isFailure())
             {
                 switch (result.getResponse())

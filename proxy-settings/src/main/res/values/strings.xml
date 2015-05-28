@@ -404,6 +404,7 @@
     <string name="analytics_lab_beta_test_community_dialog">Beta test dialog for Google+</string>
     <string name="analytics_lab_beta_test_dismiss_dialog">Beta test dismiss dialog</string>
     <string name="analytics_lab_like_app_dialog">Application like dialog</string>
+    <string name="analytics_lab_donate_dialog">Donate dialog</string>
     <string name="analytics_lab_like_app_mail_feedback">Doesn\'t like application, mail feedback</string>
     <string name="analytics_lab_like_app_rate">Like application, rate it</string>
     <string name="analytics_lab_8021x_security_not_supported">Not supported Wi-Fi security 802.1x</string>
