@@ -147,7 +147,7 @@
 	    edit dialog, specifying the Proxy settings to Manual, and typing
 	    proxy\'s hostname and port.</string>
     <string name="proxysettingscalleractivity_dialog_OK">OK. Go to Wi-Fi Settings</string>
-    <string name="do_you_like">Do you like Proxy Settings?</string>
+    <string name="do_you_like">Do you like using Proxy Settings?</string>
     <string name="app_rater_dialog_button_rate">Rate Proxy Settings</string>
     <string name="app_rater_dialog_button_remind">Remind me later</string>
     <string name="app_rater_dialog_button_nothanks">No, thanks</string>
@@ -380,6 +380,7 @@
     <string name="market_not_found">Cannot find valid Market application</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="rate">Rate it</string>
     <string name="not_now">Not now</string>
     <string name="thank_you">Thank you!</string>
     <string name="sorry_for_that">Sorry for that!</string>

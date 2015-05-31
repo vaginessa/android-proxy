@@ -327,8 +327,9 @@ public class TestUtils
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.commit();
-    }
 
+        App.getAppStats().updateInstallationDetails();
+    }
 
     public static void testValidation()
     {

@@ -60,7 +60,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
-    compile 'com.afollestad:material-dialogs:0.7.4.1'
+    compile 'com.afollestad:material-dialogs:0.7.5.0'
     compile 'com.nispok:snackbar:2.10.8'
     compile 'com.jpardogo.materialtabstrip:library:1.0.9'
     compile 'com.github.traex.rippleeffect:library:1.2.3'

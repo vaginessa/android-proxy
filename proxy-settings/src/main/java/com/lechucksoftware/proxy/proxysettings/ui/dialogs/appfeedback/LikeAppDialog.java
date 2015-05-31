@@ -1,6 +1,5 @@
-package com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating;
+package com.lechucksoftware.proxy.proxysettings.ui.dialogs.appfeedback;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -28,17 +27,18 @@ public class LikeAppDialog extends BaseDialogFragment
     {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-//        builder.setTitle(R.string.app_rater_dialog_title);
+        builder.title(R.string.app_name);
         builder.content(R.string.do_you_like);
 
         builder.positiveText(R.string.yes);
         builder.negativeText(R.string.no);
 
         builder.callback(new MaterialDialog.ButtonCallback() {
+
             @Override
             public void onPositive(MaterialDialog dialog)
             {
-                RateAppDialog rateDialog = RateAppDialog.newInstance(startupAction);
+                DoLikeAppDialog rateDialog = DoLikeAppDialog.newInstance(startupAction);
                 rateDialog.show(getFragmentManager(), "RateAppDialog");
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
@@ -49,7 +49,7 @@ public class LikeAppDialog extends BaseDialogFragment
             @Override
             public void onNegative(MaterialDialog dialog)
             {
-                MailFeedbackDialog feedbackDialog = MailFeedbackDialog.newInstance(startupAction);
+                DontLikeAppDialog feedbackDialog = DontLikeAppDialog.newInstance(startupAction);
                 feedbackDialog.show(getFragmentManager(), "MailFeedbackDialog");
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,

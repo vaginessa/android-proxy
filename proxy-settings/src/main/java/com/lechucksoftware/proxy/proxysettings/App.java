@@ -30,11 +30,7 @@ public class App extends Application
     public Boolean demoMode;
     private TraceUtils traceUtils;
     private EventsReporting eventsReporter;
-
-    public static int getAppMajorVersion()
-    {
-        return BuildConfig.VERSION_CODE / 100;
-    }
+    private ApplicationStatistics applicationStatistics;
 
     public static int getAppMinorVersion()
     {
@@ -49,6 +45,8 @@ public class App extends Application
         mInstance = this;
 
         eventsReporter = new EventsReporting(App.this);
+
+
         traceUtils = new TraceUtils();
 
         CustomCrashlyticsTree customCrashlyticsTree = new CustomCrashlyticsTree();
@@ -60,6 +58,7 @@ public class App extends Application
         dbManager = new DataSource(App.this);
         cacheManager = new CacheManager(App.this);
         navigationManager = new NavigationManager(App.this);
+        applicationStatistics = new ApplicationStatistics(App.this);
 
         activeMarket = Utils.getInstallerMarket(App.this);
 
@@ -67,9 +66,6 @@ public class App extends Application
 
         // Start ASAP a Wi-Fi scan
 //        APL.getWifiManager().startScan();
-
-        // TODO: evaluate moving to AsyncUpdateApplicationStatistics
-        ApplicationStatistics.updateInstallationDetails(this);
 
         Timber.d("Calling broadcast intent " + Intents.PROXY_SETTINGS_STARTED);
         sendBroadcast(new Intent(Intents.PROXY_SETTINGS_STARTED));
@@ -137,5 +133,16 @@ public class App extends Application
         }
 
         return getInstance().navigationManager;
+    }
+
+    public static ApplicationStatistics getAppStats()
+    {
+        if (getInstance().applicationStatistics == null)
+        {
+            Timber.e(new Exception(),"Cannot find valid instance of ApplicationStatistics, trying to instantiate a new one");
+            getInstance().applicationStatistics = new ApplicationStatistics(getInstance());
+        }
+
+        return getInstance().applicationStatistics;
     }
 }

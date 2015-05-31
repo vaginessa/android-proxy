@@ -17,13 +17,20 @@ import timber.log.Timber;
 public class ApplicationStatistics
 {
     private static final String TAG = ApplicationStatistics.class.getSimpleName();
-    public long LaunchCount;
-    public Date LaunhcFirstDate;
-//    public int CrashesCount;
+    private final Context context;
+    public long launchCount;
+    public Date launhcFirstDate;
+    public int majorVersion = BuildConfig.VERSION_CODE / 100;
 
-    public static void updateInstallationDetails(Context applicationContext)
+    public ApplicationStatistics(Context context)
     {
-        SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        this.context = context;
+        updateInstallationDetails();
+    }
+
+    public void updateInstallationDetails()
+    {
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
 
         long launch_count = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0) + 1;
@@ -36,38 +43,29 @@ public class ApplicationStatistics
             editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, date_firstLaunch);
         }
 
-        if (BuildConfig.DEBUG)
-        {
-            // During debug there is no need to mantain the total number of crashes
-//            App.getEventsReporter().clearTotalCrashesNum();
-        }
-
         editor.commit();
+
+        getInstallationDetails();
+
+        Timber.i(toString());
     }
 
-    public static ApplicationStatistics getInstallationDetails(Context applicationContext)
+    private void getInstallationDetails()
     {
-        ApplicationStatistics details = new ApplicationStatistics();
-        SharedPreferences prefs = applicationContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
 
         // Increment launch counter
-        details.LaunchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);
+        launchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);
 
         // Get date of first launch
-        details.LaunhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
-
-//        details.CrashesCount = App.getEventsReporter().getCrashesCount();
-
-        Timber.i(details.toString());
-
-        return details;
+        launhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
     }
 
     @Override
     public String toString()
     {
         DateFormat df = DateFormat.getDateTimeInstance();
-        String msg = String.format("App launched #%d times since %s", LaunchCount, df.format(LaunhcFirstDate));
+        String msg = String.format("App launched #%d times since %s", launchCount, df.format(launhcFirstDate));
         return msg;
     }
 }

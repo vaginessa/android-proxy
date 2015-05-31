@@ -51,7 +51,7 @@ public class StartupAction implements Parcelable
         }
     }
 
-    public boolean canExecute(ApplicationStatistics statistics)
+    public boolean canExecute()
     {
         SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         StartupActionStatus status = StartupActionStatus.parseInt(prefs.getInt(preferenceKey, StartupActionStatus.NOT_AVAILABLE.getValue()));
@@ -62,7 +62,7 @@ public class StartupAction implements Parcelable
         {
             case NOT_AVAILABLE:
             case POSTPONED:
-                result = checkInstallationConditions(statistics, startupConditions);
+                result = checkInstallationConditions(startupConditions);
                 break;
 
             case REJECTED:
@@ -75,7 +75,7 @@ public class StartupAction implements Parcelable
         return result;
     }
 
-    public static Boolean checkInstallationConditions(ApplicationStatistics statistics, StartupCondition [] conditions)
+    public static Boolean checkInstallationConditions(StartupCondition [] conditions)
     {
         Boolean result = false;
 
@@ -83,54 +83,10 @@ public class StartupAction implements Parcelable
         {
             for (StartupCondition condition: conditions)
             {
-                if (checkLaunchCount(statistics, condition.launchCount) &&
-                    checkElapsedDays(statistics, condition.launchDays) &&
-                    checkRequiredAppVersion(statistics, condition.requiredVerCode))
-                {
-                    result = true;
+                result = condition.isValid();
+                if (result)
                     break;
-                }
             }
-        }
-
-        return result;
-    }
-
-    private static boolean checkRequiredAppVersion(ApplicationStatistics statistics, Integer requiredVerCode)
-    {
-        Boolean result = false;
-
-        if (requiredVerCode == null)
-        {
-            result = true;
-        }
-        else if (App.getAppMajorVersion() == requiredVerCode)
-        {
-            result = true;
-        }
-
-        return result;
-    }
-
-    public static Boolean checkLaunchCount(ApplicationStatistics statistics, Integer launchCount)
-    {
-        Boolean result = false;
-
-        if (launchCount == null || statistics.LaunchCount == launchCount)
-        {
-            result = true;
-        }
-
-        return result;
-    }
-
-    public static Boolean checkElapsedDays(ApplicationStatistics statistics, Integer daysCount)
-    {
-        Boolean result = false;
-
-        if (daysCount == null || Utils.ElapsedNDays(statistics.LaunhcFirstDate, daysCount))
-        {
-            result = true;
         }
 
         return result;

@@ -401,10 +401,9 @@ public class DeveloperOptionsActivity extends BaseActivity
             }
             else if (_action == TestAction.RUN_STARTUP_ACTIONS)
             {
-                ApplicationStatistics.updateInstallationDetails(_developerOptionsActivity);
+                App.getAppStats().updateInstallationDetails();
 
-                ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(_developerOptionsActivity);
-                publishProgress(statistics.toString());
+                publishProgress(App.getAppStats().toString());
 
                 AsyncStartupActions async = new AsyncStartupActions(_developerOptionsActivity);
                 async.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
