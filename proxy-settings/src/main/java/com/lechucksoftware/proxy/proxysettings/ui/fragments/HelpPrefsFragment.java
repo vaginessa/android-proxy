@@ -15,27 +15,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.IabActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestCommunityDialog;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestDismissedDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.DonateDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory;
-import com.lechucksoftware.proxy.proxysettings.utils.billing.SkuDetails;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import timber.log.Timber;
 
 public class HelpPrefsFragment extends BasePreferenceFragment
 {
@@ -155,74 +141,17 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             }
         });
 
-        final BaseActivity activity = (BaseActivity) getActivity();
-
         donatePref = findPreference("pref_donate");
         donatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                Inventory inventory = activity.getIabInventory();
-
-                if (inventory != null)
-                {
-                    String[] donationSkus = new String[]
-                    {
-                            Constants.IAB_ITEM_SKU_DONATION_0_99,
-                            Constants.IAB_ITEM_SKU_DONATION_1_99,
-                            Constants.IAB_ITEM_SKU_DONATION_2_99,
-                            Constants.IAB_ITEM_SKU_DONATION_5_99,
-                            Constants.IAB_ITEM_SKU_DONATION_9_99
-                    };
-
-                    Map<String,SkuDetails> donationSkuDetails = new HashMap<>();
-                    for (String sku : donationSkus)
-                    {
-                        SkuDetails skuDetails = inventory.getSkuDetails(sku);
-                        if (skuDetails != null)
-                        {
-                            donationSkuDetails.put(sku, skuDetails);
-                        }
-                    }
-
-                    List<String> skusDesc = new ArrayList<String>();
-                    for(int i=0; i<donationSkus.length;i++)
-                    {
-                        if(donationSkuDetails.containsKey(donationSkus[i]))
-                        {
-                            skusDesc.add(donationSkuDetails.get(donationSkus[i]).getPrice());
-                        }
-                    }
-
-                    MaterialDialog.Builder donateBuilder = new MaterialDialog.Builder(getActivity());
-                    donateBuilder.title(R.string.donate);
-                    donateBuilder.negativeText(R.string.cancel);
-                    donateBuilder.cancelable(true);
-                    donateBuilder.items(skusDesc.toArray(new String[skusDesc.size()]));
-                    donateBuilder.itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice()
-                    {
-                        @Override
-                        public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text)
-                        {
-                            /**
-                             * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
-                             * returning false here won't allow the newly selected radio button to actually be selected.
-                             **/
-                            Timber.d("Selected : %d", which);
-
-
-                            return true;
-                        }
-                    });
-
-                    MaterialDialog donateDialog = donateBuilder.build();
-                    donateDialog.show();
-                }
+                DonateDialog donateDialog = DonateDialog.newInstance();
+                donateDialog.show(getActivity().getSupportFragmentManager(), "DonateDialog");
                 return true;
             }
         });
-
 
 //        shareApp = findPreference("pref_share_app");
 //        shareApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()

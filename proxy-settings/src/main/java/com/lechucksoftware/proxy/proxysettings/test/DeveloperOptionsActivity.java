@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +27,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DBUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -48,7 +48,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 10/10/13.
  */
-public class DeveloperOptionsActivity extends AppCompatActivity
+public class DeveloperOptionsActivity extends BaseActivity
 {
     public static final String TAG = DeveloperOptionsActivity.class.getSimpleName();
     public LinearLayout testDBContainer;

@@ -12,6 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.DonateDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
@@ -65,6 +66,11 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                     case FIRST_QUICK_TOUR:
                         Intent appDemo = new Intent(activity, TransparentAppGuideActivity.class);
                         activity.startActivity(appDemo);
+                        break;
+
+                    case DONATE_DIALOG:
+                        DonateDialog donateDialog = DonateDialog.newInstance(action);
+                        donateDialog.show(activity.getSupportFragmentManager(), "DonateDialog");
                         break;
 
                     case RATE_DIALOG:

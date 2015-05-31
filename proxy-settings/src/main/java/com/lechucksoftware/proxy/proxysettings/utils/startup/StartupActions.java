@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
-import android.app.Activity;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -52,13 +51,39 @@ public class StartupActions
                 new StartupCondition(null, 30, null));
         actions.add(rating);
 
+        StartupAction donate = new StartupAction(
+                StartupActionType.DONATE_DIALOG,
+                StartupActionStatus.NOT_AVAILABLE,
+                new StartupCondition(40, null, null),
+                new StartupCondition(60, null, null),
+                new StartupCondition(80, null, null),
+                new StartupCondition(90, null, null),
+                new StartupCondition(100, null, null),
+                new StartupCondition(110, null, null),
+                new StartupCondition(120, null, null),
+                new StartupCondition(130, null, null),
+                new StartupCondition(135, null, null),
+                new StartupCondition(145, null, null),
+                new StartupCondition(150, null, null),
+                new StartupCondition(155, null, null),
+                new StartupCondition(160, null, null),
+                new StartupCondition(165, null, null),
+                new StartupCondition(170, null, null),
+                new StartupCondition(175, null, null),
+                new StartupCondition(180, null, null),
+                new StartupCondition(185, null, null),
+                new StartupCondition(190, null, null),
+                new StartupCondition(195, null, null),
+                new StartupCondition(200, null, null)
+        );
+        actions.add(donate);
+
         StartupAction betaTest = new StartupAction(
                 StartupActionType.BETA_TEST_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(80, null, null),
-                new StartupCondition(100, null, null),
-                new StartupCondition(120, null, null));
-
+                new StartupCondition(200, null, null),
+                new StartupCondition(250, null, null),
+                new StartupCondition(300, null, null));
         actions.add(betaTest);
 
         return actions;

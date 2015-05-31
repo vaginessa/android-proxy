@@ -29,4 +29,9 @@ public interface Requests
      * Request to purchase IAB
      * */
     int IAB_PURCHASE = 4;
+
+    /**
+     * Request to donate through IAB
+     * */
+    int IAB_DONATE = 5;
 }
