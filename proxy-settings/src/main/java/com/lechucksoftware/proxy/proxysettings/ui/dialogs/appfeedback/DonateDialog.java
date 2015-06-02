@@ -46,79 +46,84 @@ public class DonateDialog extends BaseDialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         final BaseActivity activity = (BaseActivity) getActivity();
-        MaterialDialog.Builder donateBuilder = new MaterialDialog.Builder(activity);
         Inventory inventory = activity.getIabInventory();
 
-        if (inventory != null)
+        return buildDonateDialog(inventory);
+    }
+
+    private Dialog buildDonateDialog(Inventory inventory)
+    {
+        final BaseActivity activity = (BaseActivity) getActivity();
+        MaterialDialog.Builder donateBuilder = new MaterialDialog.Builder(activity);
+
+        final String[] donationSkus = new String[]
+                {
+                        Constants.IAB_ITEM_SKU_DONATION_0_99,
+                        Constants.IAB_ITEM_SKU_DONATION_1_99,
+                        Constants.IAB_ITEM_SKU_DONATION_2_99,
+                        Constants.IAB_ITEM_SKU_DONATION_5_99,
+                        Constants.IAB_ITEM_SKU_DONATION_9_99
+                };
+
+        Map<String, SkuDetails> donationSkuDetails = new HashMap<>();
+        for (String sku : donationSkus)
         {
-            final String[] donationSkus = new String[]
-                    {
-                            Constants.IAB_ITEM_SKU_DONATION_0_99,
-                            Constants.IAB_ITEM_SKU_DONATION_1_99,
-                            Constants.IAB_ITEM_SKU_DONATION_2_99,
-                            Constants.IAB_ITEM_SKU_DONATION_5_99,
-                            Constants.IAB_ITEM_SKU_DONATION_9_99
-                    };
-
-            Map<String, SkuDetails> donationSkuDetails = new HashMap<>();
-            for (String sku : donationSkus)
+            SkuDetails skuDetails = inventory.getSkuDetails(sku);
+            if (skuDetails != null)
             {
-                SkuDetails skuDetails = inventory.getSkuDetails(sku);
-                if (skuDetails != null)
-                {
-                    donationSkuDetails.put(sku, skuDetails);
-                }
+                donationSkuDetails.put(sku, skuDetails);
             }
-
-            List<String> skusDesc = new ArrayList<String>();
-            for (int i = 0; i < donationSkus.length; i++)
-            {
-                if (donationSkuDetails.containsKey(donationSkus[i]))
-                {
-                    SkuDetails skuDetails = donationSkuDetails.get(donationSkus[i]);
-//                    skusDesc.add(String.format("%s (%s)",skuDetails.getPrice(), skuDetails.getDescription()));
-                    skusDesc.add(skuDetails.getPrice());
-                }
-            }
-
-            donateBuilder.title(R.string.donate);
-            donateBuilder.negativeText(R.string.cancel);
-            donateBuilder.positiveText(R.string.ok);
-            donateBuilder.cancelable(false);
-            donateBuilder.items(skusDesc.toArray(new String[skusDesc.size()]));
-            donateBuilder.itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice()
-            {
-                @Override
-                public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text)
-                {
-                    /**
-                     * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
-                     * returning false here won't allow the newly selected radio button to actually be selected.
-                     **/
-
-                    Timber.d("Selected donation SKU: %d", which);
-
-                    if (which != -1 && which <= donationSkus.length)
-                    {
-                        if (startupAction != null)
-                        {
-                            startupAction.updateStatus(StartupActionStatus.DONE);
-                        }
-
-                        App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                                R.string.analytics_act_dialog_button_click,
-                                R.string.analytics_lab_donate_dialog, 1L);
-
-                        activity.iabLaunchPurchase(donationSkus[which], Requests.IAB_DONATE);
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            });
         }
+
+        List<String> skusDesc = new ArrayList<String>();
+        for (int i = 0; i < donationSkus.length; i++)
+        {
+            if (donationSkuDetails.containsKey(donationSkus[i]))
+            {
+                SkuDetails skuDetails = donationSkuDetails.get(donationSkus[i]);
+//                    skusDesc.add(String.format("%s (%s)",skuDetails.getPrice(), skuDetails.getDescription()));
+                skusDesc.add(skuDetails.getPrice());
+            }
+        }
+
+        donateBuilder.title(R.string.donate);
+        donateBuilder.negativeText(R.string.cancel);
+        donateBuilder.positiveText(R.string.ok);
+        donateBuilder.cancelable(false);
+        donateBuilder.items(skusDesc.toArray(new String[skusDesc.size()]));
+        donateBuilder.itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice()
+        {
+            @Override
+            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text)
+            {
+
+                /**
+                 * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
+                 * returning false here won't allow the newly selected radio button to actually be selected.
+                 **/
+
+                Timber.d("Selected donation SKU: %d", which);
+
+                if (which != -1 && which <= donationSkus.length)
+                {
+                    if (startupAction != null)
+                    {
+                        startupAction.updateStatus(StartupActionStatus.DONE);
+                    }
+
+                    App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
+                            R.string.analytics_act_dialog_button_click,
+                            R.string.analytics_lab_donate_dialog, 1L);
+
+                    activity.iabLaunchPurchase(donationSkus[which], Requests.IAB_DONATE);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        });
 
         MaterialDialog alert = donateBuilder.build();
         return alert;

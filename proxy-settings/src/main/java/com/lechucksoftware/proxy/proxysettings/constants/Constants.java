@@ -55,9 +55,25 @@ public class Constants
     public static final String IAB_ITEM_SKU_DONATION_5_99 = "be.shouldit.proxy.billing.donation.5.99";
     public static final String IAB_ITEM_SKU_DONATION_9_99 = "be.shouldit.proxy.billing.donation.9.99";
 
-
     public static final String IAB_ITEM_SKU_TEST_PURCHASED = "android.test.purchased"; // Buying this item will cause a successful purchase response.
     public static final String IAB_ITEM_SKU_TEST_CANCELED = "android.test.canceled"; // Buying this item will act as if the user had canceled the purchase.
     public static final String IAB_ITEM_SKU_TEST_REFUNDED = "android.test.refunded"; // Buying this item will act as if the purchase was refunded.
     public static final String IAB_ITEM_SKU_TEST_UNAVAILABLE = "android.test.item_unavailable"; // Buying this item will act as if this item was not added to the Google Developer Console for your game.
+
+    public static final String [] IAB_AVAILABLE_ITEMS =
+            {
+                    IAB_ITEM_SKU_DONATION_0_99,
+                    IAB_ITEM_SKU_DONATION_1_99,
+                    IAB_ITEM_SKU_DONATION_2_99,
+                    IAB_ITEM_SKU_DONATION_5_99,
+                    IAB_ITEM_SKU_DONATION_9_99
+            };
+
+    public static final String [] IAB_DEBUG_ITEMS =
+            {
+                    IAB_ITEM_SKU_TEST_PURCHASED,
+                    IAB_ITEM_SKU_TEST_CANCELED,
+                    IAB_ITEM_SKU_TEST_REFUNDED,
+                    IAB_ITEM_SKU_TEST_UNAVAILABLE
+            };
 }

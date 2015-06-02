@@ -8,6 +8,8 @@ import com.lechucksoftware.proxy.proxysettings.constants.StartupConditionType;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
+import timber.log.Timber;
+
 /**
  * Created by Marco on 20/04/14.
  */
@@ -15,12 +17,18 @@ public class StartupCondition implements Parcelable
 {
     public StartupConditionType conditionType;
     public Integer launchCount;
+    public Integer delayRepeat;
     public Integer launchDays;
     public Integer requiredVerCode;
 
     public static StartupCondition ElapsedDaysCondition(Integer days)
     {
         return new StartupCondition(StartupConditionType.ELAPSED_DAYS, days);
+    }
+
+    public static StartupCondition LaunchCountCondition(Integer count, Integer delayRepeat)
+    {
+        return new StartupCondition(StartupConditionType.LAUNCH_COUNT, count, delayRepeat);
     }
 
     public static StartupCondition LaunchCountCondition(Integer count)
@@ -35,10 +43,12 @@ public class StartupCondition implements Parcelable
 
     private StartupCondition(StartupConditionType condType, Object ... args)
     {
+        conditionType = condType;
+
         launchCount = -1;
+        delayRepeat = -1;
         launchDays = -1;
         requiredVerCode = -1;
-        conditionType = condType;
 
         switch (conditionType)
         {
@@ -47,7 +57,15 @@ public class StartupCondition implements Parcelable
                 break;
 
             case LAUNCH_COUNT:
-                launchCount = (Integer) args[0];
+                int i = 0;
+                launchCount = (Integer) args[i];
+
+                if (args.length > 1)
+                {
+                    i++;
+                    Timber.d("%d",args.length);
+                    delayRepeat = (Integer) args[i];
+                }
                 break;
 
             case REQUIRED_VERSION:
@@ -67,7 +85,7 @@ public class StartupCondition implements Parcelable
                 break;
 
             case LAUNCH_COUNT:
-                result = checkLaunchCount(launchCount);
+                result = checkLaunchCount(launchCount, delayRepeat);
                 break;
 
             case REQUIRED_VERSION:
@@ -94,11 +112,12 @@ public class StartupCondition implements Parcelable
         return result;
     }
 
-    public static Boolean checkLaunchCount(Integer launchCount)
+    public static Boolean checkLaunchCount(Integer launchCount, Integer delayRepeat)
     {
         Boolean result = false;
 
-        if (App.getAppStats().launchCount >= launchCount)
+        if (App.getAppStats().launchCount >= launchCount &&
+            (delayRepeat == -1 || launchCount % delayRepeat == 0))
         {
             result = true;
         }

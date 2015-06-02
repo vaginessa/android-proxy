@@ -28,7 +28,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 
 import java.io.File;
@@ -64,7 +63,7 @@ public class UIUtils
     {
         try
         {
-            showDialog(ctx, errorMessage, ctx.getString(R.string.proxy_error), null);
+            showDialog(ctx, errorMessage, ctx.getString(R.string.attention), null);
         }
         catch (Exception e)
         {

@@ -67,6 +67,7 @@ public class EventsReporting
         {
             defaultTracker = GoogleAnalytics.getInstance(context).newTracker(BuildConfig.ANALYTICS_TRACK_ID);
 
+            defaultTracker.setAppVersion(String.valueOf(BuildConfig.VERSION_CODE));
             defaultTracker.enableExceptionReporting(true);
             defaultTracker.enableAutoActivityTracking(true);
 //            defaultTracker.setAppName(ApplicationStatistics.getInstallationDetails(context));

@@ -12,6 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.appfeedback.DoLikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.appfeedback.DonateDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.appfeedback.LikeAppDialog;
@@ -69,8 +70,8 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                         break;
 
                     case DONATE_DIALOG:
-                        DonateDialog donateDialog = DonateDialog.newInstance(action);
-                        donateDialog.show(activity.getSupportFragmentManager(), "DonateDialog");
+                        DoLikeAppDialog donateDialog = DoLikeAppDialog.newInstance(action);
+                        donateDialog.show(activity.getSupportFragmentManager(), "DoLikeAppDialog");
                         break;
 
                     case RATE_DIALOG:

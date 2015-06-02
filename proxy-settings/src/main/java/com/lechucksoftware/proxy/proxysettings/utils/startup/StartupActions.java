@@ -45,9 +45,15 @@ public class StartupActions
         StartupAction likeAction = new StartupAction(
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                StartupCondition.LaunchCountCondition(10),
+                StartupCondition.LaunchCountCondition(20),
                 StartupCondition.ElapsedDaysCondition(60));
         actions.add(likeAction);
+
+        StartupAction donateAction = new StartupAction(
+                StartupActionType.DONATE_DIALOG,
+                StartupActionStatus.NOT_AVAILABLE,
+                StartupCondition.LaunchCountCondition(20,10));
+        actions.add(donateAction);
 
         StartupAction betaTest = new StartupAction(
                 StartupActionType.BETA_TEST_DIALOG,

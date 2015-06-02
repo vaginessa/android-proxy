@@ -215,7 +215,7 @@
     <string name="proxy_exclusionlist_label">Bypass proxy for</string>
     <string name="proxy_exclusionlist_hint">example.com,mycomp.test.com,localhost</string>
     <string name="wifi_networks">Wi\u2011Fi networks</string>
-    <string name="proxy_error">Attention</string>
+    <string name="attention">Attention</string>
     <string name="proxy_error_dismiss">OK</string>
     <string name="proxy_url_label">PAC URL</string>
     <string name="proxy_url_hint" translatable="false">https://www.example.com/proxy.pac</string>
@@ -382,9 +382,9 @@
     <string name="yes">Yes</string>
     <string name="rate">Rate it</string>
     <string name="not_now">Not now</string>
-    <string name="thank_you">Thank you!</string>
-    <string name="sorry_for_that">Sorry for that!</string>
-    <string name="mail_feedback_dialog">Please let us know how to make Proxy Settings better for you!</string>
+    <string name="thank_you">Thank you</string>
+    <string name="sorry_for_that">Sorry for that</string>
+    <string name="mail_feedback_dialog">Please let us know how to make Proxy Settings better for you</string>
     <string name="rate_app">It\'d be really helpful if you rated Proxy Settings.</string>
     <string name="no_email_client_installed">There are no email clients installed.</string>
     <string name="mail_feedback_subject">Proxy Settings %s feedback</string>
@@ -445,7 +445,9 @@
     <string name="title_activity_in_app_billing">InAppBillingActivity</string>
     <string name="support">Support</string>
     <string name="support_android_proxy_project">Support the Android Proxy project</string>
-    <string name="billing_error">Unfortunately a problem occurred during the billing operation</string>
+    <string name="billing_error_during_init">Unfortunately a problem occurred retrieving the billing information. Cannot continue.</string>
+    <string name="billing_error_during_operation">Unfortunately a problem occurred during the billing operation. Cannot continue.</string>
     <string name="saving_configuration">Saving configuration…</string>
     <string name="donate">Donate</string>
+    <string name="please_wait">Please wait…</string>
 </resources>

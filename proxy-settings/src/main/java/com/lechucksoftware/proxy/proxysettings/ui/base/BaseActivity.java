@@ -32,6 +32,7 @@ import com.nispok.snackbar.enums.SnackbarType;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -390,62 +391,60 @@ public class BaseActivity extends AppCompatActivity
             else
             {
                 Timber.d("In-app Billing is set up OK");
-                startQueryAvailableSKU();
+                startInventoryRefresh(queryInventoryFinishedListener);
             }
         }
     }
 
-    public void startQueryAvailableSKU()
+    public void startInventoryRefresh(IabHelper.QueryInventoryFinishedListener queryInventoryFinishedListener)
     {
         List<String> skus = new ArrayList<>();
 
-        skus.add(Constants.IAB_ITEM_SKU_DONATION_0_99);
-        skus.add(Constants.IAB_ITEM_SKU_DONATION_1_99);
-        skus.add(Constants.IAB_ITEM_SKU_DONATION_2_99);
-        skus.add(Constants.IAB_ITEM_SKU_DONATION_5_99);
-        skus.add(Constants.IAB_ITEM_SKU_DONATION_9_99);
-
-//        skus.add(Constants.IAB_ITEM_SKU_PRO);
-//        skus.add(Constants.IAB_ITEM_SKU_NINJA);
+        skus.addAll(Arrays.asList(Constants.IAB_AVAILABLE_ITEMS));
 
         if (BuildConfig.DEBUG)
         {
-            skus.add(Constants.IAB_ITEM_SKU_TEST_PURCHASED);
-            skus.add(Constants.IAB_ITEM_SKU_TEST_CANCELED);
-            skus.add(Constants.IAB_ITEM_SKU_TEST_REFUNDED);
-            skus.add(Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE);
+            skus.addAll(Arrays.asList(Constants.IAB_DEBUG_ITEMS));
         }
 
-        iabHelper.queryInventoryAsync(true, skus, queryAvailableSkuReceivedInventoryListener);
+        iabHelper.queryInventoryAsync(true, skus, queryInventoryFinishedListener);
     }
 
-    IabHelper.QueryInventoryFinishedListener queryAvailableSkuReceivedInventoryListener = new IabHelper.QueryInventoryFinishedListener()
+    IabHelper.QueryInventoryFinishedListener queryInventoryFinishedListener = new IabHelper.QueryInventoryFinishedListener()
     {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory)
         {
-            if (result.isFailure())
-            {
-                // Handle failure
-            }
-            else
-            {
-                iabInventory = inventory;
-
-                List<SkuDetails> skus = inventory.getAllSkus();
-                List<Purchase> purchases = inventory.getAllPurchases();
-
-                for (SkuDetails sku : skus)
-                {
-                    Timber.d(sku.toString());
-                }
-
-                for (Purchase purchase : purchases)
-                {
-                    Timber.d(purchase.toString());
-                }
-            }
+            handleQueryInventory(result, inventory);
         }
     };
+
+    public void handleQueryInventory(IabResult result, Inventory inventory)
+    {
+        if (result.isFailure())
+        {
+            // Handle failure
+        }
+        else
+        {
+            Timber.d("Received updated inventory from IAB");
+            iabInventory = inventory;
+
+            List<SkuDetails> skus = inventory.getAllSkus();
+            List<Purchase> purchases = inventory.getAllPurchases();
+
+            Timber.d("Received SKUs from IAB");
+            for (SkuDetails sku : skus)
+            {
+                Timber.d("IAB SKU: %s",sku.toString());
+            }
+
+            Timber.d("Received Purchases from IAB");
+            for (Purchase purchase : purchases)
+            {
+                Timber.d("IAB Purchase: %s", purchase.toString());
+            }
+        }
+    }
 
     private boolean iabCheckIabHelper()
     {
@@ -472,7 +471,7 @@ public class BaseActivity extends AppCompatActivity
         catch (Exception e)
         {
             Timber.e(e, "Exception during launchPurchaseFlow");
-            UIUtils.showError(this, R.string.billing_error);
+            UIUtils.showError(this, R.string.billing_error_during_operation);
         }
     }
 

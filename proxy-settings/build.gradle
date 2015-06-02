@@ -28,7 +28,7 @@ repositories {
 
 task printProps << {
 
-    println 'Printing properties'
+    println 'Printing properties: '
     println android_keystore
     println android_keystore_password
     println android_key_alias
@@ -92,6 +92,8 @@ allprojects {
 
 android {
 
+    println("GRADLE version: " + getGradle().getGradleVersion())
+
     compileSdkVersion 22
     buildToolsVersion '22.0.1'
 
@@ -123,6 +125,12 @@ android {
     packagingOptions {
         exclude 'LICENSE.txt'
         exclude 'NOTICE.txt'
+    }
+
+    dexOptions {
+        incremental true
+        preDexLibraries false
+        javaMaxHeapSize "2g"
     }
 
     signingConfigs {

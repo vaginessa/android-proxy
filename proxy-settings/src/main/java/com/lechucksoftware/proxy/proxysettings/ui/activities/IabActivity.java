@@ -188,7 +188,7 @@ public class IabActivity extends AppCompatActivity
         catch (Exception e)
         {
             Timber.e(e, "Exception during launchPurchaseFlow");
-            UIUtils.showError(this, R.string.billing_error);
+            UIUtils.showError(this, R.string.billing_error_during_operation);
         }
     }
 
