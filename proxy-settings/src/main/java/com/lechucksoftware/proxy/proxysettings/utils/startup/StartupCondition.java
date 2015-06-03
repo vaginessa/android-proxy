@@ -117,7 +117,7 @@ public class StartupCondition implements Parcelable
         Boolean result = false;
 
         if (App.getAppStats().launchCount >= launchCount &&
-            (delayRepeat == -1 || launchCount % delayRepeat == 0))
+            (delayRepeat == -1 || App.getAppStats().launchCount % delayRepeat == 0))
         {
             result = true;
         }
