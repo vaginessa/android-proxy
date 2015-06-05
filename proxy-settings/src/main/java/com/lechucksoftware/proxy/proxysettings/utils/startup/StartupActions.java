@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.utils.startup;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 
@@ -45,15 +46,18 @@ public class StartupActions
         StartupAction likeAction = new StartupAction(
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                StartupCondition.LaunchCountCondition(10),
+                StartupCondition.LaunchCountCondition(20,5),
                 StartupCondition.ElapsedDaysCondition(60));
         actions.add(likeAction);
 
-        StartupAction donateAction = new StartupAction(
-                StartupActionType.DONATE_DIALOG,
-                StartupActionStatus.NOT_AVAILABLE,
-                StartupCondition.LaunchCountCondition(2,10));
-        actions.add(donateAction);
+        if (App.getInstance().activeMarket == AndroidMarket.PLAY)
+        {
+            StartupAction donateAction = new StartupAction(
+                    StartupActionType.DONATE_DIALOG,
+                    StartupActionStatus.NOT_AVAILABLE,
+                    StartupCondition.LaunchCountCondition(40, 10));
+            actions.add(donateAction);
+        }
 
         StartupAction betaTest = new StartupAction(
                 StartupActionType.BETA_TEST_DIALOG,

@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.dialogs.appfeedback;
+package com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

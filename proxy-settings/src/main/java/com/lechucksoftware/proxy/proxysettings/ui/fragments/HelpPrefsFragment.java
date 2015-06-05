@@ -19,7 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.appfeedback.DonateDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.DonateDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
@@ -185,7 +185,6 @@ public class HelpPrefsFragment extends BasePreferenceFragment
         {
             getPreferenceScreen().removePreference(betaTestPref);
             getPreferenceScreen().removePreference(donatePref);
-
         }
 
         return v;

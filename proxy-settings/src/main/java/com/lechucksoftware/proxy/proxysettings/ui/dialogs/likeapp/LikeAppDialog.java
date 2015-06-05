@@ -1,4 +1,4 @@
-package com.lechucksoftware.proxy.proxysettings.ui.dialogs.appfeedback;
+package com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -7,14 +7,12 @@ import android.os.Bundle;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
-public class DontLikeAppDialog extends BaseDialogFragment
+public class LikeAppDialog extends BaseDialogFragment
 {
-    public static String TAG = DontLikeAppDialog.class.getSimpleName();
+    public static String TAG = LikeAppDialog.class.getSimpleName();
     private StartupAction startupAction;
 
     @Override
@@ -29,32 +27,34 @@ public class DontLikeAppDialog extends BaseDialogFragment
     {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title(R.string.sorry_for_that);
-        builder.content(R.string.mail_feedback_dialog);
-        builder.positiveText(R.string.ok);
+        builder.title(R.string.app_name);
+        builder.content(R.string.do_you_like);
+
+        builder.positiveText(R.string.yes);
         builder.negativeText(R.string.no);
 
         builder.callback(new MaterialDialog.ButtonCallback() {
+
             @Override
             public void onPositive(MaterialDialog dialog)
             {
-                startupAction.updateStatus(StartupActionStatus.DONE);
+                DoLikeAppDialog rateDialog = DoLikeAppDialog.newInstance(startupAction);
+                rateDialog.show(getFragmentManager(), "RateAppDialog");
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
-                        R.string.analytics_lab_like_app_mail_feedback, 1L);
-
-                Utils.sendFeedbackMail(getActivity());
+                        R.string.analytics_lab_like_app_dialog, 1L);
             }
 
             @Override
             public void onNegative(MaterialDialog dialog)
             {
-                startupAction.updateStatus(StartupActionStatus.REJECTED);
+                DontLikeAppDialog feedbackDialog = DontLikeAppDialog.newInstance(startupAction);
+                feedbackDialog.show(getFragmentManager(), "MailFeedbackDialog");
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
-                        R.string.analytics_lab_like_app_mail_feedback, 0L);
+                        R.string.analytics_lab_like_app_dialog, 0L);
             }
         });
 
@@ -69,12 +69,12 @@ public class DontLikeAppDialog extends BaseDialogFragment
 
         App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                 R.string.analytics_act_dialog_button_click,
-                R.string.analytics_lab_like_app_mail_feedback, 2L);
+                R.string.analytics_lab_like_app_dialog, 0L);
     }
 
-    public static DontLikeAppDialog newInstance(StartupAction action)
+    public static LikeAppDialog newInstance(StartupAction action)
     {
-        DontLikeAppDialog frag = new DontLikeAppDialog();
+        LikeAppDialog frag = new LikeAppDialog();
 
         Bundle b = new Bundle();
         b.putParcelable("ACTION", action);

@@ -1,10 +1,12 @@
-package com.lechucksoftware.proxy.proxysettings.ui.dialogs.appfeedback;
+package com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp;
 
 import android.app.Dialog;
 import android.os.Bundle;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
@@ -32,11 +34,21 @@ public class DoLikeAppDialog extends BaseDialogFragment
     {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
         builder.title(R.string.thank_you);
-        builder.content(R.string.rate_app);
         builder.cancelable(false);
 
         // On the RIGHT
-        builder.positiveText(R.string.donate);
+
+        if (App.getInstance().activeMarket == AndroidMarket.PLAY)
+        {
+            builder.positiveText(R.string.donate);
+            builder.content(R.string.rate_or_donate_message);
+        }
+        else
+        {
+            // All other stores
+            builder.content(R.string.rate_app_message);
+        }
+
         builder.negativeText(R.string.rate);
 
         // On the LEFT
