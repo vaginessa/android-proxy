@@ -391,7 +391,7 @@ public class BaseActivity extends AppCompatActivity
             else
             {
                 Timber.d("In-app Billing is set up OK");
-                startInventoryRefresh(queryInventoryFinishedListener);
+//                startInventoryRefresh(queryInventoryFinishedListener);
             }
         }
     }
@@ -407,7 +407,15 @@ public class BaseActivity extends AppCompatActivity
             skus.addAll(Arrays.asList(Constants.IAB_DEBUG_ITEMS));
         }
 
-        iabHelper.queryInventoryAsync(true, skus, queryInventoryFinishedListener);
+        try
+        {
+            iabHelper.queryInventoryAsync(true, skus, queryInventoryFinishedListener);
+        }
+        catch (Exception e)
+        {
+            Timber.e(e, "Exception during queryInventoryAsync");
+            UIUtils.showError(this, R.string.billing_error_during_init);
+        }
     }
 
     IabHelper.QueryInventoryFinishedListener queryInventoryFinishedListener = new IabHelper.QueryInventoryFinishedListener()

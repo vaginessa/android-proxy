@@ -18,6 +18,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.DonateDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -147,8 +148,8 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
-                DonateDialog donateDialog = DonateDialog.newInstance();
-                donateDialog.show(getActivity().getSupportFragmentManager(), "DonateDialog");
+
+                DonateDialog.showDonateDialog((BaseActivity) getActivity());
                 return true;
             }
         });

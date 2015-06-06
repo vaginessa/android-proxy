@@ -13,6 +13,9 @@ import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.IabHelper;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.IabResult;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.SkuDetails;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
@@ -28,6 +31,45 @@ public class DonateDialog extends BaseDialogFragment
 {
     public static String TAG = DonateDialog.class.getSimpleName();
     private StartupAction startupAction;
+
+    public static void showDonateDialog(final BaseActivity baseActivity)
+    {
+        MaterialDialog.Builder waitDialogBuilder = new MaterialDialog.Builder(baseActivity);
+        waitDialogBuilder.title(R.string.app_name);
+        waitDialogBuilder.content(R.string.please_wait);
+        waitDialogBuilder.progress(true, 0);
+        final MaterialDialog waitDialog = waitDialogBuilder.build();
+
+        if(baseActivity.getIabInventory() == null)
+        {
+            IabHelper.QueryInventoryFinishedListener queryInventoryFinishedListener = new IabHelper.QueryInventoryFinishedListener()
+            {
+                public void onQueryInventoryFinished(IabResult result, Inventory inventory)
+                {
+                    baseActivity.handleQueryInventory(result, inventory);
+                    waitDialog.dismiss();
+
+                    if (result.isFailure())
+                    {
+                        UIUtils.showError(baseActivity, R.string.billing_error_during_init);
+                    }
+                    else
+                    {
+                        DonateDialog donateDialog = newInstance();
+                        donateDialog.show(baseActivity.getSupportFragmentManager(),"DonateDialog");
+                    }
+                }
+            };
+
+            baseActivity.startInventoryRefresh(queryInventoryFinishedListener);
+            waitDialog.show();
+        }
+        else
+        {
+            DonateDialog donateDialog = newInstance();
+            donateDialog.show(baseActivity.getSupportFragmentManager(),"DonateDialog");
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
