@@ -48,6 +48,13 @@ public class BaseActivity extends AppCompatActivity
     private UIHandler uiHandler;
     private IabHelper iabHelper;
 
+    public boolean isIabEnabled()
+    {
+        return iabEnabled;
+    }
+
+    boolean iabEnabled;
+
     public Inventory getIabInventory()
     {
         return iabInventory;
@@ -369,6 +376,8 @@ public class BaseActivity extends AppCompatActivity
     {
         try
         {
+            iabEnabled = false;
+
             iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
 
             iabHelper.enableDebugLogging(true);
@@ -391,6 +400,7 @@ public class BaseActivity extends AppCompatActivity
             else
             {
                 Timber.d("In-app Billing is set up OK");
+                iabEnabled = true;
 //                startInventoryRefresh(queryInventoryFinishedListener);
             }
         }
@@ -407,15 +417,7 @@ public class BaseActivity extends AppCompatActivity
             skus.addAll(Arrays.asList(Constants.IAB_DEBUG_ITEMS));
         }
 
-        try
-        {
-            iabHelper.queryInventoryAsync(true, skus, queryInventoryFinishedListener);
-        }
-        catch (Exception e)
-        {
-            Timber.e(e, "Exception during queryInventoryAsync");
-            UIUtils.showError(this, R.string.billing_error_during_init);
-        }
+        iabHelper.queryInventoryAsync(true, skus, queryInventoryFinishedListener);
     }
 
     IabHelper.QueryInventoryFinishedListener queryInventoryFinishedListener = new IabHelper.QueryInventoryFinishedListener()

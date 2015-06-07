@@ -62,8 +62,16 @@ public class DonateDialog extends BaseDialogFragment
                 }
             };
 
-            baseActivity.startInventoryRefresh(queryInventoryFinishedListener);
-            waitDialog.show();
+            try
+            {
+                baseActivity.startInventoryRefresh(queryInventoryFinishedListener);
+                waitDialog.show();
+            }
+            catch (Exception e)
+            {
+                Timber.e(e, "Exception during queryInventoryAsync");
+                UIUtils.showError(baseActivity, R.string.billing_error_during_init);
+            }
         }
         else
         {

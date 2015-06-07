@@ -33,8 +33,8 @@ public class DoLikeAppDialog extends BaseDialogFragment
         builder.cancelable(false);
 
         // On the RIGHT
-
-        if (App.getInstance().activeMarket == AndroidMarket.PLAY)
+        if (App.getInstance().activeMarket == AndroidMarket.PLAY
+            && ((BaseActivity) getActivity()).isIabEnabled())
         {
             builder.positiveText(R.string.donate);
             builder.content(R.string.rate_or_donate_message);
