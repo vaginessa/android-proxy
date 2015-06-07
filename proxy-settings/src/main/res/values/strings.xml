@@ -329,7 +329,6 @@
 		publicity, privacy, trademark rights, business interruption, personal 
 		injury, loss of privacy, moral rights or the disclosure of confidential 
 		information.</string>
-    <string name="about_copyright">\u00A9 SHOULDIT 2014</string>
     <string name="about_opensource">Proxy Settings is an open source software created by <b><a href="mailto:info@shouldit.net">SHOULDIT</a></b>. You can find the source code <a href="https://github.com/shouldit/proxy-settings">HERE</a></string>
     <string name="about_github">https://github.com/shouldit/proxy-settings</string>
     <string name="pref_author_title">Author</string>
@@ -451,4 +450,9 @@
     <string name="donate">Donate</string>
     <string name="please_wait">Please wait…</string>
     <string name="rate_or_donate_message">It\'d be really helpful if you contribute to the development of Proxy Settings. You could rate the app or make a donation.</string>
+    <string name="you_can_find_the_source_code">You can find the source code of <b>Proxy Settings</b> on the <a href="https://github.com/shouldit/android-proxy">project page</a> hosted on GitHub.</string>
+    <string name="any_contribution_is_appreciated">Any contribution is appreciated. Feel free to provide feedback (bugs, etc), and pull requests.</string>
+    <string name="further_documentation_can_be_found">Further documentation can be found on the project <a href="https://github.com/shouldit/android-proxy/wiki">Wiki</a>.</string>
+    <string name="copyright_message">Copyryght 2015 SHOULDIT. All rights reserved</string>
+    <string name="is_open_source_software_made_possible_by">Proxy Settings is an open source software made possible by the <a href="https://github.com/shouldit/android-proxy">Android Proxy</a> open source project.</string>
 </resources>

@@ -46,6 +46,7 @@ public class DonateDialog extends BaseDialogFragment
             {
                 public void onQueryInventoryFinished(IabResult result, Inventory inventory)
                 {
+
                     baseActivity.handleQueryInventory(result, inventory);
                     waitDialog.dismiss();
 
