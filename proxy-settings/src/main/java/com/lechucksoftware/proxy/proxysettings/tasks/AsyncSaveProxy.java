@@ -53,12 +53,12 @@ public class AsyncSaveProxy extends AsyncTask<Void, String, Boolean>
         {
             if (proxyEntity != null)
             {
-                Toast.makeText(context, context.getString(R.string.proxy_saved), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.static_proxy_saved), Toast.LENGTH_SHORT).show();
             }
 
             if (pacEntity != null)
             {
-                Toast.makeText(context, context.getString(R.string.pac_saved), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.pac_proxy_saved), Toast.LENGTH_SHORT).show();
             }
         }
         else

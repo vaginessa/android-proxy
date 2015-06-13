@@ -183,10 +183,10 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @OnClick(R.id.proxy_selector)
     public void openProxySelectorDialog()
     {
-        Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
-        List<ProxyEntity> availableProxies = new ArrayList<ProxyEntity>(savedProxies.values());
+        long staticProxyCount = App.getDBManager().getProxiesCount();
+        long pacProxyCount = App.getDBManager().getPacCount();
 
-        if (availableProxies != null && availableProxies.size() > 0)
+        if (staticProxyCount > 0 || pacProxyCount > 0)
         {
             Intent i = new Intent(getActivity(), ProxySelectorListActivity.class);
             i.putExtra(Constants.WIFI_AP_NETWORK_ARG, selectedWiFiAP.getAPLNetworkId());
