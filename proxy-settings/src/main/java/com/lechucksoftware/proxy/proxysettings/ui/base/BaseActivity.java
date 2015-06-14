@@ -132,8 +132,11 @@ public class BaseActivity extends AppCompatActivity
         Timber.tag(this.getClass().getSimpleName());
         Timber.d("onPause");
 
-        uiHandler.dismissSnackbar();
-        uiHandler = null;
+        if (uiHandler != null)
+        {
+            uiHandler.dismissSnackbar();
+            uiHandler = null;
+        }
 
         try
         {
