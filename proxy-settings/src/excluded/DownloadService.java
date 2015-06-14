@@ -78,7 +78,7 @@ public class DownloadService extends IntentService
 
 		Bundle extras = intent.getExtras();
 		urlToDownload = (URL) extras.getSerializable("URL");
-		receiver = (ResultReceiver) extras.getParcelable("receiver");
+		receiver = extras.getParcelable("receiver");
 		downloadFolder = extras.getString("downloadFolder");
 		
 		try
