@@ -1268,17 +1268,32 @@ public class ProxyUtils
         String pacFile = null;
         URI uri = null;
 
+        if (TextUtils.isEmpty(pacFileUrl))
+        {
+            return new ProxyStatusItem(ProxyStatusProperties.PAC_VALID_URI, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_pac_invalid_uri));
+        }
+
         try
         {
             uri = new URI(pacFileUrl);
         }
         catch (URISyntaxException e)
         {
-            Timber.e(e,"Cannot convert to URI the following Uri: %s", pacFileUrl);
-            return new ProxyStatusItem(ProxyStatusProperties.PAC_VALID_URI, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_pac_invalid_uri));
+            Timber.e(e,"The following Uri cannot be recognized as a valid URI: '%s'", pacFileUrl);
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Exception during convert to URI of the following Uri: '%s'", pacFileUrl);
         }
 
-        return new ProxyStatusItem(ProxyStatusProperties.PAC_VALID_URI, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_pac_valid_uri));
+        if (uri != null)
+        {
+            return new ProxyStatusItem(ProxyStatusProperties.PAC_VALID_URI, CheckStatusValues.CHECKED, true, APL.getContext().getString(R.string.status_pac_valid_uri));
+        }
+        else
+        {
+            return new ProxyStatusItem(ProxyStatusProperties.PAC_VALID_URI, CheckStatusValues.CHECKED, false, APL.getContext().getString(R.string.status_pac_invalid_uri));
+        }
     }
 
     private static ProxyStatusItem isPACReachable(WiFiApConfig config)
