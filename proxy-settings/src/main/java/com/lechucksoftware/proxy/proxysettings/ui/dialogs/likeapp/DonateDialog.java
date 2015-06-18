@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Requests;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
@@ -29,9 +30,6 @@ import timber.log.Timber;
 
 public class DonateDialog extends BaseDialogFragment
 {
-    public static String TAG = DonateDialog.class.getSimpleName();
-    private StartupAction startupAction;
-
     public static void showDonateDialog(final BaseActivity baseActivity)
     {
         MaterialDialog.Builder waitDialogBuilder = new MaterialDialog.Builder(baseActivity);
@@ -56,7 +54,7 @@ public class DonateDialog extends BaseDialogFragment
                     }
                     else
                     {
-                        DonateDialog donateDialog = newInstance();
+                        DonateDialog donateDialog = new DonateDialog();
                         donateDialog.show(baseActivity.getSupportFragmentManager(),"DonateDialog");
                     }
                 }
@@ -75,21 +73,8 @@ public class DonateDialog extends BaseDialogFragment
         }
         else
         {
-            DonateDialog donateDialog = newInstance();
+            DonateDialog donateDialog = new DonateDialog();
             donateDialog.show(baseActivity.getSupportFragmentManager(),"DonateDialog");
-        }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-        Bundle args = getArguments();
-
-        if (args != null && args.containsKey("ACTION"))
-        {
-            startupAction = getArguments().getParcelable("ACTION");
         }
     }
 
@@ -157,10 +142,7 @@ public class DonateDialog extends BaseDialogFragment
 
                 if (which != -1 && which <= donationSkus.length)
                 {
-                    if (startupAction != null)
-                    {
-                        startupAction.updateStatus(StartupActionStatus.DONE);
-                    }
+                    StartupAction.updateStatus(StartupActionType.DONATE_DIALOG, StartupActionStatus.DONE);
 
                     App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                             R.string.analytics_act_dialog_button_click,
@@ -188,22 +170,5 @@ public class DonateDialog extends BaseDialogFragment
         App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                 R.string.analytics_act_dialog_button_click,
                 R.string.analytics_lab_donate_dialog, 0L);
-    }
-
-    public static DonateDialog newInstance(StartupAction action)
-    {
-        DonateDialog frag = new DonateDialog();
-
-        Bundle b = new Bundle();
-        b.putParcelable("ACTION", action);
-        frag.setArguments(b);
-
-        return frag;
-    }
-
-    public static DonateDialog newInstance()
-    {
-        DonateDialog frag = new DonateDialog();
-        return frag;
     }
 }

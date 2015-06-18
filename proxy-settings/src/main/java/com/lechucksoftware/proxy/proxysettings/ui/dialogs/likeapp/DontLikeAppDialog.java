@@ -8,22 +8,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class DontLikeAppDialog extends BaseDialogFragment
 {
-    public static String TAG = DontLikeAppDialog.class.getSimpleName();
-    private StartupAction startupAction;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        startupAction = getArguments().getParcelable("ACTION");
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -35,10 +26,11 @@ public class DontLikeAppDialog extends BaseDialogFragment
         builder.negativeText(R.string.no);
 
         builder.callback(new MaterialDialog.ButtonCallback() {
+
             @Override
             public void onPositive(MaterialDialog dialog)
             {
-                startupAction.updateStatus(StartupActionStatus.DONE);
+                StartupAction.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
@@ -50,7 +42,7 @@ public class DontLikeAppDialog extends BaseDialogFragment
             @Override
             public void onNegative(MaterialDialog dialog)
             {
-                startupAction.updateStatus(StartupActionStatus.REJECTED);
+                StartupAction.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.REJECTED);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
@@ -70,16 +62,5 @@ public class DontLikeAppDialog extends BaseDialogFragment
         App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                 R.string.analytics_act_dialog_button_click,
                 R.string.analytics_lab_like_app_mail_feedback, 2L);
-    }
-
-    public static DontLikeAppDialog newInstance(StartupAction action)
-    {
-        DontLikeAppDialog frag = new DontLikeAppDialog();
-
-        Bundle b = new Bundle();
-        b.putParcelable("ACTION", action);
-        frag.setArguments(b);
-
-        return frag;
     }
 }

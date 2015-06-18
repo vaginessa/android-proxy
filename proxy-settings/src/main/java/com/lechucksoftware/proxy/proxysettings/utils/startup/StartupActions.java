@@ -62,9 +62,7 @@ public class StartupActions
         StartupAction betaTest = new StartupAction(
                 StartupActionType.BETA_TEST_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                StartupCondition.LaunchCountCondition(200),
-                StartupCondition.LaunchCountCondition(250),
-                StartupCondition.LaunchCountCondition(300));
+                StartupCondition.LaunchCountCondition(200,50));
         actions.add(betaTest);
 
         return actions;

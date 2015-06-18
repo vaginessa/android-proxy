@@ -12,8 +12,8 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.DoLikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.DoLikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
@@ -56,7 +56,8 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                                 .customView(webView,true)
                                 .positiveText(R.string.ok).build();
                         dialog.show();
-                        action.updateStatus(StartupActionStatus.DONE);
+
+                        StartupAction.updateStatus(action.actionType, StartupActionStatus.DONE);
 
 //                        HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
 //                        htmlDialog.show(activity.getSupportFragmentManager(), "WhatsNewHTMLDialog");
@@ -69,7 +70,8 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                         break;
 
                     case DONATE_DIALOG:
-                        DoLikeAppDialog donateDialog = DoLikeAppDialog.newInstance(action);
+                        DoLikeAppDialog donateDialog = new DoLikeAppDialog();
+                        donateDialog.setCancelable(false);
                         donateDialog.show(activity.getSupportFragmentManager(), "DoLikeAppDialog");
                         break;
 
@@ -82,13 +84,15 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 //                        }
 //                        else
 //                        {
-                            LikeAppDialog likeAppDialog = LikeAppDialog.newInstance(action);
+                            LikeAppDialog likeAppDialog = new LikeAppDialog();
+                            likeAppDialog.setCancelable(false);
                             likeAppDialog.show(activity.getSupportFragmentManager(), "LikeAppDialog");
 //                        }
                         break;
 
                     case BETA_TEST_DIALOG:
-                        BetaTestAppDialog betaDialog = BetaTestAppDialog.newInstance(action);
+                        BetaTestAppDialog betaDialog = new BetaTestAppDialog();
+                        betaDialog.setCancelable(false);
                         betaDialog.show(activity.getSupportFragmentManager(), "BetaTestApplicationAlertDialog");
 
                     default:

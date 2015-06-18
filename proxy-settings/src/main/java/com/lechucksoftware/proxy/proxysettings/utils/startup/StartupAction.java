@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Parcel;
@@ -11,8 +10,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
-import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.Arrays;
 
@@ -21,7 +18,7 @@ import java.util.Arrays;
  */
 public class StartupAction implements Parcelable
 {
-    private static String keyPrefix = "STARTUP_ACTION_";
+    private static String STARTUP_KEY_PREFIX = "STARTUP_ACTION_";
 
     public String preferenceKey;
     public StartupActionType actionType;
@@ -33,21 +30,26 @@ public class StartupAction implements Parcelable
     {
         actionType = type;
         actionStatus = status;
-        preferenceKey = keyPrefix + actionType;
+        preferenceKey = STARTUP_KEY_PREFIX + actionType;
         startupConditions = conditions;
     }
 
-    public void updateStatus(StartupActionStatus status)
+    public static void updateStatus(StartupActionType type, StartupActionStatus status)
+    {
+        updateStatus(STARTUP_KEY_PREFIX + type, status);
+    }
+
+    public static void updateStatus(String actionKey, StartupActionStatus status)
     {
         SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
 
         if (editor != null)
         {
-            editor.putInt(preferenceKey, status.getValue());
+            editor.putInt(actionKey, status.getValue());
             editor.commit();
 
-            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_user_action), App.getInstance().getString(R.string.analytics_act_startup_action), preferenceKey, (long) status.getValue());
+            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_user_action), App.getInstance().getString(R.string.analytics_act_startup_action), actionKey, (long) status.getValue());
         }
     }
 

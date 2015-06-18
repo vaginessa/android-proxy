@@ -8,20 +8,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class BetaTestAppDialog extends BaseDialogFragment
 {
 	public static String TAG = BetaTestAppDialog.class.getSimpleName();
-    private static StartupAction startupAction;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        startupAction = getArguments().getParcelable("ACTION");
-    }
 
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -37,7 +30,7 @@ public class BetaTestAppDialog extends BaseDialogFragment
             @Override
             public void onPositive(MaterialDialog dialog)
             {
-                startupAction.updateStatus(StartupActionStatus.DONE);
+                StartupAction.updateStatus(StartupActionType.BETA_TEST_DIALOG, StartupActionStatus.DONE);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
@@ -50,7 +43,7 @@ public class BetaTestAppDialog extends BaseDialogFragment
             @Override
             public void onNegative(MaterialDialog dialog)
             {
-                startupAction.updateStatus(StartupActionStatus.REJECTED);
+                StartupAction.updateStatus(StartupActionType.BETA_TEST_DIALOG, StartupActionStatus.REJECTED);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
@@ -74,15 +67,4 @@ public class BetaTestAppDialog extends BaseDialogFragment
                 R.string.analytics_act_dialog_button_click,
                 R.string.analytics_lab_beta_test_dialog, 2L);
     }
-
-    public static BetaTestAppDialog newInstance(StartupAction action)
-	{
-		BetaTestAppDialog frag = new BetaTestAppDialog();
-
-        Bundle b = new Bundle();
-        b.putParcelable("ACTION", action);
-        frag.setArguments(b);
-
-		return frag;
-	}
 }

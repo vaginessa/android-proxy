@@ -8,20 +8,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 
 public class LikeAppDialog extends BaseDialogFragment
 {
-    public static String TAG = LikeAppDialog.class.getSimpleName();
-    private StartupAction startupAction;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        startupAction = getArguments().getParcelable("ACTION");
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -33,12 +22,14 @@ public class LikeAppDialog extends BaseDialogFragment
         builder.positiveText(R.string.yes);
         builder.negativeText(R.string.no);
 
-        builder.callback(new MaterialDialog.ButtonCallback() {
+        builder.callback(new MaterialDialog.ButtonCallback()
+        {
 
             @Override
             public void onPositive(MaterialDialog dialog)
             {
-                DoLikeAppDialog rateDialog = DoLikeAppDialog.newInstance(startupAction);
+                DoLikeAppDialog rateDialog = new DoLikeAppDialog();
+                rateDialog.setCancelable(false);
                 rateDialog.show(getFragmentManager(), "RateAppDialog");
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
@@ -49,7 +40,8 @@ public class LikeAppDialog extends BaseDialogFragment
             @Override
             public void onNegative(MaterialDialog dialog)
             {
-                DontLikeAppDialog feedbackDialog = DontLikeAppDialog.newInstance(startupAction);
+                DontLikeAppDialog feedbackDialog = new DontLikeAppDialog();
+                feedbackDialog.setCancelable(false);
                 feedbackDialog.show(getFragmentManager(), "MailFeedbackDialog");
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
@@ -70,16 +62,5 @@ public class LikeAppDialog extends BaseDialogFragment
         App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                 R.string.analytics_act_dialog_button_click,
                 R.string.analytics_lab_like_app_dialog, 0L);
-    }
-
-    public static LikeAppDialog newInstance(StartupAction action)
-    {
-        LikeAppDialog frag = new LikeAppDialog();
-
-        Bundle b = new Bundle();
-        b.putParcelable("ACTION", action);
-        frag.setArguments(b);
-
-        return frag;
     }
 }
