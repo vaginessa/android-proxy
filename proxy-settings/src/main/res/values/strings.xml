@@ -383,6 +383,7 @@
     <string name="thank_you">Thank you</string>
     <string name="sorry_for_that">Sorry for that</string>
     <string name="mail_feedback_dialog">Please let us know how to make Proxy Settings better for you</string>
+    <string name="rate_or_donate_message">It\'d be really helpful if you contribute to the development of Proxy Settings. You could rate the app or make a donation.</string>
     <string name="rate_app_message">It\'d be really helpful if you rated Proxy Settings.</string>
     <string name="no_email_client_installed">There are no email clients installed.</string>
     <string name="mail_feedback_subject">Proxy Settings %s feedback</string>
@@ -449,7 +450,7 @@
     <string name="saving_configuration">Saving configuration…</string>
     <string name="donate">Donate</string>
     <string name="please_wait">Please wait…</string>
-    <string name="rate_or_donate_message">It\'d be really helpful if you contribute to the development of Proxy Settings. You could rate the app or make a donation.</string>
+
     <string name="you_can_find_the_source_code">You can find the source code of <b>Proxy Settings</b> on the <a href="https://github.com/shouldit/android-proxy">project page</a> hosted on GitHub.</string>
     <string name="any_contribution_is_appreciated">Any contribution is appreciated. Feel free to provide feedback (bugs, etc), and pull requests.</string>
     <string name="further_documentation_can_be_found">Further documentation can be found on the project <a href="https://github.com/shouldit/android-proxy/wiki">Wiki</a>.</string>

@@ -3,10 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.utils.startup;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupConditionType;
-import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import timber.log.Timber;
 
@@ -81,57 +78,16 @@ public class StartupCondition implements Parcelable
         switch (conditionType)
         {
             case ELAPSED_DAYS:
-                checkElapsedDays(launchDays);
+                StartupActions.checkElapsedDays(launchDays);
                 break;
 
             case LAUNCH_COUNT:
-                result = checkLaunchCount(launchCount, delayRepeat);
+                result = StartupActions.checkLaunchCount(launchCount, delayRepeat);
                 break;
 
             case REQUIRED_VERSION:
-                result = checkRequiredAppVersion(requiredVerCode);
+                result = StartupActions.checkRequiredAppVersion(requiredVerCode);
                 break;
-        }
-
-        return result;
-    }
-
-    private static boolean checkRequiredAppVersion(Integer requiredVerCode)
-    {
-        Boolean result = false;
-
-        if (requiredVerCode == null)
-        {
-            result = true;
-        }
-        else if (App.getAppStats().majorVersion == requiredVerCode)
-        {
-            result = true;
-        }
-
-        return result;
-    }
-
-    public static Boolean checkLaunchCount(Integer launchCount, Integer delayRepeat)
-    {
-        Boolean result = false;
-
-        if (App.getAppStats().launchCount >= launchCount &&
-            (delayRepeat == -1 || App.getAppStats().launchCount % delayRepeat == 0))
-        {
-            result = true;
-        }
-
-        return result;
-    }
-
-    public static Boolean checkElapsedDays(Integer daysCount)
-    {
-        Boolean result = false;
-
-        if (Utils.ElapsedNDays(App.getAppStats().launhcFirstDate, daysCount))
-        {
-            result = true;
         }
 
         return result;
@@ -190,6 +146,4 @@ public class StartupCondition implements Parcelable
 
         public StartupCondition[] newArray(int size) {return new StartupCondition[size];}
     };
-
-
 }

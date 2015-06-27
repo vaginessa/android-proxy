@@ -19,7 +19,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.billing.IabHelper;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.IabResult;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory;
 import com.lechucksoftware.proxy.proxysettings.utils.billing.SkuDetails;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -142,7 +142,7 @@ public class DonateDialog extends BaseDialogFragment
 
                 if (which != -1 && which <= donationSkus.length)
                 {
-                    StartupAction.updateStatus(StartupActionType.DONATE_DIALOG, StartupActionStatus.DONE);
+                    StartupActions.updateStatus(StartupActionType.DONATE_DIALOG, StartupActionStatus.DONE);
 
                     App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                             R.string.analytics_act_dialog_button_click,

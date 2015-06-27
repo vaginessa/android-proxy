@@ -57,7 +57,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                                 .positiveText(R.string.ok).build();
                         dialog.show();
 
-                        StartupAction.updateStatus(action.actionType, StartupActionStatus.DONE);
+                        StartupActions.updateStatus(action.actionType, StartupActionStatus.DONE);
 
 //                        HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
 //                        htmlDialog.show(activity.getSupportFragmentManager(), "WhatsNewHTMLDialog");
@@ -123,7 +123,7 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 
         App.getTraceUtils().startTrace(TAG, "getStartupAction", Log.DEBUG);
 
-        for (StartupAction action : StartupActions.getAvailableActions())
+        for (StartupAction action : StartupActions.getAvailableActions().values())
         {
             if (action.canExecute())
             {

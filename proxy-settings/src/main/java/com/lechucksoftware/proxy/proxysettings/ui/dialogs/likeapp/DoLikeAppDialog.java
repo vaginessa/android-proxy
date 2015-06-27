@@ -12,7 +12,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
 
 public class DoLikeAppDialog extends BaseDialogFragment
 {
@@ -43,18 +43,17 @@ public class DoLikeAppDialog extends BaseDialogFragment
 
         builder.callback(new MaterialDialog.ButtonCallback()
         {
-
             @Override
             public void onPositive(MaterialDialog dialog)
             {
-                StartupAction.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
+                StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
                 DonateDialog.showDonateDialog((BaseActivity) getActivity());
             }
 
             @Override
             public void onNegative(MaterialDialog dialog)
             {
-                StartupAction.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
+                StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
                 Utils.startMarketActivity(getActivity());
             }
         });

@@ -6,7 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
@@ -18,7 +17,7 @@ import java.util.Arrays;
  */
 public class StartupAction implements Parcelable
 {
-    private static String STARTUP_KEY_PREFIX = "STARTUP_ACTION_";
+    public static String STARTUP_KEY_PREFIX = "STARTUP_ACTION_";
 
     public String preferenceKey;
     public StartupActionType actionType;
@@ -34,25 +33,6 @@ public class StartupAction implements Parcelable
         startupConditions = conditions;
     }
 
-    public static void updateStatus(StartupActionType type, StartupActionStatus status)
-    {
-        updateStatus(STARTUP_KEY_PREFIX + type, status);
-    }
-
-    public static void updateStatus(String actionKey, StartupActionStatus status)
-    {
-        SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        if (editor != null)
-        {
-            editor.putInt(actionKey, status.getValue());
-            editor.commit();
-
-            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_user_action), App.getInstance().getString(R.string.analytics_act_startup_action), actionKey, (long) status.getValue());
-        }
-    }
-
     public boolean canExecute()
     {
         SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
@@ -64,7 +44,7 @@ public class StartupAction implements Parcelable
         {
             case NOT_AVAILABLE:
             case POSTPONED:
-                result = checkInstallationConditions(startupConditions);
+                result = StartupActions.checkInstallationConditions(startupConditions);
                 break;
 
             case REJECTED:
@@ -72,23 +52,6 @@ public class StartupAction implements Parcelable
             case NOT_APPLICABLE:
             default:
                 result = false;
-        }
-
-        return result;
-    }
-
-    public static Boolean checkInstallationConditions(StartupCondition [] conditions)
-    {
-        Boolean result = false;
-
-        if (conditions != null)
-        {
-            for (StartupCondition condition: conditions)
-            {
-                result = condition.isValid();
-                if (result)
-                    break;
-            }
         }
 
         return result;

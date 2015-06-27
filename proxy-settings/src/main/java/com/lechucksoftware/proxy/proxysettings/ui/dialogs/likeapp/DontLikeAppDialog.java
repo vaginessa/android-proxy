@@ -11,7 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
+import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
 
 public class DontLikeAppDialog extends BaseDialogFragment
 {
@@ -30,7 +30,7 @@ public class DontLikeAppDialog extends BaseDialogFragment
             @Override
             public void onPositive(MaterialDialog dialog)
             {
-                StartupAction.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
+                StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
@@ -42,7 +42,7 @@ public class DontLikeAppDialog extends BaseDialogFragment
             @Override
             public void onNegative(MaterialDialog dialog)
             {
-                StartupAction.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.REJECTED);
+                StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.REJECTED);
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
                         R.string.analytics_act_dialog_button_click,
