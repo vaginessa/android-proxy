@@ -69,7 +69,7 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.0.3'   // Not stable at the moment
 
     // Testing dependencies
-    compile 'com.android.support:support-annotations:22.0.0'    // Required by Espresso
+    compile 'com.android.support:support-annotations:22.2.0'    // Required by Espresso
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
