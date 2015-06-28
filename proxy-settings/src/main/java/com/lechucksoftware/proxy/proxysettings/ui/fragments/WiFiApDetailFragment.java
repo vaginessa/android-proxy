@@ -5,12 +5,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,7 +35,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiAp;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
-import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +43,6 @@ import java.util.Map;
 import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
-import be.shouldit.proxy.lib.utils.ProxyUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -188,10 +183,10 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @OnClick(R.id.proxy_selector)
     public void openProxySelectorDialog()
     {
-        Map<Long, ProxyEntity> savedProxies = App.getDBManager().getAllProxiesWithTAGs();
-        List<ProxyEntity> availableProxies = new ArrayList<ProxyEntity>(savedProxies.values());
+        long staticProxyCount = App.getDBManager().getProxiesCount();
+        long pacProxyCount = App.getDBManager().getPacCount();
 
-        if (availableProxies != null && availableProxies.size() > 0)
+        if (staticProxyCount > 0 || pacProxyCount > 0)
         {
             Intent i = new Intent(getActivity(), ProxySelectorListActivity.class);
             i.putExtra(Constants.WIFI_AP_NETWORK_ARG, selectedWiFiAP.getAPLNetworkId());
@@ -240,7 +235,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
             wifiLayout.setBackgroundResource(selectedColor);
 
-            ActionBarActivity activity = (ActionBarActivity) getActivity();
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
             if (activity != null)
             {
                 ActionBar actionBar = activity.getSupportActionBar();
@@ -370,7 +365,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 if (selectedWiFiAP != null && data != null && data.hasExtra(Constants.SELECTED_PROXY_TYPE_ARG))
                 {
                     Bundle args = data.getExtras();
-                    if (resultCode == ActionBarActivity.RESULT_OK && args != null)
+                    if (resultCode == AppCompatActivity.RESULT_OK && args != null)
                     {
                         ProxySetting setting = (ProxySetting) args.get(Constants.SELECTED_PROXY_TYPE_ARG);
 

@@ -2,16 +2,17 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
+import android.widget.TextView;
 
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 
@@ -21,7 +22,12 @@ import butterknife.InjectView;
 public class AboutFragment extends BaseDialogFragment
 {
     public static AboutFragment instance;
-    @InjectView(R.id.about_webview) WebView aboutWebView;
+
+    @InjectView(R.id.about_app_version) TextView aboutAppVersionTxt;
+    @InjectView(R.id.about_find_source_code) TextView findSourceTxt;
+    @InjectView(R.id.about_documentation) TextView docsTxt;
+    @InjectView(R.id.about_open_source_licenses) TextView licensesTxt;
+
 
     public static AboutFragment newInstance()
     {
@@ -35,7 +41,11 @@ public class AboutFragment extends BaseDialogFragment
         View v = inflater.inflate(R.layout.about, container, false);
         ButterKnife.inject(this, v);
 
-        aboutWebView.loadUrl(Resources.ABOUT);
+        aboutAppVersionTxt.setText(BuildConfig.VERSION_NAME);
+        findSourceTxt.setMovementMethod(LinkMovementMethod.getInstance());
+        docsTxt.setMovementMethod(LinkMovementMethod.getInstance());
+        licensesTxt.setMovementMethod(LinkMovementMethod.getInstance());
+
         setHasOptionsMenu(true);
         return v;
     }

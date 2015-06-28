@@ -21,7 +21,7 @@ public class Resources
     {
         String resource = null;
 
-        switch (App.getAppMajorVersion())
+        switch (App.getAppStats().majorVersion)
         {
             case 1300216:
                 resource = WHATSNEW_2_16_HTML;

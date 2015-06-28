@@ -57,7 +57,7 @@ public class PacDetailActivity extends BaseActivity
             else
             {
                 detail = PacDetailFragment.newInstance();
-                actionBar.setTitle(getString(R.string.create_new_pac));
+                actionBar.setTitle(getString(R.string.create_new_pac_proxy));
             }
 
             fm.beginTransaction()

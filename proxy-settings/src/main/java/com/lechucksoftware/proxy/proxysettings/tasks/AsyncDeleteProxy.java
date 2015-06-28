@@ -54,12 +54,12 @@ public class AsyncDeleteProxy extends AsyncTask<Void, String, Boolean>
         {
             if (proxyEntity != null)
             {
-                Toast.makeText(context, context.getString(R.string.proxy_deleted), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.static_proxy_deleted), Toast.LENGTH_SHORT).show();
             }
 
             if (pacEntity != null)
             {
-                Toast.makeText(context, context.getString(R.string.pac_deleted), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.pac_proxy_deleted), Toast.LENGTH_SHORT).show();
             }
         }
         else
