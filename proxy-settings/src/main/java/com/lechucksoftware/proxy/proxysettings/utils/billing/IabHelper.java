@@ -681,16 +681,7 @@ public class IabHelper
                 }
 
                 flagEndAsync();
-
-                try
-                {
-                    Thread.sleep(10000);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-
+                
                 final IabResult result_f = result;
                 final Inventory inv_f = inv;
                 if (!mDisposed && listener != null)
