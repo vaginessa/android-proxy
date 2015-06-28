@@ -1,18 +1,14 @@
 package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
-import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
-import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.Arrays;
 
@@ -21,7 +17,7 @@ import java.util.Arrays;
  */
 public class StartupAction implements Parcelable
 {
-    private static String keyPrefix = "STARTUP_ACTION_";
+    public static String STARTUP_KEY_PREFIX = "STARTUP_ACTION_";
 
     public String preferenceKey;
     public StartupActionType actionType;
@@ -33,25 +29,11 @@ public class StartupAction implements Parcelable
     {
         actionType = type;
         actionStatus = status;
-        preferenceKey = keyPrefix + actionType;
+        preferenceKey = STARTUP_KEY_PREFIX + actionType;
         startupConditions = conditions;
     }
 
-    public void updateStatus(StartupActionStatus status)
-    {
-        SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        if (editor != null)
-        {
-            editor.putInt(preferenceKey, status.getValue());
-            editor.commit();
-
-            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_user_action), App.getInstance().getString(R.string.analytics_act_startup_action), preferenceKey, (long) status.getValue());
-        }
-    }
-
-    public boolean canExecute(ApplicationStatistics statistics)
+    public boolean canExecute()
     {
         SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         StartupActionStatus status = StartupActionStatus.parseInt(prefs.getInt(preferenceKey, StartupActionStatus.NOT_AVAILABLE.getValue()));
@@ -62,7 +44,7 @@ public class StartupAction implements Parcelable
         {
             case NOT_AVAILABLE:
             case POSTPONED:
-                result = checkInstallationConditions(statistics, startupConditions);
+                result = StartupActions.checkInstallationConditions(startupConditions);
                 break;
 
             case REJECTED:
@@ -70,67 +52,6 @@ public class StartupAction implements Parcelable
             case NOT_APPLICABLE:
             default:
                 result = false;
-        }
-
-        return result;
-    }
-
-    public static Boolean checkInstallationConditions(ApplicationStatistics statistics, StartupCondition [] conditions)
-    {
-        Boolean result = false;
-
-        if (conditions != null)
-        {
-            for (StartupCondition condition: conditions)
-            {
-                if (checkLaunchCount(statistics, condition.launchCount) &&
-                    checkElapsedDays(statistics, condition.launchDays) &&
-                    checkRequiredAppVersion(statistics, condition.requiredVerCode))
-                {
-                    result = true;
-                    break;
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private static boolean checkRequiredAppVersion(ApplicationStatistics statistics, Integer requiredVerCode)
-    {
-        Boolean result = false;
-
-        if (requiredVerCode == null)
-        {
-            result = true;
-        }
-        else if (App.getAppMajorVersion() == requiredVerCode)
-        {
-            result = true;
-        }
-
-        return result;
-    }
-
-    public static Boolean checkLaunchCount(ApplicationStatistics statistics, Integer launchCount)
-    {
-        Boolean result = false;
-
-        if (launchCount == null || statistics.LaunchCount == launchCount)
-        {
-            result = true;
-        }
-
-        return result;
-    }
-
-    public static Boolean checkElapsedDays(ApplicationStatistics statistics, Integer daysCount)
-    {
-        Boolean result = false;
-
-        if (daysCount == null || Utils.ElapsedNDays(statistics.LaunhcFirstDate, daysCount))
-        {
-            result = true;
         }
 
         return result;

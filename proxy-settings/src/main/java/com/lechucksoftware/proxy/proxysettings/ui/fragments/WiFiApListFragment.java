@@ -3,8 +3,6 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -28,11 +26,9 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivit
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.base.IBaseFragment;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
-import com.nispok.snackbar.listeners.ActionClickListener;
 
 import java.util.List;
 
@@ -185,39 +181,9 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
             if (!Utils.isAirplaneModeOn(getActivity()))
             {
                 // Show enable Wi-fi action only if not in airplane mode
-                showEnableWifiSnackbar();
+                UIUtils.showEnableWifiSnackbar(getActivity());
             }
         }
-    }
-
-    private void showEnableWifiSnackbar()
-    {
-        SnackbarManager.show(
-                Snackbar.with(getActivity())
-                        .type(SnackbarType.SINGLE_LINE)
-                        .text(R.string.wifi_off_snackbar)
-                        .swipeToDismiss(false)
-                        .animation(false)
-                        .color(Color.RED)
-                        .actionLabel(R.string.enable_wifi)
-                        .actionLabelTypeface(Typeface.DEFAULT_BOLD)
-                        .actionListener(new ActionClickListener()
-                        {
-                            @Override
-                            public void onActionClicked(Snackbar snackbar)
-                            {
-                                try
-                                {
-                                    APL.enableWifi();
-                                }
-                                catch (Exception e)
-                                {
-                                    Timber.e(e, "Exception during ActionsView enableWifiClickListener action");
-                                }
-                            }
-                        })
-                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-        );
     }
 
     @Override

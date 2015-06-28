@@ -505,12 +505,19 @@ public class APL
         if (!sSetupCalled && gContext == null)
             throw new RuntimeException("you need to call setup() first");
 
-        APL.getTraceUtils().startTrace(TAG,WRITE_WIFI_KEY, Log.INFO, true);
+        APL.getTraceUtils().startTrace(TAG, WRITE_WIFI_KEY, Log.INFO, true);
 
         SaveResult result = new SaveResult();
         result.status = SaveStatus.FAILED;
         result.attempts = 0;
         result.elapsedTime = 0L;
+
+        boolean succesfullySaved = false;
+        int attempt = 1;
+        int sleep = 100;
+        int slept = 0;
+
+        Timber.i("Writing WiFiAPConfig to device: %s", confToSave.toShortString());
 
         if (confToSave.getSecurityType() == SecurityType.SECURITY_EAP)
         {
@@ -519,10 +526,40 @@ public class APL
         }
 
         WifiManager wifiManager = (WifiManager) APL.getContext().getSystemService(Context.WIFI_SERVICE);
-        List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
 
-        if (configuredNetworks == null || configuredNetworks.size() == 0)
-            throw new Exception("Cannot find any configured network during writing configuration to the device: " + confToSave.toShortString());
+        if (!wifiManager.isWifiEnabled())
+        {
+            Exception e = new Exception("Wi-Fi should be enabled in order to save a Wi-Fi configuration");
+            throw e;
+        }
+
+        List<WifiConfiguration> configuredNetworks = null;
+        while ((attempt <= maxAttempt) && (slept < timeout))
+        {
+            configuredNetworks = wifiManager.getConfiguredNetworks();
+            if (configuredNetworks != null)
+            {
+                break;
+            }
+
+            attempt++;
+
+            try
+            {
+                Thread.sleep(sleep);
+                slept += sleep;
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        if (configuredNetworks == null)
+            throw new Exception(String.format("Got a NULL result from WifiManager getConfiguredNetworks method after %d attempts", attempt));
+
+        if (configuredNetworks.size() == 0)
+            throw new Exception("Cannot find any configured network to edit into the device");
 
         WifiConfiguration selectedConfiguration = null;
         for (WifiConfiguration conf : configuredNetworks)
@@ -545,15 +582,12 @@ public class APL
             /***************************************************************************************
              * TODO: improve method adding callback in order to return the result of the operation
              */
-            boolean succesfullySaved = false;
-            int attempt = 1;
-            int sleep = 100;
-
-            while ((attempt <= maxAttempt) && (sleep*attempt < timeout))
+            while ((attempt <= maxAttempt) && (slept < timeout))
             {
                 try
                 {
                     Thread.sleep(sleep);
+                    slept += sleep;
                 }
                 catch (InterruptedException e)
                 {
@@ -603,7 +637,6 @@ public class APL
 
         return result;
     }
-
 
     /**
      * Force a crash into APL in order to test CrashReporting for library

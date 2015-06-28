@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +27,7 @@ import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DBUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
@@ -48,7 +48,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 10/10/13.
  */
-public class DeveloperOptionsActivity extends ActionBarActivity
+public class DeveloperOptionsActivity extends BaseActivity
 {
     public static final String TAG = DeveloperOptionsActivity.class.getSimpleName();
     public LinearLayout testDBContainer;
@@ -401,10 +401,9 @@ public class DeveloperOptionsActivity extends ActionBarActivity
             }
             else if (_action == TestAction.RUN_STARTUP_ACTIONS)
             {
-                ApplicationStatistics.updateInstallationDetails(_developerOptionsActivity);
+                App.getAppStats().updateInstallationDetails();
 
-                ApplicationStatistics statistics = ApplicationStatistics.getInstallationDetails(_developerOptionsActivity);
-                publishProgress(statistics.toString());
+                publishProgress(App.getAppStats().toString());
 
                 AsyncStartupActions async = new AsyncStartupActions(_developerOptionsActivity);
                 async.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

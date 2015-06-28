@@ -3,7 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.activities;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.webkit.WebChromeClient;
@@ -18,7 +18,7 @@ import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import timber.log.Timber;
 
-public class WebViewWithProxyActivity extends ActionBarActivity
+public class WebViewWithProxyActivity extends AppCompatActivity
 {
 	WebView mWebView;
 	public static String TAG = WebViewWithProxyActivity.class.getSimpleName();

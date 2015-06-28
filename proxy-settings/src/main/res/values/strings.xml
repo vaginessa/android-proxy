@@ -20,7 +20,6 @@
     <string name="advanced">Advanced</string>
     <string name="about">About</string>
     <string name="oops">Oops</string>
-    <string name="create_new">Create new</string>
     <string name="wifi_disabled">Wi-Fi disabled: no Wi-Fi network can be selected</string>
     <string name="wifi_enabled">Wi-Fi enabled</string>
     <string name="no_ap_active">Not connected to any Wi-Fi network</string>
@@ -34,7 +33,7 @@
     <string name="proxy_status">Proxy status</string>
     <string name="ap_selection_title">Select the Wi-Fi network:</string>
     <string name="connected_to">%1$s …</string>
-    <string name="no_proxy_defined">No proxies defined!</string>
+    <string name="no_proxy_defined">You still have not defined any proxy configuration</string>
     <string name="enable_wifi_action">Enable Wi-Fi</string>
     <string name="setupap_wifi_action">Configure new Wi-Fi network…</string>
     <string name="connect_to_wifi_action">Connect to %1$s</string>
@@ -147,7 +146,7 @@
 	    edit dialog, specifying the Proxy settings to Manual, and typing
 	    proxy\'s hostname and port.</string>
     <string name="proxysettingscalleractivity_dialog_OK">OK. Go to Wi-Fi Settings</string>
-    <string name="do_you_like">Do you like Proxy Settings?</string>
+    <string name="do_you_like">Do you like using Proxy Settings?</string>
     <string name="app_rater_dialog_button_rate">Rate Proxy Settings</string>
     <string name="app_rater_dialog_button_remind">Remind me later</string>
     <string name="app_rater_dialog_button_nothanks">No, thanks</string>
@@ -215,7 +214,7 @@
     <string name="proxy_exclusionlist_label">Bypass proxy for</string>
     <string name="proxy_exclusionlist_hint">example.com,mycomp.test.com,localhost</string>
     <string name="wifi_networks">Wi\u2011Fi networks</string>
-    <string name="proxy_error">Attention</string>
+    <string name="attention">Attention</string>
     <string name="proxy_error_dismiss">OK</string>
     <string name="proxy_url_label">PAC URL</string>
     <string name="proxy_url_hint" translatable="false">https://www.example.com/proxy.pac</string>
@@ -329,7 +328,6 @@
 		publicity, privacy, trademark rights, business interruption, personal 
 		injury, loss of privacy, moral rights or the disclosure of confidential 
 		information.</string>
-    <string name="about_copyright">\u00A9 SHOULDIT 2014</string>
     <string name="about_opensource">Proxy Settings is an open source software created by <b><a href="mailto:info@shouldit.net">SHOULDIT</a></b>. You can find the source code <a href="https://github.com/shouldit/proxy-settings">HERE</a></string>
     <string name="about_github">https://github.com/shouldit/proxy-settings</string>
     <string name="pref_author_title">Author</string>
@@ -380,11 +378,13 @@
     <string name="market_not_found">Cannot find valid Market application</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="rate">Rate it</string>
     <string name="not_now">Not now</string>
-    <string name="thank_you">Thank you!</string>
-    <string name="sorry_for_that">Sorry for that!</string>
-    <string name="mail_feedback_dialog">Please let us know how to make Proxy Settings better for you!</string>
-    <string name="rate_app">It\'d be really helpful if you rated Proxy Settings.</string>
+    <string name="thank_you">Thank you</string>
+    <string name="sorry_for_that">Sorry for that</string>
+    <string name="mail_feedback_dialog">Please let us know how to make Proxy Settings better for you</string>
+    <string name="rate_or_donate_message">It\'d be really helpful if you contribute to the development of Proxy Settings. You could rate the app or make a donation.</string>
+    <string name="rate_app_message">It\'d be really helpful if you rated Proxy Settings.</string>
     <string name="no_email_client_installed">There are no email clients installed.</string>
     <string name="mail_feedback_subject">Proxy Settings %s feedback</string>
 
@@ -397,13 +397,14 @@
     <string name="analytics_act_startup_action">Updated status of startup action</string>
 
     <!-- Analytics Labels -->
-    <string name="analytics_lab_create_new_proxy">Create new proxy</string>
+    <string name="create_new_proxy">Create new proxy</string>
     <string name="analytics_lab_save_proxy">Save proxy</string>
     <string name="analytics_lab_cancel_save_proxy">Cancel proxy save</string>
     <string name="analytics_lab_beta_test_dialog">Beta test dialog</string>
     <string name="analytics_lab_beta_test_community_dialog">Beta test dialog for Google+</string>
     <string name="analytics_lab_beta_test_dismiss_dialog">Beta test dismiss dialog</string>
     <string name="analytics_lab_like_app_dialog">Application like dialog</string>
+    <string name="analytics_lab_donate_dialog">Donate dialog</string>
     <string name="analytics_lab_like_app_mail_feedback">Doesn\'t like application, mail feedback</string>
     <string name="analytics_lab_like_app_rate">Like application, rate it</string>
     <string name="analytics_lab_8021x_security_not_supported">Not supported Wi-Fi security 802.1x</string>
@@ -422,23 +423,37 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_master">MasterActivity</string>
-    <string name="create_new_proxy">Create STATIC proxy</string>
+    <string name="create_new">Create new</string>
+    <string name="create_static_proxy">Create STATIC proxy</string>
     <string name="desc_list_item_icon">Drawer item icon</string>
     <string name="home">Home</string>
-    <string name="edit_proxy">Edit STATIC proxy</string>
+    <string name="edit_static_proxy">Edit STATIC proxy</string>
     <string name="edit_wifi_ap">Edit Wi-Fi</string>
-    <string name="proxy_deleted">STATIC proxy deleted</string>
-    <string name="proxy_saved">STATIC proxy saved</string>
+    <string name="static_proxy_deleted">STATIC proxy deleted</string>
+    <string name="static_proxy_saved">STATIC proxy saved</string>
     <string name="proxy_in_use_cannot_delete">Can not delete a Proxy used by one or more of the configured Wi-Fi networks</string>
     <string name="pac_proxies">PAC proxies</string>
-    <string name="pac_deleted">PAC proxy deleted</string>
-    <string name="pac_saved">PAC proxy saved</string>
+    <string name="pac_proxy_deleted">PAC proxy deleted</string>
+    <string name="pac_proxy_saved">PAC proxy saved</string>
     <string name="add_new_pac">Add PAC proxy</string>
     <string name="edit_pac">Edit PAC proxy</string>
-    <string name="create_new_pac">Create PAC proxy</string>
+    <string name="create_new_pac_proxy">Create PAC proxy</string>
     <string name="security">Security:</string>
-    <string name="static_proxy">STATIC</string>
-    <string name="pac_proxy">PAC</string>
+    <string name="static_p">STATIC</string>
+    <string name="pac">PAC</string>
     <string name="enable_wifi">Enable Wi-Fi</string>
+    <string name="title_activity_in_app_billing">InAppBillingActivity</string>
+    <string name="support">Support</string>
+    <string name="support_android_proxy_project">Support the Android Proxy project</string>
+    <string name="billing_error_during_init">Unfortunately a problem occurred retrieving the billing information. Cannot continue.</string>
+    <string name="billing_error_during_operation">Unfortunately a problem occurred during the billing operation. Cannot continue.</string>
     <string name="saving_configuration">Saving configuration…</string>
+    <string name="donate">Donate</string>
+    <string name="please_wait">Please wait…</string>
+
+    <string name="you_can_find_the_source_code">You can find the source code of <b>Proxy Settings</b> on the <a href="https://github.com/shouldit/android-proxy">project page</a> hosted on GitHub.</string>
+    <string name="any_contribution_is_appreciated">Any contribution is appreciated. Feel free to provide feedback (bugs, etc), and pull requests.</string>
+    <string name="further_documentation_can_be_found">Further documentation can be found on the project <a href="https://github.com/shouldit/android-proxy/wiki">Wiki</a>.</string>
+    <string name="copyright_message">Copyryght 2015 SHOULDIT. All rights reserved</string>
+    <string name="is_open_source_software_made_possible_by">Proxy Settings is an open source software made possible by the <a href="https://github.com/shouldit/android-proxy">Android Proxy</a> open source project.</string>
 </resources>

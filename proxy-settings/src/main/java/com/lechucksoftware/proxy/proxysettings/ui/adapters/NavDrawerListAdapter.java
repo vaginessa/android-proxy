@@ -6,6 +6,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,7 @@ public class NavDrawerListAdapter extends BaseAdapter
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
         TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
+        CardView counterCard = (CardView) convertView.findViewById(R.id.counter_card);
 
         if (item.getIcon() != -1)
         {
@@ -80,7 +82,11 @@ public class NavDrawerListAdapter extends BaseAdapter
         }
 
         txtTitle.setText(item.getTitle());
-        txtCount.setVisibility(UIUtils.booleanToVisibility(item.getCount() > 0));
+
+        int counterVisibility = UIUtils.booleanToVisibility(item.getCount() > 0);
+        txtCount.setVisibility(counterVisibility);
+        counterCard.setVisibility(counterVisibility);
+
         txtCount.setText(String.valueOf(item.getCount()));
 
         return convertView;

@@ -1,14 +1,21 @@
 package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.lechucksoftware.proxy.proxysettings.App;
+import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
+import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Marco on 12/04/14.
@@ -16,11 +23,11 @@ import java.util.List;
 public class StartupActions
 {
     private static final String TAG = StartupActions.class.getSimpleName();
-    private static List<StartupAction> availableActions;
+    private static Map<StartupActionType,StartupAction> availableActions;
 
-    private static List<StartupAction> buildStartupActions()
+    private static Map<StartupActionType,StartupAction> buildStartupActions()
     {
-        ArrayList<StartupAction> actions = new ArrayList<StartupAction>();
+        HashMap<StartupActionType,StartupAction> actions = new HashMap<>();
 
         // SHOW Quick tour at first start
 //        StartupAction quickTour = new StartupAction(activity,
@@ -43,28 +50,32 @@ public class StartupActions
 //                new StartupCondition(null, null, 1300216));
 //        actions.add(whatsNew216);
 
-        StartupAction rating = new StartupAction(
+        StartupAction likeAction = new StartupAction(
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(30, null, null),
-                new StartupCondition(50, null, null),
-                new StartupCondition(70, null, null),
-                new StartupCondition(null, 30, null));
-        actions.add(rating);
+                StartupCondition.LaunchCountCondition(20,5),
+                StartupCondition.ElapsedDaysCondition(60));
+        actions.put(likeAction.actionType, likeAction);
+
+        if (App.getInstance().activeMarket == AndroidMarket.PLAY)
+        {
+            StartupAction donateAction = new StartupAction(
+                    StartupActionType.DONATE_DIALOG,
+                    StartupActionStatus.NOT_AVAILABLE,
+                    StartupCondition.LaunchCountCondition(40, 10));
+            actions.put(donateAction.actionType, donateAction);
+        }
 
         StartupAction betaTest = new StartupAction(
                 StartupActionType.BETA_TEST_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
-                new StartupCondition(80, null, null),
-                new StartupCondition(100, null, null),
-                new StartupCondition(120, null, null));
-
-        actions.add(betaTest);
+                StartupCondition.LaunchCountCondition(200,50));
+        actions.put(betaTest.actionType, betaTest);
 
         return actions;
     }
 
-    public static List<StartupAction> getAvailableActions()
+    public static Map<StartupActionType,StartupAction> getAvailableActions()
     {
         if (availableActions == null)
         {
@@ -74,5 +85,93 @@ public class StartupActions
         }
 
         return availableActions;
+    }
+
+    public static boolean canExecute(StartupActionType actionType)
+    {
+        if (getAvailableActions().containsKey(actionType))
+        {
+            StartupAction startupAction = getAvailableActions().get(actionType);
+            return startupAction.canExecute();
+        }
+
+        return false;
+    }
+
+    public static void updateStatus(StartupActionType type, StartupActionStatus status)
+    {
+        updateStatus(StartupAction.STARTUP_KEY_PREFIX + type, status);
+    }
+
+    public static void updateStatus(String actionKey, StartupActionStatus status)
+    {
+        SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (editor != null)
+        {
+            editor.putInt(actionKey, status.getValue());
+            editor.commit();
+
+            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_user_action), App.getInstance().getString(R.string.analytics_act_startup_action), actionKey, (long) status.getValue());
+        }
+    }
+
+    public static Boolean checkInstallationConditions(StartupCondition [] conditions)
+    {
+        Boolean result = false;
+
+        if (conditions != null)
+        {
+            for (StartupCondition condition: conditions)
+            {
+                result = condition.isValid();
+                if (result)
+                    break;
+            }
+        }
+
+        return result;
+    }
+
+    public static Boolean checkLaunchCount(Integer launchCount, Integer delayRepeat)
+    {
+        Boolean result = false;
+
+        if (App.getAppStats().launchCount >= launchCount &&
+            (delayRepeat == -1 || App.getAppStats().launchCount % delayRepeat == 0))
+        {
+            result = true;
+        }
+
+        return result;
+    }
+
+    public static Boolean checkElapsedDays(Integer daysCount)
+    {
+        Boolean result = false;
+
+        if (Utils.ElapsedNDays(App.getAppStats().launhcFirstDate, daysCount))
+        {
+            result = true;
+        }
+
+        return result;
+    }
+
+    public static boolean checkRequiredAppVersion(Integer requiredVerCode)
+    {
+        Boolean result = false;
+
+        if (requiredVerCode == null)
+        {
+            result = true;
+        }
+        else if (App.getAppStats().majorVersion == requiredVerCode)
+        {
+            result = true;
+        }
+
+        return result;
     }
 }

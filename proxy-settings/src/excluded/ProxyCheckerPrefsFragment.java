@@ -121,7 +121,7 @@ public class ProxyCheckerPrefsFragment extends PreferenceFragment
     {
         super.onResume();
 
-        ActionBar actionBar =  ((ActionBarActivity) getActivity()).getSupportActionBar();
+        ActionBar actionBar =  ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }

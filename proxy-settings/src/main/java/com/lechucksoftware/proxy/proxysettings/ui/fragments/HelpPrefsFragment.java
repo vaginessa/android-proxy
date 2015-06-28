@@ -10,17 +10,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
-import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.DonateDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
@@ -34,6 +34,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
     private Preference appRatePref;
     private Preference shareApp;
     private Preference contactPref;
+    private Preference donatePref;
 //    private Preference aboutPref;
 
 
@@ -111,6 +112,7 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
+
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/shouldit/proxy-settings/issues/new")));
                 return true;
             }
@@ -122,15 +124,11 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             @Override
             public boolean onPreferenceClick(Preference preference)
             {
+
                 showBetaTestDialog();
                 return true;
             }
         });
-
-        if (App.getInstance().activeMarket != AndroidMarket.PLAY)
-        {
-            getPreferenceScreen().removePreference(betaTestPref);
-        }
 
         appRatePref = findPreference("pref_rate_app");
         appRatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -140,7 +138,18 @@ public class HelpPrefsFragment extends BasePreferenceFragment
             {
 
                 Utils.startMarketActivity(getActivity());
+                return true;
+            }
+        });
 
+        donatePref = findPreference("pref_donate");
+        donatePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+
+                DonateDialog.showDonateDialog((BaseActivity) getActivity());
                 return true;
             }
         });
@@ -173,6 +182,11 @@ public class HelpPrefsFragment extends BasePreferenceFragment
 //            }
 //        });
 
+        if (App.getInstance().activeMarket != AndroidMarket.PLAY)
+        {
+            getPreferenceScreen().removePreference(betaTestPref);
+            getPreferenceScreen().removePreference(donatePref);
+        }
 
         return v;
     }

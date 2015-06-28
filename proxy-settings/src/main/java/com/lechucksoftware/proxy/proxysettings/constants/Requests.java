@@ -24,4 +24,14 @@ public interface Requests
      * Request to select a proxy configuration
      * */
     int SELECT_PROXY_FOR_WIFI_NETWORK = 4;
+
+    /**
+     * Request to purchase IAB
+     * */
+    int IAB_PURCHASE = 4;
+
+    /**
+     * Request to donate through IAB
+     * */
+    int IAB_DONATE = 5;
 }

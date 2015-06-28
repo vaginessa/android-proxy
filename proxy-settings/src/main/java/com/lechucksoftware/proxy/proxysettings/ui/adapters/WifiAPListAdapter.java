@@ -168,14 +168,14 @@ public class WifiAPListAdapter extends ArrayAdapter<WiFiApConfig>
                 case STATIC:
                     viewHolder.wifiApLProxyLabel.setVisibility(View.VISIBLE);
                     viewHolder.wifiApLProxyLabel.setBackgroundResource(R.color.red_400);
-                    viewHolder.proxySettingText.setText(R.string.static_proxy);
+                    viewHolder.proxySettingText.setText(R.string.static_p);
                     viewHolder.proxySetting.setImageResource(R.drawable.ic_action_proxy_dark);
                     break;
 
                 case PAC:
                     viewHolder.wifiApLProxyLabel.setVisibility(View.VISIBLE);
                     viewHolder.wifiApLProxyLabel.setBackgroundResource(R.color.orange_400);
-                    viewHolder.proxySettingText.setText(R.string.pac_proxy);
+                    viewHolder.proxySettingText.setText(R.string.pac);
                     viewHolder.proxySetting.setImageResource(R.drawable.ic_action_file);
                     break;
             }

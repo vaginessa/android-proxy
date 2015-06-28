@@ -2,7 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.tasks;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
 
@@ -13,7 +13,8 @@ import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
-import com.lechucksoftware.proxy.proxysettings.ui.dialogs.rating.LikeAppDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.DoLikeAppDialog;
+import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
@@ -26,10 +27,10 @@ import timber.log.Timber;
 public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 {
     private static final String TAG = AsyncStartupActions.class.getSimpleName();
-    private final ActionBarActivity activity;
+    private final AppCompatActivity activity;
     private ApplicationStatistics statistics;
 
-    public AsyncStartupActions(ActionBarActivity a)
+    public AsyncStartupActions(AppCompatActivity a)
     {
         activity = a;
     }
@@ -55,7 +56,8 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                                 .customView(webView,true)
                                 .positiveText(R.string.ok).build();
                         dialog.show();
-                        action.updateStatus(StartupActionStatus.DONE);
+
+                        StartupActions.updateStatus(action.actionType, StartupActionStatus.DONE);
 
 //                        HtmlDialog htmlDialog = HtmlDialog.newInstance(activity.getString(R.string.whatsnew), Resources.getWhatsNewHTML());
 //                        htmlDialog.show(activity.getSupportFragmentManager(), "WhatsNewHTMLDialog");
@@ -67,6 +69,12 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
                         activity.startActivity(appDemo);
                         break;
 
+                    case DONATE_DIALOG:
+                        DoLikeAppDialog donateDialog = new DoLikeAppDialog();
+                        donateDialog.setCancelable(false);
+                        donateDialog.show(activity.getSupportFragmentManager(), "DoLikeAppDialog");
+                        break;
+
                     case RATE_DIALOG:
 //                        if (statistics != null && statistics.CrashesCount != 0)
 //                        {
@@ -76,13 +84,15 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 //                        }
 //                        else
 //                        {
-                            LikeAppDialog likeAppDialog = LikeAppDialog.newInstance(action);
+                            LikeAppDialog likeAppDialog = new LikeAppDialog();
+                            likeAppDialog.setCancelable(false);
                             likeAppDialog.show(activity.getSupportFragmentManager(), "LikeAppDialog");
 //                        }
                         break;
 
                     case BETA_TEST_DIALOG:
-                        BetaTestAppDialog betaDialog = BetaTestAppDialog.newInstance(action);
+                        BetaTestAppDialog betaDialog = new BetaTestAppDialog();
+                        betaDialog.setCancelable(false);
                         betaDialog.show(activity.getSupportFragmentManager(), "BetaTestApplicationAlertDialog");
 
                     default:
@@ -102,21 +112,20 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
     {
         StartupAction action = null;
 
-        statistics = ApplicationStatistics.getInstallationDetails(activity.getApplicationContext());
-        action = getStartupAction(statistics);
+        action = getStartupAction();
 
         return action;
     }
 
-    private StartupAction getStartupAction(ApplicationStatistics statistics)
+    private StartupAction getStartupAction()
     {
         StartupAction result = null;
 
         App.getTraceUtils().startTrace(TAG, "getStartupAction", Log.DEBUG);
 
-        for (StartupAction action : StartupActions.getAvailableActions())
+        for (StartupAction action : StartupActions.getAvailableActions().values())
         {
-            if (action.canExecute(statistics))
+            if (action.canExecute())
             {
                 result = action;
                 break;

@@ -15,6 +15,14 @@
     <!--Nov.-->
     <!--Dec.-->
 
+    <changelogversion versionName="3.1" versionCode=""  changeDate="Jun 30,2015">
+        <changelogimprovement>New material Icon</changelogimprovement>
+        <changelogimprovement>Added donation feature</changelogimprovement>
+        <changelogimprovement>Improved save operation feedback</changelogimprovement>
+        <changelogimprovement>Improved startup actions and dialogs</changelogimprovement>
+        <changelogbug>Fixed various bugfixes</changelogbug>
+    </changelogversion>
+
     <changelogversion versionName="3.01" versionCode=""  changeDate="May 06,2015">
         <changelogimprovement>Improved save operation</changelogimprovement>
         <changelogbug>Improved application stability</changelogbug>

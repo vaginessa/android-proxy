@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -21,10 +21,18 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.ViewServer;
 import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.IabException;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.IabHelper;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.IabResult;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.Inventory;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.Purchase;
+import com.lechucksoftware.proxy.proxysettings.utils.billing.SkuDetails;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -33,11 +41,31 @@ import timber.log.Timber;
 /**
  * Created by marco on 07/11/13.
  */
-public class BaseActivity extends ActionBarActivity
+public class BaseActivity extends AppCompatActivity
 {
     private static boolean active = false;
     Snackbar snackbar = null;
     private UIHandler uiHandler;
+    private IabHelper iabHelper;
+
+    public boolean isIabEnabled()
+    {
+        return iabEnabled;
+    }
+
+    boolean iabEnabled;
+
+    public Inventory getIabInventory()
+    {
+        return iabInventory;
+    }
+
+    public IabHelper getIabHelper()
+    {
+        return iabHelper;
+    }
+
+    private Inventory iabInventory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,6 +112,8 @@ public class BaseActivity extends ActionBarActivity
 
         uiHandler = new UIHandler(this);
 
+        iabInit();
+
         try
         {
             registerReceiver(broadcastReceiver, ifilt);
@@ -102,8 +132,11 @@ public class BaseActivity extends ActionBarActivity
         Timber.tag(this.getClass().getSimpleName());
         Timber.d("onPause");
 
-        uiHandler.dismissSnackbar();
-        uiHandler = null;
+        if (uiHandler != null)
+        {
+            uiHandler.dismissSnackbar();
+            uiHandler = null;
+        }
 
         try
         {
@@ -339,6 +372,164 @@ public class BaseActivity extends ActionBarActivity
         public void onReceive(Context context, Intent intent)
         {
             handleIntent(intent);
+        }
+    };
+
+    private void iabInit()
+    {
+        try
+        {
+            iabEnabled = false;
+
+            iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
+
+            iabHelper.enableDebugLogging(true);
+            iabHelper.startSetup(new IABCustomOnIabSetupFinishedListener());
+        }
+        catch (Exception e)
+        {
+            Timber.e(e, "Cannot initIAB");
+        }
+    }
+
+    private class IABCustomOnIabSetupFinishedListener implements IabHelper.OnIabSetupFinishedListener
+    {
+        public void onIabSetupFinished(IabResult result)
+        {
+            if (!result.isSuccess())
+            {
+                Timber.e(new IabException(result), "In-app Billing setup failed: " + result);
+            }
+            else
+            {
+                Timber.d("In-app Billing is set up OK");
+                iabEnabled = true;
+//                startInventoryRefresh(queryInventoryFinishedListener);
+            }
+        }
+    }
+
+    public void startInventoryRefresh(IabHelper.QueryInventoryFinishedListener queryInventoryFinishedListener)
+    {
+        List<String> skus = new ArrayList<>();
+
+        skus.addAll(Arrays.asList(Constants.IAB_AVAILABLE_ITEMS));
+
+        if (BuildConfig.DEBUG)
+        {
+            skus.addAll(Arrays.asList(Constants.IAB_DEBUG_ITEMS));
+        }
+
+        iabHelper.queryInventoryAsync(true, skus, queryInventoryFinishedListener);
+    }
+
+    IabHelper.QueryInventoryFinishedListener queryInventoryFinishedListener = new IabHelper.QueryInventoryFinishedListener()
+    {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory)
+        {
+            handleQueryInventory(result, inventory);
+        }
+    };
+
+    public void handleQueryInventory(IabResult result, Inventory inventory)
+    {
+        if (result.isFailure())
+        {
+            // Handle failure
+        }
+        else
+        {
+            Timber.d("Received updated inventory from IAB");
+            iabInventory = inventory;
+
+            List<SkuDetails> skus = inventory.getAllSkus();
+            List<Purchase> purchases = inventory.getAllPurchases();
+
+            Timber.d("Received SKUs from IAB");
+            for (SkuDetails sku : skus)
+            {
+                Timber.d("IAB SKU: %s",sku.toString());
+            }
+
+            Timber.d("Received Purchases from IAB");
+            for (Purchase purchase : purchases)
+            {
+                Timber.d("IAB Purchase: %s", purchase.toString());
+            }
+        }
+    }
+
+    private boolean iabCheckIabHelper()
+    {
+        if (iabHelper == null)
+        {
+            Timber.e("iabHelper not initialized. Try again to initIAB.");
+            iabInit();
+            return true;
+        }
+
+        return false;
+    }
+
+    public void iabLaunchPurchase(String sku, int requestCode)
+    {
+        if (iabCheckIabHelper()) return;
+
+        Timber.d("Launching purchase for SKU: '%s'", sku);
+
+        try
+        {
+            iabHelper.launchPurchaseFlow(this, sku, requestCode, iabPurchaseFinishedListener, "mypurchasetoken");
+        }
+        catch (Exception e)
+        {
+            Timber.e(e, "Exception during launchPurchaseFlow");
+            UIUtils.showError(this, R.string.billing_error_during_operation);
+        }
+    }
+
+    IabHelper.OnIabPurchaseFinishedListener iabPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener()
+    {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase)
+        {
+
+            if (result.isFailure())
+            {
+                switch (result.getResponse())
+                {
+                    case IabHelper.IABHELPER_USER_CANCELLED:
+                        Timber.e("User canceled IAB: '%s'", result.toString());
+                        break;
+
+                    default:
+                        Timber.e(new IabException(result), "Failure on Iab Purchase Finished");
+                        break;
+                }
+
+                return;
+            }
+            else
+            {
+                Timber.d("Purchase successful: %s", result.toString());
+                switch (purchase.getSku())
+                {
+                    case Constants.IAB_ITEM_SKU_PRO:
+                        break;
+                    case Constants.IAB_ITEM_SKU_BASE:
+                        break;
+                    case Constants.IAB_ITEM_SKU_TEST_PURCHASED:
+                        break;
+                    case Constants.IAB_ITEM_SKU_TEST_CANCELED:
+                        break;
+                    case Constants.IAB_ITEM_SKU_TEST_REFUNDED:
+                        break;
+                    case Constants.IAB_ITEM_SKU_TEST_UNAVAILABLE:
+                        break;
+
+                    default:
+                        Timber.e("Purchase not recognized");
+                }
+            }
         }
     };
 }

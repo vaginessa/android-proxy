@@ -87,13 +87,20 @@ public class ProxySelectorFragment extends BaseFragment
     {
         super.onResume();
 
-        if (selectedConfig.getProxySetting() == ProxySetting.STATIC)
+        if (selectedConfig != null)
+        {
+            if (selectedConfig.getProxySetting() == ProxySetting.STATIC)
+            {
+                pager.setCurrentItem(0);
+            }
+            else if (selectedConfig.getProxySetting() == ProxySetting.PAC)
+            {
+                pager.setCurrentItem(1);
+            }
+        }
+        else
         {
             pager.setCurrentItem(0);
-        }
-        else if(selectedConfig.getProxySetting() == ProxySetting.PAC)
-        {
-            pager.setCurrentItem(1);
         }
     }
 

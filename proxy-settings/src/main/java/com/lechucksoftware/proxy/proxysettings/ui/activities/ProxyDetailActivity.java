@@ -52,12 +52,12 @@ public class ProxyDetailActivity extends BaseActivity
             {
                 proxyId = (Long) extras.getSerializable(Constants.SELECTED_PROXY_CONF_ARG);
                 detail = ProxyDetailFragment.newInstance(proxyId);
-                actionBar.setTitle(getString(R.string.edit_proxy));
+                actionBar.setTitle(getString(R.string.edit_static_proxy));
             }
             else
             {
                 detail = ProxyDetailFragment.newInstance();
-                actionBar.setTitle(getString(R.string.create_new_proxy));
+                actionBar.setTitle(getString(R.string.create_static_proxy));
             }
 
             fm.beginTransaction()

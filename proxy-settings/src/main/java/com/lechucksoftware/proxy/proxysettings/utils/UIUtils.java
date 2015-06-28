@@ -28,14 +28,18 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.CodeNames;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
-import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Random;
 
+import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.CheckStatusValues;
 import be.shouldit.proxy.lib.utils.ProxyUIUtils;
@@ -64,7 +68,7 @@ public class UIUtils
     {
         try
         {
-            showDialog(ctx, errorMessage, ctx.getString(R.string.proxy_error), null);
+            showDialog(ctx, errorMessage, ctx.getString(R.string.attention), null);
         }
         catch (Exception e)
         {
@@ -155,6 +159,36 @@ public class UIUtils
             String [] splitted = exclusion.split(",");
             return TextUtils.join(", ", splitted);
         }
+    }
+
+    public static void showEnableWifiSnackbar(Context context)
+    {
+        SnackbarManager.show(
+                Snackbar.with(context)
+                        .type(SnackbarType.SINGLE_LINE)
+                        .text(R.string.wifi_off_snackbar)
+                        .swipeToDismiss(false)
+                        .animation(false)
+                        .color(Color.RED)
+                        .actionLabel(R.string.enable_wifi)
+                        .actionLabelTypeface(Typeface.DEFAULT_BOLD)
+                        .actionListener(new ActionClickListener()
+                        {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar)
+                            {
+                                try
+                                {
+                                    APL.enableWifi();
+                                }
+                                catch (Exception e)
+                                {
+                                    Timber.e(e, "Exception during ActionsView enableWifiClickListener action");
+                                }
+                            }
+                        })
+                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+        );
     }
 
     @IntDef({View.VISIBLE, View.INVISIBLE, View.GONE})
