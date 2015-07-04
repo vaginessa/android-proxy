@@ -8,7 +8,6 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.Intents;
 import com.lechucksoftware.proxy.proxysettings.services.SaveWifiNetworkService;
 
@@ -52,7 +51,7 @@ public class WifiNetworksManager
     {
         if (wifiNetworkStatus == null)
         {
-            Timber.e(new Exception(),"Cannot find valid instance of WifiNetworkStatus, trying to instantiate a new one");
+            Timber.w("Cannot find valid instance of WifiNetworkStatus, trying to instantiate a new one");
             wifiNetworkStatus = new WifiNetworkStatus();
         }
 
