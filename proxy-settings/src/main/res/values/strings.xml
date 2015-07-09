@@ -390,8 +390,13 @@
 
     <!-- Analytics Categories -->
     <string name="analytics_cat_user_action">User action</string>
+    <string name="analytics_cat_startup_action">Startup actions</string>
+    startup action
 
     <!-- Analytics Actions -->
+    <string name="analytics_act_rate_dialog">Rate dialog</string>
+    <string name="analytics_act_donate_dialog">Donate dialog</string>
+    <string name="analytics_act_beta_dialog">Beta Test dialog</string>
     <string name="analytics_act_button_click">Clicked button</string>
     <string name="analytics_act_dialog_button_click">Dialog button clicked</string>
     <string name="analytics_act_startup_action">Updated status of startup action</string>

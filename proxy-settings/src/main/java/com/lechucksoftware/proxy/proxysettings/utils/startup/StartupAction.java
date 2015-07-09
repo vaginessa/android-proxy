@@ -1,12 +1,9 @@
 package com.lechucksoftware.proxy.proxysettings.utils.startup;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.lechucksoftware.proxy.proxysettings.App;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 
@@ -20,41 +17,19 @@ public class StartupAction implements Parcelable
     public static String STARTUP_KEY_PREFIX = "STARTUP_ACTION_";
 
     public String preferenceKey;
+    public String description;
     public StartupActionType actionType;
     public StartupActionStatus actionStatus;
 
     public StartupCondition [] startupConditions;
 
-    public StartupAction(StartupActionType type, StartupActionStatus status, StartupCondition ... conditions)
+    public StartupAction(StartupActionType type, StartupActionStatus status, int desc, StartupCondition ... conditions)
     {
         actionType = type;
         actionStatus = status;
         preferenceKey = STARTUP_KEY_PREFIX + actionType;
         startupConditions = conditions;
-    }
-
-    public boolean canExecute()
-    {
-        SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
-        StartupActionStatus status = StartupActionStatus.parseInt(prefs.getInt(preferenceKey, StartupActionStatus.NOT_AVAILABLE.getValue()));
-
-        Boolean result;
-
-        switch (status)
-        {
-            case NOT_AVAILABLE:
-            case POSTPONED:
-                result = StartupActions.checkInstallationConditions(startupConditions);
-                break;
-
-            case REJECTED:
-            case DONE:
-            case NOT_APPLICABLE:
-            default:
-                result = false;
-        }
-
-        return result;
+        description = App.getInstance().getString(desc);
     }
 
     @Override

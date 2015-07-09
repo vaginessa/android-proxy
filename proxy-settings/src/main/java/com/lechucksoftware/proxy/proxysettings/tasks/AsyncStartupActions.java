@@ -11,6 +11,7 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Resources;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
+import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.TransparentAppGuideActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.betatest.BetaTestAppDialog;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.DoLikeAppDialog;
@@ -18,6 +19,8 @@ import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.LikeAppDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupAction;
 import com.lechucksoftware.proxy.proxysettings.utils.startup.StartupActions;
+
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -123,12 +126,17 @@ public class AsyncStartupActions  extends AsyncTask<Void, Void, StartupAction>
 
         App.getTraceUtils().startTrace(TAG, "getStartupAction", Log.DEBUG);
 
-        for (StartupAction action : StartupActions.getAvailableActions().values())
+        Map<StartupActionType, StartupAction> availableActions = StartupActions.getAvailableActions();
+
+        if (availableActions != null)
         {
-            if (action.canExecute())
+            for (StartupActionType actionType :availableActions.keySet())
             {
-                result = action;
-                break;
+                if (StartupActions.canExecute(actionType))
+                {
+                    result = availableActions.get(actionType);
+                    break;
+                }
             }
         }
 
