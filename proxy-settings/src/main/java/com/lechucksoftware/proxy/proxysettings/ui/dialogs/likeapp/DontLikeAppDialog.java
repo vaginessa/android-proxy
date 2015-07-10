@@ -32,9 +32,9 @@ public class DontLikeAppDialog extends BaseDialogFragment
             {
                 StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
 
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                        R.string.analytics_act_dialog_button_click,
-                        R.string.analytics_lab_like_app_mail_feedback, 1L);
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                        R.string.analytics_act_dont_like_dialog,
+                        R.string.analytics_lab_dont_like_app_dialog_email, 0L);
 
                 Utils.sendFeedbackMail(getActivity());
             }
@@ -44,9 +44,9 @@ public class DontLikeAppDialog extends BaseDialogFragment
             {
                 StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.REJECTED);
 
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                        R.string.analytics_act_dialog_button_click,
-                        R.string.analytics_lab_like_app_mail_feedback, 0L);
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                        R.string.analytics_act_dont_like_dialog,
+                        R.string.analytics_lab_dont_like_app_dialog_close, 0L);
             }
         });
 
@@ -59,8 +59,8 @@ public class DontLikeAppDialog extends BaseDialogFragment
     {
         super.onCancel(dialog);
 
-        App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                R.string.analytics_act_dialog_button_click,
-                R.string.analytics_lab_like_app_mail_feedback, 2L);
+        App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                R.string.analytics_act_dont_like_dialog,
+                R.string.analytics_lab_dont_like_app_dialog_cancel, 0L);
     }
 }

@@ -372,9 +372,7 @@
     <string name="duplicated_proxy_warning">Already defined one or more configuration with same values</string>
     <string name="warning">Warning</string>
     <string name="wifi_ap_will_be_updated">The updated proxy configuration will be applied to the Wi-Fi networks that used the previous version of the configuration</string>
-
-
-
+    <string name="create_new_proxy">Create new proxy</string>
     <string name="market_not_found">Cannot find valid Market application</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
@@ -390,10 +388,14 @@
 
     <!-- Analytics Categories -->
     <string name="analytics_cat_user_action">User action</string>
+    <string name="analytics_cat_dialogs_action">Dialogs action</string>
     <string name="analytics_cat_startup_action">Startup actions</string>
     startup action
 
     <!-- Analytics Actions -->
+    <string name="analytics_act_like_dialog">Like dialog</string>
+    <string name="analytics_act_do_like_dialog">Do like dialog</string>
+    <string name="analytics_act_dont_like_dialog">Don\'t like dialog</string>
     <string name="analytics_act_rate_dialog">Rate dialog</string>
     <string name="analytics_act_donate_dialog">Donate dialog</string>
     <string name="analytics_act_beta_dialog">Beta Test dialog</string>
@@ -402,14 +404,28 @@
     <string name="analytics_act_startup_action">Updated status of startup action</string>
 
     <!-- Analytics Labels -->
-    <string name="create_new_proxy">Create new proxy</string>
+    <string name="analytics_lab_like_app_dialog_yes">Like application</string>
+    <string name="analytics_lab_like_app_dialog_no">Doesn\'t like application</string>
+    <string name="analytics_lab_like_app_dialog_cancel">Cancel like dialog</string>
+
+    <string name="analytics_lab_do_like_app_dialog_rate">Like application: Rate</string>
+    <string name="analytics_lab_do_like_app_dialog_donate">Like application: Donate</string>
+    <string name="analytics_lab_do_like_app_dialog_cancel">Cancel do like application dialog</string>
+
+    <string name="analytics_lab_dont_like_app_dialog_email">Don\'t like application: Email</string>
+    <string name="analytics_lab_dont_like_app_dialog_close">Don\'t like application: Close</string>
+    <string name="analytics_lab_dont_like_app_dialog_cancel">Cancel don\'t like application dialog</string>
+
+    <string name="analytics_lab_donate_dialog_selected_sku">Selected SKU</string>
+    <string name="analytics_lab_donate_dialog_no_sku_selected">No SKU selected</string>
+    <string name="analytics_lab_donate_dialog_cancel">Cancel donate dialog</string>
+
     <string name="analytics_lab_save_proxy">Save proxy</string>
     <string name="analytics_lab_cancel_save_proxy">Cancel proxy save</string>
     <string name="analytics_lab_beta_test_dialog">Beta test dialog</string>
     <string name="analytics_lab_beta_test_community_dialog">Beta test dialog for Google+</string>
     <string name="analytics_lab_beta_test_dismiss_dialog">Beta test dismiss dialog</string>
-    <string name="analytics_lab_like_app_dialog">Application like dialog</string>
-    <string name="analytics_lab_donate_dialog">Donate dialog</string>
+
     <string name="analytics_lab_like_app_mail_feedback">Doesn\'t like application, mail feedback</string>
     <string name="analytics_lab_like_app_rate">Like application, rate it</string>
     <string name="analytics_lab_8021x_security_not_supported">Not supported Wi-Fi security 802.1x</string>
