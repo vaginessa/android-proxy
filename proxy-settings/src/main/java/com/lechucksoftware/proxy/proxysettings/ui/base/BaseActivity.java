@@ -14,6 +14,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -111,6 +114,17 @@ public class BaseActivity extends AppCompatActivity
         ifilt.addAction(Intents.SERVICE_COMUNICATION);
 
         uiHandler = new UIHandler(this);
+
+        try
+        {
+            int result = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+            ConnectionResult connectionResult = new ConnectionResult(result,null);
+            Timber.d("GooglePlayServiceAvailable result: '%s'",connectionResult.toString());
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Exception checking for PlayServices");
+        }
 
         iabInit();
 
