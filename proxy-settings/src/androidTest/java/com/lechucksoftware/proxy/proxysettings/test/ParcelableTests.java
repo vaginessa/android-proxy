@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -95,7 +96,7 @@ public class ParcelableTests
     @Test
     public void testParcelableStartupAction() throws Exception
     {
-        List<StartupAction> availableActions = StartupActions.getAvailableActions();
+        Collection<StartupAction> availableActions = StartupActions.getAvailableActions().values();
 
         for (StartupAction action : availableActions)
         {

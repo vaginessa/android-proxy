@@ -225,8 +225,8 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
                         .show();
 
                 App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                        R.string.analytics_act_button_click,
-                        R.string.analytics_lab_8021x_security_not_supported);
+                                                    R.string.analytics_act_button_click,
+                                                    R.string.analytics_lab_8021x_security_not_supported, 0L);
             }
             else
             {

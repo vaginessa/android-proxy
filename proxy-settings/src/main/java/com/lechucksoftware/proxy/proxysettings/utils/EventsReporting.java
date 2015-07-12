@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
-
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -72,18 +71,16 @@ public class EventsReporting
             defaultTracker.enableAutoActivityTracking(true);
 //            defaultTracker.setAppName(ApplicationStatistics.getInstallationDetails(context));
             setupDone = true;
+
+            Timber.d("Setup of Analytics completed");
         }
         else
         {
             setupDone = false;
+            Timber.e("Cannot perform setup of Analytics");
         }
 
         return setupDone;
-    }
-
-    public void sendEvent(final int categoryId, final int actionId, final int labelId)
-    {
-        sendEvent(categoryId, actionId, labelId, null);
     }
 
     public void sendEvent(final int categoryId, final int actionId, final int labelId, final Long eventValue)
@@ -97,6 +94,8 @@ public class EventsReporting
 
     public void sendEvent(final String category, final String action, final String label, final Long eventValue)
     {
+        String msg = String.format("Event Cat:'%s', Act:'%s' Lab:'%s' Ev:'%d'", category, action, label, eventValue);
+
         if (analyticsSetupDone)
         {
             HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder();
@@ -109,22 +108,13 @@ public class EventsReporting
                 builder.setValue(eventValue);
 
             Map<String, String> map = builder.build();
+
+            Timber.d(msg);
             defaultTracker.send(map);
         }
         else
         {
-            String msg = "";
-            if (eventValue != null)
-                msg = String.format("Logging event: %s %s %s %d", category, action, label, eventValue);
-            else
-                msg = String.format("Logging event: %s %s %s", category, action, label);
-
             Timber.e(msg);
         }
-    }
-
-    public void sendEvent(String s)
-    {
-        sendEvent("", "", s, null);
     }
 }
