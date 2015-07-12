@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
@@ -127,12 +126,13 @@ public class DonateDialog extends BaseDialogFragment
         donateBuilder.positiveText(R.string.ok);
         donateBuilder.cancelable(false);
         donateBuilder.items(skusDesc.toArray(new String[skusDesc.size()]));
+
         donateBuilder.itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice()
         {
+
             @Override
             public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text)
             {
-
                 /**
                  * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
                  * returning false here won't allow the newly selected radio button to actually be selected.
@@ -144,31 +144,36 @@ public class DonateDialog extends BaseDialogFragment
                 {
                     StartupActions.updateStatus(StartupActionType.DONATE_DIALOG, StartupActionStatus.DONE);
 
-                    App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                            R.string.analytics_act_dialog_button_click,
-                            R.string.analytics_lab_donate_dialog, 1L);
+                    App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                            R.string.analytics_act_donate_dialog,
+                            R.string.analytics_lab_donate_dialog_selected_sku, (long) which);
 
                     activity.iabLaunchPurchase(donationSkus[which], Requests.IAB_DONATE);
                     return true;
                 }
                 else
                 {
+                    App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                            R.string.analytics_act_donate_dialog,
+                            R.string.analytics_lab_donate_dialog_no_sku_selected, -1L);
+
                     return false;
                 }
             }
         });
 
+        donateBuilder.callback(new MaterialDialog.ButtonCallback()
+        {
+            @Override
+            public void onNegative(MaterialDialog dialog)
+            {
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                        R.string.analytics_act_donate_dialog,
+                        R.string.analytics_lab_donate_dialog_cancel, 0L);
+            }
+        });
+
         MaterialDialog alert = donateBuilder.build();
         return alert;
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog)
-    {
-        super.onCancel(dialog);
-
-        App.getEventsReporter().sendEvent(R.string.analytics_cat_user_action,
-                R.string.analytics_act_dialog_button_click,
-                R.string.analytics_lab_donate_dialog, 0L);
     }
 }

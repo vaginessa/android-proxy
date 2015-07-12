@@ -5,9 +5,6 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import timber.log.Timber;
 
 public class CustomCrashlyticsTree extends Timber.DebugTree

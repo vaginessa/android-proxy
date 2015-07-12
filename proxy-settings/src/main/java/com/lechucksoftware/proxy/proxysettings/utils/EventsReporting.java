@@ -117,9 +117,4 @@ public class EventsReporting
             Timber.e(msg);
         }
     }
-
-    public void sendEvent(String s)
-    {
-        sendEvent("", "", s, null);
-    }
 }

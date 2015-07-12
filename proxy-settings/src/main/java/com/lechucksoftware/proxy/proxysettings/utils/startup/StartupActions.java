@@ -12,10 +12,10 @@ import com.lechucksoftware.proxy.proxysettings.constants.StartupActionStatus;
 import com.lechucksoftware.proxy.proxysettings.constants.StartupActionType;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import timber.log.Timber;
 
 /**
  * Created by Marco on 12/04/14.
@@ -53,6 +53,7 @@ public class StartupActions
         StartupAction likeAction = new StartupAction(
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
+                R.string.analytics_act_rate_dialog,
                 StartupCondition.LaunchCountCondition(20,5),
                 StartupCondition.ElapsedDaysCondition(60));
         actions.put(likeAction.actionType, likeAction);
@@ -62,6 +63,7 @@ public class StartupActions
             StartupAction donateAction = new StartupAction(
                     StartupActionType.DONATE_DIALOG,
                     StartupActionStatus.NOT_AVAILABLE,
+                    R.string.analytics_act_donate_dialog,
                     StartupCondition.LaunchCountCondition(40, 10));
             actions.put(donateAction.actionType, donateAction);
         }
@@ -69,6 +71,7 @@ public class StartupActions
         StartupAction betaTest = new StartupAction(
                 StartupActionType.BETA_TEST_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
+                R.string.analytics_act_beta_dialog,
                 StartupCondition.LaunchCountCondition(200,50));
         actions.put(betaTest.actionType, betaTest);
 
@@ -89,21 +92,58 @@ public class StartupActions
 
     public static boolean canExecute(StartupActionType actionType)
     {
-        if (getAvailableActions().containsKey(actionType))
+        boolean canExecute = false;
+
+        try
         {
-            StartupAction startupAction = getAvailableActions().get(actionType);
-            return startupAction.canExecute();
+            Map<StartupActionType, StartupAction> availableActions = StartupActions.getAvailableActions();
+
+            if (availableActions != null && availableActions.containsKey(actionType))
+            {
+                StartupAction startupAction = availableActions.get(actionType);
+
+                SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+                StartupActionStatus status = StartupActionStatus.parseInt(prefs.getInt(startupAction.preferenceKey, StartupActionStatus.NOT_AVAILABLE.getValue()));
+
+                switch (status)
+                {
+                    case NOT_AVAILABLE:
+                    case POSTPONED:
+                        canExecute = StartupActions.checkInstallationConditions(startupAction.startupConditions);
+                        break;
+
+                    case REJECTED:
+                    case DONE:
+                    case NOT_APPLICABLE:
+                    default:
+                        canExecute = false;
+                }
+            }
+
+            Timber.d("canExecute evaluation for StartupAction '%s' : %b", actionType,canExecute);
+        }
+        catch (Exception e)
+        {
+            Timber.e(e,"Error during canExecute evaluation for StartupAction: '%s'", actionType);
         }
 
-        return false;
+        return canExecute;
     }
 
     public static void updateStatus(StartupActionType type, StartupActionStatus status)
     {
-        updateStatus(StartupAction.STARTUP_KEY_PREFIX + type, status);
+        String description = null;
+        Map<StartupActionType, StartupAction> availableActions = StartupActions.getAvailableActions();
+
+        if (availableActions != null && availableActions.containsKey(type))
+        {
+            description = availableActions.get(type).description;
+        }
+
+        updateStatus(StartupAction.STARTUP_KEY_PREFIX + type, status, description);
     }
 
-    public static void updateStatus(String actionKey, StartupActionStatus status)
+    private static void updateStatus(String actionKey, StartupActionStatus status, String description)
     {
         SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
@@ -113,7 +153,7 @@ public class StartupActions
             editor.putInt(actionKey, status.getValue());
             editor.commit();
 
-            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_user_action), App.getInstance().getString(R.string.analytics_act_startup_action), actionKey, (long) status.getValue());
+            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_startup_action), description, status.toString(), 0L);
         }
     }
 
