@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -13,13 +12,11 @@
         android:layout_height="match_parent"
         android:layout_margin="2dp" />
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_new_static_proxy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_icon="@drawable/ic_action_new"
-        fab:fab_colorNormal="@color/green_500"
-        fab:fab_colorPressed="@color/green_700"
+        android:src="@drawable/ic_action_new"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="16dp"

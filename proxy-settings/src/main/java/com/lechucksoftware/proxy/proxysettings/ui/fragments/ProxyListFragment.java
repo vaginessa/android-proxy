@@ -3,6 +3,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
@@ -57,7 +57,8 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
     @InjectView(R.id.progress) RelativeLayout progress;
     @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
-    @InjectView(R.id.add_new_static_proxy) FloatingActionButton addNewStaticProxyButton;
+    @InjectView(R.id.add_new_static_proxy)
+    FloatingActionButton addNewStaticProxyButton;
 
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
