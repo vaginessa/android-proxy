@@ -3,9 +3,11 @@ package com.lechucksoftware.proxy.proxysettings.ui.activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -26,13 +28,15 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private NavDrawFragment mNavigationDrawerFragment;
+//    private NavDrawFragment mNavigationDrawerFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
     private AsyncStartupActions asyncStartupActionsTask;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,11 +44,32 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
 
-        mNavigationDrawerFragment = (NavDrawFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+//        mNavigationDrawerFragment = (NavDrawFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null)
+        {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem)
+            {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+                return true;
+            }
+        });
+
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+//        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
         asyncStartupActionsTask = new AsyncStartupActions(this);
         asyncStartupActionsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -131,6 +156,6 @@ public class MasterActivity extends BaseWifiActivity implements NavDrawFragment.
 
     public boolean isDrawerOpen()
     {
-        return mNavigationDrawerFragment.isDrawerOpen();
+        return navigationView.isActivated();
     }
 }
