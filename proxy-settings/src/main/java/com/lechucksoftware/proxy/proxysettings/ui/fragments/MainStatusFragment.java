@@ -4,7 +4,6 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
  * Created by mpagliar on 29/09/2014.
  */
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -82,14 +81,6 @@ public class MainStatusFragment extends Fragment
     {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -189,17 +188,6 @@ public class HelpPrefsFragment extends BasePreferenceFragment
         }
 
         return v;
-    }
-
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        if (activity instanceof MasterActivity)
-        {
-            ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 
     private void showBetaTestDialog()

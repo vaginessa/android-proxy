@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -283,17 +282,6 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
         super.onDestroyView();
 
         ButterKnife.reset(this);
-    }
-
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        if (activity instanceof MasterActivity)
-        {
-            ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 
     @Override

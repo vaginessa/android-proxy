@@ -1,7 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -241,13 +240,6 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         {
             Timber.e(e, "Exception during WiFiApListFragment showDetails(%d)", index);
         }
-    }
-
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-        ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override
