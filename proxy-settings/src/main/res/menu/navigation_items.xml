@@ -2,13 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigation_item_1"
+            android:id="@+id/nav_wifi_networks"
             android:checked="true"
             android:icon="@drawable/ic_wifi_action_light"
             android:title="@string/wifi_networks"/>
         <item
-            android:id="@+id/navigation_item_2"
+            android:id="@+id/nav_static_proxies"
             android:icon="@drawable/ic_action_proxy_light"
             android:title="@string/static_proxies"/>
+
+        <item
+            android:id="@+id/nav_pac_proxies"
+            android:icon="@drawable/ic_action_pac_light"
+            android:title="@string/pac_proxies"/>
+
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_action_action_help_light"
+            android:title="@string/help"/>
+
+        <item
+            android:id="@+id/nav_developer"
+            android:icon="@drawable/ic_action_developer_light"
+            android:title="@string/developers_options"/>
     </group>
 </menu>

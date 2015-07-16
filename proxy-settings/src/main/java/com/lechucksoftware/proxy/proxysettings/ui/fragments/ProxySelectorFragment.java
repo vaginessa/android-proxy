@@ -161,11 +161,11 @@ public class ProxySelectorFragment extends BaseFragment
         {
             if (position == 0)
             {
-                return ProxyListFragment.newInstance(0, FragmentMode.DIALOG, wifiAplNetworkId);
+                return ProxyListFragment.newInstance(FragmentMode.DIALOG, wifiAplNetworkId);
             }
             else
             {
-                return PacListFragment.newInstance(0, FragmentMode.DIALOG, wifiAplNetworkId);
+                return PacListFragment.newInstance(FragmentMode.DIALOG, wifiAplNetworkId);
             }
         }
     }

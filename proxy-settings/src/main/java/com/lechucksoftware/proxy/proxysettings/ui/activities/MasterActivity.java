@@ -1,17 +1,24 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
+import com.lechucksoftware.proxy.proxysettings.test.DeveloperOptionsActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseWifiActivity;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.HelpPrefsFragment;
+import com.lechucksoftware.proxy.proxysettings.ui.fragments.PacListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
@@ -24,11 +31,7 @@ public class MasterActivity extends BaseWifiActivity
      */
 //    private NavDrawFragment mNavigationDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
-    private AsyncStartupActions asyncStartupActionsTask;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
@@ -38,11 +41,15 @@ public class MasterActivity extends BaseWifiActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
 
-//        mNavigationDrawerFragment = (NavDrawFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.nav_pac_proxies).setVisible(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+        menu.findItem(R.id.nav_developer).setVisible(BuildConfig.DEBUG);
+
         final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null)
@@ -62,41 +69,43 @@ public class MasterActivity extends BaseWifiActivity
 
                 switch (menuItem.getItemId())
                 {
-                    case R.id.navigation_item_1:
+                    case R.id.nav_wifi_networks:
                     default:
                         mTitle = getString(R.string.wifi_networks);
                         FragmentsUtils.changeFragment(fragmentManager,
                                 R.id.fragment_container,
-                                WiFiApListFragment.newInstance(0),
+                                WiFiApListFragment.newInstance(),
                                 false);
                         break;
 
-                    case R.id.navigation_item_2:
-                        mTitle = getString(R.string.wifi_ap_will_be_updated);
+                    case R.id.nav_static_proxies:
+                        mTitle = getString(R.string.static_proxies);
                         FragmentsUtils.changeFragment(fragmentManager,
                                 R.id.fragment_container,
-                                ProxyListFragment.newInstance(0),
+                                ProxyListFragment.newInstance(),
                                 false);
                         break;
 
-//                    case PAC_PROXIES_LIST:
-//                        FragmentsUtils.changeFragment(fragmentManager,
-//                                R.id.fragment_container,
-//                                PacListFragment.newInstance(position),
-//                                false);
-//                        break;
-//
-//                    case HELP:
-//                        FragmentsUtils.changeFragment(fragmentManager,
-//                                R.id.fragment_container,
-//                                HelpPrefsFragment.newInstance(position),
-//                                false);
-//                        break;
-//
-//                    case DEVELOPER:
-//                        Intent testIntent = new Intent(getApplicationContext(), DeveloperOptionsActivity.class);
-//                        startActivity(testIntent);
-//                        break;
+                    case R.id.nav_pac_proxies:
+                        mTitle = getString(R.string.pac_proxies);
+                        FragmentsUtils.changeFragment(fragmentManager,
+                                R.id.fragment_container,
+                                PacListFragment.newInstance(),
+                                false);
+                        break;
+
+                    case R.id.nav_help:
+                        mTitle = getString(R.string.help);
+                        FragmentsUtils.changeFragment(fragmentManager,
+                                R.id.fragment_container,
+                                HelpPrefsFragment.newInstance(),
+                                false);
+                        break;
+
+                    case R.id.nav_developer:
+                        Intent testIntent = new Intent(getApplicationContext(), DeveloperOptionsActivity.class);
+                        startActivity(testIntent);
+                        break;
                 }
 
                 ActionBar actionBar = getSupportActionBar();
@@ -107,87 +116,18 @@ public class MasterActivity extends BaseWifiActivity
             }
         });
 
-        // Set up the drawer.
-//        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+        FragmentsUtils.changeFragment(getSupportFragmentManager(),
+                R.id.fragment_container,
+                WiFiApListFragment.newInstance(),
+                false);
 
-        asyncStartupActionsTask = new AsyncStartupActions(this);
+        AsyncStartupActions asyncStartupActionsTask = new AsyncStartupActions(this);
         asyncStartupActionsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-//    @Override
-//    public void onNavigationDrawerItemSelected(int position)
-//    {
-//        // update the main content by replacing fragments
-//        FragmentManager fragmentManager = this.getSupportFragmentManager();
-//        NavigationAction navigationAction = App.getNavigationManager().getAction(position);
-//
-//        switch (navigationAction)
-//        {
-//            case WIFI_NETWORKS:
-//            case NOT_DEFINED:
-//            default:
-//                FragmentsUtils.changeFragment(fragmentManager,
-//                        R.id.fragment_container,
-//                        WiFiApListFragment.newInstance(position),
-//                        false);
-//                break;
-//
-//            case HTTP_PROXIES_LIST:
-//                FragmentsUtils.changeFragment(fragmentManager,
-//                        R.id.fragment_container,
-//                        ProxyListFragment.newInstance(position),
-//                        false);
-//                break;
-//
-//            case PAC_PROXIES_LIST:
-//                FragmentsUtils.changeFragment(fragmentManager,
-//                        R.id.fragment_container,
-//                        PacListFragment.newInstance(position),
-//                        false);
-//                break;
-//
-//            case HELP:
-//                FragmentsUtils.changeFragment(fragmentManager,
-//                        R.id.fragment_container,
-//                        HelpPrefsFragment.newInstance(position),
-//                        false);
-//                break;
-//
-//            case DEVELOPER:
-//                Intent testIntent = new Intent(getApplicationContext(), DeveloperOptionsActivity.class);
-//                startActivity(testIntent);
-//                break;
-//        }
-//    }
-//
-//    public void onSectionAttached(int number)
-//    {
-//        NavigationAction navigationAction = App.getNavigationManager().getAction(number);
-//
-//        switch (navigationAction)
-//        {
-//            case WIFI_NETWORKS:
-//            case NOT_DEFINED:
-//            default:
-//                mTitle = getString(R.string.wifi_networks);
-//                break;
-//
-//            case HTTP_PROXIES_LIST:
-//                mTitle = getString(R.string.static_proxies);
-//                break;
-//
-//            case PAC_PROXIES_LIST:
-//                mTitle = getString(R.string.pac_proxies);
-//                break;
-//
-//            case HELP:
-//                mTitle = getString(R.string.help);
-//                break;
-//        }
-//    }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         switch (item.getItemId())
         {
             case android.R.id.home:
@@ -205,13 +145,6 @@ public class MasterActivity extends BaseWifiActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void restoreActionBar()
-    {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
     }
 
     public boolean isDrawerOpen()

@@ -7,8 +7,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -20,7 +18,6 @@ import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.loaders.ProxyConfigurationTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.WifiAPListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseFragment;
@@ -60,13 +57,9 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     @InjectView(android.R.id.empty) TextView emptyText;
     @InjectView(android.R.id.list) ListView listView;
 
-    public static WiFiApListFragment newInstance(int sectionNumber)
+    public static WiFiApListFragment newInstance()
     {
-        WiFiApListFragment fragment = new WiFiApListFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
+        return new WiFiApListFragment();
     }
 
     @Override
@@ -92,17 +85,6 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         ButterKnife.reset(this);
         SnackbarManager.dismiss();
     }
-
-//    public void onActivityCreated(Bundle savedInstanceState)
-//    {
-//        super.onActivityCreated(savedInstanceState);
-//
-//        ActionBar actionBar = getActivity().getActionBar();
-//        actionBar.setTitle(getResources().getString(R.string.app_name));
-//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE,
-//                                    ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE |    // ENABLE
-//                                    ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM);  // DISABLE
-//    }
 
     @Override
     public void onResume()
@@ -239,24 +221,6 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
         catch (Exception e)
         {
             Timber.e(e, "Exception during WiFiApListFragment showDetails(%d)", index);
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        MasterActivity master = (MasterActivity) getActivity();
-
-        if (master != null && !master.isDrawerOpen())
-        {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-
-//            inflater.inflate(R.menu.ap_wifi_list, menu);
-            master.restoreActionBar();
         }
     }
 }
