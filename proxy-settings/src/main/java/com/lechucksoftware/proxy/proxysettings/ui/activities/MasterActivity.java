@@ -54,7 +54,7 @@ public class MasterActivity extends BaseWifiActivity
 
         if (actionBar != null)
         {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_action_navigation_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
