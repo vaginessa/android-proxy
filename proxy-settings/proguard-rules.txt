@@ -9,9 +9,12 @@
 
 # Add any project specific keep options here:
 
--printmapping out.map
+#-printmapping mapping.txt
 
 # Crashlytics ##################################
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+
 -keepparameternames
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 -dontoptimize
