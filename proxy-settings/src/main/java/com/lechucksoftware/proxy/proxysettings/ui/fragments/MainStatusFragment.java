@@ -4,18 +4,14 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
  * Created by mpagliar on 29/09/2014.
  */
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
 import butterknife.ButterKnife;
@@ -57,13 +53,13 @@ public class MainStatusFragment extends Fragment
     @OnClick(R.id.main_see_wifi_list)
     public void openWiFiApList()
     {
-        FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, WiFiApListFragment.newInstance(1), true);
+        FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, WiFiApListFragment.newInstance(), true);
     }
 
     @OnClick(R.id.main_see_proxies_list)
     public void openProxiesList()
     {
-        FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(2), true);
+        FragmentsUtils.changeFragment(getFragmentManager(), R.id.fragment_container, ProxyListFragment.newInstance(), true);
     }
 
     @Override
@@ -82,30 +78,5 @@ public class MainStatusFragment extends Fragment
     {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        MasterActivity master = (MasterActivity) getActivity();
-
-        if (master != null && !master.isDrawerOpen())
-        {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            inflater.inflate(R.menu.main, menu);
-            master.restoreActionBar();
-        }
     }
 }

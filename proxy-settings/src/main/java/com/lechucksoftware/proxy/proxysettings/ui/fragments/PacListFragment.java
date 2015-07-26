@@ -1,6 +1,5 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,8 +7,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,7 +21,6 @@ import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.constants.FragmentMode;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.loaders.PacDBTaskLoader;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.PacDetailActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.adapters.PacListAdapter;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
@@ -72,18 +68,16 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
     private WiFiApConfig wiFiApConfig;
     private APLNetworkId aplNetworkId;
 
-    public static PacListFragment newInstance(int sectionNumber)
+    public static PacListFragment newInstance()
     {
-        return newInstance(sectionNumber, FragmentMode.FULLSIZE, null);
+        return newInstance(FragmentMode.FULLSIZE, null);
     }
 
-    public static PacListFragment newInstance(int sectionNumber, FragmentMode mode, APLNetworkId aplNetworkId)
+    public static PacListFragment newInstance(FragmentMode mode, APLNetworkId aplNetworkId)
     {
         PacListFragment fragment = new PacListFragment();
 
         Bundle args = new Bundle();
-
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putSerializable(Constants.FRAGMENT_MODE_ARG, mode);
         args.putParcelable(Constants.WIFI_AP_NETWORK_ARG, aplNetworkId);
         fragment.setArguments(args);
@@ -283,37 +277,6 @@ public class PacListFragment extends BaseDialogFragment implements IBaseFragment
         super.onDestroyView();
 
         ButterKnife.reset(this);
-    }
-
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        if (activity instanceof MasterActivity)
-        {
-            ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        if (getActivity() instanceof MasterActivity)
-        {
-            MasterActivity master = (MasterActivity) getActivity();
-
-            if (master != null && !master.isDrawerOpen())
-            {
-                // Only show items in the action bar relevant to this screen
-                // if the drawer is not showing. Otherwise, let the drawer
-                // decide what to show in the action bar.
-                inflater.inflate(R.menu.empty, menu);
-                master.restoreActionBar();
-            }
-        }
     }
 
     @OnClick(R.id.add_new_pac_proxy)
