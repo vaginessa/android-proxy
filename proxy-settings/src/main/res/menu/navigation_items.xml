@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+
+    <group android:id="@+id/nav_menu_main_grp">
         <item
             android:id="@+id/nav_wifi_networks"
             android:checked="true"
@@ -15,7 +16,9 @@
             android:id="@+id/nav_pac_proxies"
             android:icon="@drawable/ic_action_pac_light"
             android:title="@string/pac_proxies"/>
+    </group>
 
+    <group android:id="@+id/nav_menu_help_grp">
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_action_action_help_light"
