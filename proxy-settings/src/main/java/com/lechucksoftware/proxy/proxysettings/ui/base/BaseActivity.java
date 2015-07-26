@@ -415,13 +415,22 @@ public class BaseActivity extends AppCompatActivity
         {
             if (!result.isSuccess())
             {
-                Timber.e(new IabException(result), "In-app Billing setup failed: " + result);
+                switch (result.getResponse())
+                {
+                    case IabHelper.BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE:
+                        Timber.w(result.getMessage());
+                        break;
+
+                    default:
+                        Timber.e(new IabException(result), "In-app Billing setup failed");
+                }
+
+                iabEnabled = false;
             }
             else
             {
                 Timber.d("In-app Billing is set up OK");
                 iabEnabled = true;
-//                startInventoryRefresh(queryInventoryFinishedListener);
             }
         }
     }
