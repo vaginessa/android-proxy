@@ -33,8 +33,8 @@ public class ApplicationStatistics
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
 
-        long launch_count = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0) + 1;
-        editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, launch_count);
+        launchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);
+        editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, launchCount + 1);
 
         long date_firstLaunch = prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0);
         if (date_firstLaunch == 0)
@@ -43,22 +43,11 @@ public class ApplicationStatistics
             editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, date_firstLaunch);
         }
 
+        launhcFirstDate = new Date(date_firstLaunch);
+
         editor.commit();
 
-        getInstallationDetails();
-
         Timber.i(toString());
-    }
-
-    private void getInstallationDetails()
-    {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
-
-        // Increment launch counter
-        launchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);
-
-        // Get date of first launch
-        launhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));
     }
 
     @Override

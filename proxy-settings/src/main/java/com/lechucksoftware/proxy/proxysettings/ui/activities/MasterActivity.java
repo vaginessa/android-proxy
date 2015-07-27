@@ -1,9 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
@@ -25,7 +28,6 @@ import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
 public class MasterActivity extends BaseWifiActivity
 {
-    private static final String TAG = MasterActivity.class.getSimpleName();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -63,6 +65,7 @@ public class MasterActivity extends BaseWifiActivity
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem)
             {
+
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
@@ -126,6 +129,18 @@ public class MasterActivity extends BaseWifiActivity
     }
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        if(App.getAppStats().launchCount == 0)
+        {
+            Intent introIntent = new Intent(this, IntroActivity.class);
+            startActivity(introIntent);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
@@ -144,6 +159,7 @@ public class MasterActivity extends BaseWifiActivity
             }
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

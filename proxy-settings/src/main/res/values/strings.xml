@@ -477,4 +477,7 @@
     <string name="further_documentation_can_be_found">Further documentation can be found on the project <a href="https://github.com/shouldit/android-proxy/wiki">Wiki</a>.</string>
     <string name="copyright_message">Copyryght 2015 SHOULDIT. All rights reserved</string>
     <string name="is_open_source_software_made_possible_by">Proxy Settings is an open source software made possible by the <a href="https://github.com/shouldit/android-proxy">Android Proxy</a> open source project.</string>
+    <string name="title_activity_intro">Intro</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
