@@ -40,7 +40,7 @@ import timber.log.Timber;
 /**
  * Created by marco on 10/10/13.
  */
-public class TestUtils
+public class DevelopmentUtils
 {
     // "0123456789" + "ABCDE...Z"
     private static final String ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
@@ -51,7 +51,7 @@ public class TestUtils
     private static final int MAX_TAGS = 6;
     private static final int MAX_EXCLUSION = 10;
 
-    private static final String TAG = TestUtils.class.getSimpleName();
+    private static final String TAG = DevelopmentUtils.class.getSimpleName();
 
     public static String getRandomExclusionList()
     {

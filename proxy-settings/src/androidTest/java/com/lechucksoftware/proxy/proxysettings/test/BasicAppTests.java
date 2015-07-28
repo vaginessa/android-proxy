@@ -1,27 +1,34 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
+import android.app.Activity;
 import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.filters.RequiresDevice;
 import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import android.support.test.runner.lifecycle.Stage;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
+
+import static android.support.test.runner.lifecycle.Stage.RESUMED;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
+import com.squareup.spoon.Spoon;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Collection;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
@@ -51,6 +58,7 @@ import static org.junit.Assert.assertThat;
 public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivity>
 {
     private MasterActivity mActivity;
+    private Activity currentActivity;
 
     public BasicAppTests()
     {
@@ -62,13 +70,14 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
     public void setUp() throws Exception
     {
         super.setUp();
+
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mActivity = getActivity();
     }
 
     @After
     @Override
-    public void tearDown () throws Exception
+    public void tearDown() throws Exception
     {
         mActivity.finish();
     }
@@ -86,18 +95,28 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
     @Test
     public void testCreateNewStaticProxy()
     {
+        Spoon.screenshot(getActivityInstance(), "init");
+
+//        onView(withId(R.id.next)).perform(click());
+
         openDrawer(R.id.drawer_layout);
 
         onView(withText(R.string.static_proxies)).perform(click());
         onView(withId(R.id.add_new_static_proxy)).perform(click());
 
-        ProxyEntity staticProxy = TestUtils.createRandomHTTPProxy();
+        Spoon.screenshot(getActivityInstance(), "new");
+
+        ProxyEntity staticProxy = DevelopmentUtils.createRandomHTTPProxy();
         onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_host)))).perform(typeText(staticProxy.getHost()));
         onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.proxy_port)))).perform(typeText(String.valueOf(staticProxy.getPort())));
+
+        Spoon.screenshot(getActivityInstance(), "edit");
 
         onView(withId(R.id.menu_save)).perform(click());
 
         assertTrue(App.getDBManager().findProxy(staticProxy.getHost(), staticProxy.getPort(), "") != -1);
+
+        Spoon.screenshot(getActivityInstance(), "save");
     }
 
     @SuppressWarnings("unchecked")
@@ -110,7 +129,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         onView(withText(R.string.pac_proxies)).perform(click());
         onView(withId(R.id.add_new_pac_proxy)).perform(click());
 
-        PacEntity pacProxy = TestUtils.createRandomPACProxy();
+        PacEntity pacProxy = DevelopmentUtils.createRandomPACProxy();
 
         onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.pac_url)))).perform(typeText(String.valueOf(pacProxy.getPacUriFile())));
 
@@ -150,7 +169,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         assertNotNull(selectedProxyEntity);
 
         // Enable proxy
-        onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
+        onData(hasToString(containsString(String.format("SSID: %s\n", selectedWifiApConfig.getSSID()))))
                 .inAdapterView(withId(android.R.id.list))
                 .perform(click());
 
@@ -167,7 +186,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
 
 
         // Disable proxy
-        onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
+        onData(hasToString(containsString(String.format("SSID: %s\n", selectedWifiApConfig.getSSID()))))
                 .inAdapterView(withId(android.R.id.list))
                 .perform(click());
 
@@ -213,7 +232,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
         assertNotNull(selectedWifiApConfig);
         assertNotNull(selectedPacProxyEntity);
 
-        onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
+        onData(hasToString(containsString(String.format("SSID: %s\n", selectedWifiApConfig.getSSID()))))
                 .inAdapterView(withId(android.R.id.list))
                 .perform(click());
 
@@ -224,14 +243,14 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
 
         onView(withText(R.string.pac_proxies)).perform(click());
 
-        onData(hasToString(containsString(String.format("%s",selectedPacProxyEntity.getPacUriFile().toString()))))
+        onData(hasToString(containsString(String.format("%s", selectedPacProxyEntity.getPacUriFile().toString()))))
                 .inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.pac_proxy_list))))
                 .perform(click());
 
         onView(isRoot()).perform(ViewActions.pressBack());
 
         // Disable proxy
-        onData(hasToString(containsString(String.format("SSID: %s\n",selectedWifiApConfig.getSSID()))))
+        onData(hasToString(containsString(String.format("SSID: %s\n", selectedWifiApConfig.getSSID()))))
                 .inAdapterView(withId(android.R.id.list))
                 .perform(click());
 
@@ -240,4 +259,22 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
 
         onView(isRoot()).perform(ViewActions.pressBack());
     }
+
+    public Activity getActivityInstance()
+    {
+        getInstrumentation().runOnMainSync(new Runnable()
+        {
+            public void run()
+            {
+                Collection resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(RESUMED);
+                if (resumedActivities.iterator().hasNext())
+                {
+                    currentActivity = (Activity) resumedActivities.iterator().next();
+                }
+            }
+        });
+
+        return currentActivity;
+    }
+
 }

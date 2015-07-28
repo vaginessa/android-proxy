@@ -3,8 +3,6 @@ package com.lechucksoftware.proxy.proxysettings.test;
 import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
 import android.support.test.espresso.Espresso;
-import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
@@ -13,9 +11,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
@@ -77,7 +72,7 @@ public class APLTests
         String exclusion = network.getProxyExclusionList();
         Uri pac = network.getPacFileUri();
 
-        ProxyEntity pe = TestUtils.createRandomHTTPProxy();
+        ProxyEntity pe = DevelopmentUtils.createRandomHTTPProxy();
 
         Timber.d("Created random proxy: %s", pe.toString());
 

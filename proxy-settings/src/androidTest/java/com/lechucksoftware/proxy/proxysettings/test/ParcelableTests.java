@@ -20,7 +20,6 @@ import org.junit.runner.RunWith;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
@@ -41,7 +40,7 @@ public class ParcelableTests
     {
         APL.setup(InstrumentationRegistry.getContext());
 
-        TestUtils.addRandomProxy();
+        DevelopmentUtils.addRandomProxy();
     }
 
     @After

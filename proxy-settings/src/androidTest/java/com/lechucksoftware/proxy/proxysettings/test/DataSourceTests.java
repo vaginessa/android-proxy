@@ -45,9 +45,9 @@ public class DataSourceTests
     @Test
     public void testWiFiApEntityDB() throws Exception
     {
-        WifiConfiguration wifiConfiguration = TestUtils.prepareFakeWifiNetwork();
-        ProxyEntity proxyEntity = TestUtils.createRandomHTTPProxy();
-        PacEntity pacProxy = TestUtils.createRandomPACProxy();
+        WifiConfiguration wifiConfiguration = DevelopmentUtils.prepareFakeWifiNetwork();
+        ProxyEntity proxyEntity = DevelopmentUtils.createRandomHTTPProxy();
+        PacEntity pacProxy = DevelopmentUtils.createRandomPACProxy();
         App.getDBManager().upsertProxy(proxyEntity);
 
         WiFiApConfig wiFiApConfig = APL.getWiFiAPConfiguration(wifiConfiguration);

@@ -28,7 +28,6 @@ import com.lechucksoftware.proxy.proxysettings.db.TagEntity;
 import com.lechucksoftware.proxy.proxysettings.db.WiFiAPEntity;
 import com.lechucksoftware.proxy.proxysettings.tasks.AsyncStartupActions;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
-import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DBUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
 import com.nispok.snackbar.Snackbar;
@@ -141,7 +140,7 @@ public class DeveloperOptionsActivity extends BaseActivity
     {
         if (Build.VERSION.SDK_INT >= 19)
         {
-            TestUtils.testAPN(this);
+            DevelopmentUtils.testAPN(this);
         }
     }
 
@@ -367,12 +366,12 @@ public class DeveloperOptionsActivity extends BaseActivity
         {
             if (_action == TestAction.CLEAR_ALL)
             {
-                TestUtils.resetPreferences(_developerOptionsActivity);
+                DevelopmentUtils.resetPreferences(_developerOptionsActivity);
                 App.getDBManager().resetDB();
             }
             else if (_action == TestAction.ADD_EXAMPLE_PROXIES)
             {
-                TestUtils.addProxyExamples(_developerOptionsActivity);
+                DevelopmentUtils.addProxyExamples(_developerOptionsActivity);
             }
             else if (_action == TestAction.ADD_TEST_WIFI_NETWORKS)
             {
@@ -380,7 +379,7 @@ public class DeveloperOptionsActivity extends BaseActivity
 
                 for (int i = 0; i <= numWifis; i++)
                 {
-                    String ssid = TestUtils.createFakeWifiNetwork(_developerOptionsActivity);
+                    String ssid = DevelopmentUtils.createFakeWifiNetwork(_developerOptionsActivity);
                     Timber.e("----------------------------------------------");
                     publishProgress(String.format("Created #[%d / %d] TEST Wi-Fi network: %s", i, numWifis, ssid));
 
@@ -396,7 +395,7 @@ public class DeveloperOptionsActivity extends BaseActivity
             }
             else if (_action == TestAction.REMOVE_TEST_WIFI_NETWORKS)
             {
-                int removedCount = TestUtils.deleteFakeWifiNetworks(_developerOptionsActivity);
+                int removedCount = DevelopmentUtils.deleteFakeWifiNetworks(_developerOptionsActivity);
                 publishProgress(String.format("Removed #[%d] TEST Wi-Fi networks", removedCount));
             }
             else if (_action == TestAction.RUN_STARTUP_ACTIONS)
@@ -425,15 +424,15 @@ public class DeveloperOptionsActivity extends BaseActivity
             }
             else if (_action == TestAction.SET_ALL_PROXIES)
             {
-                TestUtils.setProxyForAllAP(_developerOptionsActivity);
+                DevelopmentUtils.setProxyForAllAP(_developerOptionsActivity);
             }
             else if (_action == TestAction.CLEAR_ALL_PROXIES)
             {
-                TestUtils.clearProxyForAllAP(_developerOptionsActivity);
+                DevelopmentUtils.clearProxyForAllAP(_developerOptionsActivity);
             }
             else if (_action == TestAction.TEST_VALIDATION)
             {
-                TestUtils.testValidation();
+                DevelopmentUtils.testValidation();
             }
             else
             {
@@ -442,13 +441,13 @@ public class DeveloperOptionsActivity extends BaseActivity
                     switch (_action)
                     {
                         case ADD_PROXY:
-                            TestUtils.addRandomProxy();
+                            DevelopmentUtils.addRandomProxy();
                             break;
                         case TEST_SERIALIZATION:
-                            TestUtils.testSerialization();
+                            DevelopmentUtils.testSerialization();
                             break;
                         case ADD_TAGS:
-                            TestUtils.addTags();
+                            DevelopmentUtils.addTags();
                             break;
                         case UPDATE_TAGS:
 //                            TestUtils.addRandomProxy();
