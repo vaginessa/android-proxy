@@ -49,11 +49,15 @@ public class WiFiApDetailActivity extends BaseWifiActivity
                     .add(R.id.fragment_container, detail).commit();
 
             ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(getString(R.string.edit_wifi_ap));
-            actionBar.setDisplayUseLogoEnabled(false);
+
+            if (actionBar != null)
+            {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setDisplayShowHomeEnabled(false);
+                actionBar.setDisplayShowTitleEnabled(true);
+                actionBar.setTitle(getString(R.string.edit_wifi_ap));
+                actionBar.setDisplayUseLogoEnabled(false);
+            }
         }
         else
         {

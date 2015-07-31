@@ -35,11 +35,13 @@ import com.lechucksoftware.proxy.proxysettings.ui.components.InputField;
 import com.lechucksoftware.proxy.proxysettings.ui.components.WifiAp;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
+import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -327,7 +329,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-//        inflater.inflate(R.menu.ap_wifi_details, menu);
+        inflater.inflate(R.menu.ap_wifi_details, menu);
     }
 
     @Override
@@ -336,10 +338,23 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         switch (item.getItemId())
         {
             case android.R.id.home:
-                Intent mainIntent = new Intent(getActivity(), MasterActivity.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(mainIntent);
+
+                FragmentsUtils.goToMainActivity(getActivity());
+                return true;
+
+            case R.id.menu_forget_wifi_ap:
+
+                try
+                {
+                    APL.getWifiManager().removeNetwork(selectedWiFiAP.getNetworkId());
+                    FragmentsUtils.goToMainActivity(getActivity());
+                }
+                catch (Exception e)
+                {
+                    Timber.e(e, "Exception deleting Wi-Fi network");
+                    UIUtils.showError(getActivity(),R.string.exception_apl_writeconfig_error_message);
+                }
+
                 return true;
         }
 

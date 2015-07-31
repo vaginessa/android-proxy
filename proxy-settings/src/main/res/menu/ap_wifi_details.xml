@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.lechucksoftware.proxy.proxysettings.ui.activities.MainActivity" >
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.lechucksoftware.proxy.proxysettings.ui.activities.WiFiApDetailActivity">
 
     <item
         android:id="@+id/overflowSection"
@@ -12,8 +13,8 @@
         <menu>
 
             <item
-                android:id="@+id/menu_help"
-                android:title="@string/help"/>
+                android:id="@+id/menu_forget_wifi_ap"
+                android:title="Forget"/>
 
             <!--<item-->
             <!--android:id="@+id/menu_feedbacks"-->
