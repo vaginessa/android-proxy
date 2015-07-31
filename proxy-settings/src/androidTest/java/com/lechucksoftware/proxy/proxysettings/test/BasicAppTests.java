@@ -5,19 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.filters.RequiresDevice;
 import android.support.test.filters.SdkSuppress;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
-import android.support.test.runner.lifecycle.Stage;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.util.Log;
 import android.view.KeyEvent;
-
-import static android.support.test.runner.lifecycle.Stage.RESUMED;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -29,11 +24,11 @@ import com.squareup.spoon.Spoon;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
@@ -53,32 +48,30 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.runner.lifecycle.Stage.RESUMED;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 @Smoke
-public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivity>
+public class BasicAppTests
 {
+    @Rule
+    public ActivityTestRule<MasterActivity> mActivityRule = new ActivityTestRule<>(MasterActivity.class);
+
     private MasterActivity mActivity;
+
     private Activity currentActivity;
 
-    public BasicAppTests()
-    {
-        super(MasterActivity.class);
-    }
-
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
-
-        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-        mActivity = getActivity();
+        mActivity = mActivityRule.getActivity();
 
         SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
@@ -104,7 +97,6 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
     }
 
     @After
-    @Override
     public void tearDown() throws Exception
     {
         mActivity.finish();
@@ -114,9 +106,6 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
     public void testCheckPreconditions()
     {
         assertThat(mActivity, notNullValue());
-
-        // Check that Instrumentation was correctly injected in setUp()
-        assertThat(getInstrumentation(), notNullValue());
     }
 
     @SuppressWarnings("unchecked")
@@ -288,7 +277,7 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
 
     public Activity getActivityInstance()
     {
-        getInstrumentation().runOnMainSync(new Runnable()
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable()
         {
             public void run()
             {
