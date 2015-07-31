@@ -474,6 +474,11 @@ public class DevelopmentUtils
         Random r = new Random();
 
         String ssid = UIUtils.getRandomCodeName().name() + String.valueOf(r.nextInt(10));
+        while(TextUtils.isEmpty(ssid))
+        {
+            ssid = UIUtils.getRandomCodeName().name() + String.valueOf(r.nextInt(10));
+        }
+
         String password = "\"aaabbb1234567\""; //This is the WEP Password
 
         int securityType = r.nextInt(3);

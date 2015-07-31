@@ -1,8 +1,11 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.filters.RequiresDevice;
 import android.support.test.filters.SdkSuppress;
@@ -18,6 +21,7 @@ import static android.support.test.runner.lifecycle.Stage.RESUMED;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
+import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
@@ -29,6 +33,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
@@ -36,6 +41,7 @@ import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
+import timber.log.Timber;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -73,6 +79,28 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
 
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mActivity = getActivity();
+
+        SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, Long.MAX_VALUE);
+        editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, Long.MAX_VALUE);
+        editor.commit();
+
+        for (int i = 0; i <= 10; i++)
+        {
+            DevelopmentUtils.addRandomProxy();
+            String ssid = DevelopmentUtils.createFakeWifiNetwork(mActivity);
+
+            try
+            {
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e)
+            {
+                Timber.e(e, "Exception during sleep");
+            }
+        }
     }
 
     @After
@@ -96,8 +124,6 @@ public class BasicAppTests extends ActivityInstrumentationTestCase2<MasterActivi
     public void testCreateNewStaticProxy()
     {
         Spoon.screenshot(getActivityInstance(), "init");
-
-//        onView(withId(R.id.next)).perform(click());
 
         openDrawer(R.id.drawer_layout);
 
