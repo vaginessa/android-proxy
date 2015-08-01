@@ -75,8 +75,6 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2'
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.10'
-
-//    testCompile 'junit:junit:4.12'
 }
 
 allprojects {
@@ -117,11 +115,6 @@ android {
 
         testHandleProfiling true
         testFunctionalTest true
-    }
-
-    packagingOptions {
-        exclude 'LICENSE.txt'
-        exclude 'NOTICE.txt'
     }
 
     dexOptions {
