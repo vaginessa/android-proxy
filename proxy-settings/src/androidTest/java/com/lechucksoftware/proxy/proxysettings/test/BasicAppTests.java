@@ -23,7 +23,9 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.squareup.spoon.Spoon;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,22 +70,23 @@ public class BasicAppTests
 
     private Activity currentActivity;
 
-    @Before
-    public void setUp() throws Exception
+    @BeforeClass
+    public static void setupClass()
     {
-        mActivity = mActivityRule.getActivity();
+        Timber.d("Class setup");
 
-        SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = InstrumentationRegistry.getContext().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, Long.MAX_VALUE);
-        editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, Long.MAX_VALUE);
+        editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 1000);
+        editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 1000);
         editor.commit();
 
         for (int i = 0; i <= 10; i++)
         {
             DevelopmentUtils.addRandomProxy();
-            String ssid = DevelopmentUtils.createFakeWifiNetwork(mActivity);
+            String ssid = DevelopmentUtils.createFakeWifiNetwork(InstrumentationRegistry.getContext());
+            Timber.d("Created fake Wi-Fi ap: '%s'",ssid);
 
             try
             {
@@ -96,10 +99,26 @@ public class BasicAppTests
         }
     }
 
+    @Before
+    public void setUp()
+    {
+        Timber.d("Test setup");
+
+        mActivity = mActivityRule.getActivity();
+    }
+
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         mActivity.finish();
+
+        Timber.d("Test teardown");
+    }
+
+    @AfterClass
+    public static void tearDownClasS()
+    {
+        Timber.d("Class teardown");
     }
 
     @Test
