@@ -26,6 +26,8 @@ import com.lechucksoftware.proxy.proxysettings.ui.fragments.ProxyListFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.fragments.WiFiApListFragment;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
+import timber.log.Timber;
+
 public class MasterActivity extends BaseWifiActivity
 {
     /**

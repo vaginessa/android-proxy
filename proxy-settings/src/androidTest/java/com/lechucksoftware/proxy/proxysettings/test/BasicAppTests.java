@@ -12,6 +12,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.test.suitebuilder.annotation.Smoke;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import com.lechucksoftware.proxy.proxysettings.App;
@@ -19,6 +20,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
+import com.lechucksoftware.proxy.proxysettings.ui.activities.IntroActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.squareup.spoon.Spoon;
 
@@ -71,16 +73,11 @@ public class BasicAppTests
     private Activity currentActivity;
 
     @BeforeClass
-    public static void setupClass()
+    public static void setupClass() throws InterruptedException
     {
         Timber.d("Class setup");
 
-        SharedPreferences prefs = InstrumentationRegistry.getContext().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        editor.putLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 1000);
-        editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 1000);
-        editor.commit();
+        App.getAppStats().updateInstallationDetails();
 
         for (int i = 0; i <= 10; i++)
         {
@@ -97,14 +94,36 @@ public class BasicAppTests
                 Timber.e(e, "Exception during sleep");
             }
         }
+
+        int i = 0;
+        Map<APLNetworkId, WiFiApConfig> configurations = APL.getWifiAPConfigurations();
+        if (configurations != null)
+        {
+            for (WiFiApConfig config: configurations.values())
+            {
+                if (TextUtils.isEmpty(config.getSSID()))
+                {
+                    Timber.d("Removing Wi-Fi AP with Empty SSID: %d",i++);
+                    APL.getWifiManager().removeNetwork(config.getNetworkId());
+                    Thread.sleep(100);
+                }
+            }
+        }
     }
 
     @Before
     public void setUp()
     {
         Timber.d("Test setup");
+        Timber.d("Launch count: '%d'", App.getAppStats().launchCount);
 
         mActivity = mActivityRule.getActivity();
+
+        if (getActivityInstance() instanceof IntroActivity)
+        {
+            Timber.d("Closing IntroActivity");
+            getActivityInstance().finish();
+        }
     }
 
     @After
