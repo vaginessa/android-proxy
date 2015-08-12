@@ -1,8 +1,6 @@
 package com.lechucksoftware.proxy.proxysettings.test;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
@@ -17,7 +15,6 @@ import android.view.KeyEvent;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
-import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 import com.lechucksoftware.proxy.proxysettings.db.PacEntity;
 import com.lechucksoftware.proxy.proxysettings.db.ProxyEntity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.IntroActivity;
@@ -135,7 +132,7 @@ public class BasicAppTests
     }
 
     @AfterClass
-    public static void tearDownClasS()
+    public static void tearDownClass()
     {
         Timber.d("Class teardown");
     }
@@ -143,6 +140,7 @@ public class BasicAppTests
     @Test
     public void testCheckPreconditions()
     {
+        Spoon.screenshot(getActivityInstance(), "init");
         assertThat(mActivity, notNullValue());
     }
 
@@ -153,6 +151,8 @@ public class BasicAppTests
         Spoon.screenshot(getActivityInstance(), "init");
 
         openDrawer(R.id.drawer_layout);
+
+        Spoon.screenshot(getActivityInstance(), "drawer");
 
         onView(withText(R.string.static_proxies)).perform(click());
         onView(withId(R.id.add_new_static_proxy)).perform(click());
@@ -177,16 +177,26 @@ public class BasicAppTests
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.LOLLIPOP)
     public void testCreateNewPACProxy()
     {
+        Spoon.screenshot(getActivityInstance(), "init");
+
         openDrawer(R.id.drawer_layout);
+
+        Spoon.screenshot(getActivityInstance(), "drawer");
 
         onView(withText(R.string.pac_proxies)).perform(click());
         onView(withId(R.id.add_new_pac_proxy)).perform(click());
+
+        Spoon.screenshot(getActivityInstance(), "new");
 
         PacEntity pacProxy = DevelopmentUtils.createRandomPACProxy();
 
         onView(allOf(withId(R.id.field_value), isDescendantOfA(withId(R.id.pac_url)))).perform(typeText(String.valueOf(pacProxy.getPacUriFile())));
 
+        Spoon.screenshot(getActivityInstance(), "edit");
+
         onView(withId(R.id.menu_save)).perform(click());
+
+        Spoon.screenshot(getActivityInstance(), "save");
     }
 
     @SuppressWarnings("unchecked")
@@ -194,9 +204,12 @@ public class BasicAppTests
     @RequiresDevice
     public void testsEnableStaticProxyForWifiNetwork()
     {
+        Spoon.screenshot(getActivityInstance(), "init");
         assertTrue(APL.getWifiManager().isWifiEnabled());
 
         openDrawer(R.id.drawer_layout);
+        Spoon.screenshot(getActivityInstance(), "drawer");
+
         onView(withText(R.string.wifi_networks)).perform(click());
 
         Map<APLNetworkId, WiFiApConfig> configuredNetworks = APL.getWifiAPConfigurations();
@@ -226,17 +239,23 @@ public class BasicAppTests
                 .inAdapterView(withId(android.R.id.list))
                 .perform(click());
 
+        Spoon.screenshot(getActivityInstance(), "wifi_ap_details");
+
         onView(withId(R.id.wifi_name)).check(matches(withText(selectedWifiApConfig.getSSID())));
 
         onView(withId(R.id.wifi_proxy_switch)).perform(click());
+
+        Spoon.screenshot(getActivityInstance(), "enabled_proxy");
+
         onView(withId(R.id.proxy_selector)).perform(click());
 
         onData(hasToString(containsString(String.format("%s", selectedProxyEntity.getHost()))))
                 .inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.static_proxy_list))))
                 .perform(click());
 
-        onView(isRoot()).perform(ViewActions.pressBack());
+        Spoon.screenshot(getActivityInstance(), "selected_proxy");
 
+        onView(isRoot()).perform(ViewActions.pressBack());
 
         // Disable proxy
         onData(hasToString(containsString(String.format("SSID: %s\n", selectedWifiApConfig.getSSID()))))
@@ -245,6 +264,8 @@ public class BasicAppTests
 
         onView(withId(R.id.wifi_name)).check(matches(withText(selectedWifiApConfig.getSSID())));
         onView(withId(R.id.wifi_proxy_switch)).perform(click());
+
+        Spoon.screenshot(getActivityInstance(), "disabled_proxy");
 
         onView(isRoot()).perform(ViewActions.pressBack());
 
@@ -257,9 +278,13 @@ public class BasicAppTests
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.LOLLIPOP)
     public void testsEnablePACProxyForWifiNetwork()
     {
+        Spoon.screenshot(getActivityInstance(), "init");
+
         assertTrue(APL.getWifiManager().isWifiEnabled());
 
         openDrawer(R.id.drawer_layout);
+        Spoon.screenshot(getActivityInstance(), "drawer");
+
         onView(withText(R.string.wifi_networks)).perform(click());
 
         Map<APLNetworkId, WiFiApConfig> configuredNetworks = APL.getWifiAPConfigurations();
@@ -289,9 +314,13 @@ public class BasicAppTests
                 .inAdapterView(withId(android.R.id.list))
                 .perform(click());
 
+        Spoon.screenshot(getActivityInstance(), "wifi_ap_details");
+
         onView(withId(R.id.wifi_name)).check(matches(withText(selectedWifiApConfig.getSSID())));
 
         onView(withId(R.id.wifi_proxy_switch)).perform(click());
+        Spoon.screenshot(getActivityInstance(), "enabled_proxy");
+
         onView(withId(R.id.proxy_selector)).perform(click());
 
         onView(withText(R.string.pac_proxies)).perform(click());
@@ -300,12 +329,16 @@ public class BasicAppTests
                 .inAdapterView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.pac_proxy_list))))
                 .perform(click());
 
+        Spoon.screenshot(getActivityInstance(), "selected_proxy");
+
         onView(isRoot()).perform(ViewActions.pressBack());
 
         // Disable proxy
         onData(hasToString(containsString(String.format("SSID: %s\n", selectedWifiApConfig.getSSID()))))
                 .inAdapterView(withId(android.R.id.list))
                 .perform(click());
+
+        Spoon.screenshot(getActivityInstance(), "disabled_proxy");
 
         onView(withId(R.id.wifi_name)).check(matches(withText(selectedWifiApConfig.getSSID())));
         onView(withId(R.id.wifi_proxy_switch)).perform(click());

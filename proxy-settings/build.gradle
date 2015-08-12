@@ -21,7 +21,6 @@ apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'testdroid'
-apply plugin: 'spoon'
 
 repositories {
 
@@ -167,12 +166,6 @@ android {
             buildConfigField "String", "PLAY_IN_APP_BILLING_PUBLIC_KEY", "\"" + (project.hasProperty('in_app_billing_public_key') ? in_app_billing_public_key : 0)  + "\""
 
             signingConfig project.hasProperty('android_keystore') ? signingConfigs.release : signingConfigs.debug
-
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    output.outputFile = new File(output.outputFile.parent, output.outputFile.name.replace(".apk", "-" + defaultConfig.versionCode + ".apk"))
-                }
-            }
         }
 
         debug {
@@ -203,6 +196,12 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(output.outputFile.parent, output.outputFile.name.replace(".apk", "-" + defaultConfig.versionCode + ".apk"))
+        }
+    }
+
     if (project.hasProperty('android_keystore') &&
             project.hasProperty('android_keystore_password') &&
             project.hasProperty('android_key_alias') &&
@@ -223,6 +222,13 @@ android {
 
         println 'Signing config values not found'
         buildTypes.release.signingConfig = null
+    }
+}
+
+afterEvaluate {
+    apply plugin: 'spoon'
+    spoon {
+        debug = true;
     }
 }
 
