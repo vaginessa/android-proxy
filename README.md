@@ -9,8 +9,11 @@ When the project started, more than 98% of devices lacks of native support for H
 
 The Android-Proxy project is composed by:
 
-[Android Proxy Library (APL)](https://github.com/shouldit/android-proxy/tree/master/android-proxy-library)   [![Download](https://api.bintray.com/packages/shouldit/maven/android-proxy-library/images/download.svg)  ](https://bintray.com/shouldit/maven/android-proxy-library/_latestVersion)
+[Android Proxy Library (APL)](https://github.com/shouldit/android-proxy/tree/master/android-proxy-library)  
+
+[![Download](https://api.bintray.com/packages/shouldit/maven/android-proxy-library/images/download.svg)  ](https://bintray.com/shouldit/maven/android-proxy-library/_latestVersion)
 
 [Proxy Settings app](https://github.com/shouldit/android-proxy/tree/master/proxy-settings)
+
 [![Download](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)  ](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.proxysettings)
 
