@@ -1279,7 +1279,7 @@ public class ProxyUtils
         }
         catch (URISyntaxException e)
         {
-            Timber.e(e,"The following Uri cannot be recognized as a valid URI: '%s'", pacFileUrl);
+            Timber.w("The following Uri cannot be recognized as a valid URI: '%s'", pacFileUrl);
         }
         catch (Exception e)
         {
