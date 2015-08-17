@@ -11,7 +11,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.test.suitebuilder.annotation.Smoke;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -170,6 +169,12 @@ public class BasicAppTests
         assertTrue(App.getDBManager().findProxy(staticProxy.getHost(), staticProxy.getPort(), "") != -1);
 
         Spoon.screenshot(getActivityInstance(), "save");
+
+        openDrawer(R.id.drawer_layout);
+
+        onView(withText(R.string.wifi_networks)).perform(click());
+
+        Spoon.screenshot(getActivityInstance(), "end");
     }
 
     @SuppressWarnings("unchecked")
@@ -197,6 +202,12 @@ public class BasicAppTests
         onView(withId(R.id.menu_save)).perform(click());
 
         Spoon.screenshot(getActivityInstance(), "save");
+
+        openDrawer(R.id.drawer_layout);
+
+        onView(withText(R.string.wifi_networks)).perform(click());
+
+        Spoon.screenshot(getActivityInstance(), "end");
     }
 
     @SuppressWarnings("unchecked")
@@ -269,7 +280,7 @@ public class BasicAppTests
 
         onView(isRoot()).perform(ViewActions.pressBack());
 
-        ViewActions.pressKey(KeyEvent.KEYCODE_HOME);
+        Spoon.screenshot(getActivityInstance(), "end");
     }
 
     @SuppressWarnings("unchecked")
@@ -344,6 +355,8 @@ public class BasicAppTests
         onView(withId(R.id.wifi_proxy_switch)).perform(click());
 
         onView(isRoot()).perform(ViewActions.pressBack());
+
+        Spoon.screenshot(getActivityInstance(), "end");
     }
 
     public Activity getActivityInstance()
