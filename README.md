@@ -8,5 +8,9 @@ What does it mean? In few words, with Android 1.x and 2.x you can't setup an HTT
 When the project started, more than 98% of devices lacks of native support for HTTP proxy for Wifi networks.
 
 The Android-Proxy project is composed by:
-* [Android Proxy Library (APL)](https://github.com/shouldit/android-proxy/tree/master/android-proxy-library)
-* [Proxy Settings app](https://github.com/shouldit/android-proxy/tree/master/proxy-settings)
+
+[Android Proxy Library (APL)](https://github.com/shouldit/android-proxy/tree/master/android-proxy-library)   [![Download](https://api.bintray.com/packages/shouldit/maven/android-proxy-library/images/download.svg)  ](https://bintray.com/shouldit/maven/android-proxy-library/_latestVersion)
+
+[Proxy Settings app](https://github.com/shouldit/android-proxy/tree/master/proxy-settings)
+[![Download](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)  ](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.proxysettings)
+
