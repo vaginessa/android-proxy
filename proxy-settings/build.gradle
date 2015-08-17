@@ -94,6 +94,7 @@ allprojects {
 
 android {
 
+    println("JAVA version: " + org.gradle.internal.jvm.Jvm.current())
     println("GRADLE version: " + getGradle().getGradleVersion())
 
     compileSdkVersion 22

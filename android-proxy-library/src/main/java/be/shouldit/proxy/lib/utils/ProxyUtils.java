@@ -459,7 +459,7 @@ public class ProxyUtils
     }
 
     /**
-     * Try to set the Proxy Settings for active WebViews. This works only for devices with API version < 12.
+     * Try to set the Proxy Settings for active WebViews. This works only for devices with API version less than 12.
      */
     public static void setWebViewProxy(Context context, Proxy proxy)
     {

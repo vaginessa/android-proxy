@@ -208,7 +208,7 @@ public class APL
     }
 
     /**
-     * For API >= 12: Returns the current proxy configuration based on the URI,
+     * For API greater or equal than 12: Returns the current proxy configuration based on the URI,
      * this implementation is a wrapper of the Android's ProxySelector class.
      * Just add some other details that can be useful to the developer.
      */
@@ -282,7 +282,7 @@ public class APL
     }
 
     /**
-     * For API < 12: Get global proxy configuration.
+     * For API less than 12: Get global proxy configuration.
      */
     @Deprecated
     public static Proxy getGlobalProxy()
@@ -317,7 +317,7 @@ public class APL
     }
 
     /**
-     * Get proxy configuration for Wi-Fi access point. Valid for API >= 12
+     * Get proxy configuration for Wi-Fi access point. Valid for API greater or equal than 12
      */
     @TargetApi(12)
     public static WiFiApConfig getWiFiAPConfiguration(WifiConfiguration wifiConf)
@@ -497,7 +497,7 @@ public class APL
     static final String WRITE_WIFI_KEY = "saveWifiConfiguration";
 
     /**
-     * Get proxy configuration for Wi-Fi access point. Valid for API >= 12
+     * Get proxy configuration for Wi-Fi access point. Valid for API greater or equal than 12
      */
     @TargetApi(12)
     public static SaveResult writeWifiAPConfig(WiFiApConfig confToSave, int maxAttempt, int timeout) throws Exception

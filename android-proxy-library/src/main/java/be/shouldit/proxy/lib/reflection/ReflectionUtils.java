@@ -26,7 +26,7 @@ public class ReflectionUtils
     public static final String TAG = ReflectionUtils.class.getSimpleName();
 
     /* Events from WifiService */
-    /** @hide */
+
     public static final int CMD_WPS_COMPLETED               = 11;
 
     public static final int BASE_SYSTEM_ASYNC_CHANNEL = 0x00011000;
