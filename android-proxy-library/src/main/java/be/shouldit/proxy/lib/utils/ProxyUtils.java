@@ -459,7 +459,7 @@ public class ProxyUtils
     }
 
     /**
-     * Try to set the Proxy Settings for active WebViews. This works only for devices with API version < 12.
+     * Try to set the Proxy Settings for active WebViews. This works only for devices with API version less than 12.
      */
     public static void setWebViewProxy(Context context, Proxy proxy)
     {
@@ -1279,7 +1279,7 @@ public class ProxyUtils
         }
         catch (URISyntaxException e)
         {
-            Timber.e(e,"The following Uri cannot be recognized as a valid URI: '%s'", pacFileUrl);
+            Timber.w("The following Uri cannot be recognized as a valid URI: '%s'", pacFileUrl);
         }
         catch (Exception e)
         {
