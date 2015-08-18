@@ -185,7 +185,12 @@ public class HelpPrefsFragment extends BasePreferenceFragment
         if (App.getInstance().activeMarket != AndroidMarket.PLAY)
         {
             getPreferenceScreen().removePreference(betaTestPref);
-            getPreferenceScreen().removePreference(donatePref);
+
+            BaseActivity activity = (BaseActivity) getActivity();
+            if (activity != null && !activity.isIabEnabled())
+            {
+                getPreferenceScreen().removePreference(donatePref);
+            }
         }
 
         return v;
