@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
-apply plugin: 'signing'
+apply plugin: 'com.novoda.bintray-release'
 
 //    Scheme for version codes: ##@@$$$ , using:
 //    ##   - the first two digits for the API Level,
@@ -19,121 +18,27 @@ android {
         versionCode 800410
         versionName "4.1"
     }
-
-    sourceSets {
-
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src/main/java']
-            res.srcDirs = ['src/main/res']
-            assets.srcDirs = ['src/main/assets']
-        }
-    }
-}
-
-allprojects {
-    // show deprecation warnings for all projects
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-Xlint:deprecation"
-        options.compilerArgs << "-Xlint:unchecked"
-    }
 }
 
 dependencies {
 
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.jakewharton.timber:timber:2.7.1'
-
 }
 
-version = "4.1.0"
-//version = '2.9.0-SNAPSHOT'
-group = "be.shouldit"
+publish {
 
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+    bintrayUser=btUser
+    bintrayKey=btAPIkey
+    userOrg = btOrg
 
-if (isReleaseVersion) {
-
-    println 'Building RELEASE'
-    ext.sonatypeRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-
-} else {
-
-    println 'Building SNAPSHOT'
-    ext.sonatypeRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
-
-}
-
-ext.sonatypeUsername = has("sonatypeUsername") ? sonatypeUsername : ""
-ext.sonatypePassword = has("sonatypePassword") ? sonatypePassword : ""
-
-configurations {
-
-    archives {
-
-        extendsFrom configurations.default
-
-    }
-
-}
-
-repositories {
-
-    mavenCentral()
-
-}
-
-signing {
-    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
-}
-
-task publishLocal(type: Upload) {
-
-    configuration = configurations.archives
-    repositories.mavenDeployer {
-        repository(url: "file://$buildDir/repo")
-    }
-
-}
-
-uploadArchives {
-
-    configuration = configurations.archives
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-        repository(url: project.ext.sonatypeRepo) {
-            authentication(userName: project.ext.sonatypeUsername,
-                    password: project.ext.sonatypePassword)
-        }
-
-        pom.project {
-            name 'Android Proxy Library'
-            packaging 'aar'
-            description 'Proxy utility library for Android applications'
-            url 'https://github.com/shouldit/android-proxy'
-
-            scm {
-                url 'scm:git@github.com:shouldit/android-proxy.git'
-                connection 'scm:git@github.com:shouldit/android-proxy.git'
-                developerConnection 'scm:git@github.com:shouldit/android-proxy.git'
-            }
-
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-
-            developers {
-                developer {
-                    id 'lechuckcaptain'
-                    name 'Marco Pagliari'
-                    email 'lechuckcaptain@gmail.com'
-                }
-            }
-        }
-    }
+    groupId = GROUP
+    artifactId = POM_ARTIFACT_ID
+    version = VERSION_NAME
+    description = POM_DESCRIPTION
+    website = POM_URL
+    issueTracker = "${website}/issues"
+    repository = "${website}.git"
+    autoPublish = true
+    dryRun = false
 }

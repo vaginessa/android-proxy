@@ -16,7 +16,6 @@ import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
 import com.lechucksoftware.proxy.proxysettings.R;
@@ -115,18 +114,24 @@ public class BaseActivity extends AppCompatActivity
 
         uiHandler = new UIHandler(this);
 
+        ConnectionResult connectionResult = null;
         try
         {
             int result = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
-            ConnectionResult connectionResult = new ConnectionResult(result,null);
-            Timber.d("GooglePlayServiceAvailable result: '%s'",connectionResult.toString());
+            connectionResult = new ConnectionResult(result,null);
+            Timber.d("GooglePlayServiceAvailable result: '%s'", connectionResult.toString());
         }
         catch (Exception e)
         {
             Timber.e(e,"Exception checking for PlayServices");
         }
 
-        iabInit();
+        iabEnabled = false;
+
+        if (connectionResult != null && connectionResult.isSuccess())
+        {
+            iabInit();
+        }
 
         try
         {
@@ -393,8 +398,6 @@ public class BaseActivity extends AppCompatActivity
     {
         try
         {
-            iabEnabled = false;
-
             iabHelper = new IabHelper(this, BuildConfig.PLAY_IN_APP_BILLING_PUBLIC_KEY);
 
             iabHelper.enableDebugLogging(true);
@@ -412,13 +415,22 @@ public class BaseActivity extends AppCompatActivity
         {
             if (!result.isSuccess())
             {
-                Timber.e(new IabException(result), "In-app Billing setup failed: " + result);
+                switch (result.getResponse())
+                {
+                    case IabHelper.BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE:
+                        Timber.w(result.getMessage());
+                        break;
+
+                    default:
+                        Timber.e(new IabException(result), "In-app Billing setup failed");
+                }
+
+                iabEnabled = false;
             }
             else
             {
                 Timber.d("In-app Billing is set up OK");
                 iabEnabled = true;
-//                startInventoryRefresh(queryInventoryFinishedListener);
             }
         }
     }
