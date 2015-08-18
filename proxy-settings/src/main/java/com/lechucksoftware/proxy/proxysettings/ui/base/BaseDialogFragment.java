@@ -32,8 +32,6 @@ public class BaseDialogFragment extends DialogFragment
      * The fragment argument representing the section number for this
      * fragment.
      */
-    protected static final String ARG_SECTION_NUMBER = "section_number";
-
     public BaseDialogFragment()
     {}
 

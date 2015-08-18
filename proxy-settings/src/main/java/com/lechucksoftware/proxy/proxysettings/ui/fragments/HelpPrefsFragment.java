@@ -1,13 +1,10 @@
 package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,7 +14,6 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.AndroidMarket;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.AboutActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.activities.ChangeLogActivity;
-import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BasePreferenceFragment;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.likeapp.DonateDialog;
@@ -38,16 +34,9 @@ public class HelpPrefsFragment extends BasePreferenceFragment
 //    private Preference aboutPref;
 
 
-    public static HelpPrefsFragment newInstance(int sectionNumber)
+    public static HelpPrefsFragment newInstance()
     {
-        HelpPrefsFragment fragment = new HelpPrefsFragment();
-
-        Bundle args = new Bundle();
-
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
-
-        return fragment;
+        return new HelpPrefsFragment();
     }
 
     @Override
@@ -196,37 +185,9 @@ public class HelpPrefsFragment extends BasePreferenceFragment
         return v;
     }
 
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        if (activity instanceof MasterActivity)
-        {
-            ((MasterActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
-
     private void showBetaTestDialog()
     {
         MaterialDialog dialog = UIUtils.getBetaTestDialog(getActivity());
         dialog.show();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        MasterActivity master = (MasterActivity) getActivity();
-
-        if (master != null && !master.isDrawerOpen())
-        {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-//            inflater.inflate(R.menu.main, menu);
-            master.restoreActionBar();
-        }
     }
 }
