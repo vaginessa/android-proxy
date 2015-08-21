@@ -3,7 +3,9 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.lechucksoftware.proxy.proxysettings.App;
 import com.lechucksoftware.proxy.proxysettings.BuildConfig;
+import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.constants.Constants;
 
 import java.text.DateFormat;
@@ -56,6 +58,14 @@ public class ApplicationStatistics
 
         // Increment launch counter
         launchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);
+        if (launchCount % 10 == 0)
+        {
+            App.getEventsReporter().sendEvent(
+                    context.getString(R.string.analytics_cat_statistics),
+                    context.getString(R.string.analytics_act_app_statistics_updated),
+                    String.valueOf(launchCount),
+                    0L);
+        }
 
         // Get date of first launch
         launhcFirstDate = new Date(prefs.getLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, 0));

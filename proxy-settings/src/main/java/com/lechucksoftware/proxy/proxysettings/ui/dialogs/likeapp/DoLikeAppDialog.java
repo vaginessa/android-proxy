@@ -49,7 +49,7 @@ public class DoLikeAppDialog extends BaseDialogFragment
                 StartupActions.updateStatus(StartupActionType.DONATE_DIALOG, StartupActionStatus.DONE);
                 DonateDialog.showDonateDialog((BaseActivity) getActivity());
 
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                         R.string.analytics_act_do_like_dialog,
                         R.string.analytics_lab_do_like_app_dialog_donate, 0L);
             }
@@ -60,7 +60,7 @@ public class DoLikeAppDialog extends BaseDialogFragment
                 StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
                 Utils.startMarketActivity(getActivity());
 
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                         R.string.analytics_act_do_like_dialog,
                         R.string.analytics_lab_do_like_app_dialog_rate, 0L);
             }
@@ -68,7 +68,7 @@ public class DoLikeAppDialog extends BaseDialogFragment
             @Override
             public void onNeutral(MaterialDialog dialog)
             {
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                         R.string.analytics_act_do_like_dialog,
                         R.string.analytics_lab_do_like_app_dialog_cancel, 0L);
             }

@@ -32,7 +32,7 @@ public class LikeAppDialog extends BaseDialogFragment
                 rateDialog.setCancelable(false);
                 rateDialog.show(getFragmentManager(), "RateAppDialog");
 
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                         R.string.analytics_act_like_dialog,
                         R.string.analytics_lab_like_app_dialog_yes, 0L);
             }
@@ -44,7 +44,7 @@ public class LikeAppDialog extends BaseDialogFragment
                 feedbackDialog.setCancelable(false);
                 feedbackDialog.show(getFragmentManager(), "MailFeedbackDialog");
 
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                         R.string.analytics_act_like_dialog,
                         R.string.analytics_lab_like_app_dialog_no, 0L);
             }
@@ -59,7 +59,7 @@ public class LikeAppDialog extends BaseDialogFragment
     {
         super.onCancel(dialog);
 
-        App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+        App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                 R.string.analytics_act_like_dialog,
                 R.string.analytics_lab_like_app_dialog_cancel, 0L);
     }

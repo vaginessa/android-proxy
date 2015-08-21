@@ -32,7 +32,7 @@ public class DontLikeAppDialog extends BaseDialogFragment
             {
                 StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.DONE);
 
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                         R.string.analytics_act_dont_like_dialog,
                         R.string.analytics_lab_dont_like_app_dialog_email, 0L);
 
@@ -44,7 +44,7 @@ public class DontLikeAppDialog extends BaseDialogFragment
             {
                 StartupActions.updateStatus(StartupActionType.RATE_DIALOG, StartupActionStatus.REJECTED);
 
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                         R.string.analytics_act_dont_like_dialog,
                         R.string.analytics_lab_dont_like_app_dialog_close, 0L);
             }
@@ -59,7 +59,7 @@ public class DontLikeAppDialog extends BaseDialogFragment
     {
         super.onCancel(dialog);
 
-        App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+        App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                 R.string.analytics_act_dont_like_dialog,
                 R.string.analytics_lab_dont_like_app_dialog_cancel, 0L);
     }

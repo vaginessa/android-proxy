@@ -54,8 +54,7 @@ public class StartupActions
                 StartupActionType.RATE_DIALOG,
                 StartupActionStatus.NOT_AVAILABLE,
                 R.string.analytics_act_rate_dialog,
-                StartupCondition.LaunchCountCondition(20,5),
-                StartupCondition.ElapsedDaysCondition(60));
+                StartupCondition.LaunchCountCondition(30,10));
         actions.put(likeAction.actionType, likeAction);
 
         if (App.getInstance().activeMarket == AndroidMarket.PLAY)
@@ -64,7 +63,7 @@ public class StartupActions
                     StartupActionType.DONATE_DIALOG,
                     StartupActionStatus.NOT_AVAILABLE,
                     R.string.analytics_act_donate_dialog,
-                    StartupCondition.LaunchCountCondition(40, 10));
+                    StartupCondition.LaunchCountCondition(60, 20));
             actions.put(donateAction.actionType, donateAction);
         }
 
@@ -153,7 +152,7 @@ public class StartupActions
             editor.putInt(actionKey, status.getValue());
             editor.commit();
 
-            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_startup_action), description, status.toString(), 0L);
+            App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_startup), description, status.toString(), 0L);
         }
     }
 

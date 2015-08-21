@@ -388,9 +388,9 @@
 
     <!-- Analytics Categories -->
     <string name="analytics_cat_user_action">User action</string>
-    <string name="analytics_cat_dialogs_action">Dialogs action</string>
-    <string name="analytics_cat_startup_action">Startup actions</string>
-    startup action
+    <string name="analytics_cat_dialogs">Dialogs action</string>
+    <string name="analytics_cat_startup">Startup actions</string>
+    <string name="analytics_cat_statistics">Startup actions</string>
 
     <!-- Analytics Actions -->
     <string name="analytics_act_like_dialog">Like dialog</string>
@@ -402,6 +402,7 @@
     <string name="analytics_act_button_click">Clicked button</string>
     <string name="analytics_act_dialog_button_click">Dialog button clicked</string>
     <string name="analytics_act_startup_action">Updated status of startup action</string>
+    <string name="analytics_act_app_statistics_updated">Updated status of startup action</string>
 
     <!-- Analytics Labels -->
     <string name="analytics_lab_like_app_dialog_yes">Like application</string>
@@ -429,6 +430,8 @@
     <string name="analytics_lab_like_app_mail_feedback">Doesn\'t like application, mail feedback</string>
     <string name="analytics_lab_like_app_rate">Like application, rate it</string>
     <string name="analytics_lab_8021x_security_not_supported">Not supported Wi-Fi security 802.1x</string>
+    <string name="analytics_launc_count">Doesn\'t like application, mail feedback</string>
+
     <string name="pref_contact_us_summary">Get in touch with the SHOULDIT team</string>
     <string name="pref_contact_us_title">Contact us</string>
     <string name="airplane_mode_message">Proxy Settings cannot access your Wi-Fi information while Airplane mode is enabled</string>

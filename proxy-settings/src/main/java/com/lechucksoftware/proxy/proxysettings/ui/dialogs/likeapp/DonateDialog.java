@@ -144,7 +144,7 @@ public class DonateDialog extends BaseDialogFragment
                 {
                     StartupActions.updateStatus(StartupActionType.DONATE_DIALOG, StartupActionStatus.DONE);
 
-                    App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                    App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                             R.string.analytics_act_donate_dialog,
                             R.string.analytics_lab_donate_dialog_selected_sku, (long) which);
 
@@ -153,7 +153,7 @@ public class DonateDialog extends BaseDialogFragment
                 }
                 else
                 {
-                    App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                    App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                             R.string.analytics_act_donate_dialog,
                             R.string.analytics_lab_donate_dialog_no_sku_selected, -1L);
 
@@ -167,7 +167,7 @@ public class DonateDialog extends BaseDialogFragment
             @Override
             public void onNegative(MaterialDialog dialog)
             {
-                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs_action,
+                App.getEventsReporter().sendEvent(R.string.analytics_cat_dialogs,
                         R.string.analytics_act_donate_dialog,
                         R.string.analytics_lab_donate_dialog_cancel, 0L);
             }
