@@ -296,7 +296,7 @@ public class DeveloperOptionsActivity extends BaseActivity
         testDBContainer.addView(textViewTest);
         textViewTest.setTextSize(10);
 
-        SharedPreferences preferences = this.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_MULTI_PROCESS);
+        SharedPreferences preferences = this.getSharedPreferences(Constants.PREFERENCES_FILENAME, MODE_PRIVATE);
         Map<String, ?> prefsMap = preferences.getAll();
         for (String key : prefsMap.keySet())
         {
