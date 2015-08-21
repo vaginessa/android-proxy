@@ -102,7 +102,7 @@ public class StartupActions
             {
                 StartupAction startupAction = availableActions.get(actionType);
 
-                SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+                SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
                 StartupActionStatus status = StartupActionStatus.parseInt(prefs.getInt(startupAction.preferenceKey, StartupActionStatus.NOT_AVAILABLE.getValue()));
 
                 switch (status)
@@ -145,13 +145,13 @@ public class StartupActions
 
     private static void updateStatus(String actionKey, StartupActionStatus status, String description)
     {
-        SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = App.getInstance().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         if (editor != null)
         {
             editor.putInt(actionKey, status.getValue());
-            editor.commit();
+            editor.apply();
 
             App.getEventsReporter().sendEvent(App.getInstance().getString(R.string.analytics_cat_startup_action), description, status.toString(), 0L);
         }

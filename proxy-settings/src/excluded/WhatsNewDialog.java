@@ -60,7 +60,7 @@ public class WhatsNewDialog extends ChangeLogDialog
     public Boolean isToShow()
     {
         //ToDo check if version is shown
-        final SharedPreferences prefs = getContext().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        final SharedPreferences prefs = getContext().getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
 
         final int versionShown = prefs.getInt(WHATS_NEW_LAST_SHOWN, 0);
 
@@ -71,7 +71,7 @@ public class WhatsNewDialog extends ChangeLogDialog
             //Update last shown version
             final SharedPreferences.Editor edit = prefs.edit();
             edit.putInt(WHATS_NEW_LAST_SHOWN, appInfo.versionCode);
-            edit.commit();
+            edit.apply();
 
             return true;
         }

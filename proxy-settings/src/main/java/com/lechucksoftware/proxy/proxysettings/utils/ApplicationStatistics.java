@@ -30,7 +30,7 @@ public class ApplicationStatistics
 
     public void updateInstallationDetails()
     {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         long launch_count = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0) + 1;
@@ -43,7 +43,7 @@ public class ApplicationStatistics
             editor.putLong(Constants.PREFERENCES_APP_DATE_FIRST_LAUNCH, date_firstLaunch);
         }
 
-        editor.commit();
+        editor.apply();
 
         getInstallationDetails();
 
@@ -52,7 +52,7 @@ public class ApplicationStatistics
 
     private void getInstallationDetails()
     {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
 
         // Increment launch counter
         launchCount = prefs.getLong(Constants.PREFERENCES_APP_LAUNCH_COUNT, 0);

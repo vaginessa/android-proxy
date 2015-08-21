@@ -307,7 +307,7 @@ public class Utils
 
     public static void checkDemoMode(Context ctx)
     {
-        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
         if (prefs.getBoolean(Constants.PREFERENCES_DEMO_MODE, false))
         {
             App.getInstance().demoMode = true;
@@ -320,11 +320,11 @@ public class Utils
 
     public static void setDemoMode(Context ctx, boolean enabled)
     {
-        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         editor.putBoolean(Constants.PREFERENCES_DEMO_MODE, enabled);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean ElapsedNDays(Date date, int days)

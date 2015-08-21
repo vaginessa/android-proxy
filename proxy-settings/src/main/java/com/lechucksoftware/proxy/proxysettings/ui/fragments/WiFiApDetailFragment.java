@@ -36,10 +36,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.components.WifiAp;
 import com.lechucksoftware.proxy.proxysettings.ui.dialogs.NoProxiesDefinedAlertDialog;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
@@ -241,7 +237,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 ActionBar actionBar = activity.getSupportActionBar();
                 if (actionBar != null)
                 {
-                    actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(selectedColor)));
+                    actionBar.setBackgroundDrawable(new ColorDrawable(activity.getColor(selectedColor)));
                 }
             }
         }

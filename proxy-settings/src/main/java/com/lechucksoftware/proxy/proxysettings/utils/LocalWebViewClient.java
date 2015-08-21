@@ -2,6 +2,8 @@ package com.lechucksoftware.proxy.proxysettings.utils;
 
 
 import android.graphics.Bitmap;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -40,8 +42,11 @@ public class LocalWebViewClient extends WebViewClient
 		super.onPageFinished(view, url);
 	}
 
-	public void onReceivedError(WebView view, int errorCode, String description, String failingUrl)
+	@Override
+	public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error)
 	{
-		Toast.makeText(view.getContext(), "Error: " + description, Toast.LENGTH_SHORT).show();
+		super.onReceivedError(view, request, error);
+
+        Toast.makeText(view.getContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
 	}
 }

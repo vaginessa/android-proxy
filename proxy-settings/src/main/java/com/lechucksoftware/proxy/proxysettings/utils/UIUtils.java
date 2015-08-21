@@ -215,23 +215,23 @@ public class UIUtils
         switch (i)
         {
             case 1:
-                c = ctx.getResources().getColor(R.color.red_500);
+                c = ctx.getColor(R.color.red_500);
                 break;
             case 2:
-                c = ctx.getResources().getColor(R.color.yellow_500);
+                c = ctx.getColor(R.color.yellow_500);
                 break;
             case 3:
-                c = ctx.getResources().getColor(R.color.green_500);
+                c = ctx.getColor(R.color.green_500);
                 break;
             case 4:
-                c = ctx.getResources().getColor(R.color.purple_500);
+                c = ctx.getColor(R.color.purple_500);
                 break;
             case 5:
-                c = ctx.getResources().getColor(R.color.blue_500);
+                c = ctx.getColor(R.color.blue_500);
                 break;
 
             default:
-                c = ctx.getResources().getColor(R.color.grey_500);
+                c = ctx.getColor(R.color.grey_500);
                 break;
         }
 
@@ -391,7 +391,7 @@ public class UIUtils
      */
     public static void SetProxyNotification(WiFiApConfig conf, Context callerContext)
     {
-        SharedPreferences prefs = callerContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = callerContext.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
 
         if (prefs.getBoolean("preference_notification_enabled", false))
         {

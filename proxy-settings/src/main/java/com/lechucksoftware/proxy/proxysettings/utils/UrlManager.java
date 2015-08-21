@@ -13,7 +13,7 @@ public class UrlManager
 {
 	public static String[] getUsedUrls(Context ctx)
 	{
-		SharedPreferences sharedPref = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+		SharedPreferences sharedPref = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
 
 		String cachedUrls = sharedPref.getString(Constants.PREFERENCES_CACHED_URLS, "");
 		
@@ -36,7 +36,7 @@ public class UrlManager
 			}
 			sb.deleteCharAt(sb.length() - 1);
 			keyValuesEditor.putString(Constants.PREFERENCES_CACHED_URLS, sb.toString());
-			keyValuesEditor.commit();
+			keyValuesEditor.apply();
 			
 			String [] results = new String[defaultUrls.size()];  
 			results = (String[]) defaultUrls.toArray(results);
@@ -50,14 +50,14 @@ public class UrlManager
 
 	public static void addUsedUrl(Context ctx, String url)
 	{
-		SharedPreferences sharedPref = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+		SharedPreferences sharedPref = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
 		String cachedUrls = sharedPref.getString(Constants.PREFERENCES_CACHED_URLS, "");
 		SharedPreferences.Editor keyValuesEditor = sharedPref.edit();
 		
 		if (cachedUrls == "")
 		{		
 			keyValuesEditor.putString(Constants.PREFERENCES_CACHED_URLS, url);
-			keyValuesEditor.commit();
+			keyValuesEditor.apply();
 		}
 		else
 		{
@@ -67,7 +67,7 @@ public class UrlManager
 			{
 				cachedUrls = cachedUrls.concat("," + url);
 				keyValuesEditor.putString(Constants.PREFERENCES_CACHED_URLS, cachedUrls);
-				keyValuesEditor.commit();	
+				keyValuesEditor.apply();
 			}
 		}
 	}

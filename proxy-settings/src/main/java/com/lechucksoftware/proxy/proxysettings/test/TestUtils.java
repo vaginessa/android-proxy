@@ -323,10 +323,10 @@ public class TestUtils
 
     public static void resetPreferences(Context ctx)
     {
-        SharedPreferences preferences = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = ctx.getSharedPreferences(Constants.PREFERENCES_FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
 
         App.getAppStats().updateInstallationDetails();
     }
