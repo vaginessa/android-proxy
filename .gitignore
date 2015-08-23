@@ -53,3 +53,6 @@ assets/configuration.json
 *crashlytics-build.properties
 *com_crashlytics_export_strings.xml
 proxy-settings/out.map
+*.alloc
+*.hprof
+SystemInfo_*.txt
