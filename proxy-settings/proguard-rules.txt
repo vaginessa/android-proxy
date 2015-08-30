@@ -15,6 +15,7 @@
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
 
+-keepnames class ** { *; }
 -keepparameternames
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 -dontoptimize

@@ -128,8 +128,13 @@ public class ReflectionUtils
                 case 18:
                 case 19:
                 case 20:
-                default:
+                case 21:
+                case 22:
                     internalSaveDone = save_4_2(wifiManager, configuration);
+                    break;
+
+                case 23:
+                    internalSaveDone = false;   // Use fallback solution until a real device with 23 API is available
                     break;
             }
         }
@@ -142,6 +147,7 @@ public class ReflectionUtils
         {
             // Use the STANDARD API as a fallback solution
             wifiManager.updateNetwork(configuration);
+            wifiManager.saveConfiguration();
         }
     }
 
@@ -219,7 +225,7 @@ public class ReflectionUtils
     {
         boolean internalSaveDone = false;
 
-            Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
+        Method internalSave = getMethod(WifiManager.class.getMethods(), "save");
         if (internalSave != null)
         {
             try

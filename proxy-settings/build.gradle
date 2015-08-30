@@ -113,7 +113,7 @@ android {
 
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 130031003
+        versionCode 130031004
         versionName "3.1"
 
         applicationId "com.lechucksoftware.proxy.proxysettings"
