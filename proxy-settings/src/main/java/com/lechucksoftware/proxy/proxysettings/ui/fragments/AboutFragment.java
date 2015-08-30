@@ -17,16 +17,16 @@ import com.lechucksoftware.proxy.proxysettings.ui.activities.MasterActivity;
 import com.lechucksoftware.proxy.proxysettings.ui.base.BaseDialogFragment;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class AboutFragment extends BaseDialogFragment
 {
     public static AboutFragment instance;
 
-    @InjectView(R.id.about_app_version) TextView aboutAppVersionTxt;
-    @InjectView(R.id.about_find_source_code) TextView findSourceTxt;
-    @InjectView(R.id.about_documentation) TextView docsTxt;
-    @InjectView(R.id.about_open_source_licenses) TextView licensesTxt;
+    @Bind(R.id.about_app_version) TextView aboutAppVersionTxt;
+    @Bind(R.id.about_find_source_code) TextView findSourceTxt;
+    @Bind(R.id.about_documentation) TextView docsTxt;
+    @Bind(R.id.about_open_source_licenses) TextView licensesTxt;
 
 
     public static AboutFragment newInstance()
@@ -39,7 +39,7 @@ public class AboutFragment extends BaseDialogFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.about, container, false);
-        ButterKnife.inject(this, v);
+        ButterKnife.bind(this, v);
 
         aboutAppVersionTxt.setText(BuildConfig.VERSION_NAME);
         findSourceTxt.setMovementMethod(LinkMovementMethod.getInstance());
@@ -54,7 +54,7 @@ public class AboutFragment extends BaseDialogFragment
     public void onDestroyView()
     {
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @Override

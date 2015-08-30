@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import timber.log.Timber;
 
 /**
@@ -36,15 +36,15 @@ public class IabSkuRecyclerViewAdapter extends RecyclerView.Adapter<IabSkuRecycl
 
     public class IabSkuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        @InjectView(R.id.iab_sku_disabled) RelativeLayout skuDisabled;
-        @InjectView(R.id.iab_sku_cardview) CardView skuCardView;
-        @InjectView(R.id.iab_sku_title) TextView skuTitle;
-        @InjectView(R.id.iab_sku_description) TextView skuDescription;
+        @Bind(R.id.iab_sku_disabled) RelativeLayout skuDisabled;
+        @Bind(R.id.iab_sku_cardview) CardView skuCardView;
+        @Bind(R.id.iab_sku_title) TextView skuTitle;
+        @Bind(R.id.iab_sku_description) TextView skuDescription;
 
         public IabSkuViewHolder(View itemView)
         {
             super(itemView);
-            ButterKnife.inject(this, itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

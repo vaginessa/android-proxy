@@ -15,7 +15,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import com.lechucksoftware.proxy.proxysettings.utils.FragmentsUtils;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
@@ -23,8 +23,8 @@ import butterknife.OnClick;
  */
 public class MainStatusFragment extends Fragment
 {
-    @InjectView(R.id.main_see_wifi_list) Button seeWifiListBtn;
-    @InjectView(R.id.main_see_proxies_list) Button seeProxiesListBtn;
+    @Bind(R.id.main_see_wifi_list) Button seeWifiListBtn;
+    @Bind(R.id.main_see_proxies_list) Button seeProxiesListBtn;
 
     /**
      * The fragment argument representing the section number for this
@@ -68,7 +68,7 @@ public class MainStatusFragment extends Fragment
         setHasOptionsMenu(true);
 
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-        ButterKnife.inject(this, rootView);
+        ButterKnife.bind(this, rootView);
 
         return rootView;
     }
@@ -77,6 +77,6 @@ public class MainStatusFragment extends Fragment
     public void onDestroyView()
     {
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 }

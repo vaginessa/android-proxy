@@ -23,7 +23,7 @@ import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ProxySelectorFragment extends BaseFragment
 {
@@ -32,8 +32,8 @@ public class ProxySelectorFragment extends BaseFragment
     private APLNetworkId wifiAplNetworkId;
     private WiFiApConfig selectedConfig;
 
-    @InjectView(R.id.tabs) PagerSlidingTabStrip tabs;
-    @InjectView(R.id.pager) ViewPager pager;
+    @Bind(R.id.tabs) PagerSlidingTabStrip tabs;
+    @Bind(R.id.pager) ViewPager pager;
 
     private MyPagerAdapter adapter;
 
@@ -66,7 +66,7 @@ public class ProxySelectorFragment extends BaseFragment
         View v;
 
         v = inflater.inflate(R.layout.proxy_selector_dialog, container, false);
-        ButterKnife.inject(this, v);
+        ButterKnife.bind(this, v);
 
         adapter = new MyPagerAdapter(getFragmentManager());
         pager.setAdapter(adapter);
@@ -79,7 +79,7 @@ public class ProxySelectorFragment extends BaseFragment
     public void onDestroyView()
     {
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @Override

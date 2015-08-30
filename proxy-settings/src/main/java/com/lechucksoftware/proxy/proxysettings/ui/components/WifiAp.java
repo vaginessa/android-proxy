@@ -16,7 +16,7 @@ import com.lechucksoftware.proxy.proxysettings.R;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.utils.ProxyUtils;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 /**
  * Created by marco on 02/12/13.
@@ -27,10 +27,10 @@ public class WifiAp extends LinearLayout
     private WiFiApConfig wifiApConfig;
     private StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
 
-    @InjectView(R.id.wifi_name) TextView wifiName;
-    @InjectView(R.id.wifi_status) TextView wifiStatus;
-//    @InjectView(R.id.wifi_status) TextView wifiStatus;
-    @InjectView(R.id.wifi_ap_signal_icon) WifiSignal wifiSignal;
+    @Bind(R.id.wifi_name) TextView wifiName;
+    @Bind(R.id.wifi_status) TextView wifiStatus;
+//    @Bind(R.id.wifi_status) TextView wifiStatus;
+    @Bind(R.id.wifi_ap_signal_icon) WifiSignal wifiSignal;
 
     public WifiAp(Context ctx, AttributeSet attrs)
     {
@@ -41,7 +41,7 @@ public class WifiAp extends LinearLayout
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View v = inflater.inflate(R.layout.wifi_ap, this);
-        ButterKnife.inject(this, v);
+        ButterKnife.bind(this, v);
     }
 
     private void readStyleParameters(Context context, AttributeSet attributeSet)

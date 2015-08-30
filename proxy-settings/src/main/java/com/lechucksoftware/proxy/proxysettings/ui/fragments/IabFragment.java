@@ -20,18 +20,18 @@ import com.lechucksoftware.proxy.proxysettings.utils.billing.SkuDetails;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnClick;
 
 public class IabFragment extends BaseFragment
 {
-//    @InjectView(R.id.iab_recycler_view)
+//    @Bind(R.id.iab_recycler_view)
 //    RecyclerView iabRecyclerView;
 //    private LinearLayoutManager mLayoutManager;
 //    private IabSkuRecyclerViewAdapter mAdapter;
 
-    @InjectView(R.id.iab_reset) Button resetIabButton;
-    @InjectView(R.id.iab_buy_base) Button baseIabButton;
+    @Bind(R.id.iab_reset) Button resetIabButton;
+    @Bind(R.id.iab_buy_base) Button baseIabButton;
 
     private Inventory mInventory;
     private List<SkuDetails> mSkus;
@@ -52,7 +52,7 @@ public class IabFragment extends BaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.in_app_billing_fragment, container, false);
-        ButterKnife.inject(this, v);
+        ButterKnife.bind(this, v);
 
 //        mLayoutManager = new LinearLayoutManager(getActivity());
 //        iabRecyclerView.setHasFixedSize(true);

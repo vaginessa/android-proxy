@@ -2,6 +2,7 @@ package com.lechucksoftware.proxy.proxysettings.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -34,9 +35,8 @@ import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnClick;
-import butterknife.Optional;
 import timber.log.Timber;
 
 /**
@@ -51,15 +51,15 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 
     private Loader<List<ProxyEntity>> loader;
 
-    @InjectView(R.id.progress) RelativeLayout progress;
-    @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
-    @InjectView(R.id.add_new_static_proxy)
+    @Bind(R.id.progress) RelativeLayout progress;
+    @Bind(R.id.empty_message_section) RelativeLayout emptySection;
+    @Bind(R.id.add_new_static_proxy)
     FloatingActionButton addNewStaticProxyButton;
 
-    @InjectView(android.R.id.empty) TextView emptyText;
-    @InjectView(android.R.id.list) ListView listView;
+    @Bind(android.R.id.empty) TextView emptyText;
+    @Bind(android.R.id.list) ListView listView;
 
-    @Optional @InjectView(R.id.dialog_cancel) Button cancelDialogButton; // Cancel not displayed into full fragment
+    @Nullable @Bind(R.id.dialog_cancel) Button cancelDialogButton; // Cancel not displayed into full fragment
 
     private FragmentMode fragmentMode;
 
@@ -124,13 +124,13 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
 ////            getDialog().setTitle(R.string.select_proxy);
 //            v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
 //
-//            ButterKnife.inject(this, v);
+//            ButterKnife.bind(this, v);
 //        }
 //        else
 //        {
             v = inflater.inflate(R.layout.proxy_list_fragment, container, false);
 
-            ButterKnife.inject(this, v);
+            ButterKnife.bind(this, v);
 //        }
 
         return v;
@@ -290,7 +290,7 @@ public class ProxyListFragment extends BaseDialogFragment implements IBaseFragme
     {
         super.onDestroyView();
 
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.add_new_static_proxy)

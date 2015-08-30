@@ -32,7 +32,7 @@ import be.shouldit.proxy.lib.APL;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.enums.SecurityType;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnItemClick;
 import timber.log.Timber;
 
@@ -48,14 +48,14 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     private WifiAPListAdapter apListAdapter;
     private Loader<List<WiFiApConfig>> loader;
 
-    @InjectView(R.id.progress) RelativeLayout progress;
-    //    @InjectView(R.id.actions_view) ActionsView actionsView;
-    @InjectView(R.id.empty_message_section) RelativeLayout emptySection;
-//    @InjectView(R.id.wifi_ap_footer_textview) TextView footerTextView;
-//    @InjectView(R.id.wifi_ap_footer_progress) ProgressBar footerProgress;
+    @Bind(R.id.progress) RelativeLayout progress;
+    //    @Bind(R.id.actions_view) ActionsView actionsView;
+    @Bind(R.id.empty_message_section) RelativeLayout emptySection;
+//    @Bind(R.id.wifi_ap_footer_textview) TextView footerTextView;
+//    @Bind(R.id.wifi_ap_footer_progress) ProgressBar footerProgress;
 
-    @InjectView(android.R.id.empty) TextView emptyText;
-    @InjectView(android.R.id.list) ListView listView;
+    @Bind(android.R.id.empty) TextView emptyText;
+    @Bind(android.R.id.list) ListView listView;
 
     public static WiFiApListFragment newInstance()
     {
@@ -71,7 +71,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
 
         View v = inflater.inflate(R.layout.wifi_ap_list_fragment, container, false);
 
-        ButterKnife.inject(this, v);
+        ButterKnife.bind(this, v);
 
         App.getTraceUtils().stopTrace(TAG, "onCreateView", Log.DEBUG);
         return v;
@@ -82,7 +82,7 @@ public class WiFiApListFragment extends BaseFragment implements IBaseFragment, L
     {
         super.onDestroyView();
 
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
         SnackbarManager.dismiss();
     }
 

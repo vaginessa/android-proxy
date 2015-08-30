@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -40,7 +41,7 @@ import be.shouldit.proxy.lib.APLNetworkId;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.reflection.android.ProxySetting;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -54,21 +55,21 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
 
 //    private ProxyEntity selectedProxy;
 
-    @InjectView(R.id.wifi_ap_header) WifiAp wifiApHeader;
-    @InjectView(R.id.wifi_layout) ViewGroup wifiLayout;
-    @InjectView(R.id.wifi_proxy_switch) SwitchCompat proxySwitch;
-    @InjectView(R.id.proxy_selector) Button proxySelector;
-    @InjectView(R.id.proxy_type) InputField proxyType;
-    @InjectView(R.id.proxy_host) InputField proxyHost;
-    @InjectView(R.id.proxy_port) InputField proxyPort;
-    @InjectView(R.id.proxy_pac_url) InputField proxyPacUrl;
-    @InjectView(R.id.proxy_bypass) InputExclusionList proxyBypass;
-    @InjectView(R.id.wifi_proxy_input_fields) CardView proxyFields;
-    @InjectView(R.id.proxy_static_fields) LinearLayout staticProxyFields;
-    @InjectView(R.id.proxy_pac_fields) LinearLayout pacProxyFields;
+    @Bind(R.id.wifi_ap_header) WifiAp wifiApHeader;
+    @Bind(R.id.wifi_layout) ViewGroup wifiLayout;
+    @Bind(R.id.wifi_proxy_switch) SwitchCompat proxySwitch;
+    @Bind(R.id.proxy_selector) Button proxySelector;
+    @Bind(R.id.proxy_type) InputField proxyType;
+    @Bind(R.id.proxy_host) InputField proxyHost;
+    @Bind(R.id.proxy_port) InputField proxyPort;
+    @Bind(R.id.proxy_pac_url) InputField proxyPacUrl;
+    @Bind(R.id.proxy_bypass) InputExclusionList proxyBypass;
+    @Bind(R.id.wifi_proxy_input_fields) CardView proxyFields;
+    @Bind(R.id.proxy_static_fields) LinearLayout staticProxyFields;
+    @Bind(R.id.proxy_pac_fields) LinearLayout pacProxyFields;
 
     private boolean refreshingUI;
-//    @InjectView(R.id.progress) RelativeLayout progress;
+//    @Bind(R.id.progress) RelativeLayout progress;
 
     /**
      * Create a new instance of WiFiApDetailFragment
@@ -92,7 +93,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
         setHasOptionsMenu(true);
 
         View v = inflater.inflate(R.layout.wifi_ap_preferences, container, false);
-        ButterKnife.inject(this, v);
+        ButterKnife.bind(this, v);
 
         proxySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -150,7 +151,7 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
     {
         super.onDestroyView();
 
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     public void proxySwitchClicked()
@@ -237,7 +238,9 @@ public class WiFiApDetailFragment extends BaseFragment implements IBaseFragment
                 ActionBar actionBar = activity.getSupportActionBar();
                 if (actionBar != null)
                 {
-                    actionBar.setBackgroundDrawable(new ColorDrawable(activity.getColor(selectedColor)));
+                    int color = ContextCompat.getColor(activity, selectedColor);
+                    ColorDrawable colorDrawable = new ColorDrawable(color);
+                    actionBar.setBackgroundDrawable(colorDrawable);
                 }
             }
         }

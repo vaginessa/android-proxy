@@ -10,11 +10,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +33,6 @@ import com.lechucksoftware.proxy.proxysettings.ui.base.BaseActivity;
 import com.lechucksoftware.proxy.proxysettings.utils.ApplicationStatistics;
 import com.lechucksoftware.proxy.proxysettings.utils.DBUtils;
 import com.lechucksoftware.proxy.proxysettings.utils.Utils;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
-import com.nispok.snackbar.listeners.ActionClickListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,6 +41,8 @@ import java.util.List;
 import java.util.Map;
 
 import be.shouldit.proxy.lib.APL;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -55,6 +55,9 @@ public class DeveloperOptionsActivity extends BaseActivity
     private ScrollView testLogScroll;
     private Button addWifiNetworksBtn;
     private DeveloperOptionsActivity developerOptionsActivity;
+
+    @Bind(R.id.test_main_layout)
+    RelativeLayout testMainLayout;
 
     public enum TestAction
     {
@@ -85,6 +88,7 @@ public class DeveloperOptionsActivity extends BaseActivity
         developerOptionsActivity = this;
 
         setContentView(R.layout.test_layout);
+        ButterKnife.bind(this);
 
         addWifiNetworksBtn = (Button) findViewById(R.id.add_wifi_networks);
         addWifiNetworksBtn.setOnTouchListener(new View.OnTouchListener()
@@ -148,35 +152,28 @@ public class DeveloperOptionsActivity extends BaseActivity
     public void backupDB(View view)
     {
         final String filename = DBUtils.backupDB(this);
-        SnackbarManager.show(
-                Snackbar.with(this)
-                        .type(SnackbarType.SINGLE_LINE)
-                        .text(String.format("Saved on: '%s'", filename))
-                        .swipeToDismiss(false)
-                        .animation(false)
-                        .color(Color.RED)
-                        .actionLabel("OPEN")
-                        .actionLabelTypeface(Typeface.DEFAULT_BOLD)
-                        .actionListener(new ActionClickListener()
+
+        Snackbar.make(testMainLayout, String.format("Saved on: '%s'", filename), Snackbar.LENGTH_INDEFINITE)
+                .setAction("OPEN", new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view)
+                    {
+                        try
                         {
-                            @Override
-                            public void onActionClicked(Snackbar snackbar)
-                            {
-                                try
-                                {
-                                    File fileToOpen = new File(filename);
-                                    Intent myIntent = new Intent();
-                                    myIntent.setAction(android.content.Intent.ACTION_VIEW);
-                                    myIntent.setDataAndType(Uri.fromFile(fileToOpen), "*/*");
-                                    startActivity(myIntent);
-                                }
-                                catch (Exception e)
-                                {
-                                    Timber.e(e, "Exception during ActionsView enableWifiClickListener action");
-                                }
-                            }
-                        })
-                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE));
+                            File fileToOpen = new File(filename);
+                            Intent myIntent = new Intent();
+                            myIntent.setAction(android.content.Intent.ACTION_VIEW);
+                            myIntent.setDataAndType(Uri.fromFile(fileToOpen), "*/*");
+                            startActivity(myIntent);
+                        }
+                        catch (Exception e)
+                        {
+                            Timber.e(e, "Exception during ActionsView enableWifiClickListener action");
+                        }
+                    }
+                })
+                .show();
     }
 
     public void addProxyClicked(View caller)
