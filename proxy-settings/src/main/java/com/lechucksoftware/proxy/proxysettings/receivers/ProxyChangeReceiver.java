@@ -17,6 +17,7 @@ import com.lechucksoftware.proxy.proxysettings.utils.UIUtils;
 import be.shouldit.proxy.lib.WiFiApConfig;
 import be.shouldit.proxy.lib.constants.APLIntents;
 import be.shouldit.proxy.lib.constants.APLReflectionConstants;
+import be.shouldit.proxy.lib.logging.TraceUtils;
 import timber.log.Timber;
 
 public class ProxyChangeReceiver extends BroadcastReceiver
@@ -28,59 +29,52 @@ public class ProxyChangeReceiver extends BroadcastReceiver
     {
         App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
 
-        if (intent.getAction().equals(Intents.PROXY_SETTINGS_STARTED))
+        switch (intent.getAction())
         {
-            // INTERNAL (PS) : Called when Proxy Settings is started
-//            callProxySettingsChecker(context, intent);
-            callWifiSyncService(context, intent);
-            callMaintenanceService(context, intent);
-        }
-        else if (intent.getAction().equals(Intents.PROXY_SAVED))
-        {
-            // INTERNAL (PS) : Saved a Proxy configuration on DB
-            callMaintenanceService(context, intent);
-        }
-        else if (intent.getAction().equals(APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION))
-        {
-            // Called when a Wi-Fi configured networks is changed
-            callWifiSyncService(context, intent);
-        }
-        else if (
-                    // Connection type change (switch between 3G/WiFi)
-                    intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
+            case Intents.PROXY_SETTINGS_STARTED:
+                // INTERNAL (PS) : Called when Proxy Settings is started
+                callWifiSyncService(context, intent);
+                callMaintenanceService(context, intent);
+                break;
 
-                    // Scan results available information
-                    || intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+            case Intents.PROXY_SAVED:
+                // INTERNAL (PS) : Saved a Proxy configuration on DB
+                callMaintenanceService(context, intent);
+                break;
 
-                    // Wifi state changed action
-                    || intent.getAction().equals(WifiManager.WIFI_STATE_CHANGED_ACTION)
-                )
-        {
-            callUpdatedWifStatusService(context, intent);
-        }
-        else if (
-                    // INTERNAL (PS) : Called to refreshUI the UI of Proxy Settings
-                    intent.getAction().equals(Intents.PROXY_REFRESH_UI)
+            case APLReflectionConstants.CONFIGURED_NETWORKS_CHANGED_ACTION:
+                // Called when a Wi-Fi configured networks is changed
+                callWifiSyncService(context, intent);
+                break;
 
-                    // INTERNAL (APL): Called when an updated status on the check of a configuration is available
-                    || intent.getAction().equals(APLIntents.APL_UPDATED_PROXY_STATUS_CHECK)
-                )
-        {
-            App.getTraceUtils().logIntent(TAG, intent, Log.DEBUG);
+            case ConnectivityManager.CONNECTIVITY_ACTION: // Connection type change (switch between 3G/WiFi)
+            case WifiManager.SCAN_RESULTS_AVAILABLE_ACTION: // Scan results available information
+            case WifiManager.WIFI_STATE_CHANGED_ACTION: // Wifi state changed action
+                callUpdatedWifStatusService(context, intent);
+                break;
 
-            WiFiApConfig wiFiApConfig = App.getWifiNetworksManager().getCachedConfiguration();
-            if (wiFiApConfig == null)
-                wiFiApConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
+            case Intents.PROXY_REFRESH_UI:
+            case APLIntents.APL_UPDATED_PROXY_STATUS_CHECK:
+                {
+                    TraceUtils.logIntent(TAG, intent, Log.DEBUG);
 
-            if (wiFiApConfig != null)
-            {
-                UIUtils.UpdateStatusBarNotification(wiFiApConfig, context);
-            }
-        }
-        else
-        {
-            App.getTraceUtils().logIntent(TAG, intent, Log.ERROR);
-            Timber.e(TAG, "Intent not found into handled list!");
+                    WiFiApConfig wiFiApConfig = App.getWifiNetworksManager().getCachedConfiguration();
+                    if (wiFiApConfig == null)
+                        wiFiApConfig = App.getWifiNetworksManager().updateCurrentConfiguration();
+
+                    if (wiFiApConfig != null)
+                    {
+                        UIUtils.UpdateStatusBarNotification(wiFiApConfig, context);
+                    }
+                }
+                break;
+
+            default:
+                {
+                    TraceUtils.logIntent(TAG, intent, Log.ERROR);
+                    Timber.e(TAG, "Intent not found into handled list!");
+                }
+                break;
         }
     }
 
