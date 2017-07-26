@@ -14,9 +14,9 @@
 * **[Proxy Settings](https://play.google.com/store/apps/details?id=com.lechucksoftware.proxy.proxysettings)** makes use of all the advanced features of **APL** 
 
 # How to use it
-* Getting started [here](https://github.com/shouldit/android-proxy-library/wiki/Getting-Started).
-* See how to [make an HTTP request](https://github.com/shouldit/android-proxy-library/wiki/Make-a-HTTP-Request) using the proxy.
-* See how to [open a WebView](https://github.com/shouldit/android-proxy-library/wiki/Using-WebView-with-Proxy) that support the proxy on 1.x and 2.x devices.
+* Getting started [here](https://github.com/shouldit/android-proxy/wiki/Getting-Started).
+* See how to [make an HTTP request](https://github.com/shouldit/android-proxy/wiki/Make-a-HTTP-Request) using the proxy.
+* See how to [open a WebView](https://github.com/shouldit/android-proxy/wiki/Using-WebView-with-Proxy) that support the proxy on 1.x and 2.x devices.
 
 # Gradle Dependency (jCenter)
 Easily reference the library in your Android projects using this dependency in your module's `build.gradle` file:
@@ -28,7 +28,7 @@ dependencies {
 ```
 
 # Source & Issues
-If you have isolated a problem or want a new feature to be included in the **Android Proxy Library (APL)**, please [submit an issue](https://github.com/shouldit/android-proxy-library/issues/new). Make sure to include all the relevant information when you submit the issue such as:
+If you have isolated a problem or want a new feature to be included in the **Android Proxy Library (APL)**, please [submit an issue](https://github.com/shouldit/android-proxy/issues/new). Make sure to include all the relevant information when you submit the issue such as:
 
 * **Android Proxy Library (APL)** version
 * Android device used (or emulator) with OS version
